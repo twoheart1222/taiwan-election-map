@@ -390,7 +390,7 @@
     }
 
     window.addCandidateRow = function(c) {
-      c = c || { name: '', party: '無', role: '候選人', registeredDate: '', gazetteUrl: '', facebook: '', instagram: '', threads: '', youtube: '' };
+      c = c || { name: '', party: '無', role: '候選人', registeredDate: '', gazetteUrl: '', facebook: '', instagram: '', threads: '', youtube: '', olcId: '' };
       const row = document.createElement('div');
       row.className = 'card-brutal bg-canvas rounded-xl p-3 space-y-2';
       row.innerHTML = `
@@ -411,8 +411,19 @@
           <input placeholder="Threads 連結" class="c-threads bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.threads || '')}">
           <input placeholder="YouTube 連結" class="c-youtube bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.youtube || '')}">
         </div>
+        <div class="flex items-center gap-1.5">
+          <input placeholder="選舉黃頁候選人ID（確認是本人後才填，用來抓照片）" class="c-olcid flex-1 bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.olcId || '')}">
+          <a href="https://elections.olc.tw/candidates/name/${encodeURIComponent(c.name || '')}" target="_blank" rel="noopener noreferrer" class="text-[11px] font-bold text-accent-blue hover:underline whitespace-nowrap px-1">
+            去選舉黃頁查詢 ↗
+          </a>
+        </div>
       `;
       document.getElementById('candidate-rows').appendChild(row);
+      const nameInput = row.querySelector('.c-name');
+      const olcLink = row.querySelector('a');
+      nameInput.addEventListener('input', () => {
+        olcLink.href = `https://elections.olc.tw/candidates/name/${encodeURIComponent(nameInput.value.trim())}`;
+      });
       lucide.createIcons();
     };
 
@@ -431,6 +442,7 @@
         instagram: row.querySelector('.c-instagram').value.trim() || null,
         threads: row.querySelector('.c-threads').value.trim() || null,
         youtube: row.querySelector('.c-youtube').value.trim() || null,
+        olcId: row.querySelector('.c-olcid').value.trim() || null,
       })).filter(c => c.name);
     }
 

@@ -83,6 +83,12 @@
 
     /* 行政區邊界圖層 hover 效果由 JS 控制 fillOpacity，這裡只放游標樣式 */
     .leaflet-interactive { cursor: pointer; }
+    /* 點擊行政區邊界時，瀏覽器預設會給 SVG path 一個矩形 focus 外框，這裡關掉 */
+    .leaflet-container path:focus,
+    .leaflet-container svg:focus,
+    .leaflet-interactive:focus {
+      outline: none !important;
+    }
 
     /* 滑鼠移到縣市/鄉鎮市區/村里上方顯示的名稱標籤 */
     .region-tooltip {
@@ -658,6 +664,24 @@
       goToCountyLevel();
     }
 
+    // 選舉黃頁 (elections.olc.tw) 候選人照片：只有後台手動確認過、填了 olcId 的候選人才會去抓，
+    // 避免用姓名自動比對抓錯人的照片（OLC 官方自己也提醒同名同姓無法自動區分）
+    const olcPhotoCache = {};
+    async function fetchOlcPhoto(olcId) {
+      if (olcPhotoCache[olcId] !== undefined) return olcPhotoCache[olcId];
+      try {
+        const res = await fetch(`https://elections.olc.tw/api/candidates/view/${olcId}`);
+        if (!res.ok) throw new Error('OLC API 回應失敗');
+        const data = await res.json();
+        const url = data && data.candidate && data.candidate.Candidate && data.candidate.Candidate.image;
+        olcPhotoCache[olcId] = url || null;
+      } catch (err) {
+        console.warn('讀取選舉黃頁照片失敗（不影響其他資料顯示）', olcId, err);
+        olcPhotoCache[olcId] = null;
+      }
+      return olcPhotoCache[olcId];
+    }
+
     // 7. 抽屜渲染
     function renderCandidateCard(c) {
       const party = partyConfig(c.party);
@@ -680,11 +704,38 @@
           </div>
         `;
 
+      // 社群連結：爬蟲/後台有填的才顯示，沒有的直接不出現
+      const SOCIAL_LINKS = [
+        { key: 'facebook', label: 'Facebook' },
+        { key: 'instagram', label: 'Instagram' },
+        { key: 'threads', label: 'Threads' },
+        { key: 'youtube', label: 'YouTube' },
+      ];
+      const socialItems = SOCIAL_LINKS.filter(s => c[s.key]);
+      const socialBlock = socialItems.length > 0 ? `
+        <div class="flex flex-wrap gap-1.5">
+          ${socialItems.map(s => `
+            <a href="${c[s.key]}" target="_blank" rel="noopener noreferrer" class="text-[10px] font-black px-2.5 py-1 rounded-full bg-canvas border border-ink-300 text-ink-700 hover:bg-ink-900 hover:text-surface hover:border-ink-900 transition">
+              ${s.label}
+            </a>
+          `).join('')}
+        </div>
+      ` : '';
+
+      const avatarId = 'av-' + Math.random().toString(36).slice(2);
+      if (c.olcId) {
+        fetchOlcPhoto(c.olcId).then(url => {
+          if (!url) return;
+          const el = document.getElementById(avatarId);
+          if (el) el.innerHTML = `<img src="${url}" alt="${c.name}" class="w-full h-full object-cover" loading="lazy">`;
+        });
+      }
+
       return `
         <div class="card-brutal bg-surface rounded-2xl p-4 sm:p-5 space-y-3 relative overflow-hidden">
           <div class="flex items-center justify-between">
             <div class="flex items-center space-x-3">
-              <div class="w-12 h-12 rounded-xl bg-canvas border editorial-border flex items-center justify-center font-black text-ink-900 text-base shadow-sm">
+              <div id="${avatarId}" class="w-12 h-12 rounded-xl bg-canvas border editorial-border flex items-center justify-center font-black text-ink-900 text-base shadow-sm overflow-hidden shrink-0">
                 ${c.name.slice(0, 1)}
               </div>
               <div>
@@ -699,6 +750,7 @@
             </div>
             <span class="text-[10px] font-black uppercase px-2 py-1 rounded bg-canvas border border-ink-300 text-ink-500">已登記</span>
           </div>
+          ${socialBlock}
           <div class="pt-1">${gazetteBlock}</div>
         </div>
       `;
