@@ -44,6 +44,8 @@
   <!-- Leaflet 地圖套件 -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- TopoJSON：把行政邊界圖資（縣市/鄉鎮市區/村里）轉成 Leaflet 看得懂的格式 -->
+  <script src="https://unpkg.com/topojson-client@3/dist/topojson-client.min.js"></script>
   <!-- Lucide 圖示 -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -70,7 +72,7 @@
     ::-webkit-scrollbar { width: 5px; }
     ::-webkit-scrollbar-thumb { background: #C9CED6; border-radius: 4px; }
 
-    /* 開場動畫加載遮罩 */
+    /* 開場質感 Splash Loader */
     #splash-screen {
       transition: opacity 0.5s ease-out, visibility 0.5s;
     }
@@ -78,6 +80,9 @@
       opacity: 0;
       visibility: hidden;
     }
+
+    /* 行政區邊界圖層 hover 效果由 JS 控制 fillOpacity，這裡只放游標樣式 */
+    .leaflet-interactive { cursor: pointer; }
   </style>
 </head>
 <body class="bg-canvas text-ink-900 h-screen w-screen overflow-hidden flex flex-col font-sans select-none">
@@ -124,7 +129,7 @@
       </nav>
     </div>
 
-    <!-- 右側：全台完整三級聯動下拉選單 (縣市 -> 鄉鎮市區 -> 村里) -->
+    <!-- 右側：三級聯動下拉選單（與地圖點擊互為捷徑，效果相同） -->
     <div id="filter-bar" class="flex items-center space-x-2">
       <select id="select-city" class="select-editorial bg-canvas border editorial-border rounded-xl px-3.5 py-2 pr-8 text-xs font-bold text-ink-900 cursor-pointer shadow-[2px_2px_0px_#141517] focus:outline-none">
         <option value="">選擇縣市 (22)</option>
@@ -148,6 +153,21 @@
   <main id="view-map" class="relative flex-1 w-full h-full overflow-hidden flex">
     <div id="map" class="w-full h-full z-10 bg-[#EAECEE]"></div>
 
+    <!-- 左上：層級麵包屑（點擊地圖上的縣市→鄉鎮市區→村里逐層鑽研） -->
+    <div id="breadcrumb-bar" class="absolute top-4 left-4 z-20 flex items-center space-x-1.5 pointer-events-none">
+      <button onclick="goToCountyLevel()" class="pointer-events-auto text-[11px] font-black px-3 py-1.5 rounded-full bg-surface border editorial-border shadow-[2px_2px_0px_#141517] hover:bg-ink-900 hover:text-surface transition">
+        全台灣
+      </button>
+      <span id="breadcrumb-county-wrap" class="hidden items-center space-x-1.5">
+        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-ink-500"></i>
+        <button id="breadcrumb-county" onclick="goToTownLevel()" class="pointer-events-auto text-[11px] font-black px-3 py-1.5 rounded-full bg-surface border editorial-border shadow-[2px_2px_0px_#141517] hover:bg-ink-900 hover:text-surface transition"></button>
+      </span>
+      <span id="breadcrumb-town-wrap" class="hidden items-center space-x-1.5">
+        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-ink-500"></i>
+        <span id="breadcrumb-town" class="text-[11px] font-black px-3 py-1.5 rounded-full bg-ink-900 text-surface"></span>
+      </span>
+    </div>
+
     <!-- 左下浮動資訊 -->
     <div class="absolute bottom-8 left-8 z-20 hidden md:block max-w-sm pointer-events-none">
       <div class="bg-surface p-4 rounded-2xl border editorial-border shadow-[4px_4px_0px_#141517] space-y-1.5 pointer-events-auto">
@@ -155,9 +175,9 @@
           <span class="text-[10px] font-black uppercase tracking-wider text-accent-orange">2026 九合一選舉</span>
           <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-accent-yellow border border-ink-900">村里級完整覆蓋</span>
         </div>
-        <h3 class="text-sm font-black text-ink-900">三級行政區穿透查詢</h3>
+        <h3 class="text-sm font-black text-ink-900">點擊地圖上的行政區逐層鑽研</h3>
         <p class="text-xs text-ink-500 leading-relaxed">
-          透過上方下拉式選單選擇縣市、鄉鎮市區與村里，即可調閱最新審定之候選人名冊與選舉公報發布狀態。
+          點選縣市 → 自動放大顯示鄉鎮市區 → 再點選看村里，逐層調閱最新審定之候選人名冊。也可以直接用右上角選單快速跳轉。
         </p>
       </div>
     </div>
@@ -239,49 +259,42 @@
       appId: "YOUR_APP_ID"
     };
 
-    function nodeId(countyId, town, village) {
-      return [countyId, town || '', village || ''].join('__');
-    }
+    let cachedOverrides = null;
 
     async function fetchOverrides() {
+      if (cachedOverrides) return cachedOverrides;
       try {
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const snap = await getDocs(collection(db, 'overrides'));
         const out = {};
         snap.forEach(d => { out[d.id] = d.data(); });
+        cachedOverrides = out;
         return out;
       } catch (err) {
         console.warn('讀取後台編輯資料失敗，僅顯示原始候選人資料。', err);
+        cachedOverrides = {};
         return {};
       }
     }
 
-    function applyOverrides(regions, overrides) {
-      if (!overrides || Object.keys(overrides).length === 0) return;
-      regions.forEach(county => {
-        const co = overrides[nodeId(county.id)];
-        if (co) {
-          if (co.candidates) county.candidates = co.candidates;
-          if (co.councilors) county.councilors = co.councilors;
-          if (co.voters !== undefined) county.voters = co.voters;
-          if (co.quota !== undefined) county.quota = co.quota;
-        }
-        (county.districts || []).forEach(dist => {
-          const dO = overrides[nodeId(county.id, dist.name)];
-          if (dO) {
-            if (dO.candidates) dist.candidates = dO.candidates;
-            if (dO.representatives) dist.representatives = dO.representatives;
-          }
-          (dist.villages || []).forEach(vill => {
-            const vO = overrides[nodeId(county.id, dist.name, vill.name)];
-            if (vO && vO.candidates) vill.candidates = vO.candidates;
-          });
-        });
+    // 將 overrides 套用到一份剛載入的 topology：依 geometry 的 properties.id（縣市/鄉鎮市區/村里代碼）比對
+    function applyOverridesToTopology(topo, overrides) {
+      if (!overrides || Object.keys(overrides).length === 0) return topo;
+      const objKey = Object.keys(topo.objects)[0];
+      topo.objects[objKey].geometries.forEach(g => {
+        const o = overrides[g.properties.id];
+        if (!o) return;
+        if (o.candidates) g.properties.candidates = o.candidates;
+        if (o.councilors) g.properties.councilors = o.councilors;
+        if (o.representatives) g.properties.representatives = o.representatives;
+        if (o.voters !== undefined) g.properties.voters = o.voters;
+        if (o.quota !== undefined) g.properties.quota = o.quota;
       });
+      return topo;
     }
 
-    window.__electionOverrides = { fetchOverrides, applyOverrides, nodeId };
+    window.__electionOverrides = { fetchOverrides, applyOverridesToTopology };
   </script>
 
   <script>
@@ -306,8 +319,18 @@
       '無黨籍': {
         color: '#6E7681',
         svgLogo: `<svg viewBox="0 0 100 100" class="w-5 h-5 rounded-full border border-ink-900 bg-ink-100 inline-block shrink-0"><text x="50" y="64" font-size="36" font-weight="900" fill="#3A3F45" text-anchor="middle" font-family="sans-serif">無</text></svg>`
+      },
+      '無': {
+        color: '#6E7681',
+        svgLogo: `<svg viewBox="0 0 100 100" class="w-5 h-5 rounded-full border border-ink-900 bg-ink-100 inline-block shrink-0"><text x="50" y="64" font-size="36" font-weight="900" fill="#3A3F45" text-anchor="middle" font-family="sans-serif">無</text></svg>`
       }
     };
+    function partyConfig(name) {
+      return PARTY_CONFIG[name] || {
+        color: '#6E7681',
+        svgLogo: `<svg viewBox="0 0 100 100" class="w-5 h-5 rounded-full border border-ink-900 bg-ink-100 inline-block shrink-0"><text x="50" y="60" font-size="30" font-weight="900" fill="#3A3F45" text-anchor="middle" font-family="sans-serif">黨</text></svg>`
+      };
+    }
 
     // 2. 政治觀測站清單
     const CURATED_SITES = [
@@ -318,8 +341,7 @@
       { name: '政治開箱 Politics Design', category: '政治視覺研究', url: 'https://politicsdesign.tw/', desc: '台灣當代政治競選美學與民主視覺溝通研究平台。' }
     ];
 
-    // 全域變數
-    let ALL_REGIONS = [];
+    // 3. 地圖初始化
     const map = L.map('map', { zoomControl: false, attributionControl: false }).setView([23.8, 120.9], 8);
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { maxZoom: 19, subdomains: 'abcd' }).addTo(map);
     L.control.zoom({ position: 'bottomright' }).addTo(map);
@@ -328,161 +350,297 @@
     const selectDistrict = document.getElementById('select-district');
     const selectVillage = document.getElementById('select-village');
 
-    // 3. 異步載入資料層 (支援本機 CORS Fallback)
-    async function loadElectionData() {
-      try {
-        const res = await fetch('./taiwan_data.json');
-        if (!res.ok) throw new Error('Fetch failed');
-        ALL_REGIONS = await res.json();
-      } catch (err) {
-        console.warn('載入本地 taiwan_data.json 失敗，改用預設資料庫。', err);
-        ALL_REGIONS = getFallbackData();
-      }
+    // 全域狀態
+    let currentLayer = null;         // 目前顯示在地圖上的 GeoJSON 圖層（縣市 or 鄉鎮市區 or 村里）
+    let countiesTopoCache = null;    // 縣市 topology（含候選人資料），開站時載入一次
+    let townsCache = {};             // countyCode -> topology
+    let villagesCache = {};          // townCode -> topology
+    let currentCounty = null;        // { code, name, category, feature }
+    let currentTown = null;          // { code, name, feature }
 
-      // 套用後台管理者透過 Firestore 編輯過的內容（若尚未設定 Firebase，會安靜地略過）
-      if (window.__electionOverrides) {
-        try {
-          const overrides = await window.__electionOverrides.fetchOverrides();
-          window.__electionOverrides.applyOverrides(ALL_REGIONS, overrides);
-        } catch (err) {
-          console.warn('套用後台編輯資料時發生錯誤', err);
-        }
-      }
-
-      initApp();
+    async function fetchJSON(url) {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('載入失敗: ' + url);
+      return res.json();
     }
 
-    function initApp() {
-      // 渲染地圖地標
-      ALL_REGIONS.forEach(r => {
-        const pin = L.divIcon({
-          className: 'custom-pin',
-          html: `
-            <button class="flex items-center space-x-1.5 bg-surface px-2.5 py-1 rounded-full border editorial-border shadow-[2px_2px_0px_#141517] hover:bg-accent-orange hover:text-white transition group active:scale-95">
-              <span class="w-2 h-2 rounded-full bg-accent-orange group-hover:bg-white transition-colors"></span>
-              <span class="text-[11px] font-black tracking-tight text-ink-900 group-hover:text-white">${r.name}</span>
-            </button>
-          `,
-          iconSize: [90, 32],
-          iconAnchor: [45, 16]
+    function topoToFeatures(topo) {
+      const objKey = Object.keys(topo.objects)[0];
+      return topojson.feature(topo, topo.objects[objKey]);
+    }
+
+    const LEVEL_COLORS = { county: '#FF5722', town: '#2563EB', village: '#22C55E' };
+
+    function styleForLevel(level) {
+      return { weight: 1.5, color: '#141517', fillColor: LEVEL_COLORS[level], fillOpacity: 0.12 };
+    }
+
+    function clearCurrentLayer() {
+      if (currentLayer) { map.removeLayer(currentLayer); currentLayer = null; }
+    }
+
+    // 4. 三級行政區圖層渲染（點擊即鑽研到下一層）
+    async function renderCountyLayer() {
+      clearCurrentLayer();
+      currentCounty = null;
+      currentTown = null;
+      updateBreadcrumb();
+
+      if (!countiesTopoCache) {
+        let topo = await fetchJSON('./data/counties.json');
+        const overrides = await window.__electionOverrides.fetchOverrides();
+        topo = window.__electionOverrides.applyOverridesToTopology(topo, overrides);
+        countiesTopoCache = topo;
+        populateCitySelect(topo);
+      }
+
+      const fc = topoToFeatures(countiesTopoCache);
+      currentLayer = L.geoJson(fc, {
+        style: () => styleForLevel('county'),
+        onEachFeature: (feature, layer) => {
+          layer.on('mouseover', () => layer.setStyle({ fillOpacity: 0.32 }));
+          layer.on('mouseout', () => layer.setStyle({ fillOpacity: 0.12 }));
+          layer.on('click', () => onCountyClick(feature, layer));
+        }
+      }).addTo(map);
+
+      map.flyTo([23.8, 120.9], 8, { duration: 1 });
+    }
+
+    async function onCountyClick(feature, layer) {
+      const code = feature.properties.id;
+      const name = feature.properties.name;
+      currentCounty = { code, name, feature };
+      selectCity.value = name;
+      onCityChangeFromCode(code);
+    }
+
+    async function renderTownLayer(countyCode) {
+      clearCurrentLayer();
+      currentTown = null;
+
+      if (!townsCache[countyCode]) {
+        let topo = await fetchJSON(`./data/towns/towns-${countyCode}.json`);
+        const overrides = await window.__electionOverrides.fetchOverrides();
+        topo = window.__electionOverrides.applyOverridesToTopology(topo, overrides);
+        townsCache[countyCode] = topo;
+      }
+      const topo = townsCache[countyCode];
+      const fc = topoToFeatures(topo);
+
+      currentLayer = L.geoJson(fc, {
+        style: () => styleForLevel('town'),
+        onEachFeature: (feature, layer) => {
+          layer.on('mouseover', () => layer.setStyle({ fillOpacity: 0.32 }));
+          layer.on('mouseout', () => layer.setStyle({ fillOpacity: 0.12 }));
+          layer.on('click', () => onTownClick(feature, layer));
+        }
+      }).addTo(map);
+
+      populateDistrictSelect(topo);
+      map.flyTo(currentLayer.getBounds().getCenter(), 11, { duration: 1 });
+      try { map.fitBounds(currentLayer.getBounds(), { padding: [40, 40] }); } catch (e) {}
+    }
+
+    async function onTownClick(feature, layer) {
+      const code = feature.properties.id;
+      const name = feature.properties.name;
+      currentTown = { code, name, feature };
+      selectDistrict.value = name;
+      onDistrictChangeFromCode(code);
+    }
+
+    async function renderVillageLayer(townCode) {
+      clearCurrentLayer();
+
+      if (!villagesCache[townCode]) {
+        let topo = await fetchJSON(`./data/villages/villages-${townCode}.json`);
+        const overrides = await window.__electionOverrides.fetchOverrides();
+        topo = window.__electionOverrides.applyOverridesToTopology(topo, overrides);
+        villagesCache[townCode] = topo;
+      }
+      const topo = villagesCache[townCode];
+      const fc = topoToFeatures(topo);
+
+      currentLayer = L.geoJson(fc, {
+        style: () => styleForLevel('village'),
+        onEachFeature: (feature, layer) => {
+          layer.on('mouseover', () => layer.setStyle({ fillOpacity: 0.35 }));
+          layer.on('mouseout', () => layer.setStyle({ fillOpacity: 0.14 }));
+          layer.on('click', () => onVillageClick(feature, layer));
+        }
+      }).addTo(map);
+
+      populateVillageSelect(topo);
+      try { map.fitBounds(currentLayer.getBounds(), { padding: [60, 60] }); } catch (e) {}
+    }
+
+    function onVillageClick(feature, layer) {
+      const name = feature.properties.name;
+      selectVillage.value = name;
+      const villRole = name.endsWith('里') ? '里長選舉' : '村長選舉';
+      renderDrawer(
+        `${currentCounty.name} > ${currentTown.name} > ${name}`,
+        `${name} ${villRole}`,
+        '最基層村里',
+        feature.properties.voters,
+        feature.properties.quota || '1 席',
+        feature.properties.candidates,
+        null
+      );
+    }
+
+    // 5. 下拉選單（與地圖點擊互為捷徑：資料來源相同，都是逐層 fetch）
+    function populateCitySelect(topo) {
+      selectCity.innerHTML = '<option value="">選擇縣市 (22)</option>';
+      const fc = topoToFeatures(topo);
+      fc.features
+        .slice()
+        .sort((a, b) => a.properties.name.localeCompare(b.properties.name, 'zh-Hant'))
+        .forEach(f => {
+          const opt = document.createElement('option');
+          opt.value = f.properties.name;
+          opt.dataset.code = f.properties.id;
+          opt.textContent = `${f.properties.name} (${f.properties.category})`;
+          selectCity.appendChild(opt);
         });
-        const marker = L.marker(r.coords, { icon: pin }).addTo(map);
-        marker.on('click', () => {
-          selectCity.value = r.name;
-          onCityChange();
+    }
+
+    function populateDistrictSelect(topo) {
+      selectDistrict.innerHTML = '<option value="">選擇鄉鎮市區</option>';
+      selectDistrict.disabled = false;
+      selectVillage.innerHTML = '<option value="">選擇村里</option>';
+      selectVillage.disabled = true;
+      const fc = topoToFeatures(topo);
+      fc.features
+        .slice()
+        .sort((a, b) => a.properties.name.localeCompare(b.properties.name, 'zh-Hant'))
+        .forEach(f => {
+          const opt = document.createElement('option');
+          opt.value = f.properties.name;
+          opt.dataset.code = f.properties.id;
+          opt.textContent = f.properties.name;
+          selectDistrict.appendChild(opt);
         });
-      });
+    }
 
-      // 初始化縣市選單
-      ALL_REGIONS.forEach(c => {
-        const opt = document.createElement('option');
-        opt.value = c.name;
-        opt.textContent = `${c.name} (${c.category})`;
-        selectCity.appendChild(opt);
-      });
+    function populateVillageSelect(topo) {
+      selectVillage.innerHTML = '<option value="">選擇村里</option>';
+      selectVillage.disabled = false;
+      const fc = topoToFeatures(topo);
+      fc.features
+        .slice()
+        .sort((a, b) => a.properties.name.localeCompare(b.properties.name, 'zh-Hant'))
+        .forEach(f => {
+          const opt = document.createElement('option');
+          opt.value = f.properties.name;
+          opt.textContent = f.properties.name;
+          selectVillage.appendChild(opt);
+        });
+    }
 
-      selectCity.addEventListener('change', onCityChange);
-      selectDistrict.addEventListener('change', onDistrictChange);
-      selectVillage.addEventListener('change', onVillageChange);
+    async function onCityChangeFromCode(code) {
+      const fc = topoToFeatures(countiesTopoCache);
+      const feature = fc.features.find(f => f.properties.id === code);
+      if (!feature) return;
+      currentCounty = { code, name: feature.properties.name, feature };
+      updateBreadcrumb();
+      renderDrawer(feature.properties.name, `${feature.properties.name}首長選舉`, feature.properties.category,
+        feature.properties.voters, feature.properties.quota, feature.properties.candidates,
+        { label: '議員候選人（依選舉區）', blocks: feature.properties.councilors });
+      await renderTownLayer(code);
+    }
 
-      // 關閉 Splash Loader
-      document.body.classList.add('splash-loaded');
+    async function onDistrictChangeFromCode(code) {
+      const fc = topoToFeatures(townsCache[currentCounty.code]);
+      const feature = fc.features.find(f => f.properties.id === code);
+      if (!feature) return;
+      currentTown = { code, name: feature.properties.name, feature };
+      updateBreadcrumb();
+      const distTag = feature.properties.isIndigenousDistrict ? '山地原住民區' : '行政區轄區';
+      const repLabel = feature.properties.isIndigenousDistrict ? '區民代表候選人（依選舉區）' : '鄉鎮市民代表候選人（依選舉區）';
+      const distCandidates = (feature.properties.candidates && feature.properties.candidates.length > 0)
+        ? feature.properties.candidates
+        : currentCounty.feature.properties.candidates;
+      renderDrawer(`${currentCounty.name} > ${feature.properties.name}`, `${feature.properties.name} 公職名冊`, distTag,
+        feature.properties.voters, feature.properties.quota, distCandidates,
+        { label: repLabel, blocks: feature.properties.representatives });
+      await renderVillageLayer(code);
+    }
+
+    selectCity.addEventListener('change', () => {
+      const opt = selectCity.selectedOptions[0];
+      if (!opt || !opt.value) { resetAllFilters(); return; }
+      onCityChangeFromCode(opt.dataset.code);
+    });
+    selectDistrict.addEventListener('change', () => {
+      const opt = selectDistrict.selectedOptions[0];
+      if (!opt || !opt.value) { renderTownLayer(currentCounty.code); return; }
+      onDistrictChangeFromCode(opt.dataset.code);
+    });
+    selectVillage.addEventListener('change', () => {
+      const name = selectVillage.value;
+      if (!name) return;
+      const fc = topoToFeatures(villagesCache[currentTown.code]);
+      const feature = fc.features.find(f => f.properties.name === name);
+      if (feature) onVillageClick(feature, null);
+    });
+
+    // 6. 麵包屑導覽
+    function updateBreadcrumb() {
+      const countyWrap = document.getElementById('breadcrumb-county-wrap');
+      const townWrap = document.getElementById('breadcrumb-town-wrap');
+      if (currentCounty) {
+        countyWrap.classList.remove('hidden');
+        countyWrap.classList.add('flex');
+        document.getElementById('breadcrumb-county').textContent = currentCounty.name;
+      } else {
+        countyWrap.classList.add('hidden');
+        countyWrap.classList.remove('flex');
+      }
+      if (currentTown) {
+        townWrap.classList.remove('hidden');
+        townWrap.classList.add('flex');
+        document.getElementById('breadcrumb-town').textContent = currentTown.name;
+      } else {
+        townWrap.classList.add('hidden');
+        townWrap.classList.remove('flex');
+      }
       lucide.createIcons();
     }
 
-    // 4. 三級聯動下拉選單
-    function onCityChange() {
-      const cityName = selectCity.value;
-      selectDistrict.innerHTML = '<option value="">選擇鄉鎮市區</option>';
-      selectVillage.innerHTML = '<option value="">選擇村里</option>';
-      selectVillage.disabled = true;
-
-      if (!cityName) {
-        selectDistrict.disabled = true;
-        resetMap();
-        return;
-      }
-
-      const city = ALL_REGIONS.find(c => c.name === cityName);
-      if (city) {
-        selectDistrict.disabled = false;
-        city.districts.forEach(d => {
-          const opt = document.createElement('option');
-          opt.value = d.name;
-          opt.textContent = d.name;
-          selectDistrict.appendChild(opt);
-        });
-
-        map.flyTo(city.coords, 11, { duration: 1.1 });
-        renderDrawer(city.name, `${city.name}首長選舉`, city.category, city.voters, city.quota, city.candidates, { label: '議員候選人（依選舉區）', blocks: city.councilors });
-      }
-    }
-
-    function onDistrictChange() {
-      const cityName = selectCity.value;
-      const distName = selectDistrict.value;
-      selectVillage.innerHTML = '<option value="">選擇村里</option>';
-
-      if (!distName) {
-        selectVillage.disabled = true;
-        onCityChange();
-        return;
-      }
-
-      const city = ALL_REGIONS.find(c => c.name === cityName);
-      const dist = city.districts.find(d => d.name === distName);
-
-      if (dist) {
-        selectVillage.disabled = false;
-        dist.villages.forEach(v => {
-          const opt = document.createElement('option');
-          opt.value = v.name;
-          opt.textContent = v.name;
-          selectVillage.appendChild(opt);
-        });
-
-        map.flyTo(dist.coords, 13, { duration: 1 });
-        // 行政區抽屜：顯示鄉鎮市長／區長，或原住民區長名冊
-        const distCandidates = (dist.candidates && dist.candidates.length > 0) ? dist.candidates : city.candidates;
-        const distTag = dist.isIndigenousDistrict ? '山地原住民區' : '行政區轄區';
-        const repLabel = dist.isIndigenousDistrict ? '區民代表候選人（依選舉區）' : '鄉鎮市民代表候選人（依選舉區）';
-        renderDrawer(`${city.name} > ${dist.name}`, `${dist.name} 公職名冊`, distTag, dist.voters, dist.quota, distCandidates, { label: repLabel, blocks: dist.representatives });
-      }
-    }
-
-    function onVillageChange() {
-      const cityName = selectCity.value;
-      const distName = selectDistrict.value;
-      const villName = selectVillage.value;
-
-      if (!villName) {
-        onDistrictChange();
-        return;
-      }
-
-      const city = ALL_REGIONS.find(c => c.name === cityName);
-      const dist = city.districts.find(d => d.name === distName);
-      const vill = dist.villages.find(v => v.name === villName);
-
-      if (vill) {
-        map.flyTo(vill.coords, 15, { duration: 1 });
-        const villRole = vill.name.endsWith('里') ? '里長選舉' : '村長選舉';
-        renderDrawer(`${city.name} > ${dist.name} > ${vill.name}`, `${vill.name} ${villRole}`, '最基層村里', vill.voters, vill.quota || '1 席', vill.candidates, null);
-      }
-    }
-
-    function resetAllFilters() {
+    function goToCountyLevel() {
+      closeDrawer();
+      renderCountyLayer();
       selectCity.value = '';
       selectDistrict.innerHTML = '<option value="">選擇鄉鎮市區</option>';
       selectDistrict.disabled = true;
       selectVillage.innerHTML = '<option value="">選擇村里</option>';
       selectVillage.disabled = true;
-      resetMap();
     }
 
-    // 5. 抽屜渲染（取消政見，改為官方選舉公報專屬預留位）
+    function goToTownLevel() {
+      if (!currentCounty) return;
+      closeDrawer();
+      currentTown = null;
+      updateBreadcrumb();
+      selectDistrict.value = '';
+      selectVillage.innerHTML = '<option value="">選擇村里</option>';
+      selectVillage.disabled = true;
+      renderTownLayer(currentCounty.code);
+      const f = currentCounty.feature;
+      renderDrawer(f.properties.name, `${f.properties.name}首長選舉`, f.properties.category,
+        f.properties.voters, f.properties.quota, f.properties.candidates,
+        { label: '議員候選人（依選舉區）', blocks: f.properties.councilors });
+    }
+
+    function resetAllFilters() {
+      goToCountyLevel();
+    }
+
+    // 7. 抽屜渲染
     function renderCandidateCard(c) {
-      const party = PARTY_CONFIG[c.party] || PARTY_CONFIG['無黨籍'];
+      const party = partyConfig(c.party);
       const gazetteBlock = c.gazetteUrl
         ? `
           <a href="${c.gazetteUrl}" target="_blank" class="w-full inline-flex items-center justify-center space-x-2 py-2.5 rounded-xl bg-ink-900 text-surface text-xs font-bold hover:bg-accent-orange transition">
@@ -572,12 +730,7 @@
       document.getElementById('detail-drawer').classList.add('translate-x-full');
     }
 
-    function resetMap() {
-      closeDrawer();
-      map.flyTo([23.8, 120.9], 8, { duration: 1.1 });
-    }
-
-    // 6. 分頁切換
+    // 8. 分頁切換
     function switchView(viewName) {
       const viewMap = document.getElementById('view-map');
       const viewLinks = document.getElementById('view-links');
@@ -626,45 +779,19 @@
       lucide.createIcons();
     }
 
-    // 7. 內建備援資料庫
-    function getFallbackData() {
-      return [
-        {
-          id: "TPE", name: "台北市", category: "直轄市", coords: [25.0330, 121.5654], voters: "約 2,042,300 人", quota: "市長 1 席 / 議員 61 席",
-          candidates: [
-            { name: "蔣萬安", party: "中國國民黨", role: "直轄市長 (現任)", gazetteUrl: null },
-            { name: "沈伯洋", party: "民主進步黨", role: "直轄市長候選人", gazetteUrl: null }
-          ],
-          districts: [
-            {
-              name: "信義區", coords: [25.0334, 121.5645],
-              villages: [
-                { name: "三興里", coords: [25.0305, 121.5580], candidates: [{ name: "洪里長", party: "無黨籍", role: "里長候選人", gazetteUrl: null }] },
-                { name: "安康里", coords: [25.0350, 121.5690], candidates: [{ name: "陳里長", party: "中國國民黨", role: "里長候選人", gazetteUrl: null }] }
-              ]
-            }
-          ]
-        },
-        {
-          id: "NTPC", name: "新北市", category: "直轄市", coords: [25.0116, 121.4657], voters: "約 3,321,800 人", quota: "市長 1 席 / 議員 66 席",
-          candidates: [
-            { name: "李四川", party: "中國國民黨", role: "直轄市長候選人", gazetteUrl: null },
-            { name: "蘇巧慧", party: "民主進步黨", role: "直轄市長候選人", gazetteUrl: null }
-          ],
-          districts: [
-            {
-              name: "板橋區", coords: [25.0110, 121.4620],
-              villages: [
-                { name: "自強里", coords: [25.0140, 121.4610], candidates: [{ name: "郭里長", party: "無黨籍", role: "里長候選人", gazetteUrl: null }] }
-              ]
-            }
-          ]
-        }
-      ];
+    // 9. 啟動
+    async function init() {
+      try {
+        await renderCountyLayer();
+      } catch (err) {
+        console.error('地圖資料載入失敗', err);
+        document.getElementById('breadcrumb-bar').insertAdjacentHTML('beforeend',
+          `<span class="pointer-events-auto text-[11px] font-black px-3 py-1.5 rounded-full bg-red-600 text-white">資料載入失敗，請確認 ./data 目錄是否存在</span>`);
+      }
+      document.body.classList.add('splash-loaded');
+      lucide.createIcons();
     }
-
-    // 啟動資料載入流程
-    window.addEventListener('load', loadElectionData);
+    window.addEventListener('load', init);
   </script>
 </body>
 </html>

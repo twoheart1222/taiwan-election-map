@@ -26,6 +26,7 @@
     }
   </script>
   <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/topojson-client@3/dist/topojson-client.min.js"></script>
 
   <style>
     .editorial-border { border: 1.5px solid #141517; }
@@ -112,6 +113,7 @@
         <div>
           <span class="text-[10px] font-black uppercase tracking-wider text-accent-orange" id="edit-scope-tag">縣市層級</span>
           <h2 class="text-2xl font-black text-ink-900" id="edit-title">--</h2>
+          <span class="text-[10px] font-bold text-ink-300" id="edit-code"></span>
         </div>
         <span id="save-status" class="text-xs font-bold"></span>
       </div>
@@ -145,7 +147,7 @@
           <i data-lucide="rotate-ccw" class="w-4 h-4"></i><span>還原為原始資料</span>
         </button>
       </div>
-      <p class="text-[11px] text-ink-500 font-medium">「還原為原始資料」會刪除此節點的後台覆寫紀錄，回到 taiwan_data.json 的原始候選人登記資料。</p>
+      <p class="text-[11px] text-ink-500 font-medium">「還原為原始資料」會刪除此節點的後台覆寫紀錄，回到 data/ 目錄下原始候選人登記資料。</p>
     </div>
 
     <div class="bg-surface p-5 rounded-2xl border editorial-border shadow-[4px_4px_0px_#141517]">
@@ -181,18 +183,24 @@
     const provider = new GoogleAuthProvider();
 
     let currentUser = null;
-    let ALL_REGIONS = [];
     let allOverrides = {};
-    let currentNodeId = null;
-    let currentScope = null; // 'county' | 'district' | 'village'
+
+    // 三級資料快取（跟 index.html 用同一套 data/ 目錄，縣市代碼/鄉鎮市區代碼/村里代碼為 Firestore 文件 ID）
+    let countiesTopo = null;
+    let townsCache = {};
+    let villagesCache = {};
+    let currentScope = null;   // 'county' | 'town' | 'village'
+    let currentCode = null;    // 目前編輯節點的代碼（Firestore 文件 ID）
+    let currentBase = null;    // 目前節點的原始（未覆寫）properties
 
     window.doSignIn = () => signInWithPopup(auth, provider).catch(err => {
       document.getElementById('gate-msg').textContent = '登入失敗：' + err.message;
     });
     window.doSignOut = () => signOut(auth);
 
-    function nodeId(countyId, town, village) {
-      return [countyId, town || '', village || ''].join('__');
+    function topoToFeatures(topo) {
+      const objKey = Object.keys(topo.objects)[0];
+      return topojson.feature(topo, topo.objects[objKey]);
     }
 
     onAuthStateChanged(auth, async (user) => {
@@ -211,7 +219,6 @@
         return;
       }
 
-      // 檢查 admins collection 中是否有以此信箱為文件 ID 的授權紀錄
       let authorized = false;
       try {
         const snap = await getDoc(doc(db, 'admins', user.email));
@@ -241,9 +248,14 @@
       await bootEditor();
     });
 
+    async function fetchJSON(url) {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('載入失敗: ' + url);
+      return res.json();
+    }
+
     async function bootEditor() {
-      const res = await fetch('./taiwan_data.json');
-      ALL_REGIONS = await res.json();
+      countiesTopo = await fetchJSON('./data/counties.json');
 
       const overrideSnap = await getDocs(collection(db, 'overrides'));
       allOverrides = {};
@@ -251,11 +263,14 @@
 
       const selCity = document.getElementById('a-select-city');
       selCity.innerHTML = '<option value="">選擇縣市</option>';
-      ALL_REGIONS.forEach(c => {
-        const opt = document.createElement('option');
-        opt.value = c.id; opt.textContent = `${c.name} (${c.category})`;
-        selCity.appendChild(opt);
-      });
+      topoToFeatures(countiesTopo).features
+        .slice().sort((a, b) => a.properties.name.localeCompare(b.properties.name, 'zh-Hant'))
+        .forEach(f => {
+          const opt = document.createElement('option');
+          opt.value = f.properties.id;
+          opt.textContent = `${f.properties.name} (${f.properties.category})`;
+          selCity.appendChild(opt);
+        });
       renderOverrideList();
       lucide.createIcons();
     }
@@ -268,14 +283,10 @@
         list.innerHTML = '<p class="text-ink-500 font-medium">目前沒有任何後台編輯紀錄。</p>';
         return;
       }
-      list.innerHTML = ids.map(id => {
-        const [countyId, town, village] = id.split('__');
-        const label = [countyId, town, village].filter(Boolean).join(' > ');
-        return `<div class="flex items-center justify-between px-3 py-2 bg-canvas rounded-lg border border-ink-100">
-          <span class="font-bold">${label}</span>
+      list.innerHTML = ids.map(id => `<div class="flex items-center justify-between px-3 py-2 bg-canvas rounded-lg border border-ink-100">
+          <span class="font-bold">${id}</span>
           <span class="text-ink-500">${allOverrides[id].updatedBy || ''}</span>
-        </div>`;
-      }).join('');
+        </div>`).join('');
     }
 
     // ---------- 三級聯動選單 ----------
@@ -283,64 +294,79 @@
     const selDistrict = document.getElementById('a-select-district');
     const selVillage = document.getElementById('a-select-village');
 
-    selCity.addEventListener('change', () => {
+    selCity.addEventListener('change', async () => {
       selDistrict.innerHTML = '<option value="">選擇鄉鎮市區</option>';
       selVillage.innerHTML = '<option value="">選擇村里（可留空＝編輯鄉鎮市區層級）</option>';
       selVillage.disabled = true;
-      const county = ALL_REGIONS.find(c => c.id === selCity.value);
-      if (!county) { selDistrict.disabled = true; document.getElementById('edit-panel').classList.add('hidden'); return; }
+      const code = selCity.value;
+      if (!code) { selDistrict.disabled = true; document.getElementById('edit-panel').classList.add('hidden'); return; }
+
+      const feature = topoToFeatures(countiesTopo).features.find(f => f.properties.id === code);
+      loadNode('county', feature, null, null);
+
+      if (!townsCache[code]) townsCache[code] = await fetchJSON(`./data/towns/towns-${code}.json`);
       selDistrict.disabled = false;
-      county.districts.forEach(d => {
-        const opt = document.createElement('option');
-        opt.value = d.name; opt.textContent = d.name;
-        selDistrict.appendChild(opt);
-      });
-      loadNode('county', county, null, null);
+      topoToFeatures(townsCache[code]).features
+        .slice().sort((a, b) => a.properties.name.localeCompare(b.properties.name, 'zh-Hant'))
+        .forEach(f => {
+          const opt = document.createElement('option');
+          opt.value = f.properties.id;
+          opt.textContent = f.properties.name;
+          selDistrict.appendChild(opt);
+        });
     });
 
-    selDistrict.addEventListener('change', () => {
+    selDistrict.addEventListener('change', async () => {
       selVillage.innerHTML = '<option value="">選擇村里（可留空＝編輯鄉鎮市區層級）</option>';
-      const county = ALL_REGIONS.find(c => c.id === selCity.value);
-      const dist = county.districts.find(d => d.name === selDistrict.value);
-      if (!dist) { selVillage.disabled = true; loadNode('county', county, null, null); return; }
+      const countyFeature = topoToFeatures(countiesTopo).features.find(f => f.properties.id === selCity.value);
+      const code = selDistrict.value;
+      if (!code) { selVillage.disabled = true; loadNode('county', countyFeature, null, null); return; }
+
+      const townFeature = topoToFeatures(townsCache[selCity.value]).features.find(f => f.properties.id === code);
+      loadNode('town', countyFeature, townFeature, null);
+
+      if (!villagesCache[code]) villagesCache[code] = await fetchJSON(`./data/villages/villages-${code}.json`);
       selVillage.disabled = false;
-      dist.villages.forEach(v => {
-        const opt = document.createElement('option');
-        opt.value = v.name; opt.textContent = v.name;
-        selVillage.appendChild(opt);
-      });
-      loadNode('district', county, dist, null);
+      topoToFeatures(villagesCache[code]).features
+        .slice().sort((a, b) => a.properties.name.localeCompare(b.properties.name, 'zh-Hant'))
+        .forEach(f => {
+          const opt = document.createElement('option');
+          opt.value = f.properties.id;
+          opt.textContent = f.properties.name;
+          selVillage.appendChild(opt);
+        });
     });
 
     selVillage.addEventListener('change', () => {
-      const county = ALL_REGIONS.find(c => c.id === selCity.value);
-      const dist = county.districts.find(d => d.name === selDistrict.value);
-      if (!selVillage.value) { loadNode('district', county, dist, null); return; }
-      const vill = dist.villages.find(v => v.name === selVillage.value);
-      loadNode('village', county, dist, vill);
+      const countyFeature = topoToFeatures(countiesTopo).features.find(f => f.properties.id === selCity.value);
+      const townFeature = topoToFeatures(townsCache[selCity.value]).features.find(f => f.properties.id === selDistrict.value);
+      if (!selVillage.value) { loadNode('town', countyFeature, townFeature, null); return; }
+      const villFeature = topoToFeatures(villagesCache[selDistrict.value]).features.find(f => f.properties.id === selVillage.value);
+      loadNode('village', countyFeature, townFeature, villFeature);
     });
 
     // ---------- 編輯表單 ----------
-    function loadNode(scope, county, dist, vill) {
+    function loadNode(scope, countyFeature, townFeature, villFeature) {
       currentScope = scope;
-      const town = dist ? dist.name : null;
-      const village = vill ? vill.name : null;
-      currentNodeId = nodeId(county.id, town, village);
-
-      const base = scope === 'county' ? county : (scope === 'district' ? dist : vill);
-      const override = allOverrides[currentNodeId] || {};
+      const feature = scope === 'county' ? countyFeature : (scope === 'town' ? townFeature : villFeature);
+      currentCode = feature.properties.id;
+      currentBase = feature.properties;
+      const override = allOverrides[currentCode] || {};
 
       document.getElementById('edit-panel').classList.remove('hidden');
-      const scopeTagText = scope === 'county' ? '縣市層級（首長）' : scope === 'district' ? '鄉鎮市區層級（區長 / 鄉鎮市長）' : '村里層級（村里長）';
+      const scopeTagText = scope === 'county' ? '縣市層級（首長）' : scope === 'town' ? '鄉鎮市區層級（區長 / 鄉鎮市長）' : '村里層級（村里長）';
       document.getElementById('edit-scope-tag').textContent = scopeTagText;
-      document.getElementById('edit-title').textContent = [county.name, town, village].filter(Boolean).join(' > ');
-      document.getElementById('save-status').textContent = allOverrides[currentNodeId] ? '（此節點已有後台編輯覆寫）' : '';
+      const path = [countyFeature && countyFeature.properties.name, townFeature && townFeature.properties.name, villFeature && villFeature.properties.name]
+        .filter(Boolean).join(' > ');
+      document.getElementById('edit-title').textContent = path;
+      document.getElementById('edit-code').textContent = '代碼：' + currentCode;
+      document.getElementById('save-status').textContent = allOverrides[currentCode] ? '（此節點已有後台編輯覆寫）' : '';
 
       document.getElementById('voters-quota-block').classList.toggle('hidden', scope !== 'county');
-      document.getElementById('f-voters').value = (override.voters !== undefined ? override.voters : base.voters) || '';
-      document.getElementById('f-quota').value = (override.quota !== undefined ? override.quota : base.quota) || '';
+      document.getElementById('f-voters').value = (override.voters !== undefined ? override.voters : currentBase.voters) || '';
+      document.getElementById('f-quota').value = (override.quota !== undefined ? override.quota : currentBase.quota) || '';
 
-      const candidates = override.candidates !== undefined ? override.candidates : (base.candidates || []);
+      const candidates = override.candidates !== undefined ? override.candidates : (currentBase.candidates || []);
       renderCandidateRows(candidates);
     }
 
@@ -383,7 +409,7 @@
     }
 
     window.saveOverride = async function() {
-      if (!currentUser || !currentNodeId) return;
+      if (!currentUser || !currentCode) return;
       const status = document.getElementById('save-status');
       status.textContent = '儲存中…';
       const payload = {
@@ -396,8 +422,8 @@
         payload.quota = document.getElementById('f-quota').value.trim() || null;
       }
       try {
-        await setDoc(doc(db, 'overrides', currentNodeId), payload);
-        allOverrides[currentNodeId] = payload;
+        await setDoc(doc(db, 'overrides', currentCode), payload);
+        allOverrides[currentCode] = payload;
         status.textContent = '已儲存 ✓';
         renderOverrideList();
       } catch (err) {
@@ -406,15 +432,15 @@
     };
 
     window.resetOverride = async function() {
-      if (!currentUser || !currentNodeId) return;
-      if (!allOverrides[currentNodeId]) { document.getElementById('save-status').textContent = '（本來就沒有覆寫紀錄）'; return; }
+      if (!currentUser || !currentCode) return;
+      if (!allOverrides[currentCode]) { document.getElementById('save-status').textContent = '（本來就沒有覆寫紀錄）'; return; }
       if (!confirm('確定要刪除此節點的後台編輯紀錄，還原為原始資料嗎？')) return;
       try {
-        await deleteDoc(doc(db, 'overrides', currentNodeId));
-        delete allOverrides[currentNodeId];
+        await deleteDoc(doc(db, 'overrides', currentCode));
+        delete allOverrides[currentCode];
         document.getElementById('save-status').textContent = '已還原為原始資料';
         renderOverrideList();
-        selVillage.dispatchEvent(new Event('change'));
+        selDistrict.dispatchEvent(new Event('change'));
       } catch (err) {
         document.getElementById('save-status').textContent = '還原失敗：' + err.message;
       }
