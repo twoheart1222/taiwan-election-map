@@ -428,13 +428,24 @@
             去選舉黃頁查詢 ↗
           </a>
           <input placeholder="照片網址（在候選人照片上按右鍵→複製圖片網址，貼在這）" class="c-photourl flex-1 bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.photoUrl || '')}">
+          <div class="c-photopreview w-8 h-8 rounded-lg border border-ink-300 bg-surface shrink-0 overflow-hidden flex items-center justify-center">
+            ${c.photoUrl ? `<img src="${escapeAttr(c.photoUrl)}" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='<span class=&quot;text-accent-red text-[9px] font-bold&quot;>失敗</span>'">` : ''}
+          </div>
         </div>
       `;
       document.getElementById('candidate-rows').appendChild(row);
       const nameInput = row.querySelector('.c-name');
       const olcLink = row.querySelector('a');
+      const photoInput = row.querySelector('.c-photourl');
+      const photoPreview = row.querySelector('.c-photopreview');
       nameInput.addEventListener('input', () => {
         olcLink.href = `https://elections.olc.tw/candidates/name/${encodeURIComponent(nameInput.value.trim())}`;
+      });
+      photoInput.addEventListener('change', () => {
+        const url = photoInput.value.trim();
+        photoPreview.innerHTML = url
+          ? `<img src="${url}" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='<span class=&quot;text-accent-red text-[9px] font-bold&quot;>失敗</span>'">`
+          : '';
       });
       lucide.createIcons();
     };
