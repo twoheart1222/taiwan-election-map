@@ -917,10 +917,12 @@
       document.body.classList.add('splash-loaded');
       lucide.createIcons();
     }
-    // 立即啟動，不要等 window 的 load 事件（那會等所有字型/地圖圖磚/外部
-    // CDN 資源全部下載完才開始，白白拖慢「資料載入中」畫面停留的時間）。
-    // 這個 <script> 已經在 </body> 前面，DOM 都準備好了，可以馬上跑。
-    init();
+    // 等 DOMContentLoaded（HTML 解析完、module script 也執行完）再啟動，
+    // 比 window 的 load 事件快（不用等圖片/字型這些外部資源全部下載完），
+    // 但又比「解析到就立刻執行」安全——上面讀 Firebase 後台資料那段是
+    // <script type="module">，瀏覽器規定 module 一定會延後執行，太早呼叫
+    // 會抓不到它掛在 window 上的函式。
+    document.addEventListener('DOMContentLoaded', init);
   </script>
 </body>
 </html>
