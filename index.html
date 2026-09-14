@@ -103,6 +103,28 @@
       box-shadow: 2px 2px 0px rgba(20,21,23,0.25);
     }
     .region-tooltip::before { display: none; }
+
+    /* 手機版：點擊右上角搜尋按鈕後，下拉選單變成一個懸浮面板，選項直式排列方便手指點選 */
+    @media (max-width: 639px) {
+      #filter-bar.mobile-filter-open {
+        display: flex !important;
+        flex-direction: column;
+        position: fixed;
+        top: 68px;
+        left: 12px;
+        right: 12px;
+        z-index: 40;
+        background: #FFFFFF;
+        border: 1.5px solid #141517;
+        border-radius: 16px;
+        padding: 12px;
+        gap: 8px;
+        box-shadow: 4px 4px 0px #141517;
+      }
+      #filter-bar.mobile-filter-open select {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body class="bg-canvas text-ink-900 h-screen w-screen overflow-hidden flex flex-col font-sans select-none">
@@ -121,23 +143,23 @@
   </div>
 
   <!-- 頂部導覽列 -->
-  <header class="h-20 px-6 sm:px-10 bg-surface border-b editorial-border flex items-center justify-between z-20 shrink-0">
-    <div class="flex items-center space-x-6">
-      <div class="flex items-center space-x-3 cursor-pointer" onclick="switchView('map')">
-        <div class="w-10 h-10 bg-accent-orange rounded-lg border editorial-border flex items-center justify-center shadow-[2px_2px_0px_#141517]">
-          <i data-lucide="layers" class="w-5 h-5 text-surface stroke-[2.5]"></i>
+  <header class="h-16 sm:h-20 px-4 sm:px-10 bg-surface border-b editorial-border flex items-center justify-between z-20 shrink-0">
+    <div class="flex items-center space-x-3 sm:space-x-6 min-w-0">
+      <div class="flex items-center space-x-2 sm:space-x-3 cursor-pointer min-w-0" onclick="switchView('map')">
+        <div class="w-9 h-9 sm:w-10 sm:h-10 bg-accent-orange rounded-lg border editorial-border flex items-center justify-center shadow-[2px_2px_0px_#141517] shrink-0">
+          <i data-lucide="layers" class="w-4 h-4 sm:w-5 sm:h-5 text-surface stroke-[2.5]"></i>
         </div>
-        <div>
-          <div class="flex items-center space-x-2">
+        <div class="min-w-0">
+          <div class="hidden sm:flex items-center space-x-2">
             <span class="text-[11px] font-black uppercase tracking-wider text-accent-orange">Politics Design Lab</span>
             <span class="text-[10px] font-bold px-1.5 py-0.2 rounded bg-ink-900 text-surface">2026</span>
           </div>
-          <h1 class="text-xl font-black tracking-tight text-ink-900">全台選舉開箱圖鑑</h1>
+          <h1 class="text-sm sm:text-xl font-black tracking-tight text-ink-900 truncate">全台選舉開箱圖鑑</h1>
         </div>
       </div>
 
       <!-- 分頁切換 Tabs -->
-      <nav class="hidden md:flex items-center space-x-1 bg-canvas p-1 rounded-xl border editorial-border">
+      <nav class="hidden md:flex items-center space-x-1 bg-canvas p-1 rounded-xl border editorial-border shrink-0">
         <button id="tab-map" onclick="switchView('map')" class="px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 bg-ink-900 text-surface shadow-sm">
           <i data-lucide="map" class="w-3.5 h-3.5"></i>
           <span>選情地圖</span>
@@ -149,17 +171,24 @@
       </nav>
     </div>
 
-    <!-- 右側：三級聯動下拉選單（與地圖點擊互為捷徑，效果相同） -->
-    <div id="filter-bar" class="flex items-center space-x-2">
-      <select id="select-city" class="select-editorial bg-canvas border editorial-border rounded-xl px-3.5 py-2 pr-8 text-xs font-bold text-ink-900 cursor-pointer shadow-[2px_2px_0px_#141517] focus:outline-none">
-        <option value="">選擇縣市 (22)</option>
-      </select>
-      <select id="select-district" disabled class="select-editorial bg-canvas border editorial-border rounded-xl px-3.5 py-2 pr-8 text-xs font-bold text-ink-900 cursor-pointer shadow-[2px_2px_0px_#141517] focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed">
-        <option value="">選擇鄉鎮市區</option>
-      </select>
-      <select id="select-village" disabled class="select-editorial bg-canvas border editorial-border rounded-xl px-3.5 py-2 pr-8 text-xs font-bold text-ink-900 cursor-pointer shadow-[2px_2px_0px_#141517] focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed">
-        <option value="">選擇村里</option>
-      </select>
+    <!-- 右側：手機上收合成一顆搜尋按鈕，展開後跟桌機一樣是三級聯動下拉選單（與地圖點擊互為捷徑） -->
+    <div class="flex items-center space-x-1.5 sm:space-x-2 shrink-0">
+      <button id="mobile-filter-toggle" onclick="toggleMobileFilters()" title="選擇縣市/鄉鎮市區/村里" class="sm:hidden p-2 rounded-xl bg-canvas border editorial-border shadow-[2px_2px_0px_#141517] active:scale-95">
+        <i data-lucide="list-filter" class="w-4 h-4 text-ink-700"></i>
+      </button>
+
+      <div id="filter-bar" class="hidden sm:flex items-center space-x-2">
+        <select id="select-city" class="select-editorial bg-canvas border editorial-border rounded-xl px-3.5 py-2 pr-8 text-xs font-bold text-ink-900 cursor-pointer shadow-[2px_2px_0px_#141517] focus:outline-none">
+          <option value="">選擇縣市 (22)</option>
+        </select>
+        <select id="select-district" disabled class="select-editorial bg-canvas border editorial-border rounded-xl px-3.5 py-2 pr-8 text-xs font-bold text-ink-900 cursor-pointer shadow-[2px_2px_0px_#141517] focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed">
+          <option value="">選擇鄉鎮市區</option>
+        </select>
+        <select id="select-village" disabled class="select-editorial bg-canvas border editorial-border rounded-xl px-3.5 py-2 pr-8 text-xs font-bold text-ink-900 cursor-pointer shadow-[2px_2px_0px_#141517] focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed">
+          <option value="">選擇村里</option>
+        </select>
+      </div>
+
       <button onclick="resetAllFilters()" title="重置全視角" class="p-2 rounded-xl bg-canvas border editorial-border shadow-[2px_2px_0px_#141517] hover:bg-ink-100 transition active:scale-95">
         <i data-lucide="rotate-ccw" class="w-4 h-4 text-ink-700"></i>
       </button>
@@ -610,7 +639,23 @@
       const fc = topoToFeatures(villagesCache[currentTown.code]);
       const feature = fc.features.find(f => f.properties.name === name);
       if (feature) onVillageClick(feature, null);
+      closeMobileFilters();
     });
+
+    // 手機版搜尋面板開關（桌機版 sm 以上這顆按鈕本身是隱藏的，不會被呼叫到）
+    function toggleMobileFilters() {
+      const bar = document.getElementById('filter-bar');
+      const opening = !bar.classList.contains('mobile-filter-open');
+      bar.classList.toggle('mobile-filter-open', opening);
+      bar.classList.toggle('hidden', !opening);
+    }
+    function closeMobileFilters() {
+      const bar = document.getElementById('filter-bar');
+      bar.classList.remove('mobile-filter-open');
+      if (window.matchMedia('(max-width: 639px)').matches) {
+        bar.classList.add('hidden');
+      }
+    }
 
     // 6. 麵包屑導覽
     function updateBreadcrumb() {
@@ -637,6 +682,7 @@
 
     function goToCountyLevel() {
       closeDrawer();
+      closeMobileFilters();
       renderCountyLayer();
       selectCity.value = '';
       selectDistrict.innerHTML = '<option value="">選擇鄉鎮市區</option>';
@@ -809,18 +855,22 @@
       const tabMap = document.getElementById('tab-map');
       const tabLinks = document.getElementById('tab-links');
       const filterBar = document.getElementById('filter-bar');
+      const mobileToggle = document.getElementById('mobile-filter-toggle');
 
       if (viewName === 'map') {
         viewMap.classList.remove('hidden');
         viewLinks.classList.add('hidden');
-        filterBar.classList.remove('hidden');
+        mobileToggle.classList.remove('hidden');
+        mobileToggle.classList.add('sm:hidden');
         tabMap.className = 'px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 bg-ink-900 text-surface shadow-sm';
         tabLinks.className = 'px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 text-ink-700 hover:text-ink-900';
         map.invalidateSize();
       } else {
         viewMap.classList.add('hidden');
         viewLinks.classList.remove('hidden');
+        closeMobileFilters();
         filterBar.classList.add('hidden');
+        mobileToggle.classList.add('hidden');
         tabLinks.className = 'px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 bg-ink-900 text-surface shadow-sm';
         tabMap.className = 'px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 text-ink-700 hover:text-ink-900';
         renderSites();
