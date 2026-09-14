@@ -780,17 +780,17 @@
       return `
         <div class="card-brutal bg-surface rounded-2xl p-4 sm:p-5 space-y-3 relative overflow-hidden">
           <div class="flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-              <div class="w-16 h-16 rounded-xl bg-canvas border editorial-border flex items-center justify-center font-black text-ink-900 text-xl shadow-sm overflow-hidden shrink-0">
+            <div class="flex items-center space-x-3.5">
+              <div class="w-20 h-20 rounded-xl bg-canvas border editorial-border flex items-center justify-center font-black text-ink-900 text-2xl shadow-sm overflow-hidden shrink-0">
                 ${avatarBlock}
               </div>
               <div>
-                <h4 class="text-base font-black text-ink-900">${c.name}</h4>
-                <div class="flex items-center space-x-1.5 mt-0.5">
+                <h4 class="text-lg font-black text-ink-900">${c.name}</h4>
+                <div class="flex items-center space-x-1.5 mt-1">
                   ${party.svgLogo}
-                  <span class="text-xs font-black text-ink-700">${c.party}</span>
+                  <span class="text-sm font-black text-ink-700">${c.party}</span>
                   <span class="text-ink-300">•</span>
-                  <span class="text-[11px] font-bold text-accent-orange">${c.role}</span>
+                  <span class="text-xs font-bold text-accent-orange">${c.role}</span>
                 </div>
               </div>
             </div>
@@ -836,6 +836,16 @@
             <option value="">選擇選舉區查看候選人</option>
             ${groupSection.blocks.map(b => `<option value="${b.district}">第 ${b.district} 選舉區（${b.candidates.length} 人登記）</option>`).join('')}
           </select>
+          <div id="district-stats" class="hidden grid grid-cols-2 gap-2">
+            <div class="p-2 rounded-lg bg-canvas border border-ink-200 text-center">
+              <span class="text-[10px] font-bold text-ink-500 block uppercase">應選席次</span>
+              <span id="district-quota" class="text-sm font-black text-accent-orange">--</span>
+            </div>
+            <div class="p-2 rounded-lg bg-canvas border border-ink-200 text-center">
+              <span class="text-[10px] font-bold text-ink-500 block uppercase">登記席次</span>
+              <span id="district-registered" class="text-sm font-black text-accent-blue">--</span>
+            </div>
+          </div>
           <div id="district-candidates" class="space-y-2 pt-1"></div>
         `;
       }
@@ -845,8 +855,16 @@
       if (groupSection && groupSection.blocks && groupSection.blocks.length > 0) {
         const picker = document.getElementById('district-picker');
         const out = document.getElementById('district-candidates');
+        const statsBox = document.getElementById('district-stats');
         picker.addEventListener('change', () => {
           const block = groupSection.blocks.find(b => b.district === picker.value);
+          if (block) {
+            statsBox.classList.remove('hidden');
+            document.getElementById('district-quota').textContent = block.quota || '--';
+            document.getElementById('district-registered').textContent = `${block.candidates.length} 人`;
+          } else {
+            statsBox.classList.add('hidden');
+          }
           out.innerHTML = block ? block.candidates.map(renderCandidateCard).join('') : '';
           lucide.createIcons();
         });
