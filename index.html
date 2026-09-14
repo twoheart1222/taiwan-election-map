@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026 全台選舉開箱圖鑑 | POLITICS DESIGN</title>
+
+  <!-- Google Fonts: 現代英文無襯線 + 思源黑體 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', '"Noto Sans TC"', 'sans-serif'],
+          },
+          colors: {
+            canvas: '#F6F6F3',
+            surface: '#FFFFFF',
+            ink: {
+              900: '#141517',
+              700: '#3A3F45',
+              500: '#6E7681',
+              300: '#C9CED6',
+              100: '#EAECEE',
+            },
+            accent: {
+              orange: '#FF5722',
+              yellow: '#FFC837',
+              lime: '#22C55E',
+              blue: '#2563EB',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Leaflet 地圖套件 -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- Lucide 圖示 -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    .editorial-border {
+      border: 1.5px solid #141517;
+    }
+    .card-brutal {
+      border: 1.5px solid #141517;
+      box-shadow: 4px 4px 0px #141517;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .card-brutal:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0px #141517;
+    }
+    .select-editorial {
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23141517' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+      background-size: 1rem;
+    }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-thumb { background: #C9CED6; border-radius: 4px; }
+
+    /* 開場動畫加載遮罩 */
+    #splash-screen {
+      transition: opacity 0.5s ease-out, visibility 0.5s;
+    }
+    .splash-loaded #splash-screen {
+      opacity: 0;
+      visibility: hidden;
+    }
+  </style>
+</head>
+<body class="bg-canvas text-ink-900 h-screen w-screen overflow-hidden flex flex-col font-sans select-none">
+
+  <!-- 開場質感 Splash Loader -->
+  <div id="splash-screen" class="fixed inset-0 z-50 bg-ink-900 flex flex-col items-center justify-center text-surface">
+    <div class="flex flex-col items-center space-y-4 animate-pulse">
+      <div class="w-14 h-14 bg-accent-orange rounded-2xl border-2 border-surface flex items-center justify-center shadow-[4px_4px_0px_#FFFFFF]">
+        <i data-lucide="layers" class="w-7 h-7 text-surface stroke-[2.5]"></i>
+      </div>
+      <div class="text-center">
+        <h2 class="text-xl font-black tracking-widest uppercase">POLITICS DESIGN</h2>
+        <p class="text-xs text-ink-300 font-medium tracking-widest mt-1">2026 全台基層選舉資料載入中...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 頂部導覽列 -->
+  <header class="h-20 px-6 sm:px-10 bg-surface border-b editorial-border flex items-center justify-between z-20 shrink-0">
+    <div class="flex items-center space-x-6">
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="switchView('map')">
+        <div class="w-10 h-10 bg-accent-orange rounded-lg border editorial-border flex items-center justify-center shadow-[2px_2px_0px_#141517]">
+          <i data-lucide="layers" class="w-5 h-5 text-surface stroke-[2.5]"></i>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="text-[11px] font-black uppercase tracking-wider text-accent-orange">Politics Design Lab</span>
+            <span class="text-[10px] font-bold px-1.5 py-0.2 rounded bg-ink-900 text-surface">2026</span>
+          </div>
+          <h1 class="text-xl font-black tracking-tight text-ink-900">全台選舉開箱圖鑑</h1>
+        </div>
+      </div>
+
+      <!-- 分頁切換 Tabs -->
+      <nav class="hidden md:flex items-center space-x-1 bg-canvas p-1 rounded-xl border editorial-border">
+        <button id="tab-map" onclick="switchView('map')" class="px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 bg-ink-900 text-surface shadow-sm">
+          <i data-lucide="map" class="w-3.5 h-3.5"></i>
+          <span>選情地圖</span>
+        </button>
+        <button id="tab-links" onclick="switchView('links')" class="px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 text-ink-700 hover:text-ink-900">
+          <i data-lucide="globe" class="w-3.5 h-3.5"></i>
+          <span>政治觀測站</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- 右側：全台完整三級聯動下拉選單 (縣市 -> 鄉鎮市區 -> 村里) -->
+    <div id="filter-bar" class="flex items-center space-x-2">
+      <select id="select-city" class="select-editorial bg-canvas border editorial-border rounded-xl px-3.5 py-2 pr-8 text-xs font-bold text-ink-900 cursor-pointer shadow-[2px_2px_0px_#141517] focus:outline-none">
+        <option value="">選擇縣市 (22)</option>
+      </select>
+      <select id="select-district" disabled class="select-editorial bg-canvas border editorial-border rounded-xl px-3.5 py-2 pr-8 text-xs font-bold text-ink-900 cursor-pointer shadow-[2px_2px_0px_#141517] focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed">
+        <option value="">選擇鄉鎮市區</option>
+      </select>
+      <select id="select-village" disabled class="select-editorial bg-canvas border editorial-border rounded-xl px-3.5 py-2 pr-8 text-xs font-bold text-ink-900 cursor-pointer shadow-[2px_2px_0px_#141517] focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed">
+        <option value="">選擇村里</option>
+      </select>
+      <button onclick="resetAllFilters()" title="重置全視角" class="p-2 rounded-xl bg-canvas border editorial-border shadow-[2px_2px_0px_#141517] hover:bg-ink-100 transition active:scale-95">
+        <i data-lucide="rotate-ccw" class="w-4 h-4 text-ink-700"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- 主視圖 A: 地圖與候選人抽屜 -->
+  <main id="view-map" class="relative flex-1 w-full h-full overflow-hidden flex">
+    <div id="map" class="w-full h-full z-10 bg-[#EAECEE]"></div>
+
+    <!-- 左下浮動資訊 -->
+    <div class="absolute bottom-8 left-8 z-20 hidden md:block max-w-sm pointer-events-none">
+      <div class="bg-surface p-4 rounded-2xl border editorial-border shadow-[4px_4px_0px_#141517] space-y-1.5 pointer-events-auto">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] font-black uppercase tracking-wider text-accent-orange">2026 九合一選舉</span>
+          <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-accent-yellow border border-ink-900">村里級完整覆蓋</span>
+        </div>
+        <h3 class="text-sm font-black text-ink-900">三級行政區穿透查詢</h3>
+        <p class="text-xs text-ink-500 leading-relaxed">
+          透過上方下拉式選單選擇縣市、鄉鎮市區與村里，即可調閱最新審定之候選人名冊與選舉公報發布狀態。
+        </p>
+      </div>
+    </div>
+
+    <!-- 右側滑出抽屜 (Offcanvas Drawer) -->
+    <aside id="detail-drawer" class="absolute top-0 right-0 h-full w-full sm:w-[460px] bg-surface z-30 border-l editorial-border transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col shadow-[-10px_0px_30px_rgba(0,0,0,0.06)]">
+      <div class="p-6 border-b border-ink-100 flex items-start justify-between bg-canvas/60">
+        <div>
+          <div class="flex items-center space-x-2">
+            <span id="drawer-region-tag" class="text-xs font-black px-2.5 py-0.5 rounded bg-ink-900 text-surface">
+              直轄市
+            </span>
+            <span id="drawer-path" class="text-xs font-bold text-ink-500">全台灣視角</span>
+          </div>
+          <h2 id="drawer-region-title" class="text-3xl font-black mt-2 text-ink-900 tracking-tight">台北市</h2>
+        </div>
+        <button onclick="closeDrawer()" class="p-2 rounded-full border border-ink-300 hover:bg-ink-900 hover:text-surface transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3 p-5 bg-surface border-b border-ink-100">
+        <div class="p-3 rounded-xl bg-canvas border border-ink-300">
+          <span class="text-[11px] font-bold text-ink-500 block uppercase">選舉人口估計</span>
+          <span id="drawer-voter-count" class="text-lg font-black text-ink-900 mt-0.5 block">--</span>
+        </div>
+        <div class="p-3 rounded-xl bg-canvas border border-ink-300">
+          <span class="text-[11px] font-bold text-ink-500 block uppercase">應選席次</span>
+          <span id="drawer-quota" class="text-lg font-black text-accent-orange mt-0.5 block">--</span>
+        </div>
+      </div>
+
+      <!-- 候選人卡片清單 -->
+      <div class="flex-1 overflow-y-auto p-5 space-y-4 bg-canvas/40" id="candidates-container"></div>
+    </aside>
+  </main>
+
+  <!-- 主視圖 B: 政治觀測站 (精選資源) -->
+  <main id="view-links" class="hidden flex-1 w-full h-full overflow-y-auto bg-canvas p-6 sm:p-12">
+    <div class="max-w-6xl mx-auto space-y-8 pb-16">
+      <div class="bg-surface p-8 rounded-3xl border editorial-border shadow-[6px_6px_0px_#141517] relative overflow-hidden">
+        <div class="max-w-2xl space-y-3 relative z-10">
+          <div class="inline-flex items-center space-x-2 px-2.5 py-1 rounded-full bg-accent-yellow border border-ink-900 text-xs font-black">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+            <span>CURATED DIRECTORY</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-black text-ink-900 tracking-tight">政治資料與公民觀測站</h2>
+          <p class="text-sm text-ink-700 font-medium leading-relaxed">
+            收錄中央選舉委員會公開資料庫、國會議事轉播、政治獻金平台與優質公民科技專案。
+          </p>
+          <div class="pt-2">
+            <span class="text-xs font-bold text-ink-500 bg-canvas px-3 py-1.5 rounded-lg border border-ink-300 inline-flex items-center space-x-1.5">
+              <i data-lucide="lock" class="w-3.5 h-3.5 text-accent-orange"></i>
+              <span>本站連結由維護者統一校閱發布，確保資訊真實可信。</span>
+            </span>
+          </div>
+        </div>
+        <div class="absolute -right-8 -bottom-8 opacity-10 pointer-events-none hidden sm:block">
+          <i data-lucide="landmark" class="w-64 h-64 text-ink-900"></i>
+        </div>
+      </div>
+
+      <div id="sites-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </div>
+  </main>
+
+  <script>
+    // 1. 政黨徽章與標準色
+    const PARTY_CONFIG = {
+      '民主進步黨': {
+        color: '#1B9431',
+        svgLogo: `<svg viewBox="0 0 100 100" class="w-5 h-5 rounded-full border border-ink-900 bg-white inline-block shrink-0"><circle cx="50" cy="50" r="48" fill="#1B9431"/><rect x="42" y="15" width="16" height="70" fill="#FFFFFF"/><rect x="15" y="42" width="70" height="16" fill="#FFFFFF"/><polygon points="50,26 62,50 50,74 38,50" fill="#1B9431"/></svg>`
+      },
+      '中國國民黨': {
+        color: '#002B82',
+        svgLogo: `<svg viewBox="0 0 100 100" class="w-5 h-5 rounded-full border border-ink-900 bg-[#002B82] inline-block shrink-0"><circle cx="50" cy="50" r="48" fill="#002B82"/><circle cx="50" cy="50" r="20" fill="#FFFFFF"/><path d="M50 8 L54 30 L65 14 L62 34 L77 24 L68 40 L85 36 L72 47 L90 50 L72 53 L85 64 L68 60 L77 76 L62 66 L65 86 L54 70 L50 92 L46 70 L35 86 L38 66 L23 76 L32 60 L15 64 L28 53 L10 50 L28 47 L15 36 L32 40 L23 24 L38 34 L35 14 L46 30 Z" fill="#FFFFFF"/><circle cx="50" cy="50" r="16" fill="#002B82"/><circle cx="50" cy="50" r="14" fill="#FFFFFF"/></svg>`
+      },
+      '台灣民眾黨': {
+        color: '#28C7C7',
+        svgLogo: `<svg viewBox="0 0 100 100" class="w-5 h-5 rounded-full border border-ink-900 bg-[#28C7C7] inline-block shrink-0"><text x="50" y="65" font-size="36" font-weight="900" fill="#FFFFFF" text-anchor="middle" font-family="sans-serif">眾</text></svg>`
+      },
+      '時代力量': {
+        color: '#F5C200',
+        svgLogo: `<svg viewBox="0 0 100 100" class="w-5 h-5 rounded-full border border-ink-900 bg-[#F5C200] inline-block shrink-0"><text x="50" y="66" font-size="38" font-weight="900" fill="#141517" text-anchor="middle" font-family="sans-serif">力</text></svg>`
+      },
+      '無黨籍': {
+        color: '#6E7681',
+        svgLogo: `<svg viewBox="0 0 100 100" class="w-5 h-5 rounded-full border border-ink-900 bg-ink-100 inline-block shrink-0"><text x="50" y="64" font-size="36" font-weight="900" fill="#3A3F45" text-anchor="middle" font-family="sans-serif">無</text></svg>`
+      }
+    };
+
+    // 2. 政治觀測站清單
+    const CURATED_SITES = [
+      { name: '中選會選舉資料庫網站', category: '官方數據庫', url: 'https://db.cec.gov.tw/', desc: '中央選舉委員會歷屆公職選舉、登記名冊與官方選舉公報查詢。' },
+      { name: '立法院議事轉播 (IVOD)', category: '政見與法案監督', url: 'https://ivod.ly.gov.tw/', desc: '國會院會與各委員會全天候即時視訊轉播與歷史隨選隨播系統。' },
+      { name: '監察院政治獻金公開平臺', category: '陽光法案開放', url: 'https://ardata.cy.gov.tw/', desc: '全民共同檢驗各政黨與候選人合法申報之收支帳冊與競選資金流向。' },
+      { name: '沃草 Watchout 國會觀測', category: '公民科技媒體', url: 'https://watchout.tw/', desc: '以圖文與資訊設計降低公民政治參與門檻的獨立媒體平台。' },
+      { name: '政治開箱 Politics Design', category: '政治視覺研究', url: 'https://politicsdesign.tw/', desc: '台灣當代政治競選美學與民主視覺溝通研究平台。' }
+    ];
+
+    // 全域變數
+    let ALL_REGIONS = [];
+    const map = L.map('map', { zoomControl: false, attributionControl: false }).setView([23.8, 120.9], 8);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { maxZoom: 19, subdomains: 'abcd' }).addTo(map);
+    L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+    const selectCity = document.getElementById('select-city');
+    const selectDistrict = document.getElementById('select-district');
+    const selectVillage = document.getElementById('select-village');
+
+    // 3. 異步載入資料層 (支援本機 CORS Fallback)
+    async function loadElectionData() {
+      try {
+        const res = await fetch('./taiwan_data.json');
+        if (!res.ok) throw new Error('Fetch failed');
+        ALL_REGIONS = await res.json();
+      } catch (err) {
+        console.warn('載入本地 taiwan_data.json 失敗，改用預設資料庫。', err);
+        ALL_REGIONS = getFallbackData();
+      }
+      initApp();
+    }
+
+    function initApp() {
+      // 渲染地圖地標
+      ALL_REGIONS.forEach(r => {
+        const pin = L.divIcon({
+          className: 'custom-pin',
+          html: `
+            <button class="flex items-center space-x-1.5 bg-surface px-2.5 py-1 rounded-full border editorial-border shadow-[2px_2px_0px_#141517] hover:bg-accent-orange hover:text-white transition group active:scale-95">
+              <span class="w-2 h-2 rounded-full bg-accent-orange group-hover:bg-white transition-colors"></span>
+              <span class="text-[11px] font-black tracking-tight text-ink-900 group-hover:text-white">${r.name}</span>
+            </button>
+          `,
+          iconSize: [90, 32],
+          iconAnchor: [45, 16]
+        });
+        const marker = L.marker(r.coords, { icon: pin }).addTo(map);
+        marker.on('click', () => {
+          selectCity.value = r.name;
+          onCityChange();
+        });
+      });
+
+      // 初始化縣市選單
+      ALL_REGIONS.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.name;
+        opt.textContent = `${c.name} (${c.category})`;
+        selectCity.appendChild(opt);
+      });
+
+      selectCity.addEventListener('change', onCityChange);
+      selectDistrict.addEventListener('change', onDistrictChange);
+      selectVillage.addEventListener('change', onVillageChange);
+
+      // 關閉 Splash Loader
+      document.body.classList.add('splash-loaded');
+      lucide.createIcons();
+    }
+
+    // 4. 三級聯動下拉選單
+    function onCityChange() {
+      const cityName = selectCity.value;
+      selectDistrict.innerHTML = '<option value="">選擇鄉鎮市區</option>';
+      selectVillage.innerHTML = '<option value="">選擇村里</option>';
+      selectVillage.disabled = true;
+
+      if (!cityName) {
+        selectDistrict.disabled = true;
+        resetMap();
+        return;
+      }
+
+      const city = ALL_REGIONS.find(c => c.name === cityName);
+      if (city) {
+        selectDistrict.disabled = false;
+        city.districts.forEach(d => {
+          const opt = document.createElement('option');
+          opt.value = d.name;
+          opt.textContent = d.name;
+          selectDistrict.appendChild(opt);
+        });
+
+        map.flyTo(city.coords, 11, { duration: 1.1 });
+        renderDrawer(city.name, `${city.name}首長選舉`, city.category, city.voters, city.quota, city.candidates);
+      }
+    }
+
+    function onDistrictChange() {
+      const cityName = selectCity.value;
+      const distName = selectDistrict.value;
+      selectVillage.innerHTML = '<option value="">選擇村里</option>';
+
+      if (!distName) {
+        selectVillage.disabled = true;
+        onCityChange();
+        return;
+      }
+
+      const city = ALL_REGIONS.find(c => c.name === cityName);
+      const dist = city.districts.find(d => d.name === distName);
+
+      if (dist) {
+        selectVillage.disabled = false;
+        dist.villages.forEach(v => {
+          const opt = document.createElement('option');
+          opt.value = v.name;
+          opt.textContent = v.name;
+          selectVillage.appendChild(opt);
+        });
+
+        map.flyTo(dist.coords, 13, { duration: 1 });
+        // 行政區抽屜：顯示民代名冊
+        const distCandidates = (dist.candidates && dist.candidates.length > 0) ? dist.candidates : city.candidates;
+        renderDrawer(`${city.name} > ${dist.name}`, `${dist.name} 公職名冊`, '行政區轄區', '依選舉區劃分', '多席次應選', distCandidates);
+      }
+    }
+
+    function onVillageChange() {
+      const cityName = selectCity.value;
+      const distName = selectDistrict.value;
+      const villName = selectVillage.value;
+
+      if (!villName) {
+        onDistrictChange();
+        return;
+      }
+
+      const city = ALL_REGIONS.find(c => c.name === cityName);
+      const dist = city.districts.find(d => d.name === distName);
+      const vill = dist.villages.find(v => v.name === villName);
+
+      if (vill) {
+        map.flyTo(vill.coords, 15, { duration: 1 });
+        renderDrawer(`${city.name} > ${dist.name} > ${vill.name}`, `${vill.name} 里長選舉`, '最基層村里', '約 3,500 人', '1 席', vill.candidates);
+      }
+    }
+
+    function resetAllFilters() {
+      selectCity.value = '';
+      selectDistrict.innerHTML = '<option value="">選擇鄉鎮市區</option>';
+      selectDistrict.disabled = true;
+      selectVillage.innerHTML = '<option value="">選擇村里</option>';
+      selectVillage.disabled = true;
+      resetMap();
+    }
+
+    // 5. 抽屜渲染（取消政見，改為官方選舉公報專屬預留位）
+    function renderDrawer(path, title, tag, voters, quota, candidates) {
+      document.getElementById('drawer-path').textContent = path;
+      document.getElementById('drawer-region-title').textContent = title;
+      document.getElementById('drawer-region-tag').textContent = tag;
+      document.getElementById('drawer-voter-count').textContent = voters || '--';
+      document.getElementById('drawer-quota').textContent = quota || '--';
+
+      const container = document.getElementById('candidates-container');
+      if (!candidates || candidates.length === 0) {
+        container.innerHTML = `
+          <div class="bg-surface p-6 rounded-2xl border editorial-border text-center space-y-2">
+            <i data-lucide="info" class="w-6 h-6 text-ink-500 mx-auto"></i>
+            <p class="text-xs font-bold text-ink-700">該選區目前登記名冊核定中</p>
+          </div>
+        `;
+      } else {
+        container.innerHTML = candidates.map(c => {
+          const party = PARTY_CONFIG[c.party] || PARTY_CONFIG['無黨籍'];
+          const gazetteBlock = c.gazetteUrl
+            ? `
+              <a href="${c.gazetteUrl}" target="_blank" class="w-full inline-flex items-center justify-center space-x-2 py-2.5 rounded-xl bg-ink-900 text-surface text-xs font-bold hover:bg-accent-orange transition">
+                <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+                <span>查閱官方選舉公報 (PDF)</span>
+              </a>
+            `
+            : `
+              <div class="bg-canvas/90 p-3 rounded-xl border border-ink-100 flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                  <span class="w-2 h-2 rounded-full bg-accent-yellow animate-pulse"></span>
+                  <span class="text-[11px] font-bold text-ink-700">選舉公報審定中</span>
+                </div>
+                <span class="text-[10px] font-extrabold text-ink-500 bg-surface px-2 py-0.5 rounded border border-ink-300">
+                  待中選會統一公布
+                </span>
+              </div>
+            `;
+
+          return `
+            <div class="card-brutal bg-surface rounded-2xl p-4 sm:p-5 space-y-3 relative overflow-hidden">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                  <div class="w-12 h-12 rounded-xl bg-canvas border editorial-border flex items-center justify-center font-black text-ink-900 text-base shadow-sm">
+                    ${c.name.slice(0, 1)}
+                  </div>
+                  <div>
+                    <h4 class="text-base font-black text-ink-900">${c.name}</h4>
+                    <div class="flex items-center space-x-1.5 mt-0.5">
+                      ${party.svgLogo}
+                      <span class="text-xs font-black text-ink-700">${c.party}</span>
+                      <span class="text-ink-300">•</span>
+                      <span class="text-[11px] font-bold text-accent-orange">${c.role}</span>
+                    </div>
+                  </div>
+                </div>
+                <span class="text-[10px] font-black uppercase px-2 py-1 rounded bg-canvas border border-ink-300 text-ink-500">已登記</span>
+              </div>
+              <div class="pt-1">${gazetteBlock}</div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      document.getElementById('detail-drawer').classList.remove('translate-x-full');
+      lucide.createIcons();
+    }
+
+    function closeDrawer() {
+      document.getElementById('detail-drawer').classList.add('translate-x-full');
+    }
+
+    function resetMap() {
+      closeDrawer();
+      map.flyTo([23.8, 120.9], 8, { duration: 1.1 });
+    }
+
+    // 6. 分頁切換
+    function switchView(viewName) {
+      const viewMap = document.getElementById('view-map');
+      const viewLinks = document.getElementById('view-links');
+      const tabMap = document.getElementById('tab-map');
+      const tabLinks = document.getElementById('tab-links');
+      const filterBar = document.getElementById('filter-bar');
+
+      if (viewName === 'map') {
+        viewMap.classList.remove('hidden');
+        viewLinks.classList.add('hidden');
+        filterBar.classList.remove('hidden');
+        tabMap.className = 'px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 bg-ink-900 text-surface shadow-sm';
+        tabLinks.className = 'px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 text-ink-700 hover:text-ink-900';
+        map.invalidateSize();
+      } else {
+        viewMap.classList.add('hidden');
+        viewLinks.classList.remove('hidden');
+        filterBar.classList.add('hidden');
+        tabLinks.className = 'px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 bg-ink-900 text-surface shadow-sm';
+        tabMap.className = 'px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 text-ink-700 hover:text-ink-900';
+        renderSites();
+      }
+      lucide.createIcons();
+    }
+
+    function renderSites() {
+      const grid = document.getElementById('sites-grid');
+      grid.innerHTML = CURATED_SITES.map(s => `
+        <div class="card-brutal bg-surface rounded-2xl p-6 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-black uppercase px-2.5 py-1 rounded bg-canvas border border-ink-300 text-ink-700">
+                ${s.category}
+              </span>
+              <i data-lucide="external-link" class="w-4 h-4 text-ink-500"></i>
+            </div>
+            <h3 class="text-lg font-black text-ink-900">${s.name}</h3>
+            <p class="text-xs text-ink-500 font-medium leading-relaxed">${s.desc}</p>
+          </div>
+          <a href="${s.url}" target="_blank" rel="noopener noreferrer" class="w-full inline-flex items-center justify-center space-x-1.5 py-2.5 rounded-xl bg-canvas border editorial-border text-xs font-extrabold text-ink-900 hover:bg-ink-900 hover:text-surface transition">
+            <span>造訪官方平台</span>
+            <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+          </a>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    // 7. 內建備援資料庫
+    function getFallbackData() {
+      return [
+        {
+          id: "TPE", name: "台北市", category: "直轄市", coords: [25.0330, 121.5654], voters: "約 2,042,300 人", quota: "市長 1 席 / 議員 61 席",
+          candidates: [
+            { name: "蔣萬安", party: "中國國民黨", role: "直轄市長 (現任)", gazetteUrl: null },
+            { name: "沈伯洋", party: "民主進步黨", role: "直轄市長候選人", gazetteUrl: null }
+          ],
+          districts: [
+            {
+              name: "信義區", coords: [25.0334, 121.5645],
+              villages: [
+                { name: "三興里", coords: [25.0305, 121.5580], candidates: [{ name: "洪里長", party: "無黨籍", role: "里長候選人", gazetteUrl: null }] },
+                { name: "安康里", coords: [25.0350, 121.5690], candidates: [{ name: "陳里長", party: "中國國民黨", role: "里長候選人", gazetteUrl: null }] }
+              ]
+            }
+          ]
+        },
+        {
+          id: "NTPC", name: "新北市", category: "直轄市", coords: [25.0116, 121.4657], voters: "約 3,321,800 人", quota: "市長 1 席 / 議員 66 席",
+          candidates: [
+            { name: "李四川", party: "中國國民黨", role: "直轄市長候選人", gazetteUrl: null },
+            { name: "蘇巧慧", party: "民主進步黨", role: "直轄市長候選人", gazetteUrl: null }
+          ],
+          districts: [
+            {
+              name: "板橋區", coords: [25.0110, 121.4620],
+              villages: [
+                { name: "自強里", coords: [25.0140, 121.4610], candidates: [{ name: "郭里長", party: "無黨籍", role: "里長候選人", gazetteUrl: null }] }
+              ]
+            }
+          ]
+        }
+      ];
+    }
+
+    // 啟動資料載入流程
+    window.addEventListener('load', loadElectionData);
+  </script>
+</body>
+</html>
