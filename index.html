@@ -308,26 +308,27 @@
       appId: "1:603857399918:web:44fb7f95b20e127ad1b67f"
     };
 
-    let cachedOverrides = null;
+    let overridesPromise = null;
     // 還沒換成真的 Firebase 設定值之前，完全不嘗試連線，避免跳出 API key 相關錯誤
     const firebaseConfigured = firebaseConfig.apiKey !== 'YOUR_API_KEY';
 
-    async function fetchOverrides() {
-      if (!firebaseConfigured) return {};
-      if (cachedOverrides) return cachedOverrides;
-      try {
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const snap = await getDocs(collection(db, 'overrides'));
-        const out = {};
-        snap.forEach(d => { out[d.id] = d.data(); });
-        cachedOverrides = out;
-        return out;
-      } catch (err) {
-        console.warn('讀取後台編輯資料失敗，僅顯示原始候選人資料。', err);
-        cachedOverrides = {};
-        return {};
-      }
+    function fetchOverrides() {
+      if (!firebaseConfigured) return Promise.resolve({});
+      if (overridesPromise) return overridesPromise; // 同時有多個呼叫也只會真的查詢一次
+      overridesPromise = (async () => {
+        try {
+          const app = initializeApp(firebaseConfig);
+          const db = getFirestore(app);
+          const snap = await getDocs(collection(db, 'overrides'));
+          const out = {};
+          snap.forEach(d => { out[d.id] = d.data(); });
+          return out;
+        } catch (err) {
+          console.warn('讀取後台編輯資料失敗，僅顯示原始候選人資料。', err);
+          return {};
+        }
+      })();
+      return overridesPromise;
     }
 
     // 將 overrides 套用到一份剛載入的 topology：依 geometry 的 properties.id（縣市/鄉鎮市區/村里代碼）比對
@@ -439,11 +440,12 @@
       updateBreadcrumb();
 
       if (!countiesTopoCache) {
-        let topo = await fetchJSON('./data/counties.json');
-        const overrides = await window.__electionOverrides.fetchOverrides();
-        topo = window.__electionOverrides.applyOverridesToTopology(topo, overrides);
-        countiesTopoCache = topo;
-        populateCitySelect(topo);
+        const [topo, overrides] = await Promise.all([
+          fetchJSON('./data/counties.json'),
+          window.__electionOverrides.fetchOverrides(),
+        ]);
+        countiesTopoCache = window.__electionOverrides.applyOverridesToTopology(topo, overrides);
+        populateCitySelect(countiesTopoCache);
       }
 
       const fc = topoToFeatures(countiesTopoCache);
@@ -473,10 +475,11 @@
       currentTown = null;
 
       if (!townsCache[countyCode]) {
-        let topo = await fetchJSON(`./data/towns/towns-${countyCode}.json`);
-        const overrides = await window.__electionOverrides.fetchOverrides();
-        topo = window.__electionOverrides.applyOverridesToTopology(topo, overrides);
-        townsCache[countyCode] = topo;
+        const [topo, overrides] = await Promise.all([
+          fetchJSON(`./data/towns/towns-${countyCode}.json`),
+          window.__electionOverrides.fetchOverrides(),
+        ]);
+        townsCache[countyCode] = window.__electionOverrides.applyOverridesToTopology(topo, overrides);
       }
       const topo = townsCache[countyCode];
       const fc = topoToFeatures(topo);
@@ -508,10 +511,11 @@
       clearCurrentLayer();
 
       if (!villagesCache[townCode]) {
-        let topo = await fetchJSON(`./data/villages/villages-${townCode}.json`);
-        const overrides = await window.__electionOverrides.fetchOverrides();
-        topo = window.__electionOverrides.applyOverridesToTopology(topo, overrides);
-        villagesCache[townCode] = topo;
+        const [topo, overrides] = await Promise.all([
+          fetchJSON(`./data/villages/villages-${townCode}.json`),
+          window.__electionOverrides.fetchOverrides(),
+        ]);
+        villagesCache[townCode] = window.__electionOverrides.applyOverridesToTopology(topo, overrides);
       }
       const topo = villagesCache[townCode];
       const fc = topoToFeatures(topo);
