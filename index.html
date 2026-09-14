@@ -83,6 +83,13 @@
 
     /* 行政區邊界圖層 hover 效果由 JS 控制 fillOpacity，這裡只放游標樣式 */
     .leaflet-interactive { cursor: pointer; }
+    /* 底圖來源標示，做小一點、淡一點，符合整體編輯風格，但保留（法規要求要顯示出處） */
+    .leaflet-control-attribution {
+      background: rgba(255,255,255,0.75) !important;
+      font-size: 9px !important;
+      color: #6E7681 !important;
+      padding: 1px 6px !important;
+    }
     /* 點擊行政區邊界時，瀏覽器預設會給 SVG path 一個矩形 focus 外框，這裡關掉 */
     .leaflet-container path:focus,
     .leaflet-container svg:focus,
@@ -395,8 +402,13 @@
     ];
 
     // 3. 地圖初始化
-    const map = L.map('map', { zoomControl: false, attributionControl: false }).setView([23.8, 120.9], 8);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { maxZoom: 19, subdomains: 'abcd' }).addTo(map);
+    const map = L.map('map', { zoomControl: false, attributionControl: true }).setView([23.8, 120.9], 8);
+    // 原本用 CARTO 的免費底圖，但他們現在沒有 API key 會在圖磚上蓋浮水印，
+    // 換成 Esri 免費、不需要金鑰的淺灰色底圖，風格跟原本簡約的調性接近。
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+      maxZoom: 16,
+      attribution: 'Esri, HERE, Garmin, &copy; OpenStreetMap contributors',
+    }).addTo(map);
     L.control.zoom({ position: 'bottomright' }).addTo(map);
 
     const selectCity = document.getElementById('select-city');
@@ -779,7 +791,7 @@
                 </div>
               </div>
             </div>
-            <span class="text-[10px] font-black uppercase px-2 py-1 rounded bg-canvas border border-ink-300 text-ink-500">已登記</span>
+            ${c.isIncumbent ? '<span class="text-[10px] font-black uppercase px-2 py-1 rounded bg-accent-yellow border border-ink-900 text-ink-900 shrink-0">爭取連任</span>' : ''}
           </div>
           ${socialBlock}
           <div class="pt-1">${gazetteBlock}</div>
@@ -809,22 +821,32 @@
       }
 
       if (groupSection && groupSection.blocks && groupSection.blocks.length > 0) {
+        const totalReps = groupSection.blocks.reduce((sum, b) => sum + b.candidates.length, 0);
         html += `
           <div class="pt-3 pb-1 flex items-center space-x-2">
             <span class="h-px flex-1 bg-ink-100"></span>
-            <span class="text-[10px] font-black uppercase tracking-wider text-ink-500">${groupSection.label}</span>
+            <span class="text-[10px] font-black uppercase tracking-wider text-ink-500">${groupSection.label}（共 ${totalReps} 人登記）</span>
             <span class="h-px flex-1 bg-ink-100"></span>
           </div>
+          <select id="district-picker" class="select-editorial w-full bg-surface border editorial-border rounded-xl px-3.5 py-2 pr-8 text-xs font-bold text-ink-900 cursor-pointer focus:outline-none">
+            <option value="">選擇選舉區查看候選人</option>
+            ${groupSection.blocks.map(b => `<option value="${b.district}">第 ${b.district} 選舉區（${b.candidates.length} 人登記）</option>`).join('')}
+          </select>
+          <div id="district-candidates" class="space-y-2 pt-1"></div>
         `;
-        html += groupSection.blocks.map(block => `
-          <div class="space-y-2">
-            <div class="text-[11px] font-black text-ink-500">第 ${block.district} 選舉區</div>
-            <div class="space-y-2">${block.candidates.map(renderCandidateCard).join('')}</div>
-          </div>
-        `).join('');
       }
 
       container.innerHTML = html;
+
+      if (groupSection && groupSection.blocks && groupSection.blocks.length > 0) {
+        const picker = document.getElementById('district-picker');
+        const out = document.getElementById('district-candidates');
+        picker.addEventListener('change', () => {
+          const block = groupSection.blocks.find(b => b.district === picker.value);
+          out.innerHTML = block ? block.candidates.map(renderCandidateCard).join('') : '';
+          lucide.createIcons();
+        });
+      }
       document.getElementById('detail-drawer').classList.remove('translate-x-full');
       lucide.createIcons();
     }
