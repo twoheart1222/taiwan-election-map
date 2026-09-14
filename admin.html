@@ -390,17 +390,27 @@
     }
 
     window.addCandidateRow = function(c) {
-      c = c || { name: '', party: '無', role: '候選人', registeredDate: '', gazetteUrl: '' };
+      c = c || { name: '', party: '無', role: '候選人', registeredDate: '', gazetteUrl: '', facebook: '', instagram: '', threads: '', youtube: '' };
       const row = document.createElement('div');
-      row.className = 'card-brutal bg-canvas rounded-xl p-3 grid grid-cols-2 sm:grid-cols-5 gap-2 items-center';
+      row.className = 'card-brutal bg-canvas rounded-xl p-3 space-y-2';
       row.innerHTML = `
-        <input placeholder="姓名" class="c-name bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold col-span-1" value="${escapeAttr(c.name)}">
-        <input placeholder="政黨" class="c-party bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold col-span-1" value="${escapeAttr(c.party)}">
-        <input placeholder="職稱（如：里長候選人）" class="c-role bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold col-span-1" value="${escapeAttr(c.role)}">
-        <input placeholder="選舉公報連結 (URL，選填)" class="c-gazette bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold col-span-2 sm:col-span-1" value="${escapeAttr(c.gazetteUrl || '')}">
-        <button type="button" onclick="this.closest('.card-brutal').remove()" class="text-accent-red hover:bg-accent-red/10 rounded-lg p-1.5 justify-self-end">
-          <i data-lucide="trash-2" class="w-4 h-4"></i>
-        </button>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 items-center">
+          <input placeholder="姓名" class="c-name bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.name)}">
+          <input placeholder="政黨" class="c-party bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.party)}">
+          <input placeholder="職稱（如：里長候選人）" class="c-role bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.role)}">
+          <div class="flex items-center gap-1.5">
+            <input placeholder="選舉公報連結 (URL)" class="c-gazette flex-1 bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.gazetteUrl || '')}">
+            <button type="button" onclick="this.closest('.card-brutal').remove()" class="text-accent-red hover:bg-accent-red/10 rounded-lg p-1.5 shrink-0">
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 items-center">
+          <input placeholder="Facebook 連結" class="c-facebook bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.facebook || '')}">
+          <input placeholder="Instagram 連結" class="c-instagram bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.instagram || '')}">
+          <input placeholder="Threads 連結" class="c-threads bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.threads || '')}">
+          <input placeholder="YouTube 連結" class="c-youtube bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.youtube || '')}">
+        </div>
       `;
       document.getElementById('candidate-rows').appendChild(row);
       lucide.createIcons();
@@ -417,6 +427,10 @@
         role: row.querySelector('.c-role').value.trim(),
         registeredDate: '',
         gazetteUrl: row.querySelector('.c-gazette').value.trim() || null,
+        facebook: row.querySelector('.c-facebook').value.trim() || null,
+        instagram: row.querySelector('.c-instagram').value.trim() || null,
+        threads: row.querySelector('.c-threads').value.trim() || null,
+        youtube: row.querySelector('.c-youtube').value.trim() || null,
       })).filter(c => c.name);
     }
 
