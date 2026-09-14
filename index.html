@@ -239,7 +239,7 @@
     </div>
 
     <!-- 右側滑出抽屜 (Offcanvas Drawer) -->
-    <aside id="detail-drawer" class="absolute top-0 right-0 h-full w-full sm:w-[460px] bg-surface z-30 border-l editorial-border transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col shadow-[-10px_0px_30px_rgba(0,0,0,0.06)]">
+    <aside id="detail-drawer" class="absolute top-0 right-0 h-full w-full sm:w-[460px] lg:w-[560px] xl:w-[620px] bg-surface z-30 border-l editorial-border transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col shadow-[-10px_0px_30px_rgba(0,0,0,0.06)]">
       <div class="p-6 border-b border-ink-100 flex items-start justify-between bg-canvas/60">
         <div>
           <div class="flex items-center space-x-2">
@@ -255,7 +255,7 @@
         </button>
       </div>
 
-      <div class="grid grid-cols-2 gap-3 p-5 bg-surface border-b border-ink-100">
+      <div class="grid grid-cols-3 gap-2 sm:gap-3 p-5 bg-surface border-b border-ink-100">
         <div class="p-3 rounded-xl bg-canvas border border-ink-300">
           <span class="text-[11px] font-bold text-ink-500 block uppercase">選舉人口估計</span>
           <span id="drawer-voter-count" class="text-lg font-black text-ink-900 mt-0.5 block">--</span>
@@ -263,6 +263,10 @@
         <div class="p-3 rounded-xl bg-canvas border border-ink-300">
           <span class="text-[11px] font-bold text-ink-500 block uppercase">應選席次</span>
           <span id="drawer-quota" class="text-lg font-black text-accent-orange mt-0.5 block">--</span>
+        </div>
+        <div class="p-3 rounded-xl bg-canvas border border-ink-300">
+          <span class="text-[11px] font-bold text-ink-500 block uppercase">登記席次</span>
+          <span id="drawer-registered-count" class="text-lg font-black text-accent-blue mt-0.5 block">--</span>
         </div>
       </div>
 
@@ -697,7 +701,7 @@
     }
 
     function goToCountyLevel() {
-      closeDrawer();
+      document.getElementById('detail-drawer').classList.add('translate-x-full');
       closeMobileFilters();
       renderCountyLayer();
       selectCity.value = '';
@@ -709,7 +713,6 @@
 
     function goToTownLevel() {
       if (!currentCounty) return;
-      closeDrawer();
       currentTown = null;
       updateBreadcrumb();
       selectDistrict.value = '';
@@ -778,7 +781,7 @@
         <div class="card-brutal bg-surface rounded-2xl p-4 sm:p-5 space-y-3 relative overflow-hidden">
           <div class="flex items-center justify-between">
             <div class="flex items-center space-x-3">
-              <div class="w-12 h-12 rounded-xl bg-canvas border editorial-border flex items-center justify-center font-black text-ink-900 text-base shadow-sm overflow-hidden shrink-0">
+              <div class="w-16 h-16 rounded-xl bg-canvas border editorial-border flex items-center justify-center font-black text-ink-900 text-xl shadow-sm overflow-hidden shrink-0">
                 ${avatarBlock}
               </div>
               <div>
@@ -805,6 +808,7 @@
       document.getElementById('drawer-region-tag').textContent = tag;
       document.getElementById('drawer-voter-count').textContent = voters || '--';
       document.getElementById('drawer-quota').textContent = quota || '--';
+      document.getElementById('drawer-registered-count').textContent = (candidates && candidates.length > 0) ? `${candidates.length} 人` : '0 人';
 
       const container = document.getElementById('candidates-container');
       let html = '';
@@ -852,7 +856,8 @@
     }
 
     function closeDrawer() {
-      document.getElementById('detail-drawer').classList.add('translate-x-full');
+      // 關閉右側抽屜視同「回到全台灣視角」：一併重置地圖層級與選單
+      goToCountyLevel();
     }
 
     // 8. 分頁切換
