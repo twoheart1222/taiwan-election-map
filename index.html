@@ -83,6 +83,20 @@
 
     /* 行政區邊界圖層 hover 效果由 JS 控制 fillOpacity，這裡只放游標樣式 */
     .leaflet-interactive { cursor: pointer; }
+
+    /* 滑鼠移到縣市/鄉鎮市區/村里上方顯示的名稱標籤 */
+    .region-tooltip {
+      background: #141517;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 6px;
+      padding: 3px 9px;
+      font-family: 'Plus Jakarta Sans', 'Noto Sans TC', sans-serif;
+      font-weight: 800;
+      font-size: 12px;
+      box-shadow: 2px 2px 0px rgba(20,21,23,0.25);
+    }
+    .region-tooltip::before { display: none; }
   </style>
 </head>
 <body class="bg-canvas text-ink-900 h-screen w-screen overflow-hidden flex flex-col font-sans select-none">
@@ -260,8 +274,11 @@
     };
 
     let cachedOverrides = null;
+    // 還沒換成真的 Firebase 設定值之前，完全不嘗試連線，避免跳出 API key 相關錯誤
+    const firebaseConfigured = firebaseConfig.apiKey !== 'YOUR_API_KEY';
 
     async function fetchOverrides() {
+      if (!firebaseConfigured) return {};
       if (cachedOverrides) return cachedOverrides;
       try {
         const app = initializeApp(firebaseConfig);
@@ -398,6 +415,7 @@
       currentLayer = L.geoJson(fc, {
         style: () => styleForLevel('county'),
         onEachFeature: (feature, layer) => {
+          layer.bindTooltip(feature.properties.name, { sticky: true, direction: 'top', className: 'region-tooltip' });
           layer.on('mouseover', () => layer.setStyle({ fillOpacity: 0.32 }));
           layer.on('mouseout', () => layer.setStyle({ fillOpacity: 0.12 }));
           layer.on('click', () => onCountyClick(feature, layer));
@@ -431,6 +449,7 @@
       currentLayer = L.geoJson(fc, {
         style: () => styleForLevel('town'),
         onEachFeature: (feature, layer) => {
+          layer.bindTooltip(feature.properties.name, { sticky: true, direction: 'top', className: 'region-tooltip' });
           layer.on('mouseover', () => layer.setStyle({ fillOpacity: 0.32 }));
           layer.on('mouseout', () => layer.setStyle({ fillOpacity: 0.12 }));
           layer.on('click', () => onTownClick(feature, layer));
@@ -465,6 +484,7 @@
       currentLayer = L.geoJson(fc, {
         style: () => styleForLevel('village'),
         onEachFeature: (feature, layer) => {
+          layer.bindTooltip(feature.properties.name, { sticky: true, direction: 'top', className: 'region-tooltip' });
           layer.on('mouseover', () => layer.setStyle({ fillOpacity: 0.35 }));
           layer.on('mouseout', () => layer.setStyle({ fillOpacity: 0.14 }));
           layer.on('click', () => onVillageClick(feature, layer));

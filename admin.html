@@ -177,9 +177,11 @@
       appId: "YOUR_APP_ID"
     };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+    // 還沒換成真的 Firebase 設定值之前，完全不嘗試連線，避免跳出 API key 相關錯誤
+    const firebaseConfigured = firebaseConfig.apiKey !== 'YOUR_API_KEY';
+    const app = firebaseConfigured ? initializeApp(firebaseConfig) : null;
+    const auth = firebaseConfigured ? getAuth(app) : null;
+    const db = firebaseConfigured ? getFirestore(app) : null;
     const provider = new GoogleAuthProvider();
 
     let currentUser = null;
@@ -193,16 +195,25 @@
     let currentCode = null;    // 目前編輯節點的代碼（Firestore 文件 ID）
     let currentBase = null;    // 目前節點的原始（未覆寫）properties
 
-    window.doSignIn = () => signInWithPopup(auth, provider).catch(err => {
-      document.getElementById('gate-msg').textContent = '登入失敗：' + err.message;
-    });
-    window.doSignOut = () => signOut(auth);
+    window.doSignIn = () => {
+      if (!firebaseConfigured) {
+        document.getElementById('gate-msg').textContent = '尚未設定 Firebase，請先依 FIREBASE_SETUP.md 換上真實的專案設定值。';
+        return;
+      }
+      signInWithPopup(auth, provider).catch(err => {
+        document.getElementById('gate-msg').textContent = '登入失敗：' + err.message;
+      });
+    };
+    window.doSignOut = () => { if (firebaseConfigured) signOut(auth); };
 
     function topoToFeatures(topo) {
       const objKey = Object.keys(topo.objects)[0];
       return topojson.feature(topo, topo.objects[objKey]);
     }
 
+    if (!firebaseConfigured) {
+      document.getElementById('gate-msg').textContent = '尚未設定 Firebase，請先依 FIREBASE_SETUP.md 換上真實的專案設定值才能登入。';
+    } else {
     onAuthStateChanged(auth, async (user) => {
       const gate = document.getElementById('gate');
       const unauthorized = document.getElementById('unauthorized');
@@ -247,6 +258,7 @@
       editor.classList.remove('hidden');
       await bootEditor();
     });
+    }
 
     async function fetchJSON(url) {
       const res = await fetch(url);
