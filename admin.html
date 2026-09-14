@@ -161,7 +161,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
     import {
-      getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged
+      getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged
     } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
     import {
       getFirestore, doc, getDoc, setDoc, deleteDoc, collection, getDocs
@@ -200,11 +200,23 @@
         document.getElementById('gate-msg').textContent = '尚未設定 Firebase，請先依 FIREBASE_SETUP.md 換上真實的專案設定值。';
         return;
       }
-      signInWithPopup(auth, provider).catch(err => {
+      document.getElementById('gate-msg').textContent = '登入中，正在跳轉到 Google…';
+      // 用整頁跳轉登入（signInWithRedirect）而不是彈出視窗（signInWithPopup）：
+      // 彈出視窗登入在部分瀏覽器（尤其手機、或封鎖第三方 cookie 的設定）常常會
+      // 選完帳號後視窗關掉卻沒有把登入結果傳回來，畫面就卡住沒反應——整頁跳轉
+      // 沒有這個問題，相容性好很多。
+      signInWithRedirect(auth, provider).catch(err => {
         document.getElementById('gate-msg').textContent = '登入失敗：' + err.message;
       });
     };
     window.doSignOut = () => { if (firebaseConfigured) signOut(auth); };
+
+    if (firebaseConfigured) {
+      getRedirectResult(auth).catch(err => {
+        document.getElementById('gate-msg').textContent = '登入失敗：' + err.message;
+        console.error('getRedirectResult 失敗', err);
+      });
+    }
 
     function topoToFeatures(topo) {
       const objKey = Object.keys(topo.objects)[0];

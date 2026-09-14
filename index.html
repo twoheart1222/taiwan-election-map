@@ -917,7 +917,10 @@
       document.body.classList.add('splash-loaded');
       lucide.createIcons();
     }
-    window.addEventListener('load', init);
+    // 立即啟動，不要等 window 的 load 事件（那會等所有字型/地圖圖磚/外部
+    // CDN 資源全部下載完才開始，白白拖慢「資料載入中」畫面停留的時間）。
+    // 這個 <script> 已經在 </body> 前面，DOM 都準備好了，可以馬上跑。
+    init();
   </script>
 </body>
 </html>
