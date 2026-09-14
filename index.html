@@ -138,6 +138,9 @@
       <button onclick="resetAllFilters()" title="重置全視角" class="p-2 rounded-xl bg-canvas border editorial-border shadow-[2px_2px_0px_#141517] hover:bg-ink-100 transition active:scale-95">
         <i data-lucide="rotate-ccw" class="w-4 h-4 text-ink-700"></i>
       </button>
+      <a href="./admin.html" title="後台管理" class="p-2 rounded-xl bg-canvas border editorial-border shadow-[2px_2px_0px_#141517] hover:bg-ink-900 hover:text-surface transition active:scale-95">
+        <i data-lucide="shield" class="w-4 h-4"></i>
+      </a>
     </div>
   </header>
 
@@ -221,6 +224,66 @@
     </div>
   </main>
 
+  <!-- Firebase：讀取後台編輯過的資料（Firestore overrides），公開網站僅需「讀取」權限 -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+
+    // TODO：請將以下設定值換成你自己 Firebase 專案的設定（Firebase Console → 專案設定 → 一般 → 你的應用程式）
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    function nodeId(countyId, town, village) {
+      return [countyId, town || '', village || ''].join('__');
+    }
+
+    async function fetchOverrides() {
+      try {
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const snap = await getDocs(collection(db, 'overrides'));
+        const out = {};
+        snap.forEach(d => { out[d.id] = d.data(); });
+        return out;
+      } catch (err) {
+        console.warn('讀取後台編輯資料失敗，僅顯示原始候選人資料。', err);
+        return {};
+      }
+    }
+
+    function applyOverrides(regions, overrides) {
+      if (!overrides || Object.keys(overrides).length === 0) return;
+      regions.forEach(county => {
+        const co = overrides[nodeId(county.id)];
+        if (co) {
+          if (co.candidates) county.candidates = co.candidates;
+          if (co.councilors) county.councilors = co.councilors;
+          if (co.voters !== undefined) county.voters = co.voters;
+          if (co.quota !== undefined) county.quota = co.quota;
+        }
+        (county.districts || []).forEach(dist => {
+          const dO = overrides[nodeId(county.id, dist.name)];
+          if (dO) {
+            if (dO.candidates) dist.candidates = dO.candidates;
+            if (dO.representatives) dist.representatives = dO.representatives;
+          }
+          (dist.villages || []).forEach(vill => {
+            const vO = overrides[nodeId(county.id, dist.name, vill.name)];
+            if (vO && vO.candidates) vill.candidates = vO.candidates;
+          });
+        });
+      });
+    }
+
+    window.__electionOverrides = { fetchOverrides, applyOverrides, nodeId };
+  </script>
+
   <script>
     // 1. 政黨徽章與標準色
     const PARTY_CONFIG = {
@@ -275,6 +338,17 @@
         console.warn('載入本地 taiwan_data.json 失敗，改用預設資料庫。', err);
         ALL_REGIONS = getFallbackData();
       }
+
+      // 套用後台管理者透過 Firestore 編輯過的內容（若尚未設定 Firebase，會安靜地略過）
+      if (window.__electionOverrides) {
+        try {
+          const overrides = await window.__electionOverrides.fetchOverrides();
+          window.__electionOverrides.applyOverrides(ALL_REGIONS, overrides);
+        } catch (err) {
+          console.warn('套用後台編輯資料時發生錯誤', err);
+        }
+      }
+
       initApp();
     }
 
@@ -340,7 +414,7 @@
         });
 
         map.flyTo(city.coords, 11, { duration: 1.1 });
-        renderDrawer(city.name, `${city.name}首長選舉`, city.category, city.voters, city.quota, city.candidates);
+        renderDrawer(city.name, `${city.name}首長選舉`, city.category, city.voters, city.quota, city.candidates, { label: '議員候選人（依選舉區）', blocks: city.councilors });
       }
     }
 
@@ -368,9 +442,11 @@
         });
 
         map.flyTo(dist.coords, 13, { duration: 1 });
-        // 行政區抽屜：顯示民代名冊
+        // 行政區抽屜：顯示鄉鎮市長／區長，或原住民區長名冊
         const distCandidates = (dist.candidates && dist.candidates.length > 0) ? dist.candidates : city.candidates;
-        renderDrawer(`${city.name} > ${dist.name}`, `${dist.name} 公職名冊`, '行政區轄區', '依選舉區劃分', '多席次應選', distCandidates);
+        const distTag = dist.isIndigenousDistrict ? '山地原住民區' : '行政區轄區';
+        const repLabel = dist.isIndigenousDistrict ? '區民代表候選人（依選舉區）' : '鄉鎮市民代表候選人（依選舉區）';
+        renderDrawer(`${city.name} > ${dist.name}`, `${dist.name} 公職名冊`, distTag, dist.voters, dist.quota, distCandidates, { label: repLabel, blocks: dist.representatives });
       }
     }
 
@@ -390,7 +466,8 @@
 
       if (vill) {
         map.flyTo(vill.coords, 15, { duration: 1 });
-        renderDrawer(`${city.name} > ${dist.name} > ${vill.name}`, `${vill.name} 里長選舉`, '最基層村里', '約 3,500 人', '1 席', vill.candidates);
+        const villRole = vill.name.endsWith('里') ? '里長選舉' : '村長選舉';
+        renderDrawer(`${city.name} > ${dist.name} > ${vill.name}`, `${vill.name} ${villRole}`, '最基層村里', vill.voters, vill.quota || '1 席', vill.candidates, null);
       }
     }
 
@@ -404,7 +481,52 @@
     }
 
     // 5. 抽屜渲染（取消政見，改為官方選舉公報專屬預留位）
-    function renderDrawer(path, title, tag, voters, quota, candidates) {
+    function renderCandidateCard(c) {
+      const party = PARTY_CONFIG[c.party] || PARTY_CONFIG['無黨籍'];
+      const gazetteBlock = c.gazetteUrl
+        ? `
+          <a href="${c.gazetteUrl}" target="_blank" class="w-full inline-flex items-center justify-center space-x-2 py-2.5 rounded-xl bg-ink-900 text-surface text-xs font-bold hover:bg-accent-orange transition">
+            <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+            <span>查閱官方選舉公報 (PDF)</span>
+          </a>
+        `
+        : `
+          <div class="bg-canvas/90 p-3 rounded-xl border border-ink-100 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+              <span class="w-2 h-2 rounded-full bg-accent-yellow animate-pulse"></span>
+              <span class="text-[11px] font-bold text-ink-700">選舉公報審定中</span>
+            </div>
+            <span class="text-[10px] font-extrabold text-ink-500 bg-surface px-2 py-0.5 rounded border border-ink-300">
+              待中選會統一公布
+            </span>
+          </div>
+        `;
+
+      return `
+        <div class="card-brutal bg-surface rounded-2xl p-4 sm:p-5 space-y-3 relative overflow-hidden">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 rounded-xl bg-canvas border editorial-border flex items-center justify-center font-black text-ink-900 text-base shadow-sm">
+                ${c.name.slice(0, 1)}
+              </div>
+              <div>
+                <h4 class="text-base font-black text-ink-900">${c.name}</h4>
+                <div class="flex items-center space-x-1.5 mt-0.5">
+                  ${party.svgLogo}
+                  <span class="text-xs font-black text-ink-700">${c.party}</span>
+                  <span class="text-ink-300">•</span>
+                  <span class="text-[11px] font-bold text-accent-orange">${c.role}</span>
+                </div>
+              </div>
+            </div>
+            <span class="text-[10px] font-black uppercase px-2 py-1 rounded bg-canvas border border-ink-300 text-ink-500">已登記</span>
+          </div>
+          <div class="pt-1">${gazetteBlock}</div>
+        </div>
+      `;
+    }
+
+    function renderDrawer(path, title, tag, voters, quota, candidates, groupSection) {
       document.getElementById('drawer-path').textContent = path;
       document.getElementById('drawer-region-title').textContent = title;
       document.getElementById('drawer-region-tag').textContent = tag;
@@ -412,60 +534,36 @@
       document.getElementById('drawer-quota').textContent = quota || '--';
 
       const container = document.getElementById('candidates-container');
+      let html = '';
+
       if (!candidates || candidates.length === 0) {
-        container.innerHTML = `
+        html += `
           <div class="bg-surface p-6 rounded-2xl border editorial-border text-center space-y-2">
             <i data-lucide="info" class="w-6 h-6 text-ink-500 mx-auto"></i>
             <p class="text-xs font-bold text-ink-700">該選區目前登記名冊核定中</p>
           </div>
         `;
       } else {
-        container.innerHTML = candidates.map(c => {
-          const party = PARTY_CONFIG[c.party] || PARTY_CONFIG['無黨籍'];
-          const gazetteBlock = c.gazetteUrl
-            ? `
-              <a href="${c.gazetteUrl}" target="_blank" class="w-full inline-flex items-center justify-center space-x-2 py-2.5 rounded-xl bg-ink-900 text-surface text-xs font-bold hover:bg-accent-orange transition">
-                <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
-                <span>查閱官方選舉公報 (PDF)</span>
-              </a>
-            `
-            : `
-              <div class="bg-canvas/90 p-3 rounded-xl border border-ink-100 flex items-center justify-between">
-                <div class="flex items-center space-x-2">
-                  <span class="w-2 h-2 rounded-full bg-accent-yellow animate-pulse"></span>
-                  <span class="text-[11px] font-bold text-ink-700">選舉公報審定中</span>
-                </div>
-                <span class="text-[10px] font-extrabold text-ink-500 bg-surface px-2 py-0.5 rounded border border-ink-300">
-                  待中選會統一公布
-                </span>
-              </div>
-            `;
-
-          return `
-            <div class="card-brutal bg-surface rounded-2xl p-4 sm:p-5 space-y-3 relative overflow-hidden">
-              <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-3">
-                  <div class="w-12 h-12 rounded-xl bg-canvas border editorial-border flex items-center justify-center font-black text-ink-900 text-base shadow-sm">
-                    ${c.name.slice(0, 1)}
-                  </div>
-                  <div>
-                    <h4 class="text-base font-black text-ink-900">${c.name}</h4>
-                    <div class="flex items-center space-x-1.5 mt-0.5">
-                      ${party.svgLogo}
-                      <span class="text-xs font-black text-ink-700">${c.party}</span>
-                      <span class="text-ink-300">•</span>
-                      <span class="text-[11px] font-bold text-accent-orange">${c.role}</span>
-                    </div>
-                  </div>
-                </div>
-                <span class="text-[10px] font-black uppercase px-2 py-1 rounded bg-canvas border border-ink-300 text-ink-500">已登記</span>
-              </div>
-              <div class="pt-1">${gazetteBlock}</div>
-            </div>
-          `;
-        }).join('');
+        html += candidates.map(renderCandidateCard).join('');
       }
 
+      if (groupSection && groupSection.blocks && groupSection.blocks.length > 0) {
+        html += `
+          <div class="pt-3 pb-1 flex items-center space-x-2">
+            <span class="h-px flex-1 bg-ink-100"></span>
+            <span class="text-[10px] font-black uppercase tracking-wider text-ink-500">${groupSection.label}</span>
+            <span class="h-px flex-1 bg-ink-100"></span>
+          </div>
+        `;
+        html += groupSection.blocks.map(block => `
+          <div class="space-y-2">
+            <div class="text-[11px] font-black text-ink-500">第 ${block.district} 選舉區</div>
+            <div class="space-y-2">${block.candidates.map(renderCandidateCard).join('')}</div>
+          </div>
+        `).join('');
+      }
+
+      container.innerHTML = html;
       document.getElementById('detail-drawer').classList.remove('translate-x-full');
       lucide.createIcons();
     }
