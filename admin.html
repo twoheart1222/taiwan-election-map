@@ -402,7 +402,7 @@
     }
 
     window.addCandidateRow = function(c) {
-      c = c || { name: '', party: '無', role: '候選人', registeredDate: '', gazetteUrl: '', facebook: '', instagram: '', threads: '', youtube: '', olcId: '' };
+      c = c || { name: '', party: '無', role: '候選人', registeredDate: '', gazetteUrl: '', facebook: '', instagram: '', threads: '', youtube: '', photoUrl: '' };
       const row = document.createElement('div');
       row.className = 'card-brutal bg-canvas rounded-xl p-3 space-y-2';
       row.innerHTML = `
@@ -424,10 +424,10 @@
           <input placeholder="YouTube 連結" class="c-youtube bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.youtube || '')}">
         </div>
         <div class="flex items-center gap-1.5">
-          <input placeholder="選舉黃頁候選人ID（確認是本人後才填，用來抓照片）" class="c-olcid flex-1 bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.olcId || '')}">
-          <a href="https://elections.olc.tw/candidates/name/${encodeURIComponent(c.name || '')}" target="_blank" rel="noopener noreferrer" class="text-[11px] font-bold text-accent-blue hover:underline whitespace-nowrap px-1">
+          <a href="https://elections.olc.tw/candidates/name/${encodeURIComponent(c.name || '')}" target="_blank" rel="noopener noreferrer" class="text-[11px] font-bold text-accent-blue hover:underline whitespace-nowrap px-1 shrink-0">
             去選舉黃頁查詢 ↗
           </a>
+          <input placeholder="照片網址（在候選人照片上按右鍵→複製圖片網址，貼在這）" class="c-photourl flex-1 bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.photoUrl || '')}">
         </div>
       `;
       document.getElementById('candidate-rows').appendChild(row);
@@ -454,7 +454,7 @@
         instagram: row.querySelector('.c-instagram').value.trim() || null,
         threads: row.querySelector('.c-threads').value.trim() || null,
         youtube: row.querySelector('.c-youtube').value.trim() || null,
-        olcId: row.querySelector('.c-olcid').value.trim() || null,
+        photoUrl: row.querySelector('.c-photourl').value.trim() || null,
       })).filter(c => c.name);
     }
 

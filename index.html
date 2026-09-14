@@ -714,23 +714,9 @@
       goToCountyLevel();
     }
 
-    // 選舉黃頁 (elections.olc.tw) 候選人照片：只有後台手動確認過、填了 olcId 的候選人才會去抓，
-    // 避免用姓名自動比對抓錯人的照片（OLC 官方自己也提醒同名同姓無法自動區分）
-    const olcPhotoCache = {};
-    async function fetchOlcPhoto(olcId) {
-      if (olcPhotoCache[olcId] !== undefined) return olcPhotoCache[olcId];
-      try {
-        const res = await fetch(`https://elections.olc.tw/api/candidates/view/${olcId}`);
-        if (!res.ok) throw new Error('OLC API 回應失敗');
-        const data = await res.json();
-        const url = data && data.candidate && data.candidate.Candidate && data.candidate.Candidate.image;
-        olcPhotoCache[olcId] = url || null;
-      } catch (err) {
-        console.warn('讀取選舉黃頁照片失敗（不影響其他資料顯示）', olcId, err);
-        olcPhotoCache[olcId] = null;
-      }
-      return olcPhotoCache[olcId];
-    }
+    // 候選人照片：直接用後台貼的圖片網址顯示（不再即時呼叫選舉黃頁的 API 去查，
+    // 那種跨網站請求常被對方的安全機制擋掉，擋掉時又不會顯示任何錯誤，等於
+    // 完全沒反應。改成單純的 <img> 讀圖，不會有這個問題。）
 
     // 7. 抽屜渲染
     function renderCandidateCard(c) {
@@ -772,21 +758,16 @@
         </div>
       ` : '';
 
-      const avatarId = 'av-' + Math.random().toString(36).slice(2);
-      if (c.olcId) {
-        fetchOlcPhoto(c.olcId).then(url => {
-          if (!url) return;
-          const el = document.getElementById(avatarId);
-          if (el) el.innerHTML = `<img src="${url}" alt="${c.name}" class="w-full h-full object-cover" loading="lazy">`;
-        });
-      }
+      const avatarBlock = c.photoUrl
+        ? `<img src="${c.photoUrl}" alt="${c.name}" class="w-full h-full object-cover" loading="lazy" onerror="this.closest('div').textContent='${c.name.slice(0, 1)}'">`
+        : c.name.slice(0, 1);
 
       return `
         <div class="card-brutal bg-surface rounded-2xl p-4 sm:p-5 space-y-3 relative overflow-hidden">
           <div class="flex items-center justify-between">
             <div class="flex items-center space-x-3">
-              <div id="${avatarId}" class="w-12 h-12 rounded-xl bg-canvas border editorial-border flex items-center justify-center font-black text-ink-900 text-base shadow-sm overflow-hidden shrink-0">
-                ${c.name.slice(0, 1)}
+              <div class="w-12 h-12 rounded-xl bg-canvas border editorial-border flex items-center justify-center font-black text-ink-900 text-base shadow-sm overflow-hidden shrink-0">
+                ${avatarBlock}
               </div>
               <div>
                 <h4 class="text-base font-black text-ink-900">${c.name}</h4>
@@ -920,7 +901,7 @@
     // 等 DOMContentLoaded（HTML 解析完、module script 也執行完）再啟動，
     // 比 window 的 load 事件快（不用等圖片/字型這些外部資源全部下載完），
     // 但又比「解析到就立刻執行」安全——上面讀 Firebase 後台資料那段是
-    // <script type="module">，瀏覽器規定 module 一定會延後執行，太早呼叫
+    // 上面讀 Firebase 後台資料那段是 module 類型的 script，瀏覽器規定 module 一定會延後執行，太早呼叫
     // 會抓不到它掛在 window 上的函式。
     document.addEventListener('DOMContentLoaded', init);
   </script>
