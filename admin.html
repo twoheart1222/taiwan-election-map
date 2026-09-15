@@ -132,9 +132,14 @@
       <div>
         <div class="flex items-center justify-between mb-2">
           <h3 class="text-xs font-black uppercase tracking-wider text-ink-500" id="candidates-heading">候選人名冊</h3>
-          <button onclick="addCandidateRow()" class="text-xs font-bold text-accent-blue hover:underline flex items-center space-x-1">
-            <i data-lucide="plus" class="w-3.5 h-3.5"></i><span>新增候選人</span>
-          </button>
+          <div class="flex items-center space-x-3">
+            <button type="button" onclick="batchUpdateFromOfficial()" class="text-xs font-bold text-accent-orange hover:underline flex items-center space-x-1" title="讀取 tycc_councilors.json 並替換 Wikipedia 照片與補齊 FB">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5"></i><span>替換 Wiki 照片與更新 FB</span>
+            </button>
+            <button type="button" onclick="addCandidateRow()" class="text-xs font-bold text-accent-blue hover:underline flex items-center space-x-1">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i><span>新增候選人</span>
+            </button>
+          </div>
         </div>
         <div id="candidate-rows" class="space-y-3"></div>
       </div>
@@ -167,7 +172,7 @@
       getFirestore, doc, getDoc, setDoc, deleteDoc, collection, getDocs
     } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
-    // TODO：換成你自己 Firebase 專案的設定值（跟 index.html 用同一組）
+    // Firebase 專案設定值
     const firebaseConfig = {
       apiKey: "AIzaSyAZdhEkMeCER-eh_De2viLi0jG2kD2f_4A",
       authDomain: "taiwan-election-map.firebaseapp.com",
@@ -177,7 +182,6 @@
       appId: "1:603857399918:web:44fb7f95b20e127ad1b67f"
     };
 
-    // 還沒換成真的 Firebase 設定值之前，完全不嘗試連線，避免跳出 API key 相關錯誤
     const firebaseConfigured = firebaseConfig.apiKey !== 'YOUR_API_KEY';
     const app = firebaseConfigured ? initializeApp(firebaseConfig) : null;
     const auth = firebaseConfigured ? getAuth(app) : null;
@@ -187,24 +191,19 @@
     let currentUser = null;
     let allOverrides = {};
 
-    // 三級資料快取（跟 index.html 用同一套 data/ 目錄，縣市代碼/鄉鎮市區代碼/村里代碼為 Firestore 文件 ID）
     let countiesTopo = null;
     let townsCache = {};
     let villagesCache = {};
     let currentScope = null;   // 'county' | 'town' | 'village'
-    let currentCode = null;    // 目前編輯節點的代碼（Firestore 文件 ID）
-    let currentBase = null;    // 目前節點的原始（未覆寫）properties
+    let currentCode = null;    // 目前編輯節點的代碼
+    let currentBase = null;    // 目前節點的原始 properties
 
     window.doSignIn = () => {
       if (!firebaseConfigured) {
-        document.getElementById('gate-msg').textContent = '尚未設定 Firebase，請先依 FIREBASE_SETUP.md 換上真實的專案設定值。';
+        document.getElementById('gate-msg').textContent = '尚未設定 Firebase，請先換上真實的專案設定值。';
         return;
       }
       document.getElementById('gate-msg').textContent = '登入中，正在跳轉到 Google…';
-      // 用整頁跳轉登入（signInWithRedirect）而不是彈出視窗（signInWithPopup）：
-      // 彈出視窗登入在部分瀏覽器（尤其手機、或封鎖第三方 cookie 的設定）常常會
-      // 選完帳號後視窗關掉卻沒有把登入結果傳回來，畫面就卡住沒反應——整頁跳轉
-      // 沒有這個問題，相容性好很多。
       signInWithRedirect(auth, provider).catch(err => {
         document.getElementById('gate-msg').textContent = '登入失敗：' + err.message;
       });
@@ -224,52 +223,52 @@
     }
 
     if (!firebaseConfigured) {
-      document.getElementById('gate-msg').textContent = '尚未設定 Firebase，請先依 FIREBASE_SETUP.md 換上真實的專案設定值才能登入。';
+      document.getElementById('gate-msg').textContent = '尚未設定 Firebase，請換上真實的專案設定值才能登入。';
     } else {
-    onAuthStateChanged(auth, async (user) => {
-      const gate = document.getElementById('gate');
-      const unauthorized = document.getElementById('unauthorized');
-      const editor = document.getElementById('editor');
-      const userBox = document.getElementById('user-box');
+      onAuthStateChanged(auth, async (user) => {
+        const gate = document.getElementById('gate');
+        const unauthorized = document.getElementById('unauthorized');
+        const editor = document.getElementById('editor');
+        const userBox = document.getElementById('user-box');
 
-      if (!user) {
-        currentUser = null;
-        gate.classList.remove('hidden');
-        unauthorized.classList.add('hidden');
-        editor.classList.add('hidden');
-        userBox.classList.add('hidden');
-        userBox.classList.remove('flex');
-        return;
-      }
+        if (!user) {
+          currentUser = null;
+          gate.classList.remove('hidden');
+          unauthorized.classList.add('hidden');
+          editor.classList.add('hidden');
+          userBox.classList.add('hidden');
+          userBox.classList.remove('flex');
+          return;
+        }
 
-      let authorized = false;
-      try {
-        const snap = await getDoc(doc(db, 'admins', user.email));
-        authorized = snap.exists();
-      } catch (err) {
-        console.error('檢查管理權限失敗', err);
-      }
+        let authorized = false;
+        try {
+          const snap = await getDoc(doc(db, 'admins', user.email));
+          authorized = snap.exists();
+        } catch (err) {
+          console.error('檢查管理權限失敗', err);
+        }
 
-      document.getElementById('user-avatar').src = user.photoURL || '';
-      document.getElementById('user-name').textContent = user.displayName || user.email;
-      userBox.classList.remove('hidden');
-      userBox.classList.add('flex');
+        document.getElementById('user-avatar').src = user.photoURL || '';
+        document.getElementById('user-name').textContent = user.displayName || user.email;
+        userBox.classList.remove('hidden');
+        userBox.classList.add('flex');
 
-      if (!authorized) {
-        currentUser = null;
+        if (!authorized) {
+          currentUser = null;
+          gate.classList.add('hidden');
+          unauthorized.classList.remove('hidden');
+          editor.classList.add('hidden');
+          document.getElementById('unauthorized-email').textContent = user.email;
+          return;
+        }
+
+        currentUser = user;
         gate.classList.add('hidden');
-        unauthorized.classList.remove('hidden');
-        editor.classList.add('hidden');
-        document.getElementById('unauthorized-email').textContent = user.email;
-        return;
-      }
-
-      currentUser = user;
-      gate.classList.add('hidden');
-      unauthorized.classList.add('hidden');
-      editor.classList.remove('hidden');
-      await bootEditor();
-    });
+        unauthorized.classList.add('hidden');
+        editor.classList.remove('hidden');
+        await bootEditor();
+      });
     }
 
     async function fetchJSON(url) {
@@ -402,7 +401,7 @@
     }
 
     window.addCandidateRow = function(c) {
-      c = c || { name: '', party: '無', role: '候選人', registeredDate: '', gazetteUrl: '', facebook: '', instagram: '', threads: '', youtube: '', photoUrl: '' };
+      c = c || { name: '', party: '無', role: '候選人', registeredDate: '', gazetteUrl: '', facebook: '', instagram: '', threads: '', youtube: '', photoUrl: '', isIncumbent: false };
       const row = document.createElement('div');
       row.className = 'card-brutal bg-canvas rounded-xl p-3 space-y-2';
       row.innerHTML = `
@@ -417,6 +416,10 @@
             </button>
           </div>
         </div>
+        <label class="flex items-center gap-1.5 text-xs font-bold text-ink-700 cursor-pointer w-fit">
+          <input type="checkbox" class="c-incumbent w-4 h-4 accent-accent-orange cursor-pointer" ${c.isIncumbent ? 'checked' : ''}>
+          <span>現任爭取連任</span>
+        </label>
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 items-center">
           <input placeholder="Facebook 連結" class="c-facebook bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.facebook || '')}">
           <input placeholder="Instagram 連結" class="c-instagram bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.instagram || '')}">
@@ -466,6 +469,7 @@
         threads: row.querySelector('.c-threads').value.trim() || null,
         youtube: row.querySelector('.c-youtube').value.trim() || null,
         photoUrl: row.querySelector('.c-photourl').value.trim() || null,
+        isIncumbent: row.querySelector('.c-incumbent').checked,
       })).filter(c => c.name);
     }
 
@@ -504,6 +508,85 @@
         selDistrict.dispatchEvent(new Event('change'));
       } catch (err) {
         document.getElementById('save-status').textContent = '還原失敗：' + err.message;
+      }
+    };
+
+    // ---------- 批次比對議會官方圖並更新 FB ----------
+    window.batchUpdateFromOfficial = async function() {
+      const status = document.getElementById('save-status');
+      status.textContent = '載入議會資料中…';
+
+      async function applyCouncilorData(councilors) {
+        const map = new Map();
+        councilors.forEach(c => {
+          if (c && c.name) {
+            const cleanName = c.name.replace(/[\s\u3000]/g, '');
+            map.set(cleanName, c);
+          }
+        });
+
+        let replacedPhotoCount = 0;
+        let addedFbCount = 0;
+
+        const rows = document.querySelectorAll('#candidate-rows > div');
+        rows.forEach(row => {
+          const nameInput = row.querySelector('.c-name');
+          const photoInput = row.querySelector('.c-photourl');
+          const fbInput = row.querySelector('.c-facebook');
+
+          if (!nameInput) return;
+          const curName = nameInput.value.replace(/[\s\u3000]/g, '');
+          const official = map.get(curName);
+
+          if (official) {
+            const curPhoto = (photoInput.value || '').toLowerCase();
+            // 若為 Wikipedia / Wikimedia 圖片或空白，則換成市議會官方高清照
+            const isWikiOrEmpty = !curPhoto || curPhoto.includes('wikipedia.org') || curPhoto.includes('wikimedia.org');
+
+            if (official.photoUrl && isWikiOrEmpty) {
+              photoInput.value = official.photoUrl;
+              photoInput.dispatchEvent(new Event('change'));
+              replacedPhotoCount++;
+            }
+
+            // 若目前尚未填寫 Facebook，補齊官方臉書
+            if (official.facebook && !fbInput.value.trim()) {
+              fbInput.value = official.facebook;
+              addedFbCount++;
+            }
+          }
+        });
+
+        status.textContent = `比對完成：替換 ${replacedPhotoCount} 張照片、更新 ${addedFbCount} 個臉書連結。`;
+        alert(`比對完成！\n已替換 ${replacedPhotoCount} 位維基百科/缺漏照片為市議會官方圖。\n已更新 ${addedFbCount} 位候選人 Facebook 連結。\n\n請確認畫面無誤後，點擊「儲存修改」寫入後台！`);
+      }
+
+      try {
+        const res = await fetch('./data/tycc_councilors.json');
+        if (!res.ok) throw new Error('無法直接讀取 ./data/tycc_councilors.json');
+        const data = await res.json();
+        await applyCouncilorData(data);
+      } catch (err) {
+        console.warn('自動讀取失敗，開啟手動選檔視窗：', err);
+        // 本機若未啟動 Web Server，改為直接選檔備援
+        const fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.accept = '.json';
+        fileInput.onchange = (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = async (event) => {
+            try {
+              const data = JSON.parse(event.target.result);
+              await applyCouncilorData(data);
+            } catch (jsonErr) {
+              alert('JSON 解析失敗，請確認檔案格式正確。');
+            }
+          };
+          reader.readAsText(file);
+        };
+        fileInput.click();
       }
     };
 
