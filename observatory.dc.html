@@ -1,64 +1,100 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>席次觀測站 - 2026 年選舉</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col">
-  <header class="border-b border-slate-800 bg-slate-950/80 backdrop-blur sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-      <a href="index.html" class="flex items-center space-x-3 text-white font-bold text-lg hover:text-emerald-400 transition">
-        <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
-        <span>2026 選舉觀測站</span>
-      </a>
-      <nav class="flex items-center space-x-6 text-sm font-medium">
-        <a href="index.html" class="text-slate-300 hover:text-white transition">首頁倒數</a>
-        <a href="observatory.dc.html" class="text-emerald-400">席次觀測</a>
-        <a href="support.dc.html" class="text-slate-300 hover:text-white transition">資料支援</a>
-      </nav>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:#0d0d0d}
+  ::selection{background:#E4022B;color:#fff}
+  a{color:inherit;text-decoration:none}
+  ::-webkit-scrollbar{width:10px}::-webkit-scrollbar-track{background:#0d0d0d}::-webkit-scrollbar-thumb{background:#E4022B}
+  .obs-row{transition:background .35s ease,padding .35s ease}
+  .obs-row:hover{background:#151311}
+  .obs-row:hover .obs-arrow{transform:translateX(8px);color:#E4022B}
+  .obs-arrow{transition:transform .35s ease,color .35s ease}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</helmet>
+
+<div style="background:#0d0d0d;color:#f4f1ea;font-family:'Noto Sans TC',system-ui,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column">
+
+  <nav style="position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:16px clamp(18px,4vw,54px);background:rgba(13,13,13,.82);backdrop-filter:blur(10px);border-bottom:1px solid #1c1a17">
+    <a href="index.html" style="display:flex;align-items:center;gap:11px;font-family:'Archivo',sans-serif;font-weight:900;letter-spacing:-.02em;font-size:17px">
+      <span style="width:12px;height:12px;background:#E4022B;display:inline-block;border-radius:2px"></span>2026 選舉倒數
+    </a>
+    <div style="display:flex;align-items:center;gap:clamp(14px,2.4vw,32px);font-family:'Archivo',sans-serif;font-weight:600;font-size:13px;letter-spacing:.04em">
+      <a href="index.html#top" style="opacity:.85">選情地圖</a>
+      <a href="./observatory.dc.html" style="color:#E4022B">政治觀測站</a>
+      <a href="./support.dc.html" style="display:inline-flex;align-items:center;gap:8px;padding:9px 18px;background:#E4022B;color:#fff;border-radius:999px;font-weight:800">支持我們</a>
     </div>
+  </nav>
+
+  <header style="padding:clamp(56px,11vh,130px) clamp(18px,4vw,54px) clamp(30px,5vh,56px)">
+    <div style="font-family:'Archivo';font-weight:700;font-size:13px;letter-spacing:.28em;color:#E4022B;margin-bottom:20px">政治觀測站 / OBSERVATORY</div>
+    <h1 style="font-family:'Noto Sans TC','Archivo',sans-serif;font-weight:900;font-size:clamp(38px,7.5vw,120px);line-height:.96;letter-spacing:-.03em;margin:0 0 24px;max-width:1200px;text-wrap:balance">看得更清楚，<br>才能<span style="color:#E4022B">監督</span>得更好。</h1>
+    <p style="margin:0;max-width:640px;color:#a29c92;font-size:clamp(15px,1.6vw,18px);line-height:1.8;text-wrap:pretty">精選中央選舉委員會公開資料庫、國會議事轉播、政治獻金平台與優質公民科技專案。所有連結由維護者統一校閱發布，確保資訊真實可信。</p>
   </header>
 
-  <main class="flex-1 max-w-6xl mx-auto px-4 py-8 w-full">
-    <h1 class="text-2xl md:text-3xl font-bold mb-6">各縣市選情與席次觀測</h1>
-    
-    <div class="mb-6 flex gap-4 items-center">
-      <label for="countySelect" class="text-sm text-slate-400">選擇縣市：</label>
-      <select id="countySelect" class="bg-slate-800 border border-slate-700 text-white rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-emerald-500">
-        <option value="">載入中...</option>
-      </select>
-    </div>
-
-    <div id="contentArea" class="bg-slate-800/60 border border-slate-700 rounded-2xl p-6 min-h-[300px]">
-      <p class="text-slate-400 text-center py-12">請選擇縣市檢視各選區分配資料</p>
-    </div>
+  <main style="flex:1;padding-bottom:clamp(40px,8vh,90px)">
+    <a href="https://db.cec.gov.tw/" target="_blank" rel="noopener" class="obs-row reveal" style="display:grid;grid-template-columns:clamp(56px,7vw,110px) 1fr auto;gap:clamp(14px,3vw,44px);align-items:center;padding:clamp(24px,3.4vw,42px) clamp(18px,4vw,54px);border-top:1px solid #1c1a17">
+      <span style="font-family:'Archivo';font-weight:900;font-size:clamp(20px,2.4vw,32px);color:#E4022B">01</span>
+      <span><span style="display:block;font-family:'Archivo';font-weight:700;font-size:11px;letter-spacing:.16em;color:#8a857c;margin-bottom:8px">官方數據庫</span><span style="display:block;font-family:'Noto Sans TC';font-weight:900;font-size:clamp(22px,3vw,40px);line-height:1.1">中選會選舉資料庫</span><span style="display:block;color:#a29c92;font-size:14px;margin-top:8px;max-width:560px">歷屆公職選舉、登記名冊與官方選舉公報查詢。</span></span>
+      <span class="obs-arrow" style="display:inline-flex;align-items:center;gap:10px;font-family:'Archivo';font-weight:700;font-size:14px;white-space:nowrap">db.cec.gov.tw <span style="font-size:20px">→</span></span>
+    </a>
+    <a href="https://ivod.ly.gov.tw/" target="_blank" rel="noopener" class="obs-row reveal" style="display:grid;grid-template-columns:clamp(56px,7vw,110px) 1fr auto;gap:clamp(14px,3vw,44px);align-items:center;padding:clamp(24px,3.4vw,42px) clamp(18px,4vw,54px);border-top:1px solid #1c1a17">
+      <span style="font-family:'Archivo';font-weight:900;font-size:clamp(20px,2.4vw,32px);color:#E4022B">02</span>
+      <span><span style="display:block;font-family:'Archivo';font-weight:700;font-size:11px;letter-spacing:.16em;color:#8a857c;margin-bottom:8px">政見與法案監督</span><span style="display:block;font-family:'Noto Sans TC';font-weight:900;font-size:clamp(22px,3vw,40px);line-height:1.1">立法院議事轉播 IVOD</span><span style="display:block;color:#a29c92;font-size:14px;margin-top:8px;max-width:560px">國會院會與各委員會即時視訊轉播與歷史隨選隨播系統。</span></span>
+      <span class="obs-arrow" style="display:inline-flex;align-items:center;gap:10px;font-family:'Archivo';font-weight:700;font-size:14px;white-space:nowrap">ivod.ly.gov.tw <span style="font-size:20px">→</span></span>
+    </a>
+    <a href="https://ardata.cy.gov.tw/" target="_blank" rel="noopener" class="obs-row reveal" style="display:grid;grid-template-columns:clamp(56px,7vw,110px) 1fr auto;gap:clamp(14px,3vw,44px);align-items:center;padding:clamp(24px,3.4vw,42px) clamp(18px,4vw,54px);border-top:1px solid #1c1a17">
+      <span style="font-family:'Archivo';font-weight:900;font-size:clamp(20px,2.4vw,32px);color:#E4022B">03</span>
+      <span><span style="display:block;font-family:'Archivo';font-weight:700;font-size:11px;letter-spacing:.16em;color:#8a857c;margin-bottom:8px">陽光法案開放</span><span style="display:block;font-family:'Noto Sans TC';font-weight:900;font-size:clamp(22px,3vw,40px);line-height:1.1">監察院政治獻金公開平臺</span><span style="display:block;color:#a29c92;font-size:14px;margin-top:8px;max-width:560px">檢驗各政黨與候選人合法申報之收支帳冊與競選資金流向。</span></span>
+      <span class="obs-arrow" style="display:inline-flex;align-items:center;gap:10px;font-family:'Archivo';font-weight:700;font-size:14px;white-space:nowrap">ardata.cy.gov.tw <span style="font-size:20px">→</span></span>
+    </a>
+    <a href="https://watchout.tw/" target="_blank" rel="noopener" class="obs-row reveal" style="display:grid;grid-template-columns:clamp(56px,7vw,110px) 1fr auto;gap:clamp(14px,3vw,44px);align-items:center;padding:clamp(24px,3.4vw,42px) clamp(18px,4vw,54px);border-top:1px solid #1c1a17">
+      <span style="font-family:'Archivo';font-weight:900;font-size:clamp(20px,2.4vw,32px);color:#E4022B">04</span>
+      <span><span style="display:block;font-family:'Archivo';font-weight:700;font-size:11px;letter-spacing:.16em;color:#8a857c;margin-bottom:8px">公民科技媒體</span><span style="display:block;font-family:'Noto Sans TC';font-weight:900;font-size:clamp(22px,3vw,40px);line-height:1.1">沃草 Watchout 國會觀測</span><span style="display:block;color:#a29c92;font-size:14px;margin-top:8px;max-width:560px">以圖文與資訊設計降低公民政治參與門檻的獨立媒體平台。</span></span>
+      <span class="obs-arrow" style="display:inline-flex;align-items:center;gap:10px;font-family:'Archivo';font-weight:700;font-size:14px;white-space:nowrap">watchout.tw <span style="font-size:20px">→</span></span>
+    </a>
+    <a href="https://politicsdesign.tw/" target="_blank" rel="noopener" class="obs-row reveal" style="display:grid;grid-template-columns:clamp(56px,7vw,110px) 1fr auto;gap:clamp(14px,3vw,44px);align-items:center;padding:clamp(24px,3.4vw,42px) clamp(18px,4vw,54px);border-top:1px solid #1c1a17;border-bottom:1px solid #1c1a17">
+      <span style="font-family:'Archivo';font-weight:900;font-size:clamp(20px,2.4vw,32px);color:#E4022B">05</span>
+      <span><span style="display:block;font-family:'Archivo';font-weight:700;font-size:11px;letter-spacing:.16em;color:#8a857c;margin-bottom:8px">政治視覺研究</span><span style="display:block;font-family:'Noto Sans TC';font-weight:900;font-size:clamp(22px,3vw,40px);line-height:1.1">政治開箱 Politics Design</span><span style="display:block;color:#a29c92;font-size:14px;margin-top:8px;max-width:560px">台灣當代政治競選美學與民主視覺溝通研究平台。</span></span>
+      <span class="obs-arrow" style="display:inline-flex;align-items:center;gap:10px;font-family:'Archivo';font-weight:700;font-size:14px;white-space:nowrap">politicsdesign.tw <span style="font-size:20px">→</span></span>
+    </a>
   </main>
 
-  <footer class="border-t border-slate-800 py-6 text-center text-xs text-slate-500">
-    2026 選舉倒數資訊平台 · 資料以選委會官方公告為準
+  <footer style="background:#E4022B;color:#0d0d0d;padding:clamp(40px,7vh,80px) clamp(18px,4vw,54px);display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
+    <div>
+      <div style="font-family:'Noto Sans TC','Archivo';font-weight:900;font-size:clamp(24px,4vw,48px);letter-spacing:-.02em;line-height:1">一起看緊<br>你的選票。</div>
+      <a href="./support.dc.html" style="display:inline-flex;align-items:center;gap:9px;margin-top:22px;padding:13px 24px;background:#0d0d0d;color:#fff;border-radius:999px;font-family:'Archivo';font-weight:800;font-size:14px">支持我們 →</a>
+    </div>
+    <div style="font-family:'Archivo';font-weight:600;font-size:12px;letter-spacing:.08em;text-align:right">Politics Design Lab · 2026<br>連結由維護者統一校閱發布</div>
   </footer>
-
-  <script>
-    // 使用相對路徑載入 JSON
-    async function loadCounties() {
-      try {
-        const res = await fetch('data/counties.json');
-        const counties = await res.json();
-        const select = document.getElementById('countySelect');
-        select.innerHTML = '<option value="">請選擇縣市</option>';
-        counties.forEach(c => {
-          const opt = document.createElement('option');
-          opt.value = c.id || c.name;
-          opt.textContent = c.name;
-          select.appendChild(opt);
-        });
-      } catch (err) {
-        console.error('無法讀取 counties.json', err);
-      }
-    }
-    loadCounties();
-  </script>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() {
+    const wait = () => {
+      if (!(window.gsap && window.ScrollTrigger)) return setTimeout(wait, 40);
+      const g = window.gsap; g.registerPlugin(window.ScrollTrigger);
+      g.utils.toArray('.reveal').forEach(el => g.from(el, {
+        y: 40, opacity: 0, duration: 0.8, ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: 'top 90%' }
+      }));
+    };
+    wait();
+  }
+}
+</script>
 </body>
 </html>
