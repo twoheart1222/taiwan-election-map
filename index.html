@@ -131,21 +131,41 @@ class Component extends DCLogic {
   componentDidMount() {
     this.target = new Date('2026-11-28T08:00:00+08:00').getTime();
     this._revealed = false;
-    this._failsafe = setTimeout(() => this._reveal(), 4200);
+    
+    // 【修復】加強型保底計時器：1.8秒後不管發生任何事，強制關閉 Preloader
+    this._failsafe = setTimeout(() => this._reveal(), 1800);
+
     this._waitLibs().then(() => {
       this._buildReels();
       const days = this._days();
       document.querySelectorAll('.cd-reel').forEach((el, i) => {
         this._setReel(el, 0, false);
-        window.gsap.delayedCall(0.2 + i * 0.05, () => this._setReel(el, days, true));
+        if (window.gsap) window.gsap.delayedCall(0.1 + i * 0.05, () => this._setReel(el, days, true));
+        else this._setReel(el, days, false);
       });
-      this._init3D();
-      window.gsap.delayedCall(2.1, () => this._reveal());
+
+      // 初始化 3D 地圖（非同步執行，不阻礙退場）
+      try { this._init3D(); } catch(e) { console.error('3D 初始化錯誤', e); }
+
+      // 1.2 秒平滑進場
+      setTimeout(() => this._reveal(), 1200);
     });
   }
+
   componentWillUnmount() { cancelAnimationFrame(this._raf); clearTimeout(this._failsafe); if (this._renderer) this._renderer.dispose(); }
 
-  _waitLibs() { return new Promise(res => { const c = () => (window.gsap && window.topojson) ? res() : setTimeout(c, 40); c(); }); }
+  _waitLibs() { 
+    return new Promise(res => { 
+      let count = 0;
+      const c = () => {
+        if ((window.gsap && window.topojson) || count > 25) return res();
+        count++;
+        setTimeout(c, 40); 
+      };
+      c(); 
+    }); 
+  }
+
   _days() { return Math.floor(Math.max(0, this.target - Date.now()) / 86400000); }
 
   _buildReels() {
@@ -172,19 +192,22 @@ class Component extends DCLogic {
   }
 
   _reveal() {
-    if (this._revealed) return; this._revealed = true;
+    if (this._revealed) return; 
+    this._revealed = true;
     clearTimeout(this._failsafe);
     const pre = document.getElementById('preloader'), page = document.getElementById('page');
     const g = window.gsap;
     if (g && pre && page) {
       g.timeline()
-        .to(pre, { scale: 1.35, filter: 'blur(26px)', autoAlpha: 0, duration: 1.15, ease: 'power3.inOut' }, 0)
-        .fromTo(page, { scale: 1.05, filter: 'blur(16px)' }, { scale: 1, filter: 'blur(0px)', duration: 1.15, ease: 'power3.out' }, 0)
+        .to(pre, { scale: 1.2, filter: 'blur(20px)', autoAlpha: 0, duration: 0.8, ease: 'power3.inOut' }, 0)
+        .fromTo(page, { scale: 1.03, filter: 'blur(10px)' }, { scale: 1, filter: 'blur(0px)', duration: 0.8, ease: 'power3.out' }, 0)
         .add(() => { if (pre) pre.style.display = 'none'; });
-    } else if (pre) { pre.style.display = 'none'; }
+    } else if (pre) { 
+      pre.style.display = 'none'; 
+    }
   }
 
-  // ---------- FIREBASE OVERRIDES (修復：補齊 Firebase 同步功能) ----------
+  // ---------- FIREBASE OVERRIDES (帶有 1.2 秒超時防護) ----------
   fetchOverrides() {
     const cfg = {
       apiKey: "AIzaSyAZdhEkMeCER-eh_De2viLi0jG2kD2f_4A",
@@ -195,7 +218,11 @@ class Component extends DCLogic {
       appId: "1:603857399918:web:44fb7f95b20e127ad1b67f"
     };
     if (this._ov) return this._ov;
-    this._ov = (async () => {
+    
+    // 超時直接返回空物件，絕不卡死
+    const timeoutPromise = new Promise(resolve => setTimeout(() => resolve({}), 1200));
+
+    const loadPromise = (async () => {
       try {
         const [{ initializeApp }, { getFirestore, collection, getDocs }] = await Promise.all([
           import('https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js'),
@@ -206,10 +233,12 @@ class Component extends DCLogic {
         snap.forEach(d => { out[d.id] = d.data(); });
         return out;
       } catch (err) {
-        console.warn('讀取後台編輯資料失敗，僅顯示原始候選人資料。', err);
+        console.warn('讀取後台資料失敗或超時，顯示本地候選人資料。', err);
         return {};
       }
     })();
+
+    this._ov = Promise.race([loadPromise, timeoutPromise]);
     return this._ov;
   }
 
@@ -235,7 +264,6 @@ class Component extends DCLogic {
     try { THREE = await import('https://unpkg.com/three@0.160.0/build/three.module.js'); }
     catch (e) { console.warn('three load failed', e); return; }
 
-    // 修復：除了讀取靜態 json 外，同時載入 Firebase 覆蓋資料
     const [rawTopo, dm, qm, ov] = await Promise.all([
       fetch('./data/counties.json').then(r => r.json()).catch(() => null),
       fetch('./data/district_town_map.json').then(r => r.json()).catch(() => ({})),
@@ -245,9 +273,7 @@ class Component extends DCLogic {
     this.districtMap = dm; this.quotaMap = qm;
     if (!rawTopo) { document.getElementById('tw3d-meta').textContent = '地圖資料載入失敗'; return; }
     
-    // 合併 Firebase 上的候選人資料與大頭貼網址
     const topo = this.applyOverrides(rawTopo, ov);
-
     const fc = window.topojson.feature(topo, topo.objects.map);
     const feats = fc.features.filter(f => { const c = this._centroid(f); return c[0] > 119.3 && c[0] < 122.2 && c[1] > 21.8 && c[1] < 25.4; });
 
@@ -257,7 +283,7 @@ class Component extends DCLogic {
     const px = lo => (lo - cx) * S, py = la => (la - cy) * S;
 
     const scene = new THREE.Scene();
-    const W = el.clientWidth, H = el.clientHeight;
+    const W = el.clientWidth || window.innerWidth, H = el.clientHeight || window.innerHeight;
     const cam = new THREE.PerspectiveCamera(42, W / H, 0.1, 1000);
     cam.position.set(0, 68, 34); cam.lookAt(0, -6, 0);
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -301,7 +327,11 @@ class Component extends DCLogic {
 
     const ray = new THREE.Raycaster(), mouse = new THREE.Vector2();
     let hovered = null, selected = null;
-    const setMesh = (m, on) => { window.gsap.to(m.position, { z: on ? 3.2 : 0, duration: 0.5, ease: 'power3.out' }); m.material.color.copy(on ? hotCol : baseCol); m.material.emissive.setHex(on ? 0x3a0008 : 0x000000); };
+    const setMesh = (m, on) => { 
+      if (window.gsap) window.gsap.to(m.position, { z: on ? 3.2 : 0, duration: 0.5, ease: 'power3.out' }); 
+      m.material.color.copy(on ? hotCol : baseCol); 
+      m.material.emissive.setHex(on ? 0x3a0008 : 0x000000); 
+    };
     this._hoverTest = e => {
       const r = dom.getBoundingClientRect();
       mouse.x = ((gx(e) - r.left) / r.width) * 2 - 1; mouse.y = -((gy(e) - r.top) / r.height) * 2 + 1;
@@ -326,7 +356,7 @@ class Component extends DCLogic {
     const loop = () => { this._raf = requestAnimationFrame(loop); if (this._auto) pivot.rotation.y += 0.0015; renderer.render(scene, cam); };
     loop();
     window.addEventListener('resize', () => { const w = el.clientWidth, h = el.clientHeight; if (!w || !h) return; cam.aspect = w / h; cam.updateProjectionMatrix(); renderer.setSize(w, h); });
-    window.gsap.from(flat.position, { y: -34, duration: 1.5, ease: 'power3.out', delay: 2.1 });
+    if (window.gsap) window.gsap.from(flat.position, { y: -34, duration: 1.5, ease: 'power3.out', delay: 1 });
   }
 
   _tally(p) { const m = (p.candidates || []).length, c = (p.councilors || []).reduce((a, b) => a + ((b.candidates || []).length), 0); return `${m} 位縣市長候選人 · ${c} 位議員候選人`; }
@@ -355,7 +385,9 @@ class Component extends DCLogic {
     const text = raw == null || raw === '' ? '--' : String(raw);
     const m = text.match(/[\d,]+/); if (!m) { el.textContent = text; return; }
     const target = parseInt(m[0].replace(/,/g, ''), 10), pre = text.slice(0, m.index), post = text.slice(m.index + m[0].length);
-    const o = { v: 0 }; window.gsap.to(o, { v: target, duration: 0.75, ease: 'power2.out', onUpdate: () => { el.textContent = pre + Math.round(o.v).toLocaleString('en-US') + post; } });
+    const o = { v: 0 }; 
+    if (window.gsap) window.gsap.to(o, { v: target, duration: 0.75, ease: 'power2.out', onUpdate: () => { el.textContent = pre + Math.round(o.v).toLocaleString('en-US') + post; } });
+    else el.textContent = raw;
   }
   _card(c) {
     const p = this._partyConfig(c.party);
@@ -366,7 +398,6 @@ class Component extends DCLogic {
     const socials = ['facebook', 'instagram', 'threads', 'youtube'].filter(k => c[k]);
     const socialBlock = socials.length ? `<div style="display:flex;flex-wrap:wrap;gap:7px">${socials.map(k => `<a href="${c[k]}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:#fff;font:800 11px 'Archivo';color:#645c50;border:1px solid #ece7dc">${socialMap[k]}</a>`).join('')}</div>` : '';
     
-    // 修復：支援 photoUrl 大頭貼，若無照片或圖片錯誤載入則 fallback 為姓名字首
     const initial = (c.name || '').slice(0, 1);
     const avatar = c.photoUrl
       ? `<img src="${c.photoUrl}" alt="${c.name}" referrerpolicy="no-referrer" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:50%" onerror="this.onerror=null;this.parentNode.textContent='${initial}'">`
