@@ -755,9 +755,8 @@ class App {
     this.breadcrumb();
     const tag = f.properties.isIndigenousDistrict ? '山地原住民區' : '行政區轄區';
     const repLabel = f.properties.isIndigenousDistrict ? '區民代表候選人（依選舉區）' : '鄉鎮市民代表候選人（依選舉區）';
-    const cands = (f.properties.candidates && f.properties.candidates.length) ? f.properties.candidates : this.county.feature.properties.candidates;
     this.drawer(`${this.county.name} › ${f.properties.name}`, `${f.properties.name} 公職名冊`, tag, f.properties.voters, f.properties.quota,
-      cands, { label: repLabel, blocks: f.properties.representatives });
+      f.properties.candidates, { label: repLabel, blocks: f.properties.representatives });
     await this.renderVillages(code);
   }
 
@@ -840,9 +839,20 @@ class App {
            <span style="display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:700;color:var(--color-neutral-700)">
              <span style="width:7px;height:7px;border-radius:50%;background:var(--color-accent);animation:om-ring 1.8s ease-out infinite"></span>選舉公報審定中</span>
            <span class="tag tag-neutral" style="font-size:10px">待中選會統一公布</span></div>`;
+    const SOCIAL_ICON = {
+      facebook: { bg: '#1877F2', svg: '<path d="M13.5 21v-7.5h2.5l.4-3H13.5V8.6c0-.87.24-1.46 1.5-1.46h1.6V4.46C16.3 4.32 15.4 4.2 14.4 4.2c-2.5 0-4.2 1.52-4.2 4.32V10.5H7.7v3h2.5V21h3.3z" fill="#fff"/>' },
+      instagram: { bg: '#C13584', svg: '<rect x="5" y="5" width="14" height="14" rx="4" fill="none" stroke="#fff" stroke-width="1.6"/><circle cx="12" cy="12" r="3.3" fill="none" stroke="#fff" stroke-width="1.6"/><circle cx="16.3" cy="7.7" r="1" fill="#fff"/>' },
+      threads: { bg: '#000000', svg: '<text x="12" y="16" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" font-family="Georgia,serif">@</text>' },
+      youtube: { bg: '#FF0000', svg: '<polygon points="9.5,7.5 9.5,16.5 17,12" fill="#fff"/>' },
+    };
+    function socialIcon(key) {
+      const s = SOCIAL_ICON[key];
+      return `<svg viewBox="0 0 24 24" width="15" height="15"><circle cx="12" cy="12" r="12" fill="${s.bg}"/>${s.svg}</svg>`;
+    }
+
     const socials = [['facebook', 'Facebook'], ['instagram', 'Instagram'], ['threads', 'Threads'], ['youtube', 'YouTube']].filter(s => c[s[0]]);
     const socialBlock = socials.length ? `<div style="display:flex;flex-wrap:wrap;gap:7px">${socials.map(s =>
-      `<a href="${c[s[0]]}" target="_blank" rel="noopener noreferrer" style="padding:4px 13px;border-radius:999px;background:var(--color-surface);font-size:11px;font-weight:700;color:var(--color-neutral-700);text-decoration:none">${s[1]}</a>`).join('')}</div>` : '';
+      `<a href="${c[s[0]]}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;padding:4px 13px 4px 9px;border-radius:999px;background:var(--color-surface);font-size:11px;font-weight:700;color:var(--color-neutral-700);text-decoration:none">${socialIcon(s[0])}<span>${s[1]}</span></a>`).join('')}</div>` : '';
     const avatar = c.photoUrl
       ? `<img src="${c.photoUrl}" alt="${c.name}" class="washed" loading="lazy" style="width:100%;height:100%;object-fit:cover" onerror="this.parentNode.textContent='${(c.name || '').slice(0, 1)}'">`
       : (c.name || '').slice(0, 1);
