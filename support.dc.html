@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:#0d0d0d}
+  ::selection{background:#E4022B;color:#fff}
+  a{color:inherit;text-decoration:none}
+  ::-webkit-scrollbar{width:10px}::-webkit-scrollbar-track{background:#0d0d0d}::-webkit-scrollbar-thumb{background:#E4022B}
+  input.don{width:100%;padding:14px 16px;border:1.5px solid #d8d3c8;border-radius:12px;font:600 15px 'Noto Sans TC',sans-serif;background:#fff;color:#0d0d0d;outline:none;transition:border-color .2s}
+  input.don:focus{border-color:#E4022B}
+  input.don::placeholder{color:#a49e93;font-weight:500}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</helmet>
+
+<div style="background:#0d0d0d;color:#f4f1ea;font-family:'Noto Sans TC',system-ui,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column">
+
+  <nav style="position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:16px clamp(18px,4vw,54px);background:rgba(13,13,13,.82);backdrop-filter:blur(10px);border-bottom:1px solid #1c1a17">
+    <a href="./index.dc.html" style="display:flex;align-items:center;gap:11px;font-family:'Archivo',sans-serif;font-weight:900;letter-spacing:-.02em;font-size:17px">
+      <span style="width:12px;height:12px;background:#E4022B;display:inline-block;border-radius:2px"></span>2026 選舉倒數
+    </a>
+    <div style="display:flex;align-items:center;gap:clamp(14px,2.4vw,32px);font-family:'Archivo',sans-serif;font-weight:600;font-size:13px;letter-spacing:.04em">
+      <a href="./index.dc.html#top" style="opacity:.85">選情地圖</a>
+      <a href="./observatory.dc.html" style="opacity:.85">政治觀測站</a>
+      <a href="./support.dc.html" style="color:#E4022B">支持我們</a>
+    </div>
+  </nav>
+
+  <header style="padding:clamp(52px,10vh,120px) clamp(18px,4vw,54px) clamp(24px,4vh,44px)">
+    <div style="font-family:'Archivo';font-weight:700;font-size:13px;letter-spacing:.28em;color:#E4022B;margin-bottom:20px">支持我們 / SUPPORT</div>
+    <h1 style="font-family:'Noto Sans TC','Archivo',sans-serif;font-weight:900;font-size:clamp(38px,7.5vw,116px);line-height:.96;letter-spacing:-.03em;margin:0 0 24px;max-width:1200px;text-wrap:balance">讓開放的選舉資訊，<br>走得<span style="color:#E4022B">更遠</span>。</h1>
+    <p style="margin:0;max-width:640px;color:#a29c92;font-size:clamp(15px,1.6vw,18px);line-height:1.8;text-wrap:pretty">我們沒有任何政黨或財團資助。你的每一筆小額捐款，都直接投入資料查證、地圖維護與伺服器成本，讓 22 縣市的候選人資訊持續免費、公開、中立。</p>
+  </header>
+
+  <main style="flex:1;padding:0 clamp(18px,4vw,54px) clamp(56px,9vh,110px)">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:clamp(20px,3vw,44px);align-items:start;max-width:1200px">
+
+      <!-- LEFT: form card -->
+      <div style="background:#f4f1ea;color:#0d0d0d;border-radius:20px;padding:clamp(24px,3vw,40px)">
+        <div style="display:flex;gap:8px;padding:5px;background:#e6e1d6;border-radius:999px;margin-bottom:26px">
+          <button class="freq-btn" data-freq="once" style="flex:1;padding:11px;border:none;border-radius:999px;font:800 14px 'Noto Sans TC';cursor:pointer;background:#E4022B;color:#fff">單次捐款</button>
+          <button class="freq-btn" data-freq="monthly" style="flex:1;padding:11px;border:none;border-radius:999px;font:800 14px 'Noto Sans TC';cursor:pointer;background:transparent;color:#0d0d0d">每月定期</button>
+        </div>
+
+        <div style="font-family:'Archivo';font-weight:700;font-size:11px;letter-spacing:.16em;color:#8a857c;margin-bottom:12px">選擇金額 (NT$)</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px">
+          <button class="amt-btn" data-amt="100" style="padding:16px 8px;border:1.5px solid #d8d3c8;border-radius:12px;background:#fff;font-family:'Archivo';font-weight:900;font-size:20px;cursor:pointer;color:#0d0d0d">100</button>
+          <button class="amt-btn" data-amt="300" style="padding:16px 8px;border:1.5px solid #E4022B;border-radius:12px;background:#E4022B;font-family:'Archivo';font-weight:900;font-size:20px;cursor:pointer;color:#fff">300</button>
+          <button class="amt-btn" data-amt="500" style="padding:16px 8px;border:1.5px solid #d8d3c8;border-radius:12px;background:#fff;font-family:'Archivo';font-weight:900;font-size:20px;cursor:pointer;color:#0d0d0d">500</button>
+          <button class="amt-btn" data-amt="1000" style="padding:16px 8px;border:1.5px solid #d8d3c8;border-radius:12px;background:#fff;font-family:'Archivo';font-weight:900;font-size:20px;cursor:pointer;color:#0d0d0d">1,000</button>
+          <button class="amt-btn" data-amt="2000" style="padding:16px 8px;border:1.5px solid #d8d3c8;border-radius:12px;background:#fff;font-family:'Archivo';font-weight:900;font-size:20px;cursor:pointer;color:#0d0d0d">2,000</button>
+          <button class="amt-btn" data-amt="custom" style="padding:16px 8px;border:1.5px solid #d8d3c8;border-radius:12px;background:#fff;font-family:'Noto Sans TC';font-weight:800;font-size:15px;cursor:pointer;color:#0d0d0d">自訂</button>
+        </div>
+        <input id="amt-custom" class="don" inputmode="numeric" placeholder="輸入自訂金額" style="display:none;margin-bottom:12px">
+
+        <div style="display:flex;flex-direction:column;gap:12px;margin-top:14px">
+          <input id="don-name" class="don" placeholder="姓名 / 暱稱">
+          <input id="don-email" class="don" type="email" placeholder="電子郵件（收據寄送）">
+        </div>
+
+        <div style="font-family:'Archivo';font-weight:700;font-size:11px;letter-spacing:.16em;color:#8a857c;margin:22px 0 12px">付款方式</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+          <button class="pay-btn" data-pay="card" style="padding:12px 6px;border:1.5px solid #E4022B;border-radius:12px;background:#fff;font:800 13px 'Noto Sans TC';cursor:pointer;color:#0d0d0d">信用卡</button>
+          <button class="pay-btn" data-pay="atm" style="padding:12px 6px;border:1.5px solid #d8d3c8;border-radius:12px;background:#fff;font:800 13px 'Noto Sans TC';cursor:pointer;color:#0d0d0d">ATM 轉帳</button>
+          <button class="pay-btn" data-pay="linepay" style="padding:12px 6px;border:1.5px solid #d8d3c8;border-radius:12px;background:#fff;font:800 13px 'Noto Sans TC';cursor:pointer;color:#0d0d0d">Line Pay</button>
+        </div>
+
+        <button id="don-submit" style="width:100%;margin-top:24px;padding:17px;border:none;border-radius:14px;background:#0d0d0d;color:#fff;font-family:'Noto Sans TC';font-weight:900;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:background .2s">
+          <span id="don-submit-label">捐出 NT$300 · 單次</span><span style="font-size:18px">→</span>
+        </button>
+        <p style="margin:14px 0 0;font-size:11.5px;color:#8a857c;line-height:1.6;text-align:center">本頁為示意介面，未串接實際金流。所有捐款將開立正式收據。</p>
+      </div>
+
+      <!-- RIGHT: impact -->
+      <div style="display:flex;flex-direction:column;gap:clamp(16px,2.4vw,26px)">
+        <div style="font-family:'Archivo';font-weight:700;font-size:13px;letter-spacing:.24em;color:#E4022B">你的支持用於 / WHERE IT GOES</div>
+        <div style="border-top:1px solid #1c1a17;padding-top:22px">
+          <div style="display:flex;align-items:baseline;gap:16px"><span style="font-family:'Archivo';font-weight:900;font-size:clamp(28px,4vw,52px);color:#E4022B;line-height:1">01</span><div><div style="font-family:'Noto Sans TC';font-weight:900;font-size:clamp(18px,2vw,24px)">資料查證與更新</div><div style="color:#a29c92;font-size:14px;margin-top:6px;line-height:1.7">逐筆比對中選會公告，維持 22 縣市候選人名冊即時準確。</div></div></div>
+        </div>
+        <div style="border-top:1px solid #1c1a17;padding-top:22px">
+          <div style="display:flex;align-items:baseline;gap:16px"><span style="font-family:'Archivo';font-weight:900;font-size:clamp(28px,4vw,52px);color:#E4022B;line-height:1">02</span><div><div style="font-family:'Noto Sans TC';font-weight:900;font-size:clamp(18px,2vw,24px)">地圖與網站維運</div><div style="color:#a29c92;font-size:14px;margin-top:6px;line-height:1.7">3D 選情地圖、伺服器與網域的持續開發與維護成本。</div></div></div>
+        </div>
+        <div style="border-top:1px solid #1c1a17;padding-top:22px">
+          <div style="display:flex;align-items:baseline;gap:16px"><span style="font-family:'Archivo';font-weight:900;font-size:clamp(28px,4vw,52px);color:#E4022B;line-height:1">03</span><div><div style="font-family:'Noto Sans TC';font-weight:900;font-size:clamp(18px,2vw,24px)">保持中立與免費</div><div style="color:#a29c92;font-size:14px;margin-top:6px;line-height:1.7">不接受政黨與財團資助，讓資訊對每一位公民免費開放。</div></div></div>
+        </div>
+        <div style="margin-top:8px;background:#151311;border:1px solid #1c1a17;border-radius:18px;padding:24px">
+          <p style="margin:0;font-family:'Noto Sans TC';font-weight:700;font-size:clamp(16px,1.8vw,20px);line-height:1.7;color:#f4f1ea;text-wrap:pretty">「民主的成本，不該由任何一方獨自買單。」</p>
+          <div style="margin-top:14px;font-family:'Archivo';font-weight:600;font-size:12px;letter-spacing:.1em;color:#8a857c">— Politics Design Lab</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer style="background:#0d0d0d;color:#8a857c;padding:clamp(30px,5vh,60px) clamp(18px,4vw,54px);display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;border-top:1px solid #1c1a17">
+    <div style="font-family:'Archivo';font-weight:900;font-size:clamp(18px,2.4vw,26px);color:#f4f1ea;letter-spacing:-.02em">2026 選舉倒數</div>
+    <div style="font-family:'Archivo';font-weight:600;font-size:12px;letter-spacing:.08em;text-align:right">Politics Design Lab · 全台選舉開箱圖鑑</div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { freq: 'once', amt: 300, custom: '', pay: 'card' };
+  componentDidMount() {
+    const root = document.currentScript ? null : null;
+    this.q = s => document.querySelectorAll(s);
+    this.q('.freq-btn').forEach(b => b.onclick = () => { this.setState({ freq: b.dataset.freq }); this._paintFreq(); this._label(); });
+    this.q('.amt-btn').forEach(b => b.onclick = () => {
+      const v = b.dataset.amt;
+      if (v === 'custom') { this.setState({ amt: 'custom' }); this._showCustom(true); }
+      else { this.setState({ amt: +v }); this._showCustom(false); }
+      this._paintAmt(); this._label();
+    });
+    this.q('.pay-btn').forEach(b => b.onclick = () => { this.setState({ pay: b.dataset.pay }); this._paintPay(); });
+    const ci = document.getElementById('amt-custom');
+    if (ci) ci.oninput = () => { this.setState({ custom: ci.value.replace(/[^0-9]/g, '') }); this._label(); };
+    const sub = document.getElementById('don-submit');
+    if (sub) sub.onclick = () => this._submit();
+  }
+  _amount() { return this.state.amt === 'custom' ? (parseInt(this.state.custom, 10) || 0) : this.state.amt; }
+  _showCustom(on) { const ci = document.getElementById('amt-custom'); if (ci) { ci.style.display = on ? 'block' : 'none'; if (on) ci.focus(); } }
+  _paintFreq() { this.q('.freq-btn').forEach(b => { const on = b.dataset.freq === this.state.freq; b.style.background = on ? '#E4022B' : 'transparent'; b.style.color = on ? '#fff' : '#0d0d0d'; }); }
+  _paintAmt() { this.q('.amt-btn').forEach(b => { const on = b.dataset.amt === String(this.state.amt); b.style.background = on ? '#E4022B' : '#fff'; b.style.color = on ? '#fff' : '#0d0d0d'; b.style.borderColor = on ? '#E4022B' : '#d8d3c8'; }); }
+  _paintPay() { this.q('.pay-btn').forEach(b => { const on = b.dataset.pay === this.state.pay; b.style.borderColor = on ? '#E4022B' : '#d8d3c8'; b.style.background = on ? '#fff5f6' : '#fff'; }); }
+  _label() {
+    const el = document.getElementById('don-submit-label'); if (!el) return;
+    const amt = this._amount();
+    const freq = this.state.freq === 'monthly' ? '每月' : '單次';
+    el.textContent = amt > 0 ? `捐出 NT$${amt.toLocaleString('en-US')} · ${freq}` : `輸入金額 · ${freq}`;
+  }
+  _submit() {
+    const amt = this._amount();
+    const btn = document.getElementById('don-submit');
+    if (amt <= 0) { const ci = document.getElementById('amt-custom'); if (ci) { this._showCustom(true); ci.focus(); } return; }
+    btn.style.background = '#1B9431';
+    document.getElementById('don-submit-label').textContent = `感謝支持！NT$${amt.toLocaleString('en-US')} 已送出`;
+    window.gsap && window.gsap.fromTo(btn, { scale: 0.96 }, { scale: 1, duration: 0.4, ease: 'back.out(2)' });
+  }
+}
+</script>
+</body>
+</html>
