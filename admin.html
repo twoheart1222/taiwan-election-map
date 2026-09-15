@@ -162,8 +162,8 @@
         <div class="flex items-center justify-between mb-2">
           <h3 class="text-xs font-black uppercase tracking-wider text-ink-500" id="candidates-heading">候選人名冊</h3>
           <div class="flex items-center space-x-3">
-            <button type="button" onclick="batchUpdateFromOfficial()" class="text-xs font-bold text-accent-orange hover:underline flex items-center space-x-1" title="自動將全選區 Wiki 照片換為議會圖並填入直達 FB">
-              <i data-lucide="sparkles" class="w-3.5 h-3.5"></i><span>替換 Wiki 照片與更新 FB（全區）</span>
+            <button type="button" onclick="batchUpdateFromOfficial()" class="text-xs font-bold text-accent-orange hover:underline flex items-center space-x-1" title="點擊選擇 tycc_councilors.json 檔案進行覆蓋更新">
+              <i data-lucide="file-up" class="w-3.5 h-3.5"></i><span>選擇檔案更新：替換 Wiki 照片、重設 FB 並全數設為現任連任</span>
             </button>
             <button type="button" onclick="addCandidateRow()" class="text-xs font-bold text-accent-blue hover:underline flex items-center space-x-1">
               <i data-lucide="plus" class="w-3.5 h-3.5"></i><span>新增候選人</span>
@@ -222,13 +222,13 @@
     let townsCache = {};
     let villagesCache = {};
     let currentScope = null;
-    let currentCountyRole = 'mayor'; // 'mayor' | 'councilor'
+    let currentCountyRole = 'mayor';
     let currentCode = null;
     let currentBase = null;
 
     let workingCandidates = [];
-    let workingCouncilors = []; // [ { district: "1", quota: "12 席", candidates: [...] } ]
-    let currentDistrictMode = 'all'; // 'all' 或 陣列 index (0 ~ 13)
+    let workingCouncilors = [];
+    let currentDistrictMode = 'all';
 
     window.doSignIn = () => {
       signInWithRedirect(auth, provider).catch(err => {
@@ -412,7 +412,6 @@
 
       workingCandidates = JSON.parse(JSON.stringify(override.candidates !== undefined ? override.candidates : (currentBase.candidates || [])));
       
-      // 支援 councilors 或 councilors.blocks 兩種資料結構相容
       const baseCouncilors = currentBase.councilors ? (currentBase.councilors.blocks || currentBase.councilors) : [];
       const overrideCouncilors = override.councilors ? (override.councilors.blocks || override.councilors) : null;
       workingCouncilors = JSON.parse(JSON.stringify(overrideCouncilors !== null ? overrideCouncilors : baseCouncilors));
@@ -471,7 +470,6 @@
       renderDistrictPicker();
     };
 
-    // 渲染選區下拉選單（包含「全部選區」）
     function renderDistrictPicker() {
       const picker = document.getElementById('select-council-district');
       const totalCount = workingCouncilors.reduce((sum, b) => sum + (b.candidates ? b.candidates.length : 0), 0);
@@ -485,7 +483,6 @@
       onCouncilDistrictChange();
     }
 
-    // 切換選區：全部 VS 單一選區
     window.onCouncilDistrictChange = function() {
       const picker = document.getElementById('select-council-district');
       currentDistrictMode = picker.value;
@@ -495,7 +492,6 @@
         quotaBox.classList.add('hidden');
         document.getElementById('candidates-heading').textContent = `議員候選人名冊（全選區一覽）`;
         
-        // 展平所有選區議員並標註 _district
         const allList = [];
         workingCouncilors.forEach(b => {
           (b.candidates || []).forEach(c => {
@@ -624,15 +620,12 @@
         if (currentCountyRole === 'mayor') {
           workingCandidates = collectCandidatesFromForm();
         } else {
-          // 議員模式
           const formCandidates = collectCandidatesFromForm();
           if (currentDistrictMode === 'all') {
-            // 全選區模式：依卡片上的 district 歸位至 workingCouncilors
             workingCouncilors.forEach(b => {
               b.candidates = formCandidates.filter(c => String(c.district) === String(b.district));
             });
           } else {
-            // 單選區模式
             const idx = parseInt(currentDistrictMode, 10);
             if (workingCouncilors[idx]) {
               workingCouncilors[idx].candidates = formCandidates;
@@ -650,7 +643,7 @@
       };
 
       if (currentScope === 'county') {
-        payload.councilors = workingCouncilors; // 一併寫入 1~14 全選區
+        payload.councilors = workingCouncilors;
         payload.voters = document.getElementById('f-voters').value.trim() || null;
         payload.quota = document.getElementById('f-quota').value.trim() || null;
       }
@@ -683,108 +676,115 @@
       }
     };
 
-    // ---------- 批次替換 Wiki 照片並更新 FB（全選區一次完成） ----------
-    window.batchUpdateFromOfficial = async function() {
+    // ---------- 點擊按鈕直接開啟「檔案選擇器」，並覆蓋重設錯誤連結 ----------
+    window.batchUpdateFromOfficial = function() {
+      const fileInput = document.createElement('input');
+      fileInput.type = 'file';
+      fileInput.accept = '.json';
+
+      fileInput.onchange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const status = document.getElementById('save-status');
+        status.textContent = `讀取檔案 ${file.name} 中…`;
+
+        const reader = new FileReader();
+        reader.onload = async (evt) => {
+          try {
+            const list = JSON.parse(evt.target.result);
+            await applyScrapedData(list);
+          } catch (err) {
+            alert('檔案解析失敗，請確認是有效的 JSON 檔案：' + err.message);
+          }
+        };
+        reader.readAsText(file);
+      };
+
+      // 直接觸發檔案選擇視窗
+      fileInput.click();
+    };
+
+    async function applyScrapedData(list) {
       const status = document.getElementById('save-status');
-      status.textContent = '讀取議會資料中…';
 
-      async function applyData(list) {
-        if (!workingCouncilors || workingCouncilors.length === 0) {
-          autoInit14Districts();
-        }
+      if (!workingCouncilors || workingCouncilors.length === 0) {
+        autoInit14Districts();
+      }
 
-        const map = new Map();
-        list.forEach(c => {
-          if (c && c.name) map.set(c.name.replace(/[\s\u3000]/g, ''), c);
-        });
+      const map = new Map();
+      list.forEach(c => {
+        if (c && c.name) map.set(c.name.replace(/[\s\u3000]/g, ''), c);
+      });
 
-        let photoCount = 0;
-        let fbCount = 0;
-        let addedCount = 0;
+      let photoCount = 0;
+      let fbCount = 0;
+      let incumbentCount = 0;
+      let addedCount = 0;
 
-        // 1. 全局掃描 workingCouncilors 的所有選區
-        const handledNames = new Set();
+      const handledNames = new Set();
 
-        workingCouncilors.forEach(block => {
-          if (!block.candidates) block.candidates = [];
-          block.candidates.forEach(c => {
-            const cleanName = c.name.replace(/[\s\u3000]/g, '');
-            const target = map.get(cleanName);
-            if (target) {
-              handledNames.add(cleanName);
-              const curPhoto = (c.photoUrl || '').toLowerCase();
-              if (!curPhoto || curPhoto.includes('wikipedia.org') || curPhoto.includes('wikimedia.org')) {
-                if (target.photoUrl) {
-                  c.photoUrl = target.photoUrl;
-                  photoCount++;
-                }
-              }
-              if (target.facebook && (!c.facebook || c.facebook.includes('facebook.com/search'))) {
-                c.facebook = target.facebook;
-                fbCount++;
+      // 1. 遍歷目前選區所有議員，進行強制更新與錯誤清洗
+      workingCouncilors.forEach(block => {
+        if (!block.candidates) block.candidates = [];
+        block.candidates.forEach(c => {
+          const cleanName = c.name.replace(/[\s\u3000]/g, '');
+          const target = map.get(cleanName);
+          if (target) {
+            handledNames.add(cleanName);
+
+            // A. 現任爭取連任：全數強制設為 true
+            c.isIncumbent = true;
+            incumbentCount++;
+
+            // B. 替換 Wikipedia 照片
+            const curPhoto = (c.photoUrl || '').toLowerCase();
+            if (!curPhoto || curPhoto.includes('wikipedia.org') || curPhoto.includes('wikimedia.org')) {
+              if (target.photoUrl) {
+                c.photoUrl = target.photoUrl;
+                photoCount++;
               }
             }
-          });
-        });
 
-        // 2. 若有爬到的議員未存在於任何選區中，自動依選區補入
-        list.forEach(item => {
-          const cleanName = item.name.replace(/[\s\u3000]/g, '');
-          if (!handledNames.has(cleanName)) {
-            const targetDist = String(item.district || '1');
-            let block = workingCouncilors.find(b => String(b.district) === targetDist);
-            if (!block && workingCouncilors.length > 0) block = workingCouncilors[0];
-
-            if (block) {
-              block.candidates.push({
-                name: item.name,
-                party: item.party || '無',
-                role: '市議員候選人',
-                photoUrl: item.photoUrl || '',
-                facebook: item.facebook || '',
-                isIncumbent: true
-              });
-              addedCount++;
-              handledNames.add(cleanName);
-            }
+            // C. 覆蓋 Facebook：直接以爬蟲驗證結果覆蓋，清洗掉先前錯誤的搜尋連結或假網址
+            c.facebook = target.facebook || '';
+            if (target.facebook) fbCount++;
           }
         });
+      });
 
-        // 3. 重新渲染畫面（直接切換至全選區檢視）
-        currentDistrictMode = 'all';
-        renderDistrictPicker();
+      // 2. 補齊未在現有名冊中的議員
+      list.forEach(item => {
+        const cleanName = item.name.replace(/[\s\u3000]/g, '');
+        if (!handledNames.has(cleanName)) {
+          const targetDist = String(item.district || '1');
+          let block = workingCouncilors.find(b => String(b.district) === targetDist);
+          if (!block && workingCouncilors.length > 0) block = workingCouncilors[0];
 
-        status.textContent = `全選區更新完成：替換 ${photoCount} 張官方照片，更新 ${fbCount} 個直達 FB。`;
-        alert(`🎉 全選區批次同步完成！\n\n- 替換維基百科照片：${photoCount} 位\n- 更新直達官方粉專：${fbCount} 位\n- 自動歸位補齊名單：${addedCount} 位\n\n已自動切換為「全部選舉區」檢視，請確認後點擊「儲存修改」一次寫入後台！`);
-      }
+          if (block) {
+            block.candidates.push({
+              name: item.name,
+              party: item.party || '無',
+              role: '市議員候選人',
+              photoUrl: item.photoUrl || '',
+              facebook: item.facebook || '',
+              isIncumbent: true
+            });
+            addedCount++;
+            incumbentCount++;
+            handledNames.add(cleanName);
+            if (item.facebook) fbCount++;
+          }
+        }
+      });
 
-      try {
-        const res = await fetch('./data/tycc_councilors.json');
-        if (!res.ok) throw new Error('找不到 ./data/tycc_councilors.json');
-        const data = await res.json();
-        await applyData(data);
-      } catch (err) {
-        // 備援：手動選取 tycc_councilors.json
-        const fileInput = document.createElement('input');
-        fileInput.type = 'file';
-        fileInput.accept = '.json';
-        fileInput.onchange = (e) => {
-          const file = e.target.files[0];
-          if (!file) return;
-          const reader = new FileReader();
-          reader.onload = async (evt) => {
-            try {
-              const data = JSON.parse(evt.target.result);
-              await applyData(data);
-            } catch (je) {
-              alert('JSON 格式解析錯誤');
-            }
-          };
-          reader.readAsText(file);
-        };
-        fileInput.click();
-      }
-    };
+      // 3. 自動切換至全覽檢視，重新渲染畫面
+      currentDistrictMode = 'all';
+      renderDistrictPicker();
+
+      status.textContent = `更新完成：${incumbentCount} 位設為連任、替換 ${photoCount} 張照片、清洗/更新 ${fbCount} 個有效 FB。`;
+      alert(`🎉 檔案匯入完成！\n\n- ✅ 現任爭取連任：共 ${incumbentCount} 位已全部打勾\n- 📸 維基照片替換：${photoCount} 位換為議會官方圖\n- 🔗 Facebook 清洗重設：已清空錯誤網址，保留 ${fbCount} 個官網有效粉專\n- ➕ 自動歸位新補齊：${addedCount} 位\n\n已切換為全區一覽，請點擊「儲存修改」一次寫入 Firebase！`);
+    }
 
     lucide.createIcons();
   </script>
