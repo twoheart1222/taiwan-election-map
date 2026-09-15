@@ -73,7 +73,7 @@
       </div>
       <div>
         <h2 class="text-xl font-black">管理者登入</h2>
-        <p class="text-xs text-ink-500 font-medium mt-1.5 leading-relaxed">使用 Google 帳號登入以編輯候選人資料。</p>
+        <p class="text-xs text-ink-500 font-medium mt-1.5 leading-relaxed">使用 Google 帳號登入以編輯候選人資料。僅限已授權的管理者信箱可以儲存修改。</p>
       </div>
       <button onclick="doSignIn()" class="w-full inline-flex items-center justify-center space-x-2 py-3 rounded-xl bg-ink-900 text-surface text-sm font-bold hover:bg-accent-orange transition">
         <i data-lucide="log-in" class="w-4 h-4"></i>
@@ -83,13 +83,14 @@
     </div>
   </main>
 
-  <!-- 未授權提示 -->
+  <!-- 已登入但未授權 -->
   <main id="unauthorized" class="hidden max-w-md mx-auto mt-24 px-6">
     <div class="bg-surface p-8 rounded-3xl border editorial-border shadow-[6px_6px_0px_#141517] text-center space-y-4">
       <i data-lucide="shield-alert" class="w-10 h-10 text-accent-red mx-auto"></i>
       <h2 class="text-lg font-black">此帳號尚未取得管理權限</h2>
       <p class="text-xs text-ink-500 font-medium leading-relaxed">
         已使用 <span id="unauthorized-email" class="font-black text-ink-900"></span> 登入，但該信箱不在管理者名單中。
+        請站長至 Firestore 的 <code class="bg-canvas px-1 py-0.5 rounded border border-ink-300">admins</code> collection 新增一筆文件 ID 為此信箱的資料。
       </p>
       <button onclick="doSignOut()" class="text-xs font-bold text-accent-orange hover:underline">登出並切換帳號</button>
     </div>
@@ -108,7 +109,6 @@
     </div>
 
     <div id="edit-panel" class="hidden bg-surface p-5 sm:p-7 rounded-2xl border editorial-border shadow-[4px_4px_0px_#141517] space-y-6">
-      
       <div class="flex items-center justify-between">
         <div>
           <span class="text-[10px] font-black uppercase tracking-wider text-accent-orange" id="edit-scope-tag">縣市層級</span>
@@ -118,34 +118,6 @@
         <span id="save-status" class="text-xs font-bold"></span>
       </div>
 
-      <!-- 縣市層級專用切換：首長 VS 議員 -->
-      <div id="county-type-tabs" class="hidden flex items-center space-x-2 border-b border-ink-100 pb-3">
-        <button type="button" id="tab-btn-mayor" onclick="switchCountyRole('mayor')" class="px-3.5 py-1.5 rounded-xl text-xs font-black bg-ink-900 text-surface transition">
-          縣市長選舉
-        </button>
-        <button type="button" id="tab-btn-councilor" onclick="switchCountyRole('councilor')" class="px-3.5 py-1.5 rounded-xl text-xs font-black bg-canvas border editorial-border text-ink-700 hover:bg-ink-100 transition">
-          縣市議員選舉（依選舉區）
-        </button>
-      </div>
-
-      <!-- 議員選舉區選擇列 -->
-      <div id="council-district-box" class="hidden p-4 rounded-xl bg-canvas border editorial-border space-y-3">
-        <div class="flex flex-wrap items-center justify-between gap-2">
-          <div class="flex items-center space-x-2">
-            <span class="text-xs font-black text-ink-700">選擇議員選舉區：</span>
-            <select id="select-council-district" onchange="onCouncilDistrictChange()" class="select-editorial bg-surface border editorial-border rounded-xl px-3 py-1.5 pr-8 text-xs font-bold cursor-pointer"></select>
-          </div>
-          <button type="button" onclick="autoInit14Districts()" class="text-xs font-bold text-accent-blue hover:underline">
-            + 自動建立 1～14 選舉區
-          </button>
-        </div>
-        <div class="flex items-center space-x-2">
-          <span class="text-[11px] font-bold text-ink-500">此選舉區應選席次：</span>
-          <input id="f-district-quota" type="text" placeholder="例：12 席" onchange="updateDistrictQuota()" class="bg-surface border editorial-border rounded-lg px-2.5 py-1 text-xs font-bold w-36">
-        </div>
-      </div>
-
-      <!-- 縣市人口與總席次 -->
       <div id="voters-quota-block" class="grid grid-cols-2 gap-3">
         <label class="block">
           <span class="text-[11px] font-bold text-ink-500 block mb-1 uppercase">選舉人口估計</span>
@@ -153,22 +125,16 @@
         </label>
         <label class="block">
           <span class="text-[11px] font-bold text-ink-500 block mb-1 uppercase">應選席次</span>
-          <input id="f-quota" type="text" placeholder="例：市長 1 席 / 議員 63 席" class="w-full bg-canvas border editorial-border rounded-xl px-3 py-2 text-sm font-bold">
+          <input id="f-quota" type="text" placeholder="例：市長 1 席 / 議員 61 席" class="w-full bg-canvas border editorial-border rounded-xl px-3 py-2 text-sm font-bold">
         </label>
       </div>
 
-      <!-- 候選人編輯清單 -->
       <div>
         <div class="flex items-center justify-between mb-2">
           <h3 class="text-xs font-black uppercase tracking-wider text-ink-500" id="candidates-heading">候選人名冊</h3>
-          <div class="flex items-center space-x-3">
-            <button type="button" onclick="batchUpdateFromOfficial()" class="text-xs font-bold text-accent-orange hover:underline flex items-center space-x-1" title="讀取 tycc_councilors.json 替換維基百科照片並補齊臉書">
-              <i data-lucide="sparkles" class="w-3.5 h-3.5"></i><span>替換 Wiki 照片與更新 FB</span>
-            </button>
-            <button type="button" onclick="addCandidateRow()" class="text-xs font-bold text-accent-blue hover:underline flex items-center space-x-1">
-              <i data-lucide="plus" class="w-3.5 h-3.5"></i><span>新增候選人</span>
-            </button>
-          </div>
+          <button onclick="addCandidateRow()" class="text-xs font-bold text-accent-blue hover:underline flex items-center space-x-1">
+            <i data-lucide="plus" class="w-3.5 h-3.5"></i><span>新增候選人</span>
+          </button>
         </div>
         <div id="candidate-rows" class="space-y-3"></div>
       </div>
@@ -181,6 +147,7 @@
           <i data-lucide="rotate-ccw" class="w-4 h-4"></i><span>還原為原始資料</span>
         </button>
       </div>
+      <p class="text-[11px] text-ink-500 font-medium">「還原為原始資料」會刪除此節點的後台覆寫紀錄，回到 data/ 目錄下原始候選人登記資料。</p>
     </div>
 
     <div class="bg-surface p-5 rounded-2xl border editorial-border shadow-[4px_4px_0px_#141517]">
@@ -200,6 +167,7 @@
       getFirestore, doc, getDoc, setDoc, deleteDoc, collection, getDocs
     } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
+    // TODO：換成你自己 Firebase 專案的設定值（跟 index.html 用同一組）
     const firebaseConfig = {
       apiKey: "AIzaSyAZdhEkMeCER-eh_De2viLi0jG2kD2f_4A",
       authDomain: "taiwan-election-map.firebaseapp.com",
@@ -209,6 +177,7 @@
       appId: "1:603857399918:web:44fb7f95b20e127ad1b67f"
     };
 
+    // 還沒換成真的 Firebase 設定值之前，完全不嘗試連線，避免跳出 API key 相關錯誤
     const firebaseConfigured = firebaseConfig.apiKey !== 'YOUR_API_KEY';
     const app = firebaseConfigured ? initializeApp(firebaseConfig) : null;
     const auth = firebaseConfigured ? getAuth(app) : null;
@@ -218,28 +187,35 @@
     let currentUser = null;
     let allOverrides = {};
 
+    // 三級資料快取（跟 index.html 用同一套 data/ 目錄，縣市代碼/鄉鎮市區代碼/村里代碼為 Firestore 文件 ID）
     let countiesTopo = null;
     let townsCache = {};
     let villagesCache = {};
     let currentScope = null;   // 'county' | 'town' | 'village'
-    let currentCountyRole = 'mayor'; // 'mayor' | 'councilor'
-    let currentCode = null;
-    let currentBase = null;
-
-    // 暫存目前的資料物件，方便切換選區時不掉資料
-    let workingCandidates = [];
-    let workingCouncilors = []; // [ { district: "1", quota: "12 席", candidates: [...] } ]
-    let currentDistrictIdx = 0;
+    let currentCode = null;    // 目前編輯節點的代碼（Firestore 文件 ID）
+    let currentBase = null;    // 目前節點的原始（未覆寫）properties
 
     window.doSignIn = () => {
+      if (!firebaseConfigured) {
+        document.getElementById('gate-msg').textContent = '尚未設定 Firebase，請先依 FIREBASE_SETUP.md 換上真實的專案設定值。';
+        return;
+      }
+      document.getElementById('gate-msg').textContent = '登入中，正在跳轉到 Google…';
+      // 用整頁跳轉登入（signInWithRedirect）而不是彈出視窗（signInWithPopup）：
+      // 彈出視窗登入在部分瀏覽器（尤其手機、或封鎖第三方 cookie 的設定）常常會
+      // 選完帳號後視窗關掉卻沒有把登入結果傳回來，畫面就卡住沒反應——整頁跳轉
+      // 沒有這個問題，相容性好很多。
       signInWithRedirect(auth, provider).catch(err => {
         document.getElementById('gate-msg').textContent = '登入失敗：' + err.message;
       });
     };
-    window.doSignOut = () => { signOut(auth); };
+    window.doSignOut = () => { if (firebaseConfigured) signOut(auth); };
 
     if (firebaseConfigured) {
-      getRedirectResult(auth).catch(err => console.error(err));
+      getRedirectResult(auth).catch(err => {
+        document.getElementById('gate-msg').textContent = '登入失敗：' + err.message;
+        console.error('getRedirectResult 失敗', err);
+      });
     }
 
     function topoToFeatures(topo) {
@@ -247,50 +223,53 @@
       return topojson.feature(topo, topo.objects[objKey]);
     }
 
-    if (firebaseConfigured) {
-      onAuthStateChanged(auth, async (user) => {
-        const gate = document.getElementById('gate');
-        const unauthorized = document.getElementById('unauthorized');
-        const editor = document.getElementById('editor');
-        const userBox = document.getElementById('user-box');
+    if (!firebaseConfigured) {
+      document.getElementById('gate-msg').textContent = '尚未設定 Firebase，請先依 FIREBASE_SETUP.md 換上真實的專案設定值才能登入。';
+    } else {
+    onAuthStateChanged(auth, async (user) => {
+      const gate = document.getElementById('gate');
+      const unauthorized = document.getElementById('unauthorized');
+      const editor = document.getElementById('editor');
+      const userBox = document.getElementById('user-box');
 
-        if (!user) {
-          currentUser = null;
-          gate.classList.remove('hidden');
-          unauthorized.classList.add('hidden');
-          editor.classList.add('hidden');
-          userBox.classList.add('hidden');
-          return;
-        }
-
-        let authorized = false;
-        try {
-          const snap = await getDoc(doc(db, 'admins', user.email));
-          authorized = snap.exists();
-        } catch (err) {
-          console.error('檢查管理權限失敗', err);
-        }
-
-        document.getElementById('user-avatar').src = user.photoURL || '';
-        document.getElementById('user-name').textContent = user.displayName || user.email;
-        userBox.classList.remove('hidden');
-        userBox.classList.add('flex');
-
-        if (!authorized) {
-          currentUser = null;
-          gate.classList.add('hidden');
-          unauthorized.classList.remove('hidden');
-          editor.classList.add('hidden');
-          document.getElementById('unauthorized-email').textContent = user.email;
-          return;
-        }
-
-        currentUser = user;
-        gate.classList.add('hidden');
+      if (!user) {
+        currentUser = null;
+        gate.classList.remove('hidden');
         unauthorized.classList.add('hidden');
-        editor.classList.remove('hidden');
-        await bootEditor();
-      });
+        editor.classList.add('hidden');
+        userBox.classList.add('hidden');
+        userBox.classList.remove('flex');
+        return;
+      }
+
+      let authorized = false;
+      try {
+        const snap = await getDoc(doc(db, 'admins', user.email));
+        authorized = snap.exists();
+      } catch (err) {
+        console.error('檢查管理權限失敗', err);
+      }
+
+      document.getElementById('user-avatar').src = user.photoURL || '';
+      document.getElementById('user-name').textContent = user.displayName || user.email;
+      userBox.classList.remove('hidden');
+      userBox.classList.add('flex');
+
+      if (!authorized) {
+        currentUser = null;
+        gate.classList.add('hidden');
+        unauthorized.classList.remove('hidden');
+        editor.classList.add('hidden');
+        document.getElementById('unauthorized-email').textContent = user.email;
+        return;
+      }
+
+      currentUser = user;
+      gate.classList.add('hidden');
+      unauthorized.classList.add('hidden');
+      editor.classList.remove('hidden');
+      await bootEditor();
+    });
     }
 
     async function fetchJSON(url) {
@@ -390,7 +369,7 @@
       loadNode('village', countyFeature, townFeature, villFeature);
     });
 
-    // ---------- 載入節點資料 ----------
+    // ---------- 編輯表單 ----------
     function loadNode(scope, countyFeature, townFeature, villFeature) {
       currentScope = scope;
       const feature = scope === 'county' ? countyFeature : (scope === 'town' ? townFeature : villFeature);
@@ -399,7 +378,7 @@
       const override = allOverrides[currentCode] || {};
 
       document.getElementById('edit-panel').classList.remove('hidden');
-      const scopeTagText = scope === 'county' ? '縣市層級' : scope === 'town' ? '鄉鎮市區層級' : '村里層級';
+      const scopeTagText = scope === 'county' ? '縣市層級（首長）' : scope === 'town' ? '鄉鎮市區層級（區長 / 鄉鎮市長）' : '村里層級（村里長）';
       document.getElementById('edit-scope-tag').textContent = scopeTagText;
       const path = [countyFeature && countyFeature.properties.name, townFeature && townFeature.properties.name, villFeature && villFeature.properties.name]
         .filter(Boolean).join(' > ');
@@ -411,89 +390,9 @@
       document.getElementById('f-voters').value = (override.voters !== undefined ? override.voters : currentBase.voters) || '';
       document.getElementById('f-quota').value = (override.quota !== undefined ? override.quota : currentBase.quota) || '';
 
-      // 載入資料陣列
-      workingCandidates = JSON.parse(JSON.stringify(override.candidates !== undefined ? override.candidates : (currentBase.candidates || [])));
-      workingCouncilors = JSON.parse(JSON.stringify(override.councilors !== undefined ? override.councilors : (currentBase.councilors || [])));
-
-      // 縣市層級顯示「首長 VS 議員」切換分頁
-      const isCounty = scope === 'county';
-      document.getElementById('county-type-tabs').classList.toggle('hidden', !isCounty);
-
-      if (isCounty) {
-        switchCountyRole(currentCountyRole);
-      } else {
-        document.getElementById('council-district-box').classList.add('hidden');
-        renderCandidateRows(workingCandidates);
-      }
+      const candidates = override.candidates !== undefined ? override.candidates : (currentBase.candidates || []);
+      renderCandidateRows(candidates);
     }
-
-    // ---------- 縣市切換：首長 VS 議員 ----------
-    window.switchCountyRole = function(role) {
-      currentCountyRole = role;
-      const btnMayor = document.getElementById('tab-btn-mayor');
-      const btnCouncilor = document.getElementById('tab-btn-councilor');
-      const districtBox = document.getElementById('council-district-box');
-
-      if (role === 'mayor') {
-        btnMayor.className = 'px-3.5 py-1.5 rounded-xl text-xs font-black bg-ink-900 text-surface transition';
-        btnCouncilor.className = 'px-3.5 py-1.5 rounded-xl text-xs font-black bg-canvas border editorial-border text-ink-700 hover:bg-ink-100 transition';
-        districtBox.classList.add('hidden');
-        document.getElementById('candidates-heading').textContent = '縣市長候選人名冊';
-        renderCandidateRows(workingCandidates);
-      } else {
-        btnMayor.className = 'px-3.5 py-1.5 rounded-xl text-xs font-black bg-canvas border editorial-border text-ink-700 hover:bg-ink-100 transition';
-        btnCouncilor.className = 'px-3.5 py-1.5 rounded-xl text-xs font-black bg-ink-900 text-surface transition';
-        districtBox.classList.remove('hidden');
-        document.getElementById('candidates-heading').textContent = '議員候選人名冊（分區）';
-
-        if (!workingCouncilors || workingCouncilors.length === 0) {
-          autoInit14Districts();
-        } else {
-          renderDistrictPicker();
-        }
-      }
-      lucide.createIcons();
-    };
-
-    // 自動建立 1～14 選舉區
-    window.autoInit14Districts = function() {
-      if (!workingCouncilors || workingCouncilors.length === 0) {
-        workingCouncilors = [];
-        for (let i = 1; i <= 14; i++) {
-          workingCouncilors.push({
-            district: String(i),
-            quota: i === 1 ? '12 席' : (i === 7 ? '11 席' : '約 3~5 席'),
-            candidates: []
-          });
-        }
-      }
-      renderDistrictPicker();
-    };
-
-    function renderDistrictPicker() {
-      const picker = document.getElementById('select-council-district');
-      picker.innerHTML = workingCouncilors.map((b, idx) => 
-        `<option value="${idx}">第 ${b.district} 選舉區（已登記 ${b.candidates ? b.candidates.length : 0} 人）</option>`
-      ).join('');
-      picker.value = currentDistrictIdx;
-      onCouncilDistrictChange();
-    }
-
-    window.onCouncilDistrictChange = function() {
-      const picker = document.getElementById('select-council-district');
-      currentDistrictIdx = parseInt(picker.value, 10) || 0;
-      const block = workingCouncilors[currentDistrictIdx];
-      if (!block) return;
-
-      document.getElementById('f-district-quota').value = block.quota || '';
-      renderCandidateRows(block.candidates || []);
-    };
-
-    window.updateDistrictQuota = function() {
-      if (workingCouncilors[currentDistrictIdx]) {
-        workingCouncilors[currentDistrictIdx].quota = document.getElementById('f-district-quota').value.trim();
-      }
-    };
 
     function renderCandidateRows(candidates) {
       const wrap = document.getElementById('candidate-rows');
@@ -503,14 +402,14 @@
     }
 
     window.addCandidateRow = function(c) {
-      c = c || { name: '', party: '無', role: currentCountyRole === 'councilor' ? '議員候選人' : '候選人', registeredDate: '', gazetteUrl: '', facebook: '', instagram: '', threads: '', youtube: '', photoUrl: '', isIncumbent: false };
+      c = c || { name: '', party: '無', role: '候選人', registeredDate: '', gazetteUrl: '', facebook: '', instagram: '', threads: '', youtube: '', photoUrl: '', isIncumbent: false };
       const row = document.createElement('div');
       row.className = 'card-brutal bg-canvas rounded-xl p-3 space-y-2';
       row.innerHTML = `
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 items-center">
           <input placeholder="姓名" class="c-name bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.name)}">
           <input placeholder="政黨" class="c-party bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.party)}">
-          <input placeholder="職稱（如：市議員候選人）" class="c-role bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.role)}">
+          <input placeholder="職稱（如：里長候選人）" class="c-role bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.role)}">
           <div class="flex items-center gap-1.5">
             <input placeholder="選舉公報連結 (URL)" class="c-gazette flex-1 bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.gazetteUrl || '')}">
             <button type="button" onclick="this.closest('.card-brutal').remove()" class="text-accent-red hover:bg-accent-red/10 rounded-lg p-1.5 shrink-0">
@@ -529,15 +428,23 @@
           <input placeholder="YouTube 連結" class="c-youtube bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.youtube || '')}">
         </div>
         <div class="flex items-center gap-1.5">
-          <input placeholder="照片網址（右鍵複製圖片網址貼在此）" class="c-photourl flex-1 bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.photoUrl || '')}">
+          <a href="https://elections.olc.tw/candidates/name/${encodeURIComponent(c.name || '')}" target="_blank" rel="noopener noreferrer" class="text-[11px] font-bold text-accent-blue hover:underline whitespace-nowrap px-1 shrink-0">
+            去選舉黃頁查詢 ↗
+          </a>
+          <input placeholder="照片網址（在候選人照片上按右鍵→複製圖片網址，貼在這）" class="c-photourl flex-1 bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.photoUrl || '')}">
           <div class="c-photopreview w-8 h-8 rounded-lg border border-ink-300 bg-surface shrink-0 overflow-hidden flex items-center justify-center">
             ${c.photoUrl ? `<img src="${escapeAttr(c.photoUrl)}" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='<span class=&quot;text-accent-red text-[9px] font-bold&quot;>失敗</span>'">` : ''}
           </div>
         </div>
       `;
       document.getElementById('candidate-rows').appendChild(row);
+      const nameInput = row.querySelector('.c-name');
+      const olcLink = row.querySelector('a');
       const photoInput = row.querySelector('.c-photourl');
       const photoPreview = row.querySelector('.c-photopreview');
+      nameInput.addEventListener('input', () => {
+        olcLink.href = `https://elections.olc.tw/candidates/name/${encodeURIComponent(nameInput.value.trim())}`;
+      });
       photoInput.addEventListener('change', () => {
         const url = photoInput.value.trim();
         photoPreview.innerHTML = url
@@ -567,45 +474,24 @@
       })).filter(c => c.name);
     }
 
-    // ---------- 儲存至 Firebase ----------
     window.saveOverride = async function() {
       if (!currentUser || !currentCode) return;
       const status = document.getElementById('save-status');
       status.textContent = '儲存中…';
-
-      // 根據目前所在分頁更新本機暫存陣列
-      if (currentScope === 'county') {
-        if (currentCountyRole === 'mayor') {
-          workingCandidates = collectCandidatesFromForm();
-        } else {
-          if (workingCouncilors[currentDistrictIdx]) {
-            workingCouncilors[currentDistrictIdx].candidates = collectCandidatesFromForm();
-          }
-        }
-      } else {
-        workingCandidates = collectCandidatesFromForm();
-      }
-
       const payload = {
-        candidates: workingCandidates,
+        candidates: collectCandidatesFromForm(),
         updatedAt: new Date().toISOString(),
         updatedBy: currentUser.email,
       };
-
       if (currentScope === 'county') {
-        payload.councilors = workingCouncilors; // 同步儲存所有議員分區
         payload.voters = document.getElementById('f-voters').value.trim() || null;
         payload.quota = document.getElementById('f-quota').value.trim() || null;
       }
-
       try {
         await setDoc(doc(db, 'overrides', currentCode), payload);
         allOverrides[currentCode] = payload;
         status.textContent = '已儲存 ✓';
         renderOverrideList();
-        if (currentScope === 'county' && currentCountyRole === 'councilor') {
-          renderDistrictPicker();
-        }
       } catch (err) {
         status.textContent = '儲存失敗：' + err.message;
       }
@@ -620,81 +506,9 @@
         delete allOverrides[currentCode];
         document.getElementById('save-status').textContent = '已還原為原始資料';
         renderOverrideList();
-        selCity.dispatchEvent(new Event('change'));
+        selDistrict.dispatchEvent(new Event('change'));
       } catch (err) {
         document.getElementById('save-status').textContent = '還原失敗：' + err.message;
-      }
-    };
-
-    // ---------- 批次替換 Wiki 照片並更新 FB ----------
-    window.batchUpdateFromOfficial = async function() {
-      const status = document.getElementById('save-status');
-      status.textContent = '讀取議會資料中…';
-
-      async function applyData(list) {
-        const map = new Map();
-        list.forEach(c => {
-          if (c && c.name) map.set(c.name.replace(/[\s\u3000]/g, ''), c);
-        });
-
-        let photoCount = 0;
-        let fbCount = 0;
-
-        document.querySelectorAll('#candidate-rows > div').forEach(row => {
-          const nameInput = row.querySelector('.c-name');
-          const photoInput = row.querySelector('.c-photourl');
-          const fbInput = row.querySelector('.c-facebook');
-
-          const curName = nameInput.value.replace(/[\s\u3000]/g, '');
-          const target = map.get(curName);
-
-          if (target) {
-            const curPhoto = (photoInput.value || '').toLowerCase();
-            // 若含有 wikipedia 或 wikimedia 或者是空的，換成官方圖
-            if (!curPhoto || curPhoto.includes('wikipedia.org') || curPhoto.includes('wikimedia.org')) {
-              if (target.photoUrl) {
-                photoInput.value = target.photoUrl;
-                photoInput.dispatchEvent(new Event('change'));
-                photoCount++;
-              }
-            }
-            // 若目前 FB 是空的，補齊
-            if (target.facebook && !fbInput.value.trim()) {
-              fbInput.value = target.facebook;
-              fbCount++;
-            }
-          }
-        });
-
-        status.textContent = `替換了 ${photoCount} 張照片，更新了 ${fbCount} 個 FB 連結`;
-        alert(`完成！\n已將 ${photoCount} 位維基百科照片換為議會官方圖。\n已更新 ${fbCount} 筆臉書連結。\n請記得點擊「儲存修改」！`);
-      }
-
-      try {
-        const res = await fetch('./data/tycc_councilors.json');
-        if (!res.ok) throw new Error('找不到檔案');
-        const data = await res.json();
-        await applyData(data);
-      } catch (err) {
-        // 本機未啟動 Web Server 時，彈出視窗手動選取 tycc_councilors.json
-        const fileInput = document.createElement('input');
-        fileInput.type = 'file';
-        fileInput.accept = '.json';
-        fileInput.onchange = (e) => {
-          const file = e.target.files[0];
-          if (!file) return;
-          const reader = new FileReader();
-          reader.onload = async (evt) => {
-            try {
-              const data = JSON.parse(evt.target.result);
-              await applyData(data);
-            } catch (je) {
-              alert('JSON 格式解析錯誤');
-            }
-          };
-          reader.readAsText(file);
-        };
-        fileInput.click();
       }
     };
 
