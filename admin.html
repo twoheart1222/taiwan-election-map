@@ -136,7 +136,10 @@
             <select id="select-council-district" onchange="onCouncilDistrictChange()" class="select-editorial bg-surface border editorial-border rounded-xl px-3 py-1.5 pr-8 text-xs font-bold cursor-pointer"></select>
           </div>
           <button type="button" onclick="autoInit14Districts()" class="text-xs font-bold text-accent-blue hover:underline">
-            + 重設 / 建立 1～14 選舉區
+            + 建立本縣市選舉區（有對照資料就照真實選舉區，沒有就先建1個）
+          </button>
+          <button type="button" onclick="addOneDistrict()" class="text-xs font-bold text-accent-blue hover:underline">
+            + 新增一個選舉區
           </button>
         </div>
         <div id="single-district-quota-box" class="flex items-center space-x-2">
@@ -232,6 +235,14 @@
     let workingCandidates = [];
     let workingCouncilors = [];
     let currentDistrictMode = 'all';
+    let districtTownMap = {};
+    let districtQuotaMap = {};
+
+    function districtLabel(block) {
+      const info = districtTownMap?.[selCity.value]?.districts?.[block.district];
+      const towns = (info && info.towns && info.towns.length) ? info.towns.join('、') : null;
+      return towns ? `第 ${block.district} 選舉區（${towns}）` : `第 ${block.district} 選舉區`;
+    }
 
     window.doSignIn = () => {
       signInWithRedirect(auth, provider).catch(err => {
@@ -303,6 +314,18 @@
 
     async function bootEditor() {
       countiesTopo = await fetchJSON('./data/counties.json');
+      try {
+        districtTownMap = await fetchJSON('./data/district_town_map.json');
+      } catch (e) {
+        districtTownMap = {};
+        console.warn('讀取 district_town_map.json 失敗，選舉區將只顯示編號', e);
+      }
+      try {
+        districtQuotaMap = await fetchJSON('./data/district_quota.json');
+      } catch (e) {
+        districtQuotaMap = {};
+        console.warn('讀取 district_quota.json 失敗，選舉區應選席次將無法自動帶入官方數字', e);
+      }
 
       const overrideSnap = await getDocs(collection(db, 'overrides'));
       allOverrides = {};
@@ -459,16 +482,30 @@
     };
 
     window.autoInit14Districts = function() {
-      if (!workingCouncilors || workingCouncilors.length === 0) {
-        workingCouncilors = [];
-        for (let i = 1; i <= 14; i++) {
-          workingCouncilors.push({
-            district: String(i),
-            quota: i === 1 ? '12 席' : (i === 7 ? '11 席' : '約 3~5 席'),
-            candidates: []
-          });
-        }
+      if (workingCouncilors && workingCouncilors.length > 0) {
+        currentDistrictMode = 'all';
+        renderDistrictPicker();
+        return;
       }
+      // 有這個縣市的「選舉區↔行政區」對照資料就照真實選舉區建立（筆數、順序都以此為準），
+      // 沒有的話先建一個「第1選舉區」讓你自己用下面的「新增一個選舉區」慢慢加，
+      // 不會亂猜這個縣市到底有幾個選舉區。
+      const countyInfo = districtTownMap?.[selCity.value];
+      workingCouncilors = [];
+      if (countyInfo && countyInfo.districts) {
+        Object.keys(countyInfo.districts).forEach(districtKey => {
+          workingCouncilors.push({ district: districtKey, quota: null, candidates: [] });
+        });
+      } else {
+        workingCouncilors.push({ district: '1', quota: null, candidates: [] });
+      }
+      currentDistrictMode = 'all';
+      renderDistrictPicker();
+    };
+
+    window.addOneDistrict = function() {
+      const nextNum = workingCouncilors.length + 1;
+      workingCouncilors.push({ district: String(nextNum), quota: null, candidates: [] });
       currentDistrictMode = 'all';
       renderDistrictPicker();
     };
@@ -479,7 +516,7 @@
       
       let html = `<option value="all">🌟 全部選舉區（全覽共 ${totalCount} 位議員）</option>`;
       workingCouncilors.forEach((b, idx) => {
-        html += `<option value="${idx}">第 ${b.district} 選舉區（已登記 ${b.candidates ? b.candidates.length : 0} 人）</option>`;
+        html += `<option value="${idx}">${districtLabel(b)}（已登記 ${b.candidates ? b.candidates.length : 0} 人）</option>`;
       });
       picker.innerHTML = html;
       picker.value = currentDistrictMode;
@@ -507,8 +544,9 @@
         quotaBox.classList.remove('hidden');
         const block = workingCouncilors[idx];
         if (!block) return;
-        document.getElementById('candidates-heading').textContent = `第 ${block.district} 選舉區議員名冊`;
-        document.getElementById('f-district-quota').value = block.quota || '';
+        document.getElementById('candidates-heading').textContent = `${districtLabel(block)}議員名冊`;
+        const officialQuota = districtQuotaMap?.[selCity.value]?.[block.district];
+        document.getElementById('f-district-quota').value = block.quota || (officialQuota ? `${officialQuota} 席` : '');
         renderCandidateRows(block.candidates || [], false);
       }
     };
@@ -545,7 +583,7 @@
 
       const districtBadge = (currentCountyRole === 'councilor') ? `
         <div class="flex items-center space-x-1.5 mb-1">
-          <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded bg-ink-900 text-surface">第 ${escapeAttr(dist)} 選舉區</span>
+          <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded bg-ink-900 text-surface">${escapeAttr(districtLabel({ district: dist }))}</span>
         </div>
       ` : '';
 

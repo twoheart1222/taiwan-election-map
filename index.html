@@ -612,7 +612,11 @@ class App {
   }
 
   async init() {
-    try { await this.renderCounties(); }
+    try {
+      this.districtMap = await this.json('./data/district_town_map.json').catch(() => ({}));
+      this.quotaMap = await this.json('./data/district_quota.json').catch(() => ({}));
+      await this.renderCounties();
+    }
     catch (err) {
       console.error('地圖資料載入失敗', err);
       this.$('breadcrumb-bar').insertAdjacentHTML('beforeend',
@@ -726,13 +730,21 @@ class App {
     this.options(this.selVill, this.features(topo).features, false);
   }
 
+  // 幫選舉區配上真正的行政區名稱（如果有對照資料的話），沒有對照資料的
+  // 縣市就自動退回只顯示選舉區編號，不會壞掉
+  districtLabel(countyCode, block) {
+    const info = this.districtMap?.[countyCode]?.districts?.[block.district];
+    const towns = (info && info.towns && info.towns.length) ? info.towns.join('、') : null;
+    return towns ? `第 ${block.district} 選舉區（${towns}）` : `第 ${block.district} 選舉區`;
+  }
+
   async pickCounty(code) {
     const f = this.features(this.counties).features.find(x => x.properties.id === code);
     if (!f) return;
     this.county = { code, name: f.properties.name, feature: f };
     this.breadcrumb();
     this.drawer(f.properties.name, `${f.properties.name}首長選舉`, f.properties.category, f.properties.voters, f.properties.quota,
-      f.properties.candidates, { label: '議員候選人（依選舉區）', blocks: f.properties.councilors });
+      f.properties.candidates, { label: '議員候選人（依選舉區）', blocks: f.properties.councilors, countyCode: code });
     await this.renderTowns(code);
   }
 
@@ -784,7 +796,7 @@ class App {
     this.renderTowns(this.county.code);
     const f = this.county.feature;
     this.drawer(f.properties.name, `${f.properties.name}首長選舉`, f.properties.category, f.properties.voters, f.properties.quota,
-      f.properties.candidates, { label: '議員候選人（依選舉區）', blocks: f.properties.councilors });
+      f.properties.candidates, { label: '議員候選人（依選舉區）', blocks: f.properties.councilors, countyCode: this.county.code });
   }
 
   toggleFilters() {
@@ -882,7 +894,7 @@ class App {
         </div>
         <select id="district-picker" class="om-sel" style="width:100%;background-color:var(--color-bg)">
           <option value="">選擇選舉區查看候選人</option>
-          ${group.blocks.map(b => `<option value="${b.district}">第 ${b.district} 選舉區（${b.candidates.length} 人登記）</option>`).join('')}
+          ${group.blocks.map(b => `<option value="${b.district}">${this.districtLabel(group.countyCode, b)}（${b.candidates.length} 人登記）</option>`).join('')}
         </select>
         <div id="district-stats" style="display:none;grid-template-columns:1fr 1fr;gap:10px">
           <div style="background:var(--color-accent-100);border-radius:20px;padding:11px;text-align:center">
@@ -906,7 +918,9 @@ class App {
         const b = group.blocks.find(x => x.district === picker.value);
         stats.style.display = b ? 'grid' : 'none';
         if (b) {
-          this.countUp(this.$('district-quota'), b.quota);
+          const officialQuota = this.quotaMap?.[group.countyCode]?.[b.district];
+          const quotaText = b.quota || (officialQuota ? `${officialQuota} 席` : null);
+          this.countUp(this.$('district-quota'), quotaText);
           this.countUp(this.$('district-registered'), `${b.candidates.length} 人`);
         }
         out.innerHTML = b ? b.candidates.map((c, i) => this.card(c, i)).join('') : '';
