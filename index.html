@@ -184,19 +184,70 @@ class Component extends DCLogic {
     } else if (pre) { pre.style.display = 'none'; }
   }
 
+  // ---------- FIREBASE OVERRIDES (修復：補齊 Firebase 同步功能) ----------
+  fetchOverrides() {
+    const cfg = {
+      apiKey: "AIzaSyAZdhEkMeCER-eh_De2viLi0jG2kD2f_4A",
+      authDomain: "taiwan-election-map.firebaseapp.com",
+      projectId: "taiwan-election-map",
+      storageBucket: "taiwan-election-map.firebasestorage.app",
+      messagingSenderId: "603857399918",
+      appId: "1:603857399918:web:44fb7f95b20e127ad1b67f"
+    };
+    if (this._ov) return this._ov;
+    this._ov = (async () => {
+      try {
+        const [{ initializeApp }, { getFirestore, collection, getDocs }] = await Promise.all([
+          import('https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js'),
+          import('https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js'),
+        ]);
+        const snap = await getDocs(collection(getFirestore(initializeApp(cfg)), 'overrides'));
+        const out = {};
+        snap.forEach(d => { out[d.id] = d.data(); });
+        return out;
+      } catch (err) {
+        console.warn('讀取後台編輯資料失敗，僅顯示原始候選人資料。', err);
+        return {};
+      }
+    })();
+    return this._ov;
+  }
+
+  applyOverrides(topo, overrides) {
+    if (!overrides || !Object.keys(overrides).length) return topo;
+    const key = Object.keys(topo.objects)[0];
+    topo.objects[key].geometries.forEach(g => {
+      const o = overrides[g.properties.id];
+      if (!o) return;
+      if (o.candidates) g.properties.candidates = o.candidates;
+      if (o.councilors) g.properties.councilors = o.councilors;
+      if (o.representatives) g.properties.representatives = o.representatives;
+      if (o.voters !== undefined) g.properties.voters = o.voters;
+      if (o.quota !== undefined) g.properties.quota = o.quota;
+    });
+    return topo;
+  }
+
   // ---------- 3D TAIWAN ----------
   async _init3D() {
     const el = document.getElementById('tw3d'); if (!el) return;
     let THREE;
     try { THREE = await import('https://unpkg.com/three@0.160.0/build/three.module.js'); }
     catch (e) { console.warn('three load failed', e); return; }
-    const [topo, dm, qm] = await Promise.all([
+
+    // 修復：除了讀取靜態 json 外，同時載入 Firebase 覆蓋資料
+    const [rawTopo, dm, qm, ov] = await Promise.all([
       fetch('./data/counties.json').then(r => r.json()).catch(() => null),
       fetch('./data/district_town_map.json').then(r => r.json()).catch(() => ({})),
       fetch('./data/district_quota.json').then(r => r.json()).catch(() => ({})),
+      this.fetchOverrides()
     ]);
     this.districtMap = dm; this.quotaMap = qm;
-    if (!topo) { document.getElementById('tw3d-meta').textContent = '地圖資料載入失敗'; return; }
+    if (!rawTopo) { document.getElementById('tw3d-meta').textContent = '地圖資料載入失敗'; return; }
+    
+    // 合併 Firebase 上的候選人資料與大頭貼網址
+    const topo = this.applyOverrides(rawTopo, ov);
+
     const fc = window.topojson.feature(topo, topo.objects.map);
     const feats = fc.features.filter(f => { const c = this._centroid(f); return c[0] > 119.3 && c[0] < 122.2 && c[1] > 21.8 && c[1] < 25.4; });
 
@@ -315,7 +366,7 @@ class Component extends DCLogic {
     const socials = ['facebook', 'instagram', 'threads', 'youtube'].filter(k => c[k]);
     const socialBlock = socials.length ? `<div style="display:flex;flex-wrap:wrap;gap:7px">${socials.map(k => `<a href="${c[k]}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:#fff;font:800 11px 'Archivo';color:#645c50;border:1px solid #ece7dc">${socialMap[k]}</a>`).join('')}</div>` : '';
     
-    // 修正：支援 photoUrl，若無照片或圖片錯誤載入則 fallback 為姓名字首
+    // 修復：支援 photoUrl 大頭貼，若無照片或圖片錯誤載入則 fallback 為姓名字首
     const initial = (c.name || '').slice(0, 1);
     const avatar = c.photoUrl
       ? `<img src="${c.photoUrl}" alt="${c.name}" referrerpolicy="no-referrer" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:50%" onerror="this.onerror=null;this.parentNode.textContent='${initial}'">`
