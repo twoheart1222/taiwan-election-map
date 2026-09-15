@@ -159,11 +159,14 @@
 
       <!-- 候選人編輯清單 -->
       <div>
-        <div class="flex items-center justify-between mb-2">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
           <h3 class="text-xs font-black uppercase tracking-wider text-ink-500" id="candidates-heading">候選人名冊</h3>
-          <div class="flex items-center space-x-3">
-            <button type="button" onclick="batchUpdateFromOfficial()" class="text-xs font-bold text-accent-orange hover:underline flex items-center space-x-1" title="點擊選擇 tycc_councilors.json 檔案進行覆蓋更新">
-              <i data-lucide="file-up" class="w-3.5 h-3.5"></i><span>選擇檔案更新：替換 Wiki 照片、重設 FB 並全數設為現任連任</span>
+          <div class="flex flex-wrap items-center gap-3">
+            <button type="button" onclick="clearAllFacebookLinks()" class="text-xs font-bold text-accent-red hover:underline flex items-center space-x-1" title="一鍵清除目前所有候選人與議員的 Facebook 連結">
+              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i><span>清空現有所有 FB 連結</span>
+            </button>
+            <button type="button" onclick="batchUpdateFromFile()" class="text-xs font-bold text-accent-orange hover:underline flex items-center space-x-1" title="選取 tycc_councilors.json 進行純淨覆蓋更新">
+              <i data-lucide="file-up" class="w-3.5 h-3.5"></i><span>選擇檔案更新（替換 Wiki 照片、以官網覆寫 FB）</span>
             </button>
             <button type="button" onclick="addCandidateRow()" class="text-xs font-bold text-accent-blue hover:underline flex items-center space-x-1">
               <i data-lucide="plus" class="w-3.5 h-3.5"></i><span>新增候選人</span>
@@ -564,7 +567,7 @@
           <span>現任爭取連任</span>
         </label>
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 items-center">
-          <input placeholder="Facebook 直達連結" class="c-facebook bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.facebook || '')}">
+          <input placeholder="Facebook 官方連結" class="c-facebook bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.facebook || '')}">
           <input placeholder="Instagram 連結" class="c-instagram bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.instagram || '')}">
           <input placeholder="Threads 連結" class="c-threads bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.threads || '')}">
           <input placeholder="YouTube 連結" class="c-youtube bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.youtube || '')}">
@@ -676,8 +679,31 @@
       }
     };
 
-    // ---------- 點擊按鈕直接開啟「檔案選擇器」，並覆蓋重設錯誤連結 ----------
-    window.batchUpdateFromOfficial = function() {
+    // ---------- 清空所有現有 Facebook 連結 ----------
+    window.clearAllFacebookLinks = function() {
+      if (!confirm('確定要清空目前所有候選人與各選區議員的 Facebook 連結嗎？\n\n清空後請務必點擊「儲存修改」寫入 Firebase！')) return;
+      
+      let cleared = 0;
+      if (workingCandidates && workingCandidates.length) {
+        workingCandidates.forEach(c => { if (c.facebook) { c.facebook = ''; cleared++; } });
+      }
+      if (workingCouncilors && workingCouncilors.length) {
+        workingCouncilors.forEach(b => {
+          (b.candidates || []).forEach(c => { if (c.facebook) { c.facebook = ''; cleared++; } });
+        });
+      }
+      // 同步清空 DOM 上的輸入框
+      document.querySelectorAll('#candidate-rows .c-facebook').forEach(input => {
+        input.value = '';
+      });
+
+      const status = document.getElementById('save-status');
+      status.textContent = `已清空 ${cleared} 個 Facebook 連結，請記得點擊「儲存修改」！`;
+      alert(`已成功清空 ${cleared} 個 Facebook 連結！\n請記得點擊「儲存修改」寫入資料庫完成更新。`);
+    };
+
+    // ---------- 選擇檔案更新：純粹以官網真實資料覆蓋 ----------
+    window.batchUpdateFromFile = function() {
       const fileInput = document.createElement('input');
       fileInput.type = 'file';
       fileInput.accept = '.json';
@@ -701,7 +727,6 @@
         reader.readAsText(file);
       };
 
-      // 直接觸發檔案選擇視窗
       fileInput.click();
     };
 
@@ -724,7 +749,7 @@
 
       const handledNames = new Set();
 
-      // 1. 遍歷目前選區所有議員，進行強制更新與錯誤清洗
+      // 1. 遍歷目前選區所有議員，進行強制覆蓋與清理
       workingCouncilors.forEach(block => {
         if (!block.candidates) block.candidates = [];
         block.candidates.forEach(c => {
@@ -733,11 +758,11 @@
           if (target) {
             handledNames.add(cleanName);
 
-            // A. 現任爭取連任：全數強制設為 true
+            // 現任連任全數打勾
             c.isIncumbent = true;
             incumbentCount++;
 
-            // B. 替換 Wikipedia 照片
+            // 替換維基百科照片
             const curPhoto = (c.photoUrl || '').toLowerCase();
             if (!curPhoto || curPhoto.includes('wikipedia.org') || curPhoto.includes('wikimedia.org')) {
               if (target.photoUrl) {
@@ -746,7 +771,7 @@
               }
             }
 
-            // C. 覆蓋 Facebook：直接以爬蟲驗證結果覆蓋，清洗掉先前錯誤的搜尋連結或假網址
+            // 嚴格以官網抓取結果覆寫 FB：官網沒有或無效直接清空為 ""
             c.facebook = target.facebook || '';
             if (target.facebook) fbCount++;
           }
@@ -778,12 +803,12 @@
         }
       });
 
-      // 3. 自動切換至全覽檢視，重新渲染畫面
+      // 3. 自動切換至全覽檢視重新渲染
       currentDistrictMode = 'all';
       renderDistrictPicker();
 
-      status.textContent = `更新完成：${incumbentCount} 位設為連任、替換 ${photoCount} 張照片、清洗/更新 ${fbCount} 個有效 FB。`;
-      alert(`🎉 檔案匯入完成！\n\n- ✅ 現任爭取連任：共 ${incumbentCount} 位已全部打勾\n- 📸 維基照片替換：${photoCount} 位換為議會官方圖\n- 🔗 Facebook 清洗重設：已清空錯誤網址，保留 ${fbCount} 個官網有效粉專\n- ➕ 自動歸位新補齊：${addedCount} 位\n\n已切換為全區一覽，請點擊「儲存修改」一次寫入 Firebase！`);
+      status.textContent = `更新完成：${incumbentCount} 位設為連任、替換 ${photoCount} 張照片、保留 ${fbCount} 個官網真實有效 FB。`;
+      alert(`🎉 官網真實資料覆蓋完成！\n\n- ✅ 現任連任：共 ${incumbentCount} 位已全數勾選\n- 📸 替換維基照片：${photoCount} 位換為官網大頭照\n- 🔗 Facebook 嚴格覆寫：已徹底清空先前錯誤連結，僅保留 ${fbCount} 個官網刊登之有效粉專\n- ➕ 自動補齊歸位：${addedCount} 位\n\n請檢視確認後點擊「儲存修改」寫入 Firebase！`);
     }
 
     lucide.createIcons();
