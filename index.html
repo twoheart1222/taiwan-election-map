@@ -1,316 +1,479 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>2026 全台選舉開箱圖鑑 | POLITICS DESIGN</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026 全台選舉開箱圖鑑 | Politics Design Lab</title>
+<style>
+/* Organic — design-system tokens and component classes. This file is the source of truth for the system's look; retune it here and see readme.md. */
+@import url('https://fonts.googleapis.com/css2?family=Caprasimo:wght@400&family=Figtree:wght@400;600;700&display=swap');
 
-  <!-- Google Fonts: 現代英文無襯線 + 思源黑體 -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+:root {
+  --color-bg: #f5ead8;
+  --color-surface: #ebddc5;
+  --color-text: #201e1d;
+  --color-accent: #c67139;
+  --color-accent-2: #7a8a5e;
+  --color-divider: color-mix(in srgb, #201e1d 16%, transparent);
 
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['"Plus Jakarta Sans"', '"Noto Sans TC"', 'sans-serif'],
-          },
-          colors: {
-            canvas: '#F6F6F3',
-            surface: '#FFFFFF',
-            ink: {
-              900: '#141517',
-              700: '#3A3F45',
-              500: '#6E7681',
-              300: '#C9CED6',
-              100: '#EAECEE',
-            },
-            accent: {
-              orange: '#FF5722',
-              yellow: '#FFC837',
-              lime: '#22C55E',
-              blue: '#2563EB',
-            }
-          }
-        }
-      }
-    }
-  </script>
+  /* Tonal ramps — generated in OKLCH on one shared lightness scale, so the
+     same step of any role matches the others in visual value. */
+  --color-neutral-100: #f9f4ed;
+  --color-neutral-200: #eee7db;
+  --color-neutral-300: #dcd3c4;
+  --color-neutral-400: #c0b6a5;
+  --color-neutral-500: #a19786;
+  --color-neutral-600: #82796a;
+  --color-neutral-700: #645c50;
+  --color-neutral-800: #474238;
+  --color-neutral-900: #2e2b25;
 
-  <!-- Leaflet 地圖套件 -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <!-- TopoJSON：把行政邊界圖資（縣市/鄉鎮市區/村里）轉成 Leaflet 看得懂的格式 -->
-  <script src="https://unpkg.com/topojson-client@3/dist/topojson-client.min.js"></script>
-  <!-- Lucide 圖示 -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  --color-accent-100: #fff2eb;
+  --color-accent-200: #ffe1d0;
+  --color-accent-300: #ffc6a5;
+  --color-accent-400: #f6a06b;
+  --color-accent-500: #d67f48;
+  --color-accent-600: #b2622d;
+  --color-accent-700: #8c491a;
+  --color-accent-800: #643312;
+  --color-accent-900: #402310;
 
-  <style>
-    .editorial-border {
-      border: 1.5px solid #141517;
-    }
-    .card-brutal {
-      border: 1.5px solid #141517;
-      box-shadow: 4px 4px 0px #141517;
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .card-brutal:hover {
-      transform: translate(-2px, -2px);
-      box-shadow: 6px 6px 0px #141517;
-    }
-    .select-editorial {
-      appearance: none;
-      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23141517' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-      background-repeat: no-repeat;
-      background-position: right 0.75rem center;
-      background-size: 1rem;
-    }
-    ::-webkit-scrollbar { width: 5px; }
-    ::-webkit-scrollbar-thumb { background: #C9CED6; border-radius: 4px; }
+  --color-accent-2-100: #f0fae1;
+  --color-accent-2-200: #e1eecc;
+  --color-accent-2-300: #ccdbb2;
+  --color-accent-2-400: #aebf92;
+  --color-accent-2-500: #8fa073;
+  --color-accent-2-600: #728157;
+  --color-accent-2-700: #56633f;
+  --color-accent-2-800: #3d472b;
+  --color-accent-2-900: #272e1b;
 
-    /* 開場質感 Splash Loader */
-    #splash-screen {
-      transition: opacity 0.5s ease-out, visibility 0.5s;
-    }
-    .splash-loaded #splash-screen {
-      opacity: 0;
-      visibility: hidden;
-    }
+  --font-heading: "Caprasimo", system-ui, sans-serif;
+  --font-heading-weight: 400;
+  --font-body: "Figtree", system-ui, sans-serif;
 
-    /* 行政區邊界圖層 hover 效果由 JS 控制 fillOpacity，這裡只放游標樣式 */
-    .leaflet-interactive { cursor: pointer; }
-    /* 底圖來源標示，做小一點、淡一點，符合整體編輯風格，但保留（法規要求要顯示出處） */
-    .leaflet-control-attribution {
-      background: rgba(255,255,255,0.75) !important;
-      font-size: 9px !important;
-      color: #6E7681 !important;
-      padding: 1px 6px !important;
-    }
-    /* 點擊行政區邊界時，瀏覽器預設會給 SVG path 一個矩形 focus 外框，這裡關掉 */
-    .leaflet-container path:focus,
-    .leaflet-container svg:focus,
-    .leaflet-interactive:focus {
-      outline: none !important;
-    }
+  --space-1: 4.4px;
+  --space-2: 8.8px;
+  --space-3: 13.2px;
+  --space-4: 17.6px;
+  --space-6: 26.4px;
+  --space-8: 35.2px;
 
-    /* 滑鼠移到縣市/鄉鎮市區/村里上方顯示的名稱標籤 */
-    .region-tooltip {
-      background: #141517;
-      color: #FFFFFF;
-      border: none;
-      border-radius: 6px;
-      padding: 3px 9px;
-      font-family: 'Plus Jakarta Sans', 'Noto Sans TC', sans-serif;
-      font-weight: 800;
-      font-size: 12px;
-      box-shadow: 2px 2px 0px rgba(20,21,23,0.25);
-    }
-    .region-tooltip::before { display: none; }
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 28px;
 
-    /* 手機版：點擊右上角搜尋按鈕後，下拉選單變成一個懸浮面板，選項直式排列方便手指點選 */
-    @media (max-width: 639px) {
-      #filter-bar.mobile-filter-open {
-        display: flex !important;
-        flex-direction: column;
-        position: fixed;
-        top: 68px;
-        left: 12px;
-        right: 12px;
-        z-index: 40;
-        background: #FFFFFF;
-        border: 1.5px solid #141517;
-        border-radius: 16px;
-        padding: 12px;
-        gap: 8px;
-        box-shadow: 4px 4px 0px #141517;
-      }
-      #filter-bar.mobile-filter-open select {
-        width: 100%;
-      }
-    }
-  </style>
+  /* Elevation — derived from the ground: soft ink-tinted shadows on a
+     light theme, a hairline edge + ambient darkness on a dark one. */
+  --shadow-sm: 0 1px 2px color-mix(in srgb, #2e2b25 14%, transparent);
+  --shadow-md: 0 3px 10px color-mix(in srgb, #2e2b25 16%, transparent);
+  --shadow-lg: 0 12px 32px color-mix(in srgb, #2e2b25 22%, transparent);
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+}
+h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: var(--font-heading-weight); }
+
+.washed{filter:saturate(0.6) contrast(0.85) brightness(1.1) opacity(0.94)}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Components — built with the tokens above. Plain CSS
+   on plain HTML: no JavaScript, no build step. Each class is documented in
+   readme.md and demonstrated in foundations/ and components/.
+   ══════════════════════════════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; font-size: 15px; line-height: 1.55; font-weight: 400; }
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  line-height: 1.12; letter-spacing: -0.015em; margin: 0 0 var(--space-2);
+}
+h1 { font-size: 42px; }
+h2 { font-size: 32px; }
+h3 { font-size: 25px; }
+h4 { font-size: 20px; }
+h5 { font-size: 16px; }
+h6 { font-size: 13px; }
+h6 { letter-spacing: 0.08em; text-transform: uppercase; }
+p { margin: 0 0 var(--space-3); }
+a { color: var(--color-accent); text-underline-offset: 3px; }
+img { display: block; max-width: 100%; }
+figure { margin: 0; }
+figcaption {
+  font-size: 11px; margin-top: var(--space-1);
+  color: color-mix(in srgb, var(--color-text) 55%, transparent);
+}
+.text-muted { color: color-mix(in srgb, var(--color-text) 55%, transparent); }
+:focus { outline: none; }
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+::selection { background: color-mix(in srgb, var(--color-accent) 30%, transparent); }
+
+/* — rules — */
+.hr {
+  height: 1px; border: 0; margin: var(--space-4) 0;
+  background: var(--color-divider);
+}
+
+/* — buttons — */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  cursor: pointer; text-decoration: none;
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 14px; line-height: 1.2; color: var(--color-text); /* matches the .input's 14px —
+     the pair sits side by side in sign-up rows */
+  background: transparent; border: 1px solid transparent;
+  padding: var(--space-2) calc(var(--space-3) * 1.2);
+  border-radius: var(--radius-md);
+}
+.btn svg { display: block; }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn-primary { background: var(--color-accent); color: var(--color-bg); }
+.btn-primary:hover { background: var(--color-accent-600); }
+.btn-primary:active { background: var(--color-accent-700); }
+.btn-secondary { border-color: var(--color-divider); }
+.btn-secondary:hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
+.btn-secondary:active { background: color-mix(in srgb, var(--color-text) 14%, transparent); }
+.btn-ghost { color: var(--color-accent); padding-inline: var(--space-1); }
+.btn-ghost:hover { background: color-mix(in srgb, var(--color-accent) 10%, transparent); }
+.btn-ghost:active { background: color-mix(in srgb, var(--color-accent) 18%, transparent); }
+.btn-icon { width: 36px; height: 36px; padding: 0; }
+.btn-block { width: 100%; margin-top: var(--space-2); }
+
+/* — forms — */
+.field > label {
+  display: block; font-size: 12px; margin-bottom: 5px;
+  color: color-mix(in srgb, var(--color-text) 70%, transparent);
+}
+.input {
+  width: 100%; min-height: 36px; padding: 6px 10px; font: inherit;
+  font-size: 14px; color: var(--color-text); caret-color: var(--color-accent);
+  background: var(--color-surface);
+  border: 1px solid var(--color-divider); border-radius: var(--radius-md);
+}
+.input:hover { border-color: color-mix(in srgb, var(--color-text) 45%, transparent); }
+.input:focus-visible { border-color: var(--color-accent); outline-offset: 0; }
+textarea.input { min-height: 90px; resize: vertical; }
+.radio { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-size: 14px; }
+.radio input, .seg-opt input {
+  position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none;
+}
+.radio .dot {
+  width: 16px; height: 16px; flex: none; border-radius: 50%;
+  border: 1.5px solid var(--color-divider);
+}
+.radio:hover .dot { border-color: var(--color-accent); }
+.radio input:checked + .dot {
+  border-color: var(--color-accent); background: var(--color-accent);
+  box-shadow: inset 0 0 0 4px var(--color-bg);
+}
+.radio input:focus-visible + .dot { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+.seg {
+  display: inline-flex; overflow: hidden;
+  border: 1px solid var(--color-divider); border-radius: var(--radius-md);
+}
+.seg-opt {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 12px; font-size: 13px; cursor: pointer;
+}
+.seg-opt + .seg-opt { border-left: 1px solid var(--color-divider); }
+.seg-opt:has(input:checked) { background: var(--color-accent); color: var(--color-bg); }
+.seg-opt:not(:has(input:checked)):hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
+.seg-opt:has(input:focus-visible) { outline: 2px solid var(--color-accent); outline-offset: -2px; }
+
+/* — cards — */
+.card {
+  display: flex; flex-direction: column; gap: var(--space-2);
+  padding: var(--space-3); border-radius: var(--radius-md); background: var(--color-surface);
+}
+.card-kicker { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-accent); }
+.card-title {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 17px; line-height: 1.2;
+}
+.card-body { margin: 0; font-size: 13px; opacity: 0.8; flex: 1; }
+.card-meta {
+  display: flex; align-items: center; gap: 6px; font-size: 11px;
+  color: color-mix(in srgb, var(--color-text) 50%, transparent);
+}
+.elev-sm { box-shadow: var(--shadow-sm); }
+.elev-md { box-shadow: var(--shadow-md); }
+.elev-lg { box-shadow: var(--shadow-lg); }
+
+/* — tags — */
+.tag {
+  display: inline-flex; align-items: center; font-size: 11px;
+  letter-spacing: 0.02em; padding: 3px 10px;
+  border-radius: calc(var(--radius-md) * 0.75);
+}
+.tag-accent { background: var(--color-accent-100); color: var(--color-accent-800); }
+.tag-accent-2 { background: var(--color-accent-2-100); color: var(--color-accent-2-800); }
+.tag-neutral { background: var(--color-neutral-100); color: var(--color-neutral-800); }
+.tag-outline { border: 1px solid var(--color-accent); color: var(--color-accent); }
+
+/* — navigation — */
+.nav {
+  display: flex; align-items: center; gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: none;
+}
+.nav-brand {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 18px; margin-right: auto;
+}
+.nav a { color: inherit; text-decoration: none; font-size: 14px; }
+.nav a:hover, .nav a[aria-current='page'] { color: var(--color-accent); }
+
+/* — tables — */
+.table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.table th {
+  text-align: left; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-text) 60%, transparent);
+  padding: var(--space-2); border-bottom: 1px solid var(--color-divider);
+}
+.table td {
+  padding: var(--space-2);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);
+}
+.table tbody tr:hover { background: color-mix(in srgb, var(--color-text) 4%, transparent); }
+
+/* — dialog — */
+.dialog-backdrop {
+  position: fixed; inset: 0; display: grid; place-items: center;
+  padding: var(--space-4);
+  background: color-mix(in srgb, var(--color-neutral-900) 50%, transparent);
+}
+.dialog {
+  width: min(440px, 100%); display: flex; flex-direction: column; gap: var(--space-3);
+  padding: var(--space-4); border-radius: var(--radius-lg);
+  background: var(--color-surface); box-shadow: var(--shadow-lg);
+}
+.dialog-title {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 20px;
+}
+.dialog-body { font-size: 14px; opacity: 0.85; }
+.dialog-actions { display: flex; justify-content: flex-end; gap: var(--space-2); margin-top: var(--space-2); }
+
+/* — rounded frame: everything softens, small controls go pill — */
+.card, .dialog { border-radius: calc(var(--radius-lg) * 1.15); }
+.btn, .tag, .seg, .input { border-radius: 999px; }
+.input { padding-inline: 14px; }
+
+
+</style>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/topojson-client@3/dist/topojson-client.min.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  :root { --mo: 1; }
+  html, body { height: 100%; }
+  body { margin: 0; overflow: hidden; font-family: "Figtree", "Noto Sans TC", system-ui, sans-serif; background: var(--color-bg); }
+  a { color: var(--color-accent-700); text-decoration: none; }
+  a:hover { color: var(--color-accent); }
+  @keyframes om-rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+  @keyframes om-rise-sm { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @keyframes om-pop { from { opacity: 0; transform: scale(0.82); } to { opacity: 1; transform: scale(1); } }
+  @keyframes om-ring { 0% { transform: scale(0.85); opacity: 0.55; } 70% { opacity: 0; } 100% { transform: scale(1.9); opacity: 0; } }
+  @keyframes om-drift { 0% { transform: translate(0,0) rotate(0deg); } 50% { transform: translate(14px,-18px) rotate(8deg); } 100% { transform: translate(0,0) rotate(0deg); } }
+  @keyframes om-bar { 0% { transform: translateX(-100%); } 100% { transform: translateX(240%); } }
+  /* Leaflet internals can't be inline-styled */
+  .leaflet-container { background: var(--color-neutral-200); font-family: "Figtree","Noto Sans TC",sans-serif; }
+  .leaflet-tile { filter: sepia(0.34) saturate(0.7) brightness(1.04) contrast(0.95); }
+  .leaflet-interactive { cursor: pointer; transition: fill-opacity 0.3s ease, opacity 0.5s ease; }
+  .leaflet-container path:focus, .leaflet-interactive:focus { outline: none !important; }
+  .leaflet-control-attribution { background: color-mix(in srgb, var(--color-bg) 78%, transparent) !important; font-size: 9px !important; color: var(--color-neutral-600) !important; padding: 1px 8px !important; border-radius: 999px 0 0 0; }
+  .leaflet-bar { border: none !important; box-shadow: var(--shadow-md) !important; border-radius: 999px !important; overflow: hidden; }
+  .leaflet-bar a { background: var(--color-bg) !important; color: var(--color-text) !important; border-bottom-color: var(--color-divider) !important; font-weight: 700; }
+  .leaflet-bar a:hover { background: var(--color-accent-200) !important; }
+  .region-tooltip { background: var(--color-text); color: var(--color-bg); border: none; border-radius: 999px; padding: 4px 12px; font-family: "Figtree","Noto Sans TC",sans-serif; font-weight: 700; font-size: 12px; box-shadow: var(--shadow-md); }
+  .region-tooltip::before { display: none; }
+  .om-sel { flex: none; appearance: none; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c67139' stroke-width='2.75' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 12px center; background-size: 15px; background-color: var(--color-surface); border: 1px solid var(--color-divider); border-radius: 999px; padding: 8px 34px 8px 15px; font: 500 12.5px "Figtree","Noto Sans TC",sans-serif; color: var(--color-text); cursor: pointer; transition: border-color .2s ease, background-color .2s ease, transform .18s cubic-bezier(.16,1,.3,1); }
+  .om-sel:hover { border-color: var(--color-accent); transform: translateY(-1px); }
+  .om-sel:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+  .om-round { display: inline-flex; align-items: center; justify-content: center; gap: 7px; border: 1px solid var(--color-divider); background: var(--color-surface); color: var(--color-text); border-radius: 999px; cursor: pointer; transition: transform .22s cubic-bezier(.16,1,.3,1), background-color .22s ease, color .22s ease, box-shadow .22s ease; }
+  .om-round:hover { background: var(--color-accent-200); border-color: var(--color-accent-300); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .om-round:active { transform: translateY(0) scale(.95); background: var(--color-accent-300); }
+  .om-lift { transition: transform .28s cubic-bezier(.16,1,.3,1), box-shadow .28s ease; }
+  .om-lift:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+  .om-scroll::-webkit-scrollbar { width: 8px; }
+  .om-scroll::-webkit-scrollbar-thumb { background: var(--color-neutral-300); border-radius: 999px; }
+  @media (max-width: 1120px) {
+    #filter-bar.om-open { display: flex !important; flex-direction: column; position: fixed; top: 78px; left: 12px; right: 12px; z-index: 40; background: var(--color-bg); border: 1px solid var(--color-divider); border-radius: 28px; padding: 14px; gap: 10px; box-shadow: var(--shadow-lg); animation: om-rise .4s cubic-bezier(.16,1,.3,1) both; }
+    #filter-bar.om-open select { width: 100%; }
+  }
+</style>
 </head>
-<body class="bg-canvas text-ink-900 h-screen w-screen overflow-hidden flex flex-col font-sans select-none">
+<body>
+<div style="height:100vh;display:flex;flex-direction:column;background:var(--color-bg);color:var(--color-text);overflow:hidden">
 
-  <!-- 開場質感 Splash Loader -->
-  <div id="splash-screen" class="fixed inset-0 z-50 bg-ink-900 flex flex-col items-center justify-center text-surface">
-    <div class="flex flex-col items-center space-y-4 animate-pulse">
-      <div class="w-14 h-14 bg-accent-orange rounded-2xl border-2 border-surface flex items-center justify-center shadow-[4px_4px_0px_#FFFFFF]">
-        <i data-lucide="layers" class="w-7 h-7 text-surface stroke-[2.5]"></i>
+  <div id="splash" style="position:fixed;inset:0;z-index:60;background:var(--color-bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;transition:opacity .7s ease, visibility .7s, transform .7s cubic-bezier(.16,1,.3,1)">
+    <div style="position:absolute;width:520px;height:520px;border-radius:50%;background:var(--color-accent-200);filter:blur(2px);opacity:.5;animation:om-drift 9s ease-in-out infinite"></div>
+    <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:var(--color-accent-2-200);opacity:.55;animation:om-drift 7s ease-in-out infinite reverse"></div>
+    <div style="position:relative;display:grid;place-items:center">
+      <span style="position:absolute;width:96px;height:96px;border-radius:50%;border:2px solid var(--color-accent-400);animation:om-ring 2.4s ease-out infinite"></span>
+      <span style="position:absolute;width:96px;height:96px;border-radius:50%;border:2px solid var(--color-accent-400);animation:om-ring 2.4s ease-out .8s infinite"></span>
+      <div style="position:relative;width:88px;height:88px;border-radius:30px;background:var(--color-accent);display:grid;place-items:center;box-shadow:var(--shadow-lg);animation:om-pop .8s cubic-bezier(.16,1,.3,1) both">
+        <i data-lucide="layers" style="width:40px;height:40px;color:var(--color-bg)" stroke-width="2.75"></i>
       </div>
-      <div class="text-center">
-        <h2 class="text-xl font-black tracking-widest uppercase">POLITICS DESIGN</h2>
-        <p class="text-xs text-ink-300 font-medium tracking-widest mt-1">2026 全台基層選舉資料載入中...</p>
-      </div>
+    </div>
+    <div style="position:relative;text-align:center;animation:om-rise .9s cubic-bezier(.16,1,.3,1) .15s both">
+      <h2 style="font-family:'Caprasimo','Noto Serif TC',serif;font-weight:900;font-synthesis:none;font-size:34px;margin:0">全台選舉開箱圖鑑</h2>
+      <p style="margin:8px 0 0;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--color-accent-700);font-weight:700">Politics Design Lab · 2026</p>
+    </div>
+    <div style="position:relative;width:188px;height:5px;border-radius:999px;background:var(--color-accent-200);overflow:hidden">
+      <span style="display:block;width:40%;height:100%;border-radius:999px;background:var(--color-accent);animation:om-bar 1.4s cubic-bezier(.65,0,.35,1) infinite"></span>
     </div>
   </div>
 
-  <!-- 頂部導覽列 -->
-  <header class="h-16 sm:h-20 px-4 sm:px-10 bg-surface border-b editorial-border flex items-center justify-between z-20 shrink-0">
-    <div class="flex items-center space-x-3 sm:space-x-6 min-w-0">
-      <div class="flex items-center space-x-2 sm:space-x-3 cursor-pointer min-w-0" onclick="switchView('map')">
-        <div class="w-9 h-9 sm:w-10 sm:h-10 bg-accent-orange rounded-lg border editorial-border flex items-center justify-center shadow-[2px_2px_0px_#141517] shrink-0">
-          <i data-lucide="layers" class="w-4 h-4 sm:w-5 sm:h-5 text-surface stroke-[2.5]"></i>
+  <header style="flex:none;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px 18px;background:var(--color-bg);border-bottom:1px solid var(--color-divider);position:relative;z-index:30;animation:om-rise-sm .7s cubic-bezier(.16,1,.3,1) .1s both">
+    <div style="display:flex;align-items:center;gap:22px;min-width:0">
+      <div id="brand" style="display:flex;align-items:center;gap:12px;cursor:pointer;flex:none">
+        <div style="width:44px;height:44px;flex:none;border-radius:15px;background:var(--color-accent);display:grid;place-items:center;box-shadow:var(--shadow-sm);transition:transform .3s cubic-bezier(.16,1,.3,1)">
+          <i data-lucide="layers" style="width:21px;height:21px;color:var(--color-bg)" stroke-width="2.75"></i>
         </div>
-        <div class="min-w-0">
-          <div class="hidden sm:flex items-center space-x-2">
-            <span class="text-[11px] font-black uppercase tracking-wider text-accent-orange">Politics Design Lab</span>
-            <span class="text-[10px] font-bold px-1.5 py-0.2 rounded bg-ink-900 text-surface">2026</span>
+        <div style="flex:none">
+          <div id="brand-kicker" style="display:flex;align-items:center;gap:8px;white-space:nowrap;flex:none;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--color-accent-700)">
+            <span>Politics Design Lab</span>
+            <span class="tag tag-accent-2" style="font-size:9.5px;padding:1px 8px;letter-spacing:.1em">2026</span>
           </div>
-          <h1 class="text-sm sm:text-xl font-black tracking-tight text-ink-900 truncate">全台選舉開箱圖鑑</h1>
+          <h1 style="font-family:'Caprasimo','Noto Serif TC',serif;font-weight:900;font-synthesis:none;font-size:21px;line-height:1.3;margin:1px 0 0;white-space:nowrap">全台選舉開箱圖鑑</h1>
         </div>
       </div>
 
-      <!-- 分頁切換 Tabs -->
-      <nav class="hidden md:flex items-center space-x-1 bg-canvas p-1 rounded-xl border editorial-border shrink-0">
-        <button id="tab-map" onclick="switchView('map')" class="px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 bg-ink-900 text-surface shadow-sm">
-          <i data-lucide="map" class="w-3.5 h-3.5"></i>
-          <span>選情地圖</span>
+      <nav style="position:relative;display:none;align-items:center;gap:4px;padding:4px;border-radius:999px;background:var(--color-surface);border:1px solid var(--color-divider);flex:none" id="tabs">
+        <span id="tab-pill" style="position:absolute;top:4px;left:4px;height:calc(100% - 8px);width:112px;border-radius:999px;background:var(--color-accent);box-shadow:var(--shadow-sm);transition:transform .45s cubic-bezier(.16,1,.3,1), width .45s cubic-bezier(.16,1,.3,1)"></span>
+        <button id="tab-map" style="position:relative;display:inline-flex;align-items:center;gap:7px;padding:8px 17px;border:none;background:none;border-radius:999px;cursor:pointer;font:700 12.5px 'Figtree','Noto Sans TC',sans-serif;color:var(--color-bg);transition:color .3s ease">
+          <i data-lucide="map" style="width:15px;height:15px" stroke-width="2.75"></i><span>選情地圖</span>
         </button>
-        <button id="tab-links" onclick="switchView('links')" class="px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 text-ink-700 hover:text-ink-900">
-          <i data-lucide="globe" class="w-3.5 h-3.5"></i>
-          <span>政治觀測站</span>
+        <button id="tab-links" style="position:relative;display:inline-flex;align-items:center;gap:7px;padding:8px 17px;border:none;background:none;border-radius:999px;cursor:pointer;font:700 12.5px 'Figtree','Noto Sans TC',sans-serif;color:var(--color-text);transition:color .3s ease">
+          <i data-lucide="globe" style="width:15px;height:15px" stroke-width="2.75"></i><span>政治觀測站</span>
         </button>
       </nav>
     </div>
 
-    <!-- 右側：手機上收合成一顆搜尋按鈕，展開後跟桌機一樣是三級聯動下拉選單（與地圖點擊互為捷徑） -->
-    <div class="flex items-center space-x-1.5 sm:space-x-2 shrink-0">
-      <button id="mobile-filter-toggle" onclick="toggleMobileFilters()" title="選擇縣市/鄉鎮市區/村里" class="sm:hidden p-2 rounded-xl bg-canvas border editorial-border shadow-[2px_2px_0px_#141517] active:scale-95">
-        <i data-lucide="list-filter" class="w-4 h-4 text-ink-700"></i>
+    <div style="display:flex;align-items:center;gap:8px;flex:none">
+      <button id="mobile-filter-toggle" class="om-round" title="選擇縣市 / 鄉鎮市區 / 村里" style="width:40px;height:40px">
+        <i data-lucide="list-filter" style="width:17px;height:17px" stroke-width="2.75"></i>
       </button>
-
-      <div id="filter-bar" class="hidden sm:flex items-center space-x-2">
-        <select id="select-city" class="select-editorial bg-canvas border editorial-border rounded-xl px-3.5 py-2 pr-8 text-xs font-bold text-ink-900 cursor-pointer shadow-[2px_2px_0px_#141517] focus:outline-none">
-          <option value="">選擇縣市 (22)</option>
-        </select>
-        <select id="select-district" disabled class="select-editorial bg-canvas border editorial-border rounded-xl px-3.5 py-2 pr-8 text-xs font-bold text-ink-900 cursor-pointer shadow-[2px_2px_0px_#141517] focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed">
-          <option value="">選擇鄉鎮市區</option>
-        </select>
-        <select id="select-village" disabled class="select-editorial bg-canvas border editorial-border rounded-xl px-3.5 py-2 pr-8 text-xs font-bold text-ink-900 cursor-pointer shadow-[2px_2px_0px_#141517] focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed">
-          <option value="">選擇村里</option>
-        </select>
+      <div id="filter-bar" style="display:flex;align-items:center;gap:8px">
+        <select id="select-city" class="om-sel"><option value="">選擇縣市 (22)</option></select>
+        <select id="select-district" class="om-sel" disabled><option value="">選擇鄉鎮市區</option></select>
+        <select id="select-village" class="om-sel" disabled><option value="">選擇村里</option></select>
       </div>
-
-      <button onclick="resetAllFilters()" title="重置全視角" class="p-2 rounded-xl bg-canvas border editorial-border shadow-[2px_2px_0px_#141517] hover:bg-ink-100 transition active:scale-95">
-        <i data-lucide="rotate-ccw" class="w-4 h-4 text-ink-700"></i>
+      <button id="btn-reset" class="om-round" title="重置全視角" style="width:40px;height:40px">
+        <i data-lucide="rotate-ccw" style="width:17px;height:17px" stroke-width="2.75"></i>
       </button>
-      <a href="./admin.html" title="後台管理" class="p-2 rounded-xl bg-canvas border editorial-border shadow-[2px_2px_0px_#141517] hover:bg-ink-900 hover:text-surface transition active:scale-95">
-        <i data-lucide="shield" class="w-4 h-4"></i>
+      <a href="./admin.html" class="om-round" title="後台管理" style="width:40px;height:40px;text-decoration:none">
+        <i data-lucide="shield" style="width:17px;height:17px" stroke-width="2.75"></i>
       </a>
     </div>
   </header>
 
-  <!-- 主視圖 A: 地圖與候選人抽屜 -->
-  <main id="view-map" class="relative flex-1 w-full h-full overflow-hidden flex">
-    <div id="map" class="w-full h-full z-10 bg-[#EAECEE]"></div>
+  <main id="view-map" style="position:relative;flex:1;min-height:0;display:flex">
+    <div id="map" style="width:100%;height:100%;z-index:10"></div>
 
-    <!-- 左上：層級麵包屑（點擊地圖上的縣市→鄉鎮市區→村里逐層鑽研） -->
-    <div id="breadcrumb-bar" class="absolute top-4 left-4 z-20 flex items-center space-x-1.5 pointer-events-none">
-      <button onclick="goToCountyLevel()" class="pointer-events-auto text-[11px] font-black px-3 py-1.5 rounded-full bg-surface border editorial-border shadow-[2px_2px_0px_#141517] hover:bg-ink-900 hover:text-surface transition">
-        全台灣
-      </button>
-      <span id="breadcrumb-county-wrap" class="hidden items-center space-x-1.5">
-        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-ink-500"></i>
-        <button id="breadcrumb-county" onclick="goToTownLevel()" class="pointer-events-auto text-[11px] font-black px-3 py-1.5 rounded-full bg-surface border editorial-border shadow-[2px_2px_0px_#141517] hover:bg-ink-900 hover:text-surface transition"></button>
+    <div id="breadcrumb-bar" style="position:absolute;top:18px;left:18px;z-index:20;display:flex;align-items:center;gap:7px;pointer-events:none;flex-wrap:wrap">
+      <button id="bc-all" class="om-round" style="pointer-events:auto;white-space:nowrap;padding:8px 16px;font:700 12px 'Figtree','Noto Sans TC',sans-serif;box-shadow:var(--shadow-sm);animation:om-pop .5s cubic-bezier(.16,1,.3,1) .35s both">全台灣</button>
+      <span id="bc-county-wrap" style="display:none;align-items:center;gap:7px">
+        <i data-lucide="chevron-right" style="width:15px;height:15px;color:var(--color-neutral-500)" stroke-width="2.75"></i>
+        <button id="bc-county" class="om-round" style="pointer-events:auto;white-space:nowrap;padding:8px 16px;font:700 12px 'Figtree','Noto Sans TC',sans-serif;box-shadow:var(--shadow-sm);animation:om-pop .45s cubic-bezier(.16,1,.3,1) both"></button>
       </span>
-      <span id="breadcrumb-town-wrap" class="hidden items-center space-x-1.5">
-        <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-ink-500"></i>
-        <span id="breadcrumb-town" class="text-[11px] font-black px-3 py-1.5 rounded-full bg-ink-900 text-surface"></span>
+      <span id="bc-town-wrap" style="display:none;align-items:center;gap:7px">
+        <i data-lucide="chevron-right" style="width:15px;height:15px;color:var(--color-neutral-500)" stroke-width="2.75"></i>
+        <span id="bc-town" style="white-space:nowrap;padding:8px 16px;border-radius:999px;background:var(--color-accent);color:var(--color-bg);font:700 12px 'Figtree','Noto Sans TC',sans-serif;box-shadow:var(--shadow-sm);animation:om-pop .45s cubic-bezier(.16,1,.3,1) both"></span>
       </span>
     </div>
 
-    <!-- 左下浮動資訊 -->
-    <div class="absolute bottom-8 left-8 z-20 hidden md:block max-w-sm pointer-events-none">
-      <div class="bg-surface p-4 rounded-2xl border editorial-border shadow-[4px_4px_0px_#141517] space-y-1.5 pointer-events-auto">
-        <div class="flex items-center justify-between">
-          <span class="text-[10px] font-black uppercase tracking-wider text-accent-orange">2026 九合一選舉</span>
-          <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-accent-yellow border border-ink-900">村里級完整覆蓋</span>
+    <div id="hint-card" style="position:absolute;bottom:26px;left:26px;z-index:20;max-width:352px;display:none;animation:om-rise .8s cubic-bezier(.16,1,.3,1) .6s both">
+      <div style="position:relative;background:var(--color-bg);border-radius:32px;padding:22px 24px;box-shadow:var(--shadow-lg);overflow:hidden">
+        <span style="position:absolute;right:-34px;bottom:-40px;width:130px;height:130px;border-radius:50%;background:var(--color-accent-2-200);opacity:.7"></span>
+        <div style="position:relative;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px">
+          <span style="white-space:nowrap;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--color-accent-700)">2026 九合一選舉</span>
+          <span class="tag tag-accent-2">村里級完整覆蓋</span>
         </div>
-        <h3 class="text-sm font-black text-ink-900">點擊地圖上的行政區逐層鑽研</h3>
-        <p class="text-xs text-ink-500 leading-relaxed">
-          點選縣市 → 自動放大顯示鄉鎮市區 → 再點選看村里，逐層調閱最新審定之候選人名冊。也可以直接用右上角選單快速跳轉。
+        <h3 style="position:relative;font-family:'Caprasimo','Noto Serif TC',serif;font-weight:900;font-synthesis:none;font-size:20px;margin:0 0 7px">點擊行政區，逐層鑽研</h3>
+        <p style="position:relative;margin:0;font-size:12.5px;line-height:1.65;color:var(--color-neutral-700)">
+          點選縣市 → 自動放大到鄉鎮市區 → 再點進村里，逐層調閱最新審定之候選人名冊。也可以用右上角選單快速跳轉。
         </p>
       </div>
     </div>
 
-    <!-- 右側滑出抽屜 (Offcanvas Drawer) -->
-    <aside id="detail-drawer" class="absolute top-0 right-0 h-full w-full sm:w-[460px] lg:w-[560px] xl:w-[620px] bg-surface z-30 border-l editorial-border transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col shadow-[-10px_0px_30px_rgba(0,0,0,0.06)]">
-      <div class="p-6 border-b border-ink-100 flex items-start justify-between bg-canvas/60">
-        <div>
-          <div class="flex items-center space-x-2">
-            <span id="drawer-region-tag" class="text-xs font-black px-2.5 py-0.5 rounded bg-ink-900 text-surface">
-              直轄市
-            </span>
-            <span id="drawer-path" class="text-xs font-bold text-ink-500">全台灣視角</span>
+    <aside id="drawer" style="position:absolute;top:0;right:0;height:100%;width:min(100%,600px);z-index:30;background:var(--color-bg);border-radius:36px 0 0 36px;box-shadow:-18px 0 44px color-mix(in srgb,#2e2b25 18%,transparent);transform:translateX(102%);transition:transform .58s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;overflow:hidden">
+      <div style="flex:none;padding:26px 26px 18px;display:flex;align-items:flex-start;justify-content:space-between;gap:14px;position:relative">
+        <span style="position:absolute;left:-60px;top:-70px;width:180px;height:180px;border-radius:50%;background:var(--color-accent-100);pointer-events:none"></span>
+        <div style="position:relative;min-width:0">
+          <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+            <span id="drawer-tag" class="tag tag-accent">直轄市</span>
+            <span id="drawer-path" style="font-size:12px;font-weight:500;color:var(--color-neutral-600)">全台灣視角</span>
           </div>
-          <h2 id="drawer-region-title" class="text-3xl font-black mt-2 text-ink-900 tracking-tight">台北市</h2>
+          <h2 id="drawer-title" style="font-family:'Caprasimo','Noto Serif TC',serif;font-weight:900;font-synthesis:none;font-size:32px;margin:10px 0 0;line-height:1.3">台北市</h2>
         </div>
-        <button onclick="closeDrawer()" class="p-2 rounded-full border border-ink-300 hover:bg-ink-900 hover:text-surface transition">
-          <i data-lucide="x" class="w-5 h-5"></i>
+        <button id="drawer-close" class="om-round" style="width:40px;height:40px;flex:none">
+          <i data-lucide="x" style="width:18px;height:18px" stroke-width="2.75"></i>
         </button>
       </div>
 
-      <div class="grid grid-cols-3 gap-2 sm:gap-3 p-5 bg-surface border-b border-ink-100">
-        <div class="p-3 rounded-xl bg-canvas border border-ink-300">
-          <span class="text-[11px] font-bold text-ink-500 block uppercase">選舉人口估計</span>
-          <span id="drawer-voter-count" class="text-lg font-black text-ink-900 mt-0.5 block">--</span>
+      <div style="flex:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:0 26px 20px">
+        <div style="background:var(--color-surface);border-radius:22px;padding:13px 15px">
+          <span style="display:block;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--color-neutral-600)">選舉人口估計</span>
+          <span id="stat-voters" style="display:block;margin-top:3px;font-family:'Caprasimo','Noto Serif TC',serif;font-weight:900;font-synthesis:none;font-size:20px">--</span>
         </div>
-        <div class="p-3 rounded-xl bg-canvas border border-ink-300">
-          <span class="text-[11px] font-bold text-ink-500 block uppercase">應選席次</span>
-          <span id="drawer-quota" class="text-lg font-black text-accent-orange mt-0.5 block">--</span>
+        <div style="background:var(--color-accent-100);border-radius:22px;padding:13px 15px">
+          <span style="display:block;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--color-accent-700)">應選席次</span>
+          <span id="stat-quota" style="display:block;margin-top:3px;font-family:'Caprasimo','Noto Serif TC',serif;font-weight:900;font-synthesis:none;font-size:20px;color:var(--color-accent-800)">--</span>
         </div>
-        <div class="p-3 rounded-xl bg-canvas border border-ink-300">
-          <span class="text-[11px] font-bold text-ink-500 block uppercase">登記席次</span>
-          <span id="drawer-registered-count" class="text-lg font-black text-accent-blue mt-0.5 block">--</span>
+        <div style="background:var(--color-accent-2-100);border-radius:22px;padding:13px 15px">
+          <span style="display:block;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--color-accent-2-800)">登記席次</span>
+          <span id="stat-registered" style="display:block;margin-top:3px;font-family:'Caprasimo','Noto Serif TC',serif;font-weight:900;font-synthesis:none;font-size:20px;color:var(--color-accent-2-800)">--</span>
         </div>
       </div>
 
-      <!-- 候選人卡片清單 -->
-      <div class="flex-1 overflow-y-auto p-5 space-y-4 bg-canvas/40" id="candidates-container"></div>
+      <div id="candidates" class="om-scroll" style="flex:1;min-height:0;overflow-y:auto;padding:4px 26px 32px;display:flex;flex-direction:column;gap:14px"></div>
     </aside>
   </main>
 
-  <!-- 主視圖 B: 政治觀測站 (精選資源) -->
-  <main id="view-links" class="hidden flex-1 w-full h-full overflow-y-auto bg-canvas p-6 sm:p-12">
-    <div class="max-w-6xl mx-auto space-y-8 pb-16">
-      <div class="bg-surface p-8 rounded-3xl border editorial-border shadow-[6px_6px_0px_#141517] relative overflow-hidden">
-        <div class="max-w-2xl space-y-3 relative z-10">
-          <div class="inline-flex items-center space-x-2 px-2.5 py-1 rounded-full bg-accent-yellow border border-ink-900 text-xs font-black">
-            <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
-            <span>CURATED DIRECTORY</span>
-          </div>
-          <h2 class="text-3xl sm:text-4xl font-black text-ink-900 tracking-tight">政治資料與公民觀測站</h2>
-          <p class="text-sm text-ink-700 font-medium leading-relaxed">
+  <main id="view-links" class="om-scroll" style="display:none;flex:1;min-height:0;overflow-y:auto;background:var(--color-bg);padding:34px 22px 80px">
+    <div style="max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:26px">
+      <section style="position:relative;background:var(--color-surface);border-radius:44px;padding:44px 46px;overflow:hidden;animation:om-rise .7s cubic-bezier(.16,1,.3,1) both">
+        <span style="position:absolute;right:-70px;top:-90px;width:300px;height:300px;border-radius:50%;background:var(--color-accent-200);opacity:.8;animation:om-drift 12s ease-in-out infinite"></span>
+        <span style="position:absolute;right:120px;bottom:-120px;width:220px;height:220px;border-radius:50%;background:var(--color-accent-2-200);opacity:.7"></span>
+        <div style="position:relative;max-width:620px;display:flex;flex-direction:column;gap:14px;align-items:flex-start">
+          <span class="tag tag-outline" style="display:inline-flex;gap:7px;align-items:center;white-space:nowrap;padding:5px 14px;font-weight:700;letter-spacing:.1em">
+            <i data-lucide="shield-check" style="width:14px;height:14px" stroke-width="2.75"></i>CURATED DIRECTORY
+          </span>
+          <h2 style="font-family:'Caprasimo','Noto Serif TC',serif;font-weight:900;font-synthesis:none;font-size:40px;margin:0;line-height:1.3">政治資料與公民觀測站</h2>
+          <p style="margin:0;font-size:14.5px;line-height:1.7;color:var(--color-neutral-700);max-width:520px;text-wrap:pretty">
             收錄中央選舉委員會公開資料庫、國會議事轉播、政治獻金平台與優質公民科技專案。
           </p>
-          <div class="pt-2">
-            <span class="text-xs font-bold text-ink-500 bg-canvas px-3 py-1.5 rounded-lg border border-ink-300 inline-flex items-center space-x-1.5">
-              <i data-lucide="lock" class="w-3.5 h-3.5 text-accent-orange"></i>
-              <span>本站連結由維護者統一校閱發布，確保資訊真實可信。</span>
-            </span>
-          </div>
+          <span style="display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:999px;background:var(--color-bg);font-size:12px;font-weight:500;color:var(--color-neutral-700)">
+            <i data-lucide="lock" style="width:14px;height:14px;color:var(--color-accent)" stroke-width="2.75"></i>
+            本站連結由維護者統一校閱發布，確保資訊真實可信。
+          </span>
         </div>
-        <div class="absolute -right-8 -bottom-8 opacity-10 pointer-events-none hidden sm:block">
-          <i data-lucide="landmark" class="w-64 h-64 text-ink-900"></i>
-        </div>
-      </div>
-
-      <div id="sites-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      </section>
+      <div id="sites-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:20px"></div>
     </div>
   </main>
+</div>
+<script>
+class App {
+  start() {
+    const motion = window.MOTION || '高調';
+    const mo = motion === '低調' ? 0.6 : motion === '高調' ? 1.45 : 1;
+    document.documentElement.style.setProperty('--mo', mo);
+    this.mo = mo;
+    this.boot();
+  }
 
-  <!-- Firebase：讀取後台編輯過的資料（Firestore overrides），公開網站僅需「讀取」權限 -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
-    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
-
-    // TODO：請將以下設定值換成你自己 Firebase 專案的設定（Firebase Console → 專案設定 → 一般 → 你的應用程式）
-    const firebaseConfig = {
+  // ————— Firebase overrides (unchanged logic, loaded on demand) —————
+  fetchOverrides() {
+    const cfg = {
       apiKey: "AIzaSyAZdhEkMeCER-eh_De2viLi0jG2kD2f_4A",
       authDomain: "taiwan-election-map.firebaseapp.com",
       projectId: "taiwan-election-map",
@@ -318,637 +481,498 @@
       messagingSenderId: "603857399918",
       appId: "1:603857399918:web:44fb7f95b20e127ad1b67f"
     };
-
-    let overridesPromise = null;
-    // 還沒換成真的 Firebase 設定值之前，完全不嘗試連線，避免跳出 API key 相關錯誤
-    const firebaseConfigured = firebaseConfig.apiKey !== 'YOUR_API_KEY';
-
-    function fetchOverrides() {
-      if (!firebaseConfigured) return Promise.resolve({});
-      if (overridesPromise) return overridesPromise; // 同時有多個呼叫也只會真的查詢一次
-      overridesPromise = (async () => {
-        try {
-          const app = initializeApp(firebaseConfig);
-          const db = getFirestore(app);
-          const snap = await getDocs(collection(db, 'overrides'));
-          const out = {};
-          snap.forEach(d => { out[d.id] = d.data(); });
-          return out;
-        } catch (err) {
-          console.warn('讀取後台編輯資料失敗，僅顯示原始候選人資料。', err);
-          return {};
-        }
-      })();
-      return overridesPromise;
-    }
-
-    // 將 overrides 套用到一份剛載入的 topology：依 geometry 的 properties.id（縣市/鄉鎮市區/村里代碼）比對
-    function applyOverridesToTopology(topo, overrides) {
-      if (!overrides || Object.keys(overrides).length === 0) return topo;
-      const objKey = Object.keys(topo.objects)[0];
-      topo.objects[objKey].geometries.forEach(g => {
-        const o = overrides[g.properties.id];
-        if (!o) return;
-        if (o.candidates) g.properties.candidates = o.candidates;
-        if (o.councilors) g.properties.councilors = o.councilors;
-        if (o.representatives) g.properties.representatives = o.representatives;
-        if (o.voters !== undefined) g.properties.voters = o.voters;
-        if (o.quota !== undefined) g.properties.quota = o.quota;
-      });
-      return topo;
-    }
-
-    window.__electionOverrides = { fetchOverrides, applyOverridesToTopology };
-  </script>
-
-  <script>
-    // 1. 政黨徽章與標準色
-    const PARTY_CONFIG = {
-      '民主進步黨': {
-        color: '#1B9431',
-        svgLogo: `<svg viewBox="0 0 100 100" class="w-5 h-5 rounded-full border border-ink-900 bg-white inline-block shrink-0"><circle cx="50" cy="50" r="48" fill="#1B9431"/><rect x="42" y="15" width="16" height="70" fill="#FFFFFF"/><rect x="15" y="42" width="70" height="16" fill="#FFFFFF"/><polygon points="50,26 62,50 50,74 38,50" fill="#1B9431"/></svg>`
-      },
-      '中國國民黨': {
-        color: '#002B82',
-        svgLogo: `<svg viewBox="0 0 100 100" class="w-5 h-5 rounded-full border border-ink-900 bg-[#002B82] inline-block shrink-0"><circle cx="50" cy="50" r="48" fill="#002B82"/><circle cx="50" cy="50" r="20" fill="#FFFFFF"/><path d="M50 8 L54 30 L65 14 L62 34 L77 24 L68 40 L85 36 L72 47 L90 50 L72 53 L85 64 L68 60 L77 76 L62 66 L65 86 L54 70 L50 92 L46 70 L35 86 L38 66 L23 76 L32 60 L15 64 L28 53 L10 50 L28 47 L15 36 L32 40 L23 24 L38 34 L35 14 L46 30 Z" fill="#FFFFFF"/><circle cx="50" cy="50" r="16" fill="#002B82"/><circle cx="50" cy="50" r="14" fill="#FFFFFF"/></svg>`
-      },
-      '台灣民眾黨': {
-        color: '#28C7C7',
-        svgLogo: `<svg viewBox="0 0 100 100" class="w-5 h-5 rounded-full border border-ink-900 bg-[#28C7C7] inline-block shrink-0"><text x="50" y="65" font-size="36" font-weight="900" fill="#FFFFFF" text-anchor="middle" font-family="sans-serif">眾</text></svg>`
-      },
-      '時代力量': {
-        color: '#F5C200',
-        svgLogo: `<svg viewBox="0 0 100 100" class="w-5 h-5 rounded-full border border-ink-900 bg-[#F5C200] inline-block shrink-0"><text x="50" y="66" font-size="38" font-weight="900" fill="#141517" text-anchor="middle" font-family="sans-serif">力</text></svg>`
-      },
-      '無黨籍': {
-        color: '#6E7681',
-        svgLogo: `<svg viewBox="0 0 100 100" class="w-5 h-5 rounded-full border border-ink-900 bg-ink-100 inline-block shrink-0"><text x="50" y="64" font-size="36" font-weight="900" fill="#3A3F45" text-anchor="middle" font-family="sans-serif">無</text></svg>`
-      },
-      '無': {
-        color: '#6E7681',
-        svgLogo: `<svg viewBox="0 0 100 100" class="w-5 h-5 rounded-full border border-ink-900 bg-ink-100 inline-block shrink-0"><text x="50" y="64" font-size="36" font-weight="900" fill="#3A3F45" text-anchor="middle" font-family="sans-serif">無</text></svg>`
+    if (cfg.apiKey === 'YOUR_API_KEY') return Promise.resolve({});
+    if (this._ov) return this._ov;
+    this._ov = (async () => {
+      try {
+        const [{ initializeApp }, { getFirestore, collection, getDocs }] = await Promise.all([
+          import('https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js'),
+          import('https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js'),
+        ]);
+        const snap = await getDocs(collection(getFirestore(initializeApp(cfg)), 'overrides'));
+        const out = {};
+        snap.forEach(d => { out[d.id] = d.data(); });
+        return out;
+      } catch (err) {
+        console.warn('讀取後台編輯資料失敗，僅顯示原始候選人資料。', err);
+        return {};
       }
-    };
-    function partyConfig(name) {
-      return PARTY_CONFIG[name] || {
-        color: '#6E7681',
-        svgLogo: `<svg viewBox="0 0 100 100" class="w-5 h-5 rounded-full border border-ink-900 bg-ink-100 inline-block shrink-0"><text x="50" y="60" font-size="30" font-weight="900" fill="#3A3F45" text-anchor="middle" font-family="sans-serif">黨</text></svg>`
-      };
-    }
+    })();
+    return this._ov;
+  }
 
-    // 2. 政治觀測站清單
-    const CURATED_SITES = [
+  applyOverrides(topo, overrides) {
+    if (!overrides || !Object.keys(overrides).length) return topo;
+    const key = Object.keys(topo.objects)[0];
+    topo.objects[key].geometries.forEach(g => {
+      const o = overrides[g.properties.id];
+      if (!o) return;
+      if (o.candidates) g.properties.candidates = o.candidates;
+      if (o.councilors) g.properties.councilors = o.councilors;
+      if (o.representatives) g.properties.representatives = o.representatives;
+      if (o.voters !== undefined) g.properties.voters = o.voters;
+      if (o.quota !== undefined) g.properties.quota = o.quota;
+    });
+    return topo;
+  }
+
+  // ————— party marks —————
+  partyConfig(name) {
+    const chip = (bg, fg, ch) => `<span style="width:24px;height:24px;flex:none;border-radius:50%;background:${bg};color:${fg};display:inline-flex;align-items:center;justify-content:center;font:700 13px 'Noto Sans TC',sans-serif">${ch}</span>`;
+    const P = {
+      '民主進步黨': { color: '#1B9431', logo: chip('#1B9431', '#fff', '民') },
+      '中國國民黨': { color: '#002B82', logo: chip('#002B82', '#fff', '國') },
+      '台灣民眾黨': { color: '#28C7C7', logo: chip('#28C7C7', '#fff', '眾') },
+      '時代力量': { color: '#F5C200', logo: chip('#F5C200', '#201e1d', '力') },
+      '無黨籍': { color: '#82796a', logo: chip('var(--color-neutral-300)', '#201e1d', '無') },
+      '無': { color: '#82796a', logo: chip('var(--color-neutral-300)', '#201e1d', '無') },
+    };
+    return P[name] || { color: '#82796a', logo: chip('var(--color-neutral-300)', '#201e1d', '黨') };
+  }
+
+  get SITES() {
+    return [
       { name: '中選會選舉資料庫網站', category: '官方數據庫', url: 'https://db.cec.gov.tw/', desc: '中央選舉委員會歷屆公職選舉、登記名冊與官方選舉公報查詢。' },
       { name: '立法院議事轉播 (IVOD)', category: '政見與法案監督', url: 'https://ivod.ly.gov.tw/', desc: '國會院會與各委員會全天候即時視訊轉播與歷史隨選隨播系統。' },
       { name: '監察院政治獻金公開平臺', category: '陽光法案開放', url: 'https://ardata.cy.gov.tw/', desc: '全民共同檢驗各政黨與候選人合法申報之收支帳冊與競選資金流向。' },
       { name: '沃草 Watchout 國會觀測', category: '公民科技媒體', url: 'https://watchout.tw/', desc: '以圖文與資訊設計降低公民政治參與門檻的獨立媒體平台。' },
-      { name: '政治開箱 Politics Design', category: '政治視覺研究', url: 'https://politicsdesign.tw/', desc: '台灣當代政治競選美學與民主視覺溝通研究平台。' }
+      { name: '政治開箱 Politics Design', category: '政治視覺研究', url: 'https://politicsdesign.tw/', desc: '台灣當代政治競選美學與民主視覺溝通研究平台。' },
     ];
+  }
 
-    // 3. 地圖初始化
-    const map = L.map('map', { zoomControl: false, attributionControl: true }).setView([23.8, 120.9], 8);
-    // 原本用 CARTO 的免費底圖，但他們現在沒有 API key 會在圖磚上蓋浮水印，
-    // 換成 Esri 免費、不需要金鑰的淺灰色底圖，風格跟原本簡約的調性接近。
+  // ————— boot —————
+  boot() {
+    const $ = id => document.getElementById(id);
+    this.$ = $;
+    this.selCity = $('select-city');
+    this.selDist = $('select-district');
+    this.selVill = $('select-village');
+
+    this.map = L.map('map', { zoomControl: false, attributionControl: true }).setView([23.8, 120.9], 8);
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
-      maxZoom: 16,
-      attribution: 'Esri, HERE, Garmin, &copy; OpenStreetMap contributors',
-    }).addTo(map);
-    L.control.zoom({ position: 'bottomright' }).addTo(map);
+      maxZoom: 16, attribution: 'Esri, HERE, Garmin, &copy; OpenStreetMap contributors',
+    }).addTo(this.map);
+    L.control.zoom({ position: 'bottomright' }).addTo(this.map);
 
-    const selectCity = document.getElementById('select-city');
-    const selectDistrict = document.getElementById('select-district');
-    const selectVillage = document.getElementById('select-village');
+    this.view = 'map';
+    this.layer = null; this.counties = null; this.towns = {}; this.villages = {};
+    this.county = null; this.town = null;
 
-    // 全域狀態
-    let currentLayer = null;         // 目前顯示在地圖上的 GeoJSON 圖層（縣市 or 鄉鎮市區 or 村里）
-    let countiesTopoCache = null;    // 縣市 topology（含候選人資料），開站時載入一次
-    let townsCache = {};             // countyCode -> topology
-    let villagesCache = {};          // townCode -> topology
-    let currentCounty = null;        // { code, name, category, feature }
-    let currentTown = null;          // { code, name, feature }
+    $('brand').onclick = () => this.switchView('map');
+    $('tab-map').onclick = () => this.switchView('map');
+    $('tab-links').onclick = () => this.switchView('links');
+    $('btn-reset').onclick = () => this.goCounty();
+    $('drawer-close').onclick = () => this.goCounty();
+    $('bc-all').onclick = () => this.goCounty();
+    $('bc-county').onclick = () => this.goTown();
+    $('mobile-filter-toggle').onclick = () => this.toggleFilters();
 
-    async function fetchJSON(url) {
-      const res = await fetch(url);
-      if (!res.ok) throw new Error('載入失敗: ' + url);
-      return res.json();
-    }
-
-    function topoToFeatures(topo) {
-      const objKey = Object.keys(topo.objects)[0];
-      return topojson.feature(topo, topo.objects[objKey]);
-    }
-
-    const LEVEL_COLORS = { county: '#FF5722', town: '#2563EB', village: '#22C55E' };
-
-    function styleForLevel(level) {
-      return { weight: 1.5, color: '#141517', fillColor: LEVEL_COLORS[level], fillOpacity: 0.12 };
-    }
-
-    function clearCurrentLayer() {
-      if (currentLayer) { map.removeLayer(currentLayer); currentLayer = null; }
-    }
-
-    // 4. 三級行政區圖層渲染（點擊即鑽研到下一層）
-    async function renderCountyLayer() {
-      clearCurrentLayer();
-      currentCounty = null;
-      currentTown = null;
-      updateBreadcrumb();
-
-      if (!countiesTopoCache) {
-        const [topo, overrides] = await Promise.all([
-          fetchJSON('./data/counties.json'),
-          window.__electionOverrides.fetchOverrides(),
-        ]);
-        countiesTopoCache = window.__electionOverrides.applyOverridesToTopology(topo, overrides);
-        populateCitySelect(countiesTopoCache);
-      }
-
-      const fc = topoToFeatures(countiesTopoCache);
-      currentLayer = L.geoJson(fc, {
-        style: () => styleForLevel('county'),
-        onEachFeature: (feature, layer) => {
-          layer.bindTooltip(feature.properties.name, { sticky: true, direction: 'top', className: 'region-tooltip' });
-          layer.on('mouseover', () => layer.setStyle({ fillOpacity: 0.32 }));
-          layer.on('mouseout', () => layer.setStyle({ fillOpacity: 0.12 }));
-          layer.on('click', () => onCountyClick(feature, layer));
-        }
-      }).addTo(map);
-
-      map.flyTo([23.8, 120.9], 8, { duration: 1 });
-    }
-
-    async function onCountyClick(feature, layer) {
-      const code = feature.properties.id;
-      const name = feature.properties.name;
-      currentCounty = { code, name, feature };
-      selectCity.value = name;
-      onCityChangeFromCode(code);
-    }
-
-    async function renderTownLayer(countyCode) {
-      clearCurrentLayer();
-      currentTown = null;
-
-      if (!townsCache[countyCode]) {
-        const [topo, overrides] = await Promise.all([
-          fetchJSON(`./data/towns/towns-${countyCode}.json`),
-          window.__electionOverrides.fetchOverrides(),
-        ]);
-        townsCache[countyCode] = window.__electionOverrides.applyOverridesToTopology(topo, overrides);
-      }
-      const topo = townsCache[countyCode];
-      const fc = topoToFeatures(topo);
-
-      currentLayer = L.geoJson(fc, {
-        style: () => styleForLevel('town'),
-        onEachFeature: (feature, layer) => {
-          layer.bindTooltip(feature.properties.name, { sticky: true, direction: 'top', className: 'region-tooltip' });
-          layer.on('mouseover', () => layer.setStyle({ fillOpacity: 0.32 }));
-          layer.on('mouseout', () => layer.setStyle({ fillOpacity: 0.12 }));
-          layer.on('click', () => onTownClick(feature, layer));
-        }
-      }).addTo(map);
-
-      populateDistrictSelect(topo);
-      map.flyTo(currentLayer.getBounds().getCenter(), 11, { duration: 1 });
-      try { map.fitBounds(currentLayer.getBounds(), { padding: [40, 40] }); } catch (e) {}
-    }
-
-    async function onTownClick(feature, layer) {
-      const code = feature.properties.id;
-      const name = feature.properties.name;
-      currentTown = { code, name, feature };
-      selectDistrict.value = name;
-      onDistrictChangeFromCode(code);
-    }
-
-    async function renderVillageLayer(townCode) {
-      clearCurrentLayer();
-
-      if (!villagesCache[townCode]) {
-        const [topo, overrides] = await Promise.all([
-          fetchJSON(`./data/villages/villages-${townCode}.json`),
-          window.__electionOverrides.fetchOverrides(),
-        ]);
-        villagesCache[townCode] = window.__electionOverrides.applyOverridesToTopology(topo, overrides);
-      }
-      const topo = villagesCache[townCode];
-      const fc = topoToFeatures(topo);
-
-      currentLayer = L.geoJson(fc, {
-        style: () => styleForLevel('village'),
-        onEachFeature: (feature, layer) => {
-          layer.bindTooltip(feature.properties.name, { sticky: true, direction: 'top', className: 'region-tooltip' });
-          layer.on('mouseover', () => layer.setStyle({ fillOpacity: 0.35 }));
-          layer.on('mouseout', () => layer.setStyle({ fillOpacity: 0.14 }));
-          layer.on('click', () => onVillageClick(feature, layer));
-        }
-      }).addTo(map);
-
-      populateVillageSelect(topo);
-      try { map.fitBounds(currentLayer.getBounds(), { padding: [60, 60] }); } catch (e) {}
-    }
-
-    function onVillageClick(feature, layer) {
-      const name = feature.properties.name;
-      selectVillage.value = name;
-      const villRole = name.endsWith('里') ? '里長選舉' : '村長選舉';
-      renderDrawer(
-        `${currentCounty.name} > ${currentTown.name} > ${name}`,
-        `${name} ${villRole}`,
-        '最基層村里',
-        feature.properties.voters,
-        feature.properties.quota || '1 席',
-        feature.properties.candidates,
-        null
-      );
-    }
-
-    // 5. 下拉選單（與地圖點擊互為捷徑：資料來源相同，都是逐層 fetch）
-    function populateCitySelect(topo) {
-      selectCity.innerHTML = '<option value="">選擇縣市 (22)</option>';
-      const fc = topoToFeatures(topo);
-      fc.features
-        .slice()
-        .sort((a, b) => a.properties.name.localeCompare(b.properties.name, 'zh-Hant'))
-        .forEach(f => {
-          const opt = document.createElement('option');
-          opt.value = f.properties.name;
-          opt.dataset.code = f.properties.id;
-          opt.textContent = `${f.properties.name} (${f.properties.category})`;
-          selectCity.appendChild(opt);
-        });
-    }
-
-    function populateDistrictSelect(topo) {
-      selectDistrict.innerHTML = '<option value="">選擇鄉鎮市區</option>';
-      selectDistrict.disabled = false;
-      selectVillage.innerHTML = '<option value="">選擇村里</option>';
-      selectVillage.disabled = true;
-      const fc = topoToFeatures(topo);
-      fc.features
-        .slice()
-        .sort((a, b) => a.properties.name.localeCompare(b.properties.name, 'zh-Hant'))
-        .forEach(f => {
-          const opt = document.createElement('option');
-          opt.value = f.properties.name;
-          opt.dataset.code = f.properties.id;
-          opt.textContent = f.properties.name;
-          selectDistrict.appendChild(opt);
-        });
-    }
-
-    function populateVillageSelect(topo) {
-      selectVillage.innerHTML = '<option value="">選擇村里</option>';
-      selectVillage.disabled = false;
-      const fc = topoToFeatures(topo);
-      fc.features
-        .slice()
-        .sort((a, b) => a.properties.name.localeCompare(b.properties.name, 'zh-Hant'))
-        .forEach(f => {
-          const opt = document.createElement('option');
-          opt.value = f.properties.name;
-          opt.textContent = f.properties.name;
-          selectVillage.appendChild(opt);
-        });
-    }
-
-    async function onCityChangeFromCode(code) {
-      const fc = topoToFeatures(countiesTopoCache);
-      const feature = fc.features.find(f => f.properties.id === code);
-      if (!feature) return;
-      currentCounty = { code, name: feature.properties.name, feature };
-      updateBreadcrumb();
-      renderDrawer(feature.properties.name, `${feature.properties.name}首長選舉`, feature.properties.category,
-        feature.properties.voters, feature.properties.quota, feature.properties.candidates,
-        { label: '議員候選人（依選舉區）', blocks: feature.properties.councilors });
-      await renderTownLayer(code);
-    }
-
-    async function onDistrictChangeFromCode(code) {
-      const fc = topoToFeatures(townsCache[currentCounty.code]);
-      const feature = fc.features.find(f => f.properties.id === code);
-      if (!feature) return;
-      currentTown = { code, name: feature.properties.name, feature };
-      updateBreadcrumb();
-      const distTag = feature.properties.isIndigenousDistrict ? '山地原住民區' : '行政區轄區';
-      const repLabel = feature.properties.isIndigenousDistrict ? '區民代表候選人（依選舉區）' : '鄉鎮市民代表候選人（依選舉區）';
-      const distCandidates = (feature.properties.candidates && feature.properties.candidates.length > 0)
-        ? feature.properties.candidates
-        : currentCounty.feature.properties.candidates;
-      renderDrawer(`${currentCounty.name} > ${feature.properties.name}`, `${feature.properties.name} 公職名冊`, distTag,
-        feature.properties.voters, feature.properties.quota, distCandidates,
-        { label: repLabel, blocks: feature.properties.representatives });
-      await renderVillageLayer(code);
-    }
-
-    selectCity.addEventListener('change', () => {
-      const opt = selectCity.selectedOptions[0];
-      if (!opt || !opt.value) { resetAllFilters(); return; }
-      onCityChangeFromCode(opt.dataset.code);
+    this.selCity.addEventListener('change', () => {
+      const o = this.selCity.selectedOptions[0];
+      if (!o || !o.value) { this.goCounty(); return; }
+      this.pickCounty(o.dataset.code);
     });
-    selectDistrict.addEventListener('change', () => {
-      const opt = selectDistrict.selectedOptions[0];
-      if (!opt || !opt.value) { renderTownLayer(currentCounty.code); return; }
-      onDistrictChangeFromCode(opt.dataset.code);
+    this.selDist.addEventListener('change', () => {
+      const o = this.selDist.selectedOptions[0];
+      if (!o || !o.value) { this.renderTowns(this.county.code); return; }
+      this.pickTown(o.dataset.code);
     });
-    selectVillage.addEventListener('change', () => {
-      const name = selectVillage.value;
+    this.selVill.addEventListener('change', () => {
+      const name = this.selVill.value;
       if (!name) return;
-      const fc = topoToFeatures(villagesCache[currentTown.code]);
-      const feature = fc.features.find(f => f.properties.name === name);
-      if (feature) onVillageClick(feature, null);
-      closeMobileFilters();
+      const f = this.features(this.villages[this.town.code]).features.find(x => x.properties.name === name);
+      if (f) this.openVillage(f);
+      this.closeFilters();
     });
 
-    // 手機版搜尋面板開關（桌機版 sm 以上這顆按鈕本身是隱藏的，不會被呼叫到）
-    function toggleMobileFilters() {
-      const bar = document.getElementById('filter-bar');
-      const opening = !bar.classList.contains('mobile-filter-open');
-      bar.classList.toggle('mobile-filter-open', opening);
-      bar.classList.toggle('hidden', !opening);
-    }
-    function closeMobileFilters() {
-      const bar = document.getElementById('filter-bar');
-      bar.classList.remove('mobile-filter-open');
-      if (window.matchMedia('(max-width: 639px)').matches) {
-        bar.classList.add('hidden');
-      }
-    }
+    this.syncResponsive();
+    window.addEventListener('resize', () => this.syncResponsive());
+    this.layoutTabs();
+    this.renderSites();
+    this.init();
+  }
 
-    // 6. 麵包屑導覽
-    function updateBreadcrumb() {
-      const countyWrap = document.getElementById('breadcrumb-county-wrap');
-      const townWrap = document.getElementById('breadcrumb-town-wrap');
-      if (currentCounty) {
-        countyWrap.classList.remove('hidden');
-        countyWrap.classList.add('flex');
-        document.getElementById('breadcrumb-county').textContent = currentCounty.name;
-      } else {
-        countyWrap.classList.add('hidden');
-        countyWrap.classList.remove('flex');
-      }
-      if (currentTown) {
-        townWrap.classList.remove('hidden');
-        townWrap.classList.add('flex');
-        document.getElementById('breadcrumb-town').textContent = currentTown.name;
-      } else {
-        townWrap.classList.add('hidden');
-        townWrap.classList.remove('flex');
-      }
-      lucide.createIcons();
+  syncResponsive() {
+    const wide = window.innerWidth > 1120;
+    this.$('tabs').style.display = window.innerWidth > 860 ? 'flex' : 'none';
+    this.$('brand-kicker').style.display = window.innerWidth > 900 ? 'flex' : 'none';
+    this.$('hint-card').style.display = window.innerWidth > 900 ? 'block' : 'none';
+    this.$('mobile-filter-toggle').style.display = wide ? 'none' : 'inline-flex';
+    const bar = this.$('filter-bar');
+    if (wide) { bar.classList.remove('om-open'); bar.style.display = this.view === 'links' ? 'none' : 'flex'; }
+    else if (!bar.classList.contains('om-open')) bar.style.display = 'none';
+    this.layoutTabs();
+  }
+
+  layoutTabs() {
+    const pill = this.$('tab-pill'), active = this.$(this.view === 'links' ? 'tab-links' : 'tab-map');
+    if (!pill || !active || !active.offsetWidth) return;
+    pill.style.width = active.offsetWidth + 'px';
+    pill.style.transform = `translateX(${active.offsetLeft - 4}px)`;
+  }
+
+  async init() {
+    try { await this.renderCounties(); }
+    catch (err) {
+      console.error('地圖資料載入失敗', err);
+      this.$('breadcrumb-bar').insertAdjacentHTML('beforeend',
+        `<span style="pointer-events:auto;padding:8px 16px;border-radius:999px;background:var(--color-accent-800);color:var(--color-bg);font:700 12px 'Noto Sans TC',sans-serif">資料載入失敗，請確認 ./data 目錄是否存在</span>`);
     }
+    setTimeout(() => {
+      const s = this.$('splash');
+      s.style.opacity = '0'; s.style.visibility = 'hidden'; s.style.transform = 'scale(1.04)';
+      setTimeout(() => s.remove(), 900);
+    }, 520 * this.mo);
+    lucide.createIcons();
+  }
 
-    function goToCountyLevel() {
-      document.getElementById('detail-drawer').classList.add('translate-x-full');
-      closeMobileFilters();
-      renderCountyLayer();
-      selectCity.value = '';
-      selectDistrict.innerHTML = '<option value="">選擇鄉鎮市區</option>';
-      selectDistrict.disabled = true;
-      selectVillage.innerHTML = '<option value="">選擇村里</option>';
-      selectVillage.disabled = true;
+  // ————— geo helpers —————
+  async json(url) { const r = await fetch(url); if (!r.ok) throw new Error('載入失敗: ' + url); return r.json(); }
+  features(topo) { const k = Object.keys(topo.objects)[0]; return topojson.feature(topo, topo.objects[k]); }
+  levelStyle(level) {
+    const fill = { county: '#c67139', town: '#7a8a5e', village: '#b2622d' }[level];
+    return { weight: 1.25, color: '#201e1d', opacity: 0.35, fillColor: fill, fillOpacity: 0.16 };
+  }
+  clearLayer() { if (this.layer) { this.map.removeLayer(this.layer); this.layer = null; } }
+
+  /* staggered fade-in of the freshly drawn boundaries */
+  animateLayer() {
+    if (!this.layer) return;
+    let i = 0;
+    this.layer.eachLayer(l => {
+      const el = l.getElement && l.getElement();
+      if (!el) return;
+      el.style.transition = 'none';
+      el.style.opacity = '0';
+      const d = Math.min(i++ * 9 * this.mo, 700);
+      setTimeout(() => { el.style.transition = 'opacity .5s ease'; el.style.opacity = '1'; }, d + 30);
+    });
+  }
+
+  bindRegion(level, feature, layer, onClick) {
+    const base = level === 'village' ? 0.18 : 0.16;
+    layer.bindTooltip(feature.properties.name, { sticky: true, direction: 'top', className: 'region-tooltip' });
+    layer.on('mouseover', () => layer.setStyle({ fillOpacity: 0.42, weight: 2 }));
+    layer.on('mouseout', () => layer.setStyle({ fillOpacity: base, weight: 1.25 }));
+    layer.on('click', onClick);
+  }
+
+  async renderCounties() {
+    this.clearLayer(); this.county = null; this.town = null; this.breadcrumb();
+    if (!this.counties) {
+      const [topo, ov] = await Promise.all([this.json('./data/counties.json'), this.fetchOverrides()]);
+      this.counties = this.applyOverrides(topo, ov);
+      this.fillCity(this.counties);
     }
+    this.layer = L.geoJson(this.features(this.counties), {
+      style: () => this.levelStyle('county'),
+      onEachFeature: (f, l) => this.bindRegion('county', f, l, () => { this.selCity.value = f.properties.name; this.pickCounty(f.properties.id); }),
+    }).addTo(this.map);
+    this.animateLayer();
+    this.map.flyTo([23.8, 120.9], 8, { duration: 1.1 * this.mo });
+  }
 
-    function goToTownLevel() {
-      if (!currentCounty) return;
-      currentTown = null;
-      updateBreadcrumb();
-      selectDistrict.value = '';
-      selectVillage.innerHTML = '<option value="">選擇村里</option>';
-      selectVillage.disabled = true;
-      renderTownLayer(currentCounty.code);
-      const f = currentCounty.feature;
-      renderDrawer(f.properties.name, `${f.properties.name}首長選舉`, f.properties.category,
-        f.properties.voters, f.properties.quota, f.properties.candidates,
-        { label: '議員候選人（依選舉區）', blocks: f.properties.councilors });
+  async renderTowns(countyCode) {
+    this.clearLayer(); this.town = null;
+    if (!this.towns[countyCode]) {
+      const [topo, ov] = await Promise.all([this.json(`./data/towns/towns-${countyCode}.json`), this.fetchOverrides()]);
+      this.towns[countyCode] = this.applyOverrides(topo, ov);
     }
+    const topo = this.towns[countyCode];
+    this.layer = L.geoJson(this.features(topo), {
+      style: () => this.levelStyle('town'),
+      onEachFeature: (f, l) => this.bindRegion('town', f, l, () => { this.selDist.value = f.properties.name; this.pickTown(f.properties.id); }),
+    }).addTo(this.map);
+    this.animateLayer();
+    this.fillDistrict(topo);
+    try { this.map.flyToBounds(this.layer.getBounds(), { padding: [50, 50], duration: 1.15 * this.mo }); }
+    catch (e) { this.map.flyTo(this.layer.getBounds().getCenter(), 11); }
+  }
 
-    function resetAllFilters() {
-      goToCountyLevel();
+  async renderVillages(townCode) {
+    this.clearLayer();
+    if (!this.villages[townCode]) {
+      const [topo, ov] = await Promise.all([this.json(`./data/villages/villages-${townCode}.json`), this.fetchOverrides()]);
+      this.villages[townCode] = this.applyOverrides(topo, ov);
     }
+    const topo = this.villages[townCode];
+    this.layer = L.geoJson(this.features(topo), {
+      style: () => this.levelStyle('village'),
+      onEachFeature: (f, l) => this.bindRegion('village', f, l, () => this.openVillage(f)),
+    }).addTo(this.map);
+    this.animateLayer();
+    this.fillVillage(topo);
+    try { this.map.flyToBounds(this.layer.getBounds(), { padding: [70, 70], duration: 1.1 * this.mo }); } catch (e) {}
+  }
 
-    // 候選人照片：直接用後台貼的圖片網址顯示（不再即時呼叫選舉黃頁的 API 去查，
-    // 那種跨網站請求常被對方的安全機制擋掉，擋掉時又不會顯示任何錯誤，等於
-    // 完全沒反應。改成單純的 <img> 讀圖，不會有這個問題。）
+  // ————— selects —————
+  options(sel, features, withCat) {
+    features.slice().sort((a, b) => a.properties.name.localeCompare(b.properties.name, 'zh-Hant')).forEach(f => {
+      const o = document.createElement('option');
+      o.value = f.properties.name;
+      o.dataset.code = f.properties.id;
+      o.textContent = withCat ? `${f.properties.name} (${f.properties.category})` : f.properties.name;
+      sel.appendChild(o);
+    });
+  }
+  fillCity(topo) { this.selCity.innerHTML = '<option value="">選擇縣市 (22)</option>'; this.options(this.selCity, this.features(topo).features, true); }
+  fillDistrict(topo) {
+    this.selDist.innerHTML = '<option value="">選擇鄉鎮市區</option>'; this.selDist.disabled = false;
+    this.selVill.innerHTML = '<option value="">選擇村里</option>'; this.selVill.disabled = true;
+    this.options(this.selDist, this.features(topo).features, false);
+  }
+  fillVillage(topo) {
+    this.selVill.innerHTML = '<option value="">選擇村里</option>'; this.selVill.disabled = false;
+    this.options(this.selVill, this.features(topo).features, false);
+  }
 
-    // 7. 抽屜渲染
-    function renderCandidateCard(c) {
-      const party = partyConfig(c.party);
-      const gazetteBlock = c.gazetteUrl
-        ? `
-          <a href="${c.gazetteUrl}" target="_blank" class="w-full inline-flex items-center justify-center space-x-2 py-2.5 rounded-xl bg-ink-900 text-surface text-xs font-bold hover:bg-accent-orange transition">
-            <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
-            <span>查閱官方選舉公報 (PDF)</span>
-          </a>
-        `
-        : `
-          <div class="bg-canvas/90 p-3 rounded-xl border border-ink-100 flex items-center justify-between">
-            <div class="flex items-center space-x-2">
-              <span class="w-2 h-2 rounded-full bg-accent-yellow animate-pulse"></span>
-              <span class="text-[11px] font-bold text-ink-700">選舉公報審定中</span>
+  async pickCounty(code) {
+    const f = this.features(this.counties).features.find(x => x.properties.id === code);
+    if (!f) return;
+    this.county = { code, name: f.properties.name, feature: f };
+    this.breadcrumb();
+    this.drawer(f.properties.name, `${f.properties.name}首長選舉`, f.properties.category, f.properties.voters, f.properties.quota,
+      f.properties.candidates, { label: '議員候選人（依選舉區）', blocks: f.properties.councilors });
+    await this.renderTowns(code);
+  }
+
+  async pickTown(code) {
+    const f = this.features(this.towns[this.county.code]).features.find(x => x.properties.id === code);
+    if (!f) return;
+    this.town = { code, name: f.properties.name, feature: f };
+    this.breadcrumb();
+    const tag = f.properties.isIndigenousDistrict ? '山地原住民區' : '行政區轄區';
+    const repLabel = f.properties.isIndigenousDistrict ? '區民代表候選人（依選舉區）' : '鄉鎮市民代表候選人（依選舉區）';
+    const cands = (f.properties.candidates && f.properties.candidates.length) ? f.properties.candidates : this.county.feature.properties.candidates;
+    this.drawer(`${this.county.name} › ${f.properties.name}`, `${f.properties.name} 公職名冊`, tag, f.properties.voters, f.properties.quota,
+      cands, { label: repLabel, blocks: f.properties.representatives });
+    await this.renderVillages(code);
+  }
+
+  openVillage(f) {
+    const name = f.properties.name;
+    this.selVill.value = name;
+    const role = name.endsWith('里') ? '里長選舉' : '村長選舉';
+    this.drawer(`${this.county.name} › ${this.town.name} › ${name}`, `${name} ${role}`, '最基層村里',
+      f.properties.voters, f.properties.quota || '1 席', f.properties.candidates, null);
+  }
+
+  // ————— breadcrumb / navigation —————
+  breadcrumb() {
+    const cw = this.$('bc-county-wrap'), tw = this.$('bc-town-wrap');
+    cw.style.display = this.county ? 'flex' : 'none';
+    if (this.county) this.$('bc-county').textContent = this.county.name;
+    tw.style.display = this.town ? 'flex' : 'none';
+    if (this.town) this.$('bc-town').textContent = this.town.name;
+    lucide.createIcons();
+  }
+
+  goCounty() {
+    this.$('drawer').style.transform = 'translateX(102%)';
+    this.closeFilters();
+    this.renderCounties();
+    this.selCity.value = '';
+    this.selDist.innerHTML = '<option value="">選擇鄉鎮市區</option>'; this.selDist.disabled = true;
+    this.selVill.innerHTML = '<option value="">選擇村里</option>'; this.selVill.disabled = true;
+  }
+
+  goTown() {
+    if (!this.county) return;
+    this.town = null; this.breadcrumb();
+    this.selDist.value = '';
+    this.selVill.innerHTML = '<option value="">選擇村里</option>'; this.selVill.disabled = true;
+    this.renderTowns(this.county.code);
+    const f = this.county.feature;
+    this.drawer(f.properties.name, `${f.properties.name}首長選舉`, f.properties.category, f.properties.voters, f.properties.quota,
+      f.properties.candidates, { label: '議員候選人（依選舉區）', blocks: f.properties.councilors });
+  }
+
+  toggleFilters() {
+    const bar = this.$('filter-bar');
+    const open = !bar.classList.contains('om-open');
+    bar.classList.toggle('om-open', open);
+    bar.style.display = open ? 'flex' : 'none';
+  }
+  closeFilters() {
+    const bar = this.$('filter-bar');
+    bar.classList.remove('om-open');
+    if (window.innerWidth <= 1120) bar.style.display = 'none';
+  }
+
+  // ————— count-up —————
+  countUp(el, raw) {
+    const text = raw == null || raw === '' ? '--' : String(raw);
+    const m = text.match(/[\d,]+/);
+    if (!m) { el.textContent = text; return; }
+    const target = parseInt(m[0].replace(/,/g, ''), 10);
+    const pre = text.slice(0, m.index), post = text.slice(m.index + m[0].length);
+    const dur = 750 * this.mo, t0 = performance.now();
+    if (el._raf) cancelAnimationFrame(el._raf);
+    const tick = now => {
+      const p = Math.min((now - t0) / dur, 1);
+      const v = Math.round(target * (1 - Math.pow(1 - p, 3)));
+      el.textContent = pre + v.toLocaleString('en-US') + post;
+      if (p < 1) el._raf = requestAnimationFrame(tick);
+    };
+    el._raf = requestAnimationFrame(tick);
+  }
+
+  // ————— candidate cards —————
+  card(c, i) {
+    const p = this.partyConfig(c.party);
+    const delay = (0.04 * i * this.mo).toFixed(2);
+    const gazette = c.gazetteUrl
+      ? `<a href="${c.gazetteUrl}" target="_blank" rel="noopener" class="btn btn-primary btn-block" style="gap:8px;padding:11px;font-size:13px">
+           <i data-lucide="file-text" style="width:15px;height:15px" stroke-width="2.75"></i><span>查閱官方選舉公報 (PDF)</span></a>`
+      : `<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border-radius:999px;background:var(--color-neutral-200)">
+           <span style="display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:700;color:var(--color-neutral-700)">
+             <span style="width:7px;height:7px;border-radius:50%;background:var(--color-accent);animation:om-ring 1.8s ease-out infinite"></span>選舉公報審定中</span>
+           <span class="tag tag-neutral" style="font-size:10px">待中選會統一公布</span></div>`;
+    const socials = [['facebook', 'Facebook'], ['instagram', 'Instagram'], ['threads', 'Threads'], ['youtube', 'YouTube']].filter(s => c[s[0]]);
+    const socialBlock = socials.length ? `<div style="display:flex;flex-wrap:wrap;gap:7px">${socials.map(s =>
+      `<a href="${c[s[0]]}" target="_blank" rel="noopener noreferrer" style="padding:4px 13px;border-radius:999px;background:var(--color-surface);font-size:11px;font-weight:700;color:var(--color-neutral-700);text-decoration:none">${s[1]}</a>`).join('')}</div>` : '';
+    const avatar = c.photoUrl
+      ? `<img src="${c.photoUrl}" alt="${c.name}" class="washed" loading="lazy" style="width:100%;height:100%;object-fit:cover" onerror="this.parentNode.textContent='${(c.name || '').slice(0, 1)}'">`
+      : (c.name || '').slice(0, 1);
+    return `
+      <article class="om-lift" style="background:var(--color-surface);border-radius:32px;padding:20px;display:flex;flex-direction:column;gap:13px;box-shadow:var(--shadow-sm);animation:om-rise-sm .55s cubic-bezier(.16,1,.3,1) ${delay}s both">
+        <div style="display:flex;align-items:center;gap:15px">
+          <div style="width:74px;height:74px;flex:none;border-radius:50%;overflow:hidden;background:var(--color-neutral-200);display:grid;place-items:center;font-family:'Caprasimo','Noto Serif TC',serif;font-weight:900;font-synthesis:none;font-size:26px">${avatar}</div>
+          <div style="min-width:0;flex:1">
+            <h4 style="font-family:'Caprasimo','Noto Serif TC',serif;font-weight:900;font-synthesis:none;font-size:21px;margin:0">${c.name}</h4>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:5px;flex-wrap:wrap">
+              ${p.logo}
+              <span style="font-size:12.5px;font-weight:700">${c.party}</span>
+              <span style="width:4px;height:4px;border-radius:50%;background:var(--color-neutral-400)"></span>
+              <span style="font-size:12px;font-weight:700;color:var(--color-accent-700)">${c.role}</span>
             </div>
-            <span class="text-[10px] font-extrabold text-ink-500 bg-surface px-2 py-0.5 rounded border border-ink-300">
-              待中選會統一公布
-            </span>
           </div>
-        `;
-
-      // 社群連結：爬蟲/後台有填的才顯示，沒有的直接不出現
-      const SOCIAL_LINKS = [
-        { key: 'facebook', label: 'Facebook' },
-        { key: 'instagram', label: 'Instagram' },
-        { key: 'threads', label: 'Threads' },
-        { key: 'youtube', label: 'YouTube' },
-      ];
-      const socialItems = SOCIAL_LINKS.filter(s => c[s.key]);
-      const socialBlock = socialItems.length > 0 ? `
-        <div class="flex flex-wrap gap-1.5">
-          ${socialItems.map(s => `
-            <a href="${c[s.key]}" target="_blank" rel="noopener noreferrer" class="text-[10px] font-black px-2.5 py-1 rounded-full bg-canvas border border-ink-300 text-ink-700 hover:bg-ink-900 hover:text-surface hover:border-ink-900 transition">
-              ${s.label}
-            </a>
-          `).join('')}
+          ${c.isIncumbent ? '<span class="tag tag-accent-2" style="flex:none;font-weight:700">爭取連任</span>' : ''}
         </div>
-      ` : '';
+        ${socialBlock}
+        ${gazette}
+      </article>`;
+  }
 
-      const avatarBlock = c.photoUrl
-        ? `<img src="${c.photoUrl}" alt="${c.name}" class="w-full h-full object-cover" loading="lazy" onerror="this.closest('div').textContent='${c.name.slice(0, 1)}'">`
-        : c.name.slice(0, 1);
+  drawer(path, title, tag, voters, quota, candidates, group) {
+    this.$('drawer-path').textContent = path;
+    this.$('drawer-title').textContent = title;
+    this.$('drawer-tag').textContent = tag;
+    this.countUp(this.$('stat-voters'), voters);
+    this.countUp(this.$('stat-quota'), quota);
+    this.countUp(this.$('stat-registered'), (candidates && candidates.length) ? `${candidates.length} 人` : '0 人');
 
-      return `
-        <div class="card-brutal bg-surface rounded-2xl p-4 sm:p-5 space-y-3 relative overflow-hidden">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center space-x-3.5">
-              <div class="w-20 h-20 rounded-xl bg-canvas border editorial-border flex items-center justify-center font-black text-ink-900 text-2xl shadow-sm overflow-hidden shrink-0">
-                ${avatarBlock}
-              </div>
-              <div>
-                <h4 class="text-lg font-black text-ink-900">${c.name}</h4>
-                <div class="flex items-center space-x-1.5 mt-1">
-                  ${party.svgLogo}
-                  <span class="text-sm font-black text-ink-700">${c.party}</span>
-                  <span class="text-ink-300">•</span>
-                  <span class="text-xs font-bold text-accent-orange">${c.role}</span>
-                </div>
-              </div>
-            </div>
-            ${c.isIncumbent ? '<span class="text-[10px] font-black uppercase px-2 py-1 rounded bg-accent-yellow border border-ink-900 text-ink-900 shrink-0">爭取連任</span>' : ''}
-          </div>
-          ${socialBlock}
-          <div class="pt-1">${gazetteBlock}</div>
+    const box = this.$('candidates');
+    let html = '';
+    if (!candidates || !candidates.length) {
+      html += `<div style="background:var(--color-surface);border-radius:32px;padding:28px;text-align:center;animation:om-rise-sm .5s cubic-bezier(.16,1,.3,1) both">
+        <i data-lucide="info" style="width:22px;height:22px;color:var(--color-accent)" stroke-width="2.75"></i>
+        <p style="margin:10px 0 0;font-size:13px;font-weight:700;color:var(--color-neutral-700)">該選區目前登記名冊核定中</p></div>`;
+    } else {
+      html += candidates.map((c, i) => this.card(c, i)).join('');
+    }
+
+    if (group && group.blocks && group.blocks.length) {
+      const total = group.blocks.reduce((s, b) => s + b.candidates.length, 0);
+      html += `
+        <div style="display:flex;align-items:center;gap:12px;margin-top:8px">
+          <span style="flex:1;height:1px;background:var(--color-divider)"></span>
+          <span style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--color-neutral-600);text-align:center">${group.label}（共 ${total} 人登記）</span>
+          <span style="flex:1;height:1px;background:var(--color-divider)"></span>
         </div>
-      `;
-    }
-
-    function renderDrawer(path, title, tag, voters, quota, candidates, groupSection) {
-      document.getElementById('drawer-path').textContent = path;
-      document.getElementById('drawer-region-title').textContent = title;
-      document.getElementById('drawer-region-tag').textContent = tag;
-      document.getElementById('drawer-voter-count').textContent = voters || '--';
-      document.getElementById('drawer-quota').textContent = quota || '--';
-      document.getElementById('drawer-registered-count').textContent = (candidates && candidates.length > 0) ? `${candidates.length} 人` : '0 人';
-
-      const container = document.getElementById('candidates-container');
-      let html = '';
-
-      if (!candidates || candidates.length === 0) {
-        html += `
-          <div class="bg-surface p-6 rounded-2xl border editorial-border text-center space-y-2">
-            <i data-lucide="info" class="w-6 h-6 text-ink-500 mx-auto"></i>
-            <p class="text-xs font-bold text-ink-700">該選區目前登記名冊核定中</p>
+        <select id="district-picker" class="om-sel" style="width:100%;background-color:var(--color-bg)">
+          <option value="">選擇選舉區查看候選人</option>
+          ${group.blocks.map(b => `<option value="${b.district}">第 ${b.district} 選舉區（${b.candidates.length} 人登記）</option>`).join('')}
+        </select>
+        <div id="district-stats" style="display:none;grid-template-columns:1fr 1fr;gap:10px">
+          <div style="background:var(--color-accent-100);border-radius:20px;padding:11px;text-align:center">
+            <span style="display:block;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--color-accent-700)">應選席次</span>
+            <span id="district-quota" style="font-family:'Caprasimo','Noto Serif TC',serif;font-weight:900;font-synthesis:none;font-size:17px;color:var(--color-accent-800)">--</span>
           </div>
-        `;
-      } else {
-        html += candidates.map(renderCandidateCard).join('');
-      }
-
-      if (groupSection && groupSection.blocks && groupSection.blocks.length > 0) {
-        const totalReps = groupSection.blocks.reduce((sum, b) => sum + b.candidates.length, 0);
-        html += `
-          <div class="pt-3 pb-1 flex items-center space-x-2">
-            <span class="h-px flex-1 bg-ink-100"></span>
-            <span class="text-[10px] font-black uppercase tracking-wider text-ink-500">${groupSection.label}（共 ${totalReps} 人登記）</span>
-            <span class="h-px flex-1 bg-ink-100"></span>
+          <div style="background:var(--color-accent-2-100);border-radius:20px;padding:11px;text-align:center">
+            <span style="display:block;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--color-accent-2-800)">登記席次</span>
+            <span id="district-registered" style="font-family:'Caprasimo','Noto Serif TC',serif;font-weight:900;font-synthesis:none;font-size:17px;color:var(--color-accent-2-800)">--</span>
           </div>
-          <select id="district-picker" class="select-editorial w-full bg-surface border editorial-border rounded-xl px-3.5 py-2 pr-8 text-xs font-bold text-ink-900 cursor-pointer focus:outline-none">
-            <option value="">選擇選舉區查看候選人</option>
-            ${groupSection.blocks.map(b => `<option value="${b.district}">第 ${b.district} 選舉區（${b.candidates.length} 人登記）</option>`).join('')}
-          </select>
-          <div id="district-stats" class="hidden grid grid-cols-2 gap-2">
-            <div class="p-2 rounded-lg bg-canvas border border-ink-200 text-center">
-              <span class="text-[10px] font-bold text-ink-500 block uppercase">應選席次</span>
-              <span id="district-quota" class="text-sm font-black text-accent-orange">--</span>
-            </div>
-            <div class="p-2 rounded-lg bg-canvas border border-ink-200 text-center">
-              <span class="text-[10px] font-bold text-ink-500 block uppercase">登記席次</span>
-              <span id="district-registered" class="text-sm font-black text-accent-blue">--</span>
-            </div>
-          </div>
-          <div id="district-candidates" class="space-y-2 pt-1"></div>
-        `;
-      }
-
-      container.innerHTML = html;
-
-      if (groupSection && groupSection.blocks && groupSection.blocks.length > 0) {
-        const picker = document.getElementById('district-picker');
-        const out = document.getElementById('district-candidates');
-        const statsBox = document.getElementById('district-stats');
-        picker.addEventListener('change', () => {
-          const block = groupSection.blocks.find(b => b.district === picker.value);
-          if (block) {
-            statsBox.classList.remove('hidden');
-            document.getElementById('district-quota').textContent = block.quota || '--';
-            document.getElementById('district-registered').textContent = `${block.candidates.length} 人`;
-          } else {
-            statsBox.classList.add('hidden');
-          }
-          out.innerHTML = block ? block.candidates.map(renderCandidateCard).join('') : '';
-          lucide.createIcons();
-        });
-      }
-      document.getElementById('detail-drawer').classList.remove('translate-x-full');
-      lucide.createIcons();
-    }
-
-    function closeDrawer() {
-      // 關閉右側抽屜視同「回到全台灣視角」：一併重置地圖層級與選單
-      goToCountyLevel();
-    }
-
-    // 8. 分頁切換
-    function switchView(viewName) {
-      const viewMap = document.getElementById('view-map');
-      const viewLinks = document.getElementById('view-links');
-      const tabMap = document.getElementById('tab-map');
-      const tabLinks = document.getElementById('tab-links');
-      const filterBar = document.getElementById('filter-bar');
-      const mobileToggle = document.getElementById('mobile-filter-toggle');
-
-      if (viewName === 'map') {
-        viewMap.classList.remove('hidden');
-        viewLinks.classList.add('hidden');
-        mobileToggle.classList.remove('hidden');
-        mobileToggle.classList.add('sm:hidden');
-        tabMap.className = 'px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 bg-ink-900 text-surface shadow-sm';
-        tabLinks.className = 'px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 text-ink-700 hover:text-ink-900';
-        map.invalidateSize();
-      } else {
-        viewMap.classList.add('hidden');
-        viewLinks.classList.remove('hidden');
-        closeMobileFilters();
-        filterBar.classList.add('hidden');
-        mobileToggle.classList.add('hidden');
-        tabLinks.className = 'px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 bg-ink-900 text-surface shadow-sm';
-        tabMap.className = 'px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 text-ink-700 hover:text-ink-900';
-        renderSites();
-      }
-      lucide.createIcons();
-    }
-
-    function renderSites() {
-      const grid = document.getElementById('sites-grid');
-      grid.innerHTML = CURATED_SITES.map(s => `
-        <div class="card-brutal bg-surface rounded-2xl p-6 flex flex-col justify-between space-y-4">
-          <div class="space-y-3">
-            <div class="flex items-center justify-between">
-              <span class="text-[10px] font-black uppercase px-2.5 py-1 rounded bg-canvas border border-ink-300 text-ink-700">
-                ${s.category}
-              </span>
-              <i data-lucide="external-link" class="w-4 h-4 text-ink-500"></i>
-            </div>
-            <h3 class="text-lg font-black text-ink-900">${s.name}</h3>
-            <p class="text-xs text-ink-500 font-medium leading-relaxed">${s.desc}</p>
-          </div>
-          <a href="${s.url}" target="_blank" rel="noopener noreferrer" class="w-full inline-flex items-center justify-center space-x-1.5 py-2.5 rounded-xl bg-canvas border editorial-border text-xs font-extrabold text-ink-900 hover:bg-ink-900 hover:text-surface transition">
-            <span>造訪官方平台</span>
-            <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
-          </a>
         </div>
-      `).join('');
-      lucide.createIcons();
+        <div id="district-candidates" style="display:flex;flex-direction:column;gap:14px"></div>`;
     }
 
-    // 9. 啟動
-    async function init() {
-      try {
-        await renderCountyLayer();
-      } catch (err) {
-        console.error('地圖資料載入失敗', err);
-        document.getElementById('breadcrumb-bar').insertAdjacentHTML('beforeend',
-          `<span class="pointer-events-auto text-[11px] font-black px-3 py-1.5 rounded-full bg-red-600 text-white">資料載入失敗，請確認 ./data 目錄是否存在</span>`);
-      }
-      document.body.classList.add('splash-loaded');
-      lucide.createIcons();
+    box.innerHTML = html;
+    box.scrollTop = 0;
+
+    if (group && group.blocks && group.blocks.length) {
+      const picker = this.$('district-picker'), out = this.$('district-candidates'), stats = this.$('district-stats');
+      picker.addEventListener('change', () => {
+        const b = group.blocks.find(x => x.district === picker.value);
+        stats.style.display = b ? 'grid' : 'none';
+        if (b) {
+          this.countUp(this.$('district-quota'), b.quota);
+          this.countUp(this.$('district-registered'), `${b.candidates.length} 人`);
+        }
+        out.innerHTML = b ? b.candidates.map((c, i) => this.card(c, i)).join('') : '';
+        lucide.createIcons();
+      });
     }
-    // 等 DOMContentLoaded（HTML 解析完、module script 也執行完）再啟動，
-    // 比 window 的 load 事件快（不用等圖片/字型這些外部資源全部下載完），
-    // 但又比「解析到就立刻執行」安全——上面讀 Firebase 後台資料那段是
-    // 上面讀 Firebase 後台資料那段是 module 類型的 script，瀏覽器規定 module 一定會延後執行，太早呼叫
-    // 會抓不到它掛在 window 上的函式。
-    document.addEventListener('DOMContentLoaded', init);
-  </script>
+
+    this.$('drawer').style.transform = 'translateX(0)';
+    lucide.createIcons();
+  }
+
+  // ————— views —————
+  switchView(name) {
+    if (this.view === name) return;
+    this.view = name;
+    const vm = this.$('view-map'), vl = this.$('view-links');
+    const enter = el => {
+      el.style.animation = 'none';
+      void el.offsetWidth;
+      el.style.animation = `om-rise ${0.55 * this.mo}s cubic-bezier(.16,1,.3,1) both`;
+    };
+    if (name === 'map') {
+      vl.style.display = 'none';
+      vm.style.display = 'flex';
+      enter(vm);
+      this.$('tab-map').style.color = 'var(--color-bg)';
+      this.$('tab-links').style.color = 'var(--color-text)';
+      if (window.innerWidth > 1120) this.$('filter-bar').style.display = 'flex';
+      else this.$('mobile-filter-toggle').style.display = 'inline-flex';
+      setTimeout(() => this.map.invalidateSize(), 60);
+    } else {
+      vm.style.display = 'none';
+      vl.style.display = 'block';
+      enter(vl);
+      this.closeFilters();
+      this.$('filter-bar').style.display = 'none';
+      this.$('mobile-filter-toggle').style.display = 'none';
+      this.$('tab-links').style.color = 'var(--color-bg)';
+      this.$('tab-map').style.color = 'var(--color-text)';
+      this.renderSites();
+    }
+    this.layoutTabs();
+    lucide.createIcons();
+  }
+
+  renderSites() {
+    const grid = this.$('sites-grid');
+    grid.innerHTML = this.SITES.map((s, i) => `
+      <article class="om-lift" style="background:var(--color-surface);border-radius:36px;padding:26px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow-sm);animation:om-rise ${0.55 * this.mo}s cubic-bezier(.16,1,.3,1) ${(0.07 * i * this.mo).toFixed(2)}s both">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+          <span class="tag tag-accent" style="font-weight:700;letter-spacing:.06em">${s.category}</span>
+          <i data-lucide="external-link" style="width:16px;height:16px;color:var(--color-neutral-500)" stroke-width="2.75"></i>
+        </div>
+        <h3 style="font-family:'Caprasimo','Noto Serif TC',serif;font-weight:900;font-synthesis:none;font-size:22px;margin:2px 0 0;line-height:1.3">${s.name}</h3>
+        <p style="margin:0;flex:1;font-size:13px;line-height:1.7;color:var(--color-neutral-700);text-wrap:pretty">${s.desc}</p>
+        <a href="${s.url}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-block" style="padding:11px;font-size:13px;gap:8px">
+          <span>造訪官方平台</span><i data-lucide="arrow-up-right" style="width:15px;height:15px" stroke-width="2.75"></i></a>
+      </article>`).join('');
+    lucide.createIcons();
+  }
+
+}
+
+window.MOTION = '高調'; // 動畫強度：'低調' | '中等' | '高調'
+document.addEventListener('DOMContentLoaded', () => new App().start());
+
+</script>
 </body>
 </html>
