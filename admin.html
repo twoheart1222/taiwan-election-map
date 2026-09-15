@@ -768,8 +768,24 @@
       fileInput.click();
     };
 
+    // 測試一張圖片網址是否真的能載入（例如被防盜連擋掉、網址失效都會偵測到），
+    // 用來避免拿抓不到的照片去蓋掉原本能正常顯示的照片
+    function imageLoads(url, timeoutMs = 6000) {
+      return new Promise(resolve => {
+        if (!url) { resolve(false); return; }
+        const img = new Image();
+        let done = false;
+        const finish = (ok) => { if (!done) { done = true; resolve(ok); } };
+        img.onload = () => finish(true);
+        img.onerror = () => finish(false);
+        setTimeout(() => finish(false), timeoutMs);
+        img.src = url;
+      });
+    }
+
     async function applyScrapedData(list) {
       const status = document.getElementById('save-status');
+      status.textContent = '正在核對每張照片是否能正常載入，請稍候…';
 
       if (!workingCouncilors || workingCouncilors.length === 0) {
         autoInit14Districts();
@@ -781,72 +797,86 @@
       });
 
       let photoCount = 0;
+      let photoSkippedBroken = 0;
       let fbCount = 0;
       let incumbentCount = 0;
       let addedCount = 0;
 
       const handledNames = new Set();
 
-      // 1. 遍歷目前選區所有議員，進行強制覆蓋與清理
-      workingCouncilors.forEach(block => {
+      // 1. 遍歷目前選區所有議員，比對更新
+      for (const block of workingCouncilors) {
         if (!block.candidates) block.candidates = [];
-        block.candidates.forEach(c => {
+        for (const c of block.candidates) {
           const cleanName = c.name.replace(/[\s\u3000]/g, '');
           const target = map.get(cleanName);
-          if (target) {
-            handledNames.add(cleanName);
+          if (!target) continue;
 
-            // 現任連任全數打勾
-            c.isIncumbent = true;
-            incumbentCount++;
+          handledNames.add(cleanName);
 
-            // 替換維基百科照片
-            const curPhoto = (c.photoUrl || '').toLowerCase();
-            if (!curPhoto || curPhoto.includes('wikipedia.org') || curPhoto.includes('wikimedia.org')) {
-              if (target.photoUrl) {
-                c.photoUrl = target.photoUrl;
-                photoCount++;
-              }
+          // 現任連任全數打勾（這裡是姓名對上才算，風險低）
+          c.isIncumbent = true;
+          incumbentCount++;
+
+          // 照片：現有是空的或維基百科的才考慮替換，而且新照片必須先驗證真的載得出來，
+          // 載不出來（例如被防盜連擋掉）就保留原本的，不會拿一張壞掉的網址蓋過去
+          const curPhoto = (c.photoUrl || '').toLowerCase();
+          const isReplaceableCurrent = !curPhoto || curPhoto.includes('wikipedia.org') || curPhoto.includes('wikimedia.org');
+          if (isReplaceableCurrent && target.photoUrl) {
+            const ok = await imageLoads(target.photoUrl);
+            if (ok) {
+              c.photoUrl = target.photoUrl;
+              photoCount++;
+            } else {
+              photoSkippedBroken++;
             }
-
-            // 嚴格以官網抓取結果覆寫 FB：官網沒有或無效直接清空為 ""
-            c.facebook = target.facebook || '';
-            if (target.facebook) fbCount++;
           }
-        });
-      });
 
-      // 2. 補齊未在現有名冊中的議員
-      list.forEach(item => {
-        const cleanName = item.name.replace(/[\s\u3000]/g, '');
-        if (!handledNames.has(cleanName)) {
-          const targetDist = String(item.district || '1');
-          let block = workingCouncilors.find(b => String(b.district) === targetDist);
-          if (!block && workingCouncilors.length > 0) block = workingCouncilors[0];
-
-          if (block) {
-            block.candidates.push({
-              name: item.name,
-              party: item.party || '無',
-              role: '市議員候選人',
-              photoUrl: item.photoUrl || '',
-              facebook: item.facebook || '',
-              isIncumbent: true
-            });
-            addedCount++;
-            incumbentCount++;
-            handledNames.add(cleanName);
-            if (item.facebook) fbCount++;
+          // Facebook：只有爬蟲這次真的抓到連結才覆寫；沒抓到就完全不動，
+          // 不會把你之前手動填好的連結清空
+          if (target.facebook) {
+            c.facebook = target.facebook;
+            fbCount++;
           }
         }
-      });
+      }
+
+      // 2. 補齊未在現有名冊中的議員
+      for (const item of list) {
+        const cleanName = item.name.replace(/[\s\u3000]/g, '');
+        if (handledNames.has(cleanName)) continue;
+
+        const targetDist = String(item.district || '1');
+        let block = workingCouncilors.find(b => String(b.district) === targetDist);
+        if (!block && workingCouncilors.length > 0) block = workingCouncilors[0];
+        if (!block) continue;
+
+        let photoUrl = '';
+        if (item.photoUrl) {
+          const ok = await imageLoads(item.photoUrl);
+          if (ok) { photoUrl = item.photoUrl; photoCount++; } else { photoSkippedBroken++; }
+        }
+
+        block.candidates.push({
+          name: item.name,
+          party: item.party || '無',
+          role: '市議員候選人',
+          photoUrl,
+          facebook: item.facebook || '',
+          isIncumbent: true
+        });
+        addedCount++;
+        incumbentCount++;
+        handledNames.add(cleanName);
+        if (item.facebook) fbCount++;
+      }
 
       // 3. 自動切換至全覽檢視重新渲染
       currentDistrictMode = 'all';
       renderDistrictPicker();
 
-      status.textContent = `更新完成：${incumbentCount} 位設為連任、替換 ${photoCount} 張照片、保留 ${fbCount} 個官網真實有效 FB。`;
-      alert(`🎉 官網真實資料覆蓋完成！\n\n- ✅ 現任連任：共 ${incumbentCount} 位已全數勾選\n- 📸 替換維基照片：${photoCount} 位換為官網大頭照\n- 🔗 Facebook 嚴格覆寫：已徹底清空先前錯誤連結，僅保留 ${fbCount} 個官網刊登之有效粉專\n- ➕ 自動補齊歸位：${addedCount} 位\n\n請檢視確認後點擊「儲存修改」寫入 Firebase！`);
+      status.textContent = `更新完成：${incumbentCount} 位設為連任、替換 ${photoCount} 張照片（${photoSkippedBroken} 張因載入失敗被跳過保留原圖）、更新 ${fbCount} 個 Facebook。`;
+      alert(`🎉 官網資料比對完成！\n\n- ✅ 現任連任：共 ${incumbentCount} 位已全數勾選\n- 📸 成功替換照片：${photoCount} 位\n- ⚠️ 照片載入失敗、已跳過（保留原本照片）：${photoSkippedBroken} 位\n- 🔗 Facebook 更新：${fbCount} 位（沒抓到的維持原樣，不會被清空）\n- ➕ 自動補齊歸位：${addedCount} 位\n\n請檢視確認後點擊「儲存修改」寫入 Firebase！`);
     }
 
     lucide.createIcons();
