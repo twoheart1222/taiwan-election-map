@@ -7,7 +7,8 @@
     "deploy:api": "wrangler deploy --config wrangler.api.toml",
     "dev:api": "wrangler dev --config wrangler.api.toml",
     "sync:councilors": "node scripts/sync-incumbent-councilors.mjs",
-    "build:kv-bulk": "node scripts/build-overrides-kv-bulk.mjs"
+    "build:kv-bulk": "node scripts/build-overrides-kv-bulk.mjs",
+    "verify:districts": "node scripts/verify-district-map.mjs"
   },
   "devDependencies": {
     "cheerio": "^1.2.0",
