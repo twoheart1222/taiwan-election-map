@@ -5,7 +5,11 @@ const BASE_URL = 'https://www.ntp.gov.tw';
 const LIST_URL = `${BASE_URL}/councilor-info.php?program=37`;
 const COUNTY_DATA_PATH = 'data/counties.json';
 const OUTPUT_PATH = 'data/ntp_councilors.json';
-const REQUEST_TIMEOUT_MS = 30000;
+const REQUEST_TIMEOUT_MS = 20000;
+const MAX_RETRIES = 2;
+const DETAIL_CONCURRENCY = 4;
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function cleanText(value) {
   return String(value || '').replace(/[\s\u3000]+/g, ' ').trim();
@@ -15,7 +19,7 @@ function normalizeName(value) {
   return cleanText(value)
     .replace(/^(?:新北市議會|新北市|議員)\s*/u, '')
     .replace(/\s*(?:議員|委員|Councilor).*$/iu, '')
-    .replace(/[\s\u3000]/g, '')
+    .replace(/[\s\u3000．.・·‧]/g, '')
     .trim();
 }
 
@@ -42,22 +46,30 @@ function councilorCandidates(properties) {
 }
 
 async function fetchBytes(url) {
-  console.log(`抓取：${url}`);
-  const response = await fetch(url, {
-    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
-    redirect: 'follow',
-    headers: {
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36',
-      'Accept-Language': 'zh-TW,zh;q=0.9,en;q=0.7',
-      Accept: 'text/html,application/xhtml+xml',
-      Referer: BASE_URL + '/',
-    },
-  });
-  if (!response.ok) throw new Error(`Request failed (${response.status}): ${url}`);
-  return {
-    bytes: new Uint8Array(await response.arrayBuffer()),
-    contentType: response.headers.get('content-type') || '',
-  };
+  let lastError;
+  for (let attempt = 1; attempt <= MAX_RETRIES; attempt += 1) {
+    try {
+      const response = await fetch(url, {
+        signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+        redirect: 'follow',
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36',
+          'Accept-Language': 'zh-TW,zh;q=0.9,en;q=0.7',
+          Accept: 'text/html,application/xhtml+xml',
+          Referer: BASE_URL + '/',
+        },
+      });
+      if (!response.ok) throw new Error(`Request failed (${response.status}): ${url}`);
+      return {
+        bytes: new Uint8Array(await response.arrayBuffer()),
+        contentType: response.headers.get('content-type') || '',
+      };
+    } catch (error) {
+      lastError = error;
+      if (attempt < MAX_RETRIES) await sleep(800 * attempt);
+    }
+  }
+  throw lastError;
 }
 
 function decodeCandidate(bytes, encoding) {
@@ -68,24 +80,53 @@ function decodeCandidate(bytes, encoding) {
   }
 }
 
-function chooseDecoding(bytes, roster, contentType) {
+function parseCouncilorList(html) {
+  const $ = load(html);
+  const rows = [];
+  const seen = new Set();
+
+  $('a[href*="councilor-detail"]').each((_, el) => {
+    const a = $(el);
+    const href = a.attr('href') || '';
+    let detailUrl = '';
+    try {
+      detailUrl = new URL(href, BASE_URL).href;
+    } catch {
+      return;
+    }
+
+    const pName = cleanText(a.find('p').first().text());
+    const alt = cleanText(a.find('img').first().attr('alt'));
+    const altName = alt
+      .replace(/^成員\s*/u, '')
+      .replace(/議員.*$/u, '')
+      .trim();
+    const name = pName || altName;
+    const key = normalizeName(name);
+    if (!key || seen.has(key)) return;
+
+    seen.add(key);
+    rows.push({ name, key, detailUrl });
+  });
+
+  return rows;
+}
+
+function chooseListDecoding(bytes, roster, contentType) {
   const encodings = ['utf-8', 'big5', 'gb18030'];
   const headerMatch = contentType.match(/charset\s*=\s*([^;\s]+)/i);
   if (headerMatch) encodings.unshift(headerMatch[1].replace(/["']/g, '').toLowerCase());
 
-  const unique = [...new Set(encodings)];
-  const scored = unique.map((encoding) => {
+  const websiteNames = new Set(roster.map((x) => normalizeName(x?.name)).filter(Boolean));
+  const scored = [...new Set(encodings)].map((encoding) => {
     const html = decodeCandidate(bytes, encoding);
-    const normalizedHtml = normalizeName(html);
-    const hits = roster.reduce((count, candidate) => {
-      const name = normalizeName(candidate?.name);
-      return count + (name && normalizedHtml.includes(name) ? 1 : 0);
-    }, 0);
+    const list = parseCouncilorList(html);
+    const matched = list.filter((x) => websiteNames.has(x.key)).length;
     const replacementChars = (html.match(/�/g) || []).length;
-    return { encoding, html, hits, replacementChars };
-  }).sort((a, b) => b.hits - a.hits || a.replacementChars - b.replacementChars);
+    return { encoding, html, list, matched, replacementChars };
+  }).sort((a, b) => b.matched - a.matched || b.list.length - a.list.length || a.replacementChars - b.replacementChars);
 
-  return { best: scored[0], all: scored.map(({ encoding, hits, replacementChars }) => ({ encoding, hits, replacementChars })) };
+  return scored;
 }
 
 function canonicalFacebook(value) {
@@ -105,31 +146,48 @@ function canonicalFacebook(value) {
   }
 }
 
-function findFacebookNearExactName($, name) {
-  const target = normalizeName(name);
-  let result = '';
+function extractFacebook(html) {
+  const $ = load(html);
+  let preferred = '';
+  let fallback = '';
 
-  $('*').each((_, el) => {
-    if (result) return;
-    const node = $(el);
-    const ownText = cleanText(node.clone().children().remove().end().text());
-    if (!ownText || normalizeName(ownText) !== target) return;
+  $('a[href]').each((_, el) => {
+    const a = $(el);
+    const fb = canonicalFacebook(a.attr('href'));
+    if (!fb) return;
 
-    let current = node;
-    for (let depth = 0; depth < 7 && current.length; depth += 1) {
-      const blockText = cleanText(current.text());
-      if (blockText.length > 2200) break;
-
-      current.find('a[href]').each((__, a) => {
-        if (result) return;
-        const fb = canonicalFacebook($(a).attr('href'));
-        if (fb) result = fb;
-      });
-      current = current.parent();
-    }
+    if (!fallback) fallback = fb;
+    const context = cleanText(a.closest('li, tr, td, dd, dt, dl, p, div').text());
+    const label = cleanText(a.text());
+    if (!preferred && /網站連結|facebook|\bfb\b/i.test(`${context} ${label}`)) preferred = fb;
   });
 
-  return result;
+  return preferred || fallback;
+}
+
+async function fetchFacebook(detailUrl) {
+  try {
+    const { bytes, contentType } = await fetchBytes(detailUrl);
+    const charset = contentType.match(/charset\s*=\s*([^;\s]+)/i)?.[1]?.replace(/["']/g, '') || 'utf-8';
+    const html = decodeCandidate(bytes, charset) || decodeCandidate(bytes, 'utf-8');
+    return extractFacebook(html);
+  } catch (error) {
+    return { error: error?.message || String(error) };
+  }
+}
+
+async function mapLimit(items, limit, callback) {
+  const results = new Array(items.length);
+  let cursor = 0;
+  async function worker() {
+    while (true) {
+      const index = cursor++;
+      if (index >= items.length) return;
+      results[index] = await callback(items[index], index);
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, worker));
+  return results;
 }
 
 const topo = JSON.parse(await readFile(COUNTY_DATA_PATH, 'utf8'));
@@ -140,64 +198,83 @@ const roster = councilorCandidates(ntp);
 if (!roster.length) throw new Error('你的網站目前沒有新北市議員名單');
 
 console.log(`網站既有新北市議員：${roster.length} 位`);
-console.log('安全模式：這次只輸出預覽 JSON，不會修改 data/counties.json。');
+console.log('安全模式：只產生預覽，不會修改 data/counties.json，也不會新增任何人。');
+console.log(`抓取名單頁：${LIST_URL}`);
 
 const { bytes, contentType } = await fetchBytes(LIST_URL);
-const decoding = chooseDecoding(bytes, roster, contentType);
+const scored = chooseListDecoding(bytes, roster, contentType);
 
-console.log('編碼候選：');
-for (const row of decoding.all) {
-  console.log(`  ${row.encoding}: 姓名命中 ${row.hits}，� 字元 ${row.replacementChars}`);
-}
-console.log(`採用編碼：${decoding.best.encoding}`);
-
-const html = decoding.best.html;
-const pageNameHits = decoding.best.hits;
-const minSafeNameHits = Math.max(10, Math.ceil(roster.length * 0.2));
-
-if (pageNameHits < minSafeNameHits) {
-  throw new Error(`安全中止：官方頁只辨識到 ${pageNameHits}/${roster.length} 個你網站既有姓名，未達安全門檻 ${minSafeNameHits}。不會寫入任何網站資料。`);
+console.log('名單解析候選：');
+for (const row of scored) {
+  console.log(`  ${row.encoding}: 官方名單 ${row.list.length} 人，與網站命中 ${row.matched} 人，� ${row.replacementChars}`);
 }
 
-const $ = load(html);
-const results = [];
-let found = 0;
+const best = scored[0];
+console.log(`採用編碼：${best.encoding}`);
 
-for (let i = 0; i < roster.length; i += 1) {
-  const candidate = roster[i];
-  const name = candidate?.name || '';
-  if (!name) continue;
-
-  const appearsOnPage = normalizeName(html).includes(normalizeName(name));
-  const facebook = appearsOnPage ? findFacebookNearExactName($, name) : '';
-  if (facebook) found += 1;
-
-  console.log(`[${i + 1}/${roster.length}] ${name} → ${facebook ? '找到 FB' : appearsOnPage ? '找到姓名，但此頁未找到 FB' : '官方頁未找到姓名'}`);
-
-  results.push({
-    name,
-    existingFacebook: candidate.facebook || '',
-    officialFacebook: facebook,
-    appearsOnOfficialPage: appearsOnPage,
-    safeToApply: Boolean(facebook),
-  });
+if (best.list.length < 40 || best.matched < 30) {
+  throw new Error(`安全中止：官方名單解析 ${best.list.length} 人、與網站僅命中 ${best.matched} 人，結果不可信。`);
 }
+
+const officialByName = new Map(best.list.map((x) => [x.key, x]));
+const matchedRoster = roster
+  .map((candidate) => ({ candidate, official: officialByName.get(normalizeName(candidate?.name)) || null }))
+  .filter((x) => x.official);
+
+console.log(`準備抓取 ${matchedRoster.length} 位「網站已有且官方名單也存在」的議員詳細頁…`);
+
+let completed = 0;
+const crawled = await mapLimit(matchedRoster, DETAIL_CONCURRENCY, async ({ candidate, official }) => {
+  const result = await fetchFacebook(official.detailUrl);
+  completed += 1;
+
+  const facebook = typeof result === 'string' ? result : '';
+  const error = typeof result === 'object' && result ? result.error || '' : '';
+  console.log(`[${completed}/${matchedRoster.length}] ${candidate.name} → ${facebook ? '找到 FB' : error ? `抓取失敗：${error}` : '未找到 FB'}`);
+
+  return {
+    key: normalizeName(candidate.name),
+    officialName: official.name,
+    detailUrl: official.detailUrl,
+    facebook,
+    error,
+  };
+});
+
+const crawledByName = new Map(crawled.map((x) => [x.key, x]));
+const preview = roster.map((candidate) => {
+  const key = normalizeName(candidate?.name);
+  const source = crawledByName.get(key);
+  return {
+    name: candidate?.name || '',
+    existingFacebook: candidate?.facebook || '',
+    officialFacebook: source?.facebook || '',
+    detailUrl: source?.detailUrl || '',
+    matchedOfficialRoster: Boolean(source),
+    safeToApply: Boolean(source?.facebook),
+    error: source?.error || '',
+  };
+});
+
+const officialFacebookHits = preview.filter((x) => x.officialFacebook).length;
 
 await writeFile(OUTPUT_PATH, `${JSON.stringify({
   generatedAt: new Date().toISOString(),
   source: LIST_URL,
-  encoding: decoding.best.encoding,
+  encoding: best.encoding,
   websiteRoster: roster.length,
-  officialNameHits: pageNameHits,
-  officialFacebookHits: found,
+  officialRosterParsed: best.list.length,
+  websiteOfficialNameMatches: matchedRoster.length,
+  officialFacebookHits,
   mode: 'preview-only',
-  rule: 'website roster is authoritative; no people are added; data/counties.json is never modified in this run',
-  councilors: results,
+  rule: 'website roster is authoritative; update existing names only; never add people; data/counties.json is not modified',
+  councilors: preview,
 }, null, 2)}\n`, 'utf8');
 
 console.log('');
 console.log('預覽完成。');
-console.log(`姓名命中：${pageNameHits}/${roster.length}`);
-console.log(`FB 命中：${found}/${roster.length}`);
+console.log(`官方名單解析：${best.list.length} 人`);
+console.log(`網站 ↔ 官方姓名命中：${matchedRoster.length}/${roster.length}`);
+console.log(`官方 FB 找到：${officialFacebookHits} 個`);
 console.log(`已輸出：${OUTPUT_PATH}`);
 console.log('尚未修改 data/counties.json。');
