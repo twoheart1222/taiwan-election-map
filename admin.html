@@ -73,11 +73,11 @@
       </div>
       <div>
         <h2 class="text-xl font-black">管理者登入</h2>
-        <p class="text-xs text-ink-500 font-medium mt-1.5 leading-relaxed">使用 Google 帳號登入以編輯候選人資料。</p>
+        <p class="text-xs text-ink-500 font-medium mt-1.5 leading-relaxed">使用 Cloudflare Access 驗證後即可編輯候選人資料。</p>
       </div>
       <button onclick="doSignIn()" class="w-full inline-flex items-center justify-center space-x-2 py-3 rounded-xl bg-ink-900 text-surface text-sm font-bold hover:bg-accent-orange transition">
         <i data-lucide="log-in" class="w-4 h-4"></i>
-        <span>使用 Google 登入</span>
+        <span>使用 Cloudflare Access 登入</span>
       </button>
       <p id="gate-msg" class="text-xs font-bold"></p>
     </div>
@@ -175,7 +175,7 @@
 
       <div class="flex flex-wrap items-center gap-3 pt-2">
         <button onclick="saveOverride()" class="inline-flex items-center space-x-2 px-5 py-2.5 rounded-xl bg-ink-900 text-surface text-xs font-bold hover:bg-accent-orange transition shadow-[2px_2px_0px_#141517]">
-          <i data-lucide="save" class="w-4 h-4"></i><span>儲存修改（寫入 Firebase）</span>
+          <i data-lucide="save" class="w-4 h-4"></i><span>儲存修改（寫入 Cloudflare KV）</span>
         </button>
         <button onclick="exportCurrentNodeJSON()" class="inline-flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-canvas border editorial-border text-xs font-bold hover:bg-ink-100 transition shadow-[2px_2px_0px_#141517]">
           <i data-lucide="download" class="w-4 h-4"></i><span>下載覆寫 JSON 備份</span>
@@ -194,29 +194,8 @@
     </div>
   </main>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
-    import {
-      getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged
-    } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
-    import {
-      getFirestore, doc, getDoc, setDoc, deleteDoc, collection, getDocs
-    } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyAZdhEkMeCER-eh_De2viLi0jG2kD2f_4A",
-      authDomain: "taiwan-election-map.firebaseapp.com",
-      projectId: "taiwan-election-map",
-      storageBucket: "taiwan-election-map.firebasestorage.app",
-      messagingSenderId: "603857399918",
-      appId: "1:603857399918:web:44fb7f95b20e127ad1b67f"
-    };
-
-    const firebaseConfigured = firebaseConfig.apiKey !== 'YOUR_API_KEY';
-    const app = firebaseConfigured ? initializeApp(firebaseConfig) : null;
-    const auth = firebaseConfigured ? getAuth(app) : null;
-    const db = firebaseConfigured ? getFirestore(app) : null;
-    const provider = new GoogleAuthProvider();
+  <script>
+    const API_BASE = window.ELECTION_API_BASE || 'https://election-api.uprisevideoproduction.workers.dev';
 
     let currentUser = null;
     let allOverrides = {};
@@ -233,59 +212,67 @@
     let workingCouncilors = [];
     let currentDistrictMode = 'all';
 
-    window.doSignIn = () => {
-      signInWithRedirect(auth, provider).catch(err => {
-        document.getElementById('gate-msg').textContent = '登入失敗：' + err.message;
+    function apiUrl(path) {
+      if (/^https?:\/\//.test(path)) return path;
+      return API_BASE.replace(/\/$/, '') + path;
+    }
+
+    async function apiFetch(path, options = {}) {
+      const headers = new Headers(options.headers || {});
+      if (!headers.has('Content-Type') && options.body) headers.set('Content-Type', 'application/json');
+      const res = await fetch(apiUrl(path), {
+        ...options,
+        headers,
+        credentials: 'include',
       });
-    };
-    window.doSignOut = () => { signOut(auth); };
-
-    if (firebaseConfigured) {
-      getRedirectResult(auth).catch(err => console.error(err));
+      const text = await res.text();
+      let body = null;
+      if (text) {
+        try { body = JSON.parse(text); } catch (_) { body = text; }
+      }
+      if (!res.ok) {
+        const message = body && body.error ? body.error : `API request failed (${res.status})`;
+        throw new Error(message);
+      }
+      return body;
     }
 
-    function topoToFeatures(topo) {
-      const objKey = Object.keys(topo.objects)[0];
-      return topojson.feature(topo, topo.objects[objKey]);
-    }
-
-    if (firebaseConfigured) {
-      onAuthStateChanged(auth, async (user) => {
+    async function initializeSession() {
+      const gateMsg = document.getElementById('gate-msg');
+      gateMsg.textContent = '驗證中…';
+      try {
+        const session = await apiFetch('/api/admin/me');
         const gate = document.getElementById('gate');
         const unauthorized = document.getElementById('unauthorized');
         const editor = document.getElementById('editor');
         const userBox = document.getElementById('user-box');
-
-        if (!user) {
-          currentUser = null;
-          gate.classList.remove('hidden');
-          unauthorized.classList.add('hidden');
-          editor.classList.add('hidden');
-          userBox.classList.add('hidden');
-          return;
-        }
-
-        let authorized = false;
-        try {
-          const snap = await getDoc(doc(db, 'admins', user.email));
-          authorized = snap.exists();
-        } catch (err) {
-          console.error('檢查管理權限失敗', err);
-          // 若無法取得 admins 文件（例如規則阻擋），在開發階段仍給予認證以便排查
-          authorized = true;
-        }
-
-        document.getElementById('user-avatar').src = user.photoURL || '';
-        document.getElementById('user-name').textContent = user.displayName || user.email;
+        currentUser = { email: session.email || 'admin', authMode: session.authMode || 'worker' };
+        document.getElementById('user-avatar').src = '';
+        document.getElementById('user-name').textContent = currentUser.email;
         userBox.classList.remove('hidden');
         userBox.classList.add('flex');
-
-        currentUser = user;
         gate.classList.add('hidden');
         unauthorized.classList.add('hidden');
         editor.classList.remove('hidden');
         await bootEditor();
-      });
+      } catch (err) {
+        currentUser = null;
+        gateMsg.textContent = '登入失敗：' + err.message;
+      }
+    }
+
+    window.doSignIn = () => {
+      window.location.href = apiUrl('/api/admin/login');
+    };
+    window.doSignOut = () => {
+      currentUser = null;
+      const returnUrl = window.location.origin + window.location.pathname;
+      window.location.href = apiUrl('/cdn-cgi/access/logout') + `?redirect_url=${encodeURIComponent(returnUrl)}`;
+    };
+
+    function topoToFeatures(topo) {
+      const objKey = Object.keys(topo.objects)[0];
+      return topojson.feature(topo, topo.objects[objKey]);
     }
 
     async function fetchJSON(url) {
@@ -298,11 +285,10 @@
       countiesTopo = await fetchJSON('./data/counties.json');
 
       try {
-        const overrideSnap = await getDocs(collection(db, 'overrides'));
-        allOverrides = {};
-        overrideSnap.forEach(d => { allOverrides[d.id] = d.data(); });
+        allOverrides = await apiFetch('/api/admin/overrides') || {};
       } catch (err) {
-        console.warn('讀取現有 overrides 失敗 (可能是權限規則)', err);
+        console.warn('讀取現有 overrides 失敗', err);
+        allOverrides = {};
       }
 
       const selCity = document.getElementById('a-select-city');
@@ -643,18 +629,18 @@
         payload.quota = document.getElementById('f-quota').value.trim() || null;
       }
 
-      // 深度清洗：徹底排除 undefined 避免 Firestore 拋錯
+      // 深度清洗：徹底排除 undefined，避免寫入 KV 時出現不可序列化資料
       return JSON.parse(JSON.stringify(payload));
     }
 
-    // ---------- 儲存至 Firebase ----------
+    // ---------- 儲存至 Cloudflare KV ----------
     window.saveOverride = async function() {
       if (!currentCode) {
         alert('請先在最上方選取要編輯的縣市（例如：桃園市）！');
         return;
       }
       if (!currentUser) {
-        alert('尚未登入 Google 管理者帳號！\n請先至頁面最上方或重新整理點擊「使用 Google 登入」再執行儲存。\n\n若暫時無法登入，可先點擊旁邊的「下載覆寫 JSON 備份」儲存資料。');
+        alert('尚未登入管理者權限！\n請先重新整理並通過 Cloudflare Access 後再儲存。\n\n若暫時無法登入，可先點擊旁邊的「下載覆寫 JSON 備份」儲存資料。');
         return;
       }
 
@@ -663,15 +649,18 @@
       const payload = buildCurrentPayload();
 
       try {
-        await setDoc(doc(db, 'overrides', currentCode), payload);
+        const saved = await apiFetch(`/api/admin/overrides/${encodeURIComponent(currentCode)}`, {
+          method: 'PUT',
+          body: JSON.stringify(payload),
+        });
         allOverrides[currentCode] = payload;
         status.textContent = '已儲存 ✓';
         renderOverrideList();
-        alert('🎉 儲存成功！資料已成功寫入 Firebase Firestore 資料庫！');
+        alert(`🎉 儲存成功！資料已成功寫入 Cloudflare KV。\n\n更新時間：${saved.updatedAt || payload.updatedAt}`);
       } catch (err) {
         status.textContent = '儲存失敗：' + err.message;
-        console.error('Firebase Save Error:', err);
-        alert(`❌ 儲存失敗！\n\n錯誤原因：${err.message}\n\n排查提示：\n1. 請檢查 Firebase Console > Firestore Database > 規則（Rules）是否設為 allow read, write;\n2. 確認您的 Google 帳號已在 Firestore 的 admins 集合中。`);
+        console.error('KV Save Error:', err);
+        alert(`❌ 儲存失敗！\n\n錯誤原因：${err.message}\n\n排查提示：\n1. 請確認 election-api Worker 已部署新版 API；\n2. 請確認 API 網域的 Cloudflare Access 規則仍在啟用中。`);
       }
     };
 
@@ -694,7 +683,7 @@
       if (!allOverrides[currentCode]) { document.getElementById('save-status').textContent = '（本來就沒有覆寫紀錄）'; return; }
       if (!confirm('確定要刪除此節點的後台編輯紀錄，還原為原始資料嗎？')) return;
       try {
-        await deleteDoc(doc(db, 'overrides', currentCode));
+        await apiFetch(`/api/admin/overrides/${encodeURIComponent(currentCode)}`, { method: 'DELETE' });
         delete allOverrides[currentCode];
         document.getElementById('save-status').textContent = '已還原為原始資料';
         renderOverrideList();
@@ -799,10 +788,13 @@
       renderDistrictPicker();
 
       status.textContent = `更新完成：成功填入 ${photoCount} 張官方照片，${incumbentCount} 位設為連任。`;
-      alert(`🎉 成功匯入！\n\n- 📸 官方照片填入：共 ${photoCount} 位\n- ✅ 現任爭取連任：共 ${incumbentCount} 位已全數打勾\n- ➕ 自動補齊名單：共 ${addedCount} 位\n\n請確認畫面後，點擊「儲存修改（寫入 Firebase）」！`);
+      alert(`🎉 成功匯入！\n\n- 📸 官方照片填入：共 ${photoCount} 位\n- ✅ 現任爭取連任：共 ${incumbentCount} 位已全數打勾\n- ➕ 自動補齊名單：共 ${addedCount} 位\n\n請確認畫面後，點擊「儲存修改（寫入 Cloudflare KV）」！`);
     }
 
     lucide.createIcons();
+    if (new URLSearchParams(window.location.search).get('access') === '1') {
+      initializeSession();
+    }
   </script>
 </body>
 </html>

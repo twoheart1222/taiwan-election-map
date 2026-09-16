@@ -1,0 +1,22 @@
+name = "election-api"
+main = "worker.js"
+compatibility_date = "2026-09-16"
+preview_urls = false
+
+[vars]
+ALLOWED_ORIGINS = "https://taiwan-election-map.uprisevideoproduction.workers.dev"
+ADMIN_REDIRECT_URL = "https://taiwan-election-map.uprisevideoproduction.workers.dev/admin.html"
+ENABLE_CF_ACCESS_AUTH = "true"
+# Only this Access-authenticated account may use the admin API.
+ADMIN_EMAILS = "Uprisevideoproduction@gmail.com"
+
+[observability]
+enabled = true
+
+[observability.logs]
+enabled = true
+
+[[kv_namespaces]]
+binding = "ELECTION_KV"
+id = "f667c7a8748e48089998150bf83ce550"
+preview_id = "f428326703ff46efb7c0fac9db3a6a8a"
