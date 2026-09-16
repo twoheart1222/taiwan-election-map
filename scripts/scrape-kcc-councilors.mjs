@@ -6,6 +6,7 @@ const BASE_URL = 'https://www.kcc.gov.tw';
 const LIST_URL = `${BASE_URL}/Member_List1.aspx?n=39&sms=9028`;
 const outputPath = path.resolve(process.argv[2] || 'data/kcc_councilors.json');
 const includeInactive = process.argv.includes('--include-inactive');
+const REQUEST_TIMEOUT_MS = 12000;
 
 function cleanText(value) {
   return String(value || '').replace(/[\s\u3000]+/g, ' ').trim();
@@ -27,6 +28,7 @@ function memberStatus(value) {
 
 async function fetchHtml(url) {
   const response = await fetch(url, {
+    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
     headers: {
       'User-Agent': 'taiwan-election-map kcc councilor sync/1.0',
       'Accept-Language': 'zh-TW,zh;q=0.9,en;q=0.7',
@@ -170,12 +172,14 @@ async function urlExists(url) {
     let response = await fetch(url, {
       method: 'HEAD',
       redirect: 'follow',
+      signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
       headers: { 'User-Agent': 'Mozilla/5.0' },
     });
     if (response.status === 405 || response.status === 403) {
       response = await fetch(url, {
         method: 'GET',
         redirect: 'follow',
+        signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
         headers: { 'User-Agent': 'Mozilla/5.0' },
       });
     }
