@@ -188,32 +188,46 @@ async function handleAdmin(request, env, url) {
   // Worker 伺服器對伺服器去抓一次存進 KV，公開網站之後都只打自己的網域，
   // 不會讓每個訪客的瀏覽器直接連到來源網站，降低被當成異常流量擋掉的風險。
   if (path === 'cache-photo' && request.method === 'POST') {
-    const { url: sourceUrl } = await request.json();
-    if (!sourceUrl || !/^https?:\/\//.test(sourceUrl)) {
-      return jsonResponse(request, env, { error: '請提供有效的圖片網址' }, { status: 400 });
-    }
-
-    let imgRes;
     try {
-      imgRes = await fetch(sourceUrl, { headers: { 'User-Agent': 'Mozilla/5.0' } });
+      const { url: sourceUrl } = await request.json();
+      if (!sourceUrl || !/^https?:\/\//.test(sourceUrl)) {
+        return jsonResponse(request, env, { error: '請提供有效的圖片網址' }, { status: 400 });
+      }
+
+      let imgRes;
+      try {
+        imgRes = await fetch(sourceUrl, {
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Accept': 'image/avif,image/webp,image/apng,image/*,*/*;q=0.8',
+            'Referer': new URL(sourceUrl).origin + '/',
+          },
+        });
+      } catch (err) {
+        return jsonResponse(request, env, { error: `抓取來源圖片失敗（Worker連不上該網站）：${err.message}` }, { status: 502 });
+      }
+      if (!imgRes.ok) {
+        const bodySnippet = await imgRes.text().then(t => t.slice(0, 200)).catch(() => '');
+        return jsonResponse(request, env, { error: `來源圖片回應 HTTP ${imgRes.status}${bodySnippet ? '：' + bodySnippet : ''}` }, { status: 502 });
+      }
+
+      const contentType = imgRes.headers.get('Content-Type') || 'image/jpeg';
+      const bytes = await imgRes.arrayBuffer();
+      if (bytes.byteLength > 5 * 1024 * 1024) {
+        return jsonResponse(request, env, { error: '圖片超過 5MB，拒絕快取' }, { status: 413 });
+      }
+
+      const hashBuf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(sourceUrl));
+      const hash = [...new Uint8Array(hashBuf)].map(b => b.toString(16).padStart(2, '0')).join('').slice(0, 32);
+
+      await env.ELECTION_KV.put(`photo:${hash}`, bytes, { metadata: { contentType } });
+      return jsonResponse(request, env, { ok: true, cachedUrl: `/api/photo/${hash}`, contentType, size: bytes.byteLength });
     } catch (err) {
-      return jsonResponse(request, env, { error: `抓取來源圖片失敗：${err.message}` }, { status: 502 });
+      // 保底：不管上面哪一步意外炸掉，一定要回傳一個正常的 JSON 錯誤回應
+      // （帶著正確的 CORS 標頭），不能讓 Cloudflare 直接中斷連線變成
+      // 瀏覽器端看到的 net::ERR_FAILED，那樣完全看不出問題出在哪。
+      return jsonResponse(request, env, { error: `cache-photo 執行時發生未預期錯誤：${err.message || err}` }, { status: 500 });
     }
-    if (!imgRes.ok) {
-      return jsonResponse(request, env, { error: `來源圖片回應 HTTP ${imgRes.status}` }, { status: 502 });
-    }
-
-    const contentType = imgRes.headers.get('Content-Type') || 'image/jpeg';
-    const bytes = await imgRes.arrayBuffer();
-    if (bytes.byteLength > 5 * 1024 * 1024) {
-      return jsonResponse(request, env, { error: '圖片超過 5MB，拒絕快取' }, { status: 413 });
-    }
-
-    const hashBuf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(sourceUrl));
-    const hash = [...new Uint8Array(hashBuf)].map(b => b.toString(16).padStart(2, '0')).join('').slice(0, 32);
-
-    await env.ELECTION_KV.put(`photo:${hash}`, bytes, { metadata: { contentType } });
-    return jsonResponse(request, env, { ok: true, cachedUrl: `/api/photo/${hash}`, contentType, size: bytes.byteLength });
   }
 
   return jsonResponse(request, env, { error: '找不到 admin API 路由' }, { status: 404 });
