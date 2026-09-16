@@ -1,0 +1,535 @@
+{
+  "generatedAt": "2026-09-16T19:53:56.068Z",
+  "source": "https://www.tccc.gov.tw/wb_introduction01.asp",
+  "officialCount": 62,
+  "matched": 56,
+  "unmatched": [
+    {
+      "district": "3",
+      "name": "林昊佑"
+    },
+    {
+      "district": "4",
+      "name": "張瀞分"
+    },
+    {
+      "district": "5",
+      "name": "羅永珍"
+    },
+    {
+      "district": "8",
+      "name": "曾朝榮"
+    },
+    {
+      "district": "8",
+      "name": "陳成添"
+    },
+    {
+      "district": "14",
+      "name": "蔡成圭"
+    }
+  ],
+  "officialPhotos": 62,
+  "officialFacebook": 42,
+  "photosAdded": 0,
+  "facebookAdded": 37,
+  "incumbentsAdded": 0,
+  "councilors": [
+    {
+      "district": "1",
+      "name": "楊啓邦",
+      "cno": "66",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=66",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=16709388110066(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": ""
+    },
+    {
+      "district": "1",
+      "name": "施志昌",
+      "cno": "3",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=3",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852375360003(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/ChihChang43"
+    },
+    {
+      "district": "1",
+      "name": "李文傑",
+      "cno": "67",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=67",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=16709328940067(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": ""
+    },
+    {
+      "district": "2",
+      "name": "顏莉敏",
+      "cno": "4",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=4",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852376320004(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/limingyen89"
+    },
+    {
+      "district": "2",
+      "name": "楊典忠",
+      "cno": "6",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=6",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852378120006(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/100001602013369"
+    },
+    {
+      "district": "2",
+      "name": "張清照",
+      "cno": "5",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=5",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852377280005(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/cctccz"
+    },
+    {
+      "district": "2",
+      "name": "王立任",
+      "cno": "7",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=7",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852378780007(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": ""
+    },
+    {
+      "district": "2",
+      "name": "陳廷秀",
+      "cno": "8",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=8",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852379700008(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/TeacherTinShow"
+    },
+    {
+      "district": "3",
+      "name": "吳瓊華",
+      "cno": "10",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=10",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852381700010(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/100002220852528"
+    },
+    {
+      "district": "3",
+      "name": "林昊佑",
+      "cno": "68",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=68",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=16709425340068(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": ""
+    },
+    {
+      "district": "3",
+      "name": "林孟令",
+      "cno": "9",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=9",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852380830009(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/goldling888"
+    },
+    {
+      "district": "3",
+      "name": "張家銨",
+      "cno": "12",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=12",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852386990012(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/jangjiaan"
+    },
+    {
+      "district": "3",
+      "name": "曾威",
+      "cno": "69",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=69",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=16709330950069(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": ""
+    },
+    {
+      "district": "4",
+      "name": "邱愛珊",
+      "cno": "70",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=70",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=16709329460070(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": ""
+    },
+    {
+      "district": "4",
+      "name": "謝志忠",
+      "cno": "16",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=16",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852392360016(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": ""
+    },
+    {
+      "district": "4",
+      "name": "陳本添",
+      "cno": "17",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=17",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852393410017(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/100002557147040"
+    },
+    {
+      "district": "4",
+      "name": "張瀞分",
+      "cno": "15",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=15",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852391230015(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/fengyuan25285128"
+    },
+    {
+      "district": "5",
+      "name": "周永鴻",
+      "cno": "24",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=24",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852421270024(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/chouyunghong"
+    },
+    {
+      "district": "5",
+      "name": "蕭隆澤",
+      "cno": "23",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=23",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852420350023(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/lungtze"
+    },
+    {
+      "district": "5",
+      "name": "賴朝國",
+      "cno": "19",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=19",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852395250019(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/shi.y.yuan.3"
+    },
+    {
+      "district": "5",
+      "name": "羅永珍",
+      "cno": "21",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=21",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852418750021(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/y.jen88"
+    },
+    {
+      "district": "5",
+      "name": "吳呈賢",
+      "cno": "71",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=71",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=16709326170071(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": ""
+    },
+    {
+      "district": "5",
+      "name": "徐瑄灃",
+      "cno": "22",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=22",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852419550022(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/Hsuanfeng.Hsu"
+    },
+    {
+      "district": "6",
+      "name": "楊大鋐",
+      "cno": "72",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=72",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=16709387360072(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": ""
+    },
+    {
+      "district": "6",
+      "name": "陳淑華",
+      "cno": "28",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=28",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852425300028(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/chenshuhua1970"
+    },
+    {
+      "district": "6",
+      "name": "黃馨慧",
+      "cno": "25",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=25",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852422480025(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/100001502572819"
+    },
+    {
+      "district": "6",
+      "name": "林祈烽",
+      "cno": "29",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=29",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852426010029(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/1837393259853915"
+    },
+    {
+      "district": "6",
+      "name": "張廖乃綸",
+      "cno": "27",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=27",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852424430027(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/pages/%E5%BC%B5%E5%BB%96%E4%B9%83%E7%B6%B8/100004600080159"
+    },
+    {
+      "district": "7",
+      "name": "朱暖英",
+      "cno": "31",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=31",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852427500031(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/52TaichungNantun"
+    },
+    {
+      "district": "7",
+      "name": "何文海",
+      "cno": "33",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=33",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852430170033(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/wenhaiho"
+    },
+    {
+      "district": "7",
+      "name": "吳佩芸",
+      "cno": "73",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=73",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=16709327640073(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": ""
+    },
+    {
+      "district": "7",
+      "name": "劉士州",
+      "cno": "30",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=30",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852426760030(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/liushihchou"
+    },
+    {
+      "district": "8",
+      "name": "沈佑蓮",
+      "cno": "34",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=34",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852431000034(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/lotus0935952988"
+    },
+    {
+      "district": "8",
+      "name": "曾朝榮",
+      "cno": "36",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=36",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852432460036(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/chaojung.tw"
+    },
+    {
+      "district": "8",
+      "name": "謝家宜",
+      "cno": "74",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=74",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=16709388950074(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": ""
+    },
+    {
+      "district": "8",
+      "name": "陳成添",
+      "cno": "35",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=35",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852431790035(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/tien.taichung"
+    },
+    {
+      "district": "8",
+      "name": "賴順仁",
+      "cno": "37",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=37",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852434410037(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/alexsjlai"
+    },
+    {
+      "district": "9",
+      "name": "陳政顯",
+      "cno": "41",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=41",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852437740041(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/%E5%8F%B0%E4%B8%AD%E5%B8%82%E8%AD%B0%E5%93%A1-%E9%99%B3%E6%94%BF%E9%A1%AF-%E9%98%BF%E9%A1%AF%E5%B0%88%E9%A0%81-703446939716961"
+    },
+    {
+      "district": "9",
+      "name": "陳俞融",
+      "cno": "75",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=75",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=16709330130075(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": ""
+    },
+    {
+      "district": "9",
+      "name": "陳文政",
+      "cno": "40",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=40",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852436900040(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/%E9%99%B3%E6%96%87%E6%94%BF-1916178438662694"
+    },
+    {
+      "district": "10",
+      "name": "張彥彤",
+      "cno": "43",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=43",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852439330043(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/kimax61"
+    },
+    {
+      "district": "10",
+      "name": "黃守達",
+      "cno": "45",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=45",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852441640045(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/taichungedada"
+    },
+    {
+      "district": "10",
+      "name": "江肇國",
+      "cno": "44",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=44",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852440950044(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/TC.AKuo"
+    },
+    {
+      "district": "11",
+      "name": "李中",
+      "cno": "47",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=47",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852447480047(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/iloveleechang"
+    },
+    {
+      "district": "11",
+      "name": "鄭功進",
+      "cno": "48",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=48",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852448440048(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/profile.php?id=100000988841194"
+    },
+    {
+      "district": "11",
+      "name": "陳雅惠",
+      "cno": "76",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=76",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=16709423860076(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": ""
+    },
+    {
+      "district": "11",
+      "name": "林霈涵",
+      "cno": "77",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=77",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=16709466970077(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": ""
+    },
+    {
+      "district": "12",
+      "name": "黃佳恬",
+      "cno": "78",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=78",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=16709331680078(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": ""
+    },
+    {
+      "district": "12",
+      "name": "賴義鍠",
+      "cno": "51",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=51",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852458700051(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/%E6%8E%A8%E5%8B%95%E7%A4%BE%E6%9C%83%E5%96%84%E8%89%AF%E9%A2%A8%E8%B3%B4%E7%BE%A9%E9%8D%A0%E6%9C%8D%E5%8B%99%E8%99%95-945847845427050"
+    },
+    {
+      "district": "12",
+      "name": "張玉嬿",
+      "cno": "53",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=53",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852462930053(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/myishuc0988"
+    },
+    {
+      "district": "12",
+      "name": "蔡耀頡",
+      "cno": "54",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=54",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852463700054(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/%E8%94%A1%E8%80%80%E9%A0%A1%E6%89%BF%E6%93%94%E9%9D%92%E6%96%B0%E4%B8%96%E4%BB%A3-658507204537241"
+    },
+    {
+      "district": "13",
+      "name": "林碧秀",
+      "cno": "56",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=56",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852469700056(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/linpihsiu"
+    },
+    {
+      "district": "13",
+      "name": "江和樹",
+      "cno": "79",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=79",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=16709325420079(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": ""
+    },
+    {
+      "district": "13",
+      "name": "林德宇",
+      "cno": "58",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=58",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852471250058(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/187rain"
+    },
+    {
+      "district": "13",
+      "name": "張芬郁",
+      "cno": "80",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=80",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=16709459860080(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": ""
+    },
+    {
+      "district": "13",
+      "name": "李天生",
+      "cno": "59",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=59",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852472140059(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/tensheng"
+    },
+    {
+      "district": "13",
+      "name": "蘇柏興",
+      "cno": "55",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=55",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852464630055(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/pages/%E8%98%87%E6%9F%8F%E8%88%88/661092573982671"
+    },
+    {
+      "district": "14",
+      "name": "吳振嘉",
+      "cno": "81",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=81",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=16709328340081(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": ""
+    },
+    {
+      "district": "14",
+      "name": "蔡成圭",
+      "cno": "62",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=62",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852474420062(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/%E5%8F%B0%E4%B8%AD%E5%B8%82%E8%AD%B0%E5%93%A1%E8%94%A1%E6%88%90%E5%9C%AD%E6%9C%8D%E5%8B%99%E8%99%95-397656603985994"
+    },
+    {
+      "district": "15",
+      "name": "吳建德",
+      "cno": "83",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=83",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=17391870630083(1).png&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": ""
+    },
+    {
+      "district": "16",
+      "name": "古秀英",
+      "cno": "82",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=82",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=16709325570082(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": ""
+    },
+    {
+      "district": "17",
+      "name": "朱元宏",
+      "cno": "65",
+      "detailUrl": "https://www.tccc.gov.tw/wb_introduction02.asp?cno=65",
+      "photoUrl": "https://www.tccc.gov.tw/Conn2/ConnThumb.asp?F=15852476710065(1).jpg&P=Pic\\Councillor&U=1&LW=200&LH=259",
+      "facebook": "https://www.facebook.com/cyhvt50"
+    }
+  ]
+}
