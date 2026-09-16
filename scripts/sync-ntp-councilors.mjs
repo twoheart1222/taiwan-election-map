@@ -6,9 +6,6 @@ const LIST_URL = `${BASE_URL}/councilor-info.php?program=37`;
 const COUNTY_DATA_PATH = 'data/counties.json';
 const OUTPUT_PATH = 'data/ntp_councilors.json';
 const REQUEST_TIMEOUT_MS = 30000;
-const MAX_RETRIES = 3;
-
-const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function cleanText(value) {
   return String(value || '').replace(/[\s\u3000]+/g, ' ').trim();
@@ -23,27 +20,19 @@ function normalizeName(value) {
 }
 
 async function fetchHtml(url) {
-  let lastError;
-  for (let attempt = 1; attempt <= MAX_RETRIES; attempt += 1) {
-    try {
-      const response = await fetch(url, {
-        signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
-        redirect: 'follow',
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36',
-          'Accept-Language': 'zh-TW,zh;q=0.9,en;q=0.7',
-          Accept: 'text/html,application/xhtml+xml',
-          Referer: BASE_URL + '/',
-        },
-      });
-      if (!response.ok) throw new Error(`Request failed (${response.status}): ${url}`);
-      return await response.text();
-    } catch (error) {
-      lastError = error;
-      if (attempt < MAX_RETRIES) await sleep(1200 * attempt);
-    }
-  }
-  throw lastError;
+  console.log(`抓取：${url}`);
+  const response = await fetch(url, {
+    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+    redirect: 'follow',
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36',
+      'Accept-Language': 'zh-TW,zh;q=0.9,en;q=0.7',
+      Accept: 'text/html,application/xhtml+xml',
+      Referer: BASE_URL + '/',
+    },
+  });
+  if (!response.ok) throw new Error(`Request failed (${response.status}): ${url}`);
+  return response.text();
 }
 
 function canonicalFacebook(value) {
@@ -80,180 +69,97 @@ function councilorCandidates(properties) {
   const blocks = Array.isArray(raw?.blocks) ? raw.blocks : Array.isArray(raw) ? raw : [];
   const rows = [];
   for (const block of blocks) {
-    for (const candidate of block?.candidates || []) rows.push({ block, candidate });
+    for (const candidate of block?.candidates || []) rows.push(candidate);
   }
   return rows;
 }
 
-function internalUrl(href) {
-  if (!href || /^(?:#|javascript:|mailto:|tel:)/i.test(href)) return '';
-  try {
-    const u = new URL(href, BASE_URL);
-    if (u.hostname !== 'www.ntp.gov.tw' && u.hostname !== 'ntp.gov.tw') return '';
-    if (/\.(?:jpg|jpeg|png|gif|webp|svg|pdf|css|js|zip)$/i.test(u.pathname)) return '';
-    return u.href;
-  } catch {
-    return '';
-  }
-}
-
-function collectLinksNearName($, name) {
-  const result = new Set();
+function findFacebookInCandidateBlock($, name) {
   const target = normalizeName(name);
+  let result = '';
 
-  $('*').each((_, el) => {
+  const matching = $('*').filter((_, el) => {
     const node = $(el);
-    const ownText = cleanText(node.clone().children().remove().end().text());
-    if (!ownText || !normalizeName(ownText).includes(target)) return;
-
-    let cur = node;
-    for (let depth = 0; depth < 7 && cur.length; depth += 1) {
-      cur.find('a[href]').each((__, a) => {
-        const url = internalUrl($(a).attr('href'));
-        if (url) result.add(url);
-      });
-      cur = cur.parent();
-    }
+    const own = cleanText(node.clone().children().remove().end().text());
+    return own && normalizeName(own) === target;
   });
 
-  return [...result];
-}
+  matching.each((_, el) => {
+    if (result) return;
+    let node = $(el);
 
-function findFacebookNearName($, name) {
-  const target = normalizeName(name);
-  let found = '';
+    for (let depth = 0; depth < 8 && node.length; depth += 1) {
+      const text = cleanText(node.text());
+      if (text.length > 1800) break;
 
-  $('*').each((_, el) => {
-    if (found) return;
-    const node = $(el);
-    const ownText = cleanText(node.clone().children().remove().end().text());
-    if (!ownText || !normalizeName(ownText).includes(target)) return;
-
-    let cur = node;
-    for (let depth = 0; depth < 7 && cur.length && !found; depth += 1) {
-      cur.find('a[href]').each((__, a) => {
-        if (found) return;
+      node.find('a[href]').each((__, a) => {
+        if (result) return;
         const fb = canonicalFacebook($(a).attr('href'));
-        if (fb) found = fb;
+        if (fb) result = fb;
       });
-      cur = cur.parent();
+
+      node = node.parent();
     }
   });
 
-  return found;
-}
-
-function extractFacebookFromPage(html) {
-  const $ = load(html);
-  let fb = '';
-
-  $('a[href]').each((_, a) => {
-    if (fb) return;
-    const candidate = canonicalFacebook($(a).attr('href'));
-    if (candidate) fb = candidate;
-  });
-
-  if (!fb) {
-    $('iframe[src]').each((_, iframe) => {
-      if (fb) return;
-      try {
-        const u = new URL($(iframe).attr('src') || '', BASE_URL);
-        if (!u.hostname.includes('facebook.com')) return;
-        const href = u.searchParams.get('href');
-        fb = canonicalFacebook(href ? decodeURIComponent(href) : '');
-      } catch {}
-    });
-  }
-
-  return fb;
-}
-
-function pageLooksLikePerson(html, name) {
-  const $ = load(html);
-  const target = normalizeName(name);
-  const highSignal = [
-    $('title').text(),
-    $('meta[property="og:title"]').attr('content') || '',
-    $('h1').text(),
-    $('h2').text(),
-    $('h3').text(),
-    $('[class*="name"]').text(),
-  ].map(cleanText).join(' ');
-  return normalizeName(highSignal).includes(target);
+  return result;
 }
 
 const topo = JSON.parse(await readFile(COUNTY_DATA_PATH, 'utf8'));
 const ntp = findNewTaipeiProperties(topo);
-if (!ntp) throw new Error('Could not find 新北市 (65000) in data/counties.json');
+if (!ntp) throw new Error('找不到 data/counties.json 內的新北市資料');
 
 const roster = councilorCandidates(ntp);
-if (!roster.length) throw new Error('No existing New Taipei councilors found in data/counties.json');
+if (!roster.length) throw new Error('你的網站目前沒有新北市議員名單');
 
-const listHtml = await fetchHtml(LIST_URL);
-const $ = load(listHtml);
+console.log(`網站既有新北市議員：${roster.length} 位`);
+console.log('只會更新現有姓名，不會新增任何人。');
+console.log('開始抓新北市議會名單頁…');
 
-const rawInternalLinks = new Set();
-$('a[href]').each((_, a) => {
-  const url = internalUrl($(a).attr('href'));
-  if (!url) return;
-  if (url === LIST_URL) return;
-  rawInternalLinks.add(url);
-});
+const html = await fetchHtml(LIST_URL);
+const $ = load(html);
+
+console.log(`頁面抓取完成，HTML 大小：${html.length} bytes`);
+console.log('開始依你網站既有姓名比對 FB…');
 
 const results = [];
-let updatedFacebook = 0;
+let updated = 0;
+let found = 0;
 
-for (const { candidate } of roster) {
-  const name = candidate?.name;
+for (let i = 0; i < roster.length; i += 1) {
+  const candidate = roster[i];
+  const name = candidate?.name || '';
   if (!name) continue;
 
-  let facebook = findFacebookNearName($, name);
-  let matchedUrl = '';
+  const fb = findFacebookInCandidateBlock($, name);
 
-  if (!facebook) {
-    const nearLinks = collectLinksNearName($, name);
-    const genericProfileLinks = [...rawInternalLinks].filter((url) => {
-      const u = new URL(url);
-      return /council|member|represent|people|intro|info/i.test(u.pathname + u.search) ||
-             /(?:id|no|sn|member|councilor)=/i.test(u.search);
-    });
-    const candidates = [...new Set([...nearLinks, ...genericProfileLinks])].slice(0, 120);
-
-    for (const url of candidates) {
-      try {
-        const html = await fetchHtml(url);
-        if (!pageLooksLikePerson(html, name) && !nearLinks.includes(url)) continue;
-        const fb = extractFacebookFromPage(html);
-        if (fb) {
-          facebook = fb;
-          matchedUrl = url;
-          break;
-        }
-      } catch {}
+  if (fb) {
+    found += 1;
+    if (candidate.facebook !== fb) {
+      candidate.facebook = fb;
+      updated += 1;
     }
-  }
-
-  if (facebook && candidate.facebook !== facebook) {
-    candidate.facebook = facebook;
-    updatedFacebook += 1;
+    console.log(`[${i + 1}/${roster.length}] ${name} → 找到 FB`);
+  } else {
+    console.log(`[${i + 1}/${roster.length}] ${name} → 此頁未找到 FB`);
   }
 
   results.push({
     name,
-    facebook: facebook || candidate.facebook || '',
-    matchedUrl,
-    status: facebook ? 'matched' : 'not-found',
+    facebook: fb || candidate.facebook || '',
+    foundOnOfficialPage: Boolean(fb),
   });
 }
 
 await writeFile(OUTPUT_PATH, `${JSON.stringify(results, null, 2)}\n`, 'utf8');
 await writeFile(COUNTY_DATA_PATH, JSON.stringify(topo), 'utf8');
 
+console.log('');
+console.log('完成。');
 console.log(JSON.stringify({
   websiteRoster: roster.length,
-  updatedFacebook,
-  matchedFacebook: results.filter((x) => x.facebook).length,
-  notFound: results.filter((x) => !x.facebook).map((x) => x.name),
-  discoveredInternalLinks: rawInternalLinks.size,
-  rule: 'website roster is authoritative; update existing names only; never add people',
+  officialPageMatchedFacebook: found,
+  updatedFacebook: updated,
+  notFoundOnOfficialPage: results.filter((x) => !x.foundOnOfficialPage).map((x) => x.name),
+  rule: 'website roster is authoritative; existing names only; never add people',
 }, null, 2));
