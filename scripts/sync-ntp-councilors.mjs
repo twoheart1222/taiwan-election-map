@@ -7,8 +7,11 @@ const COUNTY_DATA_PATH = 'data/counties.json';
 const RAW_SOURCE_PATH = 'data/ntp_source_raw.html';
 const WRAPPED_SOURCE_PATH = 'data/ntp_source.html';
 const OUTPUT_PATH = 'data/ntp_councilors.json';
-const REQUEST_TIMEOUT_MS = 20000;
-const DETAIL_CONCURRENCY = 4;
+const REQUEST_TIMEOUT_MS = 30000;
+const DETAIL_CONCURRENCY = 3;
+const DETAIL_RETRIES = 3;
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function cleanText(value) {
   return String(value || '').replace(/[\s\u3000]+/g, ' ').trim();
@@ -153,23 +156,37 @@ function extractFacebook(html) {
 }
 
 async function fetchDetailFacebook(detailUrl) {
-  try {
-    const response = await fetch(detailUrl, {
-      signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
-      redirect: 'follow',
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36',
-        'Accept-Language': 'zh-TW,zh;q=0.9,en;q=0.7',
-        Accept: 'text/html,application/xhtml+xml',
-        Referer: LIST_URL,
-      },
-    });
-    if (!response.ok) return { facebook: '', error: `HTTP ${response.status}` };
-    const html = await response.text();
-    return { facebook: extractFacebook(html), error: '' };
-  } catch (error) {
-    return { facebook: '', error: error?.message || String(error) };
+  let lastError = '';
+
+  for (let attempt = 1; attempt <= DETAIL_RETRIES; attempt += 1) {
+    try {
+      const response = await fetch(detailUrl, {
+        signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+        redirect: 'follow',
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36',
+          'Accept-Language': 'zh-TW,zh;q=0.9,en;q=0.7',
+          Accept: 'text/html,application/xhtml+xml',
+          Referer: LIST_URL,
+        },
+      });
+
+      if (!response.ok) {
+        lastError = `HTTP ${response.status}`;
+      } else {
+        const html = await response.text();
+        return { facebook: extractFacebook(html), error: '', attempts: attempt };
+      }
+    } catch (error) {
+      lastError = error?.message || String(error);
+    }
+
+    if (attempt < DETAIL_RETRIES) {
+      await sleep(1200 * attempt);
+    }
   }
+
+  return { facebook: '', error: `${lastError}（已重試 ${DETAIL_RETRIES} 次）`, attempts: DETAIL_RETRIES };
 }
 
 async function mapLimit(items, limit, callback) {
@@ -215,18 +232,20 @@ if (matchedRoster.length < 30) {
   throw new Error(`安全中止：只命中 ${matchedRoster.length}/${roster.length} 位網站既有人員。`);
 }
 
-console.log(`開始抓 ${matchedRoster.length} 位官方詳細頁的 FB…`);
+console.log(`開始抓 ${matchedRoster.length} 位官方詳細頁的 FB（失敗最多重試 ${DETAIL_RETRIES} 次）…`);
 let completed = 0;
 const crawled = await mapLimit(matchedRoster, DETAIL_CONCURRENCY, async ({ candidate, official }) => {
   const result = await fetchDetailFacebook(official.detailUrl);
   completed += 1;
-  console.log(`[${completed}/${matchedRoster.length}] ${candidate.name} → ${result.facebook ? '找到 FB' : result.error ? `抓取失敗：${result.error}` : '未找到 FB'}`);
+  const suffix = result.attempts > 1 && !result.error ? `（第 ${result.attempts} 次成功）` : '';
+  console.log(`[${completed}/${matchedRoster.length}] ${candidate.name} → ${result.facebook ? `找到 FB${suffix}` : result.error ? `抓取失敗：${result.error}` : `未找到 FB${suffix}`}`);
   return {
     key: normalizeName(candidate.name),
     officialName: official.name,
     detailUrl: official.detailUrl,
     facebook: result.facebook,
     error: result.error,
+    attempts: result.attempts,
   };
 });
 
@@ -241,10 +260,12 @@ const preview = roster.map((candidate) => {
     matchedOfficialRoster: Boolean(sourceRow),
     safeToApply: Boolean(sourceRow?.facebook),
     error: sourceRow?.error || '',
+    attempts: sourceRow?.attempts || 0,
   };
 });
 
 const officialFacebookHits = preview.filter((x) => x.officialFacebook).length;
+const requestFailures = preview.filter((x) => x.error).length;
 
 await writeFile(OUTPUT_PATH, `${JSON.stringify({
   generatedAt: new Date().toISOString(),
@@ -253,6 +274,7 @@ await writeFile(OUTPUT_PATH, `${JSON.stringify({
   officialRosterParsed: officialList.length,
   websiteOfficialNameMatches: matchedRoster.length,
   officialFacebookHits,
+  requestFailures,
   mode: 'preview-only',
   rule: 'website roster is authoritative; update existing names only; never add people; data/counties.json is not modified',
   councilors: preview,
@@ -263,5 +285,6 @@ console.log('預覽完成。');
 console.log(`官方名單解析：${officialList.length} 人`);
 console.log(`網站 ↔ 官方姓名命中：${matchedRoster.length}/${roster.length}`);
 console.log(`官方 FB 找到：${officialFacebookHits} 個`);
+console.log(`仍抓取失敗：${requestFailures} 個`);
 console.log(`已輸出：${OUTPUT_PATH}`);
 console.log('尚未修改 data/counties.json。');
