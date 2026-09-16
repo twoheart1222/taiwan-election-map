@@ -113,7 +113,25 @@ Invoke-WebRequest `
 - `overrides`: 全部覆寫資料的索引物件。
 - `override:{行政區代碼}`: 單一行政區覆寫資料，方便日後除錯或拆分。
 
-## 6. 完全停用 Firebase 前檢查
+## 6. 搬移舊 Firestore 圖片資料
+
+舊 Firestore 的 `overrides` 已在 2026-09-16 搬入 Cloudflare KV，共 665 筆文件、443 個圖片網址。圖片欄位保存的是議會網站與 Wikimedia 等外部網址，並不是 Firebase Storage 檔案。
+
+需要重新匯入時，在 PowerShell 執行：
+
+```powershell
+$env:FIREBASE_API_KEY = "你的 Firebase Web API Key"
+node scripts/migrate-firestore-overrides.mjs .\firestore-overrides.json
+npx wrangler kv key put overrides `
+  --namespace-id f667c7a8748e48089998150bf83ce550 `
+  --path .\firestore-overrides.json `
+  --remote
+Remove-Item Env:FIREBASE_API_KEY
+```
+
+匯出檔 `firestore-overrides.json` 已加入 `.gitignore`，避免把舊資料誤提交到 GitHub。
+
+## 7. 完全停用 Firebase 前檢查
 
 確認以下指令不再找到 Firebase SDK 或 Firestore 程式碼：
 

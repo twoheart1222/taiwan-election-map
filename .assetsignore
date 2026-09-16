@@ -2,6 +2,7 @@
 .github/
 .wrangler/
 node_modules/
+scripts/
 .assetsignore
 .gitignore
 CLOUDFLARE_SETUP.md
