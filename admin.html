@@ -516,7 +516,7 @@
       
       c = c || { 
         name: '', party: '無', role: currentCountyRole === 'councilor' ? '市議員候選人' : '候選人', 
-        registeredDate: '', gazetteUrl: '', facebook: '', instagram: '', threads: '', youtube: '', photoUrl: '', 
+        registeredDate: '', gazetteUrl: '', facebook: '', taiwanGoGoUrl: '', instagram: '', threads: '', youtube: '', photoUrl: '',
         isIncumbent: false, _district: defaultDistrict 
       };
 
@@ -551,6 +551,7 @@
         </label>
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 items-center">
           <input placeholder="Facebook 直達連結" class="c-facebook bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.facebook || '')}">
+          <input placeholder="台灣前進候選人頁面" class="c-taiwangogo bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.taiwanGoGoUrl || '')}">
           <input placeholder="Instagram 連結" class="c-instagram bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.instagram || '')}">
           <input placeholder="Threads 連結" class="c-threads bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.threads || '')}">
           <input placeholder="YouTube 連結" class="c-youtube bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.youtube || '')}">
@@ -611,6 +612,7 @@
         registeredDate: '',
         gazetteUrl: row.querySelector('.c-gazette').value.trim() || null,
         facebook: row.querySelector('.c-facebook').value.trim() || null,
+        taiwanGoGoUrl: row.querySelector('.c-taiwangogo').value.trim() || null,
         instagram: row.querySelector('.c-instagram').value.trim() || null,
         threads: row.querySelector('.c-threads').value.trim() || null,
         youtube: row.querySelector('.c-youtube').value.trim() || null,
