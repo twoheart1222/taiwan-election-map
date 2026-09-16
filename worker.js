@@ -184,7 +184,57 @@ async function handleAdmin(request, env, url) {
     return jsonResponse(request, env, { ok: true, key, updatedAt: new Date().toISOString() });
   }
 
+  // 手動快取一張外部照片（例如內政部 ws.moi.gov.tw 的圖）：由後台觸發、
+  // Worker 伺服器對伺服器去抓一次存進 KV，公開網站之後都只打自己的網域，
+  // 不會讓每個訪客的瀏覽器直接連到來源網站，降低被當成異常流量擋掉的風險。
+  if (path === 'cache-photo' && request.method === 'POST') {
+    const { url: sourceUrl } = await request.json();
+    if (!sourceUrl || !/^https?:\/\//.test(sourceUrl)) {
+      return jsonResponse(request, env, { error: '請提供有效的圖片網址' }, { status: 400 });
+    }
+
+    let imgRes;
+    try {
+      imgRes = await fetch(sourceUrl, { headers: { 'User-Agent': 'Mozilla/5.0' } });
+    } catch (err) {
+      return jsonResponse(request, env, { error: `抓取來源圖片失敗：${err.message}` }, { status: 502 });
+    }
+    if (!imgRes.ok) {
+      return jsonResponse(request, env, { error: `來源圖片回應 HTTP ${imgRes.status}` }, { status: 502 });
+    }
+
+    const contentType = imgRes.headers.get('Content-Type') || 'image/jpeg';
+    const bytes = await imgRes.arrayBuffer();
+    if (bytes.byteLength > 5 * 1024 * 1024) {
+      return jsonResponse(request, env, { error: '圖片超過 5MB，拒絕快取' }, { status: 413 });
+    }
+
+    const hashBuf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(sourceUrl));
+    const hash = [...new Uint8Array(hashBuf)].map(b => b.toString(16).padStart(2, '0')).join('').slice(0, 32);
+
+    await env.ELECTION_KV.put(`photo:${hash}`, bytes, { metadata: { contentType } });
+    return jsonResponse(request, env, { ok: true, cachedUrl: `/api/photo/${hash}`, contentType, size: bytes.byteLength });
+  }
+
   return jsonResponse(request, env, { error: '找不到 admin API 路由' }, { status: 404 });
+}
+
+async function handlePhoto(request, env, url) {
+  const hash = url.pathname.replace(/^\/api\/photo\/?/, '');
+  if (!hash) {
+    return jsonResponse(request, env, { error: '請指定照片 hash' }, { status: 400 });
+  }
+  const { value, metadata } = await env.ELECTION_KV.getWithMetadata(`photo:${hash}`, 'arrayBuffer');
+  if (!value) {
+    return jsonResponse(request, env, { error: '找不到快取的照片，可能還沒被快取過' }, { status: 404 });
+  }
+  return new Response(value, {
+    headers: {
+      'Content-Type': (metadata && metadata.contentType) || 'image/jpeg',
+      'Cache-Control': 'public, max-age=31536000, immutable',
+      ...corsHeaders(request, env),
+    },
+  });
 }
 
 export default {
@@ -202,6 +252,10 @@ export default {
     try {
       if (url.pathname.startsWith('/api/admin/')) {
         return await handleAdmin(request, env, url);
+      }
+
+      if (url.pathname.startsWith('/api/photo/')) {
+        return await handlePhoto(request, env, url);
       }
 
       if (request.method === 'GET') {

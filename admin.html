@@ -557,6 +557,7 @@
         </div>
         <div class="flex items-center gap-1.5">
           <input placeholder="照片網址（右鍵複製圖片網址貼在此）" class="c-photourl flex-1 bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.photoUrl || '')}">
+          <button type="button" class="c-cachephoto shrink-0 px-2 py-1.5 rounded-lg border border-ink-300 bg-surface text-[10px] font-bold text-ink-700 hover:bg-ink-900 hover:text-surface" title="把外部照片抓下來存到自己的網域，避免每個訪客的瀏覽器直接連到來源網站">快取</button>
           <div class="c-photopreview w-8 h-8 rounded-lg border border-ink-300 bg-surface shrink-0 overflow-hidden flex items-center justify-center">
             ${c.photoUrl ? `<img src="${escapeAttr(c.photoUrl)}" referrerpolicy="no-referrer" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='<span class=&quot;text-accent-red text-[9px] font-bold&quot;>失敗</span>'">` : ''}
           </div>
@@ -566,6 +567,28 @@
 
       const photoInput = row.querySelector('.c-photourl');
       const photoPreview = row.querySelector('.c-photopreview');
+      const cacheBtn = row.querySelector('.c-cachephoto');
+      cacheBtn.addEventListener('click', async () => {
+        const url = photoInput.value.trim();
+        if (!url) { alert('請先貼上照片網址'); return; }
+        cacheBtn.disabled = true;
+        cacheBtn.textContent = '處理中…';
+        try {
+          const data = await apiFetch('/api/admin/cache-photo', {
+            method: 'POST',
+            body: JSON.stringify({ url }),
+          });
+          photoInput.value = apiUrl(data.cachedUrl);
+          photoInput.dispatchEvent(new Event('input'));
+          cacheBtn.textContent = '✓ 已快取';
+          setTimeout(() => { cacheBtn.textContent = '快取'; }, 2000);
+        } catch (err) {
+          alert(`快取失敗：${err.message}`);
+          cacheBtn.textContent = '快取';
+        } finally {
+          cacheBtn.disabled = false;
+        }
+      });
       photoInput.addEventListener('input', () => {
         const url = photoInput.value.trim();
         photoPreview.innerHTML = url
