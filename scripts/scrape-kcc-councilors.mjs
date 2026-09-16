@@ -6,7 +6,10 @@ const BASE_URL = 'https://www.kcc.gov.tw';
 const LIST_URL = `${BASE_URL}/Member_List1.aspx?n=39&sms=9028`;
 const outputPath = path.resolve(process.argv[2] || 'data/kcc_councilors.json');
 const includeInactive = process.argv.includes('--include-inactive');
-const REQUEST_TIMEOUT_MS = 12000;
+const REQUEST_TIMEOUT_MS = 25000;
+const MAX_RETRIES = 3;
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function cleanText(value) {
   return String(value || '').replace(/[\s\u3000]+/g, ' ').trim();
@@ -27,15 +30,25 @@ function memberStatus(value) {
 }
 
 async function fetchHtml(url) {
-  const response = await fetch(url, {
-    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
-    headers: {
-      'User-Agent': 'taiwan-election-map kcc councilor sync/1.0',
-      'Accept-Language': 'zh-TW,zh;q=0.9,en;q=0.7',
-    },
-  });
-  if (!response.ok) throw new Error(`Request failed (${response.status}): ${url}`);
-  return response.text();
+  let lastError;
+  for (let attempt = 1; attempt <= MAX_RETRIES; attempt += 1) {
+    try {
+      const response = await fetch(url, {
+        signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (compatible; taiwan-election-map/1.0; +https://github.com/twoheart1222/taiwan-election-map)',
+          'Accept-Language': 'zh-TW,zh;q=0.9,en;q=0.7',
+          Accept: 'text/html,application/xhtml+xml',
+        },
+      });
+      if (!response.ok) throw new Error(`Request failed (${response.status}): ${url}`);
+      return await response.text();
+    } catch (error) {
+      lastError = error;
+      if (attempt < MAX_RETRIES) await sleep(1000 * attempt);
+    }
+  }
+  throw lastError;
 }
 
 function parseList(html) {
@@ -166,24 +179,10 @@ async function mapLimit(items, limit, callback) {
   return results;
 }
 
-async function urlExists(url) {
-  if (!url) return false;
+function isOfficialKccImage(url) {
   try {
-    let response = await fetch(url, {
-      method: 'HEAD',
-      redirect: 'follow',
-      signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
-      headers: { 'User-Agent': 'Mozilla/5.0' },
-    });
-    if (response.status === 405 || response.status === 403) {
-      response = await fetch(url, {
-        method: 'GET',
-        redirect: 'follow',
-        signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
-        headers: { 'User-Agent': 'Mozilla/5.0' },
-      });
-    }
-    return response.ok || (response.status >= 300 && response.status < 400);
+    const parsed = new URL(url);
+    return /(^|\.)kcc\.gov\.tw$/i.test(parsed.hostname) && /\/Upload\/member\//i.test(parsed.pathname);
   } catch {
     return false;
   }
@@ -195,7 +194,7 @@ if (listed.length < 50) {
 }
 
 const selected = includeInactive ? listed : listed.filter((member) => member.status === 'active');
-const details = await mapLimit(selected, 6, async (member) => {
+const details = await mapLimit(selected, 2, async (member) => {
   const html = await fetchHtml(member.detailUrl);
   return parseDetail(member, html);
 });
@@ -210,16 +209,17 @@ if (missingPhotos.length) {
   throw new Error(`Missing photoUrl for: ${missingPhotos.map((member) => member.name).join(', ')}`);
 }
 
-const facebookPresent = details.filter((member) => member.facebook).length;
-const photoChecks = await mapLimit(details, 8, async (member) => ({
-  name: member.name,
-  ok: await urlExists(member.photoUrl),
-}));
-const brokenPhotos = photoChecks.filter((item) => !item.ok);
-if (brokenPhotos.length) {
-  throw new Error(`Broken photo URLs: ${brokenPhotos.map((item) => item.name).join(', ')}`);
+const invalidPhotos = details.filter((member) => !isOfficialKccImage(member.photoUrl));
+if (invalidPhotos.length) {
+  throw new Error(`Non-KCC photo URLs: ${invalidPhotos.map((member) => member.name).join(', ')}`);
 }
 
+const invalidFacebook = details.filter((member) => member.facebook && !/^https:\/\/(www\.)?facebook\.com\//i.test(member.facebook));
+if (invalidFacebook.length) {
+  throw new Error(`Invalid Facebook URLs: ${invalidFacebook.map((member) => member.name).join(', ')}`);
+}
+
+const facebookPresent = details.filter((member) => member.facebook).length;
 const output = details.sort((a, b) => (a.district ?? 999) - (b.district ?? 999) || a.name.localeCompare(b.name, 'zh-Hant'));
 await mkdir(path.dirname(outputPath), { recursive: true });
 await writeFile(outputPath, `${JSON.stringify(output, null, 2)}\n`, 'utf8');
@@ -229,7 +229,7 @@ console.log(JSON.stringify({
   listedMembers: listed.length,
   exportedMembers: output.length,
   activeOnly: !includeInactive,
-  photos: output.length,
+  officialPhotos: output.length,
   facebookLinks: facebookPresent,
   missingFacebook: output.length - facebookPresent,
 }, null, 2));
