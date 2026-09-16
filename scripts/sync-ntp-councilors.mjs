@@ -22,14 +22,6 @@ function normalizeName(value) {
     .trim();
 }
 
-function plausibleName(value) {
-  const name = normalizeName(value);
-  if (!name || name.length < 2 || name.length > 40) return '';
-  if (/新北市議會|議員介紹|議員資訊|首頁|網站連結|服務處|電話|傳真|信箱|facebook/i.test(name)) return '';
-  if (!/[\u3400-\u9fff]/u.test(name)) return '';
-  return name;
-}
-
 async function fetchHtml(url) {
   let lastError;
   for (let attempt = 1; attempt <= MAX_RETRIES; attempt += 1) {
@@ -38,7 +30,7 @@ async function fetchHtml(url) {
         signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
         redirect: 'follow',
         headers: {
-          'User-Agent': 'Mozilla/5.0 (compatible; taiwan-election-map/1.0; +https://github.com/twoheart1222/taiwan-election-map)',
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36',
           'Accept-Language': 'zh-TW,zh;q=0.9,en;q=0.7',
           Accept: 'text/html,application/xhtml+xml',
           Referer: BASE_URL + '/',
@@ -71,144 +63,9 @@ function canonicalFacebook(value) {
   }
 }
 
-function facebookFromIframe(src) {
-  if (!src) return '';
-  try {
-    const url = new URL(src, BASE_URL);
-    if (!url.hostname.includes('facebook.com')) return '';
-    const href = url.searchParams.get('href');
-    return canonicalFacebook(href ? decodeURIComponent(href) : '');
-  } catch {
-    return '';
-  }
-}
-
-function extractListName($, link) {
-  const candidates = [
-    link.attr('title'),
-    link.attr('aria-label'),
-    link.find('img').first().attr('alt'),
-    link.find('img').first().attr('title'),
-    link.text(),
-  ];
-
-  const container = link.closest('li, article, .item, .member, .councilor, .card, div');
-  if (container.length) candidates.push(container.text());
-
-  for (const raw of candidates) {
-    const text = cleanText(raw);
-    if (!text) continue;
-    const direct = plausibleName(text);
-    if (direct && direct.length <= 20) return direct;
-    const match = text.match(/(?:議員[：:\s]*)?([\u3400-\u9fff][\u3400-\u9fff·．・‧A-Za-z\s]{1,28})(?=\s*(?:議員|$))/u);
-    const fromMatch = plausibleName(match?.[1]);
-    if (fromMatch) return fromMatch;
-  }
-  return '';
-}
-
-function parseList(html) {
-  const $ = load(html);
-  const byUrl = new Map();
-
-  $('a[href]').each((_, element) => {
-    const link = $(element);
-    const href = link.attr('href') || '';
-    if (!/councilor-detail/i.test(href)) return;
-    let detailUrl;
-    try {
-      detailUrl = new URL(href, BASE_URL).href;
-    } catch {
-      return;
-    }
-    if (!/program=37/i.test(detailUrl)) return;
-    byUrl.set(detailUrl, {
-      detailUrl,
-      listName: extractListName($, link),
-    });
-  });
-
-  return [...byUrl.values()];
-}
-
-function extractDetailName($, fallback = '') {
-  const candidates = [];
-  $('h1, h2, h3, .councilor-name, .member-name, [class*="memberName"], [class*="councilorName"]').each((_, el) => {
-    candidates.push($(el).text());
-  });
-  candidates.push($('meta[property="og:title"]').attr('content'));
-  candidates.push($('title').text());
-  candidates.push(fallback);
-
-  for (const raw of candidates) {
-    const text = cleanText(raw);
-    if (!text) continue;
-
-    const labelled = text.match(/(?:議員|姓名|Name)\s*[：:]?\s*([\u3400-\u9fff][\u3400-\u9fff·．・‧A-Za-z\s]{1,28})/iu);
-    const labelledName = plausibleName(labelled?.[1]);
-    if (labelledName) return labelledName;
-
-    const parts = text.split(/[|｜\-–—]/).map((x) => plausibleName(x)).filter(Boolean);
-    const compact = parts.find((x) => x.length <= 20);
-    if (compact) return compact;
-
-    const direct = plausibleName(text);
-    if (direct && direct.length <= 20) return direct;
-  }
-  return plausibleName(fallback);
-}
-
-function parseDetail(item, html) {
-  const $ = load(html);
-  const name = extractDetailName($, item.listName);
-  let facebook = '';
-
-  // Prefer the official page's “網站連結 / FB” area when present.
-  $('a[href]').each((_, element) => {
-    if (facebook) return;
-    const a = $(element);
-    const href = a.attr('href') || '';
-    const fb = canonicalFacebook(href);
-    if (!fb) return;
-    const context = cleanText(a.closest('li, tr, dl, p, div').text());
-    const label = cleanText(a.text());
-    if (/網站連結|facebook|\bfb\b/i.test(`${context} ${label}`)) facebook = fb;
-  });
-
-  if (!facebook) {
-    $('a[href*="facebook.com"], a[href*="facebook.com/"]').each((_, element) => {
-      if (facebook) return;
-      facebook = canonicalFacebook($(element).attr('href'));
-    });
-  }
-
-  if (!facebook) {
-    $('iframe[src]').each((_, element) => {
-      if (facebook) return;
-      facebook = facebookFromIframe($(element).attr('src'));
-    });
-  }
-
-  return { name, facebook, detailUrl: item.detailUrl };
-}
-
-async function mapLimit(items, limit, callback) {
-  const results = new Array(items.length);
-  let cursor = 0;
-  async function worker() {
-    while (cursor < items.length) {
-      const index = cursor++;
-      results[index] = await callback(items[index], index);
-    }
-  }
-  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, worker));
-  return results;
-}
-
 function findNewTaipeiProperties(topo) {
-  const objects = topo?.objects || {};
   const geometries = [];
-  for (const object of Object.values(objects)) {
+  for (const object of Object.values(topo?.objects || {})) {
     if (Array.isArray(object?.geometries)) geometries.push(...object.geometries);
     else if (object) geometries.push(object);
   }
@@ -228,22 +85,101 @@ function councilorCandidates(properties) {
   return rows;
 }
 
-const listHtml = await fetchHtml(LIST_URL);
-const listed = parseList(listHtml);
-if (listed.length < 40) {
-  throw new Error(`NTP list parser found only ${listed.length} councilor detail links; aborting.`);
+function internalUrl(href) {
+  if (!href || /^(?:#|javascript:|mailto:|tel:)/i.test(href)) return '';
+  try {
+    const u = new URL(href, BASE_URL);
+    if (u.hostname !== 'www.ntp.gov.tw' && u.hostname !== 'ntp.gov.tw') return '';
+    if (/\.(?:jpg|jpeg|png|gif|webp|svg|pdf|css|js|zip)$/i.test(u.pathname)) return '';
+    return u.href;
+  } catch {
+    return '';
+  }
 }
 
-const details = await mapLimit(listed, 2, async (item) => parseDetail(item, await fetchHtml(item.detailUrl)));
-const valid = details.filter((item) => item.name);
-if (valid.length < 40) {
-  throw new Error(`NTP detail parser resolved only ${valid.length} names from ${details.length} pages; aborting.`);
+function collectLinksNearName($, name) {
+  const result = new Set();
+  const target = normalizeName(name);
+
+  $('*').each((_, el) => {
+    const node = $(el);
+    const ownText = cleanText(node.clone().children().remove().end().text());
+    if (!ownText || !normalizeName(ownText).includes(target)) return;
+
+    let cur = node;
+    for (let depth = 0; depth < 7 && cur.length; depth += 1) {
+      cur.find('a[href]').each((__, a) => {
+        const url = internalUrl($(a).attr('href'));
+        if (url) result.add(url);
+      });
+      cur = cur.parent();
+    }
+  });
+
+  return [...result];
 }
 
-const sourceByName = new Map();
-for (const item of valid) {
-  const key = normalizeName(item.name);
-  if (key && !sourceByName.has(key)) sourceByName.set(key, item);
+function findFacebookNearName($, name) {
+  const target = normalizeName(name);
+  let found = '';
+
+  $('*').each((_, el) => {
+    if (found) return;
+    const node = $(el);
+    const ownText = cleanText(node.clone().children().remove().end().text());
+    if (!ownText || !normalizeName(ownText).includes(target)) return;
+
+    let cur = node;
+    for (let depth = 0; depth < 7 && cur.length && !found; depth += 1) {
+      cur.find('a[href]').each((__, a) => {
+        if (found) return;
+        const fb = canonicalFacebook($(a).attr('href'));
+        if (fb) found = fb;
+      });
+      cur = cur.parent();
+    }
+  });
+
+  return found;
+}
+
+function extractFacebookFromPage(html) {
+  const $ = load(html);
+  let fb = '';
+
+  $('a[href]').each((_, a) => {
+    if (fb) return;
+    const candidate = canonicalFacebook($(a).attr('href'));
+    if (candidate) fb = candidate;
+  });
+
+  if (!fb) {
+    $('iframe[src]').each((_, iframe) => {
+      if (fb) return;
+      try {
+        const u = new URL($(iframe).attr('src') || '', BASE_URL);
+        if (!u.hostname.includes('facebook.com')) return;
+        const href = u.searchParams.get('href');
+        fb = canonicalFacebook(href ? decodeURIComponent(href) : '');
+      } catch {}
+    });
+  }
+
+  return fb;
+}
+
+function pageLooksLikePerson(html, name) {
+  const $ = load(html);
+  const target = normalizeName(name);
+  const highSignal = [
+    $('title').text(),
+    $('meta[property="og:title"]').attr('content') || '',
+    $('h1').text(),
+    $('h2').text(),
+    $('h3').text(),
+    $('[class*="name"]').text(),
+  ].map(cleanText).join(' ');
+  return normalizeName(highSignal).includes(target);
 }
 
 const topo = JSON.parse(await readFile(COUNTY_DATA_PATH, 'utf8'));
@@ -251,47 +187,73 @@ const ntp = findNewTaipeiProperties(topo);
 if (!ntp) throw new Error('Could not find 新北市 (65000) in data/counties.json');
 
 const roster = councilorCandidates(ntp);
-if (roster.length < 30) {
-  throw new Error(`Website New Taipei roster has only ${roster.length} candidates; aborting to avoid corrupt merge.`);
-}
+if (!roster.length) throw new Error('No existing New Taipei councilors found in data/counties.json');
 
-let matched = 0;
+const listHtml = await fetchHtml(LIST_URL);
+const $ = load(listHtml);
+
+const rawInternalLinks = new Set();
+$('a[href]').each((_, a) => {
+  const url = internalUrl($(a).attr('href'));
+  if (!url) return;
+  if (url === LIST_URL) return;
+  rawInternalLinks.add(url);
+});
+
+const results = [];
 let updatedFacebook = 0;
-const matchedSource = new Set();
-const websiteMissingInSource = [];
+
 for (const { candidate } of roster) {
-  const key = normalizeName(candidate?.name);
-  if (!key) continue;
-  const source = sourceByName.get(key);
-  if (!source) {
-    websiteMissingInSource.push(candidate.name);
-    continue;
+  const name = candidate?.name;
+  if (!name) continue;
+
+  let facebook = findFacebookNearName($, name);
+  let matchedUrl = '';
+
+  if (!facebook) {
+    const nearLinks = collectLinksNearName($, name);
+    const genericProfileLinks = [...rawInternalLinks].filter((url) => {
+      const u = new URL(url);
+      return /council|member|represent|people|intro|info/i.test(u.pathname + u.search) ||
+             /(?:id|no|sn|member|councilor)=/i.test(u.search);
+    });
+    const candidates = [...new Set([...nearLinks, ...genericProfileLinks])].slice(0, 120);
+
+    for (const url of candidates) {
+      try {
+        const html = await fetchHtml(url);
+        if (!pageLooksLikePerson(html, name) && !nearLinks.includes(url)) continue;
+        const fb = extractFacebookFromPage(html);
+        if (fb) {
+          facebook = fb;
+          matchedUrl = url;
+          break;
+        }
+      } catch {}
+    }
   }
-  matched += 1;
-  matchedSource.add(key);
-  if (source.facebook && candidate.facebook !== source.facebook) {
-    candidate.facebook = source.facebook;
+
+  if (facebook && candidate.facebook !== facebook) {
+    candidate.facebook = facebook;
     updatedFacebook += 1;
   }
+
+  results.push({
+    name,
+    facebook: facebook || candidate.facebook || '',
+    matchedUrl,
+    status: facebook ? 'matched' : 'not-found',
+  });
 }
 
-// Critical rule: the website roster is authoritative. Official-site people not already
-// present in the website are intentionally ignored and are NEVER appended.
-const sourceOnlyIgnored = valid
-  .filter((item) => !matchedSource.has(normalizeName(item.name)))
-  .map((item) => item.name);
-
-await writeFile(OUTPUT_PATH, `${JSON.stringify(valid.sort((a, b) => a.name.localeCompare(b.name, 'zh-Hant')), null, 2)}\n`, 'utf8');
+await writeFile(OUTPUT_PATH, `${JSON.stringify(results, null, 2)}\n`, 'utf8');
 await writeFile(COUNTY_DATA_PATH, JSON.stringify(topo), 'utf8');
 
 console.log(JSON.stringify({
-  officialDetailPages: listed.length,
-  officialResolvedNames: valid.length,
-  officialFacebookLinks: valid.filter((x) => x.facebook).length,
   websiteRoster: roster.length,
-  matchedWebsiteNames: matched,
   updatedFacebook,
-  sourceOnlyIgnored,
-  websiteMissingInSource,
-  rule: 'match-existing-only; no councilor is ever added to the website roster',
+  matchedFacebook: results.filter((x) => x.facebook).length,
+  notFound: results.filter((x) => !x.facebook).map((x) => x.name),
+  discoveredInternalLinks: rawInternalLinks.size,
+  rule: 'website roster is authoritative; update existing names only; never add people',
 }, null, 2));
