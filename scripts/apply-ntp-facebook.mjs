@@ -49,13 +49,14 @@ if (!Array.isArray(preview?.councilors)) {
   throw new Error('安全中止：預覽檔缺少 councilors 陣列。');
 }
 
-const updates = preview.councilors.filter((row) => row?.officialFacebook && row?.safeToApply);
-if (!updates.length) {
-  throw new Error('安全中止：沒有可套用的官方 Facebook。');
+const incumbentRows = preview.councilors.filter((row) => row?.matchedOfficialRoster);
+const facebookRows = preview.councilors.filter((row) => row?.officialFacebook && row?.safeToApply);
+if (!incumbentRows.length) {
+  throw new Error('安全中止：沒有任何與官方現任議員名單吻合的人員。');
 }
 
 const seenPreviewNames = new Set();
-for (const row of updates) {
+for (const row of incumbentRows) {
   const key = normalizeName(row.name);
   if (!key) throw new Error('安全中止：預覽中出現空白姓名。');
   if (seenPreviewNames.has(key)) throw new Error(`安全中止：預覽中姓名重複：${row.name}`);
@@ -75,26 +76,59 @@ for (const candidate of roster) {
   byName.set(key, candidate);
 }
 
+const facebookByName = new Map(facebookRows.map((row) => [normalizeName(row.name), row]));
 const changed = [];
-const skippedSame = [];
 const missing = [];
+let facebookChanged = 0;
+let facebookSame = 0;
+let incumbentChanged = 0;
+let incumbentAlreadyChecked = 0;
 
-for (const row of updates) {
-  const candidate = byName.get(normalizeName(row.name));
+for (const row of incumbentRows) {
+  const key = normalizeName(row.name);
+  const candidate = byName.get(key);
   if (!candidate) {
     missing.push(row.name);
     continue;
   }
 
-  const nextFacebook = String(row.officialFacebook || '').trim();
-  const currentFacebook = String(candidate.facebook || '').trim();
-  if (currentFacebook === nextFacebook) {
-    skippedSame.push(row.name);
-    continue;
+  const before = {
+    facebook: String(candidate.facebook || '').trim(),
+    isIncumbent: Boolean(candidate.isIncumbent),
+  };
+
+  const fbRow = facebookByName.get(key);
+  if (fbRow) {
+    const nextFacebook = String(fbRow.officialFacebook || '').trim();
+    if (before.facebook !== nextFacebook) {
+      candidate.facebook = nextFacebook;
+      facebookChanged += 1;
+    } else {
+      facebookSame += 1;
+    }
   }
 
-  candidate.facebook = nextFacebook;
-  changed.push({ name: candidate.name, from: currentFacebook, to: nextFacebook });
+  if (candidate.isIncumbent !== true) {
+    candidate.isIncumbent = true;
+    incumbentChanged += 1;
+  } else {
+    incumbentAlreadyChecked += 1;
+  }
+
+  const after = {
+    facebook: String(candidate.facebook || '').trim(),
+    isIncumbent: Boolean(candidate.isIncumbent),
+  };
+
+  if (before.facebook !== after.facebook || before.isIncumbent !== after.isIncumbent) {
+    changed.push({
+      name: candidate.name,
+      facebookBefore: before.facebook,
+      facebookAfter: after.facebook,
+      incumbentBefore: before.isIncumbent,
+      incumbentAfter: after.isIncumbent,
+    });
+  }
 }
 
 if (missing.length) {
@@ -104,10 +138,13 @@ if (missing.length) {
 await copyFile(COUNTY_DATA_PATH, BACKUP_PATH);
 await writeFile(COUNTY_DATA_PATH, `${JSON.stringify(topo, null, 2)}\n`, 'utf8');
 
-console.log('新北市 Facebook 安全寫回完成。');
-console.log(`預覽可套用：${updates.length} 筆`);
-console.log(`實際更新：${changed.length} 筆`);
-console.log(`原本相同：${skippedSame.length} 筆`);
+console.log('新北市現任議員資料安全寫回完成。');
+console.log(`官方現任名單命中：${incumbentRows.length} 筆`);
+console.log(`官方 FB 可套用：${facebookRows.length} 筆`);
+console.log(`FB 實際更新：${facebookChanged} 筆`);
+console.log(`FB 原本相同：${facebookSame} 筆`);
+console.log(`「現任爭取連任」新勾選：${incumbentChanged} 筆`);
+console.log(`「現任爭取連任」原本已勾：${incumbentAlreadyChecked} 筆`);
 console.log(`備份：${BACKUP_PATH}`);
 console.log(`已寫入：${COUNTY_DATA_PATH}`);
 console.log('沒有新增、刪除或改名任何議員。');
