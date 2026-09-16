@@ -3,8 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "deploy:api": "wrangler deploy",
-    "dev:api": "wrangler dev"
+    "deploy:frontend": "wrangler deploy --config wrangler.toml",
+    "deploy:api": "wrangler deploy --config wrangler.api.toml",
+    "dev:api": "wrangler dev --config wrangler.api.toml"
   },
   "devDependencies": {
     "wrangler": "^4.0.0"

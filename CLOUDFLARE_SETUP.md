@@ -9,7 +9,7 @@ npx wrangler kv namespace create ELECTION_KV
 npx wrangler kv namespace create ELECTION_KV --preview
 ```
 
-將輸出的 production `id` 與 preview `preview_id` 填入 `wrangler.toml`：
+將輸出的 production `id` 與 preview `preview_id` 填入 `wrangler.api.toml`：
 
 ```toml
 [[kv_namespaces]]
@@ -23,21 +23,21 @@ preview_id = "你的 preview namespace id"
 至少先寫入 `election_summary`，讓既有公開 API 可讀：
 
 ```bash
-npx wrangler kv key put election_summary --binding ELECTION_KV --path ./data/election_summary.json
+npx wrangler kv key put election_summary --binding ELECTION_KV --path ./data/election_summary.json --config wrangler.api.toml
 ```
 
 後台覆寫資料使用 `overrides` 這個 key。第一次可以放一個空物件：
 
 ```bash
 echo {} > overrides.json
-npx wrangler kv key put overrides --binding ELECTION_KV --path ./overrides.json
+npx wrangler kv key put overrides --binding ELECTION_KV --path ./overrides.json --config wrangler.api.toml
 ```
 
 如果你在 Windows PowerShell：
 
 ```powershell
 '{}' | Set-Content -Encoding UTF8 overrides.json
-npx wrangler kv key put overrides --binding ELECTION_KV --path .\overrides.json
+npx wrangler kv key put overrides --binding ELECTION_KV --path .\overrides.json --config wrangler.api.toml
 ```
 
 ## 3. 設定管理者驗證
@@ -49,7 +49,7 @@ npx wrangler kv key put overrides --binding ELECTION_KV --path .\overrides.json
 1. Cloudflare Zero Trust Free 已啟用。
 2. Access application 保護 `https://election-api.uprisevideoproduction.workers.dev/api/admin/*`。
 3. Policy `Taiwan Election Admin` 只允許 `Uprisevideoproduction@gmail.com`。
-4. `wrangler.toml` 的 `ENABLE_CF_ACCESS_AUTH` 已設為 `"true"`。
+4. `wrangler.api.toml` 的 `ENABLE_CF_ACCESS_AUTH` 已設為 `"true"`。
 5. Worker 的 `ADMIN_EMAILS` 也限制為相同信箱，作為第二層檢查。
 
 ```bash
@@ -76,6 +76,8 @@ npx wrangler secret put ADMIN_TOKEN
 npm install
 npm run deploy:api
 ```
+
+根目錄的 `wrangler.toml` 僅部署前端靜態資產；API 必須使用 `wrangler.api.toml`。這可避免 GitHub 自動建置把 API Worker 覆蓋到前端服務。
 
 部署後確認公開 API：
 
@@ -116,7 +118,7 @@ Invoke-WebRequest `
 確認以下指令不再找到 Firebase SDK 或 Firestore 程式碼：
 
 ```bash
-rg -n "firebase|firestore|firebaseapp|gstatic.com/firebasejs" admin.html worker.js wrangler.toml
+rg -n "firebase|firestore|firebaseapp|gstatic.com/firebasejs" admin.html worker.js wrangler.api.toml
 ```
 
 確認 admin 儲存成功後，就可以停用 Firebase Auth / Firestore。

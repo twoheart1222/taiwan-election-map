@@ -1,0 +1,13 @@
+.git/
+.github/
+.wrangler/
+node_modules/
+.assetsignore
+.gitignore
+CLOUDFLARE_SETUP.md
+github.md
+package.json
+package-lock.json
+worker.js
+wrangler.toml
+wrangler.api.toml
