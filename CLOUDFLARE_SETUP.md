@@ -140,3 +140,29 @@ rg -n "firebase|firestore|firebaseapp|gstatic.com/firebasejs" admin.html worker.
 ```
 
 確認 admin 儲存成功後，就可以停用 Firebase Auth / Firestore。
+
+## 8. 同步全台現任議員
+
+同步工具會讀取內政部「直轄市議員」與「縣市議員」名冊，依縣市、姓名及官方選舉區比對候選人。現任議員會更新官方照片、黨籍並設為 `isIncumbent: true`；名冊沒有的人會設為 `false`。
+
+```powershell
+npm install
+npm run sync:councilors -- ..\councilor-sync
+npm run build:kv-bulk -- `
+  ..\councilor-sync\overrides-with-incumbents.json `
+  ..\councilor-sync\kv-bulk.json
+```
+
+先確認 `sync-report.json` 的 `unmatchedOfficialCount` 與 `duplicateCandidateCount` 都是 `0`，再更新 KV：
+
+```powershell
+npx wrangler kv bulk put ..\councilor-sync\kv-bulk.json `
+  --namespace-id f667c7a8748e48089998150bf83ce550 `
+  --remote
+npx wrangler kv key put overrides `
+  --namespace-id f667c7a8748e48089998150bf83ce550 `
+  --path ..\councilor-sync\overrides-with-incumbents.json `
+  --remote
+```
+
+`overrides-backup.json` 是同步前備份。系統依管理需求將所有現任議員顯示為「爭取連任」；這個標示不代表已逐一確認本人正式登記或宣布參選。
