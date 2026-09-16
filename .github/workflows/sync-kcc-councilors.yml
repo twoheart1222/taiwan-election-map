@@ -1,0 +1,53 @@
+name: Sync KCC councilors
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/scrape-kcc-councilors.mjs'
+      - 'package.json'
+      - '.github/workflows/sync-kcc-councilors.yml'
+  schedule:
+    - cron: '20 19 * * 1'
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+      - run: npm run sync:kcc
+
+      - name: Validate generated data
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const rows = JSON.parse(fs.readFileSync('data/kcc_councilors.json', 'utf8'));
+          if (rows.length < 50) throw new Error(`Expected at least 50 active councilors, got ${rows.length}`);
+          if (rows.some(x => !x.name || !x.photoUrl || !x.detailUrl)) throw new Error('Missing required councilor fields');
+          const badFacebook = rows.filter(x => x.facebook && !/^https:\/\/(www\.)?facebook\.com\//i.test(x.facebook));
+          if (badFacebook.length) throw new Error(`Invalid Facebook URLs: ${badFacebook.map(x => x.name).join(', ')}`);
+          console.log(`Validated ${rows.length} councilors; Facebook links: ${rows.filter(x => x.facebook).length}`);
+          NODE
+
+      - name: Commit refreshed data
+        run: |
+          if git diff --quiet -- data/kcc_councilors.json; then
+            echo 'No councilor data changes.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/kcc_councilors.json
+          git commit -m 'Update Kaohsiung councilor links [skip ci]'
+          git push
