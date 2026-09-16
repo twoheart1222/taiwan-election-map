@@ -2,7 +2,7 @@ import { copyFile, readFile, writeFile } from 'node:fs/promises';
 
 const COUNTY_DATA_PATH = 'data/counties.json';
 const PREVIEW_PATH = 'data/ntp_councilors.json';
-const BACKUP_PATH = 'data/counties.before-ntp-facebook.json';
+const BACKUP_PATH = 'data/counties.before-ntp-sync.json';
 
 function cleanText(value) {
   return String(value || '').replace(/[\s\u3000]+/g, ' ').trim();
@@ -83,6 +83,8 @@ let facebookChanged = 0;
 let facebookSame = 0;
 let incumbentChanged = 0;
 let incumbentAlreadyChecked = 0;
+let photoChanged = 0;
+let photoPreserved = 0;
 
 for (const row of incumbentRows) {
   const key = normalizeName(row.name);
@@ -94,6 +96,7 @@ for (const row of incumbentRows) {
 
   const before = {
     facebook: String(candidate.facebook || '').trim(),
+    photoUrl: String(candidate.photoUrl || '').trim(),
     isIncumbent: Boolean(candidate.isIncumbent),
   };
 
@@ -115,16 +118,27 @@ for (const row of incumbentRows) {
     incumbentAlreadyChecked += 1;
   }
 
+  const officialPhoto = String(row.officialPhoto || '').trim();
+  if (!before.photoUrl && officialPhoto) {
+    candidate.photoUrl = officialPhoto;
+    photoChanged += 1;
+  } else if (before.photoUrl) {
+    photoPreserved += 1;
+  }
+
   const after = {
     facebook: String(candidate.facebook || '').trim(),
+    photoUrl: String(candidate.photoUrl || '').trim(),
     isIncumbent: Boolean(candidate.isIncumbent),
   };
 
-  if (before.facebook !== after.facebook || before.isIncumbent !== after.isIncumbent) {
+  if (before.facebook !== after.facebook || before.photoUrl !== after.photoUrl || before.isIncumbent !== after.isIncumbent) {
     changed.push({
       name: candidate.name,
       facebookBefore: before.facebook,
       facebookAfter: after.facebook,
+      photoBefore: before.photoUrl,
+      photoAfter: after.photoUrl,
       incumbentBefore: before.isIncumbent,
       incumbentAfter: after.isIncumbent,
     });
@@ -143,6 +157,8 @@ console.log(`官方現任名單命中：${incumbentRows.length} 筆`);
 console.log(`官方 FB 可套用：${facebookRows.length} 筆`);
 console.log(`FB 實際更新：${facebookChanged} 筆`);
 console.log(`FB 原本相同：${facebookSame} 筆`);
+console.log(`官方照片補入：${photoChanged} 筆`);
+console.log(`網站原有照片保留：${photoPreserved} 筆`);
 console.log(`「現任爭取連任」新勾選：${incumbentChanged} 筆`);
 console.log(`「現任爭取連任」原本已勾：${incumbentAlreadyChecked} 筆`);
 console.log(`備份：${BACKUP_PATH}`);

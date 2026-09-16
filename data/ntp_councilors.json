@@ -1,562 +1,1245 @@
-[
-  {
-    "name": "鄭宇恩",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "陳偉杰",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "游明諺",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "陳家琪",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "呂鈞鴻",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "戴翎育",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "張昭隆",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "蔡淑君",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "鄭丞宏",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "陳明義",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "蔡佩呈",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "李宇翔",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "翁震州",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "簡麗花",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "林秉宥",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "蔣根煌",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "蔡健棠",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "吳奕萱",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "陳岱吟",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "王珮宇",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "陳世軒",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "甘崇緯",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "蕭夙玲",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "陳茂嘉",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "李翁月娥",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "黃桂蘭",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "彭佳芸",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "陳彥廷",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "王威元",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "李余典",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "陳俊維",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "李倩萍",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "董俊良",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "顏蔚慈",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "邱婷蔚",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "陳東雲",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "蔡政呈",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "劉成謙",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "陳宛毓",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "許宏平",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "蕭告",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "李昆穎",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "劉美芳",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "戴瑋姗",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "黃淑君",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "鄧凱勛",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "陳俊諺",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "山田摩衣",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "林國春",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "曾煥嘉",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "林子宇",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "周韋翰",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "黃淑珍",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "張維倩",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "張志豪",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "金瑞龍",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "林達",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "陳怡君",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "張嘉玲",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "邱烽堯",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "游輝宂",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "陳錦錠",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "羅文崇",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "陳以樂",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "許昭興",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "陳鴻源",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "蘇昭龍",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "高乃芸",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "廖宜琨",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "吳亞倫",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "卓冠廷",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "吳昇翰",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "彭一書",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "呂家愷",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "蘇泓欽",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "黃永昌",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "林金結",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "洪佳君",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "陳膺涵",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "張柏詠",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "邸聖德",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "張佑輔",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "陳乃瑜",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "黃心華",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "陳韋任",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "游皓麟",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "劉哲彰",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "陳儀君",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "林裔綺",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "林正峰",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "張錦豪",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "陳語倢",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "陳竹音",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "蔡美華",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "劉財鑫",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "白珮茹",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "何元楷",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "黃瑞傳",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "郭書成",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "忠仁‧達祿斯",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "吳國譽La‧Is‧Amid",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "蘇錦雄Paylang‧Caya",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "楊春妹",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "宋雨蓁Nikar‧Falong",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "吳建智咖啡哥",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "連祐崧",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "何應明",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "布落‧馬信",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "王珍珍",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "馬見Lahuy‧Ipin",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "林啟明",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  },
-  {
-    "name": "羅美菁",
-    "facebook": "",
-    "foundOnOfficialPage": false
-  }
-]
+{
+  "generatedAt": "2026-09-16T19:18:45.840Z",
+  "source": "data/ntp_source_raw.html",
+  "websiteRoster": 112,
+  "officialRosterParsed": 64,
+  "websiteOfficialNameMatches": 52,
+  "officialFacebookHits": 29,
+  "requestFailures": 0,
+  "mode": "preview-only",
+  "rule": "website roster is authoritative; update existing names only; never add people; data/counties.json is not modified",
+  "councilors": [
+    {
+      "name": "鄭宇恩",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/%E9%84%AD%E5%AE%87%E6%80%9D.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=1&C=579",
+      "matchedOfficialRoster": true,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "陳偉杰",
+      "existingFacebook": "https://www.facebook.com/chenweichieh",
+      "officialFacebook": "https://www.facebook.com/chenweichieh",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/2022/12/30/3%E9%99%B3%E5%81%89%E6%9D%B0_042959.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=1&C=590",
+      "matchedOfficialRoster": true,
+      "safeToApply": true,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "游明諺",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "陳家琪",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/2024/07/02/4%E9%99%B3%E5%AE%B6%E7%90%AA_125959.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=1&C=609",
+      "matchedOfficialRoster": true,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "呂鈞鴻",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "戴翎育",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "張昭隆",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "蔡淑君",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/2022/12/21/%E8%94%A1%E6%B7%91%E5%90%9B_085120.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=2&C=542",
+      "matchedOfficialRoster": true,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "鄭丞宏",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "陳明義",
+      "existingFacebook": "https://www.facebook.com/imingyi",
+      "officialFacebook": "https://www.facebook.com/imingyi",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/2022/12/30/8%E9%99%B3%E6%98%8E%E7%BE%A9_043330.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=2&C=541",
+      "matchedOfficialRoster": true,
+      "safeToApply": true,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "蔡佩呈",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "李宇翔",
+      "existingFacebook": "https://www.facebook.com/eliotyliii",
+      "officialFacebook": "https://www.facebook.com/eliotyliii",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/2023/01/04/9%E6%9D%8E%E5%AE%87%E7%BF%94_111300.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=2&C=610",
+      "matchedOfficialRoster": true,
+      "safeToApply": true,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "翁震州",
+      "existingFacebook": "https://www.facebook.com/wongjhenjhou",
+      "officialFacebook": "https://www.facebook.com/wongjhenjhou",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/2022/12/13/%E7%BF%81%E9%9C%87%E5%B7%9E_070505.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=3&C=612",
+      "matchedOfficialRoster": true,
+      "safeToApply": true,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "簡麗花",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "林秉宥",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/2022/12/13/%E6%9E%97%E7%A7%89%E5%AE%A5_065723.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=3&C=611",
+      "matchedOfficialRoster": true,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "蔣根煌",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/2022/12/30/1%E8%94%A3%E6%A0%B9%E7%85%8C_070640.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=3&C=483",
+      "matchedOfficialRoster": true,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "蔡健棠",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/%E8%94%A1%E5%81%A5%E6%A3%A02%E5%90%8B%E5%A4%A7%E9%A0%AD%E7%85%A7-%E5%BD%A9%E8%89%B2.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=3&C=591",
+      "matchedOfficialRoster": true,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "吳奕萱",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "陳岱吟",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "王珮宇",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "陳世軒",
+      "existingFacebook": "https://www.facebook.com/jimmychen242",
+      "officialFacebook": "https://www.facebook.com/jimmychen242",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/2022/12/13/%E9%99%B3%E4%B8%96%E8%BB%92_071729.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=3&C=614",
+      "matchedOfficialRoster": true,
+      "safeToApply": true,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "甘崇緯",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "蕭夙玲",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "陳茂嘉",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "李翁月娥",
+      "existingFacebook": "https://www.facebook.com/yourliweng",
+      "officialFacebook": "https://www.facebook.com/yourliweng",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/16.%E6%9D%8E%E7%BF%81%E6%9C%88%E5%A8%A5.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=4&C=577",
+      "matchedOfficialRoster": true,
+      "safeToApply": true,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "黃桂蘭",
+      "existingFacebook": "https://www.facebook.com/newtaipeifirefly",
+      "officialFacebook": "https://www.facebook.com/newtaipeifirefly",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/2022/12/23/%E9%BB%83%E6%A1%82%E8%98%AD_034639.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=4&C=514",
+      "matchedOfficialRoster": true,
+      "safeToApply": true,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "彭佳芸",
+      "existingFacebook": "https://www.facebook.com/chiayun1013",
+      "officialFacebook": "https://www.facebook.com/chiayun1013",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/N2018121416834.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=4&C=593",
+      "matchedOfficialRoster": true,
+      "safeToApply": true,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "陳彥廷",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "王威元",
+      "existingFacebook": "https://www.facebook.com/sunnyweiLetsGo",
+      "officialFacebook": "https://www.facebook.com/sunnyweiLetsGo",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/2022/12/30/19%E7%8E%8B%E5%A8%81%E5%85%83_043654.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=4&C=592",
+      "matchedOfficialRoster": true,
+      "safeToApply": true,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "李余典",
+      "existingFacebook": "https://www.facebook.com/wish2199",
+      "officialFacebook": "https://www.facebook.com/wish2199",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/TTCC1437.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=4&C=487",
+      "matchedOfficialRoster": true,
+      "safeToApply": true,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "陳俊維",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "李倩萍",
+      "existingFacebook": "https://www.facebook.com/sereneping",
+      "officialFacebook": "https://www.facebook.com/sereneping",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/%E6%9D%8E%E5%80%A9%E8%90%8D.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=4&C=536",
+      "matchedOfficialRoster": true,
+      "safeToApply": true,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "董俊良",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "顏蔚慈",
+      "existingFacebook": "https://www.facebook.com/ritayen.office",
+      "officialFacebook": "https://www.facebook.com/ritayen.office",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/2022/12/13/%E9%A1%8F%E8%94%9A%E6%85%88_084607.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=4&C=615",
+      "matchedOfficialRoster": true,
+      "safeToApply": true,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "邱婷蔚",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/2022/12/21/%E9%82%B1%E5%A9%B7%E8%94%9A_041504.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=4&C=582",
+      "matchedOfficialRoster": true,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "陳東雲",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "蔡政呈",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "劉成謙",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "陳宛毓",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "許宏平",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "蕭告",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "李昆穎",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "劉美芳",
+      "existingFacebook": "https://www.facebook.com/mmftpc1",
+      "officialFacebook": "https://www.facebook.com/mmftpc1",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/N2018121310513.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=5&C=550",
+      "matchedOfficialRoster": true,
+      "safeToApply": true,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "戴瑋姗",
+      "existingFacebook": "https://www.facebook.com/wei3wei3",
+      "officialFacebook": "https://www.facebook.com/wei3wei3",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/%E6%88%B4%E7%91%8B%E5%A7%8D.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=5&C=595",
+      "matchedOfficialRoster": true,
+      "safeToApply": true,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "黃淑君",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/2023/01/04/32%E9%BB%83%E6%B7%91%E5%90%9B_111926.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=5&C=617",
+      "matchedOfficialRoster": true,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "鄧凱勛",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "陳俊諺",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "山田摩衣",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/2023/01/03/%E5%B1%B1%E7%94%B0%E6%91%A9%E8%A1%A3-1_100157.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=5&C=616",
+      "matchedOfficialRoster": true,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "林國春",
+      "existingFacebook": "https://www.facebook.com/supercoplin",
+      "officialFacebook": "https://www.facebook.com/supercoplin",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/N201812141671.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=5&C=576",
+      "matchedOfficialRoster": true,
+      "safeToApply": true,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "曾煥嘉",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/30.%E6%9B%BE%E7%85%A5%E5%98%89.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=5&C=549",
+      "matchedOfficialRoster": true,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "林子宇",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "周韋翰",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "黃淑珍",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "張維倩",
+      "existingFacebook": "https://www.facebook.com/attorneyivy",
+      "officialFacebook": "https://www.facebook.com/attorneyivy",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/2022/07/28/%E5%BC%B5%E7%B6%AD%E5%80%A9_162543.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=6&C=596",
+      "matchedOfficialRoster": true,
+      "safeToApply": true,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "張志豪",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "金瑞龍",
+      "existingFacebook": "https://www.facebook.com/22235247gold",
+      "officialFacebook": "https://www.facebook.com/22235247gold",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/%E9%87%91%E7%91%9E%E9%BE%8D.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=6&C=552",
+      "matchedOfficialRoster": true,
+      "safeToApply": true,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "林達",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "陳怡君",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "張嘉玲",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/2022/12/29/%E5%BC%B5%E5%98%89%E7%8E%B2-1_074637.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=6&C=618",
+      "matchedOfficialRoster": true,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "邱烽堯",
+      "existingFacebook": "https://www.facebook.com/chiufengyao",
+      "officialFacebook": "https://www.facebook.com/chiufengyao",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/XCC0138.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=6&C=553",
+      "matchedOfficialRoster": true,
+      "safeToApply": true,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "游輝宂",
+      "existingFacebook": "https://www.facebook.com/yousanity",
+      "officialFacebook": "https://www.facebook.com/yousanity",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/2022/12/30/39%E6%B8%B8%E8%BC%9D_051841.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=6&C=584",
+      "matchedOfficialRoster": true,
+      "safeToApply": true,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "陳錦錠",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/TTCC1312.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=6&C=453",
+      "matchedOfficialRoster": true,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "羅文崇",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "陳以樂",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "許昭興",
+      "existingFacebook": "https://www.facebook.com/happymon100",
+      "officialFacebook": "https://www.facebook.com/happymon100",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/2024/06/25/3%E8%A8%B1%E6%98%AD%E8%88%88_154116.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=7&C=554",
+      "matchedOfficialRoster": true,
+      "safeToApply": true,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "陳鴻源",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/2022/12/30/2%E9%99%B3%E9%B4%BB%E6%BA%90_064822.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=7&C=482",
+      "matchedOfficialRoster": true,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "蘇昭龍",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "高乃芸",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "廖宜琨",
+      "existingFacebook": "https://www.facebook.com/kevin820705",
+      "officialFacebook": "https://www.facebook.com/kevin820705",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/N20181210164947.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=8&C=599",
+      "matchedOfficialRoster": true,
+      "safeToApply": true,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "吳亞倫",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "卓冠廷",
+      "existingFacebook": "https://www.facebook.com/KuantingCho",
+      "officialFacebook": "https://www.facebook.com/KuantingCho",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/2022/12/26/%E5%8D%93%E5%86%A0%E5%BB%B7-1_085017.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=8&C=619",
+      "matchedOfficialRoster": true,
+      "safeToApply": true,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "吳昇翰",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "彭一書",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/2023/08/11/%E5%BD%AD%E4%B8%80%E6%9B%B8-1_112559.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=8&C=620",
+      "matchedOfficialRoster": true,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "呂家愷",
+      "existingFacebook": "https://www.facebook.com/JoeyLu0902",
+      "officialFacebook": "https://www.facebook.com/JoeyLu0902",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/2023/03/07/2%E5%90%8B%E7%85%A7%E7%89%87_%E5%B7%A5%E4%BD%9C%E5%8D%80%E5%9F%9F%201_090517.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=8&C=621",
+      "matchedOfficialRoster": true,
+      "safeToApply": true,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "蘇泓欽",
+      "existingFacebook": "https://www.facebook.com/1129gogogo",
+      "officialFacebook": "https://www.facebook.com/1129gogogo",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/2022/12/30/50%E8%98%87%E6%B3%93%E6%AC%BD_065428.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=8&C=600",
+      "matchedOfficialRoster": true,
+      "safeToApply": true,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "黃永昌",
+      "existingFacebook": "https://www.facebook.com/ych1206",
+      "officialFacebook": "https://www.facebook.com/ych1206",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/2022/12/30/47%E9%BB%83%E6%B0%B8%E6%98%8C_065033.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=8&C=530",
+      "matchedOfficialRoster": true,
+      "safeToApply": true,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "林金結",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/%E6%9E%97%E9%87%91%E7%B5%90.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=8&C=587",
+      "matchedOfficialRoster": true,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "洪佳君",
+      "existingFacebook": "https://www.facebook.com/ly11051",
+      "officialFacebook": "https://www.facebook.com/ly11051",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/N2018122215116.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=8&C=532",
+      "matchedOfficialRoster": true,
+      "safeToApply": true,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "陳膺涵",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "張柏詠",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "邸聖德",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "張佑輔",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "陳乃瑜",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/2023/02/14/54%E9%99%B3%E4%B9%83%E7%91%9C-1_091143.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=9&C=623",
+      "matchedOfficialRoster": true,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "黃心華",
+      "existingFacebook": "https://www.facebook.com/HuangHsinHua",
+      "officialFacebook": "https://www.facebook.com/HuangHsinHua",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/2023/04/11/%E9%BB%83%E5%BF%83%E8%8F%AF%E8%AD%89%E4%BB%B6%E7%85%A7_111228.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=9&C=622",
+      "matchedOfficialRoster": true,
+      "safeToApply": true,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "陳韋任",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "游皓麟",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "劉哲彰",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/%E5%8A%89%E5%93%B2%E5%BD%B0.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=9&C=556",
+      "matchedOfficialRoster": true,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "陳儀君",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/2022/12/30/56%E9%99%B3%E5%84%80%E5%90%9B_065624.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=9&C=557",
+      "matchedOfficialRoster": true,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "林裔綺",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/2022/12/30/58%E6%9E%97%E8%A3%94%E7%B6%BA_065813.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=10&C=588",
+      "matchedOfficialRoster": true,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "林正峰",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "張錦豪",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/2022/12/30/61%E5%BC%B5%E9%8C%A6%E8%B1%AA_070225.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=11&C=603",
+      "matchedOfficialRoster": true,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "陳語倢",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "陳竹音",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "蔡美華",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "劉財鑫",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "白珮茹",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/2023/05/29/%E7%99%BD%E7%8F%AE%E8%8C%B9-3_054154.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=11&C=560",
+      "matchedOfficialRoster": true,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "何元楷",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "黃瑞傳",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "郭書成",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "忠仁‧達祿斯",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "吳國譽La‧Is‧Amid",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "蘇錦雄Paylang‧Caya",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/2021/12/29/%E8%98%87%E9%8C%A6%E9%9B%84%E7%85%A7%E7%89%87_144638.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=12&C=605",
+      "matchedOfficialRoster": true,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "楊春妹",
+      "existingFacebook": "https://www.facebook.com/profile.php",
+      "officialFacebook": "https://www.facebook.com/profile.php?id=100003623097395",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/2022/12/30/63%E6%A5%8A%E6%98%A5%E5%A6%B9_070418.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=12&C=569",
+      "matchedOfficialRoster": true,
+      "safeToApply": true,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "宋雨蓁Nikar‧Falong",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/N20181214154427.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=12&C=589",
+      "matchedOfficialRoster": true,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "吳建智咖啡哥",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "連祐崧",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "何應明",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "布落‧馬信",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "王珍珍",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "馬見Lahuy‧Ipin",
+      "existingFacebook": "https://www.facebook.com/LahuyIpin1992",
+      "officialFacebook": "https://www.facebook.com/LahuyIpin1992",
+      "officialPhoto": "https://www.ntp.gov.tw/upload/Z_Councilor/2022/05/04/16027543129121_153105.jpg",
+      "detailUrl": "https://www.ntp.gov.tw/councilor-detail?program=37&A=13&C=604",
+      "matchedOfficialRoster": true,
+      "safeToApply": true,
+      "error": "",
+      "attempts": 1
+    },
+    {
+      "name": "林啟明",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    },
+    {
+      "name": "羅美菁",
+      "existingFacebook": "",
+      "officialFacebook": "",
+      "officialPhoto": "",
+      "detailUrl": "",
+      "matchedOfficialRoster": false,
+      "safeToApply": false,
+      "error": "",
+      "attempts": 0
+    }
+  ]
+}

@@ -1,3 +1,8 @@
 node_modules/
 .wrangler/
 firestore-overrides.json
+data/counties.before-*.json
+data/ntp_source*.html
+overrides_cleaned*.json
+overrides_deploy.json
+overrides_bulk_deploy.json

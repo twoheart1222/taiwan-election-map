@@ -83,14 +83,20 @@ function parseCouncilorList(html) {
     }
 
     const pName = cleanText(a.find('p').first().text());
-    const alt = cleanText(a.find('img').first().attr('alt'));
+    const image = a.find('img').first();
+    const alt = cleanText(image.attr('alt'));
     const altName = alt.replace(/^成員\s*/u, '').replace(/議員.*$/u, '').trim();
     const name = pName || altName;
     const key = normalizeName(name);
     if (!key || seen.has(key)) return;
 
+    let photoUrl = '';
+    try {
+      photoUrl = new URL(cleanText(image.attr('src')), BASE_URL).href;
+    } catch {}
+
     seen.add(key);
-    rows.push({ name, key, detailUrl });
+    rows.push({ name, key, detailUrl, photoUrl });
   });
 
   return rows;
@@ -129,8 +135,9 @@ function canonicalFacebook(value) {
     if (/\/(?:sharer|share|dialog|plugins|login)\b/i.test(url.pathname)) return '';
     url.protocol = 'https:';
     url.hostname = 'www.facebook.com';
-    url.search = '';
+    if (url.pathname.toLowerCase() !== '/profile.php') url.search = '';
     url.hash = '';
+    if (url.pathname.toLowerCase() === '/profile.php' && !url.searchParams.get('id')) return '';
     return url.href.replace(/\/$/, '');
   } catch {
     return '';
@@ -243,6 +250,7 @@ const crawled = await mapLimit(matchedRoster, DETAIL_CONCURRENCY, async ({ candi
     key: normalizeName(candidate.name),
     officialName: official.name,
     detailUrl: official.detailUrl,
+    officialPhoto: official.photoUrl,
     facebook: result.facebook,
     error: result.error,
     attempts: result.attempts,
@@ -256,6 +264,7 @@ const preview = roster.map((candidate) => {
     name: candidate?.name || '',
     existingFacebook: candidate?.facebook || '',
     officialFacebook: sourceRow?.facebook || '',
+    officialPhoto: sourceRow?.officialPhoto || '',
     detailUrl: sourceRow?.detailUrl || '',
     matchedOfficialRoster: Boolean(sourceRow),
     safeToApply: Boolean(sourceRow?.facebook),
