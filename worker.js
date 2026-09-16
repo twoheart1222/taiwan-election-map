@@ -124,7 +124,7 @@ async function handlePublicGet(request, env, url) {
     status: 200,
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
-      'Cache-Control': 'public, max-age=600',
+      'Cache-Control': 'no-store',
     },
   });
 }
