@@ -9,6 +9,7 @@
     "sync:councilors": "node scripts/sync-incumbent-councilors.mjs",
     "sync:kcc": "node scripts/scrape-kcc-councilors.mjs",
     "sync:ntp": "node scripts/sync-ntp-councilors.mjs",
+    "apply:ntp-facebook": "node scripts/apply-ntp-facebook.mjs",
     "build:kv-bulk": "node scripts/build-overrides-kv-bulk.mjs",
     "verify:districts": "node scripts/verify-district-map.mjs"
   },
