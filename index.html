@@ -746,12 +746,11 @@ class App {
         document.getElementById('drawer-title').textContent = `${vf.properties.name} 村里長`;
         this._showCands(vf.properties.candidates || []);
         this._focusFeature(vf, 'district');
-        // 上一頁：回到鄉鎮首長視圖
+        // 上一頁：回到鄉鎮 2D 地圖，並保留返回選舉區的第二層按鈕
         this._showBack(() => {
-          sel3.value = '';
-          document.getElementById('drawer-title').textContent = `${p.name} 首長候選人`;
-          this._showCands(mayors);
-          this._hideBack();
+          this._buildLevel('town', this.townFeats);
+          this._frame(this.townFeats, { pol: 0.2 });
+          this._openTownDrawer(this.town.props, { backToDistrict: true });
         });
         // 讓地圖聚焦到這個村里
         if (this.villageFeats) {
