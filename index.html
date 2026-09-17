@@ -54,6 +54,7 @@
   .transition-rule{height:3px;width:0;background:#E4022B;margin-top:clamp(16px,2.4vw,28px);will-change:width}
   .readout-leaf-mask{display:inline-block;overflow:hidden;vertical-align:bottom;line-height:1.05}
   .readout-leaf{display:inline-block;will-change:transform,opacity}
+  .mobile-county-picker{display:none}
   .source-register{max-width:1120px;margin-top:clamp(44px,8vh,88px);padding-top:clamp(26px,5vh,48px);border-top:1px solid rgba(13,13,13,.28)}
   .source-links{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:18px}
   .source-links a{font-weight:800;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:5px;transition:opacity .2s,transform .2s}
@@ -83,7 +84,7 @@
   .search-message{padding:15px 13px;color:#a29c92;font-size:13px;font-weight:700;line-height:1.6}
   @media(max-width:660px){
     .pt-center{padding:34px 20px !important}.transition-title{font-size:clamp(40px,15vw,72px);line-height:.94}
-    #map-transition{position:fixed !important;inset:61px 0 0 !important;z-index:130 !important}
+    #map-transition{display:none !important}
     .map-label{font-size:11px !important;padding:3px 7px !important;letter-spacing:0 !important}
     .site-nav{padding:10px 12px !important;gap:8px !important}
     .site-nav>div:first-child{min-width:0;flex:1}
@@ -150,6 +151,16 @@
     .candidate-photo{width:88px;height:88px}
     .candidate-title-row h4{line-height:1.25 !important;letter-spacing:0 !important}
     #tw3d{touch-action:none !important}
+    #crumb{display:none !important}
+    .mobile-county-picker{display:block;position:absolute;top:18px;right:16px;z-index:45;font-family:'Noto Sans TC','Archivo',sans-serif;pointer-events:auto}
+    .mobile-county-picker-toggle{display:flex;align-items:center;gap:8px;min-height:42px;padding:9px 14px;border:1px solid rgba(255,255,255,.2);border-radius:999px;background:#E4022B;color:#fff;font-size:14px;font-weight:900;box-shadow:0 10px 28px rgba(0,0,0,.32);cursor:pointer}
+    .mobile-county-picker-toggle svg{width:14px;height:14px;stroke:currentColor;transition:transform .3s cubic-bezier(.16,1,.3,1)}
+    .mobile-county-picker.open .mobile-county-picker-toggle svg{transform:rotate(180deg)}
+    .mobile-county-picker-menu{position:absolute;top:calc(100% + 9px);right:0;width:min(300px,calc(100vw - 32px));max-height:min(58dvh,470px);overflow-y:auto;padding:8px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;background:rgba(23,21,18,.98);border:1px solid #3a3630;border-radius:15px;box-shadow:0 24px 60px rgba(0,0,0,.62);opacity:0;visibility:hidden;transform:translateY(-8px) scale(.98);transform-origin:top right;transition:opacity .22s ease,transform .32s cubic-bezier(.16,1,.3,1),visibility .32s;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+    .mobile-county-picker.open .mobile-county-picker-menu{opacity:1;visibility:visible;transform:translateY(0) scale(1)}
+    .mobile-county-option{min-height:42px;padding:9px 8px;border:1px solid transparent;border-radius:9px;background:#211e1a;color:#f4f1ea;font:800 13px 'Noto Sans TC',sans-serif;text-align:center;cursor:pointer}
+    .mobile-county-option:first-child{grid-column:1/-1;background:#E4022B;color:#fff}
+    .mobile-county-option[aria-current="true"]{border-color:#E4022B;color:#ff7890;background:#2a1013}
   }
   @media(max-width:380px){.brand-home{font-size:13px !important}.map-intro h1{font-size:27px !important}}
   @media(max-width:520px){.nav-brandsub{display:none}}
@@ -256,6 +267,10 @@
 
         <div id="crumb" style="position:absolute;top:clamp(16px,3vh,32px);right:clamp(16px,4vw,44px);display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;max-width:60%">
           <button class="crumb-btn" data-level="all" style="pointer-events:auto;border:none;cursor:pointer;background:#E4022B;color:#fff;font-family:'Archivo';font-weight:800;font-size:12px;letter-spacing:.02em;padding:7px 14px;border-radius:999px">全台灣</button>
+        </div>
+        <div id="mobile-county-picker" class="mobile-county-picker">
+          <button id="mobile-county-picker-toggle" class="mobile-county-picker-toggle" type="button" aria-expanded="false" aria-controls="mobile-county-picker-menu">全台灣 <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 7.5 5 5 5-5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+          <div id="mobile-county-picker-menu" class="mobile-county-picker-menu" aria-label="選擇縣市"></div>
         </div>
 
         <div id="tw3d-label" style="position:absolute;left:clamp(16px,4vw,44px);bottom:clamp(18px,3vh,34px);pointer-events:none;font-family:'Archivo','Noto Sans TC',sans-serif">
@@ -469,6 +484,7 @@ class App {
     this._wireDrawerPlacement();
     this._wireNav();
     this._wireCandidateSearch();
+    this._wireCountyPicker();
     this._renderSites();
     this._loadObservatoryLinks();
     this._wireDonation();
@@ -521,6 +537,7 @@ class App {
     toggle?.addEventListener('click', e => {
       e.stopPropagation();
       this._closeCandidateSearch?.();
+      this._closeCountyPicker?.();
       const open = !menu.classList.contains('open');
       menu.classList.toggle('open', open);
       toggle.classList.toggle('open', open);
@@ -530,6 +547,42 @@ class App {
     document.addEventListener('click', e => { if (!menu?.contains(e.target) && e.target !== toggle) closeMenu(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
     this._showView('map');
+  }
+  _wireCountyPicker() {
+    const picker = document.getElementById('mobile-county-picker');
+    const toggle = document.getElementById('mobile-county-picker-toggle');
+    const menu = document.getElementById('mobile-county-picker-menu');
+    if (!picker || !toggle || !menu) return;
+    const close = () => {
+      picker.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    };
+    toggle.addEventListener('click', event => {
+      event.stopPropagation();
+      this._closeCandidateSearch?.();
+      const open = !picker.classList.contains('open');
+      picker.classList.toggle('open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+    });
+    menu.addEventListener('click', event => {
+      const button = event.target.closest('[data-county-code]');
+      if (!button || !this.countyFeats?.length) return;
+      const code = button.dataset.countyCode;
+      close();
+      if (!code) { this._goLevel(0, true); return; }
+      const feature = (this.allCountyFeats || this.countyFeats).find(item => String(item.properties.id) === code);
+      if (feature) this._drillCounty(feature.properties);
+    });
+    document.addEventListener('click', event => { if (!picker.contains(event.target)) close(); });
+    document.addEventListener('keydown', event => { if (event.key === 'Escape') close(); });
+    this._closeCountyPicker = close;
+  }
+  _buildCountyPicker() {
+    const menu = document.getElementById('mobile-county-picker-menu');
+    const source = this.allCountyFeats || this.countyFeats;
+    if (!menu || !source?.length) return;
+    const counties = [...source].sort((a, b) => a.properties.name.localeCompare(b.properties.name, 'zh-Hant'));
+    menu.innerHTML = '<button type="button" class="mobile-county-option" data-county-code="">全台灣</button>' + counties.map(feature => `<button type="button" class="mobile-county-option" data-county-code="${feature.properties.id}">${feature.properties.name}</button>`).join('');
   }
   _playVeil(veil, title, kicker, rule, change, key = '_veilToken') {
     if (!veil || !veil.animate) { change(); return; }
@@ -901,8 +954,10 @@ class App {
     ]);
     this.districtMap = dmap; this.quotaMap = quota;
     const counties = await this._loadTopo('./data/counties.json');
-    let feats = this._feats(counties).filter(f => { const c = this._centroid(f); return c[0] > 119.3 && c[0] < 122.2 && c[1] > 21.8 && c[1] < 25.4; });
+    this.allCountyFeats = this._feats(counties);
+    let feats = this.allCountyFeats.filter(f => { const c = this._centroid(f); return c[0] > 119.3 && c[0] < 122.2 && c[1] > 21.8 && c[1] < 25.4; });
     this.countyFeats = feats;
+    this._buildCountyPicker();
 
     let minx = 1e9, maxx = -1e9, miny = 1e9, maxy = -1e9;
     feats.forEach(f => this._eachRing(f, r => r.forEach(([lo, la]) => { if (this._islet(lo, la)) return; minx = Math.min(minx, lo); maxx = Math.max(maxx, lo); miny = Math.min(miny, la); maxy = Math.max(maxy, la); })));
@@ -1007,11 +1062,12 @@ class App {
   }
 
   _transitionMap(change, label = '全台灣', meta = 'FORMOSA WATCH / ELECTION MAP') {
-    const veil = document.getElementById('map-transition');
+    // 地圖與頁面共用 body 最上層的遮罩，避免手機抽屜建立 stacking context 後蓋住轉場。
+    const veil = document.getElementById('page-transition');
     if (!veil) { change(); return; }
-    const title = document.getElementById('map-transition-label');
-    const kicker = document.getElementById('map-transition-meta');
-    const rule = document.getElementById('map-transition-rule');
+    const title = document.getElementById('page-transition-label');
+    const kicker = document.getElementById('page-transition-kicker');
+    const rule = document.getElementById('page-transition-rule');
     if (title) title.textContent = label;
     if (kicker) kicker.textContent = meta;
     this._playVeil(veil, title, kicker, rule, change, '_mapTransitionToken');
