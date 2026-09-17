@@ -283,6 +283,7 @@
             <a href="https://www.tccc.gov.tw/main.asp?uno=16" target="_blank" rel="noopener noreferrer">臺中市議會 ↗</a>
             <a href="https://www.tcc.gov.tw/cp.aspx?n=13898" target="_blank" rel="noopener noreferrer">臺北市議會現任議員 ↗</a>
             <a href="https://www.tycc.gov.tw/tc/councilor-info.aspx?mid=39" target="_blank" rel="noopener noreferrer">桃園市議會本屆議員 ↗</a>
+            <a href="https://www.hsinchu-cc.gov.tw/tc/councilors.aspx?mid=39" target="_blank" rel="noopener noreferrer">新竹市議會本屆議員 ↗</a>
             <a href="https://council2026.taiwangogo.tw/" target="_blank" rel="noopener noreferrer">2026 議員參選人刑事紀錄圖鑑 ↗</a>
           </div>
         </div>
@@ -750,13 +751,16 @@ class App {
   async _mergeOfficialCouncilorProfiles(overrides) {
     if (!overrides || typeof overrides !== 'object') return overrides;
     try {
-      const [taipeiResult, taoyuanResult] = await Promise.all([
+      const [taipeiResult, taoyuanResult, hsinchuResult] = await Promise.all([
         fetch('./data/tcc_councilor_socials.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null),
         fetch('./data/tycc_councilors.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null),
+        fetch('./data/hcc_councilors.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null),
       ]);
       const taipeiFacebook = taipeiResult?.facebook || {};
       const taoyuanProfiles = Array.isArray(taoyuanResult) ? taoyuanResult.filter(row => row?.name && row?.photoUrl) : [];
       const taoyuanByName = new Map(taoyuanProfiles.map(row => [String(row.name).normalize('NFKC').replace(/[・．·‧\s]/g, ''), row]));
+      const hsinchuProfiles = Array.isArray(hsinchuResult?.councilors) ? hsinchuResult.councilors.filter(row => row?.name && row?.photoUrl) : [];
+      const hsinchuByName = new Map(hsinchuProfiles.map(row => [String(row.name).normalize('NFKC').replace(/[・．·‧\s]/g, ''), row]));
       const mergeCounty = (countyCode, patch) => {
         const county = overrides[countyCode];
         if (!county?.councilors) return county;
@@ -768,6 +772,11 @@ class App {
         const official = taoyuanByName.get(String(candidate.name || '').normalize('NFKC').replace(/[・．·‧\s]/g, ''));
         if (!official) return {};
         return { photoUrl: candidate.photoUrl || String(official.photoUrl || '').replace(/\\/g, '/'), facebook: candidate.facebook || official.facebook || '' };
+      });
+      if (hsinchuByName.size) next['10018'] = mergeCounty('10018', (_block, candidate) => {
+        const official = hsinchuByName.get(String(candidate.name || '').normalize('NFKC').replace(/[・．·‧\s]/g, ''));
+        if (!official) return {};
+        return { photoUrl: candidate.photoUrl || official.photoUrl || '', facebook: candidate.facebook || official.facebook || '' };
       });
       return next;
     } catch (error) {
