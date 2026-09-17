@@ -61,7 +61,8 @@
      後台校閱資料由 election-api Worker 的 overrides endpoint 提供。
      若 API 暫時無法連線，仍會退回顯示 data/ 內的原始候選人資料。
      ===================================================================== */
-  window.OVERRIDES_URL = 'https://election-api.uprisevideoproduction.workers.dev/?key=overrides';
+  window.ELECTION_API_BASE = 'https://election-api.uprisevideoproduction.workers.dev';
+  window.OVERRIDES_URL = `${window.ELECTION_API_BASE}/?key=overrides`;
 </script>
 <script>
   /* 保險絲：8 秒後若 preloader 仍在，強制淡出（避免任何載入失敗卡住畫面） */
@@ -97,6 +98,7 @@
       <div class="nav-actions" style="display:flex;align-items:center;gap:clamp(10px,2vw,26px);font-family:'Archivo';font-weight:600;font-size:13px;letter-spacing:.04em;flex:none">
         <a href="#" data-view="map" class="navlink on">選情地圖</a>
         <a href="#" data-view="observatory" class="navlink">政治觀測站</a>
+        <a href="#" data-view="contact" class="navlink">聯絡我們</a>
         <a href="#" data-view="support" style="display:inline-flex;align-items:center;gap:7px;padding:8px 16px;background:#E4022B;color:#fff;border-radius:999px;font-weight:800">支持我們</a>
       </div>
     </nav>
@@ -168,12 +170,13 @@
         </div>
         <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:clamp(30px,6vh,60px)">
           <a href="#" data-view="observatory" style="display:inline-flex;align-items:center;gap:9px;padding:15px 28px;background:#0d0d0d;color:#fff;border-radius:999px;font-family:'Archivo';font-weight:800;font-size:15px">政治觀測站 →</a>
+          <a href="#" data-view="contact" style="display:inline-flex;align-items:center;gap:9px;padding:15px 28px;background:transparent;border:1.5px solid #0d0d0d;color:#0d0d0d;border-radius:999px;font-family:'Archivo';font-weight:800;font-size:15px">聯絡我們 →</a>
           <a href="#" data-view="support" style="display:inline-flex;align-items:center;gap:9px;padding:15px 28px;background:transparent;border:1.5px solid #0d0d0d;color:#0d0d0d;border-radius:999px;font-family:'Archivo';font-weight:800;font-size:15px">支持我們 →</a>
         </div>
       </section>
       <footer style="background:#0d0d0d;color:#8a857c;padding:clamp(40px,7vh,80px) clamp(18px,4vw,54px);display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;border-top:1px solid #1c1a17">
         <div><div style="font-family:'Archivo';font-weight:900;font-size:clamp(22px,3vw,40px);color:#f4f1ea;letter-spacing:-.02em">2026 選舉倒數</div><div style="font-size:12px;letter-spacing:.1em;margin-top:8px">Politics Design Lab · 全台選舉開箱圖鑑</div></div>
-        <div style="font-family:'Archivo';font-weight:600;font-size:12px;letter-spacing:.08em;text-align:right">資料來源：中央選舉委員會公開資料<br>候選人照片與社群連結由後台校閱更新</div>
+        <div style="font-family:'Archivo';font-weight:600;font-size:12px;letter-spacing:.08em;text-align:right">資料來源：中央選舉委員會公開資料<br><a href="#" data-view="contact" style="color:#f4f1ea">資料更正與聯絡</a></div>
       </footer>
     </div>
 
@@ -246,6 +249,34 @@
       </footer>
     </div>
 
+    <!-- ========== VIEW: CONTACT ========== -->
+    <div id="view-contact" style="display:none;min-height:calc(100dvh - 58px);flex-direction:column">
+      <main style="flex:1;padding:clamp(48px,9vh,110px) clamp(18px,4vw,54px)">
+        <div style="max-width:1120px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:clamp(32px,7vw,96px);align-items:start">
+          <section>
+            <div style="font-family:'Archivo';font-weight:700;font-size:13px;letter-spacing:.28em;color:#E4022B;margin-bottom:20px">聯絡我們 / CONTACT</div>
+            <h1 style="font-family:'Noto Sans TC','Archivo',sans-serif;font-weight:900;font-size:clamp(38px,7vw,88px);line-height:.98;letter-spacing:-.03em;margin:0 0 24px;text-wrap:balance">一起把資料<br>做得<span style="color:#E4022B">更準確</span>。</h1>
+            <p style="max-width:520px;margin:0;color:#a29c92;font-size:16px;line-height:1.8">發現候選人資料、照片、社群連結或選區資訊需要更正，請直接告訴我們。每一筆內容都會由維護團隊校閱。</p>
+            <div style="margin-top:30px;padding-top:22px;border-top:1px solid #2a2723">
+              <div style="font-family:'Archivo';font-size:11px;font-weight:700;letter-spacing:.16em;color:#8a857c">電子郵件</div>
+              <a href="mailto:Uprisevideoproduction@gmail.com" style="display:inline-block;margin-top:7px;font-family:'Archivo';font-size:18px;font-weight:800;color:#f4f1ea;word-break:break-all">Uprisevideoproduction@gmail.com</a>
+            </div>
+          </section>
+          <form id="contact-form" style="background:#1c1916;border:1px solid #2a2723;border-radius:8px;padding:clamp(20px,3vw,34px);display:grid;gap:15px">
+            <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">
+              <label style="display:grid;gap:7px"><span style="font-size:12px;font-weight:800;color:#c9c2b6">姓名</span><input name="name" required maxlength="80" style="width:100%;min-width:0;padding:12px;border:1px solid #3a3630;border-radius:6px;background:#141210;color:#f4f1ea;font:600 15px 'Noto Sans TC'" autocomplete="name"></label>
+              <label style="display:grid;gap:7px"><span style="font-size:12px;font-weight:800;color:#c9c2b6">電子郵件</span><input name="email" type="email" required maxlength="160" style="width:100%;min-width:0;padding:12px;border:1px solid #3a3630;border-radius:6px;background:#141210;color:#f4f1ea;font:600 15px 'Noto Sans TC'" autocomplete="email"></label>
+            </div>
+            <label style="display:grid;gap:7px"><span style="font-size:12px;font-weight:800;color:#c9c2b6">聯絡類型</span><select name="category" required style="padding:12px;border:1px solid #3a3630;border-radius:6px;background:#141210;color:#f4f1ea;font:600 15px 'Noto Sans TC'"><option value="資料更正">資料更正</option><option value="照片或社群連結">照片或社群連結</option><option value="選區或地圖問題">選區或地圖問題</option><option value="其他建議">其他建議</option></select></label>
+            <label style="display:grid;gap:7px"><span style="font-size:12px;font-weight:800;color:#c9c2b6">涉及地區或候選人</span><input name="location" maxlength="160" placeholder="例如：高雄市第 9 選區／王小明" style="padding:12px;border:1px solid #3a3630;border-radius:6px;background:#141210;color:#f4f1ea;font:600 15px 'Noto Sans TC'"></label>
+            <label style="display:grid;gap:7px"><span style="font-size:12px;font-weight:800;color:#c9c2b6">說明</span><textarea name="message" required minlength="10" maxlength="4000" rows="6" placeholder="請提供需要更正的內容與可供核對的資料來源。" style="resize:vertical;padding:12px;border:1px solid #3a3630;border-radius:6px;background:#141210;color:#f4f1ea;font:600 15px/1.6 'Noto Sans TC'"></textarea></label>
+            <button type="submit" style="padding:14px;border:0;border-radius:6px;background:#E4022B;color:#fff;font:900 15px 'Noto Sans TC';cursor:pointer">送出資料</button>
+            <p id="contact-status" role="status" style="min-height:20px;margin:0;font-size:13px;font-weight:700;color:#a29c92"></p>
+          </form>
+        </div>
+      </main>
+    </div>
+
   </div>
 </div>
 
@@ -262,12 +293,15 @@
 class App {
   init() {
     this.target = new Date('2026-11-28T08:00:00+08:00').getTime();
+    this.apiBase = window.ELECTION_API_BASE || 'https://election-api.uprisevideoproduction.workers.dev';
     this._revealed = false;
     this.cache = {};
     this._failsafe = setTimeout(() => this._reveal(), 4600);
     this._wireNav();
     this._renderSites();
+    this._loadObservatoryLinks();
     this._wireDonation();
+    this._wireContact();
     this._waitLibs().then(() => {
       this._buildReels();
       const days = this._days();
@@ -285,7 +319,7 @@ class App {
     this._showView('map');
   }
   _showView(name) {
-    ['map', 'observatory', 'support'].forEach(v => { const el = document.getElementById('view-' + v); if (el) el.style.display = v === name ? 'flex' : 'none'; });
+    ['map', 'observatory', 'support', 'contact'].forEach(v => { const el = document.getElementById('view-' + v); if (el) el.style.display = v === name ? 'flex' : 'none'; });
     const map = document.getElementById('view-map'); if (map) map.style.display = name === 'map' ? 'block' : 'none';
     document.querySelectorAll('.navlink').forEach(l => l.classList.toggle('on', l.dataset.view === name));
     window.scrollTo(0, 0);
@@ -522,6 +556,8 @@ class App {
     if (!this.active || !feature) return;
     const target = this.active.meshes.find(m => m.userData.props.id === feature.properties.id);
     if (!target) return;
+    window.gsap.killTweensOf(target.scale);
+    window.gsap.killTweensOf(target.position);
     this._selected = target;
     this.active.meshes.forEach(m => m.scale.set(1, 1, 1));
     this.active.meshes.forEach(m => this._paint(m, m === target ? mode : 'dim'));
@@ -534,6 +570,17 @@ class App {
     window.gsap.fromTo(target.scale, { x: 0.86, y: 0.86, z: 0.86 }, { x: 1.16, y: 1.16, z: 1.16, duration: 0.72, ease: 'back.out(2)' });
     window.gsap.to(target.scale, { x: 1.08, y: 1.08, z: 1.08, duration: 0.45, delay: 0.72, ease: 'power2.out' });
     this._frame([feature], { pol: this.active.level === 'village' ? 0.16 : 0.2, dur: 1.05 });
+  }
+  _focusVillageFromDrawer(feature) {
+    const applyFocus = () => this._focusFeature(feature, 'hot');
+    if (this.active?.level === 'village') {
+      requestAnimationFrame(applyFocus);
+      return;
+    }
+    if (!this.villageFeats?.length) return;
+    this._buildLevel('village', this.villageFeats);
+    this._frame(this.villageFeats, { pol: 0.16 });
+    requestAnimationFrame(() => requestAnimationFrame(applyFocus));
   }
   _clearFeatureFocus() {
     if (!this.active) return;
@@ -745,18 +792,13 @@ class App {
         if (!vf) return;
         document.getElementById('drawer-title').textContent = `${vf.properties.name} 村里長`;
         this._showCands(vf.properties.candidates || []);
-        this._focusFeature(vf, 'district');
         // 上一頁：回到鄉鎮 2D 地圖，並保留返回選舉區的第二層按鈕
         this._showBack(() => {
           this._buildLevel('town', this.townFeats);
           this._frame(this.townFeats, { pol: 0.2 });
           this._openTownDrawer(this.town.props, { backToDistrict: true });
         });
-        // 讓地圖聚焦到這個村里
-        if (this.villageFeats) {
-          const vf2 = this.villageFeats.find(x => x.properties.id === vid);
-          if (vf2) this._focusFeature(vf2, 'district');
-        }
+        this._focusVillageFromDrawer(vf);
       };
       if (options.backToDistrict) this._showBack(() => this._goLevel(1));
     };
@@ -923,7 +965,7 @@ class App {
 
   // ---------- OBSERVATORY ----------
   get SITES() {
-    return [
+    return this.sites || [
       { n: '中選會選舉資料庫', cat: '官方數據庫', url: 'https://db.cec.gov.tw/', host: 'db.cec.gov.tw', d: '歷屆公職選舉、登記名冊與官方選舉公報查詢。' },
       { n: '立法院議事轉播 IVOD', cat: '政見與法案監督', url: 'https://ivod.ly.gov.tw/', host: 'ivod.ly.gov.tw', d: '國會院會與各委員會即時視訊轉播與歷史隨選隨播系統。' },
       { n: '監察院政治獻金公開平臺', cat: '陽光法案開放', url: 'https://ardata.cy.gov.tw/', host: 'ardata.cy.gov.tw', d: '檢驗各政黨與候選人合法申報之收支帳冊與競選資金流向。' },
@@ -931,14 +973,28 @@ class App {
       { n: '政治開箱 Politics Design', cat: '政治視覺研究', url: 'https://politicsdesign.tw/', host: 'politicsdesign.tw', d: '台灣當代政治競選美學與民主視覺溝通研究平台。' },
     ];
   }
+  async _loadObservatoryLinks() {
+    try {
+      const res = await fetch(`${this.apiBase}/?key=observatory_links`, { headers: { accept: 'application/json' } });
+      if (!res.ok) return;
+      const payload = await res.json();
+      const links = Array.isArray(payload?.links) ? payload.links : Array.isArray(payload) ? payload : [];
+      if (links.length) { this.sites = links; this._renderSites(); }
+    } catch (_) {
+      // Keep the built-in links available if the optional managed list is not ready.
+    }
+  }
   _renderSites() {
     const box = document.getElementById('obs-list'); if (!box) return;
     box.innerHTML = this.SITES.map((s, i) => {
       const last = i === this.SITES.length - 1;
-      return `<a href="${s.url}" target="_blank" rel="noopener" class="obs-row" style="display:grid;grid-template-columns:clamp(52px,7vw,110px) 1fr auto;gap:clamp(12px,3vw,44px);align-items:center;padding:clamp(22px,3.4vw,42px) clamp(18px,4vw,54px);border-top:1px solid #1c1a17;${last ? 'border-bottom:1px solid #1c1a17' : ''}">
+      const url = String(s.url || '');
+      const host = s.host || (() => { try { return new URL(url).hostname; } catch (_) { return ''; } })();
+      const esc = value => String(value || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+      return `<a href="${esc(url)}" target="_blank" rel="noopener" class="obs-row" style="display:grid;grid-template-columns:clamp(52px,7vw,110px) 1fr auto;gap:clamp(12px,3vw,44px);align-items:center;padding:clamp(22px,3.4vw,42px) clamp(18px,4vw,54px);border-top:1px solid #1c1a17;${last ? 'border-bottom:1px solid #1c1a17' : ''}">
         <span style="font-family:'Archivo';font-weight:900;font-size:clamp(20px,2.4vw,32px);color:#E4022B">${String(i + 1).padStart(2, '0')}</span>
-        <span><span style="display:block;font-family:'Archivo';font-weight:700;font-size:11px;letter-spacing:.16em;color:#8a857c;margin-bottom:8px">${s.cat}</span><span style="display:block;font-family:'Noto Sans TC';font-weight:900;font-size:clamp(20px,3vw,40px);line-height:1.1">${s.n}</span><span style="display:block;color:#a29c92;font-size:14px;margin-top:8px;max-width:560px">${s.d}</span></span>
-        <span class="obs-arrow" style="display:inline-flex;align-items:center;gap:10px;font-family:'Archivo';font-weight:700;font-size:14px;white-space:nowrap;color:#f4f1ea">${s.host} <span style="font-size:20px">→</span></span>
+        <span><span style="display:block;font-family:'Archivo';font-weight:700;font-size:11px;letter-spacing:.16em;color:#8a857c;margin-bottom:8px">${esc(s.cat)}</span><span style="display:block;font-family:'Noto Sans TC';font-weight:900;font-size:clamp(20px,3vw,40px);line-height:1.1">${esc(s.n)}</span><span style="display:block;color:#a29c92;font-size:14px;margin-top:8px;max-width:560px">${esc(s.d)}</span></span>
+        <span class="obs-arrow" style="display:inline-flex;align-items:center;gap:10px;font-family:'Archivo';font-weight:700;font-size:14px;white-space:nowrap;color:#f4f1ea">${esc(host)} <span style="font-size:20px">→</span></span>
       </a>`;
     }).join('');
   }
@@ -960,6 +1016,41 @@ class App {
   _paintPay() { document.querySelectorAll('.pay-btn').forEach(b => { const on = b.dataset.pay === this.don.pay; b.style.borderColor = on ? '#E4022B' : '#d8d3c8'; b.style.background = on ? '#fff5f6' : '#fff'; }); }
   _donLabel() { const el = document.getElementById('don-submit-label'); if (!el) return; const amt = this._donAmt(), freq = this.don.freq === 'monthly' ? '每月' : '單次'; el.textContent = amt > 0 ? `捐出 NT$${amt.toLocaleString('en-US')} · ${freq}` : `輸入金額 · ${freq}`; }
   _donSubmit() { const amt = this._donAmt(), btn = document.getElementById('don-submit'); if (amt <= 0) { this._showCustom(true); const ci = document.getElementById('amt-custom'); if (ci) ci.focus(); return; } btn.style.background = '#1B9431'; document.getElementById('don-submit-label').textContent = `感謝支持！NT$${amt.toLocaleString('en-US')} 已送出`; window.gsap && window.gsap.fromTo(btn, { scale: 0.96 }, { scale: 1, duration: 0.4, ease: 'back.out(2)' }); }
+
+  // ---------- CONTACT ----------
+  _wireContact() {
+    const form = document.getElementById('contact-form');
+    if (!form) return;
+    const status = document.getElementById('contact-status');
+    const submit = form.querySelector('button[type="submit"]');
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+      const data = Object.fromEntries(new FormData(form).entries());
+      submit.disabled = true;
+      submit.style.opacity = '.65';
+      status.style.color = '#a29c92';
+      status.textContent = '正在送出…';
+      try {
+        const response = await fetch(`${this.apiBase}/api/contact`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(data),
+        });
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(result.error || '目前無法送出資料。');
+        form.reset();
+        status.style.color = '#7fd598';
+        status.textContent = '已收到資料，謝謝你的協助。';
+      } catch (error) {
+        status.style.color = '#ff7890';
+        status.textContent = `無法送出：${error.message}`;
+      } finally {
+        submit.disabled = false;
+        submit.style.opacity = '1';
+      }
+    });
+  }
 
   // ---------- geo helpers ----------
   _centroid(f) { let x = 0, y = 0, n = 0; this._eachRing(f, r => r.forEach(([lo, la]) => { x += lo; y += la; n++; })); return [x / n, y / n]; }

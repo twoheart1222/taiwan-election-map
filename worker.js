@@ -3,6 +3,14 @@ const JSON_HEADERS = {
   'Cache-Control': 'no-store',
 };
 
+const DEFAULT_OBSERVATORY_LINKS = [
+  { n: '中選會選舉資料庫', cat: '官方數據庫', url: 'https://db.cec.gov.tw/', d: '歷屆公職選舉、登記名冊與官方選舉公報查詢。' },
+  { n: '立法院議事轉播 IVOD', cat: '政見與法案監督', url: 'https://ivod.ly.gov.tw/', d: '國會院會與各委員會即時視訊轉播與歷史隨選隨播系統。' },
+  { n: '監察院政治獻金公開平臺', cat: '陽光法案開放', url: 'https://ardata.cy.gov.tw/', d: '檢驗各政黨與候選人合法申報之收支帳冊與競選資金流向。' },
+  { n: '沃草 Watchout 國會觀測', cat: '公民科技媒體', url: 'https://watchout.tw/', d: '以圖文與資訊設計降低公民政治參與門檻的獨立媒體平台。' },
+  { n: '政治開箱 Politics Design', cat: '政治視覺研究', url: 'https://politicsdesign.tw/', d: '台灣當代政治競選美學與民主視覺溝通研究平台。' },
+];
+
 function corsHeaders(request, env) {
   const origin = request.headers.get('Origin');
   const allowed = (env.ALLOWED_ORIGINS || '')
@@ -17,7 +25,7 @@ function corsHeaders(request, env) {
 
   return {
     'Access-Control-Allow-Origin': allowOrigin,
-    'Access-Control-Allow-Methods': 'GET, PUT, DELETE, OPTIONS',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
     'Access-Control-Allow-Headers': 'Authorization, Content-Type',
     'Access-Control-Allow-Credentials': 'true',
     'Vary': 'Origin',
@@ -149,6 +157,34 @@ async function handleAdmin(request, env, url) {
     return jsonResponse(request, env, overrides || {});
   }
 
+  if (path === 'observatory-links') {
+    if (request.method === 'GET') {
+      const saved = await readJsonKV(env, 'observatory_links', null);
+      return jsonResponse(request, env, { links: Array.isArray(saved?.links) ? saved.links : DEFAULT_OBSERVATORY_LINKS });
+    }
+    if (request.method === 'PUT') {
+      const payload = await request.json();
+      const links = Array.isArray(payload?.links) ? payload.links : null;
+      if (!links || links.some((item) => !item || !item.n || !item.cat || !/^https?:\/\//i.test(item.url || ''))) {
+        return jsonResponse(request, env, { error: '每筆連結都需要名稱、分類與有效網址。' }, { status: 400 });
+      }
+      const cleaned = links.slice(0, 50).map((item) => ({
+        n: String(item.n).trim().slice(0, 100),
+        cat: String(item.cat).trim().slice(0, 80),
+        url: String(item.url).trim().slice(0, 1000),
+        d: String(item.d || '').trim().slice(0, 400),
+      }));
+      const next = { links: cleaned, updatedAt: new Date().toISOString(), updatedBy: session.email };
+      await writeJsonKV(env, 'observatory_links', next);
+      return jsonResponse(request, env, { ok: true, ...next });
+    }
+  }
+
+  if (request.method === 'GET' && path === 'contact-submissions') {
+    const submissions = await readJsonKV(env, 'contact_submissions', []);
+    return jsonResponse(request, env, { submissions: Array.isArray(submissions) ? submissions : [] });
+  }
+
   const overrideMatch = path.match(/^overrides\/([^/]+)$/);
   if (overrideMatch) {
     const code = decodeURIComponent(overrideMatch[1]);
@@ -233,6 +269,24 @@ async function handleAdmin(request, env, url) {
   return jsonResponse(request, env, { error: '找不到 admin API 路由' }, { status: 404 });
 }
 
+async function handleContactSubmission(request, env) {
+  const payload = await request.json();
+  const name = String(payload?.name || '').trim().slice(0, 80);
+  const email = String(payload?.email || '').trim().slice(0, 160);
+  const category = String(payload?.category || '').trim().slice(0, 80);
+  const location = String(payload?.location || '').trim().slice(0, 160);
+  const message = String(payload?.message || '').trim().slice(0, 4000);
+  if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !category || message.length < 10) {
+    return jsonResponse(request, env, { error: '請填寫姓名、有效電子郵件、類型與至少 10 個字的說明。' }, { status: 400 });
+  }
+  const id = `${Date.now()}-${crypto.randomUUID().slice(0, 8)}`;
+  const record = { id, name, email, category, location, message, createdAt: new Date().toISOString() };
+  await writeJsonKV(env, `contact:${id}`, record);
+  const inbox = await readJsonKV(env, 'contact_submissions', []);
+  await writeJsonKV(env, 'contact_submissions', [record, ...(Array.isArray(inbox) ? inbox : [])].slice(0, 200));
+  return jsonResponse(request, env, { ok: true, id });
+}
+
 async function handlePhoto(request, env, url) {
   const hash = url.pathname.replace(/^\/api\/photo\/?/, '');
   if (!hash) {
@@ -270,6 +324,10 @@ export default {
 
       if (url.pathname.startsWith('/api/photo/')) {
         return await handlePhoto(request, env, url);
+      }
+
+      if (url.pathname === '/api/contact' && request.method === 'POST') {
+        return await handleContactSubmission(request, env);
       }
 
       if (request.method === 'GET') {

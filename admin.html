@@ -192,6 +192,32 @@
       </h3>
       <div id="override-list" class="space-y-1.5 text-xs"></div>
     </div>
+
+    <section id="observatory-manager" class="bg-surface p-5 rounded-2xl border editorial-border shadow-[4px_4px_0px_#141517] space-y-4">
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h3 class="text-sm font-black flex items-center gap-2"><i data-lucide="radar" class="w-4 h-4 text-accent-orange"></i>政治觀測站連結管理</h3>
+          <p class="text-xs text-ink-500 mt-1">發布後會同步顯示在前台的政治觀測站。</p>
+        </div>
+        <button type="button" onclick="addObservatoryLink()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-ink-900 text-surface text-xs font-bold hover:bg-accent-orange transition"><i data-lucide="plus" class="w-3.5 h-3.5"></i>新增連結</button>
+      </div>
+      <div id="observatory-links-editor" class="space-y-3"></div>
+      <div class="flex flex-wrap items-center gap-3">
+        <button type="button" onclick="saveObservatoryLinks()" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-accent-orange text-white text-xs font-black hover:bg-ink-900 transition"><i data-lucide="save" class="w-3.5 h-3.5"></i>儲存政治觀測站連結</button>
+        <span id="observatory-status" class="text-xs font-bold text-ink-500" role="status"></span>
+      </div>
+    </section>
+
+    <section class="bg-surface p-5 rounded-2xl border editorial-border shadow-[4px_4px_0px_#141517] space-y-4">
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h3 class="text-sm font-black flex items-center gap-2"><i data-lucide="inbox" class="w-4 h-4 text-accent-orange"></i>聯絡表單收件匣</h3>
+          <p class="text-xs text-ink-500 mt-1">訪客提出的資料更正與網站建議會保留在這裡。</p>
+        </div>
+        <button type="button" onclick="loadContactSubmissions()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-canvas border editorial-border text-xs font-bold hover:bg-ink-100 transition"><i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>重新整理</button>
+      </div>
+      <div id="contact-submissions" class="space-y-3 text-xs"></div>
+    </section>
   </main>
 
   <script>
@@ -211,6 +237,7 @@
     let workingCandidates = [];
     let workingCouncilors = [];
     let currentDistrictMode = 'all';
+    let observatoryLinks = [];
 
     function apiUrl(path) {
       if (/^https?:\/\//.test(path)) return path;
@@ -302,6 +329,8 @@
           selCity.appendChild(opt);
         });
       renderOverrideList();
+      await loadObservatoryLinks();
+      await loadContactSubmissions();
       lucide.createIcons();
     }
 
@@ -318,6 +347,92 @@
           <span class="text-ink-500">${allOverrides[id].updatedBy || ''}</span>
         </div>`).join('');
     }
+
+    function escapeHTML(value) {
+      return String(value || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+    }
+
+    function renderObservatoryLinks() {
+      const container = document.getElementById('observatory-links-editor');
+      if (!observatoryLinks.length) {
+        container.innerHTML = '<p class="text-xs text-ink-500 py-3">尚未設定連結，請新增一筆。</p>';
+        return;
+      }
+      container.innerHTML = observatoryLinks.map((link, index) => `
+        <div class="obs-link-row grid gap-2 p-3 rounded-xl border border-ink-200 bg-canvas" data-link-index="${index}">
+          <div class="flex items-center justify-between gap-2"><span class="text-[10px] font-black tracking-wider text-ink-500">連結 ${index + 1}</span><button type="button" onclick="removeObservatoryLink(${index})" class="text-accent-red hover:bg-accent-red/10 rounded-lg p-1" title="刪除這筆連結"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button></div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2"><input data-field="n" value="${escapeHTML(link.n)}" maxlength="100" placeholder="名稱" class="obs-n bg-surface border border-ink-300 rounded-lg px-2.5 py-2 text-xs font-bold"><input data-field="cat" value="${escapeHTML(link.cat)}" maxlength="80" placeholder="分類" class="obs-cat bg-surface border border-ink-300 rounded-lg px-2.5 py-2 text-xs font-bold"></div>
+          <input data-field="url" value="${escapeHTML(link.url)}" maxlength="1000" placeholder="https://..." class="obs-url bg-surface border border-ink-300 rounded-lg px-2.5 py-2 text-xs font-bold">
+          <textarea data-field="d" maxlength="400" rows="2" placeholder="連結說明（選填）" class="obs-d bg-surface border border-ink-300 rounded-lg px-2.5 py-2 text-xs font-medium">${escapeHTML(link.d)}</textarea>
+        </div>`).join('');
+      lucide.createIcons();
+    }
+
+    async function loadObservatoryLinks() {
+      const status = document.getElementById('observatory-status');
+      try {
+        const result = await apiFetch('/api/admin/observatory-links');
+        observatoryLinks = Array.isArray(result.links) ? result.links : [];
+        renderObservatoryLinks();
+      } catch (err) {
+        status.textContent = '讀取失敗：' + err.message;
+      }
+    }
+
+    function collectObservatoryLinks() {
+      return [...document.querySelectorAll('.obs-link-row')].map(row => ({
+        n: row.querySelector('[data-field="n"]').value.trim(),
+        cat: row.querySelector('[data-field="cat"]').value.trim(),
+        url: row.querySelector('[data-field="url"]').value.trim(),
+        d: row.querySelector('[data-field="d"]').value.trim(),
+      }));
+    }
+
+    window.addObservatoryLink = function() {
+      observatoryLinks = collectObservatoryLinks();
+      observatoryLinks.push({ n: '', cat: '', url: '', d: '' });
+      renderObservatoryLinks();
+    };
+
+    window.removeObservatoryLink = function(index) {
+      observatoryLinks = collectObservatoryLinks();
+      observatoryLinks.splice(index, 1);
+      renderObservatoryLinks();
+    };
+
+    window.saveObservatoryLinks = async function() {
+      const status = document.getElementById('observatory-status');
+      const links = collectObservatoryLinks();
+      if (!links.length || links.some(link => !link.n || !link.cat || !/^https?:\/\//i.test(link.url))) {
+        status.textContent = '每筆連結都需要名稱、分類與有效網址。';
+        return;
+      }
+      status.textContent = '儲存中…';
+      try {
+        const result = await apiFetch('/api/admin/observatory-links', { method: 'PUT', body: JSON.stringify({ links }) });
+        observatoryLinks = result.links || links;
+        renderObservatoryLinks();
+        status.textContent = '已儲存，前台已同步更新。';
+      } catch (err) {
+        status.textContent = '儲存失敗：' + err.message;
+      }
+    };
+
+    window.loadContactSubmissions = async function() {
+      const container = document.getElementById('contact-submissions');
+      container.innerHTML = '<p class="text-ink-500">讀取中…</p>';
+      try {
+        const result = await apiFetch('/api/admin/contact-submissions');
+        const submissions = Array.isArray(result.submissions) ? result.submissions : [];
+        if (!submissions.length) {
+          container.innerHTML = '<p class="text-ink-500">目前沒有新訊息。</p>';
+          return;
+        }
+        container.innerHTML = submissions.map(item => `<article class="p-3 rounded-xl border border-ink-200 bg-canvas space-y-1.5"><div class="flex flex-wrap justify-between gap-x-3 gap-y-1"><strong class="text-ink-900">${escapeHTML(item.name)}</strong><time class="text-ink-500">${escapeHTML(new Date(item.createdAt).toLocaleString('zh-TW'))}</time></div><div class="text-ink-600">${escapeHTML(item.category)}${item.location ? ' · ' + escapeHTML(item.location) : ''}</div><a class="text-accent-blue font-bold break-all hover:underline" href="mailto:${escapeHTML(item.email)}">${escapeHTML(item.email)}</a><p class="text-ink-700 whitespace-pre-wrap leading-relaxed">${escapeHTML(item.message)}</p></article>`).join('');
+      } catch (err) {
+        container.innerHTML = `<p class="text-accent-red">讀取失敗：${escapeHTML(err.message)}</p>`;
+      }
+    };
 
     // ---------- 三級聯動選單 ----------
     const selCity = document.getElementById('a-select-city');
