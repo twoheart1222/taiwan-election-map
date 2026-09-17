@@ -398,6 +398,9 @@ class App {
     this.apiBase = window.ELECTION_API_BASE || 'https://election-api.uprisevideoproduction.workers.dev';
     this._revealed = false;
     this.cache = {};
+    this._navigationRevision = 0;
+    this._readoutContext = null;
+    this._mapTransition = null;
     this._failsafe = setTimeout(() => this._reveal(), 4600);
     this._wireDrawerPlacement();
     this._wireNav();
@@ -636,6 +639,8 @@ class App {
     const input = document.getElementById('candidate-search-input');
     if (input) { input.value = candidate.name; input.blur(); }
     this._closeCandidateSearch?.();
+    this._navigationRevision += 1;
+    this._setReadoutContext(null, null, this._candidateLocation(candidate), [candidate.party, candidate.role].filter(Boolean).join(' · '));
     this._drawerBase(this._candidateLocation(candidate), candidate.role || '候選人', '--', '--');
     document.getElementById('drawer-title').textContent = '候選人搜尋結果';
     this._hideBack();
@@ -824,8 +829,9 @@ class App {
     const kicker = document.getElementById('map-transition-meta');
     if (title) title.textContent = label;
     if (kicker) kicker.textContent = meta;
+    this._mapTransition?.kill();
     window.gsap.killTweensOf([veil, title]);
-    window.gsap.timeline()
+    this._mapTransition = window.gsap.timeline()
       .set(veil, { display: 'block', scaleX: 0, transformOrigin: 'left center' })
       .set(title, { autoAlpha: 0, x: -22 })
       .to(veil, { scaleX: 1, duration: 0.32, ease: 'power4.in' })
@@ -834,7 +840,8 @@ class App {
       .set(veil, { transformOrigin: 'right center' })
       .to(title, { autoAlpha: 0, x: 22, duration: 0.2, ease: 'power2.in' }, '+=0.08')
       .to(veil, { scaleX: 0, duration: 0.52, ease: 'power4.out' }, '<')
-      .set(veil, { display: 'none' });
+      .set(veil, { display: 'none' })
+      .add(() => { this._mapTransition = null; });
   }
 
   _buildLevel(level, feats) {
@@ -870,6 +877,7 @@ class App {
       .to(this.flat.rotation, { z: 0, duration: 1.15, ease: 'power3.inOut' }, 0)
       .to(this.labelLayer, { opacity: 1, duration: 0.55 }, 0.45);
     this._buildLabels();
+    this._restoreReadout();
   }
   _buildLabels() {
     if (!this.labelLayer) return;
@@ -879,8 +887,8 @@ class App {
       const b = document.createElement('button');
       b.textContent = mesh.userData.props.name;
       b.style.cssText = "position:absolute;transform:translate(-50%,-50%);pointer-events:auto;cursor:pointer;white-space:nowrap;border:1px solid rgba(255,255,255,.16);background:rgba(13,13,13,.68);color:#f4f1ea;font:800 12px 'Noto Sans TC',sans-serif;letter-spacing:.02em;padding:3px 10px;border-radius:999px;box-shadow:0 2px 10px rgba(0,0,0,.45);transition:background .2s,color .2s";
-      b.onpointerenter = () => { this._hovered = mesh; if (mesh !== this._selected && !mesh.userData.district) this._paint(mesh, 'hot'); b.style.background = '#E4022B'; this._readoutMesh(mesh); };
-      b.onpointerleave = () => { if (mesh !== this._selected && !mesh.userData.district) this._paint(mesh, 'base'); b.style.background = 'rgba(13,13,13,.68)'; };
+      b.onpointerenter = () => { this._hovered = mesh; if (mesh !== this._selected && !mesh.userData.district) this._paint(mesh, 'hot'); b.style.background = '#E4022B'; this._showFeatureReadout(mesh); };
+      b.onpointerleave = () => { if (mesh !== this._selected && !mesh.userData.district) this._paint(mesh, 'base'); b.style.background = 'rgba(13,13,13,.68)'; if (this._hovered === mesh) this._hovered = null; this._restoreReadout(); };
       b.onclick = e => { e.stopPropagation(); this._pick(mesh.userData.props); };
       this.labelLayer.appendChild(b);
       return { mesh, el: b };
@@ -897,7 +905,26 @@ class App {
       L.el.style.display = 'block'; L.el.style.left = x + 'px'; L.el.style.top = y + 'px';
     });
   }
-  _readoutMesh(m) { document.getElementById('tw3d-name').textContent = m.userData.props.name; document.getElementById('tw3d-meta').textContent = this._tally(m.userData.props) + ' · 點擊下探'; }
+  _writeReadout(label, meta) {
+    const name = document.getElementById('tw3d-name'), detail = document.getElementById('tw3d-meta');
+    if (name) name.textContent = label;
+    if (detail) detail.textContent = meta;
+  }
+  _setReadoutContext(props = null, level = null, label = null, meta = null) {
+    this._readoutContext = { props, level, label, meta };
+    this._restoreReadout();
+  }
+  _restoreReadout() {
+    const context = this._readoutContext;
+    if (!context) { this._writeReadout('台灣全境', '拖曳旋轉 · 點擊縣市查看候選人'); return; }
+    const label = context.label || context.props?.name || '台灣全境';
+    const meta = context.meta || (context.props ? `${this._tally(context.props, context.level)} · 目前檢視` : '目前檢視');
+    this._writeReadout(label, meta);
+  }
+  _showFeatureReadout(mesh) {
+    if (!mesh?.userData?.props) return;
+    this._writeReadout(mesh.userData.props.name, `${this._tally(mesh.userData.props, this.active?.level)} · 點擊下探`);
+  }
 
   _paint(mesh, mode) {
     const col = mode === 'hot' ? this.hotCol : mode === 'district' ? this.districtCol : mode === 'dim' ? this.dimCol : this.baseCol;
@@ -923,7 +950,7 @@ class App {
       L.el.style.opacity = this.active.level === 'village' && !on ? '0' : '1';
       L.el.style.pointerEvents = this.active.level === 'village' && !on ? 'none' : 'auto';
     });
-    this._readoutMesh(target);
+    this._restoreReadout();
     if (this.active.level === 'village') {
       target.scale.set(1, 1, 1);
       this._focusCameraWithinContext(feature, this.villageFeats || [feature]);
@@ -951,6 +978,7 @@ class App {
     this._selected = null;
     this.active.meshes.forEach(m => { m.userData.district = false; this._paint(m, 'base'); });
     if (this.labels) this.labels.forEach(L => { L.el.style.background = 'rgba(13,13,13,.68)'; L.el.style.color = '#f4f1ea'; L.el.style.zIndex = '1'; L.el.style.opacity = '1'; L.el.style.pointerEvents = 'auto'; });
+    this._restoreReadout();
   }
   _hoverTest(cx, cy, dragging) {
     if (!this.active) return;
@@ -962,13 +990,14 @@ class App {
     if (this._hovered && this._hovered !== this._selected && !this._hovered.userData.district) this._paint(this._hovered, 'base');
     this._hovered = m;
     if (m && m !== this._selected && !m.userData.district) this._paint(m, 'hot');
-    if (m && !this._selected) { document.getElementById('tw3d-name').textContent = m.userData.props.name; document.getElementById('tw3d-meta').textContent = this._tally(m.userData.props) + ' · 點擊下探'; }
+    if (m && !this._selected) this._showFeatureReadout(m);
+    else if (!m) this._restoreReadout();
     dom.style.cursor = dragging ? 'grabbing' : (m ? 'pointer' : 'grab');
   }
   _headCands(p) { const a = p.candidates || []; const f = a.filter(c => !/議員|代表/.test(c.role || '')); return f.length ? f : a; }
-  _tally(p) {
-    if (this.active.level === 'county') { const m = this._headCands(p).length, c = (p.councilors || []).reduce((a, b) => a + ((b.candidates || []).length), 0); return `${m} 位首長 · ${c} 位議員候選人`; }
-    if (this.active.level === 'town') { const m = this._headCands(p).length, c = (p.representatives || []).reduce((a, b) => a + ((b.candidates || []).length), 0); return `${m} 位鄉鎮首長 · ${c} 位代表候選人`; }
+  _tally(p, level = this.active?.level) {
+    if (level === 'county') { const m = this._headCands(p).length, c = (p.councilors || []).reduce((a, b) => a + ((b.candidates || []).length), 0); return `${m} 位首長 · ${c} 位議員候選人`; }
+    if (level === 'town') { const m = this._headCands(p).length, c = (p.representatives || []).reduce((a, b) => a + ((b.candidates || []).length), 0); return `${m} 位鄉鎮首長 · ${c} 位代表候選人`; }
     return `${this._headCands(p).length} 位村里長候選人`;
   }
 
@@ -980,41 +1009,51 @@ class App {
     return this._drillVillage(props);
   }
   async _drillCounty(p) {
+    const revision = ++this._navigationRevision;
     this._auto = false; this.county = { code: p.id, name: p.name, props: p };
+    this.town = null; this.townFeats = []; this.villageFeats = [];
     this._openCountyDrawer(p);
     try {
       const topo = await this._loadTopo(`./data/towns/towns-${p.id}.json`);
+      if (revision !== this._navigationRevision || this.county?.code !== p.id) return;
       const feats = this._feats(topo); this.townFeats = feats;
       this.nav = [{ level: 'county', label: '全台灣' }, { level: 'town', label: p.name, code: p.id }];
       this._renderCrumb();
       this._transitionMap(() => { this._buildLevel('town', feats); this._frame(feats, { pol: 0.2, dur: 0 }); }, p.name, '縣市選情 / COUNTY');
-    } catch (e) { console.warn('drillCounty', e); this._frame([this.countyFeats.find(f => f.properties.id === p.id)], { pol: 0.7 }); this._toast('此縣市尚無鄉鎮圖層資料'); }
+    } catch (e) { if (revision !== this._navigationRevision) return; console.warn('drillCounty', e); this._frame([this.countyFeats.find(f => f.properties.id === p.id)], { pol: 0.7 }); this._toast('此縣市尚無鄉鎮圖層資料'); }
   }
   async _drillTown(p) {
+    const revision = ++this._navigationRevision;
     this.town = { code: p.id, name: p.name, props: p };
-    this._openTownDrawer(p);
+    this.villageFeats = [];
+    this._openTownDrawer(p, { deferVillageLoad: true });
     const self = this.townFeats && this.townFeats.find(f => f.properties.id === p.id);
     if (self) this._frame([self], { pol: 0.2 });
     try {
       const topo = await this._loadTopo(`./data/villages/villages-${p.id}.json`);
+      if (revision !== this._navigationRevision || this.town?.code !== p.id) return;
       const feats = this._feats(topo); this.villageFeats = feats;
       this.nav = this.nav.slice(0, 2); this.nav.push({ level: 'village', label: p.name, code: p.id });
       this._renderCrumb();
       this._transitionMap(() => { this._buildLevel('village', feats); this._frame(feats, { pol: 0.16, dur: 0 }); }, p.name, '鄉鎮市區選情 / DISTRICT');
-    } catch (e) { this._toast('此行政區尚無村里圖層資料'); }
+      this._openTownDrawer(p);
+    } catch (e) { if (revision !== this._navigationRevision) return; const sel3 = document.getElementById('sel-village'); if (sel3) sel3.innerHTML = '<option>村里資料暫不可用</option>'; this._toast('此行政區尚無村里圖層資料'); }
   }
   _drillVillage(p) {
+    this._navigationRevision += 1;
     this._openVillageDrawer(p);
     const f = this.villageFeats.find(x => x.properties.id === p.id);
     if (f) this._transitionMap(() => this._focusFeature(f, 'hot'), p.name, '村里選情 / VILLAGE');
   }
 
   _back() {
+    this._navigationRevision += 1;
     document.getElementById('drawer').style.transform = 'translateX(103%)';
     this._setDrawerLock(false); this._drawerOpen = false; this._applyViewOffset();
     this._goLevel(Math.max(0, this.nav.length - 2));
   }
   _goLevel(idx, animate = true) {
+    this._navigationRevision += 1;
     if (idx <= 0) {
       this.nav = [{ level: 'county', label: '全台灣' }]; this._renderCrumb();
       const showTaiwan = () => { this._buildLevel('county', this.countyFeats); this._frame(this.countyFeats, { pol: 0.62, dur: 0 }); };
@@ -1022,7 +1061,7 @@ class App {
       else showTaiwan();
       this._auto = true; document.getElementById('drawer').style.transform = 'translateX(103%)';
       this._setDrawerLock(false); this._drawerOpen = false; this._applyViewOffset();
-      document.getElementById('tw3d-name').textContent = '台灣全境'; document.getElementById('tw3d-meta').textContent = '拖曳旋轉 · 點擊縣市查看候選人';
+      this._setReadoutContext();
       return;
     }
     const node = this.nav[idx]; this.nav = this.nav.slice(0, idx + 1); this._renderCrumb();
@@ -1047,6 +1086,7 @@ class App {
   //   · 議員：下拉選舉區 → 列候選人 → 下拉鄉鎮（可跳鑽）
   // ═══════════════════════════════════════════════
   _openCountyDrawer(p) {
+    this._setReadoutContext(p, 'county', p.name);
     this._drawerBase(p.name, p.category || '縣市', p.voters, p.quota);
     document.getElementById('drawer-title').textContent = `${p.name} 首長候選人`;
     this._hideBack();
@@ -1105,6 +1145,7 @@ class App {
   //   · 村里長：下拉村里 → 列候選人（含上一頁）
   // ═══════════════════════════════════════════════
   _openTownDrawer(p, options = {}) {
+    this._setReadoutContext(p, 'town', `${this.county.name} › ${p.name}`);
     const tag = p.isIndigenousDistrict ? '山地原住民區' : '行政區轄區';
     this._drawerBase(`${this.county.name} › ${p.name}`, tag, p.voters, p.quota);
     document.getElementById('drawer-title').textContent = `${p.name} 首長候選人`;
@@ -1152,6 +1193,7 @@ class App {
       sel3.onchange = () => {
         const vid = sel3.value;
         if (!vid) {
+          this._setReadoutContext(p, 'town', `${this.county.name} › ${p.name}`);
           this._showCands(mayors);
           document.getElementById('drawer-title').textContent = `${p.name} 首長候選人`;
           this._hideBack();
@@ -1160,10 +1202,12 @@ class App {
         curVid = vid;
         const vf = feats.find(f => f.properties.id === vid);
         if (!vf) return;
+        this._setReadoutContext(vf.properties, 'village', `${this.county.name} › ${p.name} › ${vf.properties.name}`);
         document.getElementById('drawer-title').textContent = `${vf.properties.name} 村里長`;
         this._showCands(vf.properties.candidates || []);
         // 上一頁：回到鄉鎮 2D 地圖，並保留返回選舉區的第二層按鈕
         this._showBack(() => {
+          this._setReadoutContext(p, 'town', `${this.county.name} › ${p.name}`);
           this._transitionMap(() => { this._buildLevel('town', this.townFeats); this._frame(this.townFeats, { pol: 0.2, dur: 0 }); }, p.name, '鄉鎮市區選情 / DISTRICT');
           this._openTownDrawer(this.town.props, { backToDistrict: true });
         });
@@ -1175,20 +1219,10 @@ class App {
     if (this.villageFeats && this.villageFeats.length > 0) {
       setupVillageSel(this.villageFeats);
     } else {
-      // 先顯示 loading，背景載入
       const sel3 = document.getElementById('sel-village');
-      sel3.innerHTML = '<option>載入村里資料中...</option>';
+      sel3.innerHTML = options.deferVillageLoad ? '<option>載入村里資料中...</option>' : '<option>村里資料暫不可用</option>';
       sel3.disabled = true;
       this._showSel('sel-village');
-      this._loadTopo(`./data/villages/villages-${p.id}.json`).then(topo => {
-        const feats = this._feats(topo); this.villageFeats = feats;
-        this._transitionMap(() => { this._buildLevel('village', feats); this._frame(feats, { pol: 0.16, dur: 0 }); }, p.name, '鄉鎮市區選情 / DISTRICT');
-        const nav2 = this.nav.filter(n => n.level !== 'village');
-        nav2.push({ level: 'village', label: p.name, code: p.id });
-        this.nav = nav2; this._renderCrumb();
-        sel3.disabled = false;
-        setupVillageSel(feats);
-      }).catch(() => { sel3.innerHTML = '<option>村里資料暫不可用</option>'; });
     }
   }
 
@@ -1196,6 +1230,7 @@ class App {
   // DRAWER: 村里層（直接點地圖村里時觸發）
   // ═══════════════════════════════════════════════
   _openVillageDrawer(p) {
+    this._setReadoutContext(p, 'village', `${this.county.name} › ${this.town.name} › ${p.name}`);
     const role = (p.name || '').endsWith('里') ? '里長' : '村長';
     this._drawerBase(`${this.county.name} › ${this.town.name} › ${p.name}`, '最基層村里', p.voters, p.quota || '1 席');
     document.getElementById('drawer-title').textContent = `${p.name} ${role}候選人`;
@@ -1204,6 +1239,7 @@ class App {
 
     // 第一層返回：回到鄉鎮 2D 地圖，保留下一層返回到選舉區的按鈕。
     this._showBack(() => {
+      this._setReadoutContext(this.town.props, 'town', `${this.county.name} › ${this.town.name}`);
       this._transitionMap(() => { this._buildLevel('town', this.townFeats); this._frame(this.townFeats, { pol: 0.2, dur: 0 }); }, this.town.name, '鄉鎮市區選情 / DISTRICT');
       this._openTownDrawer(this.town.props, { backToDistrict: true });
     });
