@@ -152,9 +152,20 @@ async function handleAdmin(request, env, url) {
     return jsonResponse(request, env, session);
   }
 
-  if (request.method === 'GET' && path === 'overrides') {
-    const overrides = await readJsonKV(env, 'overrides', {});
-    return jsonResponse(request, env, overrides || {});
+  if (path === 'overrides') {
+    if (request.method === 'GET') {
+      const overrides = await readJsonKV(env, 'overrides', {});
+      return jsonResponse(request, env, overrides || {});
+    }
+    if (request.method === 'PUT') {
+      const payload = await request.json();
+      const overrides = payload?.overrides;
+      if (!overrides || typeof overrides !== 'object' || Array.isArray(overrides)) {
+        return jsonResponse(request, env, { error: '請提供有效的 overrides 物件' }, { status: 400 });
+      }
+      await writeJsonKV(env, 'overrides', overrides);
+      return jsonResponse(request, env, { ok: true, count: Object.keys(overrides).length, updatedAt: new Date().toISOString(), updatedBy: session.email });
+    }
   }
 
   if (path === 'observatory-links') {
