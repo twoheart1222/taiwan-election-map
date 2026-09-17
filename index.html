@@ -54,6 +54,20 @@
   .candidate-main{display:grid;grid-template-columns:88px minmax(0,1fr);gap:16px;align-items:center}
   .candidate-photo{width:88px;height:88px;overflow:hidden;border-radius:50%;background:#2a2723;display:grid;place-items:center;font-family:'Noto Sans TC';font-weight:900;font-size:28px;color:#f4f1ea}
   .candidate-title-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .drawer{font-family:'Noto Sans TC',system-ui,sans-serif}
+  .candidate-search{position:relative;width:min(390px,calc(100vw - 32px));margin-top:20px;pointer-events:auto}
+  .candidate-search-row{display:flex;align-items:center;background:rgba(20,18,16,.94);border:1.5px solid #3a3630;border-radius:999px;box-shadow:0 14px 38px rgba(0,0,0,.32);transition:border-color .2s,box-shadow .2s}
+  .candidate-search-row:focus-within{border-color:#E4022B;box-shadow:0 14px 38px rgba(0,0,0,.42),0 0 0 3px rgba(228,2,43,.16)}
+  .candidate-search-icon{flex:none;padding-left:16px;color:#E4022B;font:900 18px/1 'Archivo'}
+  #candidate-search-input{min-width:0;width:100%;border:0;outline:0;background:transparent;color:#f4f1ea;padding:13px 15px 13px 10px;font:700 15px 'Noto Sans TC',sans-serif}
+  #candidate-search-input::placeholder{color:#8a857c;font-weight:600}
+  .candidate-search-results{position:absolute;top:calc(100% + 8px);left:0;right:0;max-height:min(54dvh,420px);overflow-y:auto;display:none;background:#171512;border:1px solid #33302b;border-radius:14px;box-shadow:0 20px 50px rgba(0,0,0,.62);padding:6px;z-index:35}
+  .candidate-search-results.open{display:block}
+  .search-result{width:100%;display:block;border:0;border-radius:9px;background:transparent;color:#f4f1ea;text-align:left;padding:11px 12px;cursor:pointer;font-family:'Noto Sans TC',sans-serif}
+  .search-result:hover,.search-result.active{background:#2a1013}
+  .search-result-name{display:block;font-size:16px;font-weight:900}
+  .search-result-meta{display:block;margin-top:3px;color:#a29c92;font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .search-message{padding:15px 13px;color:#a29c92;font-size:13px;font-weight:700;line-height:1.6}
   @media(max-width:660px){
     .page-transition{padding:24px 18px 34px}.transition-title{font-size:clamp(38px,14vw,66px);line-height:.95}
     #map-transition{position:fixed !important;inset:58px 0 0 !important;z-index:130 !important}
@@ -73,7 +87,8 @@
     .mobile-menu a{display:flex;align-items:center;justify-content:space-between;min-height:48px;padding:11px 13px;border-radius:4px;font-size:14px;font-weight:800;color:#f4f1ea}
     .mobile-menu a:hover,.mobile-menu a.on{background:#E4022B;color:#fff}
     /* 抽屜獨立佔滿手機視窗，候選人清單才不會被下一個 section 截斷 */
-    .drawer{position:fixed !important;top:58px !important;right:0 !important;bottom:0 !important;width:100% !important;height:auto !important;max-height:calc(100dvh - 58px) !important;z-index:100 !important}
+    .map-hero{height:76dvh !important;min-height:0 !important}
+    .drawer{position:fixed !important;top:58px !important;right:0 !important;bottom:auto !important;width:100% !important;height:calc(100dvh - 58px) !important;max-height:none !important;min-height:0 !important;z-index:100 !important}
     .drawer-head{padding:12px 16px 8px !important;gap:10px !important}
     .drawer-head>div:first-child{max-width:calc(100% - 46px)}
     .drawer-head>button{width:38px !important;height:38px !important}
@@ -82,12 +97,13 @@
     .drawer-stats>div{padding:8px 9px !important;border-radius:8px !important}
     .drawer-stats>div>span:first-child{font-size:8px !important;letter-spacing:0 !important;white-space:nowrap}
     .drawer-stats>div>span:last-child{font-size:16px !important;margin-top:2px !important}
-    .drawer-body-scroll{overflow-y:auto !important;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding-top:2px}
+    .drawer-body-scroll{flex:1 !important;min-height:0 !important;overflow-y:scroll !important;overscroll-behavior-y:contain;touch-action:pan-y;-webkit-overflow-scrolling:touch;padding-top:2px}
     #back-area{padding:0 16px 6px !important}
-    #candidates{flex:none !important;min-height:auto !important;overflow:visible !important;padding:4px 16px 24px !important}
-    .map-hero{height:76dvh !important;min-height:0 !important}
+    #candidates{flex:none !important;min-height:auto !important;overflow:visible !important;padding:4px 16px max(40px,calc(24px + env(safe-area-inset-bottom))) !important}
     .map-intro{top:18px !important;left:16px !important;max-width:calc(100% - 32px) !important}
     .map-intro h1{font-size:28px !important;line-height:1.18 !important;letter-spacing:0 !important}
+    .candidate-search{margin-top:15px}
+    #candidate-search-input{font-size:16px;padding-top:12px;padding-bottom:12px}
     .candidate-card{border-radius:8px !important;padding:16px !important}
     .candidate-main{grid-template-columns:88px minmax(0,1fr);gap:14px}
     .candidate-photo{width:88px;height:88px}
@@ -172,9 +188,16 @@
           </div>
         </div>
 
-        <div class="map-intro" style="position:absolute;top:clamp(16px,3vh,32px);left:clamp(16px,4vw,44px);pointer-events:none;max-width:74%">
+        <div class="map-intro" style="position:absolute;top:clamp(16px,3vh,32px);left:clamp(16px,4vw,44px);pointer-events:none;max-width:74%;z-index:30">
           <div style="font-family:'Archivo';font-weight:700;font-size:12px;letter-spacing:.26em;color:#E4022B;margin-bottom:11px">選情地圖 / THE MAP</div>
           <h1 style="font-family:'Noto Sans TC','Archivo',sans-serif;font-weight:900;font-size:clamp(24px,4.2vw,58px);line-height:1;letter-spacing:-.03em;margin:0">2026 全台<br>選舉開箱圖鑑</h1>
+          <div class="candidate-search" id="candidate-search">
+            <div class="candidate-search-row">
+              <span class="candidate-search-icon" aria-hidden="true">⌕</span>
+              <input id="candidate-search-input" type="search" inputmode="search" autocomplete="off" placeholder="搜尋候選人姓名" aria-label="搜尋候選人姓名" aria-controls="candidate-search-results" aria-expanded="false">
+            </div>
+            <div id="candidate-search-results" class="candidate-search-results" role="listbox" aria-label="候選人搜尋結果"></div>
+          </div>
         </div>
 
         <div id="crumb" style="position:absolute;top:clamp(16px,3vh,32px);right:clamp(16px,4vw,44px);display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;max-width:60%">
@@ -190,6 +213,7 @@
         <div class="side-hint" style="position:absolute;right:clamp(16px,4vw,44px);bottom:clamp(18px,3vh,34px);text-align:right;font-family:'Archivo';font-weight:600;font-size:11.5px;letter-spacing:.1em;color:#5f5b54;line-height:1.9;pointer-events:none">拖曳 = 旋轉<br>滑過 = 浮起<br>點擊 = 逐層下探</div>
 
         <!-- DRAWER -->
+        <span id="drawer-anchor" hidden></span>
         <aside id="drawer" class="drawer" style="position:absolute;top:0;right:0;height:100%;width:min(100%,560px);z-index:40;background:#141210;color:#f4f1ea;box-shadow:-18px 0 50px rgba(0,0,0,.6);border-left:1px solid #2a2723;transform:translateX(103%);transition:transform .55s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;overflow:hidden">
           <div class="drawer-head" style="flex:none;padding:24px 26px 16px;display:flex;align-items:flex-start;justify-content:space-between;gap:14px">
             <div style="min-width:0">
@@ -375,7 +399,9 @@ class App {
     this._revealed = false;
     this.cache = {};
     this._failsafe = setTimeout(() => this._reveal(), 4600);
+    this._wireDrawerPlacement();
     this._wireNav();
+    this._wireCandidateSearch();
     this._renderSites();
     this._loadObservatoryLinks();
     this._wireDonation();
@@ -390,6 +416,19 @@ class App {
   }
   _waitLibs() { return new Promise(res => { const c = () => (window.gsap && window.topojson) ? res() : setTimeout(c, 40); c(); }); }
   _days() { return Math.floor(Math.max(0, this.target - Date.now()) / 86400000); }
+
+  _wireDrawerPlacement() {
+    const drawer = document.getElementById('drawer');
+    const anchor = document.getElementById('drawer-anchor');
+    if (!drawer || !anchor) return;
+    const media = window.matchMedia('(max-width:660px)');
+    const place = () => {
+      if (media.matches) document.body.appendChild(drawer);
+      else anchor.after(drawer);
+    };
+    place();
+    media.addEventListener?.('change', place);
+  }
 
   // ---------- NAV / VIEWS ----------
   _wireNav() {
@@ -464,6 +503,143 @@ class App {
     if (this._currentView !== 'map') this._showView('map', reset);
     else if (this.countyFeats?.length) this._goLevel(0, true);
     else window.scrollTo(0, 0);
+  }
+
+  // ---------- CANDIDATE SEARCH ----------
+  _wireCandidateSearch() {
+    const input = document.getElementById('candidate-search-input');
+    const results = document.getElementById('candidate-search-results');
+    if (!input || !results) return;
+    this._searchMatches = [];
+    this._searchActive = -1;
+
+    const close = () => {
+      results.classList.remove('open');
+      input.setAttribute('aria-expanded', 'false');
+      this._searchActive = -1;
+    };
+    const run = async () => {
+      const query = this._normalizeSearch(input.value);
+      if (!query) { close(); results.innerHTML = ''; return; }
+      results.classList.add('open');
+      input.setAttribute('aria-expanded', 'true');
+      results.innerHTML = '<div class="search-message">正在載入候選人資料…</div>';
+      try {
+        const index = await this._loadCandidateSearch();
+        if (query !== this._normalizeSearch(input.value)) return;
+        const rank = name => name === query ? 0 : name.startsWith(query) ? 1 : 2;
+        this._searchMatches = index.candidates
+          .map(candidate => ({ candidate, key: this._normalizeSearch(candidate.name) }))
+          .filter(item => item.key.includes(query))
+          .sort((a, b) => rank(a.key) - rank(b.key) || a.candidate.name.localeCompare(b.candidate.name, 'zh-Hant'))
+          .map(item => item.candidate);
+        this._searchActive = -1;
+        this._renderCandidateSearchResults(results, this._searchMatches);
+      } catch (error) {
+        console.warn('候選人搜尋資料載入失敗', error);
+        results.innerHTML = '<div class="search-message">搜尋資料暫時無法載入，請稍後再試。</div>';
+      }
+    };
+
+    input.addEventListener('focus', () => { if (input.value.trim()) run(); });
+    input.addEventListener('input', run);
+    input.addEventListener('keydown', event => {
+      if (!results.classList.contains('open')) return;
+      const shown = [...results.querySelectorAll('.search-result')];
+      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        event.preventDefault();
+        if (!shown.length) return;
+        this._searchActive = (this._searchActive + (event.key === 'ArrowDown' ? 1 : -1) + shown.length) % shown.length;
+        shown.forEach((button, i) => button.classList.toggle('active', i === this._searchActive));
+        shown[this._searchActive].scrollIntoView({ block: 'nearest' });
+      } else if (event.key === 'Enter' && this._searchActive >= 0) {
+        event.preventDefault(); shown[this._searchActive]?.click();
+      } else if (event.key === 'Escape') close();
+    });
+    document.addEventListener('click', event => { if (!document.getElementById('candidate-search')?.contains(event.target)) close(); });
+    this._closeCandidateSearch = close;
+  }
+
+  _normalizeSearch(value) {
+    return String(value || '').normalize('NFKC').toLocaleLowerCase('zh-TW').replace(/[\s\u3000·‧・]/g, '');
+  }
+
+  async _loadCandidateSearch() {
+    if (this._candidateSearch) return this._candidateSearch;
+    this._candidateSearch = (async () => {
+      const response = await fetch('./data/candidate_search.json');
+      if (!response.ok) throw new Error(`candidate search ${response.status}`);
+      const index = await response.json();
+      const overrides = await Promise.race([
+        this._fetchOverrides(),
+        new Promise(resolve => setTimeout(() => resolve({}), 1600)),
+      ]);
+      return this._mergeSearchOverrides(index, overrides);
+    })();
+    return this._candidateSearch;
+  }
+
+  _mergeSearchOverrides(index, overrides) {
+    if (!overrides || typeof overrides !== 'object') return index;
+    let candidates = Array.isArray(index.candidates) ? [...index.candidates] : [];
+    const areas = index.areas || {};
+    const fields = ['name', 'party', 'role', 'photoUrl', 'gazetteUrl', 'facebook', 'instagram', 'threads', 'youtube', 'isIncumbent'];
+    const add = (candidate, context, source, district = null) => {
+      if (!candidate?.name) return;
+      const clean = {}; fields.forEach(field => { clean[field] = candidate[field] ?? (field === 'isIncumbent' ? false : null); });
+      candidates.push({ ...clean, ...context, source, district });
+    };
+    Object.entries(overrides).forEach(([areaId, patch]) => {
+      const context = areas[areaId];
+      if (!context || !patch || typeof patch !== 'object') return;
+      ['candidates', 'councilors', 'representatives'].forEach(source => {
+        if (!Array.isArray(patch[source])) return;
+        candidates = candidates.filter(candidate => !(candidate.areaId === areaId && candidate.source === source));
+        if (source === 'candidates') patch[source].forEach(candidate => add(candidate, context, source));
+        else patch[source].forEach(block => (block.candidates || []).forEach(candidate => add(candidate, context, source, block.district || null)));
+      });
+    });
+    return { ...index, candidates };
+  }
+
+  _candidateLocation(candidate) {
+    const parts = [candidate.county, candidate.town, candidate.village].filter((value, index, list) => value && list.indexOf(value) === index);
+    if (candidate.district) parts.push(`第 ${candidate.district} 選舉區`);
+    return parts.join(' › ') || '全台灣';
+  }
+
+  _renderCandidateSearchResults(container, matches) {
+    container.innerHTML = '';
+    if (!matches.length) {
+      container.innerHTML = '<div class="search-message">找不到符合的人名，請試著只輸入姓名的一部分。</div>';
+      return;
+    }
+    const limit = 30;
+    matches.slice(0, limit).forEach((candidate, index) => {
+      const button = document.createElement('button');
+      button.type = 'button'; button.className = 'search-result'; button.setAttribute('role', 'option');
+      const name = document.createElement('span'); name.className = 'search-result-name'; name.textContent = candidate.name;
+      const meta = document.createElement('span'); meta.className = 'search-result-meta';
+      meta.textContent = [candidate.party, candidate.role, this._candidateLocation(candidate)].filter(Boolean).join(' · ');
+      button.append(name, meta);
+      button.addEventListener('mouseenter', () => { this._searchActive = index; [...container.querySelectorAll('.search-result')].forEach((item, i) => item.classList.toggle('active', i === index)); });
+      button.addEventListener('click', () => this._openSearchResult(candidate));
+      container.appendChild(button);
+    });
+    if (matches.length > limit) {
+      const note = document.createElement('div'); note.className = 'search-message'; note.textContent = `共有 ${matches.length} 筆結果，請輸入更完整的姓名以縮小範圍。`; container.appendChild(note);
+    }
+  }
+
+  _openSearchResult(candidate) {
+    const input = document.getElementById('candidate-search-input');
+    if (input) { input.value = candidate.name; input.blur(); }
+    this._closeCandidateSearch?.();
+    this._drawerBase(this._candidateLocation(candidate), candidate.role || '候選人', '--', '--');
+    document.getElementById('drawer-title').textContent = '候選人搜尋結果';
+    this._hideBack();
+    this._hideSel('sel-type'); this._hideSel('sel-district'); this._hideSel('sel-village');
+    this._showCands([candidate]);
   }
 
   // ---------- COUNTDOWN ----------
