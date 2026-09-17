@@ -1,0 +1,39 @@
+{
+  "generatedAt": "2026-09-17T14:28:36.235Z",
+  "source": "https://www.mcc.gov.tw/iframimgtxt_list.php?menu=&typeid=2580&typeid2=2599",
+  "verification": "照片僅取自苗栗縣議會指定現任議員頁；該頁未提供個別 Facebook。",
+  "councilors": [
+    {
+      "name": "曾美露",
+      "photoUrl": "https://www.mcc.gov.tw/admin/upload/twgov_img_202504211434191.jpg"
+    },
+    {
+      "name": "徐筱菁",
+      "photoUrl": "https://www.mcc.gov.tw/admin/upload/twgov_img_202504211349271.jpg"
+    },
+    {
+      "name": "楊明燁",
+      "photoUrl": "https://www.mcc.gov.tw/admin/upload/twgov_img_202504211416541.jpg"
+    },
+    {
+      "name": "許櫻萍",
+      "photoUrl": "https://www.mcc.gov.tw/admin/upload/twgov_img_202504211330451.jpg"
+    },
+    {
+      "name": "禹耀東",
+      "photoUrl": "https://www.mcc.gov.tw/admin/upload/twgov_img_202504211329441.jpg"
+    },
+    {
+      "name": "孫素娥",
+      "photoUrl": "https://www.mcc.gov.tw/admin/upload/twgov_img_202504211429121.jpg"
+    },
+    {
+      "name": "張志宇",
+      "photoUrl": "https://www.mcc.gov.tw/admin/upload/twgov_img_202504211331151.jpg"
+    },
+    {
+      "name": "鄭碧玉",
+      "photoUrl": "https://www.mcc.gov.tw/admin/upload/twgov_img_202504211434491.jpg"
+    }
+  ]
+}

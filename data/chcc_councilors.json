@@ -1,0 +1,325 @@
+{
+  "generatedAt": "2026-09-17T14:28:41.831Z",
+  "source": "https://www.chcc.gov.tw/member/index.aspx?Parser=99,6,40",
+  "verification": "照片與 Facebook 僅取自彰化縣議會議員一覽表及個別官方介紹頁。",
+  "councilors": [
+    {
+      "name": "許原龍",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,119",
+      "facebook": "https://www.facebook.com/profile.php?id=100040885826122",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_messageImage_1721267249682.jpg"
+    },
+    {
+      "name": "温芝樺",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,125",
+      "facebook": "https://www.facebook.com/wen.ada168",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_%E6%BA%AB%E8%8A%9D%E6%A8%BA(1).jpg"
+    },
+    {
+      "name": "許雅琳",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,149",
+      "facebook": "https://www.facebook.com/YlHsuChanghwa",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_1_10%E8%A8%B1%E9%9B%85%E7%90%B3.jpg"
+    },
+    {
+      "name": "楊子賢",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,152",
+      "facebook": "https://www.facebook.com/tzuhsienyangch",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_%E6%A5%8A%E5%AD%90%E8%B3%A2.jpg"
+    },
+    {
+      "name": "李成濟",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,122",
+      "facebook": "https://www.facebook.com/profile.php?id=100029234606084",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_%E6%9D%8E%E6%88%90%E6%BF%9F%202(1).jpg"
+    },
+    {
+      "name": "黃柏瑜",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,150",
+      "facebook": "https://www.facebook.com/poyuhuang2022",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_%E9%BB%83%E6%9F%8F%E7%91%9C.jpg"
+    },
+    {
+      "name": "莊陞漢",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,124",
+      "facebook": "https://www.facebook.com/profile.php?id=100006528554043&locale=zh_TW",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_21192087_873032366211480_5694057076572379022_n(1).jpg"
+    },
+    {
+      "name": "顧黃水花",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,118",
+      "facebook": "https://www.facebook.com/KU888888",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_%E9%A1%A7%E9%BB%83%E6%B0%B4%E8%8A%B1%202(1).jpg"
+    },
+    {
+      "name": "葉永清",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,153",
+      "facebook": "https://www.facebook.com/profile.php?id=100005152393857",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_%E8%91%89%E6%B0%B8%E6%B8%85.jpg"
+    },
+    {
+      "name": "黃千宴",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,126",
+      "facebook": "https://www.facebook.com/huangchienyen",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_1_15%E9%BB%83%E5%8D%83%E5%AE%B4.jpg"
+    },
+    {
+      "name": "陳銌銌",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,123",
+      "facebook": "https://www.facebook.com/2018ChenZhenZhen",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_1_07%E9%99%B3%E9%8A%8C%E9%8A%8C.jpg"
+    },
+    {
+      "name": "白玉如",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,121",
+      "facebook": "https://www.facebook.com/byr815888",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_%E7%99%BD%E7%8E%89%E5%A6%82(1).jpg"
+    },
+    {
+      "name": "吳韋達",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,172",
+      "facebook": "https://www.facebook.com/weitawu.ch/?locale=zh_TW",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_322188047_675244654306961_6602166202276194701_n.jpg"
+    },
+    {
+      "name": "施佩妤",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,154",
+      "facebook": "https://www.facebook.com/abingteam",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_2_05%E6%96%BD%E4%BD%A9%E5%A6%A4.jpg"
+    },
+    {
+      "name": "藍駿宇",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,155",
+      "facebook": "https://www.facebook.com/lanchunyulan",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_2_02%E8%97%8D%E9%A7%BF%E5%AE%87.jpg"
+    },
+    {
+      "name": "郭燕陵",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,130",
+      "facebook": "https://www.facebook.com/%E9%83%AD%E7%87%95%E9%99%B5-420207998400395",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_%E9%83%AD%E7%87%95%E9%99%B5%E8%AD%B0%E5%93%A1.jpg"
+    },
+    {
+      "name": "凃淑媚",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,129",
+      "facebook": "https://www.facebook.com/profile.php?id=100064997662336",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_s_17%E5%87%83%E6%B7%91%E5%AA%9A(2).jpg"
+    },
+    {
+      "name": "楊竣程",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,127",
+      "facebook": "https://www.facebook.com/yang0568",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_s_%E6%A5%8A%E7%AB%A3%E7%A8%8B(1).jpg"
+    },
+    {
+      "name": "楊妙月",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,128",
+      "facebook": "https://www.facebook.com/%E5%BD%B0%E5%8C%96%E7%B8%A3%E8%AD%B0%E5%93%A1-%E6%A5%8A%E5%A6%99%E6%9C%88-157079708346148",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_2_03%E6%A5%8A%E5%A6%99%E6%9C%88.jpg"
+    },
+    {
+      "name": "黃俊源",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,131",
+      "facebook": "https://www.facebook.com/%E5%BD%B0%E5%8C%96%E7%B8%A3%E8%AD%B0%E5%93%A1-%E9%BB%83%E4%BF%8A%E6%BA%90-185426568749070",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_%E9%BB%83%E4%BF%8A%E6%BA%90%E8%AD%B0%E5%93%A1.jpg"
+    },
+    {
+      "name": "林小琪",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,157",
+      "facebook": "https://www.facebook.com/profile.php?id=100043185926022",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_3_08%E6%9E%97%E5%B0%8F%E7%90%AA.jpg"
+    },
+    {
+      "name": "周君綾",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,156",
+      "facebook": "https://www.facebook.com/profile.php?id=100001005686985",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_3_06%E5%91%A8%E5%90%9B%E7%B6%BE.jpg"
+    },
+    {
+      "name": "賴清美",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,132",
+      "facebook": "https://www.facebook.com/profile.php?id=100063568997666",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_%E8%B3%B4%E6%B8%85%E7%BE%8E%E8%AD%B0%E5%93%A1.jpg"
+    },
+    {
+      "name": "林宗翰",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,133",
+      "facebook": "https://www.facebook.com/profile.php?id=100045866306941",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_3_03%E6%9E%97%E5%AE%97%E7%BF%B0.jpg"
+    },
+    {
+      "name": "柯振杯",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,134",
+      "facebook": "https://www.facebook.com/profile.php?id=100006564217161&fref=ts",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_%E6%9F%AF%E6%8C%AF%E6%9D%AF(1).jpg"
+    },
+    {
+      "name": "蕭文雄",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,173",
+      "facebook": "https://www.facebook.com/hsiao.1.cai",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_%E5%A4%A7%E9%A0%AD%E7%85%A7.jpg"
+    },
+    {
+      "name": "凃俊任",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,136",
+      "facebook": "https://www.facebook.com/profile.php?id=100063676194490",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_4_03%E5%87%83%E4%BF%8A%E4%BB%BB.jpg"
+    },
+    {
+      "name": "張錦昆",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,140",
+      "facebook": "https://www.facebook.com/Keepgoing.KUN",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_%E5%BC%B5%E9%8C%A6%E6%98%86(1).jpg"
+    },
+    {
+      "name": "張欣倩",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,139",
+      "facebook": "https://www.facebook.com/zhangxinqian",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_S__49389642.jpg"
+    },
+    {
+      "name": "黃正盛",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,138",
+      "facebook": "https://www.facebook.com/profile.php?id=100002467461750",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_%E9%BB%83%E6%AD%A3%E7%9B%9B(1).jpg"
+    },
+    {
+      "name": "劉惠娟",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,141",
+      "facebook": "https://www.facebook.com/chcc1688",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_%E5%8A%89%E6%83%A0%E5%A8%9F(1).jpg"
+    },
+    {
+      "name": "詹木根",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,159",
+      "facebook": "https://www.facebook.com/profile.php?id=100086014971573",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_%E8%A9%B9%E6%9C%A8%E6%A0%B9.jpg"
+    },
+    {
+      "name": "張雪如",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,135",
+      "facebook": "https://www.facebook.com/JHANG.SYUE.RU",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_%E5%BC%B5%E9%9B%AA%E5%A6%82(1).jpg"
+    },
+    {
+      "name": "曹嘉豪",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,137",
+      "facebook": "https://www.facebook.com/TsaoHower?fref=ts",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_%E6%9B%B9%E5%98%89%E8%B1%AA(1).jpg"
+    },
+    {
+      "name": "劉珊伶",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,160",
+      "facebook": "https://www.facebook.com/630630fb",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_5_01%E5%8A%89%E7%8F%8A%E4%BC%B6.jpg"
+    },
+    {
+      "name": "陳玉姬",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,143",
+      "facebook": "https://www.facebook.com/people/%E9%99%B3%E7%8E%89%E5%A7%AC/100007140397338",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_%E9%99%B3%E7%8E%89%E5%A7%AC(1).jpg"
+    },
+    {
+      "name": "張春洋",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,144",
+      "facebook": "https://www.facebook.com/prolook113/?ref=ts&fref=ts",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_5_05%E5%BC%B5%E6%98%A5%E6%B4%8B.jpg"
+    },
+    {
+      "name": "陳重嘉",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,142",
+      "facebook": "https://www.facebook.com/politicianccc",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_s_39%E9%99%B3%E9%87%8D%E5%98%89.jpg(1).png"
+    },
+    {
+      "name": "蕭妤亘",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,164",
+      "facebook": "https://www.facebook.com/%E8%95%AD%E5%A6%A4%E4%BA%98-109995908448896",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_6_05%E8%95%AD%E5%A6%A4%E4%BA%98.jpg"
+    },
+    {
+      "name": "鄭俊雄",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,146",
+      "facebook": "https://www.facebook.com/%E9%84%AD%E4%BF%8A%E9%9B%84-1510346199233482",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_%E9%84%AD%E4%BF%8A%E9%9B%84(1).jpg"
+    },
+    {
+      "name": "詹琬惠",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,162",
+      "facebook": "https://www.facebook.com/profile.php?id=100010689636992",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_6_06%E8%A9%B9%E7%90%AC%E6%83%A0.jpg"
+    },
+    {
+      "name": "許書維",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,171",
+      "facebook": "https://www.facebook.com/profile.php?id=100002586011001",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_%E8%A8%B1%E6%9B%B8%E7%B6%AD.jpg"
+    },
+    {
+      "name": "謝典霖",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,148",
+      "facebook": "https://www.facebook.com/DienlinHsiehchcc",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/%E8%AC%9D%E5%85%B8%E6%9E%97.jpeg"
+    },
+    {
+      "name": "吳錦潭",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,165",
+      "facebook": "https://www.facebook.com/profile.php?id=100084356573592",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_7_06%E5%90%B3%E9%8C%A6%E6%BD%AD.jpg"
+    },
+    {
+      "name": "李浩誠",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,147",
+      "facebook": "https://www.facebook.com/Lee8875021",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_s_48%E6%9D%8E%E6%B5%A9%E8%AA%A0.jpg(1).png"
+    },
+    {
+      "name": "李俊諭",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,167",
+      "facebook": "https://www.facebook.com/profile.php?id=100066884110323",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_7_03%E6%9D%8E%E4%BF%8A%E8%AB%AD.jpg"
+    },
+    {
+      "name": "劉淑芳",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,151",
+      "facebook": "https://www.facebook.com/flower080299",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_%E5%8A%89%E6%B7%91%E8%8A%B3(1).jpg"
+    },
+    {
+      "name": "洪子超",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,169",
+      "facebook": "https://www.facebook.com/profile.php?id=100062699903171&mibextid=LQQJ4d",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_%E6%B4%AA%E5%AD%90%E8%B6%85.jpg"
+    },
+    {
+      "name": "張國棟",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,166",
+      "facebook": "https://www.facebook.com/ChangKaoTung",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_%E5%BC%B5%E5%9C%8B%E6%A3%9F(1).jpg"
+    },
+    {
+      "name": "洪騰明",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,163",
+      "facebook": "https://www.facebook.com/profile.php?id=100002238655913",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_8_05%E6%B4%AA%E9%A8%B0%E6%98%8E.jpg"
+    },
+    {
+      "name": "吳淑娟",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,161",
+      "facebook": "https://www.facebook.com/people/%E5%90%B3%E6%B7%91%E5%A8%9F/100004247582592",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_8_03%E5%90%B3%E6%B7%91%E5%A8%9F.jpg"
+    },
+    {
+      "name": "陳一惇",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,168",
+      "facebook": "https://www.facebook.com/people/%E9%99%B3%E4%B8%80%E6%83%87/100000364294377",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_%E9%99%B3%E4%B8%80%E6%83%87.jpg"
+    },
+    {
+      "name": "陳榮妹",
+      "detailUrl": "https://www.chcc.gov.tw/member/details.aspx?Parser=99,6,40,,,,170",
+      "facebook": "https://www.facebook.com/JungmeiChenchcc",
+      "photoUrl": "https://www.chcc.gov.tw/df_ufiles/d/s_s_54%E9%99%B3%E6%A6%AE%E5%A6%B9.jpg(1).png"
+    }
+  ]
+}

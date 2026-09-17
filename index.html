@@ -284,6 +284,9 @@
             <a href="https://www.tcc.gov.tw/cp.aspx?n=13898" target="_blank" rel="noopener noreferrer">臺北市議會現任議員 ↗</a>
             <a href="https://www.tycc.gov.tw/tc/councilor-info.aspx?mid=39" target="_blank" rel="noopener noreferrer">桃園市議會本屆議員 ↗</a>
             <a href="https://www.hsinchu-cc.gov.tw/tc/councilors.aspx?mid=39" target="_blank" rel="noopener noreferrer">新竹市議會本屆議員 ↗</a>
+            <a href="https://www.kmc.gov.tw/index.php/mac/mi" target="_blank" rel="noopener noreferrer">基隆市議會議員資訊 ↗</a>
+            <a href="https://www.mcc.gov.tw/iframimgtxt_list.php?menu=&amp;typeid=2580&amp;typeid2=2599" target="_blank" rel="noopener noreferrer">苗栗縣議會現任議員 ↗</a>
+            <a href="https://www.chcc.gov.tw/member/index.aspx?Parser=99,6,40" target="_blank" rel="noopener noreferrer">彰化縣議會議員一覽 ↗</a>
             <a href="https://council2026.taiwangogo.tw/" target="_blank" rel="noopener noreferrer">2026 議員參選人刑事紀錄圖鑑 ↗</a>
           </div>
         </div>
@@ -751,16 +754,19 @@ class App {
   async _mergeOfficialCouncilorProfiles(overrides) {
     if (!overrides || typeof overrides !== 'object') return overrides;
     try {
-      const [taipeiResult, taoyuanResult, hsinchuResult] = await Promise.all([
+      const [taipeiResult, taoyuanResult, hsinchuResult, changhuaResult] = await Promise.all([
         fetch('./data/tcc_councilor_socials.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null),
         fetch('./data/tycc_councilors.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null),
         fetch('./data/hcc_councilors.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null),
+        fetch('./data/chcc_councilors.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null),
       ]);
       const taipeiFacebook = taipeiResult?.facebook || {};
       const taoyuanProfiles = Array.isArray(taoyuanResult) ? taoyuanResult.filter(row => row?.name && row?.photoUrl) : [];
       const taoyuanByName = new Map(taoyuanProfiles.map(row => [String(row.name).normalize('NFKC').replace(/[・．·‧\s]/g, ''), row]));
       const hsinchuProfiles = Array.isArray(hsinchuResult?.councilors) ? hsinchuResult.councilors.filter(row => row?.name && row?.photoUrl) : [];
       const hsinchuByName = new Map(hsinchuProfiles.map(row => [String(row.name).normalize('NFKC').replace(/[・．·‧\s]/g, ''), row]));
+      const changhuaProfiles = Array.isArray(changhuaResult?.councilors) ? changhuaResult.councilors.filter(row => row?.name && row?.photoUrl) : [];
+      const changhuaByName = new Map(changhuaProfiles.map(row => [String(row.name).normalize('NFKC').replace(/[・．·‧\s]/g, ''), row]));
       const mergeCounty = (countyCode, patch) => {
         const county = overrides[countyCode];
         if (!county?.councilors) return county;
@@ -775,6 +781,11 @@ class App {
       });
       if (hsinchuByName.size) next['10018'] = mergeCounty('10018', (_block, candidate) => {
         const official = hsinchuByName.get(String(candidate.name || '').normalize('NFKC').replace(/[・．·‧\s]/g, ''));
+        if (!official) return {};
+        return { photoUrl: candidate.photoUrl || official.photoUrl || '', facebook: candidate.facebook || official.facebook || '' };
+      });
+      if (changhuaByName.size) next['10007'] = mergeCounty('10007', (_block, candidate) => {
+        const official = changhuaByName.get(String(candidate.name || '').normalize('NFKC').replace(/[・．·‧\s]/g, ''));
         if (!official) return {};
         return { photoUrl: candidate.photoUrl || official.photoUrl || '', facebook: candidate.facebook || official.facebook || '' };
       });
@@ -998,12 +1009,24 @@ class App {
   _updateLabels() {
     if (!this.labels || !this.labels.length || !this.cam || !this.el) return;
     const w = this.el.clientWidth, h = this.el.clientHeight;
+    const occupied = [];
     this.labels.forEach(L => {
       const v = L.mesh.userData.cen.clone().project(this.cam);
       if (v.z > 1) { L.el.style.display = 'none'; return; }
       const x = (v.x * 0.5 + 0.5) * w, y = (-v.y * 0.5 + 0.5) * h;
       if (x < -80 || x > w + 80 || y < -30 || y > h + 30) { L.el.style.display = 'none'; return; }
-      L.el.style.display = 'block'; L.el.style.left = x + 'px'; L.el.style.top = y + 'px';
+      // 北北基等相鄰小行政區容易投影到同一位置。以最小位移避開前一個
+      // 標籤，仍保留可點擊的個別按鈕，而不是將名稱疊在一起。
+      const width = L.el.offsetWidth || 56, height = L.el.offsetHeight || 26;
+      const shifts = [[0,0],[0,-28],[0,28],[-46,0],[46,0],[-42,-28],[42,-28],[-42,28],[42,28],[0,-56],[0,56]];
+      let px = x, py = y;
+      for (const [dx, dy] of shifts) {
+        const candidate = { left: x + dx - width / 2 - 5, right: x + dx + width / 2 + 5, top: y + dy - height / 2 - 4, bottom: y + dy + height / 2 + 4 };
+        if (!occupied.some(box => candidate.left < box.right && candidate.right > box.left && candidate.top < box.bottom && candidate.bottom > box.top)) {
+          px = x + dx; py = y + dy; occupied.push(candidate); break;
+        }
+      }
+      L.el.style.display = 'block'; L.el.style.left = px + 'px'; L.el.style.top = py + 'px';
     });
   }
   _writeReadout(label, meta) {
