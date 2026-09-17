@@ -517,6 +517,27 @@ class App {
     mesh.material.color.copy(col); mesh.material.emissive.setHex(mode === 'hot' ? 0x3a0008 : mode === 'district' ? 0x3a1c00 : 0x000000);
     window.gsap.to(mesh.position, { z: mode === 'hot' ? 3.2 : mode === 'district' ? 2.4 : 0, duration: 0.45, ease: 'power3.out' });
   }
+  _focusFeature(feature, mode = 'district') {
+    if (!this.active || !feature) return;
+    const target = this.active.meshes.find(m => m.userData.props.id === feature.properties.id);
+    if (!target) return;
+    this._selected = target;
+    this.active.meshes.forEach(m => this._paint(m, m === target ? mode : 'dim'));
+    if (this.labels) this.labels.forEach(L => {
+      const on = L.mesh === target;
+      L.el.style.background = on ? '#E4022B' : 'rgba(13,13,13,.5)';
+      L.el.style.color = '#f4f1ea';
+      L.el.style.zIndex = on ? '3' : '1';
+    });
+    window.gsap.fromTo(target.scale, { x: 1.02, y: 1.02, z: 1.02 }, { x: 1, y: 1, z: 1, duration: 0.65, ease: 'back.out(2)' });
+    this._frame([feature], { pol: this.active.level === 'village' ? 0.16 : 0.2, dur: 1.05 });
+  }
+  _clearFeatureFocus() {
+    if (!this.active) return;
+    this._selected = null;
+    this.active.meshes.forEach(m => { m.userData.district = false; this._paint(m, 'base'); });
+    if (this.labels) this.labels.forEach(L => { L.el.style.background = 'rgba(13,13,13,.68)'; L.el.style.color = '#f4f1ea'; L.el.style.zIndex = '1'; });
+  }
   _hoverTest(cx, cy, dragging) {
     if (!this.active) return;
     const dom = this._renderer.domElement, r = dom.getBoundingClientRect();
@@ -568,7 +589,7 @@ class App {
       this._buildLevel('village', feats); this._frame(feats, { pol: 0.16 });
     } catch (e) { this._toast('此行政區尚無村里圖層資料'); }
   }
-  _drillVillage(p) { this._openVillageDrawer(p); const f = this.villageFeats.find(x => x.properties.id === p.id); if (f) this._frame([f], { pol: 0.16 }); }
+  _drillVillage(p) { this._openVillageDrawer(p); const f = this.villageFeats.find(x => x.properties.id === p.id); if (f) this._focusFeature(f, 'hot'); }
 
   _back() {
     document.getElementById('drawer').style.transform = 'translateX(103%)';
@@ -682,7 +703,7 @@ class App {
       const blocks = p.representatives;
       const sel2 = document.getElementById('sel-district');
       sel2.innerHTML = `<option value="">── 查看${repLabel}候選人（依選舉區）──</option>` +
-        blocks.map((b, i) => `<option value="${i}">${`第 ${b.district} 選舉區`}（${b.candidates.length} 人）</option>`).join('');
+        blocks.map((b, i) => `<option value="${i}">${this._representativeDistrictLabel(p, b)}（${b.candidates.length} 人）</option>`).join('');
       this._showSel('sel-district');
       sel2.onchange = () => {
         const bi = sel2.value;
@@ -692,7 +713,7 @@ class App {
           return;
         }
         const block = blocks[+bi];
-        document.getElementById('drawer-title').textContent = `第 ${block.district} 選舉區 ${repLabel}`;
+        document.getElementById('drawer-title').textContent = `${this._representativeDistrictLabel(p, block)} ${repLabel}`;
         this._showCands(block.candidates);
       };
     }
@@ -721,6 +742,7 @@ class App {
         if (!vf) return;
         document.getElementById('drawer-title').textContent = `${vf.properties.name} 村里長`;
         this._showCands(vf.properties.candidates || []);
+        this._focusFeature(vf, 'district');
         // 上一頁：回到鄉鎮首長視圖
         this._showBack(() => {
           sel3.value = '';
@@ -731,7 +753,7 @@ class App {
         // 讓地圖聚焦到這個村里
         if (this.villageFeats) {
           const vf2 = this.villageFeats.find(x => x.properties.id === vid);
-          if (vf2) this._frame([vf2], { pol: 0.8 });
+          if (vf2) this._focusFeature(vf2, 'district');
         }
       };
     };
@@ -856,6 +878,13 @@ class App {
     const info = this.districtMap?.[code]?.districts?.[block.district];
     const towns = (info && info.towns && info.towns.length) ? info.towns.join('、') : null;
     return towns ? `第 ${block.district} 選舉區（${towns}）` : `第 ${block.district} 選舉區`;
+  }
+  _representativeDistrictLabel(p, block) {
+    const configured = this.districtMap?.[this.county?.code]?.representatives?.[p.id]?.[block.district];
+    const areas = block.areas || block.towns || block.villages || block.region || configured;
+    const list = Array.isArray(areas) ? areas : areas ? [areas] : [p.name];
+    const number = block.district && block.district !== '?' ? `第 ${block.district} 選舉區` : '代表選舉區';
+    return `${number}（${list.join('、')}）`;
   }
   _countUp(el, raw) {
     const text = raw == null || raw === '' ? '--' : String(raw), m = text.match(/[\d,]+/);
