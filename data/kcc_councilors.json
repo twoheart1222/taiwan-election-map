@@ -1,0 +1,551 @@
+[
+  {
+    "name": "朱信強",
+    "district": 1,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2173",
+    "party": "無黨團結聯盟",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2173/00a5afb4-a5b6-44d3-a30b-03184d64fd39.png",
+    "facebook": "https://www.facebook.com/100063832895301"
+  },
+  {
+    "name": "林富寶",
+    "district": 1,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2171",
+    "party": "民主進步黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2171/60ccce90-0d79-44b0-b8db-9565bbe80cd8.png",
+    "facebook": "https://www.facebook.com/linfupao/"
+  },
+  {
+    "name": "林義迪",
+    "district": 1,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2172",
+    "party": "中國國民黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2172/990bb398-d660-46eb-903c-75ad788825d2.png",
+    "facebook": "https://www.facebook.com/100064189805674"
+  },
+  {
+    "name": "李亞築",
+    "district": 2,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2174",
+    "party": "中國國民黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2174/aa8ed257-a58e-48cc-bc1d-d41ce65be06c.png",
+    "facebook": "https://www.facebook.com/lee6311609"
+  },
+  {
+    "name": "陳明澤",
+    "district": 2,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2176",
+    "party": "民主進步黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2176/fc74b865-c947-48ae-b5dc-6d3817d4800b.png",
+    "facebook": "https://www.facebook.com/100063556368358"
+  },
+  {
+    "name": "黃明太",
+    "district": 2,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2175",
+    "party": "民主進步黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2175/b317a63a-a9f6-4c53-9768-663728ab2800.png",
+    "facebook": "https://www.facebook.com/100063886563402"
+  },
+  {
+    "name": "方信淵",
+    "district": 3,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2179",
+    "party": "中國國民黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2179/e45288a0-8dd9-48f1-b96c-a03b219cacd1.png",
+    "facebook": "https://www.facebook.com/FANGHSINYUAN"
+  },
+  {
+    "name": "宋立彬",
+    "district": 3,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2235",
+    "party": "中國國民黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2235/d09b9d87-7088-4f29-ac61-8440fb8f0830.png",
+    "facebook": "https://www.facebook.com/sunglipin"
+  },
+  {
+    "name": "林志誠",
+    "district": 3,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2178",
+    "party": "民主進步黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2178/6a033432-d344-443d-8416-92b54d859ee6.png",
+    "facebook": "https://www.facebook.com/zhicheng1128"
+  },
+  {
+    "name": "陸淑美",
+    "district": 3,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2180",
+    "party": "中國國民黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2180/2c4a3de7-07bc-4008-9477-5c8c91ff80fc.png",
+    "facebook": "https://www.facebook.com/%E9%AB%98%E9%9B%84%E5%B8%82%E8%AD%B0%E6%9C%83%E5%89%AF%E8%AD%B0%E9%95%B7%E9%99%B8%E6%B7%91%E7%BE%8E-247426919612/"
+  },
+  {
+    "name": "黃秋媖",
+    "district": 3,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2177",
+    "party": "民主進步黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2177/d4f8291d-b230-49b9-8750-c3010c22b00e.png",
+    "facebook": "https://www.facebook.com/eng6699/"
+  },
+  {
+    "name": "白喬茵",
+    "district": 4,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2181",
+    "party": "中國國民黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2181/3fadd0ad-ca38-4357-bf0e-53e68036bc9d.png",
+    "facebook": "https://www.facebook.com/chiaoyinpai"
+  },
+  {
+    "name": "李眉蓁",
+    "district": 4,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2186",
+    "party": "中國國民黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2186/69efe1c2-2220-4d12-8f95-9d1695f21482.png",
+    "facebook": "https://www.facebook.com/kandesnwin2010/"
+  },
+  {
+    "name": "李雅芬",
+    "district": 4,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2187",
+    "party": "中國國民黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2187/e0d67533-1f89-488e-9fed-c7d0c4b9e8af.png",
+    "facebook": "https://www.facebook.com/liyafn0625"
+  },
+  {
+    "name": "李雅慧",
+    "district": 4,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2188",
+    "party": "民主進步黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2188/20c3a93a-5347-487b-b75e-bd5cabf4cca5.png",
+    "facebook": "https://www.facebook.com/liyahui0830/"
+  },
+  {
+    "name": "陳玫娟",
+    "district": 4,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2189",
+    "party": "中國國民黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2189/915341ac-c62a-4cd5-b5f1-ebb75b65b69f.png",
+    "facebook": "https://www.facebook.com/may5858586/"
+  },
+  {
+    "name": "陳善慧",
+    "district": 4,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2182",
+    "party": "無黨團結聯盟",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2182/e2bc740e-4ebc-439b-a527-09aff7d3690c.png",
+    "facebook": "https://www.facebook.com/shanhuei1124thankyou/"
+  },
+  {
+    "name": "陳麗珍",
+    "district": 4,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2184",
+    "party": "中國國民黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2184/565414e6-1345-4c93-9226-84bbe2c24f9a.png",
+    "facebook": "https://www.facebook.com/e533323"
+  },
+  {
+    "name": "黃文志",
+    "district": 4,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2185",
+    "party": "民主進步黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2185/35e71b27-65bb-4e79-aa7b-b0f9bc9c5ffb.png",
+    "facebook": "https://www.facebook.com/%E9%BB%83%E6%96%87%E5%BF%97-%E5%BF%97%E5%9C%A8%E7%82%BA%E6%82%A8-1477233585656466/"
+  },
+  {
+    "name": "江瑞鴻",
+    "district": 5,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2190",
+    "party": "民主進步黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2190/081a610e-9ee8-41f9-a434-7ec28ae6966c.jpg",
+    "facebook": "https://www.facebook.com/%E6%B1%9F%E7%91%9E%E9%B4%BB%E4%BB%81%E5%A4%A7%E9%B3%A5%E5%A4%A7%E5%8D%80%E5%B8%82%E8%AD%B0%E5%93%A1%E5%8F%83%E9%81%B8%E4%BA%BA-155875158483543/"
+  },
+  {
+    "name": "吳利成",
+    "district": 5,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2191",
+    "party": "中國國民黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2191/0d50f1e2-18d2-4c5b-a19d-46f12d03b647.png",
+    "facebook": "https://www.facebook.com/%E5%90%B3%E5%88%A9%E6%88%90%E8%AD%B0%E5%93%A1%E7%B2%89%E7%B5%B2%E5%9C%98-811745112199940/"
+  },
+  {
+    "name": "邱俊憲",
+    "district": 5,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2193",
+    "party": "民主進步黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2193/c5240262-14da-43d3-bb15-0527aba257e3.png",
+    "facebook": "https://www.facebook.com/khhchiu"
+  },
+  {
+    "name": "張勝富",
+    "district": 5,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2192",
+    "party": "民主進步黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2192/2de9de95-5e28-4f3b-a0c2-da34658a39a3.png",
+    "facebook": "https://www.facebook.com/%E5%BC%B5%E5%8B%9D%E5%AF%8C-226634607368431/"
+  },
+  {
+    "name": "黃飛鳳",
+    "district": 5,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2194",
+    "party": "民主進步黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2194/eea61abc-246a-46d7-973c-0af2e8b6dd2f.png",
+    "facebook": "https://www.facebook.com/feifeng.justdoit"
+  },
+  {
+    "name": "李喬如",
+    "district": 6,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2195",
+    "party": "民主進步黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2195/1f30a67c-065e-4eab-9da2-cfb46a8822b1.png",
+    "facebook": "https://www.facebook.com/jiejieact/"
+  },
+  {
+    "name": "陳美雅",
+    "district": 6,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2196",
+    "party": "中國國民黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2196/7d004ebe-ec17-4c61-8d56-177ae9d5f52a.png",
+    "facebook": "https://www.facebook.com/meiya5881555"
+  },
+  {
+    "name": "蔡金晏",
+    "district": 6,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2198",
+    "party": "中國國民黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2198/6d44b547-f9d9-4cab-96e9-9ba50b5afa2e.png",
+    "facebook": "https://www.facebook.com/tsaijinyen/"
+  },
+  {
+    "name": "簡煥宗",
+    "district": 6,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2197",
+    "party": "民主進步黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2197/76d08052-0d63-41af-bc52-ff15f178130f.png",
+    "facebook": "https://www.facebook.com/2014cky/"
+  },
+  {
+    "name": "何權峰",
+    "district": 7,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2204",
+    "party": "民主進步黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2204/05c5ef49-1486-45e1-96b6-834ed27c2d5a.png",
+    "facebook": "https://www.facebook.com/sanminhochuanfeng/"
+  },
+  {
+    "name": "康裕成",
+    "district": 7,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2201",
+    "party": "民主進步黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2201/051d1919-6678-4416-b89d-fa8525bace40.jpg",
+    "facebook": "https://www.facebook.com/Kangyucheng.1/"
+  },
+  {
+    "name": "張博洋",
+    "district": 7,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2202",
+    "party": "無黨籍",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2202/175debe4-9fa0-409c-9e73-8e84b0565f9f.png",
+    "facebook": "https://www.facebook.com/TSPKHcouncilman"
+  },
+  {
+    "name": "曾俊傑",
+    "district": 7,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2205",
+    "party": "無黨籍",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2205/8d65bc90-e76d-4326-847a-f5a0e8dac3bb.png",
+    "facebook": "https://www.facebook.com/%E6%9B%BE%E4%BF%8A%E5%82%91-847849865259146/"
+  },
+  {
+    "name": "黃柏霖",
+    "district": 7,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2199",
+    "party": "中國國民黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2199/bd097762-15d8-43ea-b953-4a73d27b07a8.png",
+    "facebook": "https://www.facebook.com/polin66666"
+  },
+  {
+    "name": "黃香菽",
+    "district": 7,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2200",
+    "party": "中國國民黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2200/c4eb7320-88f2-41cc-92b3-571f1f14e71a.png",
+    "facebook": "https://www.facebook.com/banana1023"
+  },
+  {
+    "name": "鄭孟洳",
+    "district": 7,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2203",
+    "party": "民主進步黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2203/d2e1c770-a583-4e80-968d-836873f8a618.png",
+    "facebook": "https://www.facebook.com/mengju1214/"
+  },
+  {
+    "name": "許采蓁",
+    "district": 8,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2206",
+    "party": "中國國民黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2206/6454d396-568c-4533-a68a-f9680a743206.jpg",
+    "facebook": "https://www.facebook.com/HsuTsaiChen"
+  },
+  {
+    "name": "郭建盟",
+    "district": 8,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2209",
+    "party": "民主進步黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2209/53b2aa92-d1bc-416c-bb0d-8a96471ea210.png",
+    "facebook": "https://www.facebook.com/GaoXiongShiYiYuanGuoJianMeng/"
+  },
+  {
+    "name": "湯詠瑜",
+    "district": 8,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2208",
+    "party": "民主進步黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2208/0427e41c-7ae6-42af-83be-785cf3a7a78d.png",
+    "facebook": "https://www.facebook.com/tang162"
+  },
+  {
+    "name": "黃文益",
+    "district": 8,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2207",
+    "party": "民主進步黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2207/7d7789ff-2aeb-401e-b841-3e567f2f28ba.png",
+    "facebook": "https://www.facebook.com/mdsn3838/"
+  },
+  {
+    "name": "李雅靜",
+    "district": 9,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2213",
+    "party": "中國國民黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2213/51fce80a-8a2f-4333-a652-389baba30c8a.png",
+    "facebook": "https://www.facebook.com/fiorina1224"
+  },
+  {
+    "name": "林智鴻",
+    "district": 9,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2216",
+    "party": "民主進步黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2216/7be7c205-5658-4425-b73c-8b6b4379f186.png",
+    "facebook": "https://www.facebook.com/linchihhung.taiwan/"
+  },
+  {
+    "name": "張漢忠",
+    "district": 9,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2217",
+    "party": "民主進步黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2217/875663e1-7cec-4190-8c6b-ae8ef80d7ff6.png",
+    "facebook": "https://www.facebook.com/Changotobai"
+  },
+  {
+    "name": "陳慧文",
+    "district": 9,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2215",
+    "party": "民主進步黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2215/22a6e534-48f2-456f-a5fb-822d226b3078.png",
+    "facebook": "https://www.facebook.com/hwcfs"
+  },
+  {
+    "name": "劉德林",
+    "district": 9,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2214",
+    "party": "中國國民黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2214/ef4757dc-6163-4923-8c37-100b92deac5b.png",
+    "facebook": "https://www.facebook.com/phone0929047536/"
+  },
+  {
+    "name": "鄭安秝",
+    "district": 9,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2218",
+    "party": "中國國民黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2218/f589d753-8a77-4ad6-9d63-3c9fe26c5c15.png",
+    "facebook": "https://www.facebook.com/PowerAnli/"
+  },
+  {
+    "name": "鍾易仲",
+    "district": 9,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2212",
+    "party": "中國國民黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2212/3187fd12-5a6d-48c8-982d-b62d44a9f602.png",
+    "facebook": "https://www.facebook.com/loveyichung/"
+  },
+  {
+    "name": "吳銘賜",
+    "district": 10,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2224",
+    "party": "台灣團結聯盟",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2224/e5fd6623-721b-48a4-b40c-badca3656dcf.png",
+    "facebook": "https://www.facebook.com/as073303385/"
+  },
+  {
+    "name": "李順進",
+    "district": 10,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2223",
+    "party": "無黨籍",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2223/f3f3d13b-9ed3-4aef-8a9d-389971cc8fbd.png",
+    "facebook": "https://www.facebook.com/LeeShunJin/"
+  },
+  {
+    "name": "陳麗娜",
+    "district": 10,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2221",
+    "party": "中國國民黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2221/9effa7ed-d9f9-4614-80c7-20f9c9ae12d5.png",
+    "facebook": "https://www.facebook.com/Lina100gogo"
+  },
+  {
+    "name": "曾麗燕",
+    "district": 10,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2234",
+    "party": "中國國民黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2234/b5209130-14c8-44cc-8ac7-5a500d1c636c.jpg",
+    "facebook": "https://www.facebook.com/lilytseng1225/"
+  },
+  {
+    "name": "黃彥毓",
+    "district": 10,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2225",
+    "party": "民主進步黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2225/f45119ca-5af5-45bc-89e6-bd31400c6aad.png",
+    "facebook": "https://www.facebook.com/DPPKHVincentHuang"
+  },
+  {
+    "name": "蔡武宏",
+    "district": 10,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2222",
+    "party": "中國國民黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2222/62d20f9b-2c28-4aa7-bc40-90443bd40d39.png",
+    "facebook": "https://www.facebook.com/5goniceTW/"
+  },
+  {
+    "name": "鄭光峰",
+    "district": 10,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2220",
+    "party": "民主進步黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2220/e825777d-1c91-47d7-9b7e-e5c40409a991.png",
+    "facebook": "https://www.facebook.com/btg0666e/"
+  },
+  {
+    "name": "王耀裕",
+    "district": 11,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2228",
+    "party": "中國國民黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2228/0702059.jpg",
+    "facebook": "https://www.facebook.com/%E7%8E%8B%E8%80%80%E8%A3%95%E5%B8%82%E8%AD%B0%E5%93%A1-746002165507372/"
+  },
+  {
+    "name": "李雨庭",
+    "district": 11,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2226",
+    "party": "民主進步黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2226/61413005-7ec1-4a35-a226-710fe7cac135.png",
+    "facebook": "https://www.facebook.com/KaohsiungCityCouncilleeyuting"
+  },
+  {
+    "name": "邱于軒",
+    "district": 11,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2227",
+    "party": "中國國民黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2227/ae5d2ae6-e51e-4636-a56c-781b970f6282.png",
+    "facebook": "https://www.facebook.com/chiouyus.gogo/"
+  },
+  {
+    "name": "黃天煌",
+    "district": 11,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2229",
+    "party": "中國國民黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2229/981cb99a-4c67-4e85-beb5-f1e84c9c3c7f.png",
+    "facebook": "https://www.facebook.com/%E9%BB%83%E5%A4%A9%E7%85%8C-1548795418701002/"
+  },
+  {
+    "name": "王義雄",
+    "district": 12,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2230",
+    "party": "中國國民黨",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2230/58db3e78-bdb3-4af7-a1f0-3d9615203ae2.png",
+    "facebook": "https://www.facebook.com/Yi.Syona"
+  },
+  {
+    "name": "陳幸富",
+    "district": 13,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2231",
+    "party": "無黨團結聯盟",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2231/773d4f05-7685-4b36-9569-0a69a54f1cb5.png",
+    "facebook": "https://www.facebook.com/100057473648565"
+  },
+  {
+    "name": "高忠德(Taki ludun‧Anu)",
+    "district": 14,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2232",
+    "party": "無黨籍",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2232/4c893f93-4d06-40e7-91c2-1ee87c6d1afc.png",
+    "facebook": "https://www.facebook.com/100088560820019"
+  },
+  {
+    "name": "范織欽(Pasulang‧Tomatalate)",
+    "district": 15,
+    "status": "active",
+    "detailUrl": "https://www.kcc.gov.tw/MemberInfo_New.aspx?n=39&sms=9028&msn=2233",
+    "party": "無黨籍",
+    "photoUrl": "https://ws.kcc.gov.tw/001/Upload/member/2233/699fe71f-6f35-4aee-9a27-cb0b436c8dec.png",
+    "facebook": "https://www.facebook.com/PasolrangWinForUs"
+  }
+]

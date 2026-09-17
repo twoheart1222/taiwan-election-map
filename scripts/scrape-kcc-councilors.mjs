@@ -107,7 +107,11 @@ function canonicalFacebook(value) {
     const url = new URL(value, BASE_URL);
     if (!/(^|\.)facebook\.com$/i.test(url.hostname)) return '';
     if (/\/(?:sharer|share|dialog|plugins)\b/i.test(url.pathname)) return '';
+    url.protocol = 'https:';
+    url.hostname = 'www.facebook.com';
+    const profileId = /\/profile\.php$/i.test(url.pathname) ? url.searchParams.get('id') : '';
     url.search = '';
+    if (profileId) url.searchParams.set('id', profileId);
     url.hash = '';
     return url.href;
   } catch {
