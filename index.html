@@ -281,7 +281,7 @@
             <a href="https://www.kcc.gov.tw/Member_List3.aspx?n=39&amp;sms=9028" target="_blank" rel="noopener noreferrer">高雄市議會 ↗</a>
             <a href="https://www.ntp.gov.tw/councilor-all?program=37" target="_blank" rel="noopener noreferrer">新北市議會 ↗</a>
             <a href="https://www.tccc.gov.tw/main.asp?uno=16" target="_blank" rel="noopener noreferrer">臺中市議會 ↗</a>
-            <a href="https://council2026.taiwangogo.tw/" target="_blank" rel="noopener noreferrer">2026 議員投票指南 ↗</a>
+            <a href="https://council2026.taiwangogo.tw/" target="_blank" rel="noopener noreferrer">2026 議員參選人刑事紀錄圖鑑 ↗</a>
           </div>
         </div>
       </section>
@@ -721,10 +721,32 @@ class App {
         if (!r.ok) throw new Error('overrides ' + r.status);
         const payload = await r.json();
         // Support both the current API payload and a future { data: ... } wrapper.
-        return payload && payload.data && typeof payload.data === 'object' ? payload.data : payload;
+        const overrides = payload && payload.data && typeof payload.data === 'object' ? payload.data : payload;
+        return await this._mergeTaipeiCouncilorSocials(overrides);
       } catch (err) { console.warn('讀取 overrides 失敗，僅顯示原始候選人資料。', err); return {}; }
     })();
     return this._ov;
+  }
+  async _mergeTaipeiCouncilorSocials(overrides) {
+    if (!overrides || typeof overrides !== 'object') return overrides;
+    try {
+      const response = await fetch('./data/tcc_councilor_socials.json', { cache: 'no-store' });
+      if (!response.ok) return overrides;
+      const facebook = (await response.json()).facebook || {};
+      const taipei = overrides['63000'];
+      if (!taipei?.councilors || !Object.keys(facebook).length) return overrides;
+      const next = { ...overrides, '63000': { ...taipei, councilors: taipei.councilors.map(block => ({
+        ...block,
+        candidates: (block.candidates || []).map(candidate => ({
+          ...candidate,
+          facebook: candidate.facebook || facebook[`${block.district}:${candidate.name}`] || candidate.facebook || '',
+        })),
+      })) } };
+      return next;
+    } catch (error) {
+      console.warn('讀取臺北市議員公開社群校驗資料失敗。', error);
+      return overrides;
+    }
   }
   _applyOverrides(topo) {
     const ov = this._overrides; if (!ov || !Object.keys(ov).length) return topo;

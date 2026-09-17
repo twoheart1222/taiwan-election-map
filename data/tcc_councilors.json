@@ -1,0 +1,809 @@
+{
+  "generatedAt": "2026-09-17T13:32:00.562Z",
+  "source": "https://www.tcc.gov.tw/cp.aspx?n=13898",
+  "officialCount": 53,
+  "matched": 50,
+  "unmatched": [
+    {
+      "district": "2",
+      "name": "李建昌"
+    },
+    {
+      "district": "5",
+      "name": "應曉薇"
+    },
+    {
+      "district": "8",
+      "name": "李傅中武"
+    }
+  ],
+  "officialPhotos": 53,
+  "personalWebsites": 53,
+  "officialFacebook": 26,
+  "photosAdded": 0,
+  "photosPreserved": 50,
+  "facebookAdded": 25,
+  "conflicts": [],
+  "errors": [],
+  "changes": [
+    {
+      "district": "1",
+      "name": "黃瀞瑩",
+      "before": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/b16c98bde45d966fc8a20ab21d21282b",
+        "facebook": ""
+      },
+      "after": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/b16c98bde45d966fc8a20ab21d21282b",
+        "facebook": "https://www.facebook.com/chingyin81610"
+      }
+    },
+    {
+      "district": "1",
+      "name": "林延鳳",
+      "before": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/a4b6bb5d49e576778642daa0e84197bf",
+        "facebook": ""
+      },
+      "after": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/a4b6bb5d49e576778642daa0e84197bf",
+        "facebook": "https://www.facebook.com/callmeifeng"
+      }
+    },
+    {
+      "district": "1",
+      "name": "鍾佩玲",
+      "before": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/ca13d5c6b1b07c34964358bf4cfeeac7",
+        "facebook": ""
+      },
+      "after": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/ca13d5c6b1b07c34964358bf4cfeeac7",
+        "facebook": "https://www.facebook.com/%E9%8D%BE%E4%BD%A9%E7%8E%B2-%E9%8D%BE%E6%84%9B%E5%8F%B0%E5%8C%97-222383101150490"
+      }
+    },
+    {
+      "district": "1",
+      "name": "林杏兒",
+      "before": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/fc5a62227a567569511cebac147bd950",
+        "facebook": ""
+      },
+      "after": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/fc5a62227a567569511cebac147bd950",
+        "facebook": "https://www.facebook.com/hao232555"
+      }
+    },
+    {
+      "district": "1",
+      "name": "陳賢蔚",
+      "before": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/fdcb5001d4a485dacac93438f370dcb2",
+        "facebook": ""
+      },
+      "after": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/fdcb5001d4a485dacac93438f370dcb2",
+        "facebook": "https://www.facebook.com/bestserviceforTPE"
+      }
+    },
+    {
+      "district": "1",
+      "name": "張斯綱",
+      "before": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/63abc2853caa40e09fa66543254a44b0",
+        "facebook": ""
+      },
+      "after": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/63abc2853caa40e09fa66543254a44b0",
+        "facebook": "https://www.facebook.com/szukang.chang"
+      }
+    },
+    {
+      "district": "1",
+      "name": "陳慈慧",
+      "before": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/9410bb5457e7c97845bf011c0568e554",
+        "facebook": ""
+      },
+      "after": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/9410bb5457e7c97845bf011c0568e554",
+        "facebook": "https://www.facebook.com/amber.chen.5682"
+      }
+    },
+    {
+      "district": "2",
+      "name": "陳宥丞",
+      "before": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/2d20d711976b19a039fd74e729e86ba0",
+        "facebook": ""
+      },
+      "after": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/2d20d711976b19a039fd74e729e86ba0",
+        "facebook": "https://www.facebook.com/Ntuyoyo"
+      }
+    },
+    {
+      "district": "3",
+      "name": "張文潔",
+      "before": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/f888fb134acf0909876833df60a30e61",
+        "facebook": ""
+      },
+      "after": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/f888fb134acf0909876833df60a30e61",
+        "facebook": "https://www.facebook.com/wenjbrighttpe"
+      }
+    },
+    {
+      "district": "3",
+      "name": "許淑華",
+      "before": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/4b10d21e56a2ec185bb266430a10b3d0",
+        "facebook": ""
+      },
+      "after": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/4b10d21e56a2ec185bb266430a10b3d0",
+        "facebook": "https://www.facebook.com/shua0522"
+      }
+    },
+    {
+      "district": "3",
+      "name": "詹為元",
+      "before": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/ad33d1216d6ab54357d1562afb2af5ff",
+        "facebook": ""
+      },
+      "after": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/ad33d1216d6ab54357d1562afb2af5ff",
+        "facebook": "https://www.facebook.com/cyu2019"
+      }
+    },
+    {
+      "district": "3",
+      "name": "秦慧珠",
+      "before": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/6099615b3232132cadd82cb749c4aaff",
+        "facebook": ""
+      },
+      "after": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/6099615b3232132cadd82cb749c4aaff",
+        "facebook": "https://www.facebook.com/winner.helen"
+      }
+    },
+    {
+      "district": "4",
+      "name": "顏若芳",
+      "before": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/2ef5ddca385e43901440225b18d9293a",
+        "facebook": ""
+      },
+      "after": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/2ef5ddca385e43901440225b18d9293a",
+        "facebook": "https://www.facebook.com/yengafang"
+      }
+    },
+    {
+      "district": "4",
+      "name": "柳采葳",
+      "before": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/442fc2ca2058a4b60949888a42b43e02",
+        "facebook": ""
+      },
+      "after": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/442fc2ca2058a4b60949888a42b43e02",
+        "facebook": "https://www.facebook.com/findtheweiwei"
+      }
+    },
+    {
+      "district": "4",
+      "name": "林珍羽",
+      "before": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/1d95afa915fa900db81321a027eec535",
+        "facebook": ""
+      },
+      "after": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/1d95afa915fa900db81321a027eec535",
+        "facebook": "https://www.facebook.com/cyu414"
+      }
+    },
+    {
+      "district": "4",
+      "name": "陳怡君",
+      "before": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/e7305c60443118617c639118a7de7f03",
+        "facebook": ""
+      },
+      "after": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/e7305c60443118617c639118a7de7f03",
+        "facebook": "https://www.facebook.com/Chen.E.Jun"
+      }
+    },
+    {
+      "district": "5",
+      "name": "郭昭巖",
+      "before": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/78a28c7f44571092af7f4e2d7e581b7c",
+        "facebook": ""
+      },
+      "after": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/78a28c7f44571092af7f4e2d7e581b7c",
+        "facebook": "https://www.facebook.com/kuochaoyencafe"
+      }
+    },
+    {
+      "district": "5",
+      "name": "洪婉臻",
+      "before": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/dc735f5dc41588b55ebb8bd438ab1583",
+        "facebook": ""
+      },
+      "after": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/dc735f5dc41588b55ebb8bd438ab1583",
+        "facebook": "https://www.facebook.com/HWJocelyn"
+      }
+    },
+    {
+      "district": "6",
+      "name": "苗博雅",
+      "before": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/6bbf8041a364e1a806137b2e069285aa",
+        "facebook": ""
+      },
+      "after": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/6bbf8041a364e1a806137b2e069285aa",
+        "facebook": "https://www.facebook.com/miaopoya.sdp"
+      }
+    },
+    {
+      "district": "6",
+      "name": "曾獻瑩",
+      "before": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/01d079c05aac2ed302f31756a11ccaae",
+        "facebook": ""
+      },
+      "after": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/01d079c05aac2ed302f31756a11ccaae",
+        "facebook": "https://www.facebook.com/politicsfromfamily"
+      }
+    },
+    {
+      "district": "6",
+      "name": "徐弘庭",
+      "before": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/6f884e5bbe64f2b3167e3c3ed8c7f04d",
+        "facebook": ""
+      },
+      "after": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/6f884e5bbe64f2b3167e3c3ed8c7f04d",
+        "facebook": "https://www.facebook.com/WilliamHsu19820621"
+      }
+    },
+    {
+      "district": "6",
+      "name": "楊植斗",
+      "before": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/57b0441ec73d1328c360377757894078",
+        "facebook": ""
+      },
+      "after": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/57b0441ec73d1328c360377757894078",
+        "facebook": "https://www.facebook.com/tepdj"
+      }
+    },
+    {
+      "district": "6",
+      "name": "耿葳",
+      "before": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/838e384f28db0a9ad2e3ad52b9f44d1d",
+        "facebook": ""
+      },
+      "after": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/838e384f28db0a9ad2e3ad52b9f44d1d",
+        "facebook": "https://www.facebook.com/thewei"
+      }
+    },
+    {
+      "district": "6",
+      "name": "張志豪",
+      "before": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/f8873a7a72bae37a5a20751f59a9f3ed",
+        "facebook": ""
+      },
+      "after": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/f8873a7a72bae37a5a20751f59a9f3ed",
+        "facebook": "https://www.facebook.com/firechc119"
+      }
+    },
+    {
+      "district": "7",
+      "name": "李芳儒",
+      "before": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/ae49f94cbf2b95dc98e31c1633583faf",
+        "facebook": ""
+      },
+      "after": {
+        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/ae49f94cbf2b95dc98e31c1633583faf",
+        "facebook": "https://www.facebook.com/leebanul"
+      }
+    }
+  ],
+  "councilors": [
+    {
+      "district": "1",
+      "name": "黃瀞瑩",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2547",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2547/d50b1872-b22b-4858-aa91-33765ced9518.jpg",
+      "personalWebsite": "https://tcc11103.tcc.gov.tw/",
+      "facebook": "https://www.facebook.com/chingyin81610",
+      "error": ""
+    },
+    {
+      "district": "1",
+      "name": "林延鳳",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2548",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2548/e86342a8-8ed1-4ace-9221-d817c65062b7.jpg",
+      "personalWebsite": "https://tcc11101.tcc.gov.tw/",
+      "facebook": "https://www.facebook.com/callmeifeng",
+      "error": ""
+    },
+    {
+      "district": "1",
+      "name": "汪志冰",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2549",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2549/ac0875bc-c31a-45e2-8387-21b1f5fbca1f.jpg",
+      "personalWebsite": "https://tcc9105.tcc.gov.tw/",
+      "facebook": "",
+      "error": ""
+    },
+    {
+      "district": "1",
+      "name": "鍾佩玲",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2550",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2550/d79f0a88-a025-47a2-ac4c-c5c6a2a6293f.jpg",
+      "personalWebsite": "https://tcc10702.tcc.gov.tw/",
+      "facebook": "https://www.facebook.com/%E9%8D%BE%E4%BD%A9%E7%8E%B2-%E9%8D%BE%E6%84%9B%E5%8F%B0%E5%8C%97-222383101150490",
+      "error": ""
+    },
+    {
+      "district": "1",
+      "name": "侯漢廷",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2552",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2552/491c68a8-2100-483f-abba-da3ff6d3d4c6.jpg",
+      "personalWebsite": "https://www.facebook.com/HanTingHou/",
+      "facebook": "",
+      "error": ""
+    },
+    {
+      "district": "1",
+      "name": "林杏兒",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2554",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2554/747e57ff-2251-487c-9c7d-c67d51296c4a.jpg",
+      "personalWebsite": "https://tcc11102.tcc.gov.tw/",
+      "facebook": "https://www.facebook.com/hao232555",
+      "error": ""
+    },
+    {
+      "district": "1",
+      "name": "陳賢蔚",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2555",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2555/e382ffae-7efb-48c2-b548-a611e29628f0.jpg",
+      "personalWebsite": "https://tcc10720.tcc.gov.tw/",
+      "facebook": "https://www.facebook.com/bestserviceforTPE",
+      "error": ""
+    },
+    {
+      "district": "1",
+      "name": "張斯綱",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2556",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2556/293831aa-446a-487e-947c-49c8cbadace0.jpg",
+      "personalWebsite": "https://tcc10701.tcc.gov.tw/",
+      "facebook": "https://www.facebook.com/szukang.chang",
+      "error": ""
+    },
+    {
+      "district": "1",
+      "name": "陳慈慧",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2557",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2557/a336a76e-d64b-4791-9a5d-d719a8d1a894.jpg",
+      "personalWebsite": "https://tcc10301.tcc.gov.tw/",
+      "facebook": "https://www.facebook.com/amber.chen.5682",
+      "error": ""
+    },
+    {
+      "district": "1",
+      "name": "林世宗",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2558",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2558/07387938-1899-4fcb-a883-ac03d9e581dd.jpg",
+      "personalWebsite": "https://tcc9903.tcc.gov.tw/",
+      "facebook": "",
+      "error": ""
+    },
+    {
+      "district": "1",
+      "name": "陳重文",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2574",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2574/da79e87d-de02-477f-b8b9-a86e851b90eb.jpg",
+      "personalWebsite": "https://tcc10304.tcc.gov.tw/",
+      "facebook": "",
+      "error": ""
+    },
+    {
+      "district": "2",
+      "name": "陳宥丞",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2562",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2562/506e960a-1112-411a-ae0c-0b7be6103e36.jpg",
+      "personalWebsite": "https://tcc11104.tcc.gov.tw/",
+      "facebook": "https://www.facebook.com/Ntuyoyo",
+      "error": ""
+    },
+    {
+      "district": "2",
+      "name": "游淑慧",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2563",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2563/2c4eb604-48f9-4527-8f64-43a728cd4bdf.jpg",
+      "personalWebsite": "https://tcc10707.tcc.gov.tw/",
+      "facebook": "",
+      "error": ""
+    },
+    {
+      "district": "2",
+      "name": "李明賢",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2565",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2565/4d04c4d1-3011-4839-a721-88f5b711e612.jpg",
+      "personalWebsite": "https://tcc10706.tcc.gov.tw/",
+      "facebook": "",
+      "error": ""
+    },
+    {
+      "district": "2",
+      "name": "何孟樺",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2566",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2566/b75551df-4503-4d3f-800d-355f961de0bb.jpg",
+      "personalWebsite": "https://www.facebook.com/TaipeiHmh/",
+      "facebook": "",
+      "error": ""
+    },
+    {
+      "district": "2",
+      "name": "闕枚莎",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2567",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2567/b8c28cb0-350e-40b3-8ebe-a770c6c2551d.jpg",
+      "personalWebsite": "https://tcc9515.tcc.gov.tw/",
+      "facebook": "",
+      "error": ""
+    },
+    {
+      "district": "2",
+      "name": "王孝維",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2568",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2568/a2c5665f-1ee2-4581-920e-a5a44d0859dd.jpg",
+      "personalWebsite": "https://www.facebook.com/wang.make.a.comeback",
+      "facebook": "",
+      "error": ""
+    },
+    {
+      "district": "2",
+      "name": "李建昌",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2569",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2569/eb507161-0033-4749-80fd-e63afda9e6a8.jpg",
+      "personalWebsite": "https://tcc0708.tcc.gov.tw/",
+      "facebook": "",
+      "error": ""
+    },
+    {
+      "district": "2",
+      "name": "吳世正",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2570",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2570/9e974b38-5101-4c68-926b-42a1139688b9.jpg",
+      "personalWebsite": "https://tcc8707.tcc.gov.tw/",
+      "facebook": "",
+      "error": ""
+    },
+    {
+      "district": "3",
+      "name": "張文潔",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2575",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2575/2f5b6567-12d1-4704-b672-efb372c0a4dd.jpg",
+      "personalWebsite": "https://tcc11106.tcc.gov.tw/",
+      "facebook": "https://www.facebook.com/wenjbrighttpe",
+      "error": ""
+    },
+    {
+      "district": "3",
+      "name": "許淑華",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2576",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2576/ed34c9e2-ba87-45a4-8e46-b93fff478f50.jpg",
+      "personalWebsite": "https://tcc9506.tcc.gov.tw/",
+      "facebook": "https://www.facebook.com/shua0522",
+      "error": ""
+    },
+    {
+      "district": "3",
+      "name": "詹為元",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2577",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2577/6316ef73-df07-44d2-930a-6ab8c1a83175.jpg",
+      "personalWebsite": "https://tcc11107.tcc.gov.tw/",
+      "facebook": "https://www.facebook.com/cyu2019",
+      "error": ""
+    },
+    {
+      "district": "3",
+      "name": "秦慧珠",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2580",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2580/1641693e-6e40-43f0-b172-605266176f26.jpg",
+      "personalWebsite": "https://tcc7810.tcc.gov.tw/",
+      "facebook": "https://www.facebook.com/winner.helen",
+      "error": ""
+    },
+    {
+      "district": "3",
+      "name": "戴錫欽",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2581",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2581/edc7c525-99e4-46b0-95ab-ae3adaa38559.jpg",
+      "personalWebsite": "https://tcc9109.tcc.gov.tw/",
+      "facebook": "",
+      "error": ""
+    },
+    {
+      "district": "3",
+      "name": "洪健益",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2582",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2582/b0ee6d53-c6b4-44f3-8876-d8f142976f90.jpg",
+      "personalWebsite": "https://tcc9509.tcc.gov.tw/",
+      "facebook": "",
+      "error": ""
+    },
+    {
+      "district": "4",
+      "name": "陳炳甫",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2584",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2584/29b42194-aec9-4997-89ff-9cae437ccf86.jpg",
+      "personalWebsite": "https://tcc10308.tcc.gov.tw/",
+      "facebook": "",
+      "error": ""
+    },
+    {
+      "district": "4",
+      "name": "顏若芳",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2585",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2585/bac88487-7174-4a92-976a-306848bc1ebd.jpg",
+      "personalWebsite": "https://tcc10307.tcc.gov.tw/",
+      "facebook": "https://www.facebook.com/yengafang",
+      "error": ""
+    },
+    {
+      "district": "4",
+      "name": "柳采葳",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2586",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2586/d10fb7b3-d58b-4d58-b6e7-1c13dceb5484.jpg",
+      "personalWebsite": "https://tcc11108.tcc.gov.tw/",
+      "facebook": "https://www.facebook.com/findtheweiwei",
+      "error": ""
+    },
+    {
+      "district": "4",
+      "name": "葉林傳",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2587",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2587/76ad9be8-63dd-4d96-a9af-2b937376e181.jpg",
+      "personalWebsite": "https://tcc9907.tcc.gov.tw/",
+      "facebook": "",
+      "error": ""
+    },
+    {
+      "district": "4",
+      "name": "林珍羽",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2588",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2588/5d89e3be-ffb5-4f0e-85bb-2c19b6048b0a.jpg",
+      "personalWebsite": "https://linktr.ee/cyu414",
+      "facebook": "https://www.facebook.com/cyu414",
+      "error": ""
+    },
+    {
+      "district": "4",
+      "name": "陳怡君",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2590",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2590/b094c932-bcae-4590-87f0-4a23dede35eb.jpg",
+      "personalWebsite": "https://tcc10711.tcc.gov.tw/",
+      "facebook": "https://www.facebook.com/Chen.E.Jun",
+      "error": ""
+    },
+    {
+      "district": "4",
+      "name": "林亮君",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2591",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2591/c68737c5-ae02-4693-a801-47e6eeffcf3b.jpg",
+      "personalWebsite": "https://tcc10710.tcc.gov.tw/",
+      "facebook": "",
+      "error": ""
+    },
+    {
+      "district": "5",
+      "name": "應曉薇",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2592",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2592/4086eab7-d0fb-4404-a06a-be38839a6ba2.jpg",
+      "personalWebsite": "https://tcc9909.tcc.gov.tw/",
+      "facebook": "https://www.facebook.com/pages/%E6%87%89%E6%9B%89%E8%96%87%E7%A5%9D%E6%82%A8%E5%B9%B8%E7%A6%8F/110924275609352",
+      "error": ""
+    },
+    {
+      "district": "5",
+      "name": "郭昭巖",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2593",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2593/afa273c5-0ae1-4617-ab85-e0ed401f43d8.jpg",
+      "personalWebsite": "https://tcc9908.tcc.gov.tw/",
+      "facebook": "https://www.facebook.com/kuochaoyencafe",
+      "error": ""
+    },
+    {
+      "district": "5",
+      "name": "洪婉臻",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2595",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2595/67318073-14f0-4f79-a89f-9450863e2297.jpg",
+      "personalWebsite": "https://tcc11110.tcc.gov.tw/",
+      "facebook": "https://www.facebook.com/HWJocelyn",
+      "error": ""
+    },
+    {
+      "district": "5",
+      "name": "吳志剛",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2596",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2596/544eef1a-e382-4077-97e8-5dd7ff381c67.jpg",
+      "personalWebsite": "https://tcc9513.tcc.gov.tw/",
+      "facebook": "",
+      "error": ""
+    },
+    {
+      "district": "5",
+      "name": "徐立信",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2597",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2597/bac0756e-c7d8-4997-bab2-9a6f321f59aa.jpg",
+      "personalWebsite": "https://tcc10712.tcc.gov.tw/",
+      "facebook": "",
+      "error": ""
+    },
+    {
+      "district": "5",
+      "name": "鍾小平",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2598",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2598/b99a30b8-6ff0-488e-b83f-3850bf6aa0cb.jpg",
+      "personalWebsite": "https://tcc8719.tcc.gov.tw/",
+      "facebook": "",
+      "error": ""
+    },
+    {
+      "district": "5",
+      "name": "劉耀仁",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2599",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2599/ca632d2d-eeec-45ac-99f4-a063192eb04c.jpg",
+      "personalWebsite": "https://tcc9114.tcc.gov.tw/",
+      "facebook": "",
+      "error": ""
+    },
+    {
+      "district": "6",
+      "name": "李柏毅",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2600",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2600/4e80d837-936a-4546-96c2-e4fc9e1bbdbe.jpg",
+      "personalWebsite": "https://tcc10715.tcc.gov.tw/",
+      "facebook": "",
+      "error": ""
+    },
+    {
+      "district": "6",
+      "name": "苗博雅",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2602",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2602/f1668ae0-488c-4e29-b75d-c1639fa6708a.jpg",
+      "personalWebsite": "https://tcc10717.tcc.gov.tw/",
+      "facebook": "https://www.facebook.com/miaopoya.sdp",
+      "error": ""
+    },
+    {
+      "district": "6",
+      "name": "曾獻瑩",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2603",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2603/247f69d1-6628-496b-b457-4ecb65ff8dc9.jpg",
+      "personalWebsite": "https://tcc11111.tcc.gov.tw/",
+      "facebook": "https://www.facebook.com/politicsfromfamily",
+      "error": ""
+    },
+    {
+      "district": "6",
+      "name": "簡舒培",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2604",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2604/d0fae305-c319-4eac-a7fc-0773306c2204.jpg",
+      "personalWebsite": "https://tcc10311.tcc.gov.tw/",
+      "facebook": "",
+      "error": ""
+    },
+    {
+      "district": "6",
+      "name": "徐弘庭",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2605",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2605/4f814691-8ae4-4eaf-851b-4f164516f352.jpg",
+      "personalWebsite": "https://tcc10312.tcc.gov.tw/",
+      "facebook": "https://www.facebook.com/WilliamHsu19820621",
+      "error": ""
+    },
+    {
+      "district": "6",
+      "name": "王欣儀",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2606",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2606/9e7e3bcc-3df9-4b19-ad7c-a8c84c95d3eb.jpg",
+      "personalWebsite": "https://tcc9116.tcc.gov.tw/",
+      "facebook": "",
+      "error": ""
+    },
+    {
+      "district": "6",
+      "name": "鍾沛君",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2608",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2608/24d2e520-2b66-49e5-a850-613f4f5c8570.jpg",
+      "personalWebsite": "https://tcc10716.tcc.gov.tw/",
+      "facebook": "",
+      "error": ""
+    },
+    {
+      "district": "6",
+      "name": "陳錦祥",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2609",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2609/1ed9d459-a9b9-4706-a567-32b1df08d796.jpg",
+      "personalWebsite": "https://tcc0741.tcc.gov.tw/",
+      "facebook": "",
+      "error": ""
+    },
+    {
+      "district": "6",
+      "name": "楊植斗",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2610",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2610/0eeb9a9a-3ae2-4ab6-a20c-d2d6bb8b790a.jpg",
+      "personalWebsite": "https://tcc11114.tcc.gov.tw/",
+      "facebook": "https://www.facebook.com/tepdj",
+      "error": ""
+    },
+    {
+      "district": "6",
+      "name": "王閔生",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2611",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2611/f04528e8-30ec-40ec-bd95-88a951599bf1.jpg",
+      "personalWebsite": "https://tcc10310.tcc.gov.tw/",
+      "facebook": "",
+      "error": ""
+    },
+    {
+      "district": "6",
+      "name": "耿葳",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2612",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2612/54d246a7-2850-465e-b045-67ce756cabb3.jpg",
+      "personalWebsite": "https://tcc10718.tcc.gov.tw/",
+      "facebook": "https://www.facebook.com/thewei",
+      "error": ""
+    },
+    {
+      "district": "6",
+      "name": "張志豪",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2613",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2613/3aec5f32-9e10-43b6-9403-c5612324ffdf.jpg",
+      "personalWebsite": "https://tcc11113.tcc.gov.tw/",
+      "facebook": "https://www.facebook.com/firechc119",
+      "error": ""
+    },
+    {
+      "district": "7",
+      "name": "李芳儒",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2614",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2614/83283130-2ff5-484d-9969-ff007ff5793b.jpg",
+      "personalWebsite": "https://tcc9913.tcc.gov.tw/",
+      "facebook": "https://www.facebook.com/leebanul",
+      "error": ""
+    },
+    {
+      "district": "8",
+      "name": "李傅中武",
+      "detailUrl": "https://www.tcc.gov.tw/Councilor_Content.aspx?n=13898&s=2615",
+      "photoUrl": "https://ws.tcc.gov.tw/001/Upload/OldFile/Councilor/2615/44c4149a-cc5a-42aa-8513-16ef9c2b4b8c.jpg",
+      "personalWebsite": "https://tcc9914.tcc.gov.tw/",
+      "facebook": "",
+      "error": ""
+    }
+  ]
+}

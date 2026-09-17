@@ -11,6 +11,7 @@
     "sync:kcc": "node scripts/scrape-kcc-councilors.mjs",
     "apply:kcc": "node scripts/apply-kcc-councilors.mjs",
     "sync:ntp": "node scripts/sync-ntp-councilors.mjs",
+    "sync:tcc": "node scripts/sync-tcc-councilors.mjs",
     "sync:tccc": "node scripts/sync-tccc-councilors.mjs",
     "sync:moi-villages": "node scripts/sync-moi-village-chiefs.mjs",
     "sync:taiwangogo": "node scripts/sync-taiwangogo-links.mjs",
