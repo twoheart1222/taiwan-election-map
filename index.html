@@ -59,10 +59,20 @@
     .nav-actions [data-view="support"]{min-height:42px;padding:9px 12px !important;font-size:13px;white-space:nowrap}
     /* 抽屜獨立佔滿手機視窗，候選人清單才不會被下一個 section 截斷 */
     .drawer{position:fixed !important;top:58px !important;right:0 !important;bottom:0 !important;width:100% !important;height:auto !important;max-height:calc(100dvh - 58px) !important;z-index:100 !important}
+    .drawer-head{padding:12px 16px 8px !important;gap:10px !important}
+    .drawer-head>div:first-child{max-width:calc(100% - 46px)}
+    .drawer-head>button{width:38px !important;height:38px !important}
+    #drawer-title{font-size:clamp(20px,5.6vw,25px) !important;line-height:1.18 !important;letter-spacing:0 !important;margin-top:8px !important;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+    .drawer-stats{padding:0 16px 10px !important;gap:6px !important}
+    .drawer-stats>div{padding:8px 9px !important;border-radius:8px !important}
+    .drawer-stats>div>span:first-child{font-size:8px !important;letter-spacing:0 !important;white-space:nowrap}
+    .drawer-stats>div>span:last-child{font-size:16px !important;margin-top:2px !important}
+    .drawer-body-scroll{overflow-y:auto !important;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding-top:2px}
+    #back-area{padding:0 16px 6px !important}
+    #candidates{flex:none !important;min-height:auto !important;overflow:visible !important;padding:4px 16px 24px !important}
     .map-hero{height:76dvh !important;min-height:0 !important}
     .map-intro{top:18px !important;left:16px !important;max-width:calc(100% - 32px) !important}
     .map-intro h1{font-size:28px !important;line-height:1.18 !important;letter-spacing:0 !important}
-    #drawer-title{font-size:clamp(22px,7vw,30px) !important;line-height:1.25 !important;letter-spacing:0 !important}
     .candidate-card{border-radius:8px !important;padding:16px !important}
     .candidate-main{grid-template-columns:88px minmax(0,1fr);gap:14px}
     .candidate-photo{width:88px;height:88px}
@@ -127,6 +137,7 @@
     <div id="view-map">
       <section class="map-hero" style="position:relative;height:calc(100dvh - 58px);min-height:500px;overflow:hidden;background:radial-gradient(120% 120% at 50% -10%,#171512 0%,#0d0d0d 65%)">
         <div id="tw3d" style="position:absolute;inset:0;cursor:grab;touch-action:none"></div>
+        <div id="map-transition" aria-hidden="true" style="position:absolute;inset:0;z-index:32;display:none;pointer-events:none;transform:scaleX(0);background:#E4022B;will-change:transform"><span style="position:absolute;left:clamp(18px,4vw,54px);bottom:clamp(24px,5vh,56px);font:900 clamp(24px,5vw,70px)/1 'Archivo','Noto Sans TC';color:#0d0d0d;letter-spacing:0">2026 / TAIWAN</span></div>
 
         <div class="map-intro" style="position:absolute;top:clamp(16px,3vh,32px);left:clamp(16px,4vw,44px);pointer-events:none;max-width:74%">
           <div style="font-family:'Archivo';font-weight:700;font-size:12px;letter-spacing:.26em;color:#E4022B;margin-bottom:11px">選情地圖 / THE MAP</div>
@@ -147,7 +158,7 @@
 
         <!-- DRAWER -->
         <aside id="drawer" class="drawer" style="position:absolute;top:0;right:0;height:100%;width:min(100%,560px);z-index:40;background:#141210;color:#f4f1ea;box-shadow:-18px 0 50px rgba(0,0,0,.6);border-left:1px solid #2a2723;transform:translateX(103%);transition:transform .55s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;overflow:hidden">
-          <div style="flex:none;padding:24px 26px 16px;display:flex;align-items:flex-start;justify-content:space-between;gap:14px">
+          <div class="drawer-head" style="flex:none;padding:24px 26px 16px;display:flex;align-items:flex-start;justify-content:space-between;gap:14px">
             <div style="min-width:0">
               <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
                 <span id="drawer-tag" style="display:inline-flex;padding:4px 12px;border-radius:999px;background:#2a1013;color:#ff5a74;font-size:11px;font-weight:800;letter-spacing:.04em">直轄市</span>
@@ -157,11 +168,12 @@
             </div>
             <button id="drawer-close" style="width:40px;height:40px;flex:none;border:1.5px solid #33302b;background:#1f1c19;border-radius:999px;cursor:pointer;font-size:18px;font-weight:700;color:#f4f1ea;line-height:1">✕</button>
           </div>
-          <div style="flex:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:0 26px 18px">
+          <div class="drawer-stats" style="flex:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:0 26px 18px">
             <div style="background:#1f1c19;border-radius:16px;padding:12px 14px"><span style="display:block;font-family:'Archivo';font-size:9px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:#8a857c">選舉人數估計</span><span id="stat-voters" style="display:block;margin-top:4px;font-family:'Archivo';font-weight:900;font-size:19px">--</span></div>
             <div style="background:#2a1013;border-radius:16px;padding:12px 14px"><span style="display:block;font-family:'Archivo';font-size:9px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:#ff5a74">應選席次</span><span id="stat-quota" style="display:block;margin-top:4px;font-family:'Archivo';font-weight:900;font-size:19px;color:#ff5a74">--</span></div>
             <div style="background:#1f1c19;border-radius:16px;padding:12px 14px"><span style="display:block;font-family:'Archivo';font-size:9px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:#8a857c">登記人數</span><span id="stat-registered" style="display:block;margin-top:4px;font-family:'Archivo';font-weight:900;font-size:19px">--</span></div>
           </div>
+          <div class="drawer-body-scroll" style="flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden">
           <!-- 上一頁按鈕 -->
           <div id="back-area" style="flex:none;padding:0 26px 8px;display:none">
             <button id="btn-back" style="display:inline-flex;align-items:center;gap:7px;padding:7px 14px;border:1.5px solid #33302b;background:transparent;color:#a29c92;border-radius:999px;font:700 12px 'Noto Sans TC',sans-serif;cursor:pointer;letter-spacing:.03em;transition:all .2s">
@@ -178,6 +190,7 @@
             <select id="sel-village" class="dsel" style="display:none"><option value="">選擇村里</option></select>
           </div>
           <div id="candidates" class="cand-scroll" style="flex:1;min-height:0;overflow-y:auto;padding:4px 26px 30px;display:flex;flex-direction:column;gap:14px"></div>
+          </div>
         </aside>
       </section>
 
@@ -339,8 +352,26 @@ class App {
     this._showView('map');
   }
   _showView(name) {
-    ['map', 'observatory', 'support', 'contact'].forEach(v => { const el = document.getElementById('view-' + v); if (el) el.style.display = v === name ? 'flex' : 'none'; });
-    const map = document.getElementById('view-map'); if (map) map.style.display = name === 'map' ? 'block' : 'none';
+    const names = ['map', 'observatory', 'support', 'contact'];
+    const setVisible = active => names.forEach(v => {
+      const el = document.getElementById('view-' + v);
+      if (!el) return;
+      el.style.display = v === active ? (v === 'map' ? 'block' : 'flex') : 'none';
+      if (v === active) { el.style.opacity = '1'; el.style.visibility = 'visible'; el.style.transform = 'translateY(0)'; }
+    });
+    const previous = this._currentView;
+    const next = document.getElementById('view-' + name);
+    const current = previous ? document.getElementById('view-' + previous) : null;
+    this._currentView = name;
+    if (!previous || previous === name || !window.gsap || !current || !next) {
+      setVisible(name);
+    } else {
+      window.gsap.killTweensOf([current, next]);
+      window.gsap.timeline({ defaults: { overwrite: true } })
+        .to(current, { autoAlpha: 0, y: -16, duration: 0.22, ease: 'power2.in' })
+        .add(() => setVisible(name))
+        .fromTo(next, { autoAlpha: 0, y: 22 }, { autoAlpha: 1, y: 0, duration: 0.58, ease: 'power4.out' });
+    }
     document.querySelectorAll('.navlink').forEach(l => l.classList.toggle('on', l.dataset.view === name));
     window.scrollTo(0, 0);
     if (name === 'map' && this._renderer) setTimeout(() => this._onResize && this._onResize(), 60);
@@ -505,6 +536,34 @@ class App {
     window.gsap.to(s, { ...tgt, duration: opt.dur ?? 1.15, ease: 'power3.inOut', onUpdate: () => this._updateCam() });
   }
 
+  _focusCameraWithinContext(feature, contextFeats) {
+    if (!feature || !contextFeats?.length) return;
+    const context = this._worldBBox(contextFeats), focus = this._worldBBox([feature]);
+    const tx = (focus.minX + focus.maxX) / 2, tz = (focus.minZ + focus.maxZ) / 2;
+    const halfW = (context.maxX - context.minX) / 2 || 5, halfH = (context.maxZ - context.minZ) / 2 || 5;
+    const vFOV = this.cam.fov * Math.PI / 180, aspect = (this.el.clientWidth / this.el.clientHeight) || 1.6;
+    const baseR = Math.max(8, halfH / Math.tan(vFOV / 2), halfW / Math.tan(vFOV / 2) / aspect) * 1.4;
+    const outR = Math.max(this.camState.r, baseR * 0.98);
+    const targetR = Math.max(8, baseR * 0.72);
+    window.gsap.killTweensOf(this.camState);
+    window.gsap.timeline({ defaults: { onUpdate: () => this._updateCam() } })
+      .to(this.camState, { r: outR, duration: 0.24, ease: 'power2.out' })
+      .to(this.camState, { tx, tz, r: targetR, pol: 0.16, duration: 0.82, ease: 'expo.inOut' });
+  }
+
+  _transitionMap(change) {
+    const veil = document.getElementById('map-transition');
+    if (!window.gsap || !veil) { change(); return; }
+    window.gsap.killTweensOf(veil);
+    window.gsap.timeline()
+      .set(veil, { display: 'block', scaleX: 0, transformOrigin: 'left center' })
+      .to(veil, { scaleX: 1, duration: 0.32, ease: 'power4.in' })
+      .add(change)
+      .set(veil, { transformOrigin: 'right center' })
+      .to(veil, { scaleX: 0, duration: 0.52, ease: 'power4.out' })
+      .set(veil, { display: 'none' });
+  }
+
   _buildLevel(level, feats) {
     const THREE = this.THREE;
     while (this.flat.children.length) { const m = this.flat.children.pop(); if (m.geometry) m.geometry.dispose(); if (m.material) m.material.dispose(); }
@@ -594,7 +653,7 @@ class App {
     this._readoutMesh(target);
     if (this.active.level === 'village') {
       target.scale.set(1, 1, 1);
-      this._frame(this.villageFeats || [feature], { pol: 0.16, dur: 0.85 });
+      this._focusCameraWithinContext(feature, this.villageFeats || [feature]);
       return;
     }
     window.gsap.fromTo(target.scale, { x: 0.86, y: 0.86, z: 0.86 }, { x: 1.16, y: 1.16, z: 1.16, duration: 0.72, ease: 'back.out(2)' });
@@ -608,9 +667,11 @@ class App {
       return;
     }
     if (!this.villageFeats?.length) return;
-    this._buildLevel('village', this.villageFeats);
-    this._frame(this.villageFeats, { pol: 0.16 });
-    requestAnimationFrame(() => requestAnimationFrame(applyFocus));
+    this._transitionMap(() => {
+      this._buildLevel('village', this.villageFeats);
+      this._frame(this.villageFeats, { pol: 0.16, dur: 0 });
+      requestAnimationFrame(() => requestAnimationFrame(applyFocus));
+    });
   }
   _clearFeatureFocus() {
     if (!this.active) return;
@@ -653,7 +714,7 @@ class App {
       const feats = this._feats(topo); this.townFeats = feats;
       this.nav = [{ level: 'county', label: '全台灣' }, { level: 'town', label: p.name, code: p.id }];
       this._renderCrumb();
-      this._buildLevel('town', feats); this._frame(feats, { pol: 0.2 });
+      this._transitionMap(() => { this._buildLevel('town', feats); this._frame(feats, { pol: 0.2, dur: 0 }); });
     } catch (e) { console.warn('drillCounty', e); this._frame([this.countyFeats.find(f => f.properties.id === p.id)], { pol: 0.7 }); this._toast('此縣市尚無鄉鎮圖層資料'); }
   }
   async _drillTown(p) {
@@ -666,7 +727,7 @@ class App {
       const feats = this._feats(topo); this.villageFeats = feats;
       this.nav = this.nav.slice(0, 2); this.nav.push({ level: 'village', label: p.name, code: p.id });
       this._renderCrumb();
-      this._buildLevel('village', feats); this._frame(feats, { pol: 0.16 });
+      this._transitionMap(() => { this._buildLevel('village', feats); this._frame(feats, { pol: 0.16, dur: 0 }); });
     } catch (e) { this._toast('此行政區尚無村里圖層資料'); }
   }
   _drillVillage(p) { this._openVillageDrawer(p); const f = this.villageFeats.find(x => x.properties.id === p.id); if (f) this._focusFeature(f, 'hot'); }
@@ -679,15 +740,15 @@ class App {
   _goLevel(idx) {
     if (idx <= 0) {
       this.nav = [{ level: 'county', label: '全台灣' }]; this._renderCrumb();
-      this._buildLevel('county', this.countyFeats); this._frame(this.countyFeats, { pol: 0.62 });
+      this._transitionMap(() => { this._buildLevel('county', this.countyFeats); this._frame(this.countyFeats, { pol: 0.62, dur: 0 }); });
       this._auto = true; document.getElementById('drawer').style.transform = 'translateX(103%)';
       this._setDrawerLock(false); this._drawerOpen = false; this._applyViewOffset();
       document.getElementById('tw3d-name').textContent = '台灣全境'; document.getElementById('tw3d-meta').textContent = '拖曳旋轉 · 點擊縣市查看候選人';
       return;
     }
     const node = this.nav[idx]; this.nav = this.nav.slice(0, idx + 1); this._renderCrumb();
-    if (node.level === 'town') { this._buildLevel('town', this.townFeats); this._frame(this.townFeats, { pol: 0.2 }); this._openCountyDrawer(this.county.props); this._highlightDistrict(this.county.code, null); }
-    else if (node.level === 'village') { this._buildLevel('village', this.villageFeats); this._frame(this.villageFeats, { pol: 0.16 }); this._openTownDrawer(this.town.props); }
+    if (node.level === 'town') { this._transitionMap(() => { this._buildLevel('town', this.townFeats); this._frame(this.townFeats, { pol: 0.2, dur: 0 }); }); this._openCountyDrawer(this.county.props); this._highlightDistrict(this.county.code, null); }
+    else if (node.level === 'village') { this._transitionMap(() => { this._buildLevel('village', this.villageFeats); this._frame(this.villageFeats, { pol: 0.16, dur: 0 }); }); this._openTownDrawer(this.town.props); }
   }
   _renderCrumb() {
     const box = document.getElementById('crumb');
@@ -824,8 +885,7 @@ class App {
         this._showCands(vf.properties.candidates || []);
         // 上一頁：回到鄉鎮 2D 地圖，並保留返回選舉區的第二層按鈕
         this._showBack(() => {
-          this._buildLevel('town', this.townFeats);
-          this._frame(this.townFeats, { pol: 0.2 });
+          this._transitionMap(() => { this._buildLevel('town', this.townFeats); this._frame(this.townFeats, { pol: 0.2, dur: 0 }); });
           this._openTownDrawer(this.town.props, { backToDistrict: true });
         });
         this._focusVillageFromDrawer(vf);
@@ -843,7 +903,7 @@ class App {
       this._showSel('sel-village');
       this._loadTopo(`./data/villages/villages-${p.id}.json`).then(topo => {
         const feats = this._feats(topo); this.villageFeats = feats;
-        this._buildLevel('village', feats); this._frame(feats, { pol: 0.16 });
+        this._transitionMap(() => { this._buildLevel('village', feats); this._frame(feats, { pol: 0.16, dur: 0 }); });
         const nav2 = this.nav.filter(n => n.level !== 'village');
         nav2.push({ level: 'village', label: p.name, code: p.id });
         this.nav = nav2; this._renderCrumb();
@@ -865,8 +925,7 @@ class App {
 
     // 第一層返回：回到鄉鎮 2D 地圖，保留下一層返回到選舉區的按鈕。
     this._showBack(() => {
-      this._buildLevel('town', this.townFeats);
-      this._frame(this.townFeats, { pol: 0.2 });
+      this._transitionMap(() => { this._buildLevel('town', this.townFeats); this._frame(this.townFeats, { pol: 0.2, dur: 0 }); });
       this._openTownDrawer(this.town.props, { backToDistrict: true });
     });
   }
@@ -893,16 +952,24 @@ class App {
   // ── Candidates list ──
   _showCands(cands) {
     const box = document.getElementById('candidates');
+    const scrollShell = document.querySelector('.drawer-body-scroll');
     const statReg = document.getElementById('stat-registered');
     if (!cands || cands.length === 0) {
       box.innerHTML = `<div style="background:#1c1916;border:1px solid #2a2723;border-radius:18px;padding:26px;text-align:center;font-size:13px;font-weight:700;color:#a29c92">該選區目前登記名冊核定中，或尚無資料</div>`;
       if (statReg) statReg.textContent = '--';
-      box.scrollTop = 0;
+      box.scrollTop = 0; if (scrollShell) scrollShell.scrollTop = 0;
+      if (window.gsap) window.gsap.fromTo(box.firstElementChild, { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 0.45, ease: 'power3.out' });
       return;
     }
     box.innerHTML = cands.map(c => this._card(c)).join('');
-    box.scrollTop = 0;
+    box.scrollTop = 0; if (scrollShell) scrollShell.scrollTop = 0;
     if (statReg) this._countUp(statReg, `${cands.length} 人`);
+    if (window.gsap) {
+      window.gsap.killTweensOf([...box.children]);
+      window.gsap.killTweensOf('#drawer-title');
+      window.gsap.fromTo('#drawer-title', { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: 0.4, ease: 'power3.out' });
+      window.gsap.fromTo([...box.children], { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: 0.55, stagger: 0.055, ease: 'power3.out' });
+    }
   }
 
   _partyChip(name) {
