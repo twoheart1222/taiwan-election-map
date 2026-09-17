@@ -56,10 +56,10 @@
 <script>
   /* =====================================================================
      後台校閱資料（候選人照片、社群連結、席次等）由 Cloudflare Worker + KV 供應。
-     部署 worker 後，把下面網址換成你的 Worker /overrides 端點。
-     未設定（含 YOUR-WORKER）時會自動略過，只顯示 data/ 內的原始候選人資料。
+     後台校閱資料由 election-api Worker 的 overrides endpoint 提供。
+     若 API 暫時無法連線，仍會退回顯示 data/ 內的原始候選人資料。
      ===================================================================== */
-  window.OVERRIDES_URL = 'https://taiwan-election-overrides.YOUR-WORKER.workers.dev/overrides';
+  window.OVERRIDES_URL = 'https://election-api.uprisevideoproduction.workers.dev/?key=overrides';
 </script>
 <script>
   /* 保險絲：8 秒後若 preloader 仍在，強制淡出（避免任何載入失敗卡住畫面） */
@@ -328,10 +328,12 @@ class App {
     if (this._ov) return this._ov;
     this._ov = (async () => {
       try {
-        if (!window.OVERRIDES_URL || String(window.OVERRIDES_URL).includes('YOUR-WORKER')) return {};
+        if (!window.OVERRIDES_URL) return {};
         const r = await fetch(window.OVERRIDES_URL, { headers: { accept: 'application/json' } });
         if (!r.ok) throw new Error('overrides ' + r.status);
-        return await r.json();
+        const payload = await r.json();
+        // Support both the current API payload and a future { data: ... } wrapper.
+        return payload && payload.data && typeof payload.data === 'object' ? payload.data : payload;
       } catch (err) { console.warn('讀取 overrides 失敗，僅顯示原始候選人資料。', err); return {}; }
     })();
     return this._ov;
