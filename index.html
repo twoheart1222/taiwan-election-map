@@ -50,7 +50,7 @@
   .source-links{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:18px}
   .source-links a{font-weight:800;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:5px;transition:opacity .2s,transform .2s}
   .source-links a:hover{color:#0d0d0d;opacity:.65;transform:translateY(-1px)}
-  .mobile-menu-toggle,.mobile-menu{display:none}
+  .mobile-search-toggle,.mobile-menu-toggle,.mobile-menu{display:none}
   .candidate-main{display:grid;grid-template-columns:88px minmax(0,1fr);gap:16px;align-items:center}
   .candidate-photo{width:88px;height:88px;overflow:hidden;border-radius:50%;background:#2a2723;display:grid;place-items:center;font-family:'Noto Sans TC';font-weight:900;font-size:28px;color:#f4f1ea}
   .candidate-title-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
@@ -80,6 +80,10 @@
     #nav-days{color:#E4022B !important;font-size:20px !important;font-variant-numeric:tabular-nums}
     .nav-daysbox>span:last-child{font-size:11px !important}
     .nav-actions{display:none !important}
+    .mobile-search-toggle{display:grid;width:40px;height:40px;place-items:center;flex:none;border:1px solid #33302b;border-radius:6px;background:#171512;color:#f4f1ea;cursor:pointer}
+    .mobile-search-toggle svg{width:20px;height:20px;stroke:currentColor}
+    .mobile-search-toggle.open{background:#E4022B;border-color:#E4022B;color:#fff}
+    .mobile-search-toggle:focus-visible{outline:2px solid #E4022B;outline-offset:2px}
     .mobile-menu-toggle{display:grid;width:40px;height:40px;place-items:center;flex:none;border:1px solid #33302b;border-radius:6px;background:#171512;color:#f4f1ea;font:800 22px/1 'Archivo';cursor:pointer}
     .mobile-menu-toggle:focus-visible{outline:2px solid #E4022B;outline-offset:2px}
     .mobile-menu{position:absolute;top:calc(100% + 1px);right:12px;width:min(280px,calc(100vw - 24px));padding:8px;background:#171512;border:1px solid #33302b;box-shadow:0 18px 44px rgba(0,0,0,.5);flex-direction:column;gap:2px}
@@ -102,7 +106,9 @@
     #candidates{flex:none !important;min-height:auto !important;overflow:visible !important;padding:4px 16px max(40px,calc(24px + env(safe-area-inset-bottom))) !important}
     .map-intro{top:18px !important;left:16px !important;max-width:calc(100% - 32px) !important}
     .map-intro h1{font-size:28px !important;line-height:1.18 !important;letter-spacing:0 !important}
-    .candidate-search{margin-top:15px}
+    .candidate-search{display:none;position:fixed;top:70px;left:12px;right:12px;width:auto;margin:0;z-index:95;padding:10px;background:rgba(13,13,13,.96);border:1px solid #33302b;border-radius:16px;box-shadow:0 18px 48px rgba(0,0,0,.62);backdrop-filter:blur(12px)}
+    .candidate-search.mobile-open{display:block}
+    .candidate-search-results{position:relative;top:auto;margin-top:8px;max-height:min(52dvh,390px)}
     #candidate-search-input{font-size:16px;padding-top:12px;padding-bottom:12px}
     .candidate-card{border-radius:8px !important;padding:16px !important}
     .candidate-main{grid-template-columns:88px minmax(0,1fr);gap:14px}
@@ -168,6 +174,9 @@
         <a href="#" data-view="contact" class="navlink">聯絡我們</a>
         <a href="#" data-view="support" style="display:inline-flex;align-items:center;gap:7px;padding:8px 16px;background:#E4022B;color:#fff;border-radius:999px;font-weight:800">支持我們</a>
       </div>
+      <button id="mobile-search-toggle" class="mobile-search-toggle" type="button" aria-expanded="false" aria-controls="candidate-search" aria-label="開啟候選人搜尋">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="6.5" stroke-width="2.3"></circle><path d="m16 16 4 4" stroke-width="2.3" stroke-linecap="round"></path></svg>
+      </button>
       <button id="mobile-menu-toggle" class="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="開啟頁面選單">☰</button>
       <div id="mobile-menu" class="mobile-menu" aria-label="手機頁面選單">
         <a href="#" data-view="map">選情地圖 <span aria-hidden="true">→</span></a>
@@ -302,14 +311,17 @@
       <header style="padding:clamp(48px,9vh,110px) clamp(18px,4vw,54px) clamp(22px,4vh,44px)">
         <div style="font-family:'Archivo';font-weight:700;font-size:13px;letter-spacing:.28em;color:#E4022B;margin-bottom:20px">支持我們 / SUPPORT</div>
         <h1 style="font-family:'Noto Sans TC','Archivo',sans-serif;font-weight:900;font-size:clamp(38px,7.5vw,112px);line-height:.96;letter-spacing:-.03em;margin:0 0 24px;max-width:1200px;text-wrap:balance">讓開放的選舉資訊，<br>走得<span style="color:#E4022B">更遠</span>。</h1>
-        <p style="margin:0;max-width:640px;color:#a29c92;font-size:clamp(15px,1.6vw,18px);line-height:1.8;text-wrap:pretty">我們沒有任何政黨或財團資助。你的每一筆小額捐款，都直接投入資料查證、地圖維護與伺服器成本，讓 22 縣市的候選人資訊持續免費、公開、中立。</p>
+        <div style="max-width:760px;color:#a29c92;font-size:clamp(15px,1.6vw,18px);line-height:1.8;text-wrap:pretty">
+          <p style="margin:0">這是一個由獨立團隊維護的選舉資訊網站。你的支持將用於資料整理、網站開發、伺服器與持續維護成本。</p>
+          <p style="margin:14px 0 0;font-size:.86em;color:#777169">本站並非公益勸募團體、政黨、政治團體或候選人。本頁款項屬對本站營運之支持，不屬政治獻金，亦非可申報所得稅扣除之公益捐款。</p>
+        </div>
       </header>
       <main style="flex:1;padding:0 clamp(18px,4vw,54px) clamp(56px,9vh,110px)">
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:clamp(20px,3vw,44px);align-items:start;max-width:1200px">
           <div style="background:#f4f1ea;color:#0d0d0d;border-radius:20px;padding:clamp(24px,3vw,40px)">
             <div style="display:flex;gap:8px;padding:5px;background:#e6e1d6;border-radius:999px;margin-bottom:26px">
-              <button class="freq-btn" data-freq="once" style="flex:1;padding:11px;border:none;border-radius:999px;font:800 14px 'Noto Sans TC';cursor:pointer;background:#E4022B;color:#fff">單次捐款</button>
-              <button class="freq-btn" data-freq="monthly" style="flex:1;padding:11px;border:none;border-radius:999px;font:800 14px 'Noto Sans TC';cursor:pointer;background:transparent;color:#0d0d0d">每月定期</button>
+              <button class="freq-btn" data-freq="once" style="flex:1;padding:11px;border:none;border-radius:999px;font:800 14px 'Noto Sans TC';cursor:pointer;background:#E4022B;color:#fff">單次支持</button>
+              <button class="freq-btn" data-freq="monthly" style="flex:1;padding:11px;border:none;border-radius:999px;font:800 14px 'Noto Sans TC';cursor:pointer;background:transparent;color:#0d0d0d">每月支持</button>
             </div>
             <div style="font-family:'Archivo';font-weight:700;font-size:11px;letter-spacing:.16em;color:#8a857c;margin-bottom:12px">選擇金額 (NT$)</div>
             <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px">
@@ -332,9 +344,9 @@
               <button class="pay-btn" data-pay="linepay" style="padding:12px 6px;border:1.5px solid #d8d3c8;border-radius:12px;background:#fff;font:800 13px 'Noto Sans TC';cursor:pointer;color:#0d0d0d">Line Pay</button>
             </div>
             <button id="don-submit" style="width:100%;margin-top:24px;padding:17px;border:none;border-radius:14px;background:#0d0d0d;color:#fff;font-family:'Noto Sans TC';font-weight:900;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:background .2s">
-              <span id="don-submit-label">捐出 NT$300 · 單次</span><span style="font-size:18px">→</span>
+              <span id="don-submit-label">支持 NT$300 · 單次</span><span style="font-size:18px">→</span>
             </button>
-            <p style="margin:14px 0 0;font-size:11.5px;color:#8a857c;line-height:1.6;text-align:center">本頁為示意介面，未串接實際金流。所有捐款將開立正式收據。</p>
+            <p style="margin:14px 0 0;font-size:11.5px;color:#8a857c;line-height:1.6;text-align:center">本頁為示意介面，未串接實際金流；正式支持方式與憑證資訊將另行公告。</p>
           </div>
           <div style="display:flex;flex-direction:column;gap:clamp(16px,2.4vw,26px)">
             <div style="font-family:'Archivo';font-weight:700;font-size:13px;letter-spacing:.24em;color:#E4022B">你的支持用於 / WHERE IT GOES</div>
@@ -449,6 +461,7 @@ class App {
     }));
     toggle?.addEventListener('click', e => {
       e.stopPropagation();
+      this._closeCandidateSearch?.();
       const open = !menu.classList.contains('open');
       menu.classList.toggle('open', open);
       toggle.setAttribute('aria-expanded', String(open));
@@ -510,9 +523,11 @@ class App {
 
   // ---------- CANDIDATE SEARCH ----------
   _wireCandidateSearch() {
+    const search = document.getElementById('candidate-search');
     const input = document.getElementById('candidate-search-input');
     const results = document.getElementById('candidate-search-results');
-    if (!input || !results) return;
+    const toggle = document.getElementById('mobile-search-toggle');
+    if (!search || !input || !results) return;
     this._searchMatches = [];
     this._searchActive = -1;
 
@@ -520,6 +535,14 @@ class App {
       results.classList.remove('open');
       input.setAttribute('aria-expanded', 'false');
       this._searchActive = -1;
+    };
+    const setMobileOpen = open => {
+      search.classList.toggle('mobile-open', open);
+      toggle?.classList.toggle('open', open);
+      toggle?.setAttribute('aria-expanded', String(open));
+      toggle?.setAttribute('aria-label', open ? '關閉候選人搜尋' : '開啟候選人搜尋');
+      if (open) setTimeout(() => input.focus(), 60);
+      else { close(); input.blur(); }
     };
     const run = async () => {
       const query = this._normalizeSearch(input.value);
@@ -557,10 +580,17 @@ class App {
         shown[this._searchActive].scrollIntoView({ block: 'nearest' });
       } else if (event.key === 'Enter' && this._searchActive >= 0) {
         event.preventDefault(); shown[this._searchActive]?.click();
-      } else if (event.key === 'Escape') close();
+      } else if (event.key === 'Escape') setMobileOpen(false);
     });
-    document.addEventListener('click', event => { if (!document.getElementById('candidate-search')?.contains(event.target)) close(); });
-    this._closeCandidateSearch = close;
+    toggle?.addEventListener('click', event => {
+      event.stopPropagation();
+      setMobileOpen(!search.classList.contains('mobile-open'));
+    });
+    document.addEventListener('click', event => {
+      if (!search.contains(event.target) && event.target !== toggle) setMobileOpen(false);
+    });
+    document.addEventListener('keydown', event => { if (event.key === 'Escape') setMobileOpen(false); });
+    this._closeCandidateSearch = () => setMobileOpen(false);
   }
 
   _normalizeSearch(value) {
@@ -1439,7 +1469,7 @@ class App {
   _paintFreq() { document.querySelectorAll('.freq-btn').forEach(b => { const on = b.dataset.freq === this.don.freq; b.style.background = on ? '#E4022B' : 'transparent'; b.style.color = on ? '#fff' : '#0d0d0d'; }); }
   _paintAmt() { document.querySelectorAll('.amt-btn').forEach(b => { const on = b.dataset.amt === String(this.don.amt); b.style.background = on ? '#E4022B' : '#fff'; b.style.color = on ? '#fff' : '#0d0d0d'; b.style.borderColor = on ? '#E4022B' : '#d8d3c8'; }); }
   _paintPay() { document.querySelectorAll('.pay-btn').forEach(b => { const on = b.dataset.pay === this.don.pay; b.style.borderColor = on ? '#E4022B' : '#d8d3c8'; b.style.background = on ? '#fff5f6' : '#fff'; }); }
-  _donLabel() { const el = document.getElementById('don-submit-label'); if (!el) return; const amt = this._donAmt(), freq = this.don.freq === 'monthly' ? '每月' : '單次'; el.textContent = amt > 0 ? `捐出 NT$${amt.toLocaleString('en-US')} · ${freq}` : `輸入金額 · ${freq}`; }
+  _donLabel() { const el = document.getElementById('don-submit-label'); if (!el) return; const amt = this._donAmt(), freq = this.don.freq === 'monthly' ? '每月' : '單次'; el.textContent = amt > 0 ? `支持 NT$${amt.toLocaleString('en-US')} · ${freq}` : `輸入金額 · ${freq}`; }
   _donSubmit() { const amt = this._donAmt(), btn = document.getElementById('don-submit'); if (amt <= 0) { this._showCustom(true); const ci = document.getElementById('amt-custom'); if (ci) ci.focus(); return; } btn.style.background = '#1B9431'; document.getElementById('don-submit-label').textContent = `感謝支持！NT$${amt.toLocaleString('en-US')} 已送出`; window.gsap && window.gsap.fromTo(btn, { scale: 0.96 }, { scale: 1, duration: 0.4, ease: 'back.out(2)' }); }
 
   // ---------- CONTACT ----------

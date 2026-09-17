@@ -39,7 +39,10 @@
   <header style="padding:clamp(52px,10vh,120px) clamp(18px,4vw,54px) clamp(24px,4vh,44px)">
     <div style="font-family:'Archivo';font-weight:700;font-size:13px;letter-spacing:.28em;color:#E4022B;margin-bottom:20px">支持我們 / SUPPORT</div>
     <h1 style="font-family:'Noto Sans TC','Archivo',sans-serif;font-weight:900;font-size:clamp(38px,7.5vw,116px);line-height:.96;letter-spacing:-.03em;margin:0 0 24px;max-width:1200px;text-wrap:balance">讓開放的選舉資訊，<br>走得<span style="color:#E4022B">更遠</span>。</h1>
-    <p style="margin:0;max-width:640px;color:#a29c92;font-size:clamp(15px,1.6vw,18px);line-height:1.8;text-wrap:pretty">我們沒有任何政黨或財團資助。你的每一筆小額捐款，都直接投入資料查證、地圖維護與伺服器成本，讓 22 縣市的候選人資訊持續免費、公開、中立。</p>
+    <div style="max-width:760px;color:#a29c92;font-size:clamp(15px,1.6vw,18px);line-height:1.8;text-wrap:pretty">
+      <p style="margin:0">這是一個由獨立團隊維護的選舉資訊網站。你的支持將用於資料整理、網站開發、伺服器與持續維護成本。</p>
+      <p style="margin:14px 0 0;font-size:.86em;color:#777169">本站並非公益勸募團體、政黨、政治團體或候選人。本頁款項屬對本站營運之支持，不屬政治獻金，亦非可申報所得稅扣除之公益捐款。</p>
+    </div>
   </header>
 
   <main style="flex:1;padding:0 clamp(18px,4vw,54px) clamp(56px,9vh,110px)">
@@ -48,8 +51,8 @@
       <!-- LEFT: form card -->
       <div style="background:#f4f1ea;color:#0d0d0d;border-radius:20px;padding:clamp(24px,3vw,40px)">
         <div style="display:flex;gap:8px;padding:5px;background:#e6e1d6;border-radius:999px;margin-bottom:26px">
-          <button class="freq-btn" data-freq="once" style="flex:1;padding:11px;border:none;border-radius:999px;font:800 14px 'Noto Sans TC';cursor:pointer;background:#E4022B;color:#fff">單次捐款</button>
-          <button class="freq-btn" data-freq="monthly" style="flex:1;padding:11px;border:none;border-radius:999px;font:800 14px 'Noto Sans TC';cursor:pointer;background:transparent;color:#0d0d0d">每月定期</button>
+          <button class="freq-btn" data-freq="once" style="flex:1;padding:11px;border:none;border-radius:999px;font:800 14px 'Noto Sans TC';cursor:pointer;background:#E4022B;color:#fff">單次支持</button>
+          <button class="freq-btn" data-freq="monthly" style="flex:1;padding:11px;border:none;border-radius:999px;font:800 14px 'Noto Sans TC';cursor:pointer;background:transparent;color:#0d0d0d">每月支持</button>
         </div>
 
         <div style="font-family:'Archivo';font-weight:700;font-size:11px;letter-spacing:.16em;color:#8a857c;margin-bottom:12px">選擇金額 (NT$)</div>
@@ -76,9 +79,9 @@
         </div>
 
         <button id="don-submit" style="width:100%;margin-top:24px;padding:17px;border:none;border-radius:14px;background:#0d0d0d;color:#fff;font-family:'Noto Sans TC';font-weight:900;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:background .2s">
-          <span id="don-submit-label">捐出 NT$300 · 單次</span><span style="font-size:18px">→</span>
+          <span id="don-submit-label">支持 NT$300 · 單次</span><span style="font-size:18px">→</span>
         </button>
-        <p style="margin:14px 0 0;font-size:11.5px;color:#8a857c;line-height:1.6;text-align:center">本頁為示意介面，未串接實際金流。所有捐款將開立正式收據。</p>
+        <p style="margin:14px 0 0;font-size:11.5px;color:#8a857c;line-height:1.6;text-align:center">本頁為示意介面，未串接實際金流；正式支持方式與憑證資訊將另行公告。</p>
       </div>
 
       <!-- RIGHT: impact -->
@@ -135,7 +138,7 @@ class Component extends DCLogic {
     const el = document.getElementById('don-submit-label'); if (!el) return;
     const amt = this._amount();
     const freq = this.state.freq === 'monthly' ? '每月' : '單次';
-    el.textContent = amt > 0 ? `捐出 NT$${amt.toLocaleString('en-US')} · ${freq}` : `輸入金額 · ${freq}`;
+    el.textContent = amt > 0 ? `支持 NT$${amt.toLocaleString('en-US')} · ${freq}` : `輸入金額 · ${freq}`;
   }
   _submit() {
     const amt = this._amount();
