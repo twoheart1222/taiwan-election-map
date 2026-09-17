@@ -796,26 +796,39 @@ class App {
     if (!any) { feats.forEach(f => this._eachRing(f, r => r.forEach(([lo, la]) => { const x = this.px(lo), z = -this.py(la); minX = Math.min(minX, x); maxX = Math.max(maxX, x); minZ = Math.min(minZ, z); maxZ = Math.max(maxZ, z); }))); }
     return { minX, maxX, minZ, maxZ };
   }
-  _frame(feats, opt = {}) {
-    const b = this._worldBBox(feats); const cx = (b.minX + b.maxX) / 2, cz = (b.minZ + b.maxZ) / 2;
+  _framePlan(feats, opt = {}) {
+    const b = this._worldBBox(feats), W = this.el.clientWidth, H = this.el.clientHeight;
+    const cx = (b.minX + b.maxX) / 2, cz = (b.minZ + b.maxZ) / 2;
     const halfW = (b.maxX - b.minX) / 2 || 5, halfH = (b.maxZ - b.minZ) / 2 || 5;
-    const vFOV = this.cam.fov * Math.PI / 180, aspect = (this.el.clientWidth / this.el.clientHeight) || 1.6;
+    const isVillage = (opt.level || this.active?.level) === 'village';
+    // The desktop drawer covers the right side of the map. Fit village boundaries
+    // inside the portion that is actually visible instead of the full canvas.
+    const drawerW = this._drawerOpen && W > 760 ? Math.min(560, W) : 0;
+    const aspect = ((W - drawerW) / H) || 1.6;
+    const vFOV = this.cam.fov * Math.PI / 180;
     const rV = halfH / Math.tan(vFOV / 2), rH = halfW / Math.tan(vFOV / 2) / aspect;
-    const r = Math.max(8, rV, rH) * 1.4;
-    const s = this.camState, tgt = { tx: cx, tz: cz, r, pol: opt.pol ?? s.pol };
+    // Small urban districts used to hit the global radius floor and occupy only a
+    // tiny patch of the screen. Village maps need a much closer, tighter frame.
+    const compactVillage = isVillage && W <= 760;
+    const minR = opt.minR ?? (compactVillage ? 2.2 : isVillage ? 2 : 8);
+    const padding = opt.padding ?? (compactVillage ? 1.12 : isVillage ? 1.04 : 1.4);
+    return { cx, cz, r: Math.max(minR, rV, rH) * padding };
+  }
+  _frame(feats, opt = {}) {
+    const plan = this._framePlan(feats, opt);
+    const s = this.camState, tgt = { tx: plan.cx, tz: plan.cz, r: plan.r, pol: opt.pol ?? s.pol };
+    window.gsap.killTweensOf(s);
     if (opt.dur === 0) { Object.assign(s, tgt); this._updateCam(); return; }
     window.gsap.to(s, { ...tgt, duration: opt.dur ?? 1.15, ease: 'power3.inOut', onUpdate: () => this._updateCam() });
   }
 
   _focusCameraWithinContext(feature, contextFeats) {
     if (!feature || !contextFeats?.length) return;
-    const context = this._worldBBox(contextFeats), focus = this._worldBBox([feature]);
+    const plan = this._framePlan(contextFeats, { level: 'village' }), focus = this._worldBBox([feature]);
     const tx = (focus.minX + focus.maxX) / 2, tz = (focus.minZ + focus.maxZ) / 2;
-    const halfW = (context.maxX - context.minX) / 2 || 5, halfH = (context.maxZ - context.minZ) / 2 || 5;
-    const vFOV = this.cam.fov * Math.PI / 180, aspect = (this.el.clientWidth / this.el.clientHeight) || 1.6;
-    const baseR = Math.max(8, halfH / Math.tan(vFOV / 2), halfW / Math.tan(vFOV / 2) / aspect) * 1.4;
+    const baseR = plan.r;
     const outR = Math.max(this.camState.r, baseR * 0.98);
-    const targetR = Math.max(8, baseR * 0.72);
+    const targetR = Math.max(2, baseR * 0.72);
     window.gsap.killTweensOf(this.camState);
     window.gsap.timeline({ defaults: { onUpdate: () => this._updateCam() } })
       .to(this.camState, { r: outR, duration: 0.24, ease: 'power2.out' })
