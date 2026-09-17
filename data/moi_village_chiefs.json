@@ -1,0 +1,251 @@
+{
+  "sourceUrl": "https://www.moi.gov.tw/LocalOfficial.aspx?n=577&sms=11395&TYP=KND0007",
+  "sourceUpdatedAt": "115-09-17",
+  "syncedAt": "2026-09-17T01:32:05.493Z",
+  "sourceRecords": 7493,
+  "matchedCandidates": 6457,
+  "counties": [
+    {
+      "county": "連江縣",
+      "sourceOfficials": 22,
+      "candidates": 37,
+      "incumbents": 18,
+      "photosAvailable": 9,
+      "photosAdded": 0,
+      "overrideIncumbents": 0,
+      "overridePhotosAvailable": 0,
+      "overridePhotosAdded": 0
+    },
+    {
+      "county": "金門縣",
+      "sourceOfficials": 37,
+      "candidates": 75,
+      "incumbents": 31,
+      "photosAvailable": 23,
+      "photosAdded": 0,
+      "overrideIncumbents": 0,
+      "overridePhotosAvailable": 0,
+      "overridePhotosAdded": 0
+    },
+    {
+      "county": "宜蘭縣",
+      "sourceOfficials": 228,
+      "candidates": 434,
+      "incumbents": 197,
+      "photosAvailable": 197,
+      "photosAdded": 0,
+      "overrideIncumbents": 0,
+      "overridePhotosAvailable": 0,
+      "overridePhotosAdded": 0
+    },
+    {
+      "county": "彰化縣",
+      "sourceOfficials": 582,
+      "candidates": 1035,
+      "incumbents": 497,
+      "photosAvailable": 493,
+      "photosAdded": 0,
+      "overrideIncumbents": 54,
+      "overridePhotosAvailable": 54,
+      "overridePhotosAdded": 53
+    },
+    {
+      "county": "南投縣",
+      "sourceOfficials": 254,
+      "candidates": 531,
+      "incumbents": 223,
+      "photosAvailable": 221,
+      "photosAdded": 0,
+      "overrideIncumbents": 0,
+      "overridePhotosAvailable": 0,
+      "overridePhotosAdded": 0
+    },
+    {
+      "county": "雲林縣",
+      "sourceOfficials": 390,
+      "candidates": 725,
+      "incumbents": 304,
+      "photosAvailable": 304,
+      "photosAdded": 0,
+      "overrideIncumbents": 0,
+      "overridePhotosAvailable": 0,
+      "overridePhotosAdded": 0
+    },
+    {
+      "county": "屏東縣",
+      "sourceOfficials": 437,
+      "candidates": 827,
+      "incumbents": 352,
+      "photosAvailable": 235,
+      "photosAdded": 0,
+      "overrideIncumbents": 0,
+      "overridePhotosAvailable": 0,
+      "overridePhotosAdded": 0
+    },
+    {
+      "county": "臺東縣",
+      "sourceOfficials": 138,
+      "candidates": 287,
+      "incumbents": 107,
+      "photosAvailable": 104,
+      "photosAdded": 0,
+      "overrideIncumbents": 0,
+      "overridePhotosAvailable": 0,
+      "overridePhotosAdded": 0
+    },
+    {
+      "county": "花蓮縣",
+      "sourceOfficials": 175,
+      "candidates": 372,
+      "incumbents": 149,
+      "photosAvailable": 149,
+      "photosAdded": 0,
+      "overrideIncumbents": 0,
+      "overridePhotosAvailable": 0,
+      "overridePhotosAdded": 0
+    },
+    {
+      "county": "澎湖縣",
+      "sourceOfficials": 92,
+      "candidates": 154,
+      "incumbents": 74,
+      "photosAvailable": 55,
+      "photosAdded": 0,
+      "overrideIncumbents": 10,
+      "overridePhotosAvailable": 10,
+      "overridePhotosAdded": 9
+    },
+    {
+      "county": "基隆市",
+      "sourceOfficials": 155,
+      "candidates": 276,
+      "incumbents": 143,
+      "photosAvailable": 143,
+      "photosAdded": 0,
+      "overrideIncumbents": 30,
+      "overridePhotosAvailable": 30,
+      "overridePhotosAdded": 29
+    },
+    {
+      "county": "新竹市",
+      "sourceOfficials": 118,
+      "candidates": 215,
+      "incumbents": 110,
+      "photosAvailable": 110,
+      "photosAdded": 0,
+      "overrideIncumbents": 0,
+      "overridePhotosAvailable": 0,
+      "overridePhotosAdded": 0
+    },
+    {
+      "county": "臺北市",
+      "sourceOfficials": 450,
+      "candidates": 818,
+      "incumbents": 413,
+      "photosAvailable": 411,
+      "photosAdded": 0,
+      "overrideIncumbents": 0,
+      "overridePhotosAvailable": 0,
+      "overridePhotosAdded": 0
+    },
+    {
+      "county": "新北市",
+      "sourceOfficials": 920,
+      "candidates": 1635,
+      "incumbents": 817,
+      "photosAvailable": 810,
+      "photosAdded": 0,
+      "overrideIncumbents": 70,
+      "overridePhotosAvailable": 70,
+      "overridePhotosAdded": 68
+    },
+    {
+      "county": "臺中市",
+      "sourceOfficials": 579,
+      "candidates": 1119,
+      "incumbents": 521,
+      "photosAvailable": 521,
+      "photosAdded": 0,
+      "overrideIncumbents": 19,
+      "overridePhotosAvailable": 19,
+      "overridePhotosAdded": 18
+    },
+    {
+      "county": "臺南市",
+      "sourceOfficials": 639,
+      "candidates": 1040,
+      "incumbents": 504,
+      "photosAvailable": 504,
+      "photosAdded": 0,
+      "overrideIncumbents": 63,
+      "overridePhotosAvailable": 63,
+      "overridePhotosAdded": 62
+    },
+    {
+      "county": "桃園市",
+      "sourceOfficials": 510,
+      "candidates": 872,
+      "incumbents": 440,
+      "photosAvailable": 439,
+      "photosAdded": 0,
+      "overrideIncumbents": 16,
+      "overridePhotosAvailable": 16,
+      "overridePhotosAdded": 15
+    },
+    {
+      "county": "苗栗縣",
+      "sourceOfficials": 271,
+      "candidates": 538,
+      "incumbents": 230,
+      "photosAvailable": 229,
+      "photosAdded": 0,
+      "overrideIncumbents": 0,
+      "overridePhotosAvailable": 0,
+      "overridePhotosAdded": 0
+    },
+    {
+      "county": "新竹縣",
+      "sourceOfficials": 192,
+      "candidates": 367,
+      "incumbents": 158,
+      "photosAvailable": 158,
+      "photosAdded": 0,
+      "overrideIncumbents": 11,
+      "overridePhotosAvailable": 11,
+      "overridePhotosAdded": 11
+    },
+    {
+      "county": "嘉義市",
+      "sourceOfficials": 81,
+      "candidates": 157,
+      "incumbents": 73,
+      "photosAvailable": 73,
+      "photosAdded": 0,
+      "overrideIncumbents": 0,
+      "overridePhotosAvailable": 0,
+      "overridePhotosAdded": 0
+    },
+    {
+      "county": "嘉義縣",
+      "sourceOfficials": 349,
+      "candidates": 620,
+      "incumbents": 306,
+      "photosAvailable": 119,
+      "photosAdded": 0,
+      "overrideIncumbents": 1,
+      "overridePhotosAvailable": 0,
+      "overridePhotosAdded": 0
+    },
+    {
+      "county": "高雄市",
+      "sourceOfficials": 874,
+      "candidates": 1622,
+      "incumbents": 790,
+      "photosAvailable": 772,
+      "photosAdded": 0,
+      "overrideIncumbents": 51,
+      "overridePhotosAvailable": 51,
+      "overridePhotosAdded": 49
+    }
+  ]
+}

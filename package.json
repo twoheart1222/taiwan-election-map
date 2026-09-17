@@ -10,6 +10,7 @@
     "sync:kcc": "node scripts/scrape-kcc-councilors.mjs",
     "sync:ntp": "node scripts/sync-ntp-councilors.mjs",
     "sync:tccc": "node scripts/sync-tccc-councilors.mjs",
+    "sync:moi-villages": "node scripts/sync-moi-village-chiefs.mjs",
     "sync:taiwangogo": "node scripts/sync-taiwangogo-links.mjs",
     "apply:ntp-facebook": "node scripts/apply-ntp-facebook.mjs",
     "build:kv-bulk": "node scripts/build-overrides-kv-bulk.mjs",
