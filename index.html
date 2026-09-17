@@ -590,8 +590,9 @@ class App {
       candidates.push({ ...clean, ...context, source, district });
     };
     Object.entries(overrides).forEach(([areaId, patch]) => {
-      const context = areas[areaId];
-      if (!context || !patch || typeof patch !== 'object') return;
+      const area = areas[areaId];
+      if (!area || !patch || typeof patch !== 'object') return;
+      const { name: _legacyAreaName, areaName: _areaName, ...context } = area;
       ['candidates', 'councilors', 'representatives'].forEach(source => {
         if (!Array.isArray(patch[source])) return;
         candidates = candidates.filter(candidate => !(candidate.areaId === areaId && candidate.source === source));

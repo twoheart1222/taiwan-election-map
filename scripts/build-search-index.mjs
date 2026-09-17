@@ -61,7 +61,7 @@ for (const area of allAreas) {
     town: townCode ? (townNames.get(townCode) || '') : '',
     village: areaId.length > 8 ? (area.name || '') : '',
   };
-  areas[areaId] = { ...context, name: area.name || '' };
+  areas[areaId] = { ...context, areaName: area.name || '' };
   for (const candidate of area.candidates || []) publicCandidate(candidate, context);
   for (const block of area.councilors || []) {
     for (const candidate of block.candidates || []) publicCandidate(candidate, context, block.district || null, 'councilors');
