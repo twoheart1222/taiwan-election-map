@@ -4,6 +4,21 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>2026 全台選舉開箱圖鑑 · 選舉倒數</title>
+<meta name="description" content="2026 全台地方選舉互動地圖，查詢縣市、選區、村里與候選人資料。">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:site_name" content="2026 選舉倒數">
+<meta property="og:title" content="2026 全台選舉開箱圖鑑">
+<meta property="og:description" content="從縣市、選區到村里，查看 2026 地方選舉候選人與選情資料。">
+<meta property="og:url" content="https://taiwan-election-map.uprisevideoproduction.workers.dev/">
+<meta property="og:image" content="https://taiwan-election-map.uprisevideoproduction.workers.dev/social-preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="2026 全台選舉開箱圖鑑">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="2026 全台選舉開箱圖鑑">
+<meta name="twitter:description" content="從縣市、選區到村里，查看 2026 地方選舉候選人與選情資料。">
+<meta name="twitter:image" content="https://taiwan-election-map.uprisevideoproduction.workers.dev/social-preview.png">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
@@ -35,7 +50,11 @@
     .site-nav{padding:10px 12px !important;gap:8px !important}
     .site-nav>div:first-child{min-width:0;flex:1}
     .brand-home{gap:8px !important;font-size:15px !important;line-height:1.2 !important;letter-spacing:0 !important;white-space:nowrap}
-    .nav-daysbox,.navlink,.side-hint{display:none !important}
+    .navlink,.side-hint{display:none !important}
+    .nav-daysbox{display:flex !important;gap:4px !important;border-left:0 !important;padding-left:0 !important}
+    .nav-daysbox>span:first-child{display:none !important}
+    #nav-days{color:#E4022B !important;font-size:20px !important;font-variant-numeric:tabular-nums}
+    .nav-daysbox>span:last-child{font-size:11px !important}
     .nav-actions{gap:0 !important}
     .nav-actions [data-view="support"]{min-height:42px;padding:9px 12px !important;font-size:13px;white-space:nowrap}
     /* 抽屜獨立佔滿手機視窗，候選人清單才不會被下一個 section 截斷 */
@@ -50,7 +69,8 @@
     .candidate-title-row h4{line-height:1.25 !important;letter-spacing:0 !important}
     #tw3d{touch-action:pan-y !important}
   }
-  @media(max-width:380px){.brand-home{font-size:13px !important}.nav-actions [data-view="support"]{padding-inline:10px !important}.map-intro h1{font-size:27px !important}}
+  @media(max-width:430px){.nav-actions [data-view="support"]{display:none !important}}
+  @media(max-width:380px){.brand-home{font-size:13px !important}.map-intro h1{font-size:27px !important}}
   @media(max-width:520px){.nav-brandsub{display:none}}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -550,7 +570,9 @@ class App {
   _paint(mesh, mode) {
     const col = mode === 'hot' ? this.hotCol : mode === 'district' ? this.districtCol : mode === 'dim' ? this.dimCol : this.baseCol;
     mesh.material.color.copy(col); mesh.material.emissive.setHex(mode === 'hot' ? 0x3a0008 : mode === 'district' ? 0x3a1c00 : 0x000000);
-    window.gsap.to(mesh.position, { z: mode === 'hot' ? 3.2 : mode === 'district' ? 2.4 : 0, duration: 0.45, ease: 'power3.out' });
+    const isVillage = this.active?.level === 'village';
+    const z = isVillage ? (mode === 'hot' ? 0.45 : mode === 'district' ? 0.25 : 0) : (mode === 'hot' ? 3.2 : mode === 'district' ? 2.4 : 0);
+    window.gsap.to(mesh.position, { z, duration: 0.45, ease: 'power3.out' });
   }
   _focusFeature(feature, mode = 'district') {
     if (!this.active || !feature) return;
@@ -566,7 +588,15 @@ class App {
       L.el.style.background = on ? '#E4022B' : 'rgba(13,13,13,.5)';
       L.el.style.color = '#f4f1ea';
       L.el.style.zIndex = on ? '3' : '1';
+      L.el.style.opacity = this.active.level === 'village' && !on ? '0' : '1';
+      L.el.style.pointerEvents = this.active.level === 'village' && !on ? 'none' : 'auto';
     });
+    this._readoutMesh(target);
+    if (this.active.level === 'village') {
+      target.scale.set(1, 1, 1);
+      this._frame(this.villageFeats || [feature], { pol: 0.16, dur: 0.85 });
+      return;
+    }
     window.gsap.fromTo(target.scale, { x: 0.86, y: 0.86, z: 0.86 }, { x: 1.16, y: 1.16, z: 1.16, duration: 0.72, ease: 'back.out(2)' });
     window.gsap.to(target.scale, { x: 1.08, y: 1.08, z: 1.08, duration: 0.45, delay: 0.72, ease: 'power2.out' });
     this._frame([feature], { pol: this.active.level === 'village' ? 0.16 : 0.2, dur: 1.05 });
@@ -586,7 +616,7 @@ class App {
     if (!this.active) return;
     this._selected = null;
     this.active.meshes.forEach(m => { m.userData.district = false; this._paint(m, 'base'); });
-    if (this.labels) this.labels.forEach(L => { L.el.style.background = 'rgba(13,13,13,.68)'; L.el.style.color = '#f4f1ea'; L.el.style.zIndex = '1'; });
+    if (this.labels) this.labels.forEach(L => { L.el.style.background = 'rgba(13,13,13,.68)'; L.el.style.color = '#f4f1ea'; L.el.style.zIndex = '1'; L.el.style.opacity = '1'; L.el.style.pointerEvents = 'auto'; });
   }
   _hoverTest(cx, cy, dragging) {
     if (!this.active) return;
@@ -598,7 +628,7 @@ class App {
     if (this._hovered && this._hovered !== this._selected && !this._hovered.userData.district) this._paint(this._hovered, 'base');
     this._hovered = m;
     if (m && m !== this._selected && !m.userData.district) this._paint(m, 'hot');
-    if (m) { document.getElementById('tw3d-name').textContent = m.userData.props.name; document.getElementById('tw3d-meta').textContent = this._tally(m.userData.props) + ' · 點擊下探'; }
+    if (m && !this._selected) { document.getElementById('tw3d-name').textContent = m.userData.props.name; document.getElementById('tw3d-meta').textContent = this._tally(m.userData.props) + ' · 點擊下探'; }
     dom.style.cursor = dragging ? 'grabbing' : (m ? 'pointer' : 'grab');
   }
   _headCands(p) { const a = p.candidates || []; const f = a.filter(c => !/議員|代表/.test(c.role || '')); return f.length ? f : a; }

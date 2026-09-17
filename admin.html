@@ -186,11 +186,28 @@
       </div>
     </div>
 
-    <div class="bg-surface p-5 rounded-2xl border editorial-border shadow-[4px_4px_0px_#141517]">
-      <h3 class="text-xs font-black uppercase tracking-wider text-ink-500 mb-3 flex items-center space-x-2">
-        <i data-lucide="history" class="w-3.5 h-3.5"></i><span>目前已有編輯紀錄（共 <span id="override-count">0</span> 筆）</span>
-      </h3>
-      <div id="override-list" class="space-y-1.5 text-xs"></div>
+    <div class="bg-surface p-5 rounded-2xl border editorial-border shadow-[4px_4px_0px_#141517] space-y-4">
+      <div>
+        <h3 class="text-xs font-black uppercase tracking-wider text-ink-500 flex items-center space-x-2">
+          <i data-lucide="history" class="w-3.5 h-3.5"></i><span>編輯紀錄統計（共 <span id="override-count">0</span> 筆）</span>
+        </h3>
+        <p class="text-[11px] text-ink-500 mt-1">依行政層級與更新日期整理，詳細紀錄預設收合。</p>
+      </div>
+      <div id="override-summary" class="grid grid-cols-2 sm:grid-cols-4 gap-2"></div>
+      <div id="override-date-summary" class="flex flex-wrap gap-2 text-[11px] font-bold text-ink-500"></div>
+      <details class="group border border-ink-200 rounded-xl bg-canvas">
+        <summary class="cursor-pointer list-none flex items-center justify-between gap-3 px-4 py-3 text-xs font-black select-none">
+          <span>查看與篩選詳細紀錄</span><i data-lucide="chevron-down" class="w-4 h-4 transition group-open:rotate-180"></i>
+        </summary>
+        <div class="border-t border-ink-200 p-3 space-y-3">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <select id="override-type-filter" onchange="filterOverrideList()" class="select-editorial bg-surface border border-ink-300 rounded-lg px-3 py-2 pr-8 text-xs font-bold"><option value="all">全部層級</option><option value="county">縣市</option><option value="town">鄉鎮市區</option><option value="village">村里</option><option value="other">其他</option></select>
+            <select id="override-date-filter" onchange="filterOverrideList()" class="select-editorial bg-surface border border-ink-300 rounded-lg px-3 py-2 pr-8 text-xs font-bold"><option value="all">全部日期</option><option value="today">今天</option><option value="week">近 7 天</option><option value="older">更早</option><option value="unknown">未記錄日期</option></select>
+            <input id="override-search" oninput="filterOverrideList()" placeholder="搜尋代碼或管理者" class="bg-surface border border-ink-300 rounded-lg px-3 py-2 text-xs font-bold">
+          </div>
+          <div id="override-list" class="space-y-1.5 text-xs max-h-80 overflow-y-auto pr-1"></div>
+        </div>
+      </details>
     </div>
 
     <section id="observatory-manager" class="bg-surface p-5 rounded-2xl border editorial-border shadow-[4px_4px_0px_#141517] space-y-4">
@@ -335,17 +352,70 @@
     }
 
     function renderOverrideList() {
-      const list = document.getElementById('override-list');
       const ids = Object.keys(allOverrides);
       document.getElementById('override-count').textContent = ids.length;
+      const counts = { county: 0, town: 0, village: 0, other: 0, today: 0, week: 0, older: 0, unknown: 0 };
+      ids.forEach(id => {
+        counts[overrideLevel(id)]++;
+        counts[overrideDateBucket(allOverrides[id]?.updatedAt)]++;
+      });
+      document.getElementById('override-summary').innerHTML = [
+        ['全部', ids.length, 'bg-ink-900 text-surface'],
+        ['縣市', counts.county, 'bg-accent-orange/10 text-accent-orange'],
+        ['鄉鎮市區', counts.town, 'bg-accent-blue/10 text-accent-blue'],
+        ['村里', counts.village, 'bg-accent-lime/10 text-accent-lime'],
+      ].map(([label, count, tone]) => `<div class="rounded-lg p-3 ${tone}"><div class="text-[10px] font-black tracking-wider opacity-70">${label}</div><div class="text-2xl font-black mt-1 tabular-nums">${count}</div></div>`).join('');
+      document.getElementById('override-date-summary').innerHTML = `<span class="px-2.5 py-1.5 rounded-lg bg-ink-100">今天 ${counts.today}</span><span class="px-2.5 py-1.5 rounded-lg bg-ink-100">近 7 天 ${counts.today + counts.week}</span><span class="px-2.5 py-1.5 rounded-lg bg-ink-100">更早 ${counts.older}</span>${counts.unknown ? `<span class="px-2.5 py-1.5 rounded-lg bg-ink-100">未記錄 ${counts.unknown}</span>` : ''}`;
       if (ids.length === 0) {
-        list.innerHTML = '<p class="text-ink-500 font-medium">目前沒有任何後台編輯紀錄。</p>';
+        document.getElementById('override-list').innerHTML = '<p class="text-ink-500 font-medium">目前沒有任何後台編輯紀錄。</p>';
         return;
       }
-      list.innerHTML = ids.map(id => `<div class="flex items-center justify-between px-3 py-2 bg-canvas rounded-lg border border-ink-100">
-          <span class="font-bold">${id}</span>
-          <span class="text-ink-500">${allOverrides[id].updatedBy || ''}</span>
-        </div>`).join('');
+      filterOverrideList();
+    }
+
+    function overrideLevel(id) {
+      const length = String(id || '').length;
+      if (length === 5) return 'county';
+      if (length === 8) return 'town';
+      if (length === 11) return 'village';
+      return 'other';
+    }
+
+    function overrideDateBucket(value) {
+      if (!value) return 'unknown';
+      const time = new Date(value).getTime();
+      if (!Number.isFinite(time)) return 'unknown';
+      const now = new Date();
+      const startToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+      if (time >= startToday) return 'today';
+      if (time >= startToday - 6 * 86400000) return 'week';
+      return 'older';
+    }
+
+    window.filterOverrideList = function() {
+      const list = document.getElementById('override-list');
+      const type = document.getElementById('override-type-filter')?.value || 'all';
+      const date = document.getElementById('override-date-filter')?.value || 'all';
+      const query = (document.getElementById('override-search')?.value || '').trim().toLowerCase();
+      const labels = { county: '縣市', town: '鄉鎮市區', village: '村里', other: '其他' };
+      const ids = Object.keys(allOverrides).filter(id => {
+        const item = allOverrides[id] || {};
+        const dateBucket = overrideDateBucket(item.updatedAt);
+        const dateMatches = date === 'all' || (date === 'week' ? ['today', 'week'].includes(dateBucket) : dateBucket === date);
+        return (type === 'all' || overrideLevel(id) === type) &&
+          dateMatches &&
+          (!query || `${id} ${item.updatedBy || ''}`.toLowerCase().includes(query));
+      }).sort((a, b) => String(allOverrides[b]?.updatedAt || '').localeCompare(String(allOverrides[a]?.updatedAt || '')));
+      if (!ids.length) {
+        list.innerHTML = '<p class="text-ink-500 font-medium py-2">沒有符合條件的紀錄。</p>';
+        return;
+      }
+      list.innerHTML = ids.map(id => {
+        const item = allOverrides[id] || {};
+        const level = overrideLevel(id);
+        const dateText = item.updatedAt ? new Date(item.updatedAt).toLocaleString('zh-TW') : '未記錄日期';
+        return `<div class="grid grid-cols-[auto_1fr] sm:grid-cols-[auto_1fr_auto] items-center gap-2 px-3 py-2 bg-surface rounded-lg border border-ink-100"><span class="px-2 py-0.5 rounded bg-ink-100 text-[10px] font-black">${labels[level]}</span><span class="font-bold break-all">${escapeHTML(id)}</span><span class="col-span-2 sm:col-span-1 text-ink-500 sm:text-right">${escapeHTML(dateText)} · ${escapeHTML(item.updatedBy || '')}</span></div>`;
+      }).join('');
     }
 
     function escapeHTML(value) {
