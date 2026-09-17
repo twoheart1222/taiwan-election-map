@@ -27,20 +27,21 @@
 
   <nav style="position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:16px clamp(18px,4vw,54px);background:rgba(13,13,13,.82);backdrop-filter:blur(10px);border-bottom:1px solid #1c1a17">
     <a href="./index.dc.html" style="display:flex;align-items:center;gap:11px;font-family:'Archivo',sans-serif;font-weight:900;letter-spacing:-.02em;font-size:17px">
-      <span style="width:12px;height:12px;background:#E4022B;display:inline-block;border-radius:2px"></span>2026 選舉倒數
+      <span style="width:12px;height:12px;background:#E4022B;display:inline-block;border-radius:2px"></span>島民觀察室
     </a>
     <div style="display:flex;align-items:center;gap:clamp(14px,2.4vw,32px);font-family:'Archivo',sans-serif;font-weight:600;font-size:13px;letter-spacing:.04em">
-      <a href="./index.dc.html#top" style="opacity:.85">選情地圖</a>
-      <a href="./observatory.dc.html" style="opacity:.85">政治觀測站</a>
-      <a href="./support.dc.html" style="color:#E4022B">支持我們</a>
+      <a href="./index.dc.html#top" style="opacity:.85">選舉地圖</a>
+      <a href="./observatory.dc.html" style="opacity:.85">政治觀察</a>
+      <a href="./support.dc.html" style="color:#E4022B">支持島民觀察室</a>
     </div>
   </nav>
 
   <header style="padding:clamp(52px,10vh,120px) clamp(18px,4vw,54px) clamp(24px,4vh,44px)">
-    <div style="font-family:'Archivo';font-weight:700;font-size:13px;letter-spacing:.28em;color:#E4022B;margin-bottom:20px">支持我們 / SUPPORT</div>
-    <h1 style="font-family:'Noto Sans TC','Archivo',sans-serif;font-weight:900;font-size:clamp(38px,7.5vw,116px);line-height:.96;letter-spacing:-.03em;margin:0 0 24px;max-width:1200px;text-wrap:balance">讓開放的選舉資訊，<br>走得<span style="color:#E4022B">更遠</span>。</h1>
+    <div style="font-family:'Archivo';font-weight:700;font-size:13px;letter-spacing:.28em;color:#E4022B;margin-bottom:20px">支持島民觀察室 / SUPPORT FORMOSA WATCH</div>
+    <h1 style="font-family:'Noto Sans TC','Archivo',sans-serif;font-weight:900;font-size:clamp(38px,7.5vw,116px);line-height:.96;letter-spacing:-.03em;margin:0 0 24px;max-width:1200px;text-wrap:balance">讓開放的公共資訊，<br>走得<span style="color:#E4022B">更遠</span>。</h1>
     <div style="max-width:760px;color:#a29c92;font-size:clamp(15px,1.6vw,18px);line-height:1.8;text-wrap:pretty">
-      <p style="margin:0">這是一個由獨立團隊維護的選舉資訊網站。你的支持將用於資料整理、網站開發、伺服器與持續維護成本。</p>
+      <p style="margin:0">島民觀察室由獨立團隊持續開發與維護。</p>
+      <p style="margin:14px 0 0">資料整理、來源核對、網站開發與伺服器都需要持續投入。如果你認同我們正在做的事，可以選擇支持島民觀察室，讓這些資訊繼續免費、公開地被所有人使用。</p>
       <p style="margin:14px 0 0;font-size:.86em;color:#777169">本站並非公益勸募團體、政黨、政治團體或候選人。本頁款項屬對本站營運之支持，不屬政治獻金，亦非可申報所得稅扣除之公益捐款。</p>
     </div>
   </header>
@@ -67,8 +68,7 @@
         <input id="amt-custom" class="don" inputmode="numeric" placeholder="輸入自訂金額" style="display:none;margin-bottom:12px">
 
         <div style="display:flex;flex-direction:column;gap:12px;margin-top:14px">
-          <input id="don-name" class="don" placeholder="姓名 / 暱稱">
-          <input id="don-email" class="don" type="email" placeholder="電子郵件（收據寄送）">
+          <input id="don-email" class="don" type="email" placeholder="電子郵件（選填，供聯絡使用）">
         </div>
 
         <div style="font-family:'Archivo';font-weight:700;font-size:11px;letter-spacing:.16em;color:#8a857c;margin:22px 0 12px">付款方式</div>
@@ -81,7 +81,7 @@
         <button id="don-submit" style="width:100%;margin-top:24px;padding:17px;border:none;border-radius:14px;background:#0d0d0d;color:#fff;font-family:'Noto Sans TC';font-weight:900;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:background .2s">
           <span id="don-submit-label">支持 NT$300 · 單次</span><span style="font-size:18px">→</span>
         </button>
-        <p style="margin:14px 0 0;font-size:11.5px;color:#8a857c;line-height:1.6;text-align:center">本頁為示意介面，未串接實際金流；正式支持方式與憑證資訊將另行公告。</p>
+        <p style="margin:14px 0 0;font-size:11.5px;color:#8a857c;line-height:1.6;text-align:center">本頁為示意介面，未串接實際金流；本站不開立收據。</p>
       </div>
 
       <!-- RIGHT: impact -->
@@ -98,15 +98,15 @@
         </div>
         <div style="margin-top:8px;background:#151311;border:1px solid #1c1a17;border-radius:18px;padding:24px">
           <p style="margin:0;font-family:'Noto Sans TC';font-weight:700;font-size:clamp(16px,1.8vw,20px);line-height:1.7;color:#f4f1ea;text-wrap:pretty">「民主的成本，不該由任何一方獨自買單。」</p>
-          <div style="margin-top:14px;font-family:'Archivo';font-weight:600;font-size:12px;letter-spacing:.1em;color:#8a857c">— Politics Design Lab</div>
+          <div style="margin-top:14px;font-family:'Archivo';font-weight:600;font-size:12px;letter-spacing:.1em;color:#8a857c">— Formosa Watch</div>
         </div>
       </div>
     </div>
   </main>
 
   <footer style="background:#0d0d0d;color:#8a857c;padding:clamp(30px,5vh,60px) clamp(18px,4vw,54px);display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;border-top:1px solid #1c1a17">
-    <div style="font-family:'Archivo';font-weight:900;font-size:clamp(18px,2.4vw,26px);color:#f4f1ea;letter-spacing:-.02em">2026 選舉倒數</div>
-    <div style="font-family:'Archivo';font-weight:600;font-size:12px;letter-spacing:.08em;text-align:right">Politics Design Lab · 全台選舉開箱圖鑑</div>
+    <div style="font-family:'Archivo';font-weight:900;font-size:clamp(18px,2.4vw,26px);color:#f4f1ea;letter-spacing:-.02em">島民觀察室｜Formosa Watch</div>
+    <div style="font-family:'Archivo';font-weight:600;font-size:12px;letter-spacing:.08em;text-align:right">© 2026 Formosa Watch 島民觀察室<br>Independent Taiwan Election &amp; Civic Data Platform</div>
   </footer>
 </div>
 </x-dc>

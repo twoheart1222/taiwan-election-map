@@ -3,21 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>2026 全台選舉開箱圖鑑 · 選舉倒數</title>
-<meta name="description" content="2026 全台地方選舉互動地圖，查詢縣市、選區、村里與候選人資料。">
+<title>島民觀察室｜Formosa Watch · 島民選舉地圖</title>
+<meta name="description" content="島民觀察室的 2026 地方選舉互動地圖：查詢縣市、選區、村里與候選人資料。">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="zh_TW">
-<meta property="og:site_name" content="2026 選舉倒數">
-<meta property="og:title" content="2026 全台選舉開箱圖鑑">
-<meta property="og:description" content="從縣市、選區到村里，查看 2026 地方選舉候選人與選情資料。">
+<meta property="og:site_name" content="島民觀察室｜Formosa Watch">
+<meta property="og:title" content="島民選舉地圖">
+<meta property="og:description" content="用資料，看懂我們生活的這座島。">
 <meta property="og:url" content="https://taiwan-election-map.uprisevideoproduction.workers.dev/">
 <meta property="og:image" content="https://taiwan-election-map.uprisevideoproduction.workers.dev/social-preview.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="2026 全台選舉開箱圖鑑">
+<meta property="og:image:alt" content="島民選舉地圖">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="2026 全台選舉開箱圖鑑">
-<meta name="twitter:description" content="從縣市、選區到村里，查看 2026 地方選舉候選人與選情資料。">
+<meta name="twitter:title" content="島民觀察室｜Formosa Watch · 島民選舉地圖">
+<meta name="twitter:description" content="用資料，看懂我們生活的這座島。">
 <meta name="twitter:image" content="https://taiwan-election-map.uprisevideoproduction.workers.dev/social-preview.png">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -140,10 +140,10 @@
 
   <!-- PRELOADER -->
   <div id="preloader" style="position:fixed;inset:0;z-index:100;background:#0d0d0d;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;will-change:transform,filter,opacity">
-    <div style="font-family:'Archivo';font-weight:700;font-size:clamp(11px,1.4vw,14px);letter-spacing:.32em;color:#E4022B;margin-bottom:clamp(18px,3vh,34px)">距離投票日 / COUNTDOWN</div>
+    <div style="font-family:'Archivo';font-weight:700;font-size:clamp(11px,1.4vw,14px);letter-spacing:.32em;color:#E4022B;margin-bottom:clamp(18px,3vh,34px)">距離島民下一次選擇 / COUNTDOWN</div>
     <div style="display:flex;align-items:flex-end;gap:clamp(12px,2vw,26px);font-family:'Archivo';font-weight:900;color:#f4f1ea">
       <div id="pre-days" class="cd-reel" data-digits="3" style="font-size:clamp(120px,30vw,340px);line-height:.82;letter-spacing:-.05em;color:#E4022B"></div>
-      <div style="font-family:'Noto Sans TC';font-weight:900;font-size:clamp(28px,5vw,64px);line-height:1;padding-bottom:clamp(10px,2vh,30px)">天</div>
+      <div style="font-family:'Archivo';font-weight:900;font-size:clamp(22px,4vw,54px);line-height:1;padding-bottom:clamp(10px,2vh,30px)">DAYS</div>
     </div>
     <div style="margin-top:clamp(18px,3vh,34px);font-family:'Noto Sans TC';font-weight:700;font-size:clamp(13px,1.6vw,18px);letter-spacing:.06em;color:#8a857c">2026.11.28 · 全國地方公職人員選舉投票日</div>
   </div>
@@ -151,7 +151,7 @@
   <div id="page-transition" class="page-transition" aria-hidden="true">
     <div>
       <div id="page-transition-kicker" class="transition-kicker">前往 / NEXT</div>
-      <div id="page-transition-label" class="transition-title">選情地圖</div>
+      <div id="page-transition-label" class="transition-title">島民選舉地圖</div>
     </div>
   </div>
 
@@ -159,30 +159,30 @@
 
     <nav class="site-nav" style="position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px clamp(14px,3.5vw,44px);background:rgba(13,13,13,.82);backdrop-filter:blur(10px);border-bottom:1px solid #1c1a17">
       <div style="display:flex;align-items:center;gap:clamp(14px,3vw,34px);min-width:0">
-        <a href="#" data-view="map" data-home class="brand-home" aria-label="返回選情地圖首頁" style="display:flex;align-items:center;gap:10px;font-family:'Archivo';font-weight:900;letter-spacing:-.02em;font-size:16px;flex:none">
-          <span style="width:11px;height:11px;background:#E4022B;display:inline-block;border-radius:2px"></span>2026 選舉倒數
+        <a href="#" data-view="map" data-home class="brand-home" aria-label="返回島民選舉地圖首頁" style="display:flex;align-items:center;gap:10px;font-family:'Archivo';font-weight:900;letter-spacing:-.02em;font-size:16px;flex:none">
+          <span style="width:11px;height:11px;background:#E4022B;display:inline-block;border-radius:2px"></span>島民觀察室
         </a>
         <div class="nav-daysbox" style="display:flex;align-items:baseline;gap:8px;flex:none;white-space:nowrap;border-left:1px solid #1c1a17;padding-left:clamp(14px,3vw,34px)">
-          <span style="font-family:'Noto Sans TC';font-weight:700;font-size:12px;color:#8a857c;white-space:nowrap">距投票</span>
+          <span id="next-choice-label" style="font-family:'Noto Sans TC';font-weight:700;font-size:12px;color:#8a857c;white-space:nowrap">距離島民下一次選擇</span>
           <span id="nav-days" class="cd-reel" data-digits="3" style="font-family:'Archivo';font-weight:900;font-size:22px;line-height:1;letter-spacing:-.02em;color:#E4022B"></span>
-          <span style="font-family:'Noto Sans TC';font-weight:700;font-size:12px;color:#8a857c">天</span>
+          <span id="nav-days-unit" style="font-family:'Archivo';font-weight:700;font-size:12px;color:#8a857c">DAYS</span>
         </div>
       </div>
       <div class="nav-actions" style="display:flex;align-items:center;gap:clamp(10px,2vw,26px);font-family:'Archivo';font-weight:600;font-size:13px;letter-spacing:.04em;flex:none">
-        <a href="#" data-view="map" class="navlink on">選情地圖</a>
-        <a href="#" data-view="observatory" class="navlink">政治觀測站</a>
-        <a href="#" data-view="contact" class="navlink">聯絡我們</a>
-        <a href="#" data-view="support" style="display:inline-flex;align-items:center;gap:7px;padding:8px 16px;background:#E4022B;color:#fff;border-radius:999px;font-weight:800">支持我們</a>
+        <a href="#" data-view="map" class="navlink on">選舉地圖</a>
+        <a href="#" data-view="observatory" class="navlink">政治觀察</a>
+        <a href="#about" data-section="about" class="navlink">關於我們</a>
+        <a href="#" data-view="support" style="display:inline-flex;align-items:center;gap:7px;padding:8px 16px;background:#E4022B;color:#fff;border-radius:999px;font-weight:800">支持島民觀察室</a>
       </div>
       <button id="mobile-search-toggle" class="mobile-search-toggle" type="button" aria-expanded="false" aria-controls="candidate-search" aria-label="開啟候選人搜尋">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="6.5" stroke-width="2.3"></circle><path d="m16 16 4 4" stroke-width="2.3" stroke-linecap="round"></path></svg>
       </button>
       <button id="mobile-menu-toggle" class="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="開啟頁面選單">☰</button>
       <div id="mobile-menu" class="mobile-menu" aria-label="手機頁面選單">
-        <a href="#" data-view="map">選情地圖 <span aria-hidden="true">→</span></a>
-        <a href="#" data-view="observatory">政治觀測站 <span aria-hidden="true">→</span></a>
-        <a href="#" data-view="contact">聯絡我們 <span aria-hidden="true">→</span></a>
-        <a href="#" data-view="support">支持我們 <span aria-hidden="true">→</span></a>
+        <a href="#" data-view="map">選舉地圖 <span aria-hidden="true">→</span></a>
+        <a href="#" data-view="observatory">政治觀察 <span aria-hidden="true">→</span></a>
+        <a href="#about" data-section="about">關於我們 <span aria-hidden="true">→</span></a>
+        <a href="#" data-view="support">支持島民觀察室 <span aria-hidden="true">→</span></a>
       </div>
     </nav>
 
@@ -198,8 +198,8 @@
         </div>
 
         <div class="map-intro" style="position:absolute;top:clamp(16px,3vh,32px);left:clamp(16px,4vw,44px);pointer-events:none;max-width:74%;z-index:30">
-          <div style="font-family:'Archivo';font-weight:700;font-size:12px;letter-spacing:.26em;color:#E4022B;margin-bottom:11px">選情地圖 / THE MAP</div>
-          <h1 style="font-family:'Noto Sans TC','Archivo',sans-serif;font-weight:900;font-size:clamp(24px,4.2vw,58px);line-height:1;letter-spacing:-.03em;margin:0">2026 全台<br>選舉開箱圖鑑</h1>
+          <div style="font-family:'Archivo';font-weight:700;font-size:12px;letter-spacing:.26em;color:#E4022B;margin-bottom:11px">FORMOSA WATCH / ELECTION MAP</div>
+          <h1 style="font-family:'Noto Sans TC','Archivo',sans-serif;font-weight:900;font-size:clamp(24px,4.2vw,58px);line-height:1;letter-spacing:-.03em;margin:0">島民<br>選舉地圖</h1>
           <div class="candidate-search" id="candidate-search">
             <div class="candidate-search-row">
               <span class="candidate-search-icon" aria-hidden="true">⌕</span>
@@ -260,59 +260,62 @@
         </aside>
       </section>
 
-      <section style="background:#E4022B;color:#0d0d0d;padding:clamp(56px,11vh,140px) clamp(18px,4vw,54px)">
+      <section id="about" style="background:#E4022B;color:#0d0d0d;padding:clamp(56px,11vh,140px) clamp(18px,4vw,54px)">
         <div style="font-family:'Archivo';font-weight:700;font-size:13px;letter-spacing:.28em;opacity:.72;margin-bottom:clamp(26px,5vh,52px)">關於本站 / ABOUT</div>
-        <h2 style="font-family:'Noto Sans TC','Archivo',sans-serif;font-weight:900;font-size:clamp(34px,7vw,108px);line-height:.98;letter-spacing:-.03em;margin:0 0 clamp(26px,5vh,50px);max-width:1200px;text-wrap:balance">把地方選舉，<br>攤在陽光下。</h2>
+        <h2 style="font-family:'Noto Sans TC','Archivo',sans-serif;font-weight:900;font-size:clamp(34px,7vw,108px);line-height:.98;letter-spacing:-.03em;margin:0 0 clamp(26px,5vh,50px);max-width:1200px;text-wrap:balance">用資料，看懂我們<br>生活的這座島。</h2>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(24px,4vw,60px);max-width:1000px">
-          <p style="margin:0;font-size:clamp(15px,1.6vw,18px);line-height:1.8;color:#1a0508;text-wrap:pretty">全台選舉開箱圖鑑以視覺設計整理 2026 九合一地方公職選舉，從 22 縣市逐層下探至鄉鎮市區與村里，把每一位候選人與每一份官方選舉公報放到你面前。</p>
-          <p style="margin:0;font-size:clamp(15px,1.6vw,18px);line-height:1.8;color:#1a0508;text-wrap:pretty">資料彙整自中央選舉委員會等官方公開來源，並由維護團隊校閱。我們相信，好的資訊設計能降低公民參與的門檻。</p>
+          <p style="margin:0;font-size:clamp(15px,1.6vw,18px);line-height:1.8;color:#1a0508;text-wrap:pretty">島民觀察室以視覺與資料整理 2026 地方選舉，從 22 縣市逐層下探至鄉鎮市區與村里，把每一位候選人與每一份官方選舉公報放到你面前。</p>
+          <p style="margin:0;font-size:clamp(15px,1.6vw,18px);line-height:1.8;color:#1a0508;text-wrap:pretty">資料彙整自官方公開來源，並由維護團隊校閱；我們相信，清楚的公共資訊能降低公民參與的門檻。</p>
         </div>
         <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:clamp(30px,6vh,60px)">
-          <a href="#" data-view="observatory" style="display:inline-flex;align-items:center;gap:9px;padding:15px 28px;background:#0d0d0d;color:#fff;border-radius:999px;font-family:'Archivo';font-weight:800;font-size:15px">政治觀測站 →</a>
+          <a href="#" data-view="observatory" style="display:inline-flex;align-items:center;gap:9px;padding:15px 28px;background:#0d0d0d;color:#fff;border-radius:999px;font-family:'Archivo';font-weight:800;font-size:15px">政治觀察 →</a>
           <a href="#" data-view="contact" style="display:inline-flex;align-items:center;gap:9px;padding:15px 28px;background:transparent;border:1.5px solid #0d0d0d;color:#0d0d0d;border-radius:999px;font-family:'Archivo';font-weight:800;font-size:15px">聯絡我們 →</a>
-          <a href="#" data-view="support" style="display:inline-flex;align-items:center;gap:9px;padding:15px 28px;background:transparent;border:1.5px solid #0d0d0d;color:#0d0d0d;border-radius:999px;font-family:'Archivo';font-weight:800;font-size:15px">支持我們 →</a>
+          <a href="#" data-view="support" style="display:inline-flex;align-items:center;gap:9px;padding:15px 28px;background:transparent;border:1.5px solid #0d0d0d;color:#0d0d0d;border-radius:999px;font-family:'Archivo';font-weight:800;font-size:15px">支持島民觀察室 →</a>
         </div>
         <div class="source-register">
           <h3 style="font-family:'Noto Sans TC','Archivo',sans-serif;font-weight:900;font-size:clamp(22px,3vw,36px);line-height:1.15;margin:0">資料來源與核對</h3>
-          <p style="max-width:820px;margin:14px 0 0;font-size:14px;line-height:1.75;color:#1a0508">本站依公開資料彙整候選人、現任民選公職、照片與公開社群連結，並非下列機關或網站的官方服務。候選資格、選區與最終名冊，請以主管選舉機關最新公告為準。</p>
+          <p style="max-width:820px;margin:14px 0 0;font-size:14px;line-height:1.75;color:#1a0508">候選人、選區與公告資料以中央選舉委員會與主管機關最新公告為準；現任民選公職的照片、個人網站與公開社群連結，僅在各地方議會官方頁面或其連結之個人網站可核對時補入。每筆補充均保留來源頁，並且只補空值、不覆寫既有校閱資料。</p>
           <div class="source-links" aria-label="資料來源網站">
             <a href="https://web.cec.gov.tw/" target="_blank" rel="noopener noreferrer">中央選舉委員會 ↗</a>
             <a href="https://www.moi.gov.tw/LocalOfficial.aspx?n=577&amp;TYP=KND0007" target="_blank" rel="noopener noreferrer">內政部地方公職人員資訊 ↗</a>
             <a href="https://www.kcc.gov.tw/Member_List3.aspx?n=39&amp;sms=9028" target="_blank" rel="noopener noreferrer">高雄市議會 ↗</a>
             <a href="https://www.ntp.gov.tw/councilor-all?program=37" target="_blank" rel="noopener noreferrer">新北市議會 ↗</a>
             <a href="https://www.tccc.gov.tw/main.asp?uno=16" target="_blank" rel="noopener noreferrer">臺中市議會 ↗</a>
+            <a href="https://www.tcc.gov.tw/cp.aspx?n=13898" target="_blank" rel="noopener noreferrer">臺北市議會現任議員 ↗</a>
+            <a href="https://www.tycc.gov.tw/tc/councilor-info.aspx?mid=39" target="_blank" rel="noopener noreferrer">桃園市議會本屆議員 ↗</a>
             <a href="https://council2026.taiwangogo.tw/" target="_blank" rel="noopener noreferrer">2026 議員參選人刑事紀錄圖鑑 ↗</a>
           </div>
         </div>
       </section>
       <footer style="background:#0d0d0d;color:#8a857c;padding:clamp(40px,7vh,80px) clamp(18px,4vw,54px);display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;border-top:1px solid #1c1a17">
-        <div><div style="font-family:'Archivo';font-weight:900;font-size:clamp(22px,3vw,40px);color:#f4f1ea;letter-spacing:-.02em">2026 選舉倒數</div><div style="font-size:12px;letter-spacing:.1em;margin-top:8px">Politics Design Lab · 全台選舉開箱圖鑑</div></div>
-        <div style="font-family:'Archivo';font-weight:600;font-size:12px;letter-spacing:.08em;text-align:right">資料來源：中選會、內政部、地方議會及公開公民資料<br><a href="#" data-view="contact" style="color:#f4f1ea">資料更正與聯絡</a></div>
+        <div><div style="font-family:'Archivo';font-weight:900;font-size:clamp(22px,3vw,40px);color:#f4f1ea;letter-spacing:-.02em">島民觀察室｜Formosa Watch</div><div style="font-size:12px;letter-spacing:.1em;margin-top:8px">© 2026 Formosa Watch 島民觀察室<br>Independent Taiwan Election &amp; Civic Data Platform</div></div>
+        <div style="max-width:500px;font-family:'Noto Sans TC';font-weight:600;font-size:12px;line-height:1.7;text-align:right">本站為獨立民間資訊平台，非中央選舉委員會或任何政府機關之官方網站。<br><a href="#" data-view="contact" style="color:#f4f1ea">資料更正與聯絡</a></div>
       </footer>
     </div>
 
     <!-- ========== VIEW: OBSERVATORY ========== -->
     <div id="view-observatory" style="display:none;min-height:calc(100dvh - 58px);flex-direction:column">
       <header style="padding:clamp(52px,10vh,120px) clamp(18px,4vw,54px) clamp(28px,5vh,52px)">
-        <div style="font-family:'Archivo';font-weight:700;font-size:13px;letter-spacing:.28em;color:#E4022B;margin-bottom:20px">政治觀測站 / OBSERVATORY</div>
+        <div style="font-family:'Archivo';font-weight:700;font-size:13px;letter-spacing:.28em;color:#E4022B;margin-bottom:20px">政治觀察 / OBSERVATORY</div>
         <h1 style="font-family:'Noto Sans TC','Archivo',sans-serif;font-weight:900;font-size:clamp(38px,7.5vw,116px);line-height:.96;letter-spacing:-.03em;margin:0 0 24px;max-width:1200px;text-wrap:balance">看得更清楚，<br>才能<span style="color:#E4022B">監督</span>得更好。</h1>
         <p style="margin:0;max-width:640px;color:#a29c92;font-size:clamp(15px,1.6vw,18px);line-height:1.8;text-wrap:pretty">精選中央選舉委員會公開資料庫、國會議事轉播、政治獻金平台與優質公民科技專案。所有連結由維護者統一校閱發布，確保資訊真實可信。</p>
       </header>
       <main id="obs-list" style="flex:1"></main>
       <footer style="background:#E4022B;color:#0d0d0d;padding:clamp(40px,7vh,80px) clamp(18px,4vw,54px);display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
         <div><div style="font-family:'Noto Sans TC','Archivo';font-weight:900;font-size:clamp(24px,4vw,48px);letter-spacing:-.02em;line-height:1">一起看緊<br>你的選票。</div>
-        <a href="#" data-view="support" style="display:inline-flex;align-items:center;gap:9px;margin-top:22px;padding:13px 24px;background:#0d0d0d;color:#fff;border-radius:999px;font-family:'Archivo';font-weight:800;font-size:14px">支持我們 →</a></div>
-        <div style="font-family:'Archivo';font-weight:600;font-size:12px;letter-spacing:.08em;text-align:right">Politics Design Lab · 2026<br>連結由維護者統一校閱發布</div>
+        <a href="#" data-view="support" style="display:inline-flex;align-items:center;gap:9px;margin-top:22px;padding:13px 24px;background:#0d0d0d;color:#fff;border-radius:999px;font-family:'Archivo';font-weight:800;font-size:14px">支持島民觀察室 →</a></div>
+        <div style="font-family:'Archivo';font-weight:600;font-size:12px;letter-spacing:.08em;text-align:right">Formosa Watch · 2026<br>連結由維護者統一校閱發布</div>
       </footer>
     </div>
 
     <!-- ========== VIEW: SUPPORT ========== -->
     <div id="view-support" style="display:none;min-height:calc(100dvh - 58px);flex-direction:column">
       <header style="padding:clamp(48px,9vh,110px) clamp(18px,4vw,54px) clamp(22px,4vh,44px)">
-        <div style="font-family:'Archivo';font-weight:700;font-size:13px;letter-spacing:.28em;color:#E4022B;margin-bottom:20px">支持我們 / SUPPORT</div>
-        <h1 style="font-family:'Noto Sans TC','Archivo',sans-serif;font-weight:900;font-size:clamp(38px,7.5vw,112px);line-height:.96;letter-spacing:-.03em;margin:0 0 24px;max-width:1200px;text-wrap:balance">讓開放的選舉資訊，<br>走得<span style="color:#E4022B">更遠</span>。</h1>
+        <div style="font-family:'Archivo';font-weight:700;font-size:13px;letter-spacing:.28em;color:#E4022B;margin-bottom:20px">支持島民觀察室 / SUPPORT FORMOSA WATCH</div>
+        <h1 style="font-family:'Noto Sans TC','Archivo',sans-serif;font-weight:900;font-size:clamp(38px,7.5vw,112px);line-height:.96;letter-spacing:-.03em;margin:0 0 24px;max-width:1200px;text-wrap:balance">讓開放的公共資訊，<br>走得<span style="color:#E4022B">更遠</span>。</h1>
         <div style="max-width:760px;color:#a29c92;font-size:clamp(15px,1.6vw,18px);line-height:1.8;text-wrap:pretty">
-          <p style="margin:0">這是一個由獨立團隊維護的選舉資訊網站。你的支持將用於資料整理、網站開發、伺服器與持續維護成本。</p>
+          <p style="margin:0">島民觀察室由獨立團隊持續開發與維護。</p>
+          <p style="margin:14px 0 0">資料整理、來源核對、網站開發與伺服器都需要持續投入。如果你認同我們正在做的事，可以選擇支持島民觀察室，讓這些資訊繼續免費、公開地被所有人使用。</p>
           <p style="margin:14px 0 0;font-size:.86em;color:#777169">本站並非公益勸募團體、政黨、政治團體或候選人。本頁款項屬對本站營運之支持，不屬政治獻金，亦非可申報所得稅扣除之公益捐款。</p>
         </div>
       </header>
@@ -334,8 +337,7 @@
             </div>
             <input id="amt-custom" class="don" inputmode="numeric" placeholder="輸入自訂金額" style="display:none;margin-bottom:12px">
             <div style="display:flex;flex-direction:column;gap:12px;margin-top:14px">
-              <input id="don-name" class="don" placeholder="姓名 / 暱稱">
-              <input id="don-email" class="don" type="email" placeholder="電子郵件（收據寄送）">
+              <input id="don-email" class="don" type="email" placeholder="電子郵件（選填，供聯絡使用）">
             </div>
             <div style="font-family:'Archivo';font-weight:700;font-size:11px;letter-spacing:.16em;color:#8a857c;margin:22px 0 12px">付款方式</div>
             <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
@@ -346,20 +348,20 @@
             <button id="don-submit" style="width:100%;margin-top:24px;padding:17px;border:none;border-radius:14px;background:#0d0d0d;color:#fff;font-family:'Noto Sans TC';font-weight:900;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:background .2s">
               <span id="don-submit-label">支持 NT$300 · 單次</span><span style="font-size:18px">→</span>
             </button>
-            <p style="margin:14px 0 0;font-size:11.5px;color:#8a857c;line-height:1.6;text-align:center">本頁為示意介面，未串接實際金流；正式支持方式與憑證資訊將另行公告。</p>
+            <p style="margin:14px 0 0;font-size:11.5px;color:#8a857c;line-height:1.6;text-align:center">本頁為示意介面，未串接實際金流；本站不開立收據。</p>
           </div>
           <div style="display:flex;flex-direction:column;gap:clamp(16px,2.4vw,26px)">
             <div style="font-family:'Archivo';font-weight:700;font-size:13px;letter-spacing:.24em;color:#E4022B">你的支持用於 / WHERE IT GOES</div>
             <div style="border-top:1px solid #1c1a17;padding-top:22px"><div style="display:flex;align-items:baseline;gap:16px"><span style="font-family:'Archivo';font-weight:900;font-size:clamp(28px,4vw,52px);color:#E4022B;line-height:1">01</span><div><div style="font-family:'Noto Sans TC';font-weight:900;font-size:clamp(18px,2vw,24px)">資料查證與更新</div><div style="color:#a29c92;font-size:14px;margin-top:6px;line-height:1.7">逐筆比對中選會公告，維持 22 縣市候選人名冊即時準確。</div></div></div></div>
             <div style="border-top:1px solid #1c1a17;padding-top:22px"><div style="display:flex;align-items:baseline;gap:16px"><span style="font-family:'Archivo';font-weight:900;font-size:clamp(28px,4vw,52px);color:#E4022B;line-height:1">02</span><div><div style="font-family:'Noto Sans TC';font-weight:900;font-size:clamp(18px,2vw,24px)">地圖與網站維運</div><div style="color:#a29c92;font-size:14px;margin-top:6px;line-height:1.7">3D 選情地圖、伺服器與網域的持續開發與維護成本。</div></div></div></div>
             <div style="border-top:1px solid #1c1a17;padding-top:22px"><div style="display:flex;align-items:baseline;gap:16px"><span style="font-family:'Archivo';font-weight:900;font-size:clamp(28px,4vw,52px);color:#E4022B;line-height:1">03</span><div><div style="font-family:'Noto Sans TC';font-weight:900;font-size:clamp(18px,2vw,24px)">保持中立與免費</div><div style="color:#a29c92;font-size:14px;margin-top:6px;line-height:1.7">不接受政黨與財團資助，讓資訊對每一位公民免費開放。</div></div></div></div>
-            <div style="margin-top:8px;background:#151311;border:1px solid #1c1a17;border-radius:18px;padding:24px"><p style="margin:0;font-family:'Noto Sans TC';font-weight:700;font-size:clamp(16px,1.8vw,20px);line-height:1.7;color:#f4f1ea;text-wrap:pretty">「民主的成本，不該由任何一方獨自買單。」</p><div style="margin-top:14px;font-family:'Archivo';font-weight:600;font-size:12px;letter-spacing:.1em;color:#8a857c">— Politics Design Lab</div></div>
+            <div style="margin-top:8px;background:#151311;border:1px solid #1c1a17;border-radius:18px;padding:24px"><p style="margin:0;font-family:'Noto Sans TC';font-weight:700;font-size:clamp(16px,1.8vw,20px);line-height:1.7;color:#f4f1ea;text-wrap:pretty">「讓重要的公共資訊，持續免費地被所有人使用。」</p><div style="margin-top:14px;font-family:'Archivo';font-weight:600;font-size:12px;letter-spacing:.1em;color:#8a857c">— Formosa Watch</div></div>
           </div>
         </div>
       </main>
       <footer style="background:#0d0d0d;color:#8a857c;padding:clamp(30px,5vh,60px) clamp(18px,4vw,54px);display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;border-top:1px solid #1c1a17">
-        <div style="font-family:'Archivo';font-weight:900;font-size:clamp(18px,2.4vw,26px);color:#f4f1ea;letter-spacing:-.02em">2026 選舉倒數</div>
-        <div style="font-family:'Archivo';font-weight:600;font-size:12px;letter-spacing:.08em;text-align:right">Politics Design Lab · 全台選舉開箱圖鑑</div>
+        <div style="font-family:'Archivo';font-weight:900;font-size:clamp(18px,2.4vw,26px);color:#f4f1ea;letter-spacing:-.02em">島民觀察室｜Formosa Watch</div>
+        <div style="font-family:'Archivo';font-weight:600;font-size:12px;letter-spacing:.08em;text-align:right">© 2026 Formosa Watch 島民觀察室<br>Independent Taiwan Election &amp; Civic Data Platform</div>
       </footer>
     </div>
 
@@ -407,6 +409,7 @@
 class App {
   init() {
     this.target = new Date('2026-11-28T08:00:00+08:00').getTime();
+    this._setElectionPhase();
     this.apiBase = window.ELECTION_API_BASE || 'https://election-api.uprisevideoproduction.workers.dev';
     this._revealed = false;
     this.cache = {};
@@ -459,6 +462,13 @@ class App {
       if (a.hasAttribute('data-home')) this._goHome();
       else this._showView(a.dataset.view);
     }));
+    document.querySelectorAll('[data-section]').forEach(a => a.addEventListener('click', e => {
+      e.preventDefault();
+      closeMenu();
+      const reveal = () => document.getElementById(a.dataset.section)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (this._currentView !== 'map') this._showView('map', () => setTimeout(reveal, 80));
+      else reveal();
+    }));
     toggle?.addEventListener('click', e => {
       e.stopPropagation();
       this._closeCandidateSearch?.();
@@ -474,7 +484,7 @@ class App {
   }
   _showView(name, onSwap) {
     const names = ['map', 'observatory', 'support', 'contact'];
-    const labels = { map: '選情地圖', observatory: '政治觀測站', support: '支持我們', contact: '聯絡我們' };
+    const labels = { map: '島民選舉地圖', observatory: '政治觀察', support: '支持島民觀察室', contact: '聯絡我們' };
     const setVisible = active => names.forEach(v => {
       const el = document.getElementById('view-' + v);
       if (!el) return;
@@ -711,6 +721,16 @@ class App {
     setTimeout(() => { if (pre) pre.style.display = 'none'; if (page) { page.style.filter = 'none'; page.style.transform = 'none'; } }, 1500);
   }
 
+  _setElectionPhase() {
+    if (Date.now() < this.target) return;
+    const label = document.getElementById('next-choice-label');
+    const days = document.getElementById('nav-days');
+    const unit = document.getElementById('nav-days-unit');
+    if (label) label.textContent = '2026 地方選舉已完成';
+    if (days) { days.classList.remove('cd-reel'); days.textContent = '查看選舉結果 →'; days.style.fontSize = '14px'; }
+    if (unit) unit.textContent = '';
+  }
+
   // ---------- OVERRIDES (Cloudflare Worker + KV) ----------
   _fetchOverrides() {
     if (this._ov) return this._ov;
@@ -722,29 +742,36 @@ class App {
         const payload = await r.json();
         // Support both the current API payload and a future { data: ... } wrapper.
         const overrides = payload && payload.data && typeof payload.data === 'object' ? payload.data : payload;
-        return await this._mergeTaipeiCouncilorSocials(overrides);
+        return await this._mergeOfficialCouncilorProfiles(overrides);
       } catch (err) { console.warn('讀取 overrides 失敗，僅顯示原始候選人資料。', err); return {}; }
     })();
     return this._ov;
   }
-  async _mergeTaipeiCouncilorSocials(overrides) {
+  async _mergeOfficialCouncilorProfiles(overrides) {
     if (!overrides || typeof overrides !== 'object') return overrides;
     try {
-      const response = await fetch('./data/tcc_councilor_socials.json', { cache: 'no-store' });
-      if (!response.ok) return overrides;
-      const facebook = (await response.json()).facebook || {};
-      const taipei = overrides['63000'];
-      if (!taipei?.councilors || !Object.keys(facebook).length) return overrides;
-      const next = { ...overrides, '63000': { ...taipei, councilors: taipei.councilors.map(block => ({
-        ...block,
-        candidates: (block.candidates || []).map(candidate => ({
-          ...candidate,
-          facebook: candidate.facebook || facebook[`${block.district}:${candidate.name}`] || candidate.facebook || '',
-        })),
-      })) } };
+      const [taipeiResult, taoyuanResult] = await Promise.all([
+        fetch('./data/tcc_councilor_socials.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null),
+        fetch('./data/tycc_councilors.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null),
+      ]);
+      const taipeiFacebook = taipeiResult?.facebook || {};
+      const taoyuanProfiles = Array.isArray(taoyuanResult) ? taoyuanResult.filter(row => row?.name && row?.photoUrl) : [];
+      const taoyuanByName = new Map(taoyuanProfiles.map(row => [String(row.name).normalize('NFKC').replace(/[・．·‧\s]/g, ''), row]));
+      const mergeCounty = (countyCode, patch) => {
+        const county = overrides[countyCode];
+        if (!county?.councilors) return county;
+        return { ...county, councilors: county.councilors.map(block => ({ ...block, candidates: (block.candidates || []).map(candidate => ({ ...candidate, ...patch(block, candidate) })) })) };
+      };
+      const next = { ...overrides };
+      if (Object.keys(taipeiFacebook).length) next['63000'] = mergeCounty('63000', (block, candidate) => ({ facebook: candidate.facebook || taipeiFacebook[`${block.district}:${candidate.name}`] || '' }));
+      if (taoyuanByName.size) next['68000'] = mergeCounty('68000', (_block, candidate) => {
+        const official = taoyuanByName.get(String(candidate.name || '').normalize('NFKC').replace(/[・．·‧\s]/g, ''));
+        if (!official) return {};
+        return { photoUrl: candidate.photoUrl || String(official.photoUrl || '').replace(/\\/g, '/'), facebook: candidate.facebook || official.facebook || '' };
+      });
       return next;
     } catch (error) {
-      console.warn('讀取臺北市議員公開社群校驗資料失敗。', error);
+      console.warn('讀取地方議員官方公開資料失敗。', error);
       return overrides;
     }
   }
@@ -887,7 +914,7 @@ class App {
       .to(this.camState, { tx, tz, r: targetR, pol: 0.16, duration: 0.82, ease: 'expo.inOut' });
   }
 
-  _transitionMap(change, label = '全台灣', meta = '選情地圖 / THE MAP') {
+  _transitionMap(change, label = '全台灣', meta = 'FORMOSA WATCH / ELECTION MAP') {
     const veil = document.getElementById('map-transition');
     if (!window.gsap || !veil) { change(); return; }
     const title = document.getElementById('map-transition-label');
