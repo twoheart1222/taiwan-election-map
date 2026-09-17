@@ -47,7 +47,7 @@
   .pt-cols{position:absolute;inset:0;display:flex}
   .pt-cols>span{flex:1;height:100%;background:#0d0d0d;will-change:transform}
   .pt-cols>span:nth-child(even){background:#131110}
-  .pt-center{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:clamp(28px,6vw,90px);color:#f4f1ea}
+  .pt-center{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:clamp(28px,6vw,90px);color:#f4f1ea}
   .transition-kicker{font:800 clamp(10px,1.2vw,13px)/1 'Archivo','Noto Sans TC',sans-serif;letter-spacing:.28em;margin-bottom:16px;color:#E4022B}
   .transition-title-mask{overflow:hidden;padding-bottom:.12em}
   .transition-title{font:900 clamp(42px,9.4vw,150px)/.9 'Noto Sans TC','Archivo',sans-serif;letter-spacing:-.02em;text-wrap:balance;color:#f4f1ea;will-change:transform,opacity}
@@ -219,10 +219,12 @@
     <div id="view-map">
       <section class="map-hero" style="position:relative;height:calc(100dvh - 58px);min-height:500px;overflow:hidden;background:radial-gradient(120% 120% at 50% -10%,#171512 0%,#0d0d0d 65%)">
         <div id="tw3d" style="position:absolute;inset:0;cursor:grab;touch-action:none"></div>
-        <div id="map-transition" aria-hidden="true" style="position:absolute;inset:0;z-index:32;display:none;pointer-events:none;transform:scaleX(0);transform-origin:left center;background:linear-gradient(115deg,#161311 0%,#0d0d0d 70%);border-right:5px solid #E4022B;will-change:transform">
-          <div style="position:absolute;left:clamp(18px,4vw,54px);bottom:clamp(24px,5vh,56px)">
-            <div id="map-transition-meta" style="font:800 clamp(10px,1.1vw,13px)/1 'Archivo','Noto Sans TC';letter-spacing:.22em;margin-bottom:12px;color:#E4022B">縣市選情 / LOCAL ELECTION</div>
-            <div id="map-transition-label" style="font:900 clamp(34px,7vw,92px)/.92 'Noto Sans TC','Archivo';letter-spacing:-.01em;text-wrap:balance;color:#f4f1ea;will-change:transform,opacity">全台灣</div>
+        <div id="map-transition" aria-hidden="true" style="position:absolute;inset:0;z-index:32;display:none;pointer-events:none;overflow:hidden">
+          <div class="pt-cols" style="position:absolute;inset:0;display:flex"><span></span><span></span><span></span><span></span><span></span></div>
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:clamp(24px,5vw,64px)">
+            <div id="map-transition-meta" style="font:800 clamp(10px,1.1vw,13px)/1 'Archivo','Noto Sans TC';letter-spacing:.26em;margin-bottom:14px;color:#E4022B">縣市選情 / LOCAL ELECTION</div>
+            <div style="overflow:hidden;padding-bottom:.12em"><div id="map-transition-label" style="font:900 clamp(38px,8vw,110px)/.92 'Noto Sans TC','Archivo';letter-spacing:-.02em;text-wrap:balance;color:#f4f1ea;will-change:transform,opacity">全台灣</div></div>
+            <div id="map-transition-rule" style="height:3px;width:0;background:#E4022B;margin-top:clamp(16px,2.4vw,26px);will-change:width"></div>
           </div>
         </div>
 
@@ -980,19 +982,26 @@ class App {
     if (!window.gsap || !veil) { change(); return; }
     const title = document.getElementById('map-transition-label');
     const kicker = document.getElementById('map-transition-meta');
+    const rule = document.getElementById('map-transition-rule');
+    const cols = veil.querySelectorAll('.pt-cols > span');
     if (title) title.textContent = label;
     if (kicker) kicker.textContent = meta;
     this._mapTransition?.kill();
-    window.gsap.killTweensOf([veil, title]);
-    this._mapTransition = window.gsap.timeline()
-      .set(veil, { display: 'block', scaleX: 0, transformOrigin: 'left center' })
-      .set(title, { autoAlpha: 0, x: -22 })
-      .to(veil, { scaleX: 1, duration: 0.32, ease: 'power4.in' })
-      .to(title, { autoAlpha: 1, x: 0, duration: 0.32, ease: 'power3.out' }, 0.17)
-      .add(change)
-      .set(veil, { transformOrigin: 'right center' })
-      .to(title, { autoAlpha: 0, x: 22, duration: 0.2, ease: 'power2.in' }, '+=0.08')
-      .to(veil, { scaleX: 0, duration: 0.52, ease: 'power4.out' }, '<')
+    window.gsap.killTweensOf([veil, title, kicker, rule, ...cols]);
+    this._mapTransition = window.gsap.timeline({ defaults: { overwrite: 'auto' } })
+      .set(veil, { display: 'block' })
+      .set(cols, { yPercent: 101 })
+      .set(title, { yPercent: 118, opacity: 1 })
+      .set(kicker, { opacity: 0, y: 12 })
+      .set(rule, { width: 0 })
+      .to(cols, { yPercent: 0, duration: 0.5, ease: 'power4.inOut', stagger: 0.05 })
+      .to(kicker, { opacity: 1, y: 0, duration: 0.32, ease: 'power2.out' }, '-=0.28')
+      .to(title, { yPercent: 0, duration: 0.58, ease: 'power4.out' }, '-=0.36')
+      .to(rule, { width: 'min(240px,40vw)', duration: 0.46, ease: 'power3.out' }, '-=0.42')
+      .add(change, '+=0.04')
+      .to(kicker, { opacity: 0, duration: 0.2, ease: 'power1.in' }, '+=0.1')
+      .to(title, { yPercent: -118, duration: 0.44, ease: 'power3.in' }, '<')
+      .to(cols, { yPercent: -101, duration: 0.54, ease: 'power4.inOut', stagger: 0.05 }, '<+=0.05')
       .set(veil, { display: 'none' })
       .add(() => { this._mapTransition = null; });
   }
