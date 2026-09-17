@@ -7,19 +7,19 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          fontFamily: { sans: ['"Plus Jakarta Sans"', '"Noto Sans TC"', 'sans-serif'] },
+          fontFamily: { sans: ['"Archivo"', '"Noto Sans TC"', 'sans-serif'] },
           colors: {
             canvas: '#F6F6F3',
             surface: '#FFFFFF',
             ink: { 900: '#141517', 700: '#3A3F45', 500: '#6E7681', 300: '#C9CED6', 100: '#EAECEE' },
-            accent: { orange: '#FF5722', yellow: '#FFC837', lime: '#22C55E', blue: '#2563EB', red: '#E11D48' }
+            accent: { orange: '#E4022B', yellow: '#F6C945', lime: '#16A34A', blue: '#2563EB', red: '#E11D48' }
           }
         }
       }
@@ -842,7 +842,7 @@
       c = c || { 
         name: '', party: '無', role: currentCountyRole === 'councilor' ? '市議員候選人' : '候選人', 
         registeredDate: '', gazetteUrl: '', facebook: '', taiwanGoGoUrl: '', instagram: '', threads: '', youtube: '', photoUrl: '',
-        isIncumbent: false, _district: defaultDistrict 
+        isIncumbent: false, elected: false, votes: '', prevVotes: '', _district: defaultDistrict 
       };
 
       const dist = c._district || c.district || defaultDistrict;
@@ -870,10 +870,26 @@
             </button>
           </div>
         </div>
-        <label class="flex items-center gap-1.5 text-xs font-bold text-ink-700 cursor-pointer w-fit">
-          <input type="checkbox" class="c-incumbent w-4 h-4 accent-accent-orange cursor-pointer" ${c.isIncumbent ? 'checked' : ''}>
-          <span>現任爭取連任</span>
-        </label>
+        <div class="flex flex-wrap items-center gap-x-5 gap-y-2">
+          <label class="flex items-center gap-1.5 text-xs font-bold text-ink-700 cursor-pointer w-fit">
+            <input type="checkbox" class="c-incumbent w-4 h-4 accent-accent-orange cursor-pointer" ${c.isIncumbent ? 'checked' : ''}>
+            <span>現任爭取連任</span>
+          </label>
+          <label class="flex items-center gap-1.5 text-xs font-black text-ink-900 cursor-pointer w-fit">
+            <input type="checkbox" class="c-elected w-4 h-4 accent-accent-yellow cursor-pointer" ${c.elected ? 'checked' : ''}>
+            <span class="inline-flex items-center gap-1"><i data-lucide="trophy" class="w-3.5 h-3.5 text-accent-yellow"></i>當選（前台顯示金框）</span>
+          </label>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <label class="block">
+            <span class="text-[10px] font-black uppercase tracking-wider text-ink-500 block mb-1">本期得票（開票後填）</span>
+            <input placeholder="例：45,231　未填＝顯示未開票" class="c-votes w-full bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.votes || '')}">
+          </label>
+          <label class="c-prevvotes-wrap block">
+            <span class="text-[10px] font-black uppercase tracking-wider text-ink-500 block mb-1">上期得票（僅限連任者）</span>
+            <input placeholder="例：38,902　可日後補填" class="c-prevvotes w-full bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.prevVotes || '')}">
+          </label>
+        </div>
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 items-center">
           <input placeholder="Facebook 直達連結" class="c-facebook bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.facebook || '')}">
           <input placeholder="台灣前進候選人頁面" class="c-taiwangogo bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.taiwanGoGoUrl || '')}">
@@ -890,6 +906,12 @@
         </div>
       `;
       document.getElementById('candidate-rows').appendChild(row);
+
+      const incChk = row.querySelector('.c-incumbent');
+      const prevWrap = row.querySelector('.c-prevvotes-wrap');
+      const prevInput = row.querySelector('.c-prevvotes');
+      const syncPrev = () => { const on = incChk.checked; prevWrap.style.opacity = on ? '1' : '.4'; prevInput.disabled = !on; prevInput.placeholder = on ? '例：38,902　可日後補填' : '僅「爭取連任」者適用'; };
+      incChk.addEventListener('change', syncPrev); syncPrev();
 
       const photoInput = row.querySelector('.c-photourl');
       const photoPreview = row.querySelector('.c-photopreview');
@@ -943,6 +965,9 @@
         youtube: row.querySelector('.c-youtube').value.trim() || null,
         photoUrl: row.querySelector('.c-photourl').value.trim() || null,
         isIncumbent: row.querySelector('.c-incumbent').checked,
+        elected: row.querySelector('.c-elected').checked,
+        votes: row.querySelector('.c-votes').value.trim() || null,
+        prevVotes: row.querySelector('.c-incumbent').checked ? (row.querySelector('.c-prevvotes').value.trim() || null) : null,
       })).filter(c => c.name);
     }
 
