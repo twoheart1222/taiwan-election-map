@@ -45,12 +45,13 @@
   .navlink{opacity:.82;transition:opacity .2s,color .2s}.navlink:hover{opacity:1}.navlink.on{color:#E4022B;opacity:1}
   .page-transition{position:fixed;inset:0;z-index:140;display:none;pointer-events:none;overflow:hidden}
   .pt-cols{position:absolute;inset:0;display:flex}
-  .pt-cols>span{flex:1;height:100%;background:#0d0d0d;will-change:transform}
-  .pt-cols>span:nth-child(even){background:#131110}
-  .pt-center{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:clamp(28px,6vw,90px);color:#f4f1ea}
+  .pt-cols>span{flex:1;height:100%;background:#f4f1ea;border-right:1px solid rgba(228,2,43,.22);will-change:transform}
+  .pt-cols>span:first-child{border-left:clamp(8px,1.8vw,24px) solid #E4022B}
+  .pt-cols>span:last-child{border-right:clamp(8px,1.8vw,24px) solid #E4022B}
+  .pt-center{position:absolute;inset:clamp(8px,1.8vw,24px) 0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:clamp(28px,6vw,90px);color:#E4022B;border-top:clamp(8px,1.8vw,24px) solid #E4022B;border-bottom:clamp(8px,1.8vw,24px) solid #E4022B}
   .transition-kicker{font:800 clamp(10px,1.2vw,13px)/1 'Archivo','Noto Sans TC',sans-serif;letter-spacing:.28em;margin-bottom:16px;color:#E4022B}
   .transition-title-mask{overflow:hidden;padding-bottom:.12em}
-  .transition-title{font:900 clamp(42px,9.4vw,150px)/.9 'Noto Sans TC','Archivo',sans-serif;letter-spacing:-.02em;text-wrap:balance;color:#f4f1ea;will-change:transform,opacity}
+  .transition-title{font:900 clamp(42px,9.4vw,150px)/.9 'Noto Sans TC','Archivo',sans-serif;letter-spacing:-.02em;text-wrap:balance;color:#E4022B;will-change:transform,opacity}
   .transition-rule{height:3px;width:0;background:#E4022B;margin-top:clamp(16px,2.4vw,28px);will-change:width}
   .source-register{max-width:1120px;margin-top:clamp(44px,8vh,88px);padding-top:clamp(26px,5vh,48px);border-top:1px solid rgba(13,13,13,.28)}
   .source-links{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:18px}
@@ -61,11 +62,12 @@
   .candidate-photo{width:88px;height:88px;overflow:hidden;border-radius:50%;background:#2a2723;display:grid;place-items:center;font-family:'Noto Sans TC';font-weight:900;font-size:28px;color:#f4f1ea}
   .candidate-title-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
   .drawer{font-family:'Noto Sans TC',system-ui,sans-serif}
+  .map-hero{height:calc(100dvh - 60px) !important}
   .candidate-search{position:relative;width:fit-content;max-width:min(360px,calc(100vw - 32px));margin-top:20px;pointer-events:auto}
   .candidate-search.open{width:min(340px,calc(100vw - 32px))}
   .candidate-search-label{display:inline;white-space:nowrap;padding:12px 18px 12px 6px;font:800 13.5px 'Noto Sans TC',sans-serif;color:#c9c2b6}
   .candidate-search.open .candidate-search-label{display:none}
-  .candidate-search-row{cursor:pointer;display:flex;align-items:center;background:rgba(20,18,16,.94);border:1.5px solid #3a3630;border-radius:999px;box-shadow:0 14px 38px rgba(0,0,0,.32);transition:border-color .2s,box-shadow .2s}box-shadow .2s}
+  .candidate-search-row{cursor:pointer;display:flex;align-items:center;background:rgba(20,18,16,.94);border:1.5px solid #3a3630;border-radius:999px;box-shadow:0 14px 38px rgba(0,0,0,.32);transition:border-color .2s,box-shadow .2s}
   .candidate-search-row:focus-within{border-color:#E4022B;box-shadow:0 14px 38px rgba(0,0,0,.42),0 0 0 3px rgba(228,2,43,.16)}
   .candidate-search-icon{flex:none;padding-left:16px;color:#E4022B;font:900 18px/1 'Archivo'}
   #candidate-search-input{display:none;min-width:0;width:100%;border:0;outline:0;background:transparent;color:#f4f1ea;padding:13px 15px 13px 10px;font:700 15px 'Noto Sans TC',sans-serif}
@@ -80,7 +82,7 @@
   .search-message{padding:15px 13px;color:#a29c92;font-size:13px;font-weight:700;line-height:1.6}
   @media(max-width:660px){
     .pt-center{padding:34px 20px !important}.transition-title{font-size:clamp(40px,15vw,72px);line-height:.94}
-    #map-transition{position:fixed !important;inset:58px 0 0 !important;z-index:130 !important}
+    #map-transition{position:fixed !important;inset:61px 0 0 !important;z-index:130 !important}
     .map-label{font-size:11px !important;padding:3px 7px !important;letter-spacing:0 !important}
     .site-nav{padding:10px 12px !important;gap:8px !important}
     .site-nav>div:first-child{min-width:0;flex:1}
@@ -118,8 +120,8 @@
     .mobile-menu.open a:nth-child(4){transition-delay:.05s,.05s,.21s,.21s}
     .mobile-menu a:hover,.mobile-menu a.on{background:#E4022B;color:#fff}
     /* 抽屜獨立佔滿手機視窗，候選人清單才不會被下一個 section 截斷 */
-    .map-hero{height:76dvh !important;min-height:0 !important}
-    .drawer{position:fixed !important;top:58px !important;right:0 !important;bottom:auto !important;width:100% !important;height:calc(100dvh - 58px) !important;max-height:none !important;min-height:0 !important;z-index:100 !important}
+    .map-hero{height:calc(100dvh - 61px) !important;min-height:560px !important}
+    .drawer{position:fixed !important;top:61px !important;right:0 !important;bottom:auto !important;width:100% !important;height:calc(100dvh - 61px) !important;max-height:none !important;min-height:0 !important;z-index:100 !important}
     .drawer-head{padding:12px 16px 8px !important;gap:10px !important}
     .drawer-head>div:first-child{max-width:calc(100% - 46px)}
     .drawer-head>button{width:38px !important;height:38px !important}
@@ -129,7 +131,7 @@
     .drawer-stats>div>span:first-child{font-size:8px !important;letter-spacing:0 !important;white-space:nowrap}
     .drawer-stats>div>span:last-child{font-size:16px !important;margin-top:2px !important}
     .drawer-body-scroll{flex:1 !important;min-height:0 !important;overflow-y:scroll !important;overscroll-behavior-y:contain;touch-action:pan-y;-webkit-overflow-scrolling:touch;padding-top:2px}
-    #back-area{padding:0 16px 6px !important}
+    #back-area{position:sticky;top:0;z-index:4;padding:8px 16px !important;background:linear-gradient(#141210 75%,rgba(20,18,16,0))}
     #candidates{flex:none !important;min-height:auto !important;overflow:visible !important;padding:4px 16px max(40px,calc(24px + env(safe-area-inset-bottom))) !important}
     .map-intro{top:18px !important;left:16px !important;max-width:calc(100% - 32px) !important}
     .map-intro h1{font-size:28px !important;line-height:1.18 !important;letter-spacing:0 !important}
@@ -146,7 +148,7 @@
     .candidate-main{grid-template-columns:88px minmax(0,1fr);gap:14px}
     .candidate-photo{width:88px;height:88px}
     .candidate-title-row h4{line-height:1.25 !important;letter-spacing:0 !important}
-    #tw3d{touch-action:pan-y !important}
+    #tw3d{touch-action:none !important}
   }
   @media(max-width:380px){.brand-home{font-size:13px !important}.map-intro h1{font-size:27px !important}}
   @media(max-width:520px){.nav-brandsub{display:none}}
@@ -228,16 +230,17 @@
           <div class="pt-cols" style="position:absolute;inset:0;display:flex"><span></span><span></span><span></span><span></span><span></span></div>
           <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:clamp(24px,5vw,64px)">
             <div id="map-transition-meta" style="font:800 clamp(10px,1.1vw,13px)/1 'Archivo','Noto Sans TC';letter-spacing:.26em;margin-bottom:14px;color:#E4022B">縣市選情 / LOCAL ELECTION</div>
-            <div style="overflow:hidden;padding-bottom:.12em"><div id="map-transition-label" style="font:900 clamp(38px,8vw,110px)/.92 'Noto Sans TC','Archivo';letter-spacing:-.02em;text-wrap:balance;color:#f4f1ea;will-change:transform,opacity">全台灣</div></div>
+            <div style="overflow:hidden;padding-bottom:.12em"><div id="map-transition-label" style="font:900 clamp(38px,8vw,110px)/.92 'Noto Sans TC','Archivo';letter-spacing:-.02em;text-wrap:balance;color:#E4022B;will-change:transform,opacity">全台灣</div></div>
             <div id="map-transition-rule" style="height:3px;width:0;background:#E4022B;margin-top:clamp(16px,2.4vw,26px);will-change:width"></div>
           </div>
         </div>
 
-        <div id="map-cue" aria-hidden="true" style="position:absolute;left:clamp(16px,3vw,32px);bottom:clamp(16px,3vh,30px);z-index:33;display:flex;align-items:center;gap:11px;padding:11px 16px 11px 14px;background:rgba(13,13,13,.82);border:1px solid #2a2723;border-left:3px solid #E4022B;border-radius:12px;box-shadow:0 12px 30px rgba(0,0,0,.4);backdrop-filter:blur(10px);opacity:0;transform:translateY(10px);pointer-events:none;will-change:opacity,transform">
+        <div id="map-cue" aria-hidden="true" style="display:none">
           <span style="width:8px;height:8px;flex:none;border-radius:50%;background:#E4022B"></span>
           <span><span id="map-cue-meta" style="display:block;font:800 9.5px/1 'Archivo','Noto Sans TC';letter-spacing:.2em;color:#E4022B;margin-bottom:4px">村里選情 / VILLAGE</span><span id="map-cue-label" style="display:block;font:900 16px/1 'Noto Sans TC','Archivo';color:#f4f1ea;letter-spacing:-.01em">光文里</span></span>
         </div>
 
+        <div class="map-intro" style="position:absolute;top:clamp(16px,3vh,32px);left:clamp(16px,4vw,44px);pointer-events:none;max-width:74%;z-index:30">
           <div style="font-family:'Archivo';font-weight:700;font-size:12px;letter-spacing:.26em;color:#E4022B;margin-bottom:11px">FORMOSA WATCH / ELECTION MAP</div>
           <h1 style="font-family:'Noto Sans TC','Archivo',sans-serif;font-weight:900;font-size:clamp(24px,4.2vw,58px);line-height:1;letter-spacing:-.03em;margin:0">島民<br>選舉地圖</h1>
           <div class="candidate-search" id="candidate-search">
@@ -527,6 +530,35 @@ class App {
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
     this._showView('map');
   }
+  _playVeil(veil, title, kicker, rule, change, key = '_veilToken') {
+    if (!veil || !veil.animate) { change(); return; }
+    const token = (this[key] || 0) + 1;
+    this[key] = token;
+    const cols = [...veil.querySelectorAll('.pt-cols > span')];
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const enter = reduced ? 80 : 430;
+    const stagger = reduced ? 0 : 42;
+    veil.style.display = 'block';
+    cols.forEach((col, i) => col.animate(
+      [{ transform: 'translateY(101%)' }, { transform: 'translateY(0)' }],
+      { duration: enter, delay: i * stagger, easing: 'cubic-bezier(.76,0,.24,1)', fill: 'forwards' }
+    ));
+    title?.animate([{ transform: 'translateY(115%)' }, { transform: 'translateY(0)' }], { duration: enter + 120, delay: 110, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'both' });
+    kicker?.animate([{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 300, delay: 150, fill: 'both' });
+    rule?.animate([{ width: 0 }, { width: 'min(280px,44vw)' }], { duration: 380, delay: 190, easing: 'ease-out', fill: 'both' });
+    const swapAt = enter + stagger * Math.max(0, cols.length - 1) + 50;
+    setTimeout(() => { if (this[key] === token) change(); }, swapAt);
+    setTimeout(() => {
+      if (this[key] !== token) return;
+      title?.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(-115%)' }], { duration: 360, easing: 'cubic-bezier(.7,0,.84,0)', fill: 'forwards' });
+      kicker?.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 180, fill: 'forwards' });
+      cols.forEach((col, i) => col.animate(
+        [{ transform: 'translateY(0)' }, { transform: 'translateY(-101%)' }],
+        { duration: enter, delay: i * stagger, easing: 'cubic-bezier(.76,0,.24,1)', fill: 'forwards' }
+      ));
+      setTimeout(() => { if (this[key] === token) veil.style.display = 'none'; }, enter + stagger * Math.max(0, cols.length - 1) + 40);
+    }, swapAt + (reduced ? 80 : 310));
+  }
   _showView(name, onSwap) {
     const names = ['map', 'observatory', 'support', 'contact'];
     const labels = { map: '島民選舉地圖', observatory: '政治觀察', support: '支持島民觀察室', contact: '聯絡我們' };
@@ -544,35 +576,14 @@ class App {
       setVisible(name);
       if (onSwap) onSwap();
     } else {
-      // 導覽列轉場：GSAP 深色遮罩「百葉」進退場，標題自遮罩下方揭露。
+      // 原生 Web Animations：手機不再因外部動畫函式庫載入失敗而直接跳頁。
       const veil = document.getElementById('page-transition');
-      const cols = veil.querySelectorAll('.pt-cols > span');
       const title = document.getElementById('page-transition-label');
       const kicker = document.getElementById('page-transition-kicker');
       const rule = document.getElementById('page-transition-rule');
       if (title) title.textContent = labels[name] || name;
       if (kicker) kicker.textContent = name === 'map' ? '返回 / HOME' : '前往 / NEXT';
-      const g = window.gsap;
-      if (!g) { setVisible(name); if (onSwap) onSwap(); }
-      else {
-        this._viewTL?.kill();
-        this._viewTL = g.timeline({ defaults: { overwrite: 'auto' } })
-          .set(veil, { display: 'block' })
-          .set(cols, { yPercent: 101 })
-          .set(title, { yPercent: 118, opacity: 1 })
-          .set(kicker, { opacity: 0, y: 12 })
-          .set(rule, { width: 0 })
-          .to(cols, { yPercent: 0, duration: 0.52, ease: 'power4.inOut', stagger: 0.055 })
-          .to(kicker, { opacity: 1, y: 0, duration: 0.34, ease: 'power2.out' }, '-=0.3')
-          .to(title, { yPercent: 0, duration: 0.62, ease: 'power4.out' }, '-=0.38')
-          .to(rule, { width: 'min(300px,46vw)', duration: 0.5, ease: 'power3.out' }, '-=0.44')
-          .add(() => { setVisible(name); if (onSwap) onSwap(); }, '+=0.06')
-          .to(kicker, { opacity: 0, duration: 0.22, ease: 'power1.in' }, '+=0.12')
-          .to(title, { yPercent: -118, duration: 0.46, ease: 'power3.in' }, '<')
-          .to(cols, { yPercent: -101, duration: 0.56, ease: 'power4.inOut', stagger: 0.055 }, '<+=0.05')
-          .set(veil, { display: 'none' })
-          .add(() => { this._viewTL = null; });
-      }
+      this._playVeil(veil, title, kicker, rule, () => { setVisible(name); if (onSwap) onSwap(); }, '_viewTransitionToken');
     }
     document.querySelectorAll('.navlink,#mobile-menu [data-view]').forEach(l => l.classList.toggle('on', l.dataset.view === name));
     window.scrollTo(0, 0);
@@ -928,7 +939,7 @@ class App {
     window.addEventListener('pointerup', () => { drag = false; dom.style.cursor = 'grab'; });
     dom.addEventListener('click', () => { if (this._hovered && moved < 6) this._pick(this._hovered.userData.props); });
 
-    document.getElementById('drawer-close').onclick = () => this._back();
+    document.getElementById('drawer-close').onclick = () => this._closeDrawer();
     document.querySelector('.crumb-btn[data-level="all"]').onclick = () => this._goLevel(0);
 
     this._auto = true;
@@ -995,33 +1006,14 @@ class App {
   }
 
   _transitionMap(change, label = '全台灣', meta = 'FORMOSA WATCH / ELECTION MAP') {
-    this._setCue(label, meta);
     const veil = document.getElementById('map-transition');
-    if (!window.gsap || !veil) { change(); return; }
+    if (!veil) { change(); return; }
     const title = document.getElementById('map-transition-label');
     const kicker = document.getElementById('map-transition-meta');
     const rule = document.getElementById('map-transition-rule');
-    const cols = veil.querySelectorAll('.pt-cols > span');
     if (title) title.textContent = label;
     if (kicker) kicker.textContent = meta;
-    this._mapTransition?.kill();
-    window.gsap.killTweensOf([veil, title, kicker, rule, ...cols]);
-    this._mapTransition = window.gsap.timeline({ defaults: { overwrite: 'auto' } })
-      .set(veil, { display: 'block' })
-      .set(cols, { yPercent: 101 })
-      .set(title, { yPercent: 118, opacity: 1 })
-      .set(kicker, { opacity: 0, y: 12 })
-      .set(rule, { width: 0 })
-      .to(cols, { yPercent: 0, duration: 0.5, ease: 'power4.inOut', stagger: 0.05 })
-      .to(kicker, { opacity: 1, y: 0, duration: 0.32, ease: 'power2.out' }, '-=0.28')
-      .to(title, { yPercent: 0, duration: 0.58, ease: 'power4.out' }, '-=0.36')
-      .to(rule, { width: 'min(240px,40vw)', duration: 0.46, ease: 'power3.out' }, '-=0.42')
-      .add(change, '+=0.04')
-      .to(kicker, { opacity: 0, duration: 0.2, ease: 'power1.in' }, '+=0.1')
-      .to(title, { yPercent: -118, duration: 0.44, ease: 'power3.in' }, '<')
-      .to(cols, { yPercent: -101, duration: 0.54, ease: 'power4.inOut', stagger: 0.05 }, '<+=0.05')
-      .set(veil, { display: 'none' })
-      .add(() => { this._mapTransition = null; });
+    this._playVeil(veil, title, kicker, rule, change, '_mapTransitionToken');
   }
 
   _miniCue(change, label = '', meta = '村里選情 / VILLAGE') {
@@ -1030,22 +1022,7 @@ class App {
   }
 
   _setCue(label, meta) {
-    const cue = document.getElementById('map-cue');
-    if (!cue) return;
-    const t = document.getElementById('map-cue-label');
-    const k = document.getElementById('map-cue-meta');
-    let m = meta || '';
-    if (/HOME/i.test(m)) m = '全台灣 / TAIWAN';
-    if (t) t.textContent = label || '全台灣';
-    if (k) k.textContent = m || '縣市選情 / COUNTY';
-    this._cueTL?.kill();
-    if (window.gsap) {
-      cue.style.opacity = '1';
-      this._cueTL = window.gsap.timeline({ overwrite: 'auto' })
-        .fromTo(cue, { y: 8, opacity: 0.35 }, { y: 0, opacity: 1, duration: 0.36, ease: 'power3.out' })
-        .fromTo(t, { scale: 0.9 }, { scale: 1, duration: 0.34, ease: 'back.out(2.2)', transformOrigin: 'left center', clearProps: 'scale' }, 0)
-        .add(() => { this._cueTL = null; });
-    } else { cue.style.opacity = '1'; cue.style.transform = 'none'; }
+    // 左下角沿用原始的 tw3d-label；不再另外疊一張提示卡。
   }
 
   _buildLevel(level, feats) {
@@ -1131,21 +1108,42 @@ class App {
       L.el.style.display = 'block'; L.el.style.left = px + 'px'; L.el.style.top = py + 'px';
     });
   }
-  _writeReadout(label, meta) {
+  _writeReadout(label, meta, roll = false) {
     const name = document.getElementById('tw3d-name'), detail = document.getElementById('tw3d-meta');
-    if (name) name.textContent = label;
-    if (detail) detail.textContent = meta;
+    if (!name) return;
+    if (!roll || name.textContent === label || !name.animate) {
+      name.textContent = label;
+      if (detail) detail.textContent = meta;
+      return;
+    }
+    const token = (this._readoutRollToken || 0) + 1;
+    this._readoutRollToken = token;
+    const out = name.animate(
+      [{ transform: 'translateY(0)', opacity: 1 }, { transform: 'translateY(-105%)', opacity: 0 }],
+      { duration: 180, easing: 'cubic-bezier(.7,0,.84,0)', fill: 'forwards' }
+    );
+    out.onfinish = () => {
+      if (this._readoutRollToken !== token) return;
+      name.textContent = label;
+      if (detail) detail.textContent = meta;
+      name.animate(
+        [{ transform: 'translateY(105%)', opacity: 0 }, { transform: 'translateY(0)', opacity: 1 }],
+        { duration: 300, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'forwards' }
+      );
+    };
   }
   _setReadoutContext(props = null, level = null, label = null, meta = null) {
+    const previous = this._readoutContext;
+    const roll = !!(previous?.level && level && previous.level === level && previous.label !== label);
     this._readoutContext = { props, level, label, meta };
-    this._restoreReadout();
+    this._restoreReadout(roll);
   }
-  _restoreReadout() {
+  _restoreReadout(roll = false) {
     const context = this._readoutContext;
     if (!context) { this._writeReadout('台灣全境', '拖曳旋轉 · 點擊縣市查看候選人'); return; }
     const label = context.label || context.props?.name || '台灣全境';
     const meta = context.meta || (context.props ? `${this._tally(context.props, context.level)} · 目前檢視` : '目前檢視');
-    this._writeReadout(label, meta);
+    this._writeReadout(label, meta, roll);
   }
   _showFeatureReadout(mesh) {
     if (!mesh?.userData?.props) return;
@@ -1272,12 +1270,12 @@ class App {
     if (f) this._miniCue(() => this._focusFeature(f, 'hot'), p.name, '村里選情 / VILLAGE');
   }
 
-  _back() {
+  _closeDrawer() {
     this._navigationRevision += 1;
     document.getElementById('drawer').style.transform = 'translateX(103%)';
     this._setDrawerLock(false); this._drawerOpen = false; this._applyViewOffset();
-    this._goLevel(Math.max(0, this.nav.length - 2));
   }
+  _back() { this._closeDrawer(); }
   _goLevel(idx, animate = true) {
     this._navigationRevision += 1;
     if (idx <= 0) {
@@ -1376,6 +1374,8 @@ class App {
     this._drawerBase(`${this.county.name} › ${p.name}`, tag, p.voters, p.quota);
     document.getElementById('drawer-title').textContent = `${p.name} 首長候選人`;
     this._hideBack();
+    // 手機抽屜會蓋滿地圖，因此行政區層也必須提供與桌面麵包屑相同的返回路徑。
+    this._showBack(() => this._goLevel(1));
     this._hideSel('sel-type'); this._hideSel('sel-district'); this._hideSel('sel-village');
 
     const mayors = this._headCands(p);
