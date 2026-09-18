@@ -18,6 +18,7 @@
     "sync:ylcc-cycc": "node scripts/sync-ylcc-cycc-councilors.mjs",
     "sync:tncc-mayors": "node scripts/sync-tncc-mayors.mjs",
     "sync:ptcc-ilcc-hlcc": "node scripts/sync-ptcc-ilcc-hlcc-councilors.mjs",
+    "apply:district-quotas": "node scripts/apply-district-quotas.mjs",
     "sync:moi-villages": "node scripts/sync-moi-village-chiefs.mjs",
     "sync:taiwangogo": "node scripts/sync-taiwangogo-links.mjs",
     "apply:ntp-facebook": "node scripts/apply-ntp-facebook.mjs",

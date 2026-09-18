@@ -1414,7 +1414,7 @@ class App {
   // ═══════════════════════════════════════════════
   _openCountyDrawer(p) {
     this._setReadoutContext(p, 'county', p.name);
-    this._drawerBase(p.name, p.category || '縣市', p.voters, p.quota);
+    this._drawerBase(p.name, p.category || '縣市', p.voters, p.quota || '1 席');
     document.getElementById('drawer-title').textContent = `${p.name} 首長候選人`;
     this._hideBack();
     this._hideSel('sel-type'); this._hideSel('sel-district'); this._hideSel('sel-village');
@@ -1438,11 +1438,13 @@ class App {
         if (bi === '') {
           this._showCands(mayors);
           document.getElementById('drawer-title').textContent = `${p.name} 首長候選人`;
+          this._countUp(document.getElementById('stat-quota'), p.quota || '1 席');
           this._highlightDistrict(p.id, null);
           return;
         }
         const block = blocks[+bi];
         document.getElementById('drawer-title').textContent = `${this._districtLabel(p.id, block)} 議員`;
+        this._countUp(document.getElementById('stat-quota'), this._councilQuota(p.id, block));
         this._showCands(block.candidates);
         this._highlightDistrict(p.id, block);
 
@@ -1474,7 +1476,7 @@ class App {
   _openTownDrawer(p, options = {}) {
     this._setReadoutContext(p, 'town', `${this.county.name} › ${p.name}`);
     const tag = p.isIndigenousDistrict ? '山地原住民區' : '行政區轄區';
-    this._drawerBase(`${this.county.name} › ${p.name}`, tag, p.voters, p.quota);
+    this._drawerBase(`${this.county.name} › ${p.name}`, tag, p.voters, p.quota || '1 席');
     document.getElementById('drawer-title').textContent = `${p.name} 首長候選人`;
     this._hideBack();
     // 手機抽屜會蓋滿地圖，因此行政區層也必須提供與桌面麵包屑相同的返回路徑。
@@ -1688,6 +1690,10 @@ class App {
     const info = this.districtMap?.[code]?.districts?.[block.district];
     const towns = (info && info.towns && info.towns.length) ? info.towns.join('、') : null;
     return towns ? `第 ${block.district} 選舉區（${towns}）` : `第 ${block.district} 選舉區`;
+  }
+  _councilQuota(code, block) {
+    const seats = this.quotaMap?.[code]?.[String(block.district)];
+    return block.quota || (Number.isInteger(seats) && seats > 0 ? `${seats} 席` : '--');
   }
   _representativeDistrictLabel(p, block) {
     const configured = this.districtMap?.[this.county?.code]?.representatives?.[p.id]?.[block.district];
