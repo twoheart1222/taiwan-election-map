@@ -1,0 +1,35 @@
+name: Patch extra Taoyuan councilor Facebook
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/patch-taoyuan-councilor-facebook-extra.yml'
+      - 'scripts/patch-taoyuan-councilor-facebook-extra.mjs'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Apply extra verified Facebook links
+        run: node scripts/patch-taoyuan-councilor-facebook-extra.mjs
+      - name: Commit data update
+        run: |
+          if git diff --quiet -- data/counties.json; then
+            echo 'No data changes.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/counties.json
+          git commit -m 'Add extra verified Taoyuan councilor Facebook links [skip ci]'
+          git push
