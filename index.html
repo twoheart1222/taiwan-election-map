@@ -955,7 +955,16 @@ class App {
     this.districtMap = dmap; this.quotaMap = quota;
     const counties = await this._loadTopo('./data/counties.json');
     this.allCountyFeats = this._feats(counties);
-    let feats = this.allCountyFeats.filter(f => { const c = this._centroid(f); return c[0] > 119.3 && c[0] < 122.2 && c[1] > 21.8 && c[1] < 25.4; });
+    const insetTargets = {
+      '09020': { center: [119.48, 22.72], scale: 1.35 }, // 金門：置於台灣西南側小框位置
+      '09007': { center: [119.52, 24.55], scale: 1.05 }, // 連江：置於台灣西北側小框位置
+    };
+    let feats = this.allCountyFeats
+      .filter(f => {
+        const id = String(f.properties.id), c = this._centroid(f);
+        return insetTargets[id] || (c[0] > 119.3 && c[0] < 122.2 && c[1] > 21.8 && c[1] < 25.4);
+      })
+      .map(f => insetTargets[String(f.properties.id)] ? this._insetCountyFeature(f, insetTargets[String(f.properties.id)]) : f);
     this.countyFeats = feats;
     this._buildCountyPicker();
 
@@ -1106,6 +1115,20 @@ class App {
       const cen = this._centroid(f); mesh.userData.cen = new THREE.Vector3(this.px(cen[0]), depth, -this.py(cen[1]));
       this.flat.add(mesh); this.active.meshes.push(mesh); this.active.byName[f.properties.name] = mesh;
       mesh.add(new THREE.LineSegments(new THREE.EdgesGeometry(geo, 25), new THREE.LineBasicMaterial({ color: 0x0d0d0d, transparent: true, opacity: 0.32 })));
+      if (is3D && f.properties.isInset) {
+        const centerX = this.px(cen[0]), centerY = this.py(cen[1]);
+        const halfW = String(f.properties.id) === '09020' ? 8.5 : 7;
+        const halfH = String(f.properties.id) === '09020' ? 6 : 6.5;
+        const left = centerX - halfW, right = centerX + halfW;
+        const top = centerY - halfH, bottom = centerY + halfH;
+        const frameGeo = new THREE.BufferGeometry().setFromPoints([
+          new THREE.Vector3(left, top, depth + 0.38), new THREE.Vector3(right, top, depth + 0.38),
+          new THREE.Vector3(right, bottom, depth + 0.38), new THREE.Vector3(left, bottom, depth + 0.38),
+        ]);
+        const frame = new THREE.LineLoop(frameGeo, new THREE.LineBasicMaterial({ color: 0xE4022B, transparent: true, opacity: 0.42 }));
+        frame.userData.isInsetFrame = true;
+        this.flat.add(frame);
+      }
     });
     this.flat.scale.set(0.9, 0.9, 0.9);
     this.flat.rotation.z = is3D ? 0 : -0.035;
@@ -1791,6 +1814,18 @@ class App {
   }
 
   // ---------- geo helpers ----------
+  _insetCountyFeature(feature, config) {
+    const [cx, cy] = this._centroid(feature), [tx, ty] = config.center, scale = config.scale || 1;
+    const remap = coordinates => {
+      if (typeof coordinates?.[0] === 'number') return [tx + (coordinates[0] - cx) * scale, ty + (coordinates[1] - cy) * scale];
+      return coordinates.map(remap);
+    };
+    return {
+      ...feature,
+      properties: { ...feature.properties, isInset: true },
+      geometry: { ...feature.geometry, coordinates: remap(feature.geometry.coordinates) },
+    };
+  }
   _centroid(f) { let x = 0, y = 0, n = 0; this._eachRing(f, r => r.forEach(([lo, la]) => { x += lo; y += la; n++; })); return [x / n, y / n]; }
   _eachPolygon(f, cb) { const g = f.geometry; if (!g) return; if (g.type === 'Polygon') cb(g.coordinates); else if (g.type === 'MultiPolygon') g.coordinates.forEach(p => cb(p)); }
   _eachRing(f, cb) { this._eachPolygon(f, rings => rings.forEach(cb)); }
