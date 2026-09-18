@@ -1,0 +1,52 @@
+name: Patch mayor Facebook links
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/patch-mayor-facebook.mjs'
+      - '.github/workflows/patch-mayor-facebook.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Patch verified mayor Facebook links
+        run: node scripts/patch-mayor-facebook.mjs
+
+      - name: Validate updated data
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const topo = JSON.parse(fs.readFileSync('data/counties.json', 'utf8'));
+          const geometries = topo?.objects?.map?.geometries || [];
+          const mayors = geometries.flatMap(g => (g?.properties?.candidates || []).map(c => ({ county: g?.properties?.name, ...c })));
+          const bad = mayors.filter(c => c.facebook && !/^https:\/\/(www\.)?facebook\.com\//i.test(c.facebook));
+          if (bad.length) throw new Error(`Invalid Facebook URLs: ${bad.map(x => `${x.county}:${x.name}`).join(', ')}`);
+          const withFacebook = mayors.filter(c => c.facebook).length;
+          if (withFacebook < 44) throw new Error(`Expected at least 44 mayor Facebook links, got ${withFacebook}`);
+          console.log(`Validated ${mayors.length} mayor candidates; Facebook links: ${withFacebook}; unresolved: ${mayors.length - withFacebook}`);
+          NODE
+
+      - name: Commit updated counties data
+        run: |
+          if git diff --quiet -- data/counties.json; then
+            echo 'No mayor Facebook data changes.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/counties.json
+          git commit -m 'Update verified mayor Facebook links [skip ci]'
+          git push
