@@ -1,0 +1,22 @@
+name: Report Taichung missing councilor Facebook and photo
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/report-taichung-missing-councilor-social-photo.yml'
+      - 'scripts/report-missing-councilor-social-photo.mjs'
+      - 'data/counties.json'
+  workflow_dispatch:
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Report Taichung missing Facebook and photo
+        run: node scripts/report-missing-councilor-social-photo.mjs 66000
