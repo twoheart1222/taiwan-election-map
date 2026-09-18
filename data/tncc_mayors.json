@@ -1,0 +1,742 @@
+{
+  "generatedAt": "2026-09-18T03:40:15.572Z",
+  "sources": {
+    "tainanCouncil": "https://www.tncc.gov.tw/subhome.asp?orcaid=C56635AE-3C35-4233-8561-7B2CAA2DF01F",
+    "metroMayors": "https://www.moi.gov.tw/LocalOfficial.aspx?TYP=KND0004&n=578&PageSize=100",
+    "countyMayors": "https://www.moi.gov.tw/LocalOfficial.aspx?TYP=KND0005&n=579&PageSize=100"
+  },
+  "verification": "臺南市議員照片與 Facebook 僅取自臺南市議會名單及個人官方介紹頁；縣市首長姓名與照片僅取自內政部地方公職人員資訊。只補空值，不覆蓋既有照片或社群資料；未出現在本站參選名單者不新增。",
+  "tainan": {
+    "officialCount": 55,
+    "officialFacebook": 55,
+    "errors": [],
+    "matched": 48,
+    "unmatched": [
+      {
+        "district": "3",
+        "name": "尤榮智"
+      },
+      {
+        "district": "6",
+        "name": "郭清華"
+      },
+      {
+        "district": "7",
+        "name": "李鎮國"
+      },
+      {
+        "district": "8",
+        "name": "陳怡珍"
+      },
+      {
+        "district": "8",
+        "name": "沈震東"
+      },
+      {
+        "district": "10",
+        "name": "曾培雅"
+      },
+      {
+        "district": "12",
+        "name": "Ingay Tali穎艾達利"
+      }
+    ],
+    "photosAdded": 0,
+    "photosPreserved": 48,
+    "facebookAdded": 1,
+    "facebookPreserved": 47,
+    "conflicts": [],
+    "changes": [
+      {
+        "district": "9",
+        "name": "李啟維",
+        "before": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/6757f6b6c7be5fc75ff3d048a5522870",
+          "facebook": ""
+        },
+        "after": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/6757f6b6c7be5fc75ff3d048a5522870",
+          "facebook": "https://www.facebook.com/kiwi.only.one"
+        }
+      }
+    ],
+    "councilors": [
+      {
+        "district": "1",
+        "name": "蔡育輝",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/2EA7C45E-0A30-47A1-B6E8-903F9106F680/%E8%94%A1%E8%82%B2%E8%BC%9D.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=053E553A-B244-4F42-9BF5-0716C40A7EAD",
+        "facebook": "https://www.facebook.com/profile.php?id=100001026287923",
+        "error": ""
+      },
+      {
+        "district": "1",
+        "name": "趙昆原",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/2EA7C45E-0A30-47A1-B6E8-903F9106F680/%E8%B6%99%E6%98%86%E5%8E%9F.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=12DCAEB1-3B15-4767-86BF-CAC0FF4CD1C7",
+        "facebook": "https://www.facebook.com/profile.php?id=100001987798707",
+        "error": ""
+      },
+      {
+        "district": "1",
+        "name": "王宣貿",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/2EA7C45E-0A30-47A1-B6E8-903F9106F680/%E7%8E%8B%E5%AE%A3%E8%B2%BF.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=C7939C21-E9F9-4C8C-85F1-8400A042C863",
+        "facebook": "https://www.facebook.com/TainanRmao",
+        "error": ""
+      },
+      {
+        "district": "1",
+        "name": "李宗翰",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/2EA7C45E-0A30-47A1-B6E8-903F9106F680/%E6%9D%8E%E5%AE%97%E7%BF%B0.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=0B1C3F9A-92E8-42E4-A419-7EEDC7BC8B17",
+        "facebook": "https://www.facebook.com/litsunghan",
+        "error": ""
+      },
+      {
+        "district": "1",
+        "name": "沈家鳳",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/2EA7C45E-0A30-47A1-B6E8-903F9106F680/%E6%B2%88%E5%AE%B6%E9%B3%B3.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=EF4DD312-3189-4C86-A724-59982456F7A8",
+        "facebook": "https://www.facebook.com/LTSCF69",
+        "error": ""
+      },
+      {
+        "district": "2",
+        "name": "方一峰",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/7D86624A-5FF3-4E34-B1D6-3899EEA0E90D/%E6%96%B9%E4%B8%80%E5%B3%B0.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=5ABA0B90-9FD2-4B3E-BA48-FA776C993C02",
+        "facebook": "https://www.facebook.com/profile.php?id=100004519623401",
+        "error": ""
+      },
+      {
+        "district": "2",
+        "name": "蔡蘇秋金",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/7D86624A-5FF3-4E34-B1D6-3899EEA0E90D/97446301-C0F9-4D46-ACC9-18276EF976E5.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=7B6B9344-76BA-4C91-9501-BAB7F0B20013",
+        "facebook": "https://www.facebook.com/profile.php?id=100001592059497",
+        "error": ""
+      },
+      {
+        "district": "2",
+        "name": "謝舒凡",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/7D86624A-5FF3-4E34-B1D6-3899EEA0E90D/%E8%AC%9D%E8%88%92%E5%87%A1.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=0986A206-7F6A-4880-A070-3992A80B0B74",
+        "facebook": "https://www.facebook.com/HsiehShuFan",
+        "error": ""
+      },
+      {
+        "district": "2",
+        "name": "陳昆和",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/7D86624A-5FF3-4E34-B1D6-3899EEA0E90D/%E9%99%B3%E6%98%86%E5%92%8C-1.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=69EC5C76-C1C1-4EE4-B464-C45B381D64F6",
+        "facebook": "https://www.facebook.com/profile.php?id=100027273891795",
+        "error": ""
+      },
+      {
+        "district": "2",
+        "name": "蔡秋蘭",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/7D86624A-5FF3-4E34-B1D6-3899EEA0E90D/%E8%94%A1%E7%A7%8B%E8%98%AD.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=8E537876-DF09-4EA3-9325-60896B1E86F1",
+        "facebook": "https://www.facebook.com/tsaichiulan",
+        "error": ""
+      },
+      {
+        "district": "3",
+        "name": "陳秋宏",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/ECECDC5D-54AC-41D9-9C64-C7B6C971C673/%E9%99%B3%E7%A7%8B%E5%AE%8F.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=9CBCB90A-A821-4FAD-A45D-79491B3EE5B2",
+        "facebook": "https://www.facebook.com/profile.php?id=100000717407648",
+        "error": ""
+      },
+      {
+        "district": "3",
+        "name": "尤榮智",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/ECECDC5D-54AC-41D9-9C64-C7B6C971C673/%E5%B0%A4%E6%A6%AE%E6%99%BA.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=D673DBCE-2556-45EC-AABE-B138E06A57A2",
+        "facebook": "https://www.facebook.com/profile.php?id=100008192653037",
+        "error": ""
+      },
+      {
+        "district": "3",
+        "name": "吳通龍",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/ECECDC5D-54AC-41D9-9C64-C7B6C971C673/%E5%90%B3%E9%80%9A%E9%BE%8D.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=2BFF5285-201B-4C9D-BD59-2BE6785A28C0",
+        "facebook": "https://www.facebook.com/wu717163",
+        "error": ""
+      },
+      {
+        "district": "4",
+        "name": "周奕齊",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/F8FB1DF0-F5A9-46CC-8EA5-CBF5BA021C86/%E5%91%A8%E5%A5%95%E9%BD%8A.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=E8CDE770-3C97-43B8-BB60-578D7B0EF51B",
+        "facebook": "https://www.facebook.com/yichifight",
+        "error": ""
+      },
+      {
+        "district": "5",
+        "name": "李文俊",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/11EA1727-57A4-4D44-9A91-51298F0F909E/%E6%9D%8E%E6%96%87%E4%BF%8A.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=515CF62D-E56F-4E3D-A58C-B810B625F603",
+        "facebook": "https://www.facebook.com/shanhua.liwenjun",
+        "error": ""
+      },
+      {
+        "district": "5",
+        "name": "林志展",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/11EA1727-57A4-4D44-9A91-51298F0F909E/%E6%9E%97%E5%BF%97%E5%B1%95.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=DF5652F8-552C-4139-8437-084E442F5F7E",
+        "facebook": "https://www.facebook.com/ccaooy",
+        "error": ""
+      },
+      {
+        "district": "5",
+        "name": "余柷青",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/11EA1727-57A4-4D44-9A91-51298F0F909E/%E4%BD%99%E6%9F%B7%E9%9D%92.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=880414F4-8F11-4D0C-AFEA-CBA8B9AA9373",
+        "facebook": "https://www.facebook.com/yucc.tn",
+        "error": ""
+      },
+      {
+        "district": "5",
+        "name": "李偉智",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/11EA1727-57A4-4D44-9A91-51298F0F909E/%E6%9D%8E%E5%81%89%E6%99%BA.png",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=648CDA1E-3081-4B40-830F-9B91CC427F0D",
+        "facebook": "https://www.facebook.com/profile.php?id=100000331041769",
+        "error": ""
+      },
+      {
+        "district": "5",
+        "name": "陳碧玉",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/11EA1727-57A4-4D44-9A91-51298F0F909E/%E9%99%B3%E7%A2%A7%E7%8E%89.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=EED1C3A7-E6DA-40AF-B184-38ADCC794C74",
+        "facebook": "https://www.facebook.com/tiffany979",
+        "error": ""
+      },
+      {
+        "district": "6",
+        "name": "郭信良",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/28D59728-B4F9-4F47-89E1-E08A4B2AEDE7/%E9%83%AD%E4%BF%A1%E8%89%AF.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=7728ECF9-1DF1-4654-80DA-5E9075DBAD8A",
+        "facebook": "https://www.facebook.com/profile.php?id=100001871051921",
+        "error": ""
+      },
+      {
+        "district": "6",
+        "name": "郭清華",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/28D59728-B4F9-4F47-89E1-E08A4B2AEDE7/%E9%83%AD%E6%B8%85%E8%8F%AF.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=95486BD9-E601-4E18-8229-B400B0A384FE",
+        "facebook": "https://www.facebook.com/shine.blue36",
+        "error": ""
+      },
+      {
+        "district": "6",
+        "name": "李中岑",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/28D59728-B4F9-4F47-89E1-E08A4B2AEDE7/%E6%9D%8E%E4%B8%AD%E5%B2%91.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=CEC4B2FB-CB76-4E15-ADFE-96E13827F485",
+        "facebook": "https://www.facebook.com/profile.php?id=100006702070526",
+        "error": ""
+      },
+      {
+        "district": "6",
+        "name": "蔡麗青",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/28D59728-B4F9-4F47-89E1-E08A4B2AEDE7/%E8%94%A1%E9%BA%97%E9%9D%92.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=E68032EF-2D7A-4FA2-A29F-94CBA717AC82",
+        "facebook": "https://www.facebook.com/profile.php?id=100000258402879",
+        "error": ""
+      },
+      {
+        "district": "6",
+        "name": "邱昭勝",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/28D59728-B4F9-4F47-89E1-E08A4B2AEDE7/%E9%82%B1%E6%98%AD%E5%8B%9D.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=5B3D000B-40D4-4C08-ABEB-31DB0F1D0710",
+        "facebook": "https://www.facebook.com/profile.php?id=100085044019926",
+        "error": ""
+      },
+      {
+        "district": "6",
+        "name": "黃麗招",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/28D59728-B4F9-4F47-89E1-E08A4B2AEDE7/%E9%BB%83%E9%BA%97%E6%8B%9B.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=8E4E4081-E941-4DBE-AAED-B24ACA78DE76",
+        "facebook": "https://www.facebook.com/profile.php?id=100005642430091",
+        "error": ""
+      },
+      {
+        "district": "7",
+        "name": "林燕祝",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/775CE00E-4BA7-40AA-A45E-EA973CFB28BA/%E6%9E%97%E7%87%95%E7%A5%9D.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=51D511F9-46E4-4B13-8DCF-35DCE176976A",
+        "facebook": "https://www.facebook.com/misslin.tainan",
+        "error": ""
+      },
+      {
+        "district": "7",
+        "name": "林冠維",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/775CE00E-4BA7-40AA-A45E-EA973CFB28BA/%E6%9E%97%E5%86%A0%E7%B6%AD.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=65656674-B399-41A6-9858-05ADE70BC884",
+        "facebook": "https://www.facebook.com/linkeepgoing",
+        "error": ""
+      },
+      {
+        "district": "7",
+        "name": "朱正軒",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/775CE00E-4BA7-40AA-A45E-EA973CFB28BA/%E6%9C%B1%E6%AD%A3%E8%BB%92.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=201C5B83-A1D0-4226-8FE3-78B01D957E4F",
+        "facebook": "https://www.facebook.com/chchu.tw",
+        "error": ""
+      },
+      {
+        "district": "7",
+        "name": "李鎮國",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/775CE00E-4BA7-40AA-A45E-EA973CFB28BA/%E6%9D%8E%E9%8E%AE%E5%9C%8B.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=2D11ECEC-6836-44E4-8CF8-C3D9B2C8EED4",
+        "facebook": "https://www.facebook.com/profile.php?id=100004238077788",
+        "error": ""
+      },
+      {
+        "district": "7",
+        "name": "陳秋萍",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/775CE00E-4BA7-40AA-A45E-EA973CFB28BA/%E9%99%B3%E7%A7%8B%E8%90%8D.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=D0001474-2C67-47CE-9D7F-98065BE41CE3",
+        "facebook": "https://www.facebook.com/ciouping",
+        "error": ""
+      },
+      {
+        "district": "7",
+        "name": "黄肇輝",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/775CE00E-4BA7-40AA-A45E-EA973CFB28BA/%E9%BB%83%E8%82%87%E8%BC%9D.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=C5B62F03-2580-4ED5-94F5-9A7BDF6218A8",
+        "facebook": "https://www.facebook.com/profile.php?id=100061437721321",
+        "error": ""
+      },
+      {
+        "district": "7",
+        "name": "楊中成",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/775CE00E-4BA7-40AA-A45E-EA973CFB28BA/%E6%A5%8A%E4%B8%AD%E6%88%90.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=B2274F7E-24A5-4019-84DD-BE0C79E0CA1C",
+        "facebook": "https://www.facebook.com/profile.php?id=100005134119818",
+        "error": ""
+      },
+      {
+        "district": "8",
+        "name": "陳怡珍",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/E9E12C20-847F-4FAB-B514-09D7D1F18CF6/%E9%99%B3%E6%80%A1%E7%8F%8D.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=4657ACF2-93DD-43F2-8E89-BB8690AA9C51",
+        "facebook": "https://www.facebook.com/profile.php?id=100075663836013",
+        "error": ""
+      },
+      {
+        "district": "8",
+        "name": "沈震東",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/E9E12C20-847F-4FAB-B514-09D7D1F18CF6/%E6%B2%88%E9%9C%87%E6%9D%B1.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=CE899233-9B53-4514-AF42-A61CFEEBCAEA",
+        "facebook": "https://www.facebook.com/teamshen",
+        "error": ""
+      },
+      {
+        "district": "8",
+        "name": "蔡宗豪",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/E9E12C20-847F-4FAB-B514-09D7D1F18CF6/%E8%94%A1%E5%AE%97%E8%B1%AA.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=A6932093-A9F1-4612-8385-70EEC3F735E8",
+        "facebook": "https://www.facebook.com/hao.tainan",
+        "error": ""
+      },
+      {
+        "district": "8",
+        "name": "許至椿",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/E9E12C20-847F-4FAB-B514-09D7D1F18CF6/%E8%A8%B1%E5%BF%97%E6%A4%BF.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=666A962B-C6F6-4474-9BDB-6D7BAFDDA795",
+        "facebook": "https://www.facebook.com/chih2832530",
+        "error": ""
+      },
+      {
+        "district": "8",
+        "name": "邱莉莉",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/E9E12C20-847F-4FAB-B514-09D7D1F18CF6/%E9%82%B1%E8%8E%89%E8%8E%89.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=4A10A4A3-190C-47E8-9214-B75A23CBE882",
+        "facebook": "https://www.facebook.com/liliservice2012",
+        "error": ""
+      },
+      {
+        "district": "8",
+        "name": "周嘉韋",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/E9E12C20-847F-4FAB-B514-09D7D1F18CF6/%E5%91%A8%E5%98%89%E9%9F%8B.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=3883BDD9-B3D8-4E32-92CE-45E27B7D56EB",
+        "facebook": "https://www.facebook.com/wayonly",
+        "error": ""
+      },
+      {
+        "district": "9",
+        "name": "林美燕",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/F28D4D0E-6FBA-47C6-A39D-09985BCE9138/%E6%9E%97%E7%BE%8E%E7%87%95.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=11107E88-7E88-4ED0-890D-890FA9422C46",
+        "facebook": "https://www.facebook.com/meimei596",
+        "error": ""
+      },
+      {
+        "district": "9",
+        "name": "林依婷",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/F28D4D0E-6FBA-47C6-A39D-09985BCE9138/S__181076148.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=A957A9D4-0279-4969-879A-3CA0EC66FB0A",
+        "facebook": "https://www.facebook.com/01ting",
+        "error": ""
+      },
+      {
+        "district": "9",
+        "name": "盧崑福",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/F28D4D0E-6FBA-47C6-A39D-09985BCE9138/%E7%9B%A7%E5%B4%91%E7%A6%8F.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=FA8177B5-299D-40EB-8103-E7BA2FADD1E8",
+        "facebook": "https://www.facebook.com/kunfu.lu",
+        "error": ""
+      },
+      {
+        "district": "9",
+        "name": "李啟維",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/F28D4D0E-6FBA-47C6-A39D-09985BCE9138/%E6%9D%8E%E5%95%9F%E7%B6%AD.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=B219417D-B967-4AB9-978A-5ED2514A59C6",
+        "facebook": "https://www.facebook.com/kiwi.only.one",
+        "error": ""
+      },
+      {
+        "district": "9",
+        "name": "周麗津",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/F28D4D0E-6FBA-47C6-A39D-09985BCE9138/%E5%91%A8%E9%BA%97%E6%B4%A5.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=5DB11A8A-5F76-44F9-AFBC-6C8DC7B18E15",
+        "facebook": "https://www.facebook.com/lily.chou.969",
+        "error": ""
+      },
+      {
+        "district": "10",
+        "name": "曾培雅",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/B9A563CB-864A-40B8-9BAF-CD77404D2161/%E6%9B%BE%E5%9F%B9%E9%9B%85.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=9127249A-351D-4654-8667-BBEBDEDE227F",
+        "facebook": "https://www.facebook.com/may480818",
+        "error": ""
+      },
+      {
+        "district": "10",
+        "name": "曾之婕",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/B9A563CB-864A-40B8-9BAF-CD77404D2161/%E6%9B%BE%E4%B9%8B%E5%A9%95.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=15677049-A73F-4E15-BB58-E47358888738",
+        "facebook": "https://www.facebook.com/tsengmaggie1115",
+        "error": ""
+      },
+      {
+        "district": "10",
+        "name": "王家貞",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/B9A563CB-864A-40B8-9BAF-CD77404D2161/%E7%8E%8B%E5%AE%B6%E8%B2%9E.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=F2A51A9F-964E-42B2-8326-32EB52318336",
+        "facebook": "https://www.facebook.com/profile.php?id=100006270679022",
+        "error": ""
+      },
+      {
+        "district": "10",
+        "name": "蔡筱薇",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/B9A563CB-864A-40B8-9BAF-CD77404D2161/%E8%94%A1%E7%AD%B1%E8%96%87.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=78191C86-FE9E-442F-84D9-47CF93743FE9",
+        "facebook": "https://www.facebook.com/Hsiaoweitasi",
+        "error": ""
+      },
+      {
+        "district": "10",
+        "name": "李宗霖",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/B9A563CB-864A-40B8-9BAF-CD77404D2161/%E6%9D%8E%E5%AE%97%E9%9C%96.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=9BDA07A5-DD62-4023-9CD6-C8A29540FF53",
+        "facebook": "https://www.facebook.com/LICHONGLIMTW",
+        "error": ""
+      },
+      {
+        "district": "11",
+        "name": "杜素吟",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/CE4A0D3B-E8AF-4EB2-979A-2542DC560C18/%E6%9D%9C%E7%B4%A0%E5%90%9F%E8%AD%B0%E5%93%A1.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=7F8FAD9A-E28A-4C30-9BD7-6BD134E7969D",
+        "facebook": "https://www.facebook.com/profile.php?id=100050234241435",
+        "error": ""
+      },
+      {
+        "district": "11",
+        "name": "吳禹寰",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/CE4A0D3B-E8AF-4EB2-979A-2542DC560C18/%E5%90%B3%E7%A6%B9%E5%AF%B0.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=5E6D61DA-570B-4205-A63E-5C7F4F8B4E32",
+        "facebook": "https://www.facebook.com/yuhuan0813",
+        "error": ""
+      },
+      {
+        "district": "11",
+        "name": "郭鴻儀",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/CE4A0D3B-E8AF-4EB2-979A-2542DC560C18/%E9%83%AD%E9%B4%BB%E5%84%80.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=D02F8D8F-F1DF-4F8A-BA84-EE5B5FA5F147",
+        "facebook": "https://www.facebook.com/hungyi2018",
+        "error": ""
+      },
+      {
+        "district": "11",
+        "name": "鄭佳欣",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/CE4A0D3B-E8AF-4EB2-979A-2542DC560C18/%E9%84%AD%E4%BD%B3%E6%AC%A3.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=0DB92A60-047F-4559-A8EE-03183D3CBFA0",
+        "facebook": "https://www.facebook.com/cch19790403",
+        "error": ""
+      },
+      {
+        "district": "11",
+        "name": "陳皇宇",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/CE4A0D3B-E8AF-4EB2-979A-2542DC560C18/%E9%99%B3%E7%9A%87%E5%AE%87.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=CBAF0322-27BB-4242-BDFE-2BE6814FD6BD",
+        "facebook": "https://www.facebook.com/profile.php?id=100072365286807",
+        "error": ""
+      },
+      {
+        "district": "12",
+        "name": "Ingay Tali穎艾達利",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/97CC8734-8DE1-4B85-B806-1D44689C25AD/%E7%A9%8E%E8%89%BE%E9%81%94%E5%88%A9.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=1CFD1304-E869-4B90-814B-3236249F7C29",
+        "facebook": "https://www.facebook.com/IngayTali2018",
+        "error": ""
+      },
+      {
+        "district": "13",
+        "name": "施余興望Tjakumay Tagaw",
+        "photoUrl": "https://www.tncc.gov.tw/warehouse/C032D0E4-3164-42F9-B7C6-27E034EC562F/%E6%96%BD%E4%BD%99%E8%88%88%E6%9C%9B.jpg",
+        "detailUrl": "https://www.tncc.gov.tw/councilorpage.asp?mainid=1CEB4D19-F20A-4C42-BCAB-1F1CC678D11E",
+        "facebook": "https://www.facebook.com/profile.php?id=100000797060426",
+        "error": ""
+      }
+    ]
+  },
+  "mayors": {
+    "officialCount": 22,
+    "matched": 8,
+    "unmatched": [
+      {
+        "county": "臺中市",
+        "countyCode": "66000",
+        "name": "盧秀燕"
+      },
+      {
+        "county": "臺南市",
+        "countyCode": "67000",
+        "name": "黃偉哲"
+      },
+      {
+        "county": "高雄市",
+        "countyCode": "64000",
+        "name": "陳其邁"
+      },
+      {
+        "county": "新北市",
+        "countyCode": "65000",
+        "name": "侯友宜"
+      },
+      {
+        "county": "宜蘭縣",
+        "countyCode": "10002",
+        "name": "林姿妙"
+      },
+      {
+        "county": "嘉義市",
+        "countyCode": "10020",
+        "name": "黃敏惠"
+      },
+      {
+        "county": "新竹縣",
+        "countyCode": "10004",
+        "name": "楊文科"
+      },
+      {
+        "county": "彰化縣",
+        "countyCode": "10007",
+        "name": "王惠美"
+      },
+      {
+        "county": "雲林縣",
+        "countyCode": "10009",
+        "name": "張麗善"
+      },
+      {
+        "county": "嘉義縣",
+        "countyCode": "10010",
+        "name": "翁章梁"
+      },
+      {
+        "county": "花蓮縣",
+        "countyCode": "10015",
+        "name": "徐榛蔚"
+      },
+      {
+        "county": "金門縣",
+        "countyCode": "09020",
+        "name": "陳福海"
+      },
+      {
+        "county": "臺東縣",
+        "countyCode": "10014",
+        "name": "饒慶鈴"
+      },
+      {
+        "county": "澎湖縣",
+        "countyCode": "10016",
+        "name": "陳光復"
+      }
+    ],
+    "photosAdded": 0,
+    "photosPreserved": 8,
+    "incumbentFlagsAdded": 0,
+    "changes": [],
+    "people": [
+      {
+        "county": "臺北市",
+        "countyCode": "63000",
+        "name": "蔣萬安",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/19559461-229e-4b7e-9039-e2f339eb736c.png",
+        "detailUrl": "https://www.moi.gov.tw/LocalOfficial_Content.aspx?n=578&_PARENT_ID=MYR11112AD0001&_TYP=MYR&TYP=KND0004"
+      },
+      {
+        "county": "臺中市",
+        "countyCode": "66000",
+        "name": "盧秀燕",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/d5bcc6f6-58de-4a88-82bc-ea59f2cc7134.jpg",
+        "detailUrl": "https://www.moi.gov.tw/LocalOfficial_Content.aspx?n=578&_PARENT_ID=MYR11112BD0001&_TYP=MYR&TYP=KND0004"
+      },
+      {
+        "county": "臺南市",
+        "countyCode": "67000",
+        "name": "黃偉哲",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/56b2470a-2b1b-4b7e-ad88-2524a651fce8.jpg",
+        "detailUrl": "https://www.moi.gov.tw/LocalOfficial_Content.aspx?n=578&_PARENT_ID=MYR11112DD0001&_TYP=MYR&TYP=KND0004"
+      },
+      {
+        "county": "高雄市",
+        "countyCode": "64000",
+        "name": "陳其邁",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/4d59cb9c-3b6d-4224-881b-462f94672af7.jpg",
+        "detailUrl": "https://www.moi.gov.tw/LocalOfficial_Content.aspx?n=578&_PARENT_ID=MYR11112ED0001&_TYP=MYR&TYP=KND0004"
+      },
+      {
+        "county": "新北市",
+        "countyCode": "65000",
+        "name": "侯友宜",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/90ab5688-456a-4da2-b5ce-6101932887a6.jpg",
+        "detailUrl": "https://www.moi.gov.tw/LocalOfficial_Content.aspx?n=578&_PARENT_ID=MYR11112FD0001&_TYP=MYR&TYP=KND0004"
+      },
+      {
+        "county": "桃園市",
+        "countyCode": "68000",
+        "name": "張善政",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/67925dde-1c8e-4a14-87ea-2248de4fd171.jpg",
+        "detailUrl": "https://www.moi.gov.tw/LocalOfficial_Content.aspx?n=578&_PARENT_ID=MYR11112HD0001&_TYP=MYR&TYP=KND0004"
+      },
+      {
+        "county": "基隆市",
+        "countyCode": "10017",
+        "name": "謝國樑",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/72391def-1867-4c6d-bf98-fbfd96bb38a4.jpg",
+        "detailUrl": "https://www.moi.gov.tw/LocalOfficial_Content.aspx?n=579&_PARENT_ID=MYR11112CE0001&_TYP=MYR&TYP=KND0005"
+      },
+      {
+        "county": "宜蘭縣",
+        "countyCode": "10002",
+        "name": "林姿妙",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/36a63f55-811d-4027-a114-b0235d0cb2ee.jpg",
+        "detailUrl": "https://www.moi.gov.tw/LocalOfficial_Content.aspx?n=579&_PARENT_ID=MYR11112GE0001&_TYP=MYR&TYP=KND0005"
+      },
+      {
+        "county": "嘉義市",
+        "countyCode": "10020",
+        "name": "黃敏惠",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/200b1721-3e8c-4e3b-bcf3-d382484d2c53.jpg",
+        "detailUrl": "https://www.moi.gov.tw/LocalOfficial_Content.aspx?n=579&_PARENT_ID=MYR11112IE0001&_TYP=MYR&TYP=KND0005"
+      },
+      {
+        "county": "新竹縣",
+        "countyCode": "10004",
+        "name": "楊文科",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/e019e068-75f1-4075-9e06-df681db7be98.jpg",
+        "detailUrl": "https://www.moi.gov.tw/LocalOfficial_Content.aspx?n=579&_PARENT_ID=MYR11112JE0001&_TYP=MYR&TYP=KND0005"
+      },
+      {
+        "county": "苗栗縣",
+        "countyCode": "10005",
+        "name": "鍾東錦",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/11bf51ae-3e20-4df4-a262-2effdf4e499f.jpg",
+        "detailUrl": "https://www.moi.gov.tw/LocalOfficial_Content.aspx?n=579&_PARENT_ID=MYR11112KE0001&_TYP=MYR&TYP=KND0005"
+      },
+      {
+        "county": "彰化縣",
+        "countyCode": "10007",
+        "name": "王惠美",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/1c576a31-7ab3-494b-9074-f3caf3efad95.jpg",
+        "detailUrl": "https://www.moi.gov.tw/LocalOfficial_Content.aspx?n=579&_PARENT_ID=MYR11112NE0001&_TYP=MYR&TYP=KND0005"
+      },
+      {
+        "county": "新竹市",
+        "countyCode": "10018",
+        "name": "高虹安",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/3847b2ad-9cac-4446-a4e8-51e57e4b8884.jpg",
+        "detailUrl": "https://www.moi.gov.tw/LocalOfficial_Content.aspx?n=579&_PARENT_ID=MYR11112OE0001&_TYP=MYR&TYP=KND0005"
+      },
+      {
+        "county": "雲林縣",
+        "countyCode": "10009",
+        "name": "張麗善",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/9511ebb1-6665-4493-a268-98d5983e43a1.jpg",
+        "detailUrl": "https://www.moi.gov.tw/LocalOfficial_Content.aspx?n=579&_PARENT_ID=MYR11112PE0001&_TYP=MYR&TYP=KND0005"
+      },
+      {
+        "county": "嘉義縣",
+        "countyCode": "10010",
+        "name": "翁章梁",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/b78f69f2-a79a-46fb-bc35-40088c93672c.jpg",
+        "detailUrl": "https://www.moi.gov.tw/LocalOfficial_Content.aspx?n=579&_PARENT_ID=MYR11112QE0001&_TYP=MYR&TYP=KND0005"
+      },
+      {
+        "county": "花蓮縣",
+        "countyCode": "10015",
+        "name": "徐榛蔚",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/8fd7edfd-2694-420c-b477-faccda70d6ba.jpg",
+        "detailUrl": "https://www.moi.gov.tw/LocalOfficial_Content.aspx?n=579&_PARENT_ID=MYR11112UE0001&_TYP=MYR&TYP=KND0005"
+      },
+      {
+        "county": "金門縣",
+        "countyCode": "09020",
+        "name": "陳福海",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/61e0332d-24dd-4a90-848d-6248d47efab6.jpg",
+        "detailUrl": "https://www.moi.gov.tw/LocalOfficial_Content.aspx?n=579&_PARENT_ID=MYR11112WE0001&_TYP=MYR&TYP=KND0005"
+      },
+      {
+        "county": "連江縣",
+        "countyCode": "09007",
+        "name": "王忠銘",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/73307c2a-650a-424b-b374-e52cedf758d8.jpg",
+        "detailUrl": "https://www.moi.gov.tw/LocalOfficial_Content.aspx?n=579&_PARENT_ID=MYR11112ZE0001&_TYP=MYR&TYP=KND0005"
+      },
+      {
+        "county": "南投縣",
+        "countyCode": "10008",
+        "name": "許淑華",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/dabde06c-38cf-410f-af25-52820229a93e.jpg",
+        "detailUrl": "https://www.moi.gov.tw/LocalOfficial_Content.aspx?n=579&_PARENT_ID=MYR11201ME0001&_TYP=MYR&TYP=KND0005"
+      },
+      {
+        "county": "屏東縣",
+        "countyCode": "10013",
+        "name": "周春米",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/11205fd3-b307-4fd6-8796-62dedef7dbf2.jpg",
+        "detailUrl": "https://www.moi.gov.tw/LocalOfficial_Content.aspx?n=579&_PARENT_ID=MYR11201TE0001&_TYP=MYR&TYP=KND0005"
+      },
+      {
+        "county": "臺東縣",
+        "countyCode": "10014",
+        "name": "饒慶鈴",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/fbc8eba2-4195-4832-8cf7-05a45dc24d7d.jpg",
+        "detailUrl": "https://www.moi.gov.tw/LocalOfficial_Content.aspx?n=579&_PARENT_ID=MYR11201VE0001&_TYP=MYR&TYP=KND0005"
+      },
+      {
+        "county": "澎湖縣",
+        "countyCode": "10016",
+        "name": "陳光復",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/835b1022-e38a-443e-a9bd-fbad19a97fe0.jpg",
+        "detailUrl": "https://www.moi.gov.tw/LocalOfficial_Content.aspx?n=579&_PARENT_ID=MYR11202XE0001&_TYP=MYR&TYP=KND0005"
+      }
+    ]
+  }
+}

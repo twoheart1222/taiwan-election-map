@@ -16,6 +16,7 @@
     "sync:hcc": "node scripts/sync-hcc-councilors.mjs",
     "sync:mcc-chcc": "node scripts/sync-mcc-chcc-councilors.mjs",
     "sync:ylcc-cycc": "node scripts/sync-ylcc-cycc-councilors.mjs",
+    "sync:tncc-mayors": "node scripts/sync-tncc-mayors.mjs",
     "sync:moi-villages": "node scripts/sync-moi-village-chiefs.mjs",
     "sync:taiwangogo": "node scripts/sync-taiwangogo-links.mjs",
     "apply:ntp-facebook": "node scripts/apply-ntp-facebook.mjs",
