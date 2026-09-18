@@ -1,0 +1,937 @@
+{
+  "generatedAt": "2026-09-18T14:36:45.614Z",
+  "sources": [
+    "https://www.ptcc.gov.tw/?Page=Persional&Guid=1c445ed1-8f2f-4c7f-75f6-6d6aafa3516e",
+    "https://www.ilcc.gov.tw/H0051.aspx",
+    "https://www.hlcc.gov.tw/councillor.php",
+    "https://www.moi.gov.tw/LocalOfficial.aspx?n=574&sms=11400&TYP=KND0002&PageSize=1000&page=1"
+  ],
+  "verification": "以三個議會的現任議員名冊作為身分核對；照片優先取自屏東、花蓮議會官方個人頁，宜蘭議會頁未提供可用個人照時才以內政部現任地方公職人員官方名冊補齊。Facebook 僅在個別議員官方頁有可驗證連結時補入；只補空值，絕不覆寫既有照片或社群連結。",
+  "pingtung": {
+    "officialCount": 51,
+    "officialFacebook": 0,
+    "matched": 43,
+    "unmatched": [
+      "鄭清原",
+      "曾義雄",
+      "蘇孟婕",
+      "周典論",
+      "洪宗麒",
+      "鄭張常敏",
+      "王薇茗",
+      "李紀財 Mulaneng Paliuliu"
+    ],
+    "photosAdded": 0,
+    "photosPreserved": 43,
+    "facebookAdded": 0,
+    "facebookPreserved": 0,
+    "changes": [],
+    "councilors": [
+      {
+        "name": "梁育慈",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=998dbc37-ee8f-3e32-4c58-a6b032edc257",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "黃明賢",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=ec54f869-d4f6-ae77-67df-410fd597b00b",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "蔣家煌",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=cd285995-5beb-d87f-dac9-371ddbb3bb35",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "李世斌",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=83e4c59b-1c6e-55f8-864f-90d346ecd8c8",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "林明順",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=e6c8c910-c5d8-4bc3-4858-9c3da936ddb4",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "鄭清原",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=e9eef41f-0d1b-558d-a6a9-da4c5eda2c57",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "蔣月惠",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=5ff9a672-8d77-9059-2e13-952fb588804e",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "陳揚",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=0709d2df-6534-aabc-c7dd-de9981e8f893",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "曾義雄",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=50f8174c-1582-944f-6f9c-aa98a5e4d749",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "蘇資婷",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=22f124cf-01fd-75ef-0fbf-a755da4d6269",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "方一祥",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=ded87e64-f9fc-464a-4737-b7b3457e508e",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "張平原",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=51c0c361-5cf1-b3c3-1fd1-f002f45e3543",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "盧文瑞",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=8823f962-25ab-0ab5-fba1-21a30b7af2f5",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "宋麗華",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=e58cc3b5-16a4-49f8-5706-f80a57109ebb",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "陳明達",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=f22a5fab-3145-0470-8c54-b49e7b971549",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "蘇孟婕",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=c21bac30-c2b4-b75c-ef3d-2d0d19c4fb00",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "何春美",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=8cdd1096-be57-7a0c-eba2-55bf1111519c",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "葉明博",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=235fa160-acb4-a413-443a-d2a8ff6a1328",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "徐榮耀",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=79cdfc5b-1ca7-a02f-2b11-93a89d75af2c",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "利八魁",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=eba79364-b4a8-29c9-d54e-6bba9e79d240",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "許馨勻",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=6773c0f8-5cfe-b273-4473-b45806c83ecb",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "陳志成",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=20aa8db9-c27f-2dae-fae8-ed493666d396",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "洪明江",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=3636bd0f-3747-e306-99b5-f6bdee8afb64",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "李世淦",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=f5b511a1-af3c-a5bc-cfeb-62c4437144fc",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "吳慈慧",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=067e3d11-ba3e-6334-fea9-572a40128262",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "林郁虹",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=49b3f530-e3c2-bec7-1a8f-d5d1eff6cb8b",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "陳宗廷",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=fe080e49-5771-9091-b936-f570744aafa3",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "黃建溢",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=0ebeb91d-3321-7199-60f1-25f39143e864",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "許展維",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=f7182d89-30b1-e86b-40a1-e2527c353e48",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "周典論",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=1b294719-67f5-ba40-5201-49365dcacb40",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "洪宗麒",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=0229af1d-1020-f5ab-44e6-f5471c39d65b",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "劉孟君",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=5d9217cb-0c81-ab15-cebc-c0e1e7afd00c",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "鄭張常敏",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=eaf612d7-5bfd-82c3-5586-1e4d6fb6957b",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "林蔡鳯梅",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=678c5538-9a04-21e8-feed-73bc661f94dc",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "方文正",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=8de36599-83ac-8c40-ef11-be917d8e72cd",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "羅平道",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=bb3e2d73-cd78-d552-18de-5bc5248a88b1",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "周碧雲",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=86a21ec5-3443-98aa-8aa5-93af63edea3c",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "黃盈裕",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=e442379c-ab46-15d7-410b-c110cfdf1660",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "張榮志",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=a07de0ad-0469-9748-abbd-160a47cc2fe3",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "潘芳泉",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=f3728c99-9bb4-0975-89cb-7dd3c22149d4",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "盧玟欣",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=8aa70677-42bc-77c6-4e07-8bd142133d34",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "王薇茗",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=d05a64bc-e9af-3e85-e728-18f064d56947",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "潘翠雲",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=04295d7e-fbe9-05f9-eab3-628996737485",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "張利惠",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=2a95fd9a-e28a-a777-fdbf-86741512e7fd",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "高惠芬",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=3a5e1245-21b7-0005-8302-075d7edb4c64",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "何長成",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=eccabe2e-24a4-ace1-46e5-7e91d274daab",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "越秋女",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=6ba02858-f899-e989-babe-a2f525e3825a",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "周陳曉玟",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=20457a68-297e-b57d-ccd9-c9e8bf54e908",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "李紀財 Mulaneng Paliuliu",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=68f39a7c-fea2-9345-1a25-907b4dbb272d",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "林采穎",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=e8a81f9d-8889-853d-148c-c4504eaa54c6",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "杜仁勇",
+        "detailUrl": "https://www.ptcc.gov.tw/?Page=PersionalDetail&Guid=7dc34185-27bb-d5f1-9049-0eec3520685d",
+        "photoUrl": "https://www.ptcc.gov.tw/websites/www.ptcc.gov.tw/upload/upimage/filemanager/images/mailbox.jpg",
+        "facebook": ""
+      }
+    ]
+  },
+  "yilan": {
+    "officialCount": 33,
+    "officialFacebook": 0,
+    "matched": 28,
+    "unmatched": [
+      "楊順木",
+      "黃惠慈",
+      "吳宏謀",
+      "陳文昌",
+      "孫湯玉惠"
+    ],
+    "photosAdded": 0,
+    "photosPreserved": 28,
+    "facebookAdded": 0,
+    "facebookPreserved": 0,
+    "changes": [],
+    "councilors": [
+      {
+        "name": "林岳賢",
+        "detailUrl": "https://www.ilcc.gov.tw/Incfiles/PBrowse.aspx?Sys_id=PMZ%E6%9E%97%E5%B2%B3%E8%B3%A2,1,KMT,A2001,",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/879db463-23e2-4ed6-a550-e23d60301936.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "黃定和",
+        "detailUrl": "https://www.ilcc.gov.tw/Incfiles/PBrowse.aspx?Sys_id=PMZ%E9%BB%83%E5%AE%9A%E5%92%8C,1,KMT,A2002,",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/96f3b485-56a5-461b-89cb-0c9c6de174e5.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "林錫明",
+        "detailUrl": "https://www.ilcc.gov.tw/Incfiles/PBrowse.aspx?Sys_id=PMZ%E6%9E%97%E9%8C%AB%E6%98%8E,1,,A2003,",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/0f4bcc00-3d54-47f9-93d0-c2859c3a82d5.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "張勝德",
+        "detailUrl": "https://www.ilcc.gov.tw/Incfiles/PBrowse.aspx?Sys_id=PMZ%E5%BC%B5%E5%8B%9D%E5%BE%B7,1,KMT,A2004,",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/b078da4d-f575-4186-abfd-eabd86d7df30.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "林 麗",
+        "detailUrl": "https://www.ilcc.gov.tw/Incfiles/PBrowse.aspx?Sys_id=PMZ%E6%9E%97%E3%80%80%E9%BA%97,1,DDP,A2005,",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/99311acf-9c54-42fd-b8a5-13351c6ff49a.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "楊順木",
+        "detailUrl": "https://www.ilcc.gov.tw/Incfiles/PBrowse.aspx?Sys_id=PMZ%E6%A5%8A%E9%A0%86%E6%9C%A8,1,,A2006,",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/4ff0c855-d440-4d0d-a6cf-27f7c9abb5e0.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "黃惠慈",
+        "detailUrl": "https://www.ilcc.gov.tw/Incfiles/PBrowse.aspx?Sys_id=PMZ%E9%BB%83%E6%83%A0%E6%85%88,1,DDP,A2036,",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/c2b57fba-9c68-4927-b7d4-50200e1874d3.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "林聰池",
+        "detailUrl": "https://www.ilcc.gov.tw/Incfiles/PBrowse.aspx?Sys_id=PMZ%E6%9E%97%E8%81%B0%E6%B1%A0,3,,A2010,",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/747a3453-0033-413f-a324-e9047c5facae.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "吳宏謀",
+        "detailUrl": "https://www.ilcc.gov.tw/Incfiles/PBrowse.aspx?Sys_id=PMZ%E5%90%B3%E5%AE%8F%E8%AC%80,3,DDP,A2011,",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/6d74a1a2-4967-4ddf-9a30-f356ac66b933.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "黃建勇",
+        "detailUrl": "https://www.ilcc.gov.tw/Incfiles/PBrowse.aspx?Sys_id=PMZ%E9%BB%83%E5%BB%BA%E5%8B%87,5,KMT,A2014,",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/1e41c3b0-d113-4047-8f6c-5cc754f30b36.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "陳福山",
+        "detailUrl": "https://www.ilcc.gov.tw/Incfiles/PBrowse.aspx?Sys_id=PMZ%E9%99%B3%E7%A6%8F%E5%B1%B1,5,,A2015,",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/e92418ea-496d-4eaa-814d-d070d75e5912.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "簡松樹",
+        "detailUrl": "https://www.ilcc.gov.tw/Incfiles/PBrowse.aspx?Sys_id=PMZ%E7%B0%A1%E6%9D%BE%E6%A8%B9,7,DDP,A2021,",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/7659020a-e2b6-4358-b2a3-9285404c3cc1.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "林義剛",
+        "detailUrl": "https://www.ilcc.gov.tw/Incfiles/PBrowse.aspx?Sys_id=PMZ%E6%9E%97%E7%BE%A9%E5%89%9B,7,KMT,A2022,",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/a16e7636-93ef-4200-984b-31b6ffa7a74f.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "沈信雄",
+        "detailUrl": "https://www.ilcc.gov.tw/Incfiles/PBrowse.aspx?Sys_id=PMZ%E6%B2%88%E4%BF%A1%E9%9B%84,7,,A2023,",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/93996c1b-0deb-4817-9b3c-8d4ed016b857.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "陳文昌",
+        "detailUrl": "https://www.ilcc.gov.tw/Incfiles/PBrowse.aspx?Sys_id=PMZ%E9%99%B3%E6%96%87%E6%98%8C,9,DDP,A2028,",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/18f65187-b317-422f-8e76-384ba45b78c4.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "孫湯玉惠",
+        "detailUrl": "https://www.ilcc.gov.tw/Incfiles/PBrowse.aspx?Sys_id=PMZ%E5%AD%AB%E6%B9%AF%E7%8E%89%E6%83%A0,11,,A2032,",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/fcfd87c0-69f6-4f38-95b8-b66365232230.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "游吉祥",
+        "detailUrl": "https://www.ilcc.gov.tw/Incfiles/PBrowse.aspx?Sys_id=PMZ%E6%B8%B8%E5%90%89%E7%A5%A5,13,KMT,A2034,",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/83771d30-5fa2-4d5d-ab1a-2a42a3574b26.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "林詩穎",
+        "detailUrl": "https://www.ilcc.gov.tw/Incfiles/PBrowse.aspx?Sys_id=PMZ%E6%9E%97%E8%A9%A9%E7%A9%8E,2,DDP,A2008,",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/7d4b761a-03c2-48dd-a2bf-d8cfae0bc59e.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "賴良洲",
+        "detailUrl": "https://www.ilcc.gov.tw/Incfiles/PBrowse.aspx?Sys_id=PMZ%E8%B3%B4%E8%89%AF%E6%B4%B2,2,KMT,A2009,",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/41e03b7f-814a-461c-96e6-aa5dab97c3fd.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "黃浴沂",
+        "detailUrl": "https://www.ilcc.gov.tw/Incfiles/PBrowse.aspx?Sys_id=PMZ%E9%BB%83%E6%B5%B4%E6%B2%82,4,KMT,A2013,",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/7df17fc5-c208-4738-8b6f-df6bcabac349.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "黃雯如",
+        "detailUrl": "https://www.ilcc.gov.tw/Incfiles/PBrowse.aspx?Sys_id=PMZ%E9%BB%83%E9%9B%AF%E5%A6%82,4,KMT,A2035,",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/9783235f-d1a5-4d4a-b438-69cca471bb55.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "謝家倫",
+        "detailUrl": "https://www.ilcc.gov.tw/Incfiles/PBrowse.aspx?Sys_id=PMZ%E8%AC%9D%E5%AE%B6%E5%80%AB,6,DDP,A2016,",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/805ee19a-6e1d-4a79-af6d-06a754700f5e.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "陳漢鍾",
+        "detailUrl": "https://www.ilcc.gov.tw/Incfiles/PBrowse.aspx?Sys_id=PMZ%E9%99%B3%E6%BC%A2%E9%8D%BE,6,,A2017,",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/87b884f2-dfb4-4070-9bde-bb3607cd07a5.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "黃琤婷",
+        "detailUrl": "https://www.ilcc.gov.tw/Incfiles/PBrowse.aspx?Sys_id=PMZ%E9%BB%83%E7%90%A4%E5%A9%B7,6,KMT,A2018,",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/a8030ee6-8aec-4c4a-a6ce-3365ed9de35f.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "陳鴻禧",
+        "detailUrl": "https://www.ilcc.gov.tw/Incfiles/PBrowse.aspx?Sys_id=PMZ%E9%99%B3%E9%B4%BB%E7%A6%A7,6,KMT,A2019,",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/e7808988-c611-4216-950a-ee491b771726.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "呂惠卿",
+        "detailUrl": "https://www.ilcc.gov.tw/Incfiles/PBrowse.aspx?Sys_id=PMZ%E5%91%82%E6%83%A0%E5%8D%BF,6,DDP,A2020,",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/2c9803f7-c450-4e1b-ae79-655353c5b418.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "林佩螢",
+        "detailUrl": "https://www.ilcc.gov.tw/Incfiles/PBrowse.aspx?Sys_id=PMZ%E6%9E%97%E4%BD%A9%E8%9E%A2,8,DDP,A2024,",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/5f90637c-01b9-4373-ab5e-8e7b5c042de5.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "楊弘旻",
+        "detailUrl": "https://www.ilcc.gov.tw/Incfiles/PBrowse.aspx?Sys_id=PMZ%E6%A5%8A%E5%BC%98%E6%97%BB,8,KMT,A2025,",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/dde6df19-5000-4a0d-9425-24508abe4707.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "謝燦輝",
+        "detailUrl": "https://www.ilcc.gov.tw/Incfiles/PBrowse.aspx?Sys_id=PMZ%E8%AC%9D%E7%87%A6%E8%BC%9D,8,DDP,A2026,",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/7c26860b-868e-4c62-9bba-bf6fe2930b6c.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "邱素梅",
+        "detailUrl": "https://www.ilcc.gov.tw/Incfiles/PBrowse.aspx?Sys_id=PMZ%E9%82%B1%E7%B4%A0%E6%A2%85,8,,A2027,",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/9ed4b627-3cde-4443-804b-01288718a0f5.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "謝正信",
+        "detailUrl": "https://www.ilcc.gov.tw/Incfiles/PBrowse.aspx?Sys_id=PMZ%E8%AC%9D%E6%AD%A3%E4%BF%A1,10,DDP,A2029,",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/79719553-a400-4ef3-88a8-accbe27ac59a.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "陳玉萍",
+        "detailUrl": "https://www.ilcc.gov.tw/Incfiles/PBrowse.aspx?Sys_id=PMZ%E9%99%B3%E7%8E%89%E8%90%8D,10,,A2031,",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/ca5ae83c-7a08-4278-bc54-19c13a8c577e.jpg",
+        "facebook": ""
+      },
+      {
+        "name": "沈志弘",
+        "detailUrl": "https://www.ilcc.gov.tw/Incfiles/PBrowse.aspx?Sys_id=PMZ%E6%B2%88%E5%BF%97%E5%BC%98,12,KMT,A2033,",
+        "photoUrl": "https://ws.moi.gov.tw/001/Upload/localofficial/urllink/915e02f7-df42-4510-9125-59d33ba6e81d.jpg",
+        "facebook": ""
+      }
+    ]
+  },
+  "hualien": {
+    "officialCount": 32,
+    "officialFacebook": 19,
+    "matched": 25,
+    "unmatched": [
+      "張議員 美慧",
+      "楊議員 華美",
+      "吳議員 東昇",
+      "邱議員 光明",
+      "蔡議員 依靜",
+      "哈尼.噶照 議員",
+      "簡議員 智隆"
+    ],
+    "photosAdded": 0,
+    "photosPreserved": 25,
+    "facebookAdded": 12,
+    "facebookPreserved": 0,
+    "changes": [
+      {
+        "district": "1",
+        "name": "謝議員 國榮",
+        "before": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/e9a8b3100f970034625b96e4158cb11a",
+          "facebook": "",
+          "isIncumbent": true
+        },
+        "after": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/e9a8b3100f970034625b96e4158cb11a",
+          "facebook": "https://www.facebook.com/besthualien",
+          "isIncumbent": true
+        }
+      },
+      {
+        "district": "1",
+        "name": "徐議員 子芳",
+        "before": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/c1b07d7b1c1f5ead726535482df038e3",
+          "facebook": "",
+          "isIncumbent": true
+        },
+        "after": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/c1b07d7b1c1f5ead726535482df038e3",
+          "facebook": "https://www.facebook.com/xu.zi.fang.556553",
+          "isIncumbent": true
+        }
+      },
+      {
+        "district": "2",
+        "name": "鄭議員 寶秀",
+        "before": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/8cce78417dcf7430dafe52c83142988a",
+          "facebook": "",
+          "isIncumbent": true
+        },
+        "after": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/8cce78417dcf7430dafe52c83142988a",
+          "facebook": "https://www.facebook.com/people/%E9%84%AD%E5%AF%B6%E7%A7%80/100003361275338",
+          "isIncumbent": true
+        }
+      },
+      {
+        "district": "3",
+        "name": "張議長 峻",
+        "before": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/927dd89a9f001293720c9d68af36525f",
+          "facebook": "",
+          "isIncumbent": true
+        },
+        "after": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/927dd89a9f001293720c9d68af36525f",
+          "facebook": "https://www.facebook.com/pages/category/Politician/%E5%BC%B5%E5%B3%BB-790255354369168",
+          "isIncumbent": true
+        }
+      },
+      {
+        "district": "3",
+        "name": "徐副議長 雪玉",
+        "before": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/10c19111ab4fc0030cc3af5c5ac33893",
+          "facebook": "",
+          "isIncumbent": true
+        },
+        "after": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/10c19111ab4fc0030cc3af5c5ac33893",
+          "facebook": "https://www.facebook.com/hsu0932520921",
+          "isIncumbent": true
+        }
+      },
+      {
+        "district": "3",
+        "name": "林議員 源富",
+        "before": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/f7f4c93a94a319c48ddcd7ee3700594b",
+          "facebook": "",
+          "isIncumbent": true
+        },
+        "after": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/f7f4c93a94a319c48ddcd7ee3700594b",
+          "facebook": "https://www.facebook.com/lin0935752392",
+          "isIncumbent": true
+        }
+      },
+      {
+        "district": "3",
+        "name": "黃議員 馨",
+        "before": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/17d1bb6176a1f75417c03cd8c608f49a",
+          "facebook": "",
+          "isIncumbent": true
+        },
+        "after": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/17d1bb6176a1f75417c03cd8c608f49a",
+          "facebook": "https://www.facebook.com/%E9%BB%83%E9%A6%A8-467590956980758",
+          "isIncumbent": true
+        }
+      },
+      {
+        "district": "3",
+        "name": "吳議員 建志",
+        "before": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/1836d123e8612537b00c08f0c0b644de",
+          "facebook": "",
+          "isIncumbent": true
+        },
+        "after": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/1836d123e8612537b00c08f0c0b644de",
+          "facebook": "https://www.facebook.com/pages/category/Public-Figure/%E5%90%B3%E5%BB%BA%E5%BF%97-735576183142166",
+          "isIncumbent": true
+        }
+      },
+      {
+        "district": "4",
+        "name": "黃議員 玲蘭",
+        "before": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/35d4ab7f8b2b1c22ffc1ae583f33b6da",
+          "facebook": "",
+          "isIncumbent": true
+        },
+        "after": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/35d4ab7f8b2b1c22ffc1ae583f33b6da",
+          "facebook": "https://www.facebook.com/linglanhung",
+          "isIncumbent": true
+        }
+      },
+      {
+        "district": "5",
+        "name": "笛布斯.顗賚 議員",
+        "before": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/155ed15bd7f2253a703fc04bbeb7a2e6",
+          "facebook": "",
+          "isIncumbent": true
+        },
+        "after": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/155ed15bd7f2253a703fc04bbeb7a2e6",
+          "facebook": "https://www.facebook.com/dibusilai",
+          "isIncumbent": true
+        }
+      },
+      {
+        "district": "5",
+        "name": "李議員 正文",
+        "before": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/7ee1e8a0d6e0e220e351f07cc246d9ee",
+          "facebook": "",
+          "isIncumbent": true
+        },
+        "after": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/7ee1e8a0d6e0e220e351f07cc246d9ee",
+          "facebook": "https://www.facebook.com/profile.php?id=100007714446897",
+          "isIncumbent": true
+        }
+      },
+      {
+        "district": "5",
+        "name": "周議員 駿宥",
+        "before": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/9d025fdbe21a1c275e63ff9554180054",
+          "facebook": "",
+          "isIncumbent": true
+        },
+        "after": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/9d025fdbe21a1c275e63ff9554180054",
+          "facebook": "https://www.facebook.com/tfa.jay",
+          "isIncumbent": true
+        }
+      }
+    ],
+    "councilors": [
+      {
+        "detailUrl": "https://www.hlcc.gov.tw/councillor-data.php?index_no=75",
+        "name": "魏議員 嘉賢",
+        "photoUrl": "https://www.hlcc.gov.tw/upfile/20221223130020-104.jpg",
+        "facebook": ""
+      },
+      {
+        "detailUrl": "https://www.hlcc.gov.tw/councillor-data.php?index_no=49",
+        "name": "張議員 美慧",
+        "photoUrl": "https://www.hlcc.gov.tw/upfile/20190527152127-121.jpg",
+        "facebook": "https://www.facebook.com/chang.puddingcmi"
+      },
+      {
+        "detailUrl": "https://www.hlcc.gov.tw/councillor-data.php?index_no=51",
+        "name": "楊議員 華美",
+        "photoUrl": "https://www.hlcc.gov.tw/upfile/20181224155338-134.jpg",
+        "facebook": "https://www.facebook.com/huanewday"
+      },
+      {
+        "detailUrl": "https://www.hlcc.gov.tw/councillor-data.php?index_no=76",
+        "name": "胡議員 仁順",
+        "photoUrl": "https://www.hlcc.gov.tw/upfile/20221223130559-157.jpg",
+        "facebook": ""
+      },
+      {
+        "detailUrl": "https://www.hlcc.gov.tw/councillor-data.php?index_no=11",
+        "name": "謝議員 國榮",
+        "photoUrl": "https://www.hlcc.gov.tw/upfile/20151124102703-182.jpg",
+        "facebook": "https://www.facebook.com/besthualien"
+      },
+      {
+        "detailUrl": "https://www.hlcc.gov.tw/councillor-data.php?index_no=77",
+        "name": "韓議員 林梅",
+        "photoUrl": "https://www.hlcc.gov.tw/upfile/20221223130930-181.jpg",
+        "facebook": ""
+      },
+      {
+        "detailUrl": "https://www.hlcc.gov.tw/councillor-data.php?index_no=73",
+        "name": "徐議員 子芳",
+        "photoUrl": "https://www.hlcc.gov.tw/upfile/20260518095902-106.jpg",
+        "facebook": "https://www.facebook.com/xu.zi.fang.556553"
+      },
+      {
+        "detailUrl": "https://www.hlcc.gov.tw/councillor-data.php?index_no=53",
+        "name": "吳議員 東昇",
+        "photoUrl": "https://www.hlcc.gov.tw/upfile/20181224155617-159.jpg",
+        "facebook": "https://www.facebook.com/pages/category/Politician/%E8%8A%B1%E8%93%AE%E7%B8%A3%E8%AD%B0%E5%93%A1%E6%96%B0%E9%81%B8%E6%93%87-%E5%90%B3%E6%9D%B1%E6%98%87-213864526124559"
+      },
+      {
+        "detailUrl": "https://www.hlcc.gov.tw/councillor-data.php?index_no=78",
+        "name": "傅議員 國淵",
+        "photoUrl": "https://www.hlcc.gov.tw/upfile/20221223131544-186.jpg",
+        "facebook": ""
+      },
+      {
+        "detailUrl": "https://www.hlcc.gov.tw/councillor-data.php?index_no=54",
+        "name": "鄭議員 寶秀",
+        "photoUrl": "https://www.hlcc.gov.tw/upfile/20221226113102-109.jpg",
+        "facebook": "https://www.facebook.com/people/%E9%84%AD%E5%AF%B6%E7%A7%80/100003361275338"
+      },
+      {
+        "detailUrl": "https://www.hlcc.gov.tw/councillor-data.php?index_no=55",
+        "name": "邱議員 光明",
+        "photoUrl": "https://www.hlcc.gov.tw/upfile/20181227095221-173.jpg",
+        "facebook": "https://www.facebook.com/profile.php?id=100024976610894"
+      },
+      {
+        "detailUrl": "https://www.hlcc.gov.tw/councillor-data.php?index_no=17",
+        "name": "張議長 峻",
+        "photoUrl": "https://www.hlcc.gov.tw/upfile/20221226113242-132.jpg",
+        "facebook": "https://www.facebook.com/pages/category/Politician/%E5%BC%B5%E5%B3%BB-790255354369168"
+      },
+      {
+        "detailUrl": "https://www.hlcc.gov.tw/councillor-data.php?index_no=22",
+        "name": "徐副議長 雪玉",
+        "photoUrl": "https://www.hlcc.gov.tw/upfile/20170310085853-115.jpg",
+        "facebook": "https://www.facebook.com/hsu0932520921"
+      },
+      {
+        "detailUrl": "https://www.hlcc.gov.tw/councillor-data.php?index_no=79",
+        "name": "林議員 品仰",
+        "photoUrl": "https://www.hlcc.gov.tw/upfile/20221223132042-177.jpg",
+        "facebook": ""
+      },
+      {
+        "detailUrl": "https://www.hlcc.gov.tw/councillor-data.php?index_no=80",
+        "name": "林議員 則葹",
+        "photoUrl": "https://www.hlcc.gov.tw/upfile/20221223132412-131.jpg",
+        "facebook": ""
+      },
+      {
+        "detailUrl": "https://www.hlcc.gov.tw/councillor-data.php?index_no=58",
+        "name": "林議員 源富",
+        "photoUrl": "https://www.hlcc.gov.tw/upfile/20181224161418-130.jpg",
+        "facebook": "https://www.facebook.com/lin0935752392"
+      },
+      {
+        "detailUrl": "https://www.hlcc.gov.tw/councillor-data.php?index_no=56",
+        "name": "黃議員 馨",
+        "photoUrl": "https://www.hlcc.gov.tw/upfile/20221226140817-144.jpg",
+        "facebook": "https://www.facebook.com/%E9%BB%83%E9%A6%A8-467590956980758"
+      },
+      {
+        "detailUrl": "https://www.hlcc.gov.tw/councillor-data.php?index_no=59",
+        "name": "吳議員 建志",
+        "photoUrl": "https://www.hlcc.gov.tw/upfile/20210621120004-107.jpg",
+        "facebook": "https://www.facebook.com/pages/category/Public-Figure/%E5%90%B3%E5%BB%BA%E5%BF%97-735576183142166"
+      },
+      {
+        "detailUrl": "https://www.hlcc.gov.tw/councillor-data.php?index_no=81",
+        "name": "鄭議員 乾龍",
+        "photoUrl": "https://www.hlcc.gov.tw/upfile/20221223132817-174.jpg",
+        "facebook": ""
+      },
+      {
+        "detailUrl": "https://www.hlcc.gov.tw/councillor-data.php?index_no=82",
+        "name": "詹議員 金富",
+        "photoUrl": "https://www.hlcc.gov.tw/upfile/20221223133047-126.jpg",
+        "facebook": ""
+      },
+      {
+        "detailUrl": "https://www.hlcc.gov.tw/councillor-data.php?index_no=61",
+        "name": "黃議員 玲蘭",
+        "photoUrl": "https://www.hlcc.gov.tw/upfile/20221223133912-176.jpg",
+        "facebook": "https://www.facebook.com/linglanhung"
+      },
+      {
+        "detailUrl": "https://www.hlcc.gov.tw/councillor-data.php?index_no=83",
+        "name": "鍾議員 素政",
+        "photoUrl": "https://www.hlcc.gov.tw/upfile/20221223133407-189.jpg",
+        "facebook": ""
+      },
+      {
+        "detailUrl": "https://www.hlcc.gov.tw/councillor-data.php?index_no=29",
+        "name": "笛布斯.顗賚 議員",
+        "photoUrl": "https://www.hlcc.gov.tw/upfile/20260507135632-108.jpg",
+        "facebook": "https://www.facebook.com/dibusilai"
+      },
+      {
+        "detailUrl": "https://www.hlcc.gov.tw/councillor-data.php?index_no=62",
+        "name": "李議員 正文",
+        "photoUrl": "https://www.hlcc.gov.tw/upfile/20221225095029-118.jpg",
+        "facebook": "https://www.facebook.com/profile.php?id=100007714446897"
+      },
+      {
+        "detailUrl": "https://www.hlcc.gov.tw/councillor-data.php?index_no=63",
+        "name": "周議員 駿宥",
+        "photoUrl": "https://www.hlcc.gov.tw/upfile/20230107120826-182.jpg",
+        "facebook": "https://www.facebook.com/tfa.jay"
+      },
+      {
+        "detailUrl": "https://www.hlcc.gov.tw/councillor-data.php?index_no=64",
+        "name": "蔡議員 依靜",
+        "photoUrl": "https://www.hlcc.gov.tw/upfile/20221223134152-197.jpg",
+        "facebook": "https://www.facebook.com/lamen.panay.14"
+      },
+      {
+        "detailUrl": "https://www.hlcc.gov.tw/councillor-data.php?index_no=84",
+        "name": "林議員 正福",
+        "photoUrl": "https://www.hlcc.gov.tw/upfile/20221223134352-131.jpg",
+        "facebook": ""
+      },
+      {
+        "detailUrl": "https://www.hlcc.gov.tw/councillor-data.php?index_no=86",
+        "name": "林議員 玉芬",
+        "photoUrl": "https://www.hlcc.gov.tw/upfile/20221223134715-100.jpg",
+        "facebook": ""
+      },
+      {
+        "detailUrl": "https://www.hlcc.gov.tw/councillor-data.php?index_no=66",
+        "name": "哈尼.噶照 議員",
+        "photoUrl": "https://www.hlcc.gov.tw/upfile/20181224162858-180.jpg",
+        "facebook": "https://www.facebook.com/pages/category/Public-Figure/%E5%93%88%E5%B0%BC%E5%99%B6%E7%85%A7-Hani-Kacaw-310153939145526"
+      },
+      {
+        "detailUrl": "https://www.hlcc.gov.tw/councillor-data.php?index_no=87",
+        "name": "程議員 美蓮",
+        "photoUrl": "https://www.hlcc.gov.tw/upfile/20230107120944-156.jpg",
+        "facebook": ""
+      },
+      {
+        "detailUrl": "https://www.hlcc.gov.tw/councillor-data.php?index_no=67",
+        "name": "簡議員 智隆",
+        "photoUrl": "https://www.hlcc.gov.tw/upfile/20181224163225-103.jpg",
+        "facebook": "https://www.facebook.com/pages/category/Politician/%E7%B0%A1%E6%99%BA%E9%9A%86-%E6%9C%8D%E5%8B%99%E8%99%95-364651744045106"
+      },
+      {
+        "detailUrl": "https://www.hlcc.gov.tw/councillor-data.php?index_no=88",
+        "name": "金議員 淑敏",
+        "photoUrl": "https://www.hlcc.gov.tw/upfile/20221223135233-195.jpg",
+        "facebook": ""
+      }
+    ]
+  }
+}
