@@ -1,0 +1,64 @@
+name: Patch incumbent mayor candidates
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/patch-incumbent-mayors.mjs'
+      - '.github/workflows/patch-incumbent-mayors.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Patch incumbent candidates
+        run: node scripts/patch-incumbent-mayors.mjs
+
+      - name: Validate patched candidates
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const topo = JSON.parse(fs.readFileSync('data/counties.json', 'utf8'));
+          const expected = [
+            ['09007','王忠銘'],
+            ['10008','許淑華'],
+            ['10013','周春米'],
+            ['10017','謝國樑'],
+            ['10018','高虹安'],
+            ['63000','蔣萬安'],
+            ['68000','張善政'],
+            ['10005','鍾東錦'],
+          ];
+          const geos = topo.objects.map.geometries;
+          for (const [id,name] of expected) {
+            const county = geos.find(g => String(g.properties?.id) === id)?.properties;
+            const c = county?.candidates?.find(x => x.name === name);
+            if (!c) throw new Error(`Missing ${id} ${name}`);
+            if (c.isIncumbent !== true) throw new Error(`${name} isIncumbent not true`);
+            if (!/^https:\/\/(www\.)?facebook\.com\//i.test(c.facebook || '')) throw new Error(`${name} Facebook invalid`);
+          }
+          console.log(`Validated ${expected.length} incumbent mayor candidates.`);
+          NODE
+
+      - name: Commit patched data
+        run: |
+          if git diff --quiet -- data/counties.json; then
+            echo 'No incumbent candidate changes.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/counties.json
+          git commit -m 'Add incumbent status and Facebook to mayor candidates [skip ci]'
+          git push
