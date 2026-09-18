@@ -1,0 +1,52 @@
+name: Patch candidate override merge
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/patch-override-candidate-merge.mjs'
+      - '.github/workflows/patch-override-candidate-merge.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Patch index candidate override merge
+        run: node scripts/patch-override-candidate-merge.mjs
+      - name: Validate merge logic
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const s = fs.readFileSync('index.html','utf8');
+          for (const needle of [
+            "const localByName = new Map",
+            "const fallbackFields = ['facebook', 'instagram', 'threads', 'youtube'",
+            "localCandidates.forEach(local =>"
+          ]) {
+            if (!s.includes(needle)) throw new Error('Missing expected merge code: ' + needle);
+          }
+          if (s.includes("if (o.candidates) g.properties.candidates = o.candidates;")) {
+            throw new Error('Unsafe whole-array candidate replacement still present');
+          }
+          console.log('Candidate override merge validation passed.');
+          NODE
+      - name: Commit index fix
+        run: |
+          if git diff --quiet -- index.html; then
+            echo 'No index change.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git commit -m 'Preserve candidate social links when applying overrides'
+          git push
