@@ -1,0 +1,48 @@
+name: Apply New Taipei official Facebook
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/apply-newtaipei-official-facebook.yml'
+      - 'scripts/apply-newtaipei-official-facebook.mjs'
+      - 'data/ntp_councilors.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Apply official Facebook links
+        run: node scripts/apply-newtaipei-official-facebook.mjs
+      - name: Validate New Taipei Facebook count
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const topo = JSON.parse(fs.readFileSync('data/counties.json','utf8'));
+          const county = topo.objects.map.geometries.find(g => String(g.properties.id) === '65000');
+          const blocks = county.properties.councilors.blocks || county.properties.councilors || [];
+          let total = 0, withFacebook = 0;
+          for (const b of blocks) for (const c of (b.candidates || [])) { total++; if (c.facebook) withFacebook++; }
+          console.log({ total, withFacebook });
+          if (withFacebook < 20) process.exit(1);
+          NODE
+      - name: Commit data update
+        run: |
+          if git diff --quiet -- data/counties.json; then
+            echo 'No data changes.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/counties.json
+          git commit -m 'Add verified New Taipei councilor Facebook links [skip ci]'
+          git push
