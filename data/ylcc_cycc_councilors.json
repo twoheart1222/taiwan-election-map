@@ -1,0 +1,725 @@
+{
+  "generatedAt": "2026-09-18T03:18:29.783Z",
+  "sources": [
+    "https://www.ylcc.gov.tw/cp.aspx?n=22126",
+    "https://www.cycc.gov.tw/web/UnitStaff_New/listUnitStaff.aspx?c0=3716"
+  ],
+  "verification": "照片與 Facebook 僅取自雲林縣議會、嘉義市議會本屆議員列表及個別官方介紹頁；只補空值，不覆蓋既有資料。雲林官方頁若只有「前往 FB」文字但沒有可驗證連結，Facebook 保持空白。",
+  "yunlin": {
+    "officialCount": 42,
+    "matched": 34,
+    "unmatched": [
+      {
+        "district": "1",
+        "name": "王又民"
+      },
+      {
+        "district": "3",
+        "name": "沈宗隆"
+      },
+      {
+        "district": "4",
+        "name": "鄭玲惠"
+      },
+      {
+        "district": "4",
+        "name": "楊國寬"
+      },
+      {
+        "district": "5",
+        "name": "蘇國瓏"
+      },
+      {
+        "district": "5",
+        "name": "蔡永富"
+      },
+      {
+        "district": "5",
+        "name": "林深"
+      },
+      {
+        "district": "5",
+        "name": "蘇俊豪"
+      }
+    ],
+    "photosAdded": 0,
+    "photosPreserved": 34,
+    "facebookAdded": 0,
+    "facebookPreserved": 0,
+    "conflicts": [],
+    "changes": [],
+    "councilors": [
+      {
+        "district": "1",
+        "name": "林岳璋",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/85e5c6e1-521f-4d2c-a2e7-894912caf3d0@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514090",
+        "facebook": ""
+      },
+      {
+        "district": "1",
+        "name": "黃勝志",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/relpic/21659/514141/9dc9ff19-d750-40c3-a7f3-5a4968069f8a@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514141",
+        "facebook": ""
+      },
+      {
+        "district": "1",
+        "name": "曾博鴻",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/b2f3aa76-246c-4673-a448-ff8843426714@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514122",
+        "facebook": ""
+      },
+      {
+        "district": "1",
+        "name": "鍾明馨",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/e0a7a589-3713-4058-a049-9716199bd1b7@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514119",
+        "facebook": ""
+      },
+      {
+        "district": "1",
+        "name": "王又民",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/7379fd70-0fe4-43e3-a42c-3476f34a793b@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514110",
+        "facebook": ""
+      },
+      {
+        "district": "1",
+        "name": "陳永修",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/eeb13bb2-3d5d-48f2-8d01-d47098fa8fae@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514108",
+        "facebook": ""
+      },
+      {
+        "district": "1",
+        "name": "張維崢",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/548b9ea8-f4b5-485c-b251-c18e2480319d@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514106",
+        "facebook": ""
+      },
+      {
+        "district": "1",
+        "name": "陳芳盈",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/8356a2da-a0e0-49e1-a30d-4f8d7d350058@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514092",
+        "facebook": ""
+      },
+      {
+        "district": "1",
+        "name": "賴淑娞",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/fc8f94bd-0c17-40cf-beae-3b98155f71b9@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514085",
+        "facebook": ""
+      },
+      {
+        "district": "1",
+        "name": "江文登",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/197bd070-8861-44fe-b87d-466d6194e180@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514074",
+        "facebook": ""
+      },
+      {
+        "district": "2",
+        "name": "張庭綺",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/e320baaa-ab3c-4bdf-933e-3a8e98b429ea@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514121",
+        "facebook": ""
+      },
+      {
+        "district": "2",
+        "name": "簡慈坊",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/9de6fe21-049c-4813-a1df-65c928c6d6bf@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514124",
+        "facebook": ""
+      },
+      {
+        "district": "2",
+        "name": "賴明源",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/3e4fc2e5-afc8-4ac5-aad1-93d34166d929@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514137",
+        "facebook": ""
+      },
+      {
+        "district": "2",
+        "name": "顏忠義",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/784dd608-ae09-4299-a4fc-f675c2badead@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514105",
+        "facebook": ""
+      },
+      {
+        "district": "2",
+        "name": "蔡東富",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/b953e73d-cbb1-4c5a-8fba-9f87ed247dbc@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514094",
+        "facebook": ""
+      },
+      {
+        "district": "2",
+        "name": "王秋足",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/66354056-8573-4bf5-8cfd-2e1fde80d6a6@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514081",
+        "facebook": ""
+      },
+      {
+        "district": "3",
+        "name": "黃凱",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/67173ee3-a82c-4483-9cc9-1ab9c6577b8d@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514112",
+        "facebook": ""
+      },
+      {
+        "district": "3",
+        "name": "蔡明水",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/0ad7f4a6-3f07-4863-ba1e-372a5b4df261@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514143",
+        "facebook": ""
+      },
+      {
+        "district": "3",
+        "name": "張維心",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/5a485862-1a7b-4189-a379-b60eb8581a10@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514142",
+        "facebook": ""
+      },
+      {
+        "district": "3",
+        "name": "沈宗隆",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/0ed9c098-65a1-4178-baa7-1b792dace0c6@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514139",
+        "facebook": ""
+      },
+      {
+        "district": "3",
+        "name": "王鈺齊",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/da040561-cd95-49c5-968c-cd1cc484b53a@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514128",
+        "facebook": ""
+      },
+      {
+        "district": "3",
+        "name": "陳俊龍",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/4aa89f1b-ca82-4877-896b-f7b8a85cd033@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514115",
+        "facebook": ""
+      },
+      {
+        "district": "3",
+        "name": "林文彬",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/340ee37f-4d6f-4254-a727-2e4b6a3f12bc@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514111",
+        "facebook": ""
+      },
+      {
+        "district": "3",
+        "name": "陳乙辰",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/95f3c15c-3694-4ad2-a3e0-5bdf489ee75d@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514107",
+        "facebook": ""
+      },
+      {
+        "district": "3",
+        "name": "黃美瑤",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/77419ba6-892e-4369-88ff-1babca0c60a8@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514069",
+        "facebook": ""
+      },
+      {
+        "district": "4",
+        "name": "洪如萍",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/b4cce311-a772-46c6-a4ca-7e31b86bbf5e@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514130",
+        "facebook": ""
+      },
+      {
+        "district": "4",
+        "name": "游淑雲",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/5e13bfd0-1ad1-4851-8b72-3ec3b0920f5f@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514117",
+        "facebook": ""
+      },
+      {
+        "district": "4",
+        "name": "鄭玲惠",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/438b3bcc-d517-4541-bb3f-b003f89433de@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514104",
+        "facebook": ""
+      },
+      {
+        "district": "4",
+        "name": "廖偉晴",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/8ac9c16f-a126-47a8-96d3-f1740a219fa1@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514098",
+        "facebook": ""
+      },
+      {
+        "district": "4",
+        "name": "楊國寬",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/17952a52-45b4-43b1-ac71-c53aa35924c3@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514089",
+        "facebook": ""
+      },
+      {
+        "district": "4",
+        "name": "李明哲",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/7253b574-8c80-436a-ba71-6c984074c202@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514082",
+        "facebook": ""
+      },
+      {
+        "district": "5",
+        "name": "蘇國瓏",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/50916198-b104-455d-8543-a5cf6625b9b4@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514148",
+        "facebook": ""
+      },
+      {
+        "district": "5",
+        "name": "許留賓",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/bc9316db-9fc9-4c18-b0e7-82f8929aec6e@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514136",
+        "facebook": ""
+      },
+      {
+        "district": "5",
+        "name": "顏嘉葦",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/3a2c6c6f-d043-45f1-80a9-ed455ebc0932@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514126",
+        "facebook": ""
+      },
+      {
+        "district": "5",
+        "name": "蔡永富",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/515e8848-2bfa-451e-b0d8-8b8570b41780@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514102",
+        "facebook": ""
+      },
+      {
+        "district": "5",
+        "name": "林深",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/d0fca8b7-37a0-4274-adaa-8cc6a6e00162@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514096",
+        "facebook": ""
+      },
+      {
+        "district": "5",
+        "name": "吳蕙蘭",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/4ed3375d-2774-467a-aec6-0f742187b7ec@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514087",
+        "facebook": ""
+      },
+      {
+        "district": "5",
+        "name": "蘇俊豪",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/1b6ff4d1-f4ee-42d4-b201-53d640571fb4@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514080",
+        "facebook": ""
+      },
+      {
+        "district": "6",
+        "name": "蔡咏鍀",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/34cc66c7-5016-47a4-b225-dfc787fccb8d@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514068",
+        "facebook": ""
+      },
+      {
+        "district": "6",
+        "name": "蔡孟真",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/ba115d86-a73b-4b94-bd0d-da75e0fc641d@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514091",
+        "facebook": ""
+      },
+      {
+        "district": "6",
+        "name": "黃文祥",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/d8d880d7-cdc9-4f97-9d32-22748c13d238@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514123",
+        "facebook": ""
+      },
+      {
+        "district": "6",
+        "name": "蔡岳儒",
+        "photoUrl": "https://ws.yunlin.gov.tw/001/Upload/606/Images/Congresses/1accb3e2-9c4b-4168-9a79-222abc17f800@710x470.jpg",
+        "detailUrl": "https://www.ylcc.gov.tw/Congress_Detail.aspx?n=22127&sms=21659&s=514114",
+        "facebook": ""
+      }
+    ]
+  },
+  "chiayiCity": {
+    "officialCount": 20,
+    "officialFacebook": 17,
+    "errors": [],
+    "matched": 18,
+    "unmatched": [
+      {
+        "district": "1",
+        "name": "張榮藏"
+      },
+      {
+        "district": "2",
+        "name": "蘇澤峰"
+      }
+    ],
+    "photosAdded": 0,
+    "photosPreserved": 18,
+    "facebookAdded": 16,
+    "facebookPreserved": 0,
+    "conflicts": [],
+    "changes": [
+      {
+        "district": "1",
+        "name": "黃盈智",
+        "before": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/4a0fbae6806c7a5427f148e8dff4b97c",
+          "facebook": ""
+        },
+        "after": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/4a0fbae6806c7a5427f148e8dff4b97c",
+          "facebook": "https://www.facebook.com/CYC201903"
+        }
+      },
+      {
+        "district": "1",
+        "name": "郭定緯",
+        "before": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/8630dda19e270e923aed3ccdf3c9749e",
+          "facebook": ""
+        },
+        "after": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/8630dda19e270e923aed3ccdf3c9749e",
+          "facebook": "https://www.facebook.com/happinessCHIAYI1210"
+        }
+      },
+      {
+        "district": "1",
+        "name": "陳家平",
+        "before": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/345abe1aa6e4f9b84f67b3c4f0af6fd9",
+          "facebook": ""
+        },
+        "after": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/345abe1aa6e4f9b84f67b3c4f0af6fd9",
+          "facebook": "https://www.facebook.com/people/%E9%99%B3%E5%AE%B6%E5%B9%B3%E4%B8%80%E8%B5%B7%E7%9C%8B%E8%A6%8B%E5%98%89%E7%BE%A9%E6%9C%AA%E4%BE%86/100063907082168"
+        }
+      },
+      {
+        "district": "1",
+        "name": "傅大偉",
+        "before": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/5b811ce22194fc537194d3f4409e6fce",
+          "facebook": ""
+        },
+        "after": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/5b811ce22194fc537194d3f4409e6fce",
+          "facebook": "https://www.facebook.com/people/%E5%82%85%E5%A4%A7%E5%81%89/100000077244038"
+        }
+      },
+      {
+        "district": "1",
+        "name": "顔翎熹",
+        "before": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/f35dc8dbe1d2f73ded8f29744c2cae3f",
+          "facebook": ""
+        },
+        "after": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/f35dc8dbe1d2f73ded8f29744c2cae3f",
+          "facebook": "https://www.facebook.com/olamolly76"
+        }
+      },
+      {
+        "district": "1",
+        "name": "黃露慧",
+        "before": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/4a1cc34401a1093aba458865e7c31397",
+          "facebook": ""
+        },
+        "after": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/4a1cc34401a1093aba458865e7c31397",
+          "facebook": "https://www.facebook.com/lulumi.huang.7"
+        }
+      },
+      {
+        "district": "2",
+        "name": "陳姿妏",
+        "before": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/e0d496ff5efe5975df40e707ffc7c9c3",
+          "facebook": ""
+        },
+        "after": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/e0d496ff5efe5975df40e707ffc7c9c3",
+          "facebook": "https://www.facebook.com/people/%E6%9E%97%E6%89%BF%E5%8B%B3%E8%88%87%E9%99%B3%E5%A7%BF%E5%A6%8F-%E8%AD%B0%E9%95%B7%E6%9C%8D%E5%8B%99%E8%99%95/100063645883083"
+        }
+      },
+      {
+        "district": "2",
+        "name": "王浩",
+        "before": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/2c0e5950d7d51f498aa676efd75ca8bd",
+          "facebook": ""
+        },
+        "after": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/2c0e5950d7d51f498aa676efd75ca8bd",
+          "facebook": "https://www.facebook.com/haochiayi"
+        }
+      },
+      {
+        "district": "2",
+        "name": "蔡坤叡",
+        "before": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/f74b45851793896755b274c937e65f5b",
+          "facebook": ""
+        },
+        "after": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/f74b45851793896755b274c937e65f5b",
+          "facebook": "https://www.facebook.com/kenttsaifans"
+        }
+      },
+      {
+        "district": "2",
+        "name": "黃敏修",
+        "before": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/c875a57a07cfa51ab32f0cd9cb7b4c48",
+          "facebook": ""
+        },
+        "after": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/c875a57a07cfa51ab32f0cd9cb7b4c48",
+          "facebook": "https://www.facebook.com/civiltest"
+        }
+      },
+      {
+        "district": "2",
+        "name": "林煒軒",
+        "before": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/09099fe9158653b38d46f54fb7721df9",
+          "facebook": ""
+        },
+        "after": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/09099fe9158653b38d46f54fb7721df9",
+          "facebook": "https://www.facebook.com/WSLCHIAYI"
+        }
+      },
+      {
+        "district": "2",
+        "name": "孫貫志",
+        "before": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/197788da375cbe6f84eceebd2d3453a1",
+          "facebook": ""
+        },
+        "after": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/197788da375cbe6f84eceebd2d3453a1",
+          "facebook": "https://www.facebook.com/sunsir168"
+        }
+      },
+      {
+        "district": "2",
+        "name": "鄭光宏",
+        "before": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/a04179a0bc5a7af6ab435f5ffd3c89ac",
+          "facebook": ""
+        },
+        "after": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/a04179a0bc5a7af6ab435f5ffd3c89ac",
+          "facebook": "https://www.facebook.com/jghcc"
+        }
+      },
+      {
+        "district": "2",
+        "name": "李忠曆",
+        "before": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/ba0d6039b331df87695e88680b507196",
+          "facebook": ""
+        },
+        "after": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/ba0d6039b331df87695e88680b507196",
+          "facebook": "https://www.facebook.com/people/%E6%9D%8E%E5%BF%A0%E6%9B%86/pfbid0wU9iyKE6623r6KU5qtWK1z341Uwy2YQzaFe7Vm7Zza62ayMWZKgtY4FfgwBz4P8bl"
+        }
+      },
+      {
+        "district": "2",
+        "name": "黃思婷",
+        "before": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/2184d42ff4cad1d02b256b058eae1a65",
+          "facebook": ""
+        },
+        "after": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/2184d42ff4cad1d02b256b058eae1a65",
+          "facebook": "https://www.facebook.com/people/%E6%B7%B1%E8%81%BD%E5%98%89%E7%BE%A9-%E9%BB%83%E6%80%9D%E5%A9%B7%E8%AD%B0%E5%93%A1/100063698800830"
+        }
+      },
+      {
+        "district": "2",
+        "name": "張秀華",
+        "before": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/61a5c66270ba5e153880da0dfb37cf8b",
+          "facebook": ""
+        },
+        "after": {
+          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/61a5c66270ba5e153880da0dfb37cf8b",
+          "facebook": "https://www.facebook.com/chiayiCHH"
+        }
+      }
+    ],
+    "councilors": [
+      {
+        "district": "1",
+        "name": "張榮藏",
+        "photoUrl": "https://www.cycc.gov.tw/_admin/_upload/UnitStaff/1021/images/%E5%BC%B5%E6%A6%AE%E8%97%8F.jpg",
+        "detailUrl": "https://www.cycc.gov.tw/web/UnitStaff_New/Default2.aspx?c0=3716&p0=1168",
+        "facebook": "",
+        "error": ""
+      },
+      {
+        "district": "1",
+        "name": "黃盈智",
+        "photoUrl": "https://www.cycc.gov.tw/_admin/_upload/UnitStaff/1021/images/%E9%BB%83%E7%9B%88%E6%99%BA1.jpg",
+        "detailUrl": "https://www.cycc.gov.tw/web/UnitStaff_New/Default2.aspx?c0=3716&p0=1151",
+        "facebook": "https://www.facebook.com/CYC201903",
+        "error": ""
+      },
+      {
+        "district": "1",
+        "name": "郭定緯",
+        "photoUrl": "https://www.cycc.gov.tw/_admin/_upload/UnitStaff/1021/images/%E9%83%AD%E5%AE%9A%E7%B7%AF.jpg",
+        "detailUrl": "https://www.cycc.gov.tw/web/UnitStaff_New/Default2.aspx?c0=3716&p0=1153",
+        "facebook": "https://www.facebook.com/happinessCHIAYI1210",
+        "error": ""
+      },
+      {
+        "district": "1",
+        "name": "陳家平",
+        "photoUrl": "https://www.cycc.gov.tw/_admin/_upload/UnitStaff/1021/images/%E9%99%B3%E5%AE%B6%E5%B9%B3.jpg",
+        "detailUrl": "https://www.cycc.gov.tw/web/UnitStaff_New/Default2.aspx?c0=3716&p0=1162",
+        "facebook": "https://www.facebook.com/people/%E9%99%B3%E5%AE%B6%E5%B9%B3%E4%B8%80%E8%B5%B7%E7%9C%8B%E8%A6%8B%E5%98%89%E7%BE%A9%E6%9C%AA%E4%BE%86/100063907082168",
+        "error": ""
+      },
+      {
+        "district": "1",
+        "name": "傅大偉",
+        "photoUrl": "https://www.cycc.gov.tw/_admin/_upload/UnitStaff/1021/images/%E5%82%85%E5%A4%A7%E5%81%893.jpg",
+        "detailUrl": "https://www.cycc.gov.tw/web/UnitStaff_New/Default2.aspx?c0=3716&p0=1175",
+        "facebook": "https://www.facebook.com/people/%E5%82%85%E5%A4%A7%E5%81%89/100000077244038",
+        "error": ""
+      },
+      {
+        "district": "1",
+        "name": "顔翎熹",
+        "photoUrl": "https://www.cycc.gov.tw/_admin/_upload/UnitStaff/1021/images/%E9%A1%94%E8%89%B2%E4%B8%8D%E5%88%86%E8%97%8D%E7%B6%A0%E6%94%AF%E6%8C%81%E6%80%A7%E5%B0%88%E5%8D%80%E9%A1%8F%E8%89%B2%E7%94%B0%E6%85%8E%E7%AF%80.jpg",
+        "detailUrl": "https://www.cycc.gov.tw/web/UnitStaff_New/Default2.aspx?c0=3716&p0=1150",
+        "facebook": "https://www.facebook.com/olamolly76",
+        "error": ""
+      },
+      {
+        "district": "1",
+        "name": "黃露慧",
+        "photoUrl": "https://www.cycc.gov.tw/_admin/_upload/UnitStaff/1021/images/%E9%BB%83%E9%9C%B2%E6%85%A7%20.jpg",
+        "detailUrl": "https://www.cycc.gov.tw/web/UnitStaff_New/Default2.aspx?c0=3716&p0=1176",
+        "facebook": "https://www.facebook.com/lulumi.huang.7",
+        "error": ""
+      },
+      {
+        "district": "1",
+        "name": "張敏琪",
+        "photoUrl": "https://www.cycc.gov.tw/_admin/_upload/UnitStaff/1021/images/%E5%BC%B5%E6%95%8F%E7%90%AA.jpg",
+        "detailUrl": "https://www.cycc.gov.tw/web/UnitStaff_New/Default2.aspx?c0=3716&p0=1177",
+        "facebook": "",
+        "error": ""
+      },
+      {
+        "district": "2",
+        "name": "陳姿妏",
+        "photoUrl": "https://www.cycc.gov.tw/_admin/_upload/UnitStaff/1021/images/%E9%99%B3%E5%A7%BF%E5%A6%8F.jpg",
+        "detailUrl": "https://www.cycc.gov.tw/web/UnitStaff_New/Default2.aspx?c0=3716&p0=1163",
+        "facebook": "https://www.facebook.com/people/%E6%9E%97%E6%89%BF%E5%8B%B3%E8%88%87%E9%99%B3%E5%A7%BF%E5%A6%8F-%E8%AD%B0%E9%95%B7%E6%9C%8D%E5%8B%99%E8%99%95/100063645883083",
+        "error": ""
+      },
+      {
+        "district": "2",
+        "name": "王浩",
+        "photoUrl": "https://www.cycc.gov.tw/_admin/_upload/UnitStaff/1021/images/%E7%8E%8B%E6%B5%A9.jpg",
+        "detailUrl": "https://www.cycc.gov.tw/web/UnitStaff_New/Default2.aspx?c0=3716&p0=1152",
+        "facebook": "https://www.facebook.com/haochiayi",
+        "error": ""
+      },
+      {
+        "district": "2",
+        "name": "蔡坤叡",
+        "photoUrl": "https://www.cycc.gov.tw/_admin/_upload/UnitStaff/1021/images/%E8%94%A1%E5%9D%A4%E5%8F%A1.jpg",
+        "detailUrl": "https://www.cycc.gov.tw/web/UnitStaff_New/Default2.aspx?c0=3716&p0=1154",
+        "facebook": "https://www.facebook.com/kenttsaifans",
+        "error": ""
+      },
+      {
+        "district": "2",
+        "name": "黃敏修",
+        "photoUrl": "https://www.cycc.gov.tw/_admin/_upload/UnitStaff/1021/images/%E9%BB%83%E6%95%8F%E4%BF%AE.jpg",
+        "detailUrl": "https://www.cycc.gov.tw/web/UnitStaff_New/Default2.aspx?c0=3716&p0=1155",
+        "facebook": "https://www.facebook.com/civiltest",
+        "error": ""
+      },
+      {
+        "district": "2",
+        "name": "林煒軒",
+        "photoUrl": "https://www.cycc.gov.tw/_admin/_upload/UnitStaff/1021/images/%E6%9E%97%E7%85%92%E8%BB%92.jpg",
+        "detailUrl": "https://www.cycc.gov.tw/web/UnitStaff_New/Default2.aspx?c0=3716&p0=1156",
+        "facebook": "https://www.facebook.com/WSLCHIAYI",
+        "error": ""
+      },
+      {
+        "district": "2",
+        "name": "黃大祐",
+        "photoUrl": "https://www.cycc.gov.tw/_admin/_upload/UnitStaff/1021/images/%E9%BB%83%E5%A4%A7%E7%A5%901.jpg",
+        "detailUrl": "https://www.cycc.gov.tw/web/UnitStaff_New/Default2.aspx?c0=3716&p0=1158",
+        "facebook": "",
+        "error": ""
+      },
+      {
+        "district": "2",
+        "name": "蘇澤峰",
+        "photoUrl": "https://www.cycc.gov.tw/_admin/_upload/UnitStaff/1021/images/%E8%98%87%E6%BE%A4%E5%B3%B0.jpg",
+        "detailUrl": "https://www.cycc.gov.tw/web/UnitStaff_New/Default2.aspx?c0=3716&p0=1159",
+        "facebook": "https://www.facebook.com/groups/444223646041333/announcements",
+        "error": ""
+      },
+      {
+        "district": "2",
+        "name": "孫貫志",
+        "photoUrl": "https://www.cycc.gov.tw/_admin/_upload/UnitStaff/1021/images/%E5%AD%AB%E8%B2%AB%E5%BF%97.jpg",
+        "detailUrl": "https://www.cycc.gov.tw/web/UnitStaff_New/Default2.aspx?c0=3716&p0=1160",
+        "facebook": "https://www.facebook.com/sunsir168",
+        "error": ""
+      },
+      {
+        "district": "2",
+        "name": "鄭光宏",
+        "photoUrl": "https://www.cycc.gov.tw/_admin/_upload/UnitStaff/1021/images/%E9%84%AD%E5%85%89%E5%AE%8F.jpg",
+        "detailUrl": "https://www.cycc.gov.tw/web/UnitStaff_New/Default2.aspx?c0=3716&p0=1164",
+        "facebook": "https://www.facebook.com/jghcc",
+        "error": ""
+      },
+      {
+        "district": "2",
+        "name": "李忠曆",
+        "photoUrl": "https://www.cycc.gov.tw/_admin/_upload/UnitStaff/1021/images/%E6%9D%8E%E5%BF%A0%E6%9A%A6.jpg",
+        "detailUrl": "https://www.cycc.gov.tw/web/UnitStaff_New/Default2.aspx?c0=3716&p0=1166",
+        "facebook": "https://www.facebook.com/people/%E6%9D%8E%E5%BF%A0%E6%9B%86/pfbid0wU9iyKE6623r6KU5qtWK1z341Uwy2YQzaFe7Vm7Zza62ayMWZKgtY4FfgwBz4P8bl",
+        "error": ""
+      },
+      {
+        "district": "2",
+        "name": "黃思婷",
+        "photoUrl": "https://www.cycc.gov.tw/_admin/_upload/UnitStaff/1021/images/%E9%BB%83%E6%80%9D%E5%A9%B7.jpg",
+        "detailUrl": "https://www.cycc.gov.tw/web/UnitStaff_New/Default2.aspx?c0=3716&p0=1161",
+        "facebook": "https://www.facebook.com/people/%E6%B7%B1%E8%81%BD%E5%98%89%E7%BE%A9-%E9%BB%83%E6%80%9D%E5%A9%B7%E8%AD%B0%E5%93%A1/100063698800830",
+        "error": ""
+      },
+      {
+        "district": "2",
+        "name": "張秀華",
+        "photoUrl": "https://www.cycc.gov.tw/_admin/_upload/UnitStaff/1021/images/%E5%BC%B5%E7%A7%80%E8%8F%AF.png",
+        "detailUrl": "https://www.cycc.gov.tw/web/UnitStaff_New/Default2.aspx?c0=3716&p0=1179",
+        "facebook": "https://www.facebook.com/chiayiCHH",
+        "error": ""
+      }
+    ]
+  }
+}
