@@ -1,0 +1,48 @@
+name: Patch Taipei councilor Facebook round 2
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/patch-taipei-councilor-facebook-round2.mjs'
+      - '.github/workflows/patch-taipei-councilor-facebook-round2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Apply round 2 verified Taipei Facebook links
+        run: node scripts/patch-taipei-councilor-facebook-round2.mjs
+      - name: Validate Taipei Facebook count
+        run: |
+          node - <<'NODE'
+          const fs=require('fs');
+          const topo=JSON.parse(fs.readFileSync('data/counties.json','utf8'));
+          const t=topo.objects.map.geometries.find(g=>g.properties.id==='63000');
+          const all=(t.properties.councilors||[]).flatMap(b=>b.candidates||[]);
+          const bad=all.filter(c=>c.facebook&&!/^https:\/\/(www\.)?facebook\.com\//i.test(c.facebook));
+          if(bad.length) throw new Error('Invalid Facebook URLs');
+          const count=all.filter(c=>c.facebook).length;
+          if(count<34) throw new Error(`Expected at least 34 Taipei Facebook links, got ${count}`);
+          console.log(`Taipei Facebook links validated: ${count}/${all.length}`);
+          NODE
+      - name: Commit updated counties data
+        run: |
+          if git diff --quiet -- data/counties.json; then
+            echo 'No Taipei Facebook data changes.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/counties.json
+          git commit -m 'Add second batch of verified Taipei councilor Facebook links'
+          git push
