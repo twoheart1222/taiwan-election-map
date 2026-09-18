@@ -1,5 +1,5 @@
 (() => {
-  const SOCIAL_FIELDS = ['facebook', 'instagram', 'threads', 'youtube'];
+  const SYNC_FIELDS = ['facebook', 'instagram', 'threads', 'youtube', 'photoUrl'];
 
   const cleanName = value => String(value || '').replace(/[\s\u3000]/g, '').trim();
   const clone = value => JSON.parse(JSON.stringify(value ?? null));
@@ -11,7 +11,7 @@
     return [];
   }
 
-  function mergeCandidateSocials(baseCandidates, targetCandidates, stats) {
+  function mergeCandidateFields(baseCandidates, targetCandidates, stats) {
     if (!Array.isArray(baseCandidates) || !Array.isArray(targetCandidates)) return;
     const targetByName = new Map(
       targetCandidates
@@ -25,10 +25,12 @@
         stats.missingInKv.push(source?.name || '(未命名)');
         continue;
       }
-      for (const field of SOCIAL_FIELDS) {
+      for (const field of SYNC_FIELDS) {
         if (isBlank(target[field]) && !isBlank(source?.[field])) {
           target[field] = source[field];
           stats.fieldsFilled += 1;
+          if (field === 'photoUrl') stats.photosFilled += 1;
+          else stats.socialFieldsFilled += 1;
           stats.changed = true;
           stats.updated.push(`${source.name}:${field}`);
         }
@@ -36,7 +38,7 @@
     }
   }
 
-  function mergeCouncilorSocials(baseCouncilors, targetCouncilors, stats) {
+  function mergeCouncilorFields(baseCouncilors, targetCouncilors, stats) {
     const baseBlocks = blocksOf(baseCouncilors);
     const targetBlocks = blocksOf(targetCouncilors);
     const targetByDistrict = new Map(targetBlocks.map(b => [String(b?.district ?? ''), b]));
@@ -44,21 +46,25 @@
     for (const baseBlock of baseBlocks) {
       const targetBlock = targetByDistrict.get(String(baseBlock?.district ?? ''));
       if (!targetBlock) continue;
-      mergeCandidateSocials(baseBlock?.candidates || [], targetBlock?.candidates || [], stats);
+      mergeCandidateFields(baseBlock?.candidates || [], targetBlock?.candidates || [], stats);
     }
   }
 
-  function countSocials(props) {
-    let count = 0;
-    for (const c of props?.candidates || []) {
-      for (const field of SOCIAL_FIELDS) if (!isBlank(c?.[field])) count += 1;
-    }
-    for (const block of blocksOf(props?.councilors)) {
-      for (const c of block?.candidates || []) {
-        for (const field of SOCIAL_FIELDS) if (!isBlank(c?.[field])) count += 1;
+  function countFields(props) {
+    const result = { total: 0, social: 0, photos: 0 };
+    const countCandidate = c => {
+      for (const field of SYNC_FIELDS) {
+        if (isBlank(c?.[field])) continue;
+        result.total += 1;
+        if (field === 'photoUrl') result.photos += 1;
+        else result.social += 1;
       }
+    };
+    for (const c of props?.candidates || []) countCandidate(c);
+    for (const block of blocksOf(props?.councilors)) {
+      for (const c of block?.candidates || []) countCandidate(c);
     }
-    return count;
+    return result;
   }
 
   function countyGeometries() {
@@ -67,7 +73,7 @@
     return countiesTopo.objects[key]?.geometries || [];
   }
 
-  async function syncGitHubSocialsToKv() {
+  async function syncGitHubFieldsToKv() {
     const status = document.getElementById('kv-social-sync-status');
     const button = document.getElementById('kv-social-sync-btn');
 
@@ -80,7 +86,7 @@
       return;
     }
 
-    if (!confirm('這個同步只會把 GitHub data/counties.json 裡「已有值」的 Facebook / Instagram / Threads / YouTube 補到 KV 的空欄位。\n\nKV 中已經有值的欄位不會被覆蓋，因此你手動修正的資料會保留。\n\n確定開始同步嗎？')) return;
+    if (!confirm('這個同步只會把 GitHub data/counties.json 裡「已有值」的 Facebook / Instagram / Threads / YouTube / 照片補到 KV 的空欄位。\n\nKV 中已經有值的欄位不會被覆蓋，因此你手動修正的社群網址與照片都會保留。\n\n確定開始同步嗎？')) return;
 
     button.disabled = true;
     button.textContent = '同步中…';
@@ -90,6 +96,8 @@
       countiesChecked: 0,
       countiesChanged: 0,
       fieldsFilled: 0,
+      socialFieldsFilled: 0,
+      photosFilled: 0,
       newCountyOverrides: 0,
       missingInKv: [],
       errors: [],
@@ -103,11 +111,19 @@
         summary.countiesChecked += 1;
 
         const existing = allOverrides[code];
-        const baseHasSocial = countSocials(base) > 0;
-        if (!existing && !baseHasSocial) continue;
+        const baseCounts = countFields(base);
+        const baseHasSyncData = baseCounts.total > 0;
+        if (!existing && !baseHasSyncData) continue;
 
         let next;
-        const stats = { changed: false, fieldsFilled: 0, updated: [], missingInKv: [] };
+        const stats = {
+          changed: false,
+          fieldsFilled: 0,
+          socialFieldsFilled: 0,
+          photosFilled: 0,
+          updated: [],
+          missingInKv: [],
+        };
 
         if (!existing) {
           // 這個縣市還沒有 KV override：建立與 GitHub 基礎資料一致的可編輯副本。
@@ -117,18 +133,20 @@
             voters: base.voters ?? null,
             quota: base.quota ?? null,
             updatedAt: new Date().toISOString(),
-            updatedBy: currentUser.email || 'admin-kv-social-sync',
+            updatedBy: currentUser.email || 'admin-kv-data-sync',
           };
           stats.changed = true;
-          stats.fieldsFilled = countSocials(base);
+          stats.fieldsFilled = baseCounts.total;
+          stats.socialFieldsFilled = baseCounts.social;
+          stats.photosFilled = baseCounts.photos;
           summary.newCountyOverrides += 1;
         } else {
           next = clone(existing);
-          mergeCandidateSocials(base.candidates || [], next.candidates || [], stats);
-          mergeCouncilorSocials(base.councilors || [], next.councilors || [], stats);
+          mergeCandidateFields(base.candidates || [], next.candidates || [], stats);
+          mergeCouncilorFields(base.councilors || [], next.councilors || [], stats);
           if (stats.changed) {
             next.updatedAt = new Date().toISOString();
-            next.updatedBy = currentUser.email || 'admin-kv-social-sync';
+            next.updatedBy = currentUser.email || 'admin-kv-data-sync';
           }
         }
 
@@ -143,6 +161,8 @@
           allOverrides[code] = next;
           summary.countiesChanged += 1;
           summary.fieldsFilled += stats.fieldsFilled;
+          summary.socialFieldsFilled += stats.socialFieldsFilled;
+          summary.photosFilled += stats.photosFilled;
         } catch (err) {
           summary.errors.push(`${base.name || code}: ${err.message}`);
         }
@@ -153,7 +173,8 @@
       const parts = [
         `檢查 ${summary.countiesChecked} 個縣市`,
         `更新 ${summary.countiesChanged} 個縣市`,
-        `補入 ${summary.fieldsFilled} 個社群欄位`,
+        `補入 ${summary.socialFieldsFilled} 個社群欄位`,
+        `補入 ${summary.photosFilled} 張照片`,
       ];
       if (summary.newCountyOverrides) parts.push(`新建 ${summary.newCountyOverrides} 個 KV 縣市覆寫`);
       if (summary.errors.length) parts.push(`失敗 ${summary.errors.length} 個`);
@@ -167,7 +188,7 @@
       alert(message);
     } finally {
       button.disabled = false;
-      button.textContent = '同步 GitHub 社群資料到 KV';
+      button.textContent = '同步 GitHub 社群＋照片到 KV';
     }
   }
 
@@ -182,10 +203,10 @@
       <div class="flex flex-wrap items-start justify-between gap-3">
         <div>
           <div class="text-[10px] font-black uppercase tracking-wider text-accent-orange">GitHub → Cloudflare KV</div>
-          <h3 class="text-base font-black mt-1">同步已驗證社群資料</h3>
-          <p class="text-xs text-ink-500 font-medium mt-1 leading-relaxed max-w-2xl">只補 KV 的空白 Facebook / Instagram / Threads / YouTube。KV 已有值一律保留，因此後台手動修正優先，不會被自動同步蓋掉。</p>
+          <h3 class="text-base font-black mt-1">同步已驗證社群＋照片</h3>
+          <p class="text-xs text-ink-500 font-medium mt-1 leading-relaxed max-w-2xl">只補 KV 的空白 Facebook / Instagram / Threads / YouTube / 照片。KV 已有值一律保留，因此後台手動修正優先，不會被自動同步蓋掉。</p>
         </div>
-        <button id="kv-social-sync-btn" type="button" class="px-4 py-2.5 rounded-xl bg-ink-900 text-surface text-xs font-bold hover:bg-accent-orange transition shadow-[2px_2px_0px_#141517]">同步 GitHub 社群資料到 KV</button>
+        <button id="kv-social-sync-btn" type="button" class="px-4 py-2.5 rounded-xl bg-ink-900 text-surface text-xs font-bold hover:bg-accent-orange transition shadow-[2px_2px_0px_#141517]">同步 GitHub 社群＋照片到 KV</button>
       </div>
       <div id="kv-social-sync-status" class="text-xs font-bold text-ink-500">尚未執行同步</div>
     `;
@@ -194,7 +215,7 @@
     if (firstCard?.nextSibling) editor.insertBefore(card, firstCard.nextSibling);
     else editor.appendChild(card);
 
-    document.getElementById('kv-social-sync-btn').addEventListener('click', syncGitHubSocialsToKv);
+    document.getElementById('kv-social-sync-btn').addEventListener('click', syncGitHubFieldsToKv);
   }
 
   if (document.readyState === 'loading') {
