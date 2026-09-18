@@ -1,0 +1,22 @@
+name: Report Taipei missing councilor Facebook
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/report-taipei-missing-councilor-facebook.yml'
+      - 'scripts/report-missing-councilor-facebook.mjs'
+      - 'data/counties.json'
+  workflow_dispatch:
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Report Taipei missing Facebook
+        run: node scripts/report-missing-councilor-facebook.mjs 63000
