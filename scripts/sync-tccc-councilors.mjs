@@ -1,12 +1,12 @@
 import { readFile, writeFile } from 'node:fs/promises';
+import { overridesUrl } from './_api-url.mjs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as cheerio from 'cheerio';
 
 const BASE_URL = 'https://www.tccc.gov.tw';
 const LIST_URL = `${BASE_URL}/wb_introduction01.asp`;
-const API_URL = process.env.ELECTION_API_URL ||
-  'https://election-api.uprisevideoproduction.workers.dev/?key=overrides';
+const API_URL = overridesUrl();
 const COUNTY_CODE = '66000';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const concurrency = 5;

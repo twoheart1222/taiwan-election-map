@@ -1,12 +1,12 @@
 import { writeFile } from 'node:fs/promises';
+import { overridesUrl } from './_api-url.mjs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { load } from 'cheerio';
 
 const BASE_URL = 'https://www.tcc.gov.tw';
 const LIST_URL = `${BASE_URL}/cp.aspx?n=13898`;
-const API_URL = process.env.ELECTION_API_URL ||
-  'https://election-api.uprisevideoproduction.workers.dev/?key=overrides';
+const API_URL = overridesUrl();
 const COUNTY_CODE = '63000';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const concurrency = 4;

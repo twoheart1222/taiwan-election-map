@@ -1,8 +1,9 @@
 import { mkdir, writeFile } from 'node:fs/promises';
+import { overridesUrl } from './_api-url.mjs';
 import path from 'node:path';
 import { load } from 'cheerio';
 
-const API_URL = process.env.ELECTION_API_URL || 'https://election-api.uprisevideoproduction.workers.dev/?key=overrides';
+const API_URL = overridesUrl();
 const outputDirectory = path.resolve(process.argv[2] || '../councilor-sync');
 const MOI_BASE_URL = 'https://www.moi.gov.tw/LocalOfficial.aspx';
 

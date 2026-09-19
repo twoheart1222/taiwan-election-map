@@ -1,10 +1,11 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { overridesUrl } from './_api-url.mjs';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { load } from 'cheerio';
 
 const SOURCE_URL = 'https://www.moi.gov.tw/LocalOfficial.aspx?n=577&sms=11395&TYP=KND0007';
-const API_URL = process.env.ELECTION_API_URL || 'https://election-api.uprisevideoproduction.workers.dev/?key=overrides';
+const API_URL = overridesUrl();
 const PAGE_SIZE = 200;
 const PLACEHOLDER_PHOTOS = new Set([
   'https://ws.moi.gov.tw/001/Upload/400/relpic/8999/2352/a923fbd9-30da-44ba-90c4-ae26fc10d863.png',

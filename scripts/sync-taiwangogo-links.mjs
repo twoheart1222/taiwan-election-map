@@ -1,10 +1,10 @@
 import { readFile, writeFile } from 'node:fs/promises';
+import { overridesUrl } from './_api-url.mjs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const SOURCE_BASE = 'https://council2026.taiwangogo.tw';
-const API_URL = process.env.ELECTION_API_URL ||
-  'https://election-api.uprisevideoproduction.workers.dev/?key=overrides';
+const API_URL = overridesUrl();
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 function normalize(value) {
