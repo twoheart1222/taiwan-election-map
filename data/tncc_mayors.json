@@ -51,11 +51,11 @@
         "district": "9",
         "name": "李啟維",
         "before": {
-          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/6757f6b6c7be5fc75ff3d048a5522870",
+          "photoUrl": "/api/photo/6757f6b6c7be5fc75ff3d048a5522870",
           "facebook": ""
         },
         "after": {
-          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/6757f6b6c7be5fc75ff3d048a5522870",
+          "photoUrl": "/api/photo/6757f6b6c7be5fc75ff3d048a5522870",
           "facebook": "https://www.facebook.com/kiwi.only.one"
         }
       }

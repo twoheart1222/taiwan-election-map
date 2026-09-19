@@ -574,12 +574,12 @@
         "district": "1",
         "name": "謝議員 國榮",
         "before": {
-          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/e9a8b3100f970034625b96e4158cb11a",
+          "photoUrl": "/api/photo/e9a8b3100f970034625b96e4158cb11a",
           "facebook": "",
           "isIncumbent": true
         },
         "after": {
-          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/e9a8b3100f970034625b96e4158cb11a",
+          "photoUrl": "/api/photo/e9a8b3100f970034625b96e4158cb11a",
           "facebook": "https://www.facebook.com/besthualien",
           "isIncumbent": true
         }
@@ -588,12 +588,12 @@
         "district": "1",
         "name": "徐議員 子芳",
         "before": {
-          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/c1b07d7b1c1f5ead726535482df038e3",
+          "photoUrl": "/api/photo/c1b07d7b1c1f5ead726535482df038e3",
           "facebook": "",
           "isIncumbent": true
         },
         "after": {
-          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/c1b07d7b1c1f5ead726535482df038e3",
+          "photoUrl": "/api/photo/c1b07d7b1c1f5ead726535482df038e3",
           "facebook": "https://www.facebook.com/xu.zi.fang.556553",
           "isIncumbent": true
         }
@@ -602,12 +602,12 @@
         "district": "2",
         "name": "鄭議員 寶秀",
         "before": {
-          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/8cce78417dcf7430dafe52c83142988a",
+          "photoUrl": "/api/photo/8cce78417dcf7430dafe52c83142988a",
           "facebook": "",
           "isIncumbent": true
         },
         "after": {
-          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/8cce78417dcf7430dafe52c83142988a",
+          "photoUrl": "/api/photo/8cce78417dcf7430dafe52c83142988a",
           "facebook": "https://www.facebook.com/people/%E9%84%AD%E5%AF%B6%E7%A7%80/100003361275338",
           "isIncumbent": true
         }
@@ -616,12 +616,12 @@
         "district": "3",
         "name": "張議長 峻",
         "before": {
-          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/927dd89a9f001293720c9d68af36525f",
+          "photoUrl": "/api/photo/927dd89a9f001293720c9d68af36525f",
           "facebook": "",
           "isIncumbent": true
         },
         "after": {
-          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/927dd89a9f001293720c9d68af36525f",
+          "photoUrl": "/api/photo/927dd89a9f001293720c9d68af36525f",
           "facebook": "https://www.facebook.com/pages/category/Politician/%E5%BC%B5%E5%B3%BB-790255354369168",
           "isIncumbent": true
         }
@@ -630,12 +630,12 @@
         "district": "3",
         "name": "徐副議長 雪玉",
         "before": {
-          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/10c19111ab4fc0030cc3af5c5ac33893",
+          "photoUrl": "/api/photo/10c19111ab4fc0030cc3af5c5ac33893",
           "facebook": "",
           "isIncumbent": true
         },
         "after": {
-          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/10c19111ab4fc0030cc3af5c5ac33893",
+          "photoUrl": "/api/photo/10c19111ab4fc0030cc3af5c5ac33893",
           "facebook": "https://www.facebook.com/hsu0932520921",
           "isIncumbent": true
         }
@@ -644,12 +644,12 @@
         "district": "3",
         "name": "林議員 源富",
         "before": {
-          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/f7f4c93a94a319c48ddcd7ee3700594b",
+          "photoUrl": "/api/photo/f7f4c93a94a319c48ddcd7ee3700594b",
           "facebook": "",
           "isIncumbent": true
         },
         "after": {
-          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/f7f4c93a94a319c48ddcd7ee3700594b",
+          "photoUrl": "/api/photo/f7f4c93a94a319c48ddcd7ee3700594b",
           "facebook": "https://www.facebook.com/lin0935752392",
           "isIncumbent": true
         }
@@ -658,12 +658,12 @@
         "district": "3",
         "name": "黃議員 馨",
         "before": {
-          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/17d1bb6176a1f75417c03cd8c608f49a",
+          "photoUrl": "/api/photo/17d1bb6176a1f75417c03cd8c608f49a",
           "facebook": "",
           "isIncumbent": true
         },
         "after": {
-          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/17d1bb6176a1f75417c03cd8c608f49a",
+          "photoUrl": "/api/photo/17d1bb6176a1f75417c03cd8c608f49a",
           "facebook": "https://www.facebook.com/%E9%BB%83%E9%A6%A8-467590956980758",
           "isIncumbent": true
         }
@@ -672,12 +672,12 @@
         "district": "3",
         "name": "吳議員 建志",
         "before": {
-          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/1836d123e8612537b00c08f0c0b644de",
+          "photoUrl": "/api/photo/1836d123e8612537b00c08f0c0b644de",
           "facebook": "",
           "isIncumbent": true
         },
         "after": {
-          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/1836d123e8612537b00c08f0c0b644de",
+          "photoUrl": "/api/photo/1836d123e8612537b00c08f0c0b644de",
           "facebook": "https://www.facebook.com/pages/category/Public-Figure/%E5%90%B3%E5%BB%BA%E5%BF%97-735576183142166",
           "isIncumbent": true
         }
@@ -686,12 +686,12 @@
         "district": "4",
         "name": "黃議員 玲蘭",
         "before": {
-          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/35d4ab7f8b2b1c22ffc1ae583f33b6da",
+          "photoUrl": "/api/photo/35d4ab7f8b2b1c22ffc1ae583f33b6da",
           "facebook": "",
           "isIncumbent": true
         },
         "after": {
-          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/35d4ab7f8b2b1c22ffc1ae583f33b6da",
+          "photoUrl": "/api/photo/35d4ab7f8b2b1c22ffc1ae583f33b6da",
           "facebook": "https://www.facebook.com/linglanhung",
           "isIncumbent": true
         }
@@ -700,12 +700,12 @@
         "district": "5",
         "name": "笛布斯.顗賚 議員",
         "before": {
-          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/155ed15bd7f2253a703fc04bbeb7a2e6",
+          "photoUrl": "/api/photo/155ed15bd7f2253a703fc04bbeb7a2e6",
           "facebook": "",
           "isIncumbent": true
         },
         "after": {
-          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/155ed15bd7f2253a703fc04bbeb7a2e6",
+          "photoUrl": "/api/photo/155ed15bd7f2253a703fc04bbeb7a2e6",
           "facebook": "https://www.facebook.com/dibusilai",
           "isIncumbent": true
         }
@@ -714,12 +714,12 @@
         "district": "5",
         "name": "李議員 正文",
         "before": {
-          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/7ee1e8a0d6e0e220e351f07cc246d9ee",
+          "photoUrl": "/api/photo/7ee1e8a0d6e0e220e351f07cc246d9ee",
           "facebook": "",
           "isIncumbent": true
         },
         "after": {
-          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/7ee1e8a0d6e0e220e351f07cc246d9ee",
+          "photoUrl": "/api/photo/7ee1e8a0d6e0e220e351f07cc246d9ee",
           "facebook": "https://www.facebook.com/profile.php?id=100007714446897",
           "isIncumbent": true
         }
@@ -728,12 +728,12 @@
         "district": "5",
         "name": "周議員 駿宥",
         "before": {
-          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/9d025fdbe21a1c275e63ff9554180054",
+          "photoUrl": "/api/photo/9d025fdbe21a1c275e63ff9554180054",
           "facebook": "",
           "isIncumbent": true
         },
         "after": {
-          "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/9d025fdbe21a1c275e63ff9554180054",
+          "photoUrl": "/api/photo/9d025fdbe21a1c275e63ff9554180054",
           "facebook": "https://www.facebook.com/tfa.jay",
           "isIncumbent": true
         }

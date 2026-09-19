@@ -30,11 +30,11 @@
       "district": "1",
       "name": "黃瀞瑩",
       "before": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/b16c98bde45d966fc8a20ab21d21282b",
+        "photoUrl": "/api/photo/b16c98bde45d966fc8a20ab21d21282b",
         "facebook": ""
       },
       "after": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/b16c98bde45d966fc8a20ab21d21282b",
+        "photoUrl": "/api/photo/b16c98bde45d966fc8a20ab21d21282b",
         "facebook": "https://www.facebook.com/chingyin81610"
       }
     },
@@ -42,11 +42,11 @@
       "district": "1",
       "name": "林延鳳",
       "before": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/a4b6bb5d49e576778642daa0e84197bf",
+        "photoUrl": "/api/photo/a4b6bb5d49e576778642daa0e84197bf",
         "facebook": ""
       },
       "after": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/a4b6bb5d49e576778642daa0e84197bf",
+        "photoUrl": "/api/photo/a4b6bb5d49e576778642daa0e84197bf",
         "facebook": "https://www.facebook.com/callmeifeng"
       }
     },
@@ -54,11 +54,11 @@
       "district": "1",
       "name": "鍾佩玲",
       "before": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/ca13d5c6b1b07c34964358bf4cfeeac7",
+        "photoUrl": "/api/photo/ca13d5c6b1b07c34964358bf4cfeeac7",
         "facebook": ""
       },
       "after": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/ca13d5c6b1b07c34964358bf4cfeeac7",
+        "photoUrl": "/api/photo/ca13d5c6b1b07c34964358bf4cfeeac7",
         "facebook": "https://www.facebook.com/%E9%8D%BE%E4%BD%A9%E7%8E%B2-%E9%8D%BE%E6%84%9B%E5%8F%B0%E5%8C%97-222383101150490"
       }
     },
@@ -66,11 +66,11 @@
       "district": "1",
       "name": "林杏兒",
       "before": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/fc5a62227a567569511cebac147bd950",
+        "photoUrl": "/api/photo/fc5a62227a567569511cebac147bd950",
         "facebook": ""
       },
       "after": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/fc5a62227a567569511cebac147bd950",
+        "photoUrl": "/api/photo/fc5a62227a567569511cebac147bd950",
         "facebook": "https://www.facebook.com/hao232555"
       }
     },
@@ -78,11 +78,11 @@
       "district": "1",
       "name": "陳賢蔚",
       "before": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/fdcb5001d4a485dacac93438f370dcb2",
+        "photoUrl": "/api/photo/fdcb5001d4a485dacac93438f370dcb2",
         "facebook": ""
       },
       "after": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/fdcb5001d4a485dacac93438f370dcb2",
+        "photoUrl": "/api/photo/fdcb5001d4a485dacac93438f370dcb2",
         "facebook": "https://www.facebook.com/bestserviceforTPE"
       }
     },
@@ -90,11 +90,11 @@
       "district": "1",
       "name": "張斯綱",
       "before": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/63abc2853caa40e09fa66543254a44b0",
+        "photoUrl": "/api/photo/63abc2853caa40e09fa66543254a44b0",
         "facebook": ""
       },
       "after": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/63abc2853caa40e09fa66543254a44b0",
+        "photoUrl": "/api/photo/63abc2853caa40e09fa66543254a44b0",
         "facebook": "https://www.facebook.com/szukang.chang"
       }
     },
@@ -102,11 +102,11 @@
       "district": "1",
       "name": "陳慈慧",
       "before": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/9410bb5457e7c97845bf011c0568e554",
+        "photoUrl": "/api/photo/9410bb5457e7c97845bf011c0568e554",
         "facebook": ""
       },
       "after": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/9410bb5457e7c97845bf011c0568e554",
+        "photoUrl": "/api/photo/9410bb5457e7c97845bf011c0568e554",
         "facebook": "https://www.facebook.com/amber.chen.5682"
       }
     },
@@ -114,11 +114,11 @@
       "district": "2",
       "name": "陳宥丞",
       "before": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/2d20d711976b19a039fd74e729e86ba0",
+        "photoUrl": "/api/photo/2d20d711976b19a039fd74e729e86ba0",
         "facebook": ""
       },
       "after": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/2d20d711976b19a039fd74e729e86ba0",
+        "photoUrl": "/api/photo/2d20d711976b19a039fd74e729e86ba0",
         "facebook": "https://www.facebook.com/Ntuyoyo"
       }
     },
@@ -126,11 +126,11 @@
       "district": "3",
       "name": "張文潔",
       "before": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/f888fb134acf0909876833df60a30e61",
+        "photoUrl": "/api/photo/f888fb134acf0909876833df60a30e61",
         "facebook": ""
       },
       "after": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/f888fb134acf0909876833df60a30e61",
+        "photoUrl": "/api/photo/f888fb134acf0909876833df60a30e61",
         "facebook": "https://www.facebook.com/wenjbrighttpe"
       }
     },
@@ -138,11 +138,11 @@
       "district": "3",
       "name": "許淑華",
       "before": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/4b10d21e56a2ec185bb266430a10b3d0",
+        "photoUrl": "/api/photo/4b10d21e56a2ec185bb266430a10b3d0",
         "facebook": ""
       },
       "after": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/4b10d21e56a2ec185bb266430a10b3d0",
+        "photoUrl": "/api/photo/4b10d21e56a2ec185bb266430a10b3d0",
         "facebook": "https://www.facebook.com/shua0522"
       }
     },
@@ -150,11 +150,11 @@
       "district": "3",
       "name": "詹為元",
       "before": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/ad33d1216d6ab54357d1562afb2af5ff",
+        "photoUrl": "/api/photo/ad33d1216d6ab54357d1562afb2af5ff",
         "facebook": ""
       },
       "after": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/ad33d1216d6ab54357d1562afb2af5ff",
+        "photoUrl": "/api/photo/ad33d1216d6ab54357d1562afb2af5ff",
         "facebook": "https://www.facebook.com/cyu2019"
       }
     },
@@ -162,11 +162,11 @@
       "district": "3",
       "name": "秦慧珠",
       "before": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/6099615b3232132cadd82cb749c4aaff",
+        "photoUrl": "/api/photo/6099615b3232132cadd82cb749c4aaff",
         "facebook": ""
       },
       "after": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/6099615b3232132cadd82cb749c4aaff",
+        "photoUrl": "/api/photo/6099615b3232132cadd82cb749c4aaff",
         "facebook": "https://www.facebook.com/winner.helen"
       }
     },
@@ -174,11 +174,11 @@
       "district": "4",
       "name": "顏若芳",
       "before": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/2ef5ddca385e43901440225b18d9293a",
+        "photoUrl": "/api/photo/2ef5ddca385e43901440225b18d9293a",
         "facebook": ""
       },
       "after": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/2ef5ddca385e43901440225b18d9293a",
+        "photoUrl": "/api/photo/2ef5ddca385e43901440225b18d9293a",
         "facebook": "https://www.facebook.com/yengafang"
       }
     },
@@ -186,11 +186,11 @@
       "district": "4",
       "name": "柳采葳",
       "before": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/442fc2ca2058a4b60949888a42b43e02",
+        "photoUrl": "/api/photo/442fc2ca2058a4b60949888a42b43e02",
         "facebook": ""
       },
       "after": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/442fc2ca2058a4b60949888a42b43e02",
+        "photoUrl": "/api/photo/442fc2ca2058a4b60949888a42b43e02",
         "facebook": "https://www.facebook.com/findtheweiwei"
       }
     },
@@ -198,11 +198,11 @@
       "district": "4",
       "name": "林珍羽",
       "before": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/1d95afa915fa900db81321a027eec535",
+        "photoUrl": "/api/photo/1d95afa915fa900db81321a027eec535",
         "facebook": ""
       },
       "after": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/1d95afa915fa900db81321a027eec535",
+        "photoUrl": "/api/photo/1d95afa915fa900db81321a027eec535",
         "facebook": "https://www.facebook.com/cyu414"
       }
     },
@@ -210,11 +210,11 @@
       "district": "4",
       "name": "陳怡君",
       "before": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/e7305c60443118617c639118a7de7f03",
+        "photoUrl": "/api/photo/e7305c60443118617c639118a7de7f03",
         "facebook": ""
       },
       "after": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/e7305c60443118617c639118a7de7f03",
+        "photoUrl": "/api/photo/e7305c60443118617c639118a7de7f03",
         "facebook": "https://www.facebook.com/Chen.E.Jun"
       }
     },
@@ -222,11 +222,11 @@
       "district": "5",
       "name": "郭昭巖",
       "before": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/78a28c7f44571092af7f4e2d7e581b7c",
+        "photoUrl": "/api/photo/78a28c7f44571092af7f4e2d7e581b7c",
         "facebook": ""
       },
       "after": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/78a28c7f44571092af7f4e2d7e581b7c",
+        "photoUrl": "/api/photo/78a28c7f44571092af7f4e2d7e581b7c",
         "facebook": "https://www.facebook.com/kuochaoyencafe"
       }
     },
@@ -234,11 +234,11 @@
       "district": "5",
       "name": "洪婉臻",
       "before": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/dc735f5dc41588b55ebb8bd438ab1583",
+        "photoUrl": "/api/photo/dc735f5dc41588b55ebb8bd438ab1583",
         "facebook": ""
       },
       "after": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/dc735f5dc41588b55ebb8bd438ab1583",
+        "photoUrl": "/api/photo/dc735f5dc41588b55ebb8bd438ab1583",
         "facebook": "https://www.facebook.com/HWJocelyn"
       }
     },
@@ -246,11 +246,11 @@
       "district": "6",
       "name": "苗博雅",
       "before": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/6bbf8041a364e1a806137b2e069285aa",
+        "photoUrl": "/api/photo/6bbf8041a364e1a806137b2e069285aa",
         "facebook": ""
       },
       "after": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/6bbf8041a364e1a806137b2e069285aa",
+        "photoUrl": "/api/photo/6bbf8041a364e1a806137b2e069285aa",
         "facebook": "https://www.facebook.com/miaopoya.sdp"
       }
     },
@@ -258,11 +258,11 @@
       "district": "6",
       "name": "曾獻瑩",
       "before": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/01d079c05aac2ed302f31756a11ccaae",
+        "photoUrl": "/api/photo/01d079c05aac2ed302f31756a11ccaae",
         "facebook": ""
       },
       "after": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/01d079c05aac2ed302f31756a11ccaae",
+        "photoUrl": "/api/photo/01d079c05aac2ed302f31756a11ccaae",
         "facebook": "https://www.facebook.com/politicsfromfamily"
       }
     },
@@ -270,11 +270,11 @@
       "district": "6",
       "name": "徐弘庭",
       "before": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/6f884e5bbe64f2b3167e3c3ed8c7f04d",
+        "photoUrl": "/api/photo/6f884e5bbe64f2b3167e3c3ed8c7f04d",
         "facebook": ""
       },
       "after": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/6f884e5bbe64f2b3167e3c3ed8c7f04d",
+        "photoUrl": "/api/photo/6f884e5bbe64f2b3167e3c3ed8c7f04d",
         "facebook": "https://www.facebook.com/WilliamHsu19820621"
       }
     },
@@ -282,11 +282,11 @@
       "district": "6",
       "name": "楊植斗",
       "before": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/57b0441ec73d1328c360377757894078",
+        "photoUrl": "/api/photo/57b0441ec73d1328c360377757894078",
         "facebook": ""
       },
       "after": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/57b0441ec73d1328c360377757894078",
+        "photoUrl": "/api/photo/57b0441ec73d1328c360377757894078",
         "facebook": "https://www.facebook.com/tepdj"
       }
     },
@@ -294,11 +294,11 @@
       "district": "6",
       "name": "耿葳",
       "before": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/838e384f28db0a9ad2e3ad52b9f44d1d",
+        "photoUrl": "/api/photo/838e384f28db0a9ad2e3ad52b9f44d1d",
         "facebook": ""
       },
       "after": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/838e384f28db0a9ad2e3ad52b9f44d1d",
+        "photoUrl": "/api/photo/838e384f28db0a9ad2e3ad52b9f44d1d",
         "facebook": "https://www.facebook.com/thewei"
       }
     },
@@ -306,11 +306,11 @@
       "district": "6",
       "name": "張志豪",
       "before": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/f8873a7a72bae37a5a20751f59a9f3ed",
+        "photoUrl": "/api/photo/f8873a7a72bae37a5a20751f59a9f3ed",
         "facebook": ""
       },
       "after": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/f8873a7a72bae37a5a20751f59a9f3ed",
+        "photoUrl": "/api/photo/f8873a7a72bae37a5a20751f59a9f3ed",
         "facebook": "https://www.facebook.com/firechc119"
       }
     },
@@ -318,11 +318,11 @@
       "district": "7",
       "name": "李芳儒",
       "before": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/ae49f94cbf2b95dc98e31c1633583faf",
+        "photoUrl": "/api/photo/ae49f94cbf2b95dc98e31c1633583faf",
         "facebook": ""
       },
       "after": {
-        "photoUrl": "https://election-api.uprisevideoproduction.workers.dev/api/photo/ae49f94cbf2b95dc98e31c1633583faf",
+        "photoUrl": "/api/photo/ae49f94cbf2b95dc98e31c1633583faf",
         "facebook": "https://www.facebook.com/leebanul"
       }
     }
