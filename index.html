@@ -1655,10 +1655,13 @@ class App {
     const s = S[key]; return `<svg viewBox="0 0 24 24" width="15" height="15"><circle cx="12" cy="12" r="12" fill="${s.bg}"/>${s.svg}</svg>`;
   }
   _card(c) {
+    // 安全：所有來自 KV / 資料檔的字串在放進 innerHTML 前一律跳脫；連結只接受 http(s) 與站內路徑
+    const esc = v => String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+    const safeUrl = v => { const u = String(v || '').trim(); return /^https?:\/\/[^\s"'<>]+$/i.test(u) || /^\/(?!\/)[^\s"'<>\\]*$/.test(u) ? esc(u) : ''; };
     const fmtVotes = v => {
       if (v == null || v === '') return null;
       const n = Number(String(v).replace(/[,\s票]/g, ''));
-      return Number.isFinite(n) && n > 0 ? n.toLocaleString('en-US') + ' 票' : String(v);
+      return Number.isFinite(n) && n > 0 ? n.toLocaleString('en-US') + ' 票' : esc(v);
     };
     const thisVotes = fmtVotes(c.votes);
     const prevVotes = fmtVotes(c.prevVotes);
@@ -1673,19 +1676,19 @@ class App {
       ${voteCell('本期得票', thisVotes, '未開票')}
       ${c.isIncumbent ? voteCell('上期得票', prevVotes, '資料待補') : ''}
     </div>`;
-    const gazette = c.gazetteUrl
-      ? `<a href="${c.gazetteUrl}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border-radius:999px;background:#E4022B;color:#fff;font:800 13px 'Noto Sans TC'">查閱官方選舉公報 (PDF) →</a>`
+    const gazette = safeUrl(c.gazetteUrl)
+      ? `<a href="${safeUrl(c.gazetteUrl)}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border-radius:999px;background:#E4022B;color:#fff;font:800 13px 'Noto Sans TC'">查閱官方選舉公報 (PDF) →</a>`
       : '';
-    const taiwanGoGo = c.taiwanGoGoUrl
-      ? `<a href="${c.taiwanGoGoUrl}" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border-radius:999px;background:transparent;border:1.5px solid #E4022B;color:#ff5a74;font:800 13px 'Noto Sans TC'">查看參選人刑事紀錄圖鑑 →</a>`
+    const taiwanGoGo = safeUrl(c.taiwanGoGoUrl)
+      ? `<a href="${safeUrl(c.taiwanGoGoUrl)}" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border-radius:999px;background:transparent;border:1.5px solid #E4022B;color:#ff5a74;font:800 13px 'Noto Sans TC'">查看參選人刑事紀錄圖鑑 →</a>`
       : '';
     const map = { facebook: 'Facebook', instagram: 'Instagram', threads: 'Threads', youtube: 'YouTube' };
-    const socials = ['facebook', 'instagram', 'threads', 'youtube'].filter(k => c[k]);
-    const socialBlock = socials.length ? `<div style="display:flex;flex-wrap:wrap;gap:7px">${socials.map(k => `<a href="${c[k]}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;padding:4px 13px 4px 8px;border-radius:999px;background:#26231f;font-size:11px;font-weight:700;color:#c9c2b6">${this._socialIcon(k)}<span>${map[k]}</span></a>`).join('')}</div>` : '';
-    const ch = (c.name || '').slice(0, 1);
+    const socials = ['facebook', 'instagram', 'threads', 'youtube'].filter(k => safeUrl(c[k]));
+    const socialBlock = socials.length ? `<div style="display:flex;flex-wrap:wrap;gap:7px">${socials.map(k => `<a href="${safeUrl(c[k])}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;padding:4px 13px 4px 8px;border-radius:999px;background:#26231f;font-size:11px;font-weight:700;color:#c9c2b6">${this._socialIcon(k)}<span>${map[k]}</span></a>`).join('')}</div>` : '';
+    const ch = esc((c.name || '').slice(0, 1));
     // data-fb 屬性存首字，onerror 時安全替換，避免字串插值問題
-    const avatar = c.photoUrl
-      ? `<img src="${c.photoUrl}" alt="" loading="lazy" data-fb="${ch}" style="width:100%;height:100%;object-fit:cover;object-position:center 20%" onerror="this.style.display='none';this.parentNode.dataset.fb&&(this.parentNode.textContent=this.parentNode.dataset.fb)" referrerpolicy="no-referrer">`
+    const avatar = safeUrl(c.photoUrl)
+      ? `<img src="${safeUrl(c.photoUrl)}" alt="" loading="lazy" data-fb="${ch}" style="width:100%;height:100%;object-fit:cover;object-position:center 20%" onerror="this.style.display='none';this.parentNode.dataset.fb&&(this.parentNode.textContent=this.parentNode.dataset.fb)" referrerpolicy="no-referrer">`
       : ch;
     const cardStyle = isWin
       ? 'background:linear-gradient(180deg,#241d0f 0%,#1c1916 42%);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:13px;border:1.5px solid #f6c945;box-shadow:0 0 0 1px rgba(246,201,69,.25),0 14px 40px rgba(246,201,69,.14)'
@@ -1699,10 +1702,10 @@ class App {
         <div class="candidate-photo" data-fb="${ch}"${isWin ? ' style="box-shadow:0 0 0 2px #f6c945"' : ''}>${avatar}</div>
         <div style="min-width:0;flex:1">
           <div class="candidate-title-row">
-            <h4 style="font-family:'Noto Sans TC','Archivo';font-weight:900;font-size:20px;line-height:1.25;margin:0;letter-spacing:0;color:#f4f1ea">${c.name}</h4>
+            <h4 style="font-family:'Noto Sans TC','Archivo';font-weight:900;font-size:20px;line-height:1.25;margin:0;letter-spacing:0;color:#f4f1ea">${esc(c.name)}</h4>
             ${c.isIncumbent ? '<span style="flex:none;padding:4px 11px;border-radius:999px;background:#16301c;color:#7fd598;font-size:11px;font-weight:800">爭取連任</span>' : ''}
           </div>
-          <div style="display:flex;align-items:center;gap:8px;margin-top:5px;flex-wrap:wrap"><span style="color:#c9c2b6;display:inline-flex;align-items:center;gap:8px">${this._partyChip(c.party)}<span style="font-size:12.5px;font-weight:700">${c.party}</span></span><span style="width:4px;height:4px;border-radius:50%;background:#4d483f"></span><span style="font-size:12px;font-weight:800;color:#ff5a74">${c.role || ''}</span></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:5px;flex-wrap:wrap"><span style="color:#c9c2b6;display:inline-flex;align-items:center;gap:8px">${this._partyChip(c.party)}<span style="font-size:12.5px;font-weight:700">${esc(c.party)}</span></span><span style="width:4px;height:4px;border-radius:50%;background:#4d483f"></span><span style="font-size:12px;font-weight:800;color:#ff5a74">${esc(c.role)}</span></div>
         </div>
       </div>
       ${votesBlock}${socialBlock}${taiwanGoGo}${gazette}

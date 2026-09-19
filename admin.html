@@ -939,9 +939,21 @@
       });
       photoInput.addEventListener('input', () => {
         const url = photoInput.value.trim();
-        photoPreview.innerHTML = url
-          ? `<img src="${url}" referrerpolicy="no-referrer" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='<span class=&quot;text-accent-red text-[9px] font-bold&quot;>失敗</span>'">`
-          : '';
+        photoPreview.textContent = '';
+        if (url && /^(https?:\/\/[^\s"'<>]+|\/(?!\/)[^\s"'<>\\]*)$/i.test(url)) {
+          const img = document.createElement('img');
+          img.src = url;
+          img.referrerPolicy = 'no-referrer';
+          img.className = 'w-full h-full object-cover';
+          img.onerror = () => {
+            photoPreview.textContent = '';
+            const fail = document.createElement('span');
+            fail.className = 'text-accent-red text-[9px] font-bold';
+            fail.textContent = '失敗';
+            photoPreview.appendChild(fail);
+          };
+          photoPreview.appendChild(img);
+        }
       });
       lucide.createIcons();
     };
