@@ -33,6 +33,12 @@ const verified = {
   '詹智翔': {
     facebook: 'https://www.facebook.com/profile.php?id=61572317135945',
   },
+  '蔡怡萱': {
+    facebook: 'https://www.facebook.com/syuan0701',
+  },
+  '劉芩妤': {
+    photoUrl: 'https://mimi168.tw/images/hero-mimi.png',
+  },
 };
 
 const topo = JSON.parse(await readFile(FILE, 'utf8'));
