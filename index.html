@@ -10,15 +10,15 @@
 <meta property="og:site_name" content="島民觀察室｜Formosa Watch">
 <meta property="og:title" content="島民選舉地圖">
 <meta property="og:description" content="用資料，看懂我們生活的這座島。">
-<meta property="og:url" content="https://taiwan-election-map.uprisevideoproduction.workers.dev/">
-<meta property="og:image" content="https://taiwan-election-map.uprisevideoproduction.workers.dev/social-preview.png">
+<meta property="og:url" content="https://formosawatch.tw/">
+<meta property="og:image" content="https://formosawatch.tw/social-preview.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="島民選舉地圖">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="島民觀察室｜Formosa Watch · 島民選舉地圖">
 <meta name="twitter:description" content="用資料，看懂我們生活的這座島。">
-<meta name="twitter:image" content="https://taiwan-election-map.uprisevideoproduction.workers.dev/social-preview.png">
+<meta name="twitter:image" content="https://formosawatch.tw/social-preview.png">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
@@ -167,13 +167,13 @@
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://unpkg.com/topojson-client@3/dist/topojson-client.min.js"></script>
+<script src="/site-config.js"></script>
 <script>
   /* =====================================================================
      後台校閱資料（候選人照片、社群連結、席次等）由 Cloudflare Worker + KV 供應。
      後台校閱資料由 election-api Worker 的 overrides endpoint 提供。
      若 API 暫時無法連線，仍會退回顯示 data/ 內的原始候選人資料。
      ===================================================================== */
-  window.ELECTION_API_BASE = 'https://election-api.uprisevideoproduction.workers.dev';
   window.OVERRIDES_URL = `${window.ELECTION_API_BASE}/?key=overrides`;
 </script>
 <script>
@@ -446,8 +446,10 @@
             <h1 style="font-family:'Noto Sans TC','Archivo',sans-serif;font-weight:900;font-size:clamp(38px,7vw,88px);line-height:.98;letter-spacing:-.03em;margin:0 0 24px;text-wrap:balance">一起把資料<br>做得<span style="color:#E4022B">更準確</span>。</h1>
             <p style="max-width:520px;margin:0;color:#a29c92;font-size:16px;line-height:1.8">發現候選人資料、照片、社群連結或選區資訊需要更正，請直接告訴我們。每一筆內容都會由維護團隊校閱。</p>
             <div style="margin-top:30px;padding-top:22px;border-top:1px solid #2a2723">
-              <div style="font-family:'Archivo';font-size:11px;font-weight:700;letter-spacing:.16em;color:#8a857c">電子郵件</div>
-              <a href="mailto:Uprisevideoproduction@gmail.com" style="display:inline-block;margin-top:7px;font-family:'Archivo';font-size:18px;font-weight:800;color:#f4f1ea;word-break:break-all">Uprisevideoproduction@gmail.com</a>
+              <div style="font-family:'Archivo';font-size:11px;font-weight:700;letter-spacing:.16em;color:#8a857c">一般聯絡</div>
+              <a href="mailto:hello@formosawatch.tw" style="display:inline-block;margin-top:7px;font-family:'Archivo';font-size:18px;font-weight:800;color:#f4f1ea;word-break:break-all">hello@formosawatch.tw</a>
+              <div style="font-family:'Archivo';font-size:11px;font-weight:700;letter-spacing:.16em;color:#8a857c;margin-top:20px">資料更正</div>
+              <a href="mailto:data@formosawatch.tw" style="display:inline-block;margin-top:7px;font-family:'Archivo';font-size:18px;font-weight:800;color:#f4f1ea;word-break:break-all">data@formosawatch.tw</a>
             </div>
           </section>
           <form id="contact-form" style="background:#1c1916;border:1px solid #2a2723;border-radius:8px;padding:clamp(20px,3vw,34px);display:grid;gap:15px">
@@ -482,7 +484,7 @@ class App {
   init() {
     this.target = new Date('2026-11-28T08:00:00+08:00').getTime();
     this._setElectionPhase();
-    this.apiBase = window.ELECTION_API_BASE || 'https://election-api.uprisevideoproduction.workers.dev';
+    this.apiBase = (window.ELECTION_API_BASE ?? '');
     this._revealed = false;
     this.cache = {};
     this._navigationRevision = 0;
@@ -1687,8 +1689,9 @@ class App {
     const socialBlock = socials.length ? `<div style="display:flex;flex-wrap:wrap;gap:7px">${socials.map(k => `<a href="${safeUrl(c[k])}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;padding:4px 13px 4px 8px;border-radius:999px;background:#26231f;font-size:11px;font-weight:700;color:#c9c2b6">${this._socialIcon(k)}<span>${map[k]}</span></a>`).join('')}</div>` : '';
     const ch = esc((c.name || '').slice(0, 1));
     // data-fb 屬性存首字，onerror 時安全替換，避免字串插值問題
-    const avatar = safeUrl(c.photoUrl)
-      ? `<img src="${safeUrl(c.photoUrl)}" alt="" loading="lazy" data-fb="${ch}" style="width:100%;height:100%;object-fit:cover;object-position:center 20%" onerror="this.style.display='none';this.parentNode.dataset.fb&&(this.parentNode.textContent=this.parentNode.dataset.fb)" referrerpolicy="no-referrer">`
+    const photoSrc = v => { const u = String(v || '').trim(); const m = u.match(/^(?:https?:\/\/[^\/]+\.workers\.dev)?(\/api\/photo\/[0-9a-f]+)$/i); return m ? (window.ELECTION_API_BASE ?? '') + m[1] : u; };
+    const avatar = safeUrl(photoSrc(c.photoUrl))
+      ? `<img src="${safeUrl(photoSrc(c.photoUrl))}" alt="" loading="lazy" data-fb="${ch}" style="width:100%;height:100%;object-fit:cover;object-position:center 20%" onerror="this.style.display='none';this.parentNode.dataset.fb&&(this.parentNode.textContent=this.parentNode.dataset.fb)" referrerpolicy="no-referrer">`
       : ch;
     const cardStyle = isWin
       ? 'background:linear-gradient(180deg,#241d0f 0%,#1c1916 42%);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:13px;border:1.5px solid #f6c945;box-shadow:0 0 0 1px rgba(246,201,69,.25),0 14px 40px rgba(246,201,69,.14)'

@@ -4,7 +4,7 @@ compatibility_date = "2026-09-16"
 preview_urls = false
 
 [vars]
-ALLOWED_ORIGINS = "https://taiwan-election-map.uprisevideoproduction.workers.dev"
+ALLOWED_ORIGINS = "https://formosawatch.tw,https://www.formosawatch.tw,https://taiwan-election-map.uprisevideoproduction.workers.dev"
 ADMIN_REDIRECT_URL = "https://taiwan-election-map.uprisevideoproduction.workers.dev/admin.html"
 ENABLE_CF_ACCESS_AUTH = "true"
 # Only this Access-authenticated account may use the admin API.

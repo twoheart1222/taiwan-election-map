@@ -47,8 +47,8 @@ npx wrangler kv key put overrides --binding ELECTION_KV --path .\overrides.json 
 目前正式環境已完成以下設定：
 
 1. Cloudflare Zero Trust Free 已啟用。
-2. Access application 保護 `https://election-api.uprisevideoproduction.workers.dev/api/admin/*`。
-3. Policy `Taiwan Election Admin` 只允許 `Uprisevideoproduction@gmail.com`。
+2. Access application 保護 `https://<你的 API 網域>/api/admin/*`。
+3. Policy `Taiwan Election Admin` 只允許 `<管理者 Email>`。
 4. `wrangler.api.toml` 的 `ENABLE_CF_ACCESS_AUTH` 已設為 `"true"`。
 5. Worker 的 `ADMIN_EMAILS` 也限制為相同信箱，作為第二層檢查。
 
@@ -82,13 +82,13 @@ npm run deploy:api
 部署後確認公開 API：
 
 ```bash
-curl "https://election-api.uprisevideoproduction.workers.dev/?key=election_summary"
+curl "https://<你的 API 網域>/?key=election_summary"
 ```
 
 確認後台 API：
 
 ```bash
-curl "https://election-api.uprisevideoproduction.workers.dev/api/admin/me" ^
+curl "https://<你的 API 網域>/api/admin/me" ^
   -H "Authorization: Bearer 你的_ADMIN_TOKEN"
 ```
 
@@ -96,7 +96,7 @@ PowerShell：
 
 ```powershell
 Invoke-WebRequest `
-  -Uri "https://election-api.uprisevideoproduction.workers.dev/api/admin/me" `
+  -Uri "https://<你的 API 網域>/api/admin/me" `
   -Headers @{ Authorization = "Bearer 你的_ADMIN_TOKEN" }
 ```
 

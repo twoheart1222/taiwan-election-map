@@ -294,7 +294,9 @@ async function handlePublicGet(request, env, url) {
     return jsonResponse(request, env, { error: '找不到資料' }, { status: 404 });
   }
 
-  return textResponse(request, env, raw, {
+  // 已快取照片一律以相對路徑 /api/photo/<hash> 對外輸出，資料中不留任何網域。
+  const body = raw.replace(/https?:\/\/[a-z0-9.-]+\.workers\.dev(\/api\/photo\/[0-9a-f]+)/gi, '$1');
+  return textResponse(request, env, body, {
     status: 200,
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
@@ -318,7 +320,7 @@ async function handleAdmin(request, env, url) {
   const path = url.pathname.replace(/^\/api\/admin\/?/, '');
 
   if (request.method === 'GET' && path === 'login') {
-    const destination = env.ADMIN_REDIRECT_URL || 'https://taiwan-election-map.uprisevideoproduction.workers.dev/admin.html';
+    const destination = env.ADMIN_REDIRECT_URL || '/admin.html';
     const redirectUrl = new URL(destination);
     // 只允許導向白名單網域，避免 open redirect
     if (!allowedOrigins(env).includes(redirectUrl.origin)) {

@@ -248,8 +248,9 @@
     </section>
   </main>
 
+  <script src="/site-config.js"></script>
   <script>
-    const API_BASE = window.ELECTION_API_BASE || 'https://election-api.uprisevideoproduction.workers.dev';
+    const API_BASE = window.ELECTION_API_BASE ?? '';
 
     let currentUser = null;
     let allOverrides = {};
@@ -296,8 +297,8 @@
     function isCachedPhotoUrl(value) {
       if (!value) return false;
       try {
-        const photo = new URL(value, API_BASE);
-        const api = new URL(API_BASE);
+        const photo = new URL(value, API_BASE || location.origin);
+        const api = new URL(API_BASE || location.origin);
         return photo.origin === api.origin && photo.pathname.startsWith('/api/photo/');
       } catch (_) {
         return false;
@@ -366,7 +367,7 @@
           const sourceUrl = sources[cursor++];
           try {
             const result = await apiFetch('/api/admin/cache-photo', { method: 'POST', body: JSON.stringify({ url: sourceUrl }) });
-            replacements.set(sourceUrl, apiUrl(result.cachedUrl));
+            replacements.set(sourceUrl, result.cachedUrl);
           } catch (err) {
             failures.push({ url: sourceUrl, message: err.message });
           }
@@ -901,7 +902,7 @@
           <input placeholder="照片網址（右鍵複製圖片網址貼在此）" class="c-photourl flex-1 bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.photoUrl || '')}">
           <button type="button" class="c-cachephoto shrink-0 px-2 py-1.5 rounded-lg border border-ink-300 bg-surface text-[10px] font-bold text-ink-700 hover:bg-ink-900 hover:text-surface" title="把外部照片抓下來存到自己的網域，避免每個訪客的瀏覽器直接連到來源網站">快取</button>
           <div class="c-photopreview w-8 h-8 rounded-lg border border-ink-300 bg-surface shrink-0 overflow-hidden flex items-center justify-center">
-            ${c.photoUrl ? `<img src="${escapeAttr(c.photoUrl)}" referrerpolicy="no-referrer" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='<span class=&quot;text-accent-red text-[9px] font-bold&quot;>失敗</span>'">` : ''}
+            ${c.photoUrl ? `<img src="${escapeAttr(/^\/api\/photo\//.test(c.photoUrl) ? apiUrl(c.photoUrl) : c.photoUrl)}" referrerpolicy="no-referrer" class="w-full h-full object-cover" onerror="this.parentElement.innerHTML='<span class=&quot;text-accent-red text-[9px] font-bold&quot;>失敗</span>'">` : ''}
           </div>
         </div>
       `;
@@ -926,7 +927,7 @@
             method: 'POST',
             body: JSON.stringify({ url }),
           });
-          photoInput.value = apiUrl(data.cachedUrl);
+          photoInput.value = data.cachedUrl;
           photoInput.dispatchEvent(new Event('input'));
           cacheBtn.textContent = '✓ 已快取';
           setTimeout(() => { cacheBtn.textContent = '快取'; }, 2000);
@@ -942,7 +943,7 @@
         photoPreview.textContent = '';
         if (url && /^(https?:\/\/[^\s"'<>]+|\/(?!\/)[^\s"'<>\\]*)$/i.test(url)) {
           const img = document.createElement('img');
-          img.src = url;
+          img.src = /^\/api\/photo\//.test(url) ? apiUrl(url) : url;
           img.referrerPolicy = 'no-referrer';
           img.className = 'w-full h-full object-cover';
           img.onerror = () => {
