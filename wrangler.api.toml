@@ -14,8 +14,8 @@ ADMIN_EMAILS = "Uprisevideoproduction@gmail.com"
 # Zero Trust → Access → Applications → 你的 Application → 複製 "Application Audience (AUD) Tag"
 # Team domain 在 Zero Trust → Settings → Custom Pages 可看到（xxxx.cloudflareaccess.com）
 # 填好後取消註解並重新部署：
-# CF_ACCESS_TEAM_DOMAIN = "你的team.cloudflareaccess.com"
-# CF_ACCESS_AUD = "貼上 AUD tag"
+CF_ACCESS_TEAM_DOMAIN = "damp-river-0d95.cloudflareaccess.com"
+CF_ACCESS_AUD = "11bb1fe1d2f8439e9b4a124268256443d83cb558f144e7a13df79a4ff8e43b84"
 
 [observability]
 enabled = true
