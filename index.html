@@ -34,6 +34,12 @@
   .cand-scroll::-webkit-scrollbar{width:7px}.cand-scroll::-webkit-scrollbar-track{background:transparent}.cand-scroll::-webkit-scrollbar-thumb{background:#33302b;border-radius:999px}
   .cand-scroll{overscroll-behavior:contain;touch-action:pan-y;-webkit-overflow-scrolling:touch}
   .dsel{width:100%;-webkit-appearance:none;appearance:none;background:#1f1c19 url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23E4022B' stroke-width='3' stroke-linecap='round'%3e%3cpath d='M6 9l6 6 6-6'/%3e%3c/svg%3e") no-repeat right 14px center/18px;border:1.5px solid #33302b;border-radius:12px;padding:13px 40px 13px 16px;font:700 14px 'Noto Sans TC',sans-serif;color:#f4f1ea;cursor:pointer}
+  #role-tabs{flex:none;padding:0 26px 12px;gap:8px;flex-wrap:wrap}
+  .role-tab{flex:1 1 0;min-width:0;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 8px;border:1.5px solid #33302b;background:transparent;color:#a29c92;border-radius:999px;font:800 13px 'Noto Sans TC',sans-serif;cursor:pointer;white-space:nowrap;transition:all .2s}
+  .role-tab em{font:800 11px 'Archivo','Noto Sans TC';font-style:normal;opacity:.7}
+  .role-tab:hover{border-color:#E4022B;color:#f4f1ea}
+  .role-tab.on{background:#E4022B;border-color:#E4022B;color:#fff}
+  .role-tab:focus-visible{outline:2px solid #f6c945;outline-offset:2px}
   .dsel:disabled{opacity:.5;cursor:not-allowed}
   .dsel:focus{outline:none;border-color:#E4022B}
   #sel-area{gap:8px}
@@ -306,6 +312,8 @@
               ← 上一頁
             </button>
           </div>
+          <!-- 職位分頁：縣市長 / 議員 / 村里長 -->
+          <div id="role-tabs" role="group" aria-label="選擇職位" style="display:none"></div>
           <!-- 下拉選單區 -->
           <div id="sel-area" style="flex:none;padding:0 26px 16px;display:flex;flex-direction:column;gap:10px">
             <!-- 第1層：議員選舉區 or 代表選舉區 or 村里選擇 -->
@@ -1363,32 +1371,45 @@ class App {
     const revision = ++this._navigationRevision;
     this._auto = false; this.county = { code: p.id, name: p.name, props: p };
     this.town = null; this.townFeats = []; this.villageFeats = [];
-    this._openCountyDrawer(p);
-    try {
-      const topo = await this._loadTopo(`./data/towns/towns-${p.id}.json`);
-      if (revision !== this._navigationRevision || this.county?.code !== p.id) return;
-      const feats = this._feats(topo); this.townFeats = feats;
-      this.nav = [{ level: 'county', label: '全台灣' }, { level: 'town', label: p.name, code: p.id }];
-      this._renderCrumb();
-      this._transitionMap(() => { this._buildLevel('town', feats); this._frame(feats, { pol: 0.2, dur: 0 }); }, p.name, '縣市選情 / COUNTY');
-    } catch (e) { if (revision !== this._navigationRevision) return; console.warn('drillCounty', e); this._frame([this.countyFeats.find(f => f.properties.id === p.id)], { pol: 0.7 }); this._toast('此縣市尚無鄉鎮圖層資料'); }
+    // 點擊當下就開始轉場並同步載入圖層；抽屜與地圖在轉場遮罩全蓋住時一起換上，避免抽屜先跳出、轉場才姍姍來遲。
+    const topoP = this._loadTopo(`./data/towns/towns-${p.id}.json`);
+    this._transitionMap(() => {
+      topoP.then(topo => {
+        if (revision !== this._navigationRevision || this.county?.code !== p.id) return;
+        const feats = this._feats(topo); this.townFeats = feats;
+        this.nav = [{ level: 'county', label: '全台灣' }, { level: 'town', label: p.name, code: p.id }];
+        this._renderCrumb();
+        this._buildLevel('town', feats); this._frame(feats, { pol: 0.2, dur: 0 });
+        this._openCountyDrawer(p);
+      }).catch(e => {
+        if (revision !== this._navigationRevision) return;
+        console.warn('drillCounty', e);
+        this._openCountyDrawer(p);
+        this._frame([this.countyFeats.find(f => f.properties.id === p.id)], { pol: 0.7 }); this._toast('此縣市尚無鄉鎮圖層資料');
+      });
+    }, p.name, '縣市選情 / COUNTY');
   }
   async _drillTown(p) {
     const revision = ++this._navigationRevision;
     this.town = { code: p.id, name: p.name, props: p };
     this.villageFeats = [];
-    this._openTownDrawer(p, { deferVillageLoad: true });
-    const self = this.townFeats && this.townFeats.find(f => f.properties.id === p.id);
-    if (self) this._frame([self], { pol: 0.2 });
-    try {
-      const topo = await this._loadTopo(`./data/villages/villages-${p.id}.json`);
-      if (revision !== this._navigationRevision || this.town?.code !== p.id) return;
-      const feats = this._feats(topo); this.villageFeats = feats;
-      this.nav = this.nav.slice(0, 2); this.nav.push({ level: 'village', label: p.name, code: p.id });
-      this._renderCrumb();
-      this._transitionMap(() => { this._buildLevel('village', feats); this._frame(feats, { pol: 0.16, dur: 0 }); }, p.name, '鄉鎮市區選情 / DISTRICT');
-      this._openTownDrawer(p);
-    } catch (e) { if (revision !== this._navigationRevision) return; const sel3 = document.getElementById('sel-village'); if (sel3) sel3.innerHTML = '<option>村里資料暫不可用</option>'; this._toast('此行政區尚無村里圖層資料'); }
+    const topoP = this._loadTopo(`./data/villages/villages-${p.id}.json`);
+    this._transitionMap(() => {
+      topoP.then(topo => {
+        if (revision !== this._navigationRevision || this.town?.code !== p.id) return;
+        const feats = this._feats(topo); this.villageFeats = feats;
+        this.nav = this.nav.slice(0, 2); this.nav.push({ level: 'village', label: p.name, code: p.id });
+        this._renderCrumb();
+        this._buildLevel('village', feats); this._frame(feats, { pol: 0.16, dur: 0 });
+        this._openTownDrawer(p);
+      }).catch(e => {
+        if (revision !== this._navigationRevision) return;
+        this._openTownDrawer(p);
+        const self = this.townFeats && this.townFeats.find(f => f.properties.id === p.id);
+        if (self) this._frame([self], { pol: 0.2 });
+        this._toast('此行政區尚無村里圖層資料');
+      });
+    }, p.name, '鄉鎮市區選情 / DISTRICT');
   }
   _drillVillage(p) {
     this._navigationRevision += 1;
@@ -1439,56 +1460,79 @@ class App {
   _openCountyDrawer(p) {
     this._setReadoutContext(p, 'county', p.name);
     this._drawerBase(p.name, p.category || '縣市', p.voters, p.quota || '1 席');
-    document.getElementById('drawer-title').textContent = `${p.name} 首長候選人`;
+    document.getElementById('drawer-title').textContent = p.name;
     this._hideBack();
     this._hideSel('sel-type'); this._hideSel('sel-district'); this._hideSel('sel-village');
+    this._highlightDistrict(p.id, null);
 
     const mayors = this._headCands(p);
-    const hasCouncilor = (p.councilors || []).length > 0;
+    const blocks = p.councilors || [];
+    const councilCount = blocks.reduce((a, b) => a + (b.candidates || []).length, 0);
+    const tabs = [{ key: 'mayor', label: '縣市長', count: mayors.length }];
+    if (blocks.length) tabs.push({ key: 'council', label: '議員', count: councilCount });
+    tabs.push({ key: 'village', label: '村里長', count: '' });
 
-    // 首長直接顯示
-    this._showCands(mayors);
+    const title = document.getElementById('drawer-title');
+    const goTown = (townProps) => { this._pendingRole = 'village'; this._drillTown(townProps); };
 
-    // 議員選舉區下拉
-    if (hasCouncilor) {
-      const blocks = p.councilors;
-      const sel2 = document.getElementById('sel-district');
-      sel2.innerHTML = `<option value="">── 查看議員候選人（依選舉區）──</option>` +
-        blocks.map((b, i) => `<option value="${i}">${this._districtLabel(p.id, b)}（${b.candidates.length} 人）</option>`).join('');
-      this._showSel('sel-district');
-      sel2.onchange = () => {
-        this._hideSel('sel-village');
-        const bi = sel2.value;
-        if (bi === '') {
-          this._showCands(mayors);
-          document.getElementById('drawer-title').textContent = `${p.name} 首長候選人`;
-          this._countUp(document.getElementById('stat-quota'), p.quota || '1 席');
-          this._highlightDistrict(p.id, null);
-          return;
-        }
-        const block = blocks[+bi];
-        document.getElementById('drawer-title').textContent = `${this._districtLabel(p.id, block)} 議員`;
-        this._countUp(document.getElementById('stat-quota'), this._councilQuota(p.id, block));
-        this._showCands(block.candidates);
-        this._highlightDistrict(p.id, block);
+    this._roleTabs(`county:${p.id}`, tabs, key => {
+      this._hideSel('sel-district'); this._hideSel('sel-village');
+      this._countUp(document.getElementById('stat-quota'), p.quota || '1 席');
+      this._highlightDistrict(p.id, null);
+      if (key === 'mayor') {
+        title.textContent = `${p.name} 首長候選人`;
+        this._showCands(mayors);
+      } else if (key === 'council') {
+        title.textContent = `${p.name} 議員`;
+        this._showPrompt('請選擇議員選舉區');
+        const sel2 = document.getElementById('sel-district');
+        sel2.innerHTML = `<option value="">── 選擇議員選舉區 ──</option>` +
+          blocks.map((b, i) => `<option value="${i}">${this._districtLabel(p.id, b)}（${b.candidates.length} 人）</option>`).join('');
+        this._showSel('sel-district');
+        sel2.onchange = () => {
+          this._hideSel('sel-village');
+          const bi = sel2.value;
+          if (bi === '') {
+            title.textContent = `${p.name} 議員`;
+            this._showPrompt('請選擇議員選舉區');
+            this._countUp(document.getElementById('stat-quota'), p.quota || '1 席');
+            this._highlightDistrict(p.id, null);
+            return;
+          }
+          const block = blocks[+bi];
+          title.textContent = `${this._districtLabel(p.id, block)} 議員`;
+          this._countUp(document.getElementById('stat-quota'), this._councilQuota(p.id, block));
+          this._showCands(block.candidates);
+          this._highlightDistrict(p.id, block);
 
-        // 第3層：選舉區內的鄉鎮（可跳鑽）
-        const info = this.districtMap?.[p.id]?.districts?.[block.district];
-        const towns = (info && info.towns && info.towns.length) ? info.towns : [];
-        if (towns.length && this.townFeats) {
-          const sel3 = document.getElementById('sel-village');
-          sel3.innerHTML = `<option value="">── 進一步查看鄉鎮（村里長）──</option>` +
-            towns.map(t => `<option value="${t}">${t}</option>`).join('');
-          this._showSel('sel-village');
-          sel3.onchange = () => {
-            const townName = sel3.value;
-            if (!townName) return;
-            const tf = this.townFeats.find(f => f.properties.name === townName);
-            if (tf) this._drillTown(tf.properties);
-          };
-        }
-      };
-    }
+          // 再往下：選舉區內的鄉鎮 → 村里長
+          const info = this.districtMap?.[p.id]?.districts?.[block.district];
+          const towns = (info && info.towns && info.towns.length) ? info.towns : [];
+          if (towns.length && this.townFeats) {
+            const sel3 = document.getElementById('sel-village');
+            sel3.innerHTML = `<option value="">── 再往下：選擇鄉鎮（村里長）──</option>` +
+              towns.map(t => `<option value="${t}">${t}</option>`).join('');
+            this._showSel('sel-village');
+            sel3.onchange = () => {
+              const tf = sel3.value && this.townFeats.find(f => f.properties.name === sel3.value);
+              if (tf) goTown(tf.properties);
+            };
+          }
+        };
+      } else {
+        title.textContent = `${p.name} 村里長`;
+        this._showPrompt('請選擇鄉鎮市區，再選村里');
+        const sel3 = document.getElementById('sel-village');
+        const tfs = this.townFeats || [];
+        sel3.innerHTML = `<option value="">── ${tfs.length ? '選擇鄉鎮市區（村里長）' : '鄉鎮資料暫不可用'} ──</option>` +
+          tfs.map(f => `<option value="${f.properties.id}">${f.properties.name}</option>`).join('');
+        this._showSel('sel-village');
+        sel3.onchange = () => {
+          const tf = sel3.value && tfs.find(f => f.properties.id === sel3.value);
+          if (tf) goTown(tf.properties);
+        };
+      }
+    });
   }
 
   // ═══════════════════════════════════════════════
@@ -1501,7 +1545,7 @@ class App {
     this._setReadoutContext(p, 'town', `${this.county.name} › ${p.name}`);
     const tag = p.isIndigenousDistrict ? '山地原住民區' : '行政區轄區';
     this._drawerBase(`${this.county.name} › ${p.name}`, tag, p.voters, p.quota || '1 席');
-    document.getElementById('drawer-title').textContent = `${p.name} 首長候選人`;
+    document.getElementById('drawer-title').textContent = p.name;
     this._hideBack();
     // 手機抽屜會蓋滿地圖，因此行政區層也必須提供與桌面麵包屑相同的返回路徑。
     this._showBack(() => this._goLevel(1));
@@ -1509,58 +1553,41 @@ class App {
 
     const mayors = this._headCands(p);
     const repLabel = p.isIndigenousDistrict ? '區民代表' : '鄉鎮市民代表';
-    const hasRep = (p.representatives || []).length > 0;
+    const blocks = p.representatives || [];
+    const repCount = blocks.reduce((a, b) => a + (b.candidates || []).length, 0);
+    const title = document.getElementById('drawer-title');
+    const scope = `town:${p.id}`;
+    const initial = this._roleState?.scope === scope ? this._roleState.key : (this._pendingRole || null);
+    this._pendingRole = null;
 
-    // 首長直接顯示
-    this._showCands(mayors);
-
-    // 代表選舉區
-    if (hasRep) {
-      const blocks = p.representatives;
-      const sel2 = document.getElementById('sel-district');
-      sel2.innerHTML = `<option value="">── 查看${repLabel}候選人（依選舉區）──</option>` +
-        blocks.map((b, i) => `<option value="${i}">${this._representativeDistrictLabel(p, b)}（${b.candidates.length} 人）</option>`).join('');
-      this._showSel('sel-district');
-      sel2.onchange = () => {
-        const bi = sel2.value;
-        if (bi === '') {
-          this._showCands(mayors);
-          document.getElementById('drawer-title').textContent = `${p.name} 首長候選人`;
-          return;
-        }
-        const block = blocks[+bi];
-        document.getElementById('drawer-title').textContent = `${this._representativeDistrictLabel(p, block)} ${repLabel}`;
-        this._showCands(block.candidates);
-      };
-    }
+    const tabs = [{ key: 'mayor', label: p.isIndigenousDistrict ? '區長' : '鄉鎮市區長', count: mayors.length }];
+    if (blocks.length) tabs.push({ key: 'rep', label: repLabel, count: repCount });
+    tabs.push({ key: 'village', label: '村里長', count: (this.villageFeats || []).length || '' });
 
     // 村里長下拉（需先確保 villageFeats 已載入）
     const setupVillageSel = (feats) => {
       const sel3 = document.getElementById('sel-village');
-      sel3.innerHTML = `<option value="">── 查看村里長候選人（依村里）──</option>` +
+      sel3.innerHTML = `<option value="">── 選擇村里（村里長）──</option>` +
         feats.map(f => {
           const cnt = (f.properties.candidates || []).length;
-          return `<option value="${f.properties.id}">${f.properties.name}${cnt ? `（${cnt} 人）` : ''}`;
+          return `<option value="${f.properties.id}">${f.properties.name}${cnt ? `（${cnt} 人）` : ''}</option>`;
         }).join('');
       this._showSel('sel-village');
-      // 目前選中的 village id（若有）
-      let curVid = null;
       sel3.onchange = () => {
         const vid = sel3.value;
         if (!vid) {
           this._setReadoutContext(p, 'town', `${this.county.name} › ${p.name}`);
-          this._showCands(mayors);
-          document.getElementById('drawer-title').textContent = `${p.name} 首長候選人`;
-          this._hideBack();
+          this._showPrompt('請選擇村里');
+          title.textContent = `${p.name} 村里長`;
+          this._showBack(() => this._goLevel(1));
           return;
         }
-        curVid = vid;
         const vf = feats.find(f => f.properties.id === vid);
         if (!vf) return;
         this._setReadoutContext(vf.properties, 'village', `${this.county.name} › ${p.name} › ${vf.properties.name}`);
-        document.getElementById('drawer-title').textContent = `${vf.properties.name} 村里長`;
+        title.textContent = `${vf.properties.name} 村里長`;
         this._showCands(vf.properties.candidates || []);
-        // 上一頁：回到鄉鎮 2D 地圖，並保留返回選舉區的第二層按鈕
+        // 上一頁：回到鄉鎮 2D 地圖，並保留在「村里長」分頁
         this._showBack(() => {
           this._setReadoutContext(p, 'town', `${this.county.name} › ${p.name}`);
           this._transitionMap(() => { this._buildLevel('town', this.townFeats); this._frame(this.townFeats, { pol: 0.2, dur: 0 }); }, p.name, '鄉鎮市區選情 / DISTRICT');
@@ -1571,14 +1598,39 @@ class App {
       if (options.backToDistrict) this._showBack(() => this._goLevel(1));
     };
 
-    if (this.villageFeats && this.villageFeats.length > 0) {
-      setupVillageSel(this.villageFeats);
-    } else {
-      const sel3 = document.getElementById('sel-village');
-      sel3.innerHTML = options.deferVillageLoad ? '<option>載入村里資料中...</option>' : '<option>村里資料暫不可用</option>';
-      sel3.disabled = true;
-      this._showSel('sel-village');
-    }
+    this._roleTabs(scope, tabs, key => {
+      this._hideSel('sel-district'); this._hideSel('sel-village');
+      this._showBack(() => this._goLevel(1));
+      if (key === 'mayor') {
+        title.textContent = `${p.name} 首長候選人`;
+        this._showCands(mayors);
+      } else if (key === 'rep') {
+        title.textContent = `${p.name} ${repLabel}`;
+        this._showPrompt('請選擇選舉區');
+        const sel2 = document.getElementById('sel-district');
+        sel2.innerHTML = `<option value="">── 選擇${repLabel}選舉區 ──</option>` +
+          blocks.map((b, i) => `<option value="${i}">${this._representativeDistrictLabel(p, b)}（${b.candidates.length} 人）</option>`).join('');
+        this._showSel('sel-district');
+        sel2.onchange = () => {
+          const bi = sel2.value;
+          if (bi === '') { title.textContent = `${p.name} ${repLabel}`; this._showPrompt('請選擇選舉區'); return; }
+          const block = blocks[+bi];
+          title.textContent = `${this._representativeDistrictLabel(p, block)} ${repLabel}`;
+          this._showCands(block.candidates);
+        };
+      } else {
+        title.textContent = `${p.name} 村里長`;
+        this._showPrompt('請選擇村里');
+        if (this.villageFeats && this.villageFeats.length > 0) {
+          setupVillageSel(this.villageFeats);
+        } else {
+          const sel3 = document.getElementById('sel-village');
+          sel3.innerHTML = options.deferVillageLoad ? '<option>載入村里資料中...</option>' : '<option>村里資料暫不可用</option>';
+          sel3.disabled = true;
+          this._showSel('sel-village');
+        }
+      }
+    }, initial);
   }
 
   // ═══════════════════════════════════════════════
@@ -1613,6 +1665,30 @@ class App {
   _hideBack() {
     const area = document.getElementById('back-area');
     if (area) area.style.display = 'none';
+  }
+
+  // ── 職位分頁（縣市長 / 議員 / 村里長）：開啟抽屜時不預設任何職位 ──
+  _roleTabs(scope, tabs, onPick, initial) {
+    const box = document.getElementById('role-tabs');
+    if (!box) return;
+    box.style.display = 'flex';
+    box.innerHTML = tabs.map(t => `<button type="button" class="role-tab" data-k="${t.key}" aria-pressed="false">${t.label}${t.count !== '' && t.count != null ? `<em>${t.count}</em>` : ''}</button>`).join('');
+    const pick = k => {
+      this._roleState = { scope, key: k };
+      box.querySelectorAll('.role-tab').forEach(b => { const on = b.dataset.k === k; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+      onPick(k);
+    };
+    box.querySelectorAll('.role-tab').forEach(b => b.onclick = () => pick(b.dataset.k));
+    if (initial && tabs.some(t => t.key === initial)) pick(initial);
+    else { this._roleState = { scope, key: null }; this._showPrompt('請從上方選擇要查看的職位'); }
+  }
+  _hideRoleTabs() { const box = document.getElementById('role-tabs'); if (box) { box.style.display = 'none'; box.innerHTML = ''; } }
+  _showPrompt(msg) {
+    const box = document.getElementById('candidates');
+    if (!box) return;
+    box.innerHTML = `<div style="background:#1c1916;border:1px dashed #33302b;border-radius:18px;padding:26px;text-align:center;font-size:13px;font-weight:700;color:#a29c92">${msg}</div>`;
+    box.scrollTop = 0;
+    const statReg = document.getElementById('stat-registered'); if (statReg) statReg.textContent = '--';
   }
 
   // ── Selectors show/hide ──
@@ -1682,7 +1758,7 @@ class App {
       ? `<a href="${safeUrl(c.gazetteUrl)}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border-radius:999px;background:#E4022B;color:#fff;font:800 13px 'Noto Sans TC'">查閱官方選舉公報 (PDF) →</a>`
       : '';
     const taiwanGoGo = safeUrl(c.taiwanGoGoUrl)
-      ? `<a href="${safeUrl(c.taiwanGoGoUrl)}" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border-radius:999px;background:transparent;border:1.5px solid #E4022B;color:#ff5a74;font:800 13px 'Noto Sans TC'">查看參選人刑事紀錄圖鑑 →</a>`
+      ? `<a href="${safeUrl(c.taiwanGoGoUrl)}" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border-radius:999px;background:transparent;border:1.5px solid #E4022B;color:#ff5a74;font:800 13px 'Noto Sans TC'">2026 議員參選人刑事紀錄圖鑑 →</a>`
       : '';
     const map = { facebook: 'Facebook', instagram: 'Instagram', threads: 'Threads', youtube: 'YouTube' };
     const socials = ['facebook', 'instagram', 'threads', 'youtube'].filter(k => safeUrl(c[k]));
@@ -1752,6 +1828,7 @@ class App {
     else if (!block) this._frame(this.townFeats, { pol: 0.2 });
   }
   _drawerBase(path, tag, voters, quota) {
+    this._hideRoleTabs();
     document.getElementById('drawer-path').textContent = path;
     document.getElementById('drawer-tag').textContent = tag;
     this._countUp(document.getElementById('stat-voters'), voters);
