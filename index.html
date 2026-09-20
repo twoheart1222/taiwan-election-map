@@ -1560,7 +1560,13 @@ class App {
     const initial = this._roleState?.scope === scope ? this._roleState.key : (this._pendingRole || null);
     this._pendingRole = null;
 
+    // 議員：本鄉鎮所屬的整個議員選舉區（含同選區的其他鄉鎮）
+    const cid = this.county?.code;
+    const cBlocks = (this.county?.props?.councilors || []).filter(b => (this.districtMap?.[cid]?.districts?.[b.district]?.towns || []).includes(p.name));
+    const cCount = cBlocks.reduce((a, b) => a + (b.candidates || []).length, 0);
+    const cTitle = b => `${this._districtLabel(cid, b)}議員・整個選區`;
     const tabs = [{ key: 'mayor', label: p.isIndigenousDistrict ? '區長' : '鄉鎮市區長', count: mayors.length }];
+    if (cBlocks.length) tabs.push({ key: 'council', label: '議員', count: cCount });
     if (blocks.length) tabs.push({ key: 'rep', label: repLabel, count: repCount });
     tabs.push({ key: 'village', label: '村里長', count: (this.villageFeats || []).length || '' });
 
@@ -1601,9 +1607,31 @@ class App {
     this._roleTabs(scope, tabs, key => {
       this._hideSel('sel-district'); this._hideSel('sel-village');
       this._showBack(() => this._goLevel(1));
+      this._countUp(document.getElementById('stat-quota'), p.quota || '1 席');
       if (key === 'mayor') {
         title.textContent = `${p.name} 首長候選人`;
         this._showCands(mayors);
+      } else if (key === 'council') {
+        if (cBlocks.length === 1) {
+          title.textContent = cTitle(cBlocks[0]);
+          this._countUp(document.getElementById('stat-quota'), this._councilQuota(cid, cBlocks[0]));
+          this._showCands(cBlocks[0].candidates);
+        } else {
+          title.textContent = `${p.name} 所屬議員選舉區`;
+          this._showPrompt(`${p.name} 分屬 ${cBlocks.length} 個議員選舉區，請選擇`);
+          const sel2 = document.getElementById('sel-district');
+          sel2.innerHTML = `<option value="">── 選擇議員選舉區 ──</option>` +
+            cBlocks.map((b, i) => `<option value="${i}">${this._districtLabel(cid, b)}（${b.candidates.length} 人）</option>`).join('');
+          this._showSel('sel-district');
+          sel2.onchange = () => {
+            const bi = sel2.value;
+            if (bi === '') { title.textContent = `${p.name} 所屬議員選舉區`; this._showPrompt('請選擇議員選舉區'); return; }
+            const b = cBlocks[+bi];
+            title.textContent = cTitle(b);
+            this._countUp(document.getElementById('stat-quota'), this._councilQuota(cid, b));
+            this._showCands(b.candidates);
+          };
+        }
       } else if (key === 'rep') {
         title.textContent = `${p.name} ${repLabel}`;
         this._showPrompt('請選擇選舉區');
