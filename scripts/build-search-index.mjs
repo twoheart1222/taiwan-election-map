@@ -32,16 +32,24 @@ const candidates = [];
 
 function publicCandidate(candidate, context, district = null, source = 'candidates') {
   if (!candidate?.name) return;
+
   candidates.push({
     name: candidate.name,
     party: candidate.party || '',
     role: candidate.role || '',
     photoUrl: candidate.photoUrl || null,
     gazetteUrl: candidate.gazetteUrl || null,
+    taiwanGoGoUrl: candidate.taiwanGoGoUrl || null,
     facebook: candidate.facebook || null,
     instagram: candidate.instagram || null,
     threads: candidate.threads || null,
     youtube: candidate.youtube || null,
+
+    // 選舉資料欄位：不能在建立搜尋索引時遺失
+    votes: candidate.votes ?? null,
+    prevVotes: candidate.prevVotes ?? null,
+    elected: Boolean(candidate.elected),
+
     isIncumbent: Boolean(candidate.isIncumbent),
     district,
     source,
@@ -52,8 +60,10 @@ function publicCandidate(candidate, context, district = null, source = 'candidat
 for (const area of allAreas) {
   const areaId = String(area.id || '');
   if (!areaId) continue;
+
   const countyCode = areaId.slice(0, 5);
   const townCode = areaId.length >= 8 ? areaId.slice(0, 8) : null;
+
   const context = {
     areaId,
     countyCode,
@@ -61,24 +71,63 @@ for (const area of allAreas) {
     town: townCode ? (townNames.get(townCode) || '') : '',
     village: areaId.length > 8 ? (area.name || '') : '',
   };
-  areas[areaId] = { ...context, areaName: area.name || '' };
-  for (const candidate of area.candidates || []) publicCandidate(candidate, context);
-  for (const block of area.councilors || []) {
-    for (const candidate of block.candidates || []) publicCandidate(candidate, context, block.district || null, 'councilors');
+
+  areas[areaId] = {
+    ...context,
+    areaName: area.name || '',
+  };
+
+  for (const candidate of area.candidates || []) {
+    publicCandidate(candidate, context);
   }
+
+  for (const block of area.councilors || []) {
+    for (const candidate of block.candidates || []) {
+      publicCandidate(candidate, context, block.district || null, 'councilors');
+    }
+  }
+
   for (const block of area.representatives || []) {
-    for (const candidate of block.candidates || []) publicCandidate(candidate, context, block.district || null, 'representatives');
+    for (const candidate of block.candidates || []) {
+      publicCandidate(candidate, context, block.district || null, 'representatives');
+    }
   }
 }
 
-const unique = [...new Map(candidates.map(candidate => [
-  [candidate.name, candidate.role, candidate.areaId, candidate.district || ''].join('\u0000'),
-  candidate,
-])).values()].sort((a, b) => a.name.localeCompare(b.name, 'zh-Hant'));
+const unique = [...new Map(
+  candidates.map(candidate => [
+    [
+      candidate.name,
+      candidate.role,
+      candidate.areaId,
+      candidate.district || '',
+      candidate.source || '',
+    ].join('\u0000'),
+    candidate,
+  ])
+).values()].sort((a, b) => a.name.localeCompare(b.name, 'zh-Hant'));
+
+const output = {
+  generatedAt: new Date().toISOString(),
+  areas,
+  candidates: unique,
+};
 
 await writeFile(
   path.join(dataDir, 'candidate_search.json'),
-  JSON.stringify({ generatedAt: new Date().toISOString(), areas, candidates: unique }),
+  JSON.stringify(output),
 );
 
-console.log(`Built candidate search index: ${unique.length} candidates across ${Object.keys(areas).length} areas.`);
+const withVotes = unique.filter(candidate =>
+  candidate.votes !== null && candidate.votes !== undefined
+).length;
+
+const withPrevVotes = unique.filter(candidate =>
+  candidate.prevVotes !== null && candidate.prevVotes !== undefined
+).length;
+
+console.log(
+  `Built candidate search index: ${unique.length} candidates across ${Object.keys(areas).length} areas.`
+);
+console.log(`Candidates with votes: ${withVotes}`);
+console.log(`Candidates with prevVotes: ${withPrevVotes}`);
