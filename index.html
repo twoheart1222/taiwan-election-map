@@ -1812,7 +1812,7 @@ class App {
     </div>`;
     const votesBlock = `<div style="display:flex;gap:8px">
       ${voteCell('本期得票', thisVotes, '未開票')}
-      ${c.isIncumbent ? voteCell('上期得票', prevVotes, '資料待補') : ''}
+      ${(c.isIncumbent || prevVotes) ? voteCell('上期得票', prevVotes, '資料待補') : ''}
     </div>`;
     const gazette = safeUrl(c.gazetteUrl)
       ? `<a href="${safeUrl(c.gazetteUrl)}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border-radius:999px;background:#E4022B;color:#fff;font:800 13px 'Noto Sans TC'">查閱官方選舉公報 (PDF) →</a>`

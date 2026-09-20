@@ -887,7 +887,7 @@
             <input placeholder="例：45,231　未填＝顯示未開票" class="c-votes w-full bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.votes || '')}">
           </label>
           <label class="c-prevvotes-wrap block">
-            <span class="text-[10px] font-black uppercase tracking-wider text-ink-500 block mb-1">上期得票（僅限連任者）</span>
+            <span class="text-[10px] font-black uppercase tracking-wider text-ink-500 block mb-1">上期得票（曾參選即可填，落選也顯示）</span>
             <input placeholder="例：38,902　可日後補填" class="c-prevvotes w-full bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.prevVotes || '')}">
           </label>
         </div>
@@ -911,7 +911,7 @@
       const incChk = row.querySelector('.c-incumbent');
       const prevWrap = row.querySelector('.c-prevvotes-wrap');
       const prevInput = row.querySelector('.c-prevvotes');
-      const syncPrev = () => { const on = incChk.checked; prevWrap.style.opacity = on ? '1' : '.4'; prevInput.disabled = !on; prevInput.placeholder = on ? '例：38,902　可日後補填' : '僅「爭取連任」者適用'; };
+      const syncPrev = () => { prevWrap.style.opacity = '1'; prevInput.disabled = false; };
       incChk.addEventListener('change', syncPrev); syncPrev();
 
       const photoInput = row.querySelector('.c-photourl');
@@ -980,7 +980,7 @@
         isIncumbent: row.querySelector('.c-incumbent').checked,
         elected: row.querySelector('.c-elected').checked,
         votes: row.querySelector('.c-votes').value.trim() || null,
-        prevVotes: row.querySelector('.c-incumbent').checked ? (row.querySelector('.c-prevvotes').value.trim() || null) : null,
+        prevVotes: row.querySelector('.c-prevvotes').value.trim() || null,
       })).filter(c => c.name);
     }
 
