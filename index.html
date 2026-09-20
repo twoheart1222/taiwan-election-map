@@ -1033,16 +1033,26 @@ class App {
 
     this.ray = new THREE.Raycaster(); this.mouse = new THREE.Vector2();
     let drag = false, lx = 0, ly = 0, moved = 0;
+    const mobileMQ = window.matchMedia('(max-width:660px)'); this._mobileMQ = mobileMQ;
     const dom = renderer.domElement;
     const gx = e => e.clientX ?? (e.touches && e.touches[0].clientX);
     const gy = e => e.clientY ?? (e.touches && e.touches[0].clientY);
     dom.addEventListener('pointerdown', e => { drag = true; moved = 0; this._auto = false; lx = gx(e); ly = gy(e); dom.style.cursor = 'grabbing'; });
     window.addEventListener('pointermove', e => {
-      if (drag) { const x = gx(e), y = gy(e); moved += Math.abs(x - lx) + Math.abs(y - ly); this.camState.az += (x - lx) * 0.006; this.camState.pol = Math.max(0.12, Math.min(1.15, this.camState.pol + (y - ly) * 0.005)); lx = x; ly = y; this._updateCam(); }
+      if (drag && !mobileMQ.matches) { const x = gx(e), y = gy(e); moved += Math.abs(x - lx) + Math.abs(y - ly); this.camState.az += (x - lx) * 0.006; this.camState.pol = Math.max(0.12, Math.min(1.15, this.camState.pol + (y - ly) * 0.005)); lx = x; ly = y; this._updateCam(); }
       this._hoverTest(gx(e), gy(e), drag);
     });
     window.addEventListener('pointerup', () => { drag = false; dom.style.cursor = 'grab'; });
-    dom.addEventListener('click', () => { if (this._hovered && moved < 6) this._pick(this._hovered.userData.props); });
+    dom.addEventListener('click', e => {
+      if (mobileMQ.matches) {
+        // 手機：地圖固定不旋轉，並放寬點擊範圍——沒點中時選 34px 內最近的縣市／區域
+        this._hoverTest(e.clientX, e.clientY, false);
+        if (!this._hovered) { const near = this._nearestMesh(e.clientX, e.clientY, 34); if (near) { this._hovered = near; } }
+        if (this._hovered) this._pick(this._hovered.userData.props);
+        return;
+      }
+      if (this._hovered && moved < 6) this._pick(this._hovered.userData.props);
+    });
 
     document.getElementById('drawer-close').onclick = () => {
       // 手機：✕ 等同「上一頁」，逐層返回而不是直接回到地圖（地圖不好點）
@@ -1056,7 +1066,7 @@ class App {
     document.querySelector('.crumb-btn[data-level="all"]').onclick = () => this._goLevel(0);
 
     this._auto = true;
-    const loop = () => { this._raf = requestAnimationFrame(loop); if (this._auto && this.nav.length === 1) { this.camState.az += 0.0016; this._updateCam(); } this._updateLabels(); renderer.render(scene, cam); };
+    const loop = () => { this._raf = requestAnimationFrame(loop); if (this._auto && this.nav.length === 1 && !mobileMQ.matches) { this.camState.az += 0.0016; this._updateCam(); } this._updateLabels(); renderer.render(scene, cam); };
     loop();
     this._onResize = () => { const w = el.clientWidth, h = el.clientHeight; if (!w || !h) return; cam.aspect = w / h; cam.updateProjectionMatrix(); renderer.setSize(w, h); this._applyViewOffset(); };
     window.addEventListener('resize', this._onResize);
@@ -1175,6 +1185,7 @@ class App {
         ]);
         const frame = new THREE.LineLoop(frameGeo, new THREE.LineBasicMaterial({ color: 0xE4022B, transparent: true, opacity: 0.42 }));
         frame.userData.isInsetFrame = true;
+        frame.visible = !window.matchMedia('(max-width:660px)').matches; // 手機不顯示金門／連江的紅色外框
         this.flat.add(frame);
       }
     });
@@ -1346,6 +1357,19 @@ class App {
     this.active.meshes.forEach(m => { m.userData.district = false; this._paint(m, 'base'); });
     if (this.labels) this.labels.forEach(L => { L.el.style.background = 'rgba(13,13,13,.68)'; L.el.style.color = '#f4f1ea'; L.el.style.zIndex = '1'; L.el.style.opacity = '1'; L.el.style.pointerEvents = 'auto'; });
     this._restoreReadout();
+  }
+  _nearestMesh(cx, cy, maxPx) {
+    if (!this.active || !this.THREE) return null;
+    const dom = this._renderer.domElement, r = dom.getBoundingClientRect();
+    let best = null, bd = maxPx;
+    this.active.meshes.forEach(m => {
+      const c = m.userData.cen; if (!c) return;
+      const v = this.flat.localToWorld(c.clone()).project(this.cam);
+      const x = r.left + (v.x + 1) / 2 * r.width, y = r.top + (1 - v.y) / 2 * r.height;
+      const d = Math.hypot(x - cx, y - cy);
+      if (d < bd) { bd = d; best = m; }
+    });
+    return best;
   }
   _hoverTest(cx, cy, dragging) {
     if (!this.active) return;
