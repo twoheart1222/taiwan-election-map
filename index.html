@@ -1044,7 +1044,15 @@ class App {
     window.addEventListener('pointerup', () => { drag = false; dom.style.cursor = 'grab'; });
     dom.addEventListener('click', () => { if (this._hovered && moved < 6) this._pick(this._hovered.userData.props); });
 
-    document.getElementById('drawer-close').onclick = () => this._closeDrawer();
+    document.getElementById('drawer-close').onclick = () => {
+      // 手機：✕ 等同「上一頁」，逐層返回而不是直接回到地圖（地圖不好點）
+      if (window.matchMedia('(max-width:660px)').matches) {
+        const backArea = document.getElementById('back-area');
+        if (backArea && backArea.style.display !== 'none') { document.getElementById('btn-back').click(); return; }
+        if ((this.nav?.length || 0) > 1) { this._goLevel(this.nav.length - 2); return; }
+      }
+      this._closeDrawer();
+    };
     document.querySelector('.crumb-btn[data-level="all"]').onclick = () => this._goLevel(0);
 
     this._auto = true;
