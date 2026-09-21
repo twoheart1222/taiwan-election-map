@@ -242,7 +242,7 @@
         <a href="#about" data-section="about" class="navlink">關於我們</a>
         <a href="#" data-view="support" style="display:inline-flex;align-items:center;gap:7px;padding:8px 16px;background:#E4022B;color:#fff;border-radius:999px;font-weight:800">支持島民觀察室</a>
       </div>
-      <button id="mobile-search-toggle" class="mobile-search-toggle" type="button" aria-expanded="false" aria-controls="candidate-search" aria-label="開啟候選人搜尋">
+      <button id="mobile-search-toggle" class="mobile-search-toggle" type="button" aria-expanded="false" aria-controls="candidate-search" aria-label="開啟候選人與地址搜尋">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="6.5" stroke-width="2.3"></circle><path d="m16 16 4 4" stroke-width="2.3" stroke-linecap="round"></path></svg>
       </button>
       <button id="mobile-menu-toggle" class="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="開啟頁面選單"><span class="ham-lines" aria-hidden="true"><i></i><i></i><i></i></span></button>
@@ -278,10 +278,10 @@
           <div class="candidate-search" id="candidate-search">
             <div class="candidate-search-row">
               <span class="candidate-search-icon" aria-hidden="true">⌕</span>
-              <span class="candidate-search-label">搜尋候選人</span>
-              <input id="candidate-search-input" type="search" inputmode="search" autocomplete="off" placeholder="搜尋候選人姓名" aria-label="搜尋候選人姓名" aria-controls="candidate-search-results" aria-expanded="false">
+              <span class="candidate-search-label">搜尋候選人／地址</span>
+              <input id="candidate-search-input" type="search" inputmode="search" autocomplete="off" placeholder="輸入候選人姓名或地址" aria-label="搜尋候選人姓名或地址" aria-controls="candidate-search-results" aria-expanded="false">
             </div>
-            <div id="candidate-search-results" class="candidate-search-results" role="listbox" aria-label="候選人搜尋結果"></div>
+            <div id="candidate-search-results" class="candidate-search-results" role="listbox" aria-label="候選人與地址搜尋結果"></div>
           </div>
         </div>
 
@@ -707,13 +707,14 @@ class App {
       search.classList.toggle('mobile-open', open);
       toggle?.classList.toggle('open', open);
       toggle?.setAttribute('aria-expanded', String(open));
-      toggle?.setAttribute('aria-label', open ? '關閉候選人搜尋' : '開啟候選人搜尋');
+      toggle?.setAttribute('aria-label', open ? '關閉候選人與地址搜尋' : '開啟候選人與地址搜尋');
       if (open) setTimeout(() => input.focus(), 60);
       else { close(); input.blur(); }
     };
     const run = async () => {
+      clearTimeout(this._addrTimer);
       const query = this._normalizeSearch(input.value);
-      if (!query) { close(); results.innerHTML = ''; return; }
+      if (!query) { close(); results.innerHTML = ''; results.dataset.mode = ''; this._addrLast = null; return; }
       results.classList.add('open');
       input.setAttribute('aria-expanded', 'true');
       results.innerHTML = '<div class="search-message">正在載入候選人資料…</div>';
@@ -721,7 +722,20 @@ class App {
         const index = await this._loadCandidateSearch();
         if (query !== this._normalizeSearch(input.value)) return;
         const addressMatches = this._addrParse(input.value, index);
-        if (addressMatches) { this._searchMatches = []; this._searchActive = -1; results.dataset.mode = 'address'; this._renderAddressResults(results, addressMatches, input.value, index); return; }
+        if (addressMatches) {
+          // 地址：不顯示下拉選單，直接在右側抽屜顯示；地址已含鄉鎮市區時停頓後自動開啟，只有縣市時按 Enter 開啟。
+          this._searchMatches = []; this._searchActive = -1; results.dataset.mode = 'address';
+          this._addrLast = { matches: addressMatches, raw: input.value, index };
+          if (addressMatches.every(m => m.town)) {
+            close();
+            this._addrTimer = setTimeout(() => {
+              if (this._normalizeSearch(input.value) === query) this._openAddressFromInput(false);
+            }, 900);
+          } else {
+            results.innerHTML = '<div class="search-message">再加上區、鄉鎮市名稱，或按 Enter 先查看縣市首長。</div>';
+          }
+          return;
+        }
         results.dataset.mode = 'name';
         const rank = name => name === query ? 0 : name.startsWith(query) ? 1 : 2;
         this._searchMatches = index.candidates
@@ -740,6 +754,9 @@ class App {
     input.addEventListener('focus', () => { if (input.value.trim()) run(); });
     input.addEventListener('input', run);
     input.addEventListener('keydown', event => {
+      if (event.key === 'Enter' && results.dataset.mode === 'address' && this._addrLast && input.value.trim()) {
+        event.preventDefault(); clearTimeout(this._addrTimer); this._openAddressFromInput(true); return;
+      }
       if (!results.classList.contains('open')) return;
       const shown = [...results.querySelectorAll('.search-result')];
       if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
@@ -748,8 +765,8 @@ class App {
         this._searchActive = (this._searchActive + (event.key === 'ArrowDown' ? 1 : -1) + shown.length) % shown.length;
         shown.forEach((button, i) => button.classList.toggle('active', i === this._searchActive));
         shown[this._searchActive].scrollIntoView({ block: 'nearest' });
-      } else if (event.key === 'Enter' && (this._searchActive >= 0 || results.dataset.mode === 'address')) {
-        event.preventDefault(); shown[Math.max(this._searchActive, 0)]?.click();
+      } else if (event.key === 'Enter' && this._searchActive >= 0) {
+        event.preventDefault(); shown[this._searchActive]?.click();
       } else if (event.key === 'Escape') setMobileOpen(false);
     });
     row?.addEventListener('click', () => { if (isDesktop() && !search.classList.contains('open')) setDeskOpen(true); });
@@ -830,37 +847,46 @@ class App {
     else if ((ix.villagesByTown.get(m.town.id) || []).length) cats.push({ key: 'village', label: '村里長', list: null });
     return cats;
   }
-  // 搜尋框只放「查看這個地址的候選人」入口；點選（或按 Enter）後，和搜尋人名一樣在右側抽屜顯示。
-  _renderAddressResults(container, matches, raw, index) {
-    const ix = this._addrIndex(index);
-    container.innerHTML = '';
-    matches.forEach(m => {
-      const where = [m.county.label, m.town?.label, m.village?.label].filter(Boolean).join(' › ');
-      const cats = this._addrCategories(m, ix);
-      const button = document.createElement('button');
-      button.type = 'button'; button.className = 'search-result'; button.setAttribute('role', 'option');
-      const name = document.createElement('span'); name.className = 'search-result-name'; name.textContent = where;
-      const meta = document.createElement('span'); meta.className = 'search-result-meta';
-      meta.textContent = cats.length ? `查看可投票選出的：${cats.map(c => c.label).join('、')}` : '目前沒有這個地點的候選人資料';
-      button.append(name, meta);
-      button.addEventListener('click', () => this._openAddressDrawer(m, raw, index));
-      container.appendChild(button);
-    });
+  // 地址搜尋：不用下拉選單，直接在右側抽屜顯示可以選擇的職位。
+  _openAddressFromInput(fromEnter) {
+    const last = this._addrLast; if (!last) return;
+    const key = last.matches.map(m => [m.county.code, m.town?.id, m.village?.id].join(':')).join('|');
+    if (!fromEnter && this._addrOpenKey === key && this._drawerOpen) return;
+    this._addrOpenKey = key;
+    if (last.matches.length === 1) this._openAddressDrawer(last.matches[0], last.raw, last.index, undefined, !fromEnter);
+    else this._openAddressChooser(last.matches, last.raw, last.index, !fromEnter);
   }
-  _openAddressDrawer(m, raw, index, initial) {
-    const ix = this._addrIndex(index);
-    const cats = this._addrCategories(m, ix);
-    const where = [m.county.label, m.town?.label, m.village?.label].filter(Boolean).join(' › ');
-    const input = document.getElementById('candidate-search-input');
-    if (input) input.blur();
-    this._closeCandidateSearch?.();
+  _addrPrepareDrawer(where, title, auto) {
+    if (!auto) { document.getElementById('candidate-search-input')?.blur(); this._closeCandidateSearch?.(); }
+    else if (window.matchMedia('(max-width:660px)').matches) this._closeCandidateSearch?.();
     this._navigationRevision += 1;
     this._setReadoutContext(null, null, where, '地址查詢');
     this._drawerBase(where, '地址查詢', '--', '--');
-    const title = document.getElementById('drawer-title');
-    title.textContent = '這個地址可以投票選出';
+    document.getElementById('drawer-title').textContent = title;
     this._hideBack();
     this._hideSel('sel-type'); this._hideSel('sel-district'); this._hideSel('sel-village');
+  }
+  _openAddressChooser(matches, raw, index, auto) {
+    this._addrPrepareDrawer('地址查詢', '這個地址符合多個地區，請選擇', auto);
+    const box = document.getElementById('candidates');
+    box.innerHTML = '';
+    matches.forEach(m => {
+      const where = [m.county.label, m.town?.label, m.village?.label].filter(Boolean).join(' › ');
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.style.cssText = "display:block;width:100%;margin-bottom:10px;padding:16px 18px;text-align:left;border:1.5px solid #33302b;border-radius:16px;background:#1c1916;color:#f4f1ea;font:800 16px 'Noto Sans TC',sans-serif;cursor:pointer";
+      button.textContent = where;
+      button.addEventListener('click', () => this._openAddressDrawer(m, raw, index, undefined, auto));
+      box.appendChild(button);
+    });
+    box.scrollTop = 0;
+  }
+  _openAddressDrawer(m, raw, index, initial, auto) {
+    const ix = this._addrIndex(index);
+    const cats = this._addrCategories(m, ix);
+    const where = [m.county.label, m.town?.label, m.village?.label].filter(Boolean).join(' › ');
+    this._addrPrepareDrawer(where, '這個地址可以投票選出', auto);
+    const title = document.getElementById('drawer-title');
     if (!cats.length) { this._showPrompt('目前沒有這個地點的候選人資料。'); return; }
     const districtLabel = (cat, d) => {
       if (cat.key === 'council') return this._districtLabel(m.county.code, { district: d });
@@ -882,7 +908,7 @@ class App {
           msg.style.color = '#a29c92'; msg.textContent = '定位中…';
           try {
             const hit = await this._addrLocateVillage(m, raw);
-            if (hit) { m.village = hit; this._openAddressDrawer(m, raw, index, 'village'); }
+            if (hit) { m.village = hit; this._openAddressDrawer(m, raw, index, 'village', true); }
             else { msg.style.color = '#ff7890'; msg.textContent = '找不到這個地址的位置，請改在地址加上里名（例如：文化里）。'; }
           } catch (_) { msg.style.color = '#ff7890'; msg.textContent = '定位服務暫時無法使用，請改在地址加上里名（例如：文化里）。'; }
         };
