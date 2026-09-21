@@ -12,7 +12,7 @@
     'elected',
   ];
 
-  const cleanName = value => String(value || '').replace(/[\s\u3000]/g, '').trim();
+  const cleanName = value => String(value || '').normalize('NFKC').replace(/[・．·‧\s\u3000]/g, '').trim();
   const clone = value => JSON.parse(JSON.stringify(value ?? null));
   const isBlank = value => value == null || String(value).trim() === '';
 
@@ -22,7 +22,7 @@
     return [];
   }
 
-  function mergeCandidateFields(baseCandidates, targetCandidates, stats) {
+  function mergeCandidateFields(baseCandidates, targetCandidates, stats, fallbackByName) {
     if (!Array.isArray(baseCandidates) || !Array.isArray(targetCandidates)) return;
 
     const targetByName = new Map(
@@ -32,7 +32,7 @@
     );
 
     for (const source of baseCandidates) {
-      const target = targetByName.get(cleanName(source?.name));
+      const target = targetByName.get(cleanName(source?.name)) || fallbackByName?.get(cleanName(source?.name));
 
       if (!target) {
         stats.missingInKv.push(source?.name || '(未命名)');
@@ -78,17 +78,23 @@
       targetList.map(block => [String(block?.district ?? ''), block])
     );
 
+    // 選區編號在 KV 與 GitHub 不一致時，改用同縣市內的姓名對應，避免整個選區同步不到。
+    const allTargetByName = new Map();
+    for (const block of targetList) {
+      for (const c of block?.candidates || []) {
+        if (cleanName(c?.name) && !allTargetByName.has(cleanName(c.name))) allTargetByName.set(cleanName(c.name), c);
+      }
+    }
+
     for (const baseBlock of baseList) {
       const targetBlock = targetByDistrict.get(String(baseBlock?.district ?? ''));
-      if (!targetBlock) {
-        stats.missingBlocks += 1;
-        continue;
-      }
+      if (!targetBlock) stats.missingBlocks += 1;
 
       mergeCandidateFields(
         baseBlock?.candidates || [],
         targetBlock?.candidates || [],
-        stats
+        stats,
+        allTargetByName
       );
     }
   }
