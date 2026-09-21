@@ -1,3 +1,5 @@
+import { EmailMessage } from 'cloudflare:email';
+
 const JSON_HEADERS = {
   'Content-Type': 'application/json; charset=utf-8',
   'Cache-Control': 'no-store',
@@ -516,6 +518,53 @@ async function handleAdmin(request, env, url) {
   return jsonResponse(request, env, { error: '找不到 admin API 路由' }, { status: 404 });
 }
 
+// 把聯絡表單轉寄到站方信箱（Cloudflare Email Routing 的 send_email 綁定）。
+// 收件地址必須是已在 Email Routing「Destination addresses」驗證過的信箱。
+function toBase64Utf8(text) {
+  const bytes = new TextEncoder().encode(text);
+  let binary = '';
+  for (let i = 0; i < bytes.length; i += 0x8000) binary += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+  return btoa(binary);
+}
+function wrap76(b64) { return b64.replace(/(.{76})/g, '$1\r\n'); }
+function mimeWord(text) { return `=?UTF-8?B?${toBase64Utf8(text)}?=`; }
+
+async function sendContactEmail(env, record) {
+  const to = String(env.CONTACT_NOTIFY_TO || '').trim();
+  if (!env.CONTACT_EMAIL || !to) return false;
+  const from = String(env.CONTACT_FROM || 'contact@formosaobservatory.com').trim();
+  const domain = from.split('@')[1] || 'formosaobservatory.com';
+  const body = [
+    `類型：${record.category}`,
+    `姓名：${record.name}`,
+    `電子郵件：${record.email}`,
+    `涉及地區或候選人：${record.location || '（未填）'}`,
+    `送出時間：${record.createdAt}`,
+    '',
+    record.message,
+  ].join('\r\n');
+  const raw = [
+    `From: ${mimeWord('Formosa Observatory 聯絡表單')} <${from}>`,
+    `To: <${to}>`,
+    `Reply-To: <${record.email}>`,
+    `Subject: ${mimeWord(`[聯絡表單] ${record.category}｜${record.name}`)}`,
+    `Message-ID: <${record.id}@${domain}>`,
+    `Date: ${new Date().toUTCString()}`,
+    'MIME-Version: 1.0',
+    'Content-Type: text/plain; charset=UTF-8',
+    'Content-Transfer-Encoding: base64',
+    '',
+    wrap76(toBase64Utf8(body)),
+  ].join('\r\n');
+  try {
+    await env.CONTACT_EMAIL.send(new EmailMessage(from, to, raw));
+    return true;
+  } catch (err) {
+    console.error('contact email failed', err && err.message);
+    return false;
+  }
+}
+
 async function handleContactSubmission(request, env) {
   // 節流：同一 IP 每 60 秒最多 1 筆（KV 為最終一致，屬盡力而為；正式限速請搭配 WAF Rate Limiting）
   const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
@@ -543,6 +592,7 @@ async function handleContactSubmission(request, env) {
 
   const id = `${Date.now()}-${crypto.randomUUID().slice(0, 8)}`;
   const record = { id, name, email, category, location, message, createdAt: new Date().toISOString() };
+  record.emailed = await sendContactEmail(env, record);
   await writeJsonKV(env, `contact:${id}`, record);
   const inbox = await readJsonKV(env, 'contact_submissions', []);
   await writeJsonKV(env, 'contact_submissions', [record, ...(Array.isArray(inbox) ? inbox : [])].slice(0, 200));

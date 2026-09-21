@@ -7,6 +7,9 @@ preview_urls = false
 ALLOWED_ORIGINS = "https://formosaobservatory.com,https://www.formosaobservatory.com,https://taiwan-election-map.uprisevideoproduction.workers.dev"
 ADMIN_REDIRECT_URL = "https://formosaobservatory.com/admin.html"
 ENABLE_CF_ACCESS_AUTH = "true"
+# 聯絡表單通知信：寄件地址（需在同網域）與收件信箱（必須是 Email Routing 已驗證的 Destination address）
+CONTACT_FROM = "contact@formosaobservatory.com"
+CONTACT_NOTIFY_TO = "Uprisevideoproduction@gmail.com"
 # Only this Access-authenticated account may use the admin API.
 ADMIN_EMAILS = "Uprisevideoproduction@gmail.com"
 
@@ -22,6 +25,9 @@ enabled = true
 
 [observability.logs]
 enabled = true
+
+[[send_email]]
+name = "CONTACT_EMAIL"
 
 [[kv_namespaces]]
 binding = "ELECTION_KV"

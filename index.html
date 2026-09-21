@@ -2059,7 +2059,7 @@ class App {
         status.textContent = '已收到資料，謝謝你的協助。';
       } catch (error) {
         status.style.color = '#ff7890';
-        status.textContent = `無法送出：${error.message}`;
+        status.textContent = error instanceof TypeError ? '目前連不上伺服器，請稍後再試，或直接寄信到 contact@formosaobservatory.com。' : `無法送出：${error.message}`;
       } finally {
         submit.disabled = false;
         submit.style.opacity = '1';
