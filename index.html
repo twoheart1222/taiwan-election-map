@@ -1136,9 +1136,68 @@ class App {
     const input = document.getElementById('candidate-search-input');
     if (input) { input.value = candidate.name; input.blur(); }
     this._closeCandidateSearch?.();
+    this._gotoCandidate(candidate).catch(e => { console.warn('gotoCandidate', e); this._openSearchFallback(candidate); });
+  }
+
+  // 搜尋結果與下拉選單走同一條路：實際鑽入縣市／鄉鎮／村里，開啟同樣的抽屜，再切到該候選人所在的選區。
+  async _gotoCandidate(c) {
+    const wait = async (fn, tries = 80) => { for (let i = 0; i < tries; i++) { const v = fn(); if (v) return v; await new Promise(r => setTimeout(r, 100)); } return null; };
+    const countyId = String(c.countyCode || String(c.areaId || '').slice(0, 5));
+    const cf = (this.allCountyFeats || this.countyFeats || []).find(f => String(f.properties.id) === countyId);
+    if (!cf) return this._openSearchFallback(c);
+    const src = c.source, role = c.role || '';
+    const isCountyHead = src === 'candidates' && /縣市長|直轄市長/.test(role);
+    const townId = String(c.areaId || '').length >= 8 ? String(c.areaId).slice(0, 8) : '';
+    this._roleState = null;
+    await this._drillCounty(cf.properties);
+    const ready = await wait(() => this.county?.code === cf.properties.id && this._roleState?.scope === `county:${cf.properties.id}` && (this.townFeats || []).length);
+    if (!ready) return this._openSearchFallback(c);
+    const clickTab = key => { const b = document.querySelector(`#role-tabs .role-tab[data-k="${key}"]`); if (b) b.click(); return !!b; };
+    const setSel = (id, idx) => { const el = document.getElementById(id); if (!el || idx < 0) return false; el.value = String(idx); el.dispatchEvent(new Event('change')); return true; };
+    if (isCountyHead) { clickTab('mayor'); return this._flashCandidate(c); }
+    if (src === 'councilors') {
+      if (!clickTab('council')) return this._openSearchFallback(c);
+      const blocks = cf.properties.councilors || [];
+      setSel('sel-district', blocks.findIndex(b => String(b.district) === String(c.district)));
+      return this._flashCandidate(c);
+    }
+    // 鄉鎮層以下
+    const tf = (this.townFeats || []).find(f => String(f.properties.id) === townId) || (this.townFeats || []).find(f => f.properties.name === c.town);
+    if (!tf) return this._openSearchFallback(c);
+    const tp = tf.properties;
+    this._pendingRole = src === 'representatives' ? 'rep' : (/里長|村長/.test(role) ? 'village' : 'mayor');
+    this._roleState = null;
+    await this._drillTown(tp);
+    const ready2 = await wait(() => this.town?.code === tp.id && this._roleState?.scope === `town:${tp.id}` && (this.villageFeats || []).length);
+    if (!ready2) return this._openSearchFallback(c);
+    if (src === 'representatives') {
+      const blocks = tp.representatives || [];
+      setSel('sel-district', blocks.findIndex(b => String(b.district) === String(c.district)));
+    } else if (/里長|村長/.test(role)) {
+      const vf = this.villageFeats.find(f => String(f.properties.id) === String(c.areaId)) || this.villageFeats.find(f => f.properties.name === c.village);
+      if (vf) this._drillVillage(vf.properties); else return this._openSearchFallback(c);
+    }
+    return this._flashCandidate(c);
+  }
+
+  _flashCandidate(c) {
+    const norm = s => String(s || '').replace(/[A-Za-z・．.·‧@\s]/g, '');
+    setTimeout(() => {
+      const box = document.getElementById('candidates'); if (!box) return;
+      const el = [...box.children].find(n => norm(n.textContent).includes(norm(c.name)));
+      if (!el) return;
+      el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      el.style.outline = '2px solid #f6a06b'; el.style.outlineOffset = '3px';
+      setTimeout(() => { el.style.outline = ''; el.style.outlineOffset = ''; }, 3200);
+    }, 900);
+  }
+
+  _openSearchFallback(candidate) {
     this._navigationRevision += 1;
     this._setReadoutContext(null, null, this._candidateLocation(candidate), [candidate.party, candidate.role].filter(Boolean).join(' · '));
-    this._drawerBase(this._candidateLocation(candidate), candidate.role || '候選人', '--', '--');
+    let quota = '--';
+    if (candidate.source === 'councilors') quota = this._councilQuota(candidate.countyCode, { district: candidate.district });
+    this._drawerBase(this._candidateLocation(candidate), candidate.role || '候選人', '--', quota);
     document.getElementById('drawer-title').textContent = '候選人搜尋結果';
     this._hideBack();
     this._hideSel('sel-type'); this._hideSel('sel-district'); this._hideSel('sel-village');
