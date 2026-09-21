@@ -7,6 +7,7 @@
     "deploy:api": "wrangler deploy --config wrangler.api.toml",
     "dev:api": "wrangler dev --config wrangler.api.toml",
     "build:search": "node scripts/build-search-index.mjs",
+    "build:seo": "node scripts/build-seo-pages.mjs",
     "sync:councilors": "node scripts/sync-incumbent-councilors.mjs",
     "sync:kcc": "node scripts/scrape-kcc-councilors.mjs",
     "apply:kcc": "node scripts/apply-kcc-councilors.mjs",

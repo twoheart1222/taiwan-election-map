@@ -1,0 +1,37 @@
+# Formosa Observatory｜島民觀察室
+
+> 2026 年（中華民國 115 年）11 月 28 日臺灣地方公職人員選舉的互動地圖與候選人資料庫，涵蓋 22 縣市的縣市長、議員、鄉鎮市長、鄉鎮市民代表與村里長。獨立民間資訊平台，非官方機構；資料以中央選舉委員會公告為準。
+
+## 主要頁面
+- [互動選舉地圖](https://formosaobservatory.com/): 從全台逐層下探到縣市、鄉鎮市區、村里，支援候選人姓名與地址搜尋
+- [全台候選人名單索引](https://formosaobservatory.com/election/): 22 縣市入口
+
+## 各縣市候選人名單
+- [連江縣](https://formosaobservatory.com/election/09007): 2 位縣市長候選人、14 位議員候選人、4 個鄉鎮市區
+- [金門縣](https://formosaobservatory.com/election/09020): 7 位縣市長候選人、35 位議員候選人、6 個鄉鎮市區
+- [宜蘭縣](https://formosaobservatory.com/election/10002): 5 位縣市長候選人、59 位議員候選人、12 個鄉鎮市區
+- [彰化縣](https://formosaobservatory.com/election/10007): 4 位縣市長候選人、86 位議員候選人、26 個鄉鎮市區
+- [南投縣](https://formosaobservatory.com/election/10008): 2 位縣市長候選人、61 位議員候選人、13 個鄉鎮市區
+- [雲林縣](https://formosaobservatory.com/election/10009): 4 位縣市長候選人、73 位議員候選人、20 個鄉鎮市區
+- [屏東縣](https://formosaobservatory.com/election/10013): 2 位縣市長候選人、87 位議員候選人、33 個鄉鎮市區
+- [臺東縣](https://formosaobservatory.com/election/10014): 4 位縣市長候選人、56 位議員候選人、16 個鄉鎮市區
+- [花蓮縣](https://formosaobservatory.com/election/10015): 4 位縣市長候選人、55 位議員候選人、13 個鄉鎮市區
+- [澎湖縣](https://formosaobservatory.com/election/10016): 6 位縣市長候選人、36 位議員候選人、6 個鄉鎮市區
+- [基隆市](https://formosaobservatory.com/election/10017): 3 位縣市長候選人、60 位議員候選人、7 個鄉鎮市區
+- [新竹市](https://formosaobservatory.com/election/10018): 3 位縣市長候選人、56 位議員候選人、3 個鄉鎮市區
+- [臺北市](https://formosaobservatory.com/election/63000): 6 位市長候選人、98 位議員候選人、12 個鄉鎮市區
+- [新北市](https://formosaobservatory.com/election/65000): 3 位市長候選人、112 位議員候選人、29 個鄉鎮市區
+- [臺中市](https://formosaobservatory.com/election/66000): 3 位市長候選人、102 位議員候選人、29 個鄉鎮市區
+- [臺南市](https://formosaobservatory.com/election/67000): 4 位市長候選人、88 位議員候選人、37 個鄉鎮市區
+- [桃園市](https://formosaobservatory.com/election/68000): 2 位市長候選人、109 位議員候選人、13 個鄉鎮市區
+- [苗栗縣](https://formosaobservatory.com/election/10005): 2 位縣市長候選人、56 位議員候選人、18 個鄉鎮市區
+- [新竹縣](https://formosaobservatory.com/election/10004): 3 位縣市長候選人、68 位議員候選人、13 個鄉鎮市區
+- [嘉義市](https://formosaobservatory.com/election/10020): 5 位縣市長候選人、37 位議員候選人、2 個鄉鎮市區
+- [嘉義縣](https://formosaobservatory.com/election/10010): 2 位縣市長候選人、53 位議員候選人、18 個鄉鎮市區
+- [高雄市](https://formosaobservatory.com/election/64000): 5 位市長候選人、101 位議員候選人、38 個鄉鎮市區
+
+## 資料來源
+中央選舉委員會、內政部地方公職人員資訊、各縣市議會公開名冊。最後更新：2026-09-21。
+
+## 聯絡
+contact@formosaobservatory.com
