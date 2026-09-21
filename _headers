@@ -4,7 +4,7 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Strict-Transport-Security: max-age=31536000; includeSubDomains
-  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+  Permissions-Policy: camera=(), microphone=(), geolocation=(self), payment=(), usb=()
   Cross-Origin-Opener-Policy: same-origin
 
 # 公開首頁：CSP（保留 inline script/style 以免破壞現有頁面，但封死 object、base、framing、表單外送）

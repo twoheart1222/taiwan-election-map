@@ -13,7 +13,7 @@ const SECURITY_HEADERS = {
 };
 
 // 公開 GET 允許讀取的 KV key（前端與 scripts/ 實際用到的只有這幾個）
-const PUBLIC_KEYS = new Set(['overrides', 'observatory_links', 'election_summary', 'site_announcement']);
+const PUBLIC_KEYS = new Set(['overrides', 'observatory_links', 'election_summary', 'site_announcement', 'site_sources', 'results_2026']);
 
 // 資料內容中會被當成連結/圖片網址渲染的欄位，寫入時強制過濾協定
 const URL_FIELDS = new Set([
@@ -28,13 +28,63 @@ const MAX_STRING = 4000;
 const MAX_DEPTH = 12;
 
 const ANNOUNCEMENT_PAGES = ['map', 'observatory', 'support', 'contact'];
+const MAX_ANNOUNCEMENTS = 20;
 const DEFAULT_ANNOUNCEMENT = {
+  id: 'support-review',
   enabled: true,
   title: '金流審核中',
   message: '「支持島民觀察室」的金流服務正在審核中，暫時無法使用。開放後會在這裡公告，感謝你的關心與支持。',
   pages: { map: false, observatory: false, support: true, contact: false },
   supportLock: true,
 };
+
+// 舊版是單一公告物件；新版是 { items: [公告, ...] }，每則公告可各自勾選要出現的頁面。
+function normalizeAnnouncements(saved) {
+  if (saved && Array.isArray(saved.items)) return { ...saved, items: saved.items.map(cleanAnnouncement).filter(Boolean) };
+  if (saved && typeof saved === 'object' && (saved.title || saved.message || saved.enabled !== undefined)) {
+    return { items: [cleanAnnouncement({ id: 'legacy', ...saved })].filter(Boolean), updatedAt: saved.updatedAt, updatedBy: saved.updatedBy };
+  }
+  return { items: [DEFAULT_ANNOUNCEMENT] };
+}
+function cleanAnnouncement(a, index = 0) {
+  if (!a || typeof a !== 'object') return null;
+  const pages = {};
+  ANNOUNCEMENT_PAGES.forEach((p) => { pages[p] = a.pages?.[p] === true; });
+  return {
+    id: String(a.id || `ann-${Date.now().toString(36)}-${index}`).replace(/[^\w-]/g, '').slice(0, 40) || `ann-${index}`,
+    enabled: a.enabled === true,
+    title: String(a.title || '').trim().slice(0, 80),
+    message: String(a.message || '').trim().slice(0, 600),
+    pages,
+    supportLock: a.supportLock === true,
+  };
+}
+
+const DEFAULT_SOURCES = [
+  { n: "中央選舉委員會選舉資料庫", url: "https://db.cec.gov.tw/", note: "2022 年縣市長、議員、鄉鎮市長、代表、村里長得票數與投開票統計" },
+  { n: "中央選舉委員會選舉公報", url: "https://eebulletin.cec.gov.tw/", note: "候選人選舉公報" },
+  { n: "政府資料開放平臺：選舉資料庫", url: "https://data.gov.tw/dataset/13119", note: "中選會開放資料" },
+  { n: "中央選舉委員會", url: "https://web.cec.gov.tw/", note: "選舉公告、候選人登記名單" },
+  { n: "內政部地方公職人員資訊", url: "https://www.moi.gov.tw/LocalOfficial.aspx?n=577&TYP=KND0007", note: "" },
+  { n: "高雄市議會", url: "https://www.kcc.gov.tw/Member_List3.aspx?n=39&sms=9028", note: "" },
+  { n: "新北市議會", url: "https://www.ntp.gov.tw/councilor-all?program=37", note: "" },
+  { n: "臺中市議會", url: "https://www.tccc.gov.tw/main.asp?uno=16", note: "" },
+  { n: "臺北市議會現任議員", url: "https://www.tcc.gov.tw/cp.aspx?n=13898", note: "" },
+  { n: "桃園市議會本屆議員", url: "https://www.tycc.gov.tw/tc/councilor-info.aspx?mid=39", note: "" },
+  { n: "新竹市議會本屆議員", url: "https://www.hsinchu-cc.gov.tw/tc/councilors.aspx?mid=39", note: "" },
+  { n: "基隆市議會議員資訊", url: "https://www.kmc.gov.tw/index.php/mac/mi", note: "" },
+  { n: "苗栗縣議會現任議員", url: "https://www.mcc.gov.tw/iframimgtxt_list.php?menu=&typeid=2580&typeid2=2599", note: "" },
+  { n: "彰化縣議會議員一覽", url: "https://www.chcc.gov.tw/member/index.aspx?Parser=99,6,40", note: "" },
+  { n: "雲林縣議會議員列表", url: "https://www.ylcc.gov.tw/cp.aspx?n=22126", note: "" },
+  { n: "嘉義市議會本屆議員", url: "https://www.cycc.gov.tw/web/UnitStaff_New/listUnitStaff.aspx?c0=3716", note: "" },
+  { n: "臺南市議會議員資訊", url: "https://www.tncc.gov.tw/subhome.asp?orcaid=C56635AE-3C35-4233-8561-7B2CAA2DF01F", note: "" },
+  { n: "屏東縣議會議員介紹", url: "https://www.ptcc.gov.tw/?Page=Persional&Guid=1c445ed1-8f2f-4c7f-75f6-6d6aafa3516e", note: "" },
+  { n: "宜蘭縣議會第 20 屆議員", url: "https://www.ilcc.gov.tw/H0051.aspx", note: "" },
+  { n: "花蓮縣議會議員團隊", url: "https://www.hlcc.gov.tw/councillor.php", note: "" },
+  { n: "內政部直轄市長名冊", url: "https://www.moi.gov.tw/LocalOfficial.aspx?TYP=KND0004&n=578", note: "" },
+  { n: "內政部縣市長名冊", url: "https://www.moi.gov.tw/LocalOfficial.aspx?TYP=KND0005&n=579", note: "" },
+  { n: "2026 議員參選人刑事紀錄圖鑑", url: "https://council2026.taiwangogo.tw/", note: "" },
+];
 
 const DEFAULT_OBSERVATORY_LINKS = [
   { n: '中選會選舉資料庫', cat: '官方數據庫', url: 'https://db.cec.gov.tw/', d: '歷屆公職選舉、登記名冊與官方選舉公報查詢。' },
@@ -365,28 +415,83 @@ async function handleAdmin(request, env, url) {
   if (path === 'announcement') {
     if (request.method === 'GET') {
       const saved = await readJsonKV(env, 'site_announcement', null);
-      return jsonResponse(request, env, saved && typeof saved === 'object' ? saved : DEFAULT_ANNOUNCEMENT);
+      return jsonResponse(request, env, normalizeAnnouncements(saved));
     }
     if (request.method === 'PUT') {
       const payload = await readJsonBody(request, MAX_SINGLE_BODY);
       if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
         return jsonResponse(request, env, { error: '請提供有效的公告內容' }, { status: 400 });
       }
-      const pages = {};
-      ANNOUNCEMENT_PAGES.forEach((p) => { pages[p] = payload.pages?.[p] === true; });
-      const next = {
-        enabled: payload.enabled === true,
-        title: String(payload.title || '').trim().slice(0, 80),
-        message: String(payload.message || '').trim().slice(0, 600),
-        pages,
-        supportLock: payload.supportLock === true,
-        updatedAt: new Date().toISOString(),
-        updatedBy: session.email,
-      };
-      if (next.enabled && !next.title && !next.message) {
-        return jsonResponse(request, env, { error: '啟用公告時，標題與內容至少要填一項。' }, { status: 400 });
+      const rawItems = Array.isArray(payload.items) ? payload.items : [payload];
+      if (rawItems.length > MAX_ANNOUNCEMENTS) {
+        return jsonResponse(request, env, { error: `公告最多 ${MAX_ANNOUNCEMENTS} 則。` }, { status: 400 });
       }
+      const items = rawItems.map((item, i) => cleanAnnouncement(item, i)).filter(Boolean);
+      const seen = new Set();
+      items.forEach((item, i) => { if (seen.has(item.id)) item.id = `${item.id}-${i}`; seen.add(item.id); });
+      const bad = items.find((item) => item.enabled && !item.title && !item.message);
+      if (bad) return jsonResponse(request, env, { error: '啟用的公告，標題與內容至少要填一項。' }, { status: 400 });
+      const next = { items, updatedAt: new Date().toISOString(), updatedBy: session.email };
       await writeJsonKV(env, 'site_announcement', next);
+      return jsonResponse(request, env, { ok: true, ...next });
+    }
+  }
+
+  if (path === 'sources') {
+    if (request.method === 'GET') {
+      const saved = await readJsonKV(env, 'site_sources', null);
+      return jsonResponse(request, env, { items: Array.isArray(saved?.items) ? saved.items : DEFAULT_SOURCES, custom: Array.isArray(saved?.items) });
+    }
+    if (request.method === 'PUT') {
+      const payload = await readJsonBody(request, MAX_SINGLE_BODY);
+      const items = Array.isArray(payload?.items) ? payload.items : null;
+      if (!items || items.length > 80 || items.some((item) => !item || !String(item.n || '').trim() || !/^https?:\/\/[^\s"'<>]+$/i.test(item.url || ''))) {
+        return jsonResponse(request, env, { error: '每筆來源都需要名稱與有效網址（最多 80 筆）。' }, { status: 400 });
+      }
+      const cleaned = items.map((item) => ({
+        n: String(item.n).trim().slice(0, 100),
+        url: String(item.url).trim().slice(0, 1000),
+        note: String(item.note || '').trim().slice(0, 300),
+      }));
+      const next = { items: cleaned, updatedAt: new Date().toISOString(), updatedBy: session.email };
+      await writeJsonKV(env, 'site_sources', next);
+      return jsonResponse(request, env, { ok: true, ...next, custom: true });
+    }
+  }
+
+  // 本期（2026）開票結果：{ levels: { county: { <縣市ID>: { electors, votesCast, validVotes, invalidVotes, candidates: { <姓名>: 得票數 } } } } }
+  if (path === 'results') {
+    if (request.method === 'GET') {
+      const saved = await readJsonKV(env, 'results_2026', null);
+      return jsonResponse(request, env, saved && typeof saved === 'object' ? saved : { levels: { county: {} } });
+    }
+    if (request.method === 'PUT') {
+      const payload = await readJsonBody(request, MAX_SINGLE_BODY);
+      const county = payload?.levels?.county;
+      if (!county || typeof county !== 'object' || Array.isArray(county)) {
+        return jsonResponse(request, env, { error: '請提供有效的開票結果。' }, { status: 400 });
+      }
+      const num = (v) => {
+        if (v === '' || v === null || v === undefined) return null;
+        const n = Number(String(v).replace(/,/g, ''));
+        return Number.isFinite(n) && n >= 0 ? Math.round(n) : NaN;
+      };
+      const out = {};
+      for (const [id, r] of Object.entries(county)) {
+        if (!/^\d{5}$/.test(id) || !r || typeof r !== 'object') continue;
+        const row = { electors: num(r.electors), votesCast: num(r.votesCast), validVotes: num(r.validVotes), invalidVotes: num(r.invalidVotes), candidates: {}, finalized: r.finalized === true };
+        if ([row.electors, row.votesCast, row.validVotes, row.invalidVotes].some(Number.isNaN)) {
+          return jsonResponse(request, env, { error: `${id} 的票數欄位必須是非負整數。` }, { status: 400 });
+        }
+        for (const [name, v] of Object.entries(r.candidates || {})) {
+          const n = num(v);
+          if (Number.isNaN(n)) return jsonResponse(request, env, { error: `${id} ${name} 的得票數必須是非負整數。` }, { status: 400 });
+          if (n !== null) row.candidates[String(name).slice(0, 60)] = n;
+        }
+        if (row.electors !== null || row.votesCast !== null || row.validVotes !== null || Object.keys(row.candidates).length) out[id] = row;
+      }
+      const next = { levels: { county: out }, updatedAt: new Date().toISOString(), updatedBy: session.email };
+      await writeJsonKV(env, 'results_2026', next);
       return jsonResponse(request, env, { ok: true, ...next });
     }
   }
