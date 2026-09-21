@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>島民觀察室｜Formosa Watch · 島民選舉地圖</title>
-<meta name="description" content="島民觀察室的 2026 地方選舉互動地圖：查詢縣市、選區、村里與候選人資料。">
+<title>Formosa Observatory · 島民選舉地圖</title>
+<meta name="description" content="Formosa Observatory 的 2026 地方選舉互動地圖：查詢縣市、選區、村里與候選人資料。">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="zh_TW">
-<meta property="og:site_name" content="島民觀察室｜Formosa Watch">
+<meta property="og:site_name" content="Formosa Observatory｜島民觀察室">
 <meta property="og:title" content="島民選舉地圖">
 <meta property="og:description" content="用資料，看懂我們生活的這座島。">
 <meta property="og:url" content="https://taiwan-election-map.uprisevideoproduction.workers.dev/">
@@ -16,7 +16,7 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="島民選舉地圖">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="島民觀察室｜Formosa Watch · 島民選舉地圖">
+<meta name="twitter:title" content="Formosa Observatory · 島民選舉地圖">
 <meta name="twitter:description" content="用資料，看懂我們生活的這座島。">
 <meta name="twitter:image" content="https://taiwan-election-map.uprisevideoproduction.workers.dev/social-preview.png">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -214,7 +214,7 @@
     <nav class="site-nav" style="position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px clamp(14px,3.5vw,44px);background:rgba(13,13,13,.82);backdrop-filter:blur(10px);border-bottom:1px solid #1c1a17">
       <div style="display:flex;align-items:center;gap:clamp(14px,3vw,34px);min-width:0">
         <a href="#" data-view="map" data-home class="brand-home" aria-label="返回島民選舉地圖首頁" style="display:flex;align-items:center;gap:10px;font-family:'Archivo';font-weight:900;letter-spacing:-.02em;font-size:16px;flex:none">
-          <span style="width:11px;height:11px;background:#E4022B;display:inline-block;border-radius:2px"></span>島民觀察室
+          <span style="width:11px;height:11px;background:#E4022B;display:inline-block;border-radius:2px"></span>Formosa Observatory
         </a>
         <div class="nav-daysbox" style="display:flex;align-items:baseline;gap:8px;flex:none;white-space:nowrap;border-left:1px solid #1c1a17;padding-left:clamp(14px,3vw,34px)">
           <span id="next-choice-label" style="font-family:'Noto Sans TC';font-weight:700;font-size:12px;color:#8a857c;white-space:nowrap">距離島民下一次選擇</span>
@@ -226,7 +226,7 @@
         <a href="#" data-view="map" class="navlink on">選舉地圖</a>
         <a href="#" data-view="observatory" class="navlink">政治觀察</a>
         <a href="#about" data-section="about" class="navlink">關於我們</a>
-        <a href="#" data-view="support" style="display:inline-flex;align-items:center;gap:7px;padding:8px 16px;background:#E4022B;color:#fff;border-radius:999px;font-weight:800">支持島民觀察室</a>
+        <a href="#" data-view="support" style="display:inline-flex;align-items:center;gap:7px;padding:8px 16px;background:#E4022B;color:#fff;border-radius:999px;font-weight:800">支持 Formosa Observatory</a>
       </div>
       <button id="mobile-search-toggle" class="mobile-search-toggle" type="button" aria-expanded="false" aria-controls="candidate-search" aria-label="開啟候選人搜尋">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="6.5" stroke-width="2.3"></circle><path d="m16 16 4 4" stroke-width="2.3" stroke-linecap="round"></path></svg>
@@ -236,7 +236,7 @@
         <a href="#" data-view="map">選舉地圖 <span aria-hidden="true">→</span></a>
         <a href="#" data-view="observatory">政治觀察 <span aria-hidden="true">→</span></a>
         <a href="#about" data-section="about">關於我們 <span aria-hidden="true">→</span></a>
-        <a href="#" data-view="support">支持島民觀察室 <span aria-hidden="true">→</span></a>
+        <a href="#" data-view="support">支持 Formosa Observatory <span aria-hidden="true">→</span></a>
       </div>
     </nav>
 
@@ -259,7 +259,7 @@
         </div>
 
         <div class="map-intro" style="position:absolute;top:clamp(16px,3vh,32px);left:clamp(16px,4vw,44px);pointer-events:none;max-width:74%;z-index:30">
-          <div style="font-family:'Archivo';font-weight:700;font-size:12px;letter-spacing:.26em;color:#E4022B;margin-bottom:11px">FORMOSA WATCH / ELECTION MAP</div>
+          <div style="font-family:'Archivo';font-weight:700;font-size:12px;letter-spacing:.26em;color:#E4022B;margin-bottom:11px">FORMOSA OBSERVATORY / ELECTION MAP</div>
           <h1 style="font-family:'Noto Sans TC','Archivo',sans-serif;font-weight:900;font-size:clamp(24px,4.2vw,58px);line-height:1;letter-spacing:-.03em;margin:0">島民<br>選舉地圖</h1>
           <div class="candidate-search" id="candidate-search">
             <div class="candidate-search-row">
@@ -332,13 +332,13 @@
         <div style="font-family:'Archivo';font-weight:700;font-size:13px;letter-spacing:.28em;opacity:.72;margin-bottom:clamp(26px,5vh,52px)">關於本站 / ABOUT</div>
         <h2 style="font-family:'Noto Sans TC','Archivo',sans-serif;font-weight:900;font-size:clamp(34px,7vw,108px);line-height:.98;letter-spacing:-.03em;margin:0 0 clamp(26px,5vh,50px);max-width:1200px;text-wrap:balance">用資料，看懂我們<br>生活的這座島。</h2>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(24px,4vw,60px);max-width:1000px">
-          <p style="margin:0;font-size:clamp(15px,1.6vw,18px);line-height:1.8;color:#1a0508;text-wrap:pretty">島民觀察室以視覺與資料整理 2026 地方選舉，從 22 縣市逐層下探至鄉鎮市區與村里，把每一位候選人與每一份官方選舉公報放到你面前。</p>
+          <p style="margin:0;font-size:clamp(15px,1.6vw,18px);line-height:1.8;color:#1a0508;text-wrap:pretty">Formosa Observatory 以視覺與資料整理 2026 地方選舉，從 22 縣市逐層下探至鄉鎮市區與村里，把每一位候選人與每一份官方選舉公報放到你面前。</p>
           <p style="margin:0;font-size:clamp(15px,1.6vw,18px);line-height:1.8;color:#1a0508;text-wrap:pretty">資料彙整自官方公開來源，並由維護團隊校閱；我們相信，清楚的公共資訊能降低公民參與的門檻。</p>
         </div>
         <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:clamp(30px,6vh,60px)">
           <a href="#" data-view="observatory" style="display:inline-flex;align-items:center;gap:9px;padding:15px 28px;background:#0d0d0d;color:#fff;border-radius:999px;font-family:'Archivo';font-weight:800;font-size:15px">政治觀察 →</a>
           <a href="#" data-view="contact" style="display:inline-flex;align-items:center;gap:9px;padding:15px 28px;background:transparent;border:1.5px solid #0d0d0d;color:#0d0d0d;border-radius:999px;font-family:'Archivo';font-weight:800;font-size:15px">聯絡我們 →</a>
-          <a href="#" data-view="support" style="display:inline-flex;align-items:center;gap:9px;padding:15px 28px;background:transparent;border:1.5px solid #0d0d0d;color:#0d0d0d;border-radius:999px;font-family:'Archivo';font-weight:800;font-size:15px">支持島民觀察室 →</a>
+          <a href="#" data-view="support" style="display:inline-flex;align-items:center;gap:9px;padding:15px 28px;background:transparent;border:1.5px solid #0d0d0d;color:#0d0d0d;border-radius:999px;font-family:'Archivo';font-weight:800;font-size:15px">支持 Formosa Observatory →</a>
         </div>
         <div class="source-register">
           <h3 style="font-family:'Noto Sans TC','Archivo',sans-serif;font-weight:900;font-size:clamp(22px,3vw,36px);line-height:1.15;margin:0">資料來源與核對</h3>
@@ -368,7 +368,7 @@
         </div>
       </section>
       <footer style="background:#0d0d0d;color:#8a857c;padding:clamp(40px,7vh,80px) clamp(18px,4vw,54px);display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;border-top:1px solid #1c1a17">
-        <div><div style="font-family:'Archivo';font-weight:900;font-size:clamp(22px,3vw,40px);color:#f4f1ea;letter-spacing:-.02em">島民觀察室｜Formosa Watch</div><div style="font-size:12px;letter-spacing:.1em;margin-top:8px">© 2026 Formosa Watch 島民觀察室<br>Independent Taiwan Election &amp; Civic Data Platform</div></div>
+        <div><div style="font-family:'Archivo';font-weight:900;font-size:clamp(22px,3vw,40px);color:#f4f1ea;letter-spacing:-.02em">Formosa Observatory｜島民觀察室</div><div style="font-size:12px;letter-spacing:.1em;margin-top:8px">© 2026 Formosa Observatory 島民觀察室<br>Independent Taiwan Election &amp; Civic Data Platform</div></div>
         <div style="max-width:500px;font-family:'Noto Sans TC';font-weight:600;font-size:12px;line-height:1.7;text-align:right">本站為獨立民間資訊平台，非中央選舉委員會或任何政府機關之官方網站。<br><a href="#" data-view="contact" style="color:#f4f1ea">資料更正與聯絡</a></div>
       </footer>
     </div>
@@ -383,19 +383,19 @@
       <main id="obs-list" style="flex:1"></main>
       <footer style="background:#E4022B;color:#0d0d0d;padding:clamp(40px,7vh,80px) clamp(18px,4vw,54px);display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
         <div><div style="font-family:'Noto Sans TC','Archivo';font-weight:900;font-size:clamp(24px,4vw,48px);letter-spacing:-.02em;line-height:1">一起看緊<br>你的選票。</div>
-        <a href="#" data-view="support" style="display:inline-flex;align-items:center;gap:9px;margin-top:22px;padding:13px 24px;background:#0d0d0d;color:#fff;border-radius:999px;font-family:'Archivo';font-weight:800;font-size:14px">支持島民觀察室 →</a></div>
-        <div style="font-family:'Archivo';font-weight:600;font-size:12px;letter-spacing:.08em;text-align:right">Formosa Watch · 2026<br>連結由維護者統一校閱發布</div>
+        <a href="#" data-view="support" style="display:inline-flex;align-items:center;gap:9px;margin-top:22px;padding:13px 24px;background:#0d0d0d;color:#fff;border-radius:999px;font-family:'Archivo';font-weight:800;font-size:14px">支持 Formosa Observatory →</a></div>
+        <div style="font-family:'Archivo';font-weight:600;font-size:12px;letter-spacing:.08em;text-align:right">Formosa Observatory · 2026<br>連結由維護者統一校閱發布</div>
       </footer>
     </div>
 
     <!-- ========== VIEW: SUPPORT ========== -->
     <div id="view-support" style="display:none;min-height:calc(100dvh - 58px);flex-direction:column">
       <header style="padding:clamp(48px,9vh,110px) clamp(18px,4vw,54px) clamp(22px,4vh,44px)">
-        <div style="font-family:'Archivo';font-weight:700;font-size:13px;letter-spacing:.28em;color:#E4022B;margin-bottom:20px">支持島民觀察室 / SUPPORT FORMOSA WATCH</div>
+        <div style="font-family:'Archivo';font-weight:700;font-size:13px;letter-spacing:.28em;color:#E4022B;margin-bottom:20px">支持 Formosa Observatory / SUPPORT FORMOSA OBSERVATORY</div>
         <h1 style="font-family:'Noto Sans TC','Archivo',sans-serif;font-weight:900;font-size:clamp(38px,7.5vw,112px);line-height:.96;letter-spacing:-.03em;margin:0 0 24px;max-width:1200px;text-wrap:balance">讓開放的公共資訊，<br>走得<span style="color:#E4022B">更遠</span>。</h1>
         <div style="max-width:760px;color:#a29c92;font-size:clamp(15px,1.6vw,18px);line-height:1.8;text-wrap:pretty">
-          <p style="margin:0">島民觀察室由獨立團隊持續開發與維護。</p>
-          <p style="margin:14px 0 0">資料整理、來源核對、網站開發與伺服器都需要持續投入。如果你認同我們正在做的事，可以選擇支持島民觀察室，讓這些資訊繼續免費、公開地被所有人使用。</p>
+          <p style="margin:0">Formosa Observatory 由獨立團隊持續開發與維護。</p>
+          <p style="margin:14px 0 0">資料整理、來源核對、網站開發與伺服器都需要持續投入。如果你認同我們正在做的事，可以選擇支持 Formosa Observatory，讓這些資訊繼續免費、公開地被所有人使用。</p>
           <p style="margin:14px 0 0;font-size:.86em;color:#777169">本站並非公益勸募團體、政黨、政治團體或候選人。本頁款項屬對本站營運之支持，不屬政治獻金，亦非可申報所得稅扣除之公益捐款。</p>
         </div>
       </header>
@@ -435,13 +435,13 @@
             <div style="border-top:1px solid #1c1a17;padding-top:22px"><div style="display:flex;align-items:baseline;gap:16px"><span style="font-family:'Archivo';font-weight:900;font-size:clamp(28px,4vw,52px);color:#E4022B;line-height:1">01</span><div><div style="font-family:'Noto Sans TC';font-weight:900;font-size:clamp(18px,2vw,24px)">資料查證與更新</div><div style="color:#a29c92;font-size:14px;margin-top:6px;line-height:1.7">逐筆比對中選會公告，維持 22 縣市候選人名冊即時準確。</div></div></div></div>
             <div style="border-top:1px solid #1c1a17;padding-top:22px"><div style="display:flex;align-items:baseline;gap:16px"><span style="font-family:'Archivo';font-weight:900;font-size:clamp(28px,4vw,52px);color:#E4022B;line-height:1">02</span><div><div style="font-family:'Noto Sans TC';font-weight:900;font-size:clamp(18px,2vw,24px)">地圖與網站維運</div><div style="color:#a29c92;font-size:14px;margin-top:6px;line-height:1.7">3D 選情地圖、伺服器與網域的持續開發與維護成本。</div></div></div></div>
             <div style="border-top:1px solid #1c1a17;padding-top:22px"><div style="display:flex;align-items:baseline;gap:16px"><span style="font-family:'Archivo';font-weight:900;font-size:clamp(28px,4vw,52px);color:#E4022B;line-height:1">03</span><div><div style="font-family:'Noto Sans TC';font-weight:900;font-size:clamp(18px,2vw,24px)">保持中立與免費</div><div style="color:#a29c92;font-size:14px;margin-top:6px;line-height:1.7">不接受政黨與財團資助，讓資訊對每一位公民免費開放。</div></div></div></div>
-            <div style="margin-top:8px;background:#151311;border:1px solid #1c1a17;border-radius:18px;padding:24px"><p style="margin:0;font-family:'Noto Sans TC';font-weight:700;font-size:clamp(16px,1.8vw,20px);line-height:1.7;color:#f4f1ea;text-wrap:pretty">「讓重要的公共資訊，持續免費地被所有人使用。」</p><div style="margin-top:14px;font-family:'Archivo';font-weight:600;font-size:12px;letter-spacing:.1em;color:#8a857c">— Formosa Watch</div></div>
+            <div style="margin-top:8px;background:#151311;border:1px solid #1c1a17;border-radius:18px;padding:24px"><p style="margin:0;font-family:'Noto Sans TC';font-weight:700;font-size:clamp(16px,1.8vw,20px);line-height:1.7;color:#f4f1ea;text-wrap:pretty">「讓重要的公共資訊，持續免費地被所有人使用。」</p><div style="margin-top:14px;font-family:'Archivo';font-weight:600;font-size:12px;letter-spacing:.1em;color:#8a857c">— Formosa Observatory</div></div>
           </div>
         </div>
       </main>
       <footer style="background:#0d0d0d;color:#8a857c;padding:clamp(30px,5vh,60px) clamp(18px,4vw,54px);display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;border-top:1px solid #1c1a17">
-        <div style="font-family:'Archivo';font-weight:900;font-size:clamp(18px,2.4vw,26px);color:#f4f1ea;letter-spacing:-.02em">島民觀察室｜Formosa Watch</div>
-        <div style="font-family:'Archivo';font-weight:600;font-size:12px;letter-spacing:.08em;text-align:right">© 2026 Formosa Watch 島民觀察室<br>Independent Taiwan Election &amp; Civic Data Platform</div>
+        <div style="font-family:'Archivo';font-weight:900;font-size:clamp(18px,2.4vw,26px);color:#f4f1ea;letter-spacing:-.02em">Formosa Observatory｜島民觀察室</div>
+        <div style="font-family:'Archivo';font-weight:600;font-size:12px;letter-spacing:.08em;text-align:right">© 2026 Formosa Observatory 島民觀察室<br>Independent Taiwan Election &amp; Civic Data Platform</div>
       </footer>
     </div>
 
@@ -480,7 +480,7 @@
 
 <script>
 /* =======================================================================
-   2026 全台選舉開箱圖鑑 — 前端主程式（單一檔，無框架）
+   Formosa Observatory — 前端主程式（單一檔，無框架）
    - 3D 立體台灣：縣市 → 鄉鎮市區 → 村里 逐層下探（three.js）
    - 倒數天數（GSAP 滾輪）、Preloader 模糊放大進場
    - 候選人抽屜：照片 / 政黨標記 / 社群圖標 / 選舉公報 / 選舉區
@@ -633,7 +633,7 @@ class App {
   }
   _showView(name, onSwap) {
     const names = ['map', 'observatory', 'support', 'contact'];
-    const labels = { map: '島民選舉地圖', observatory: '政治觀察', support: '支持島民觀察室', contact: '聯絡我們' };
+    const labels = { map: '島民選舉地圖', observatory: '政治觀察', support: '支持 Formosa Observatory', contact: '聯絡我們' };
     const setVisible = active => names.forEach(v => {
       const el = document.getElementById('view-' + v);
       if (!el) return;
@@ -1128,7 +1128,7 @@ class App {
       .to(this.camState, { tx, tz, r: targetR, pol: 0.16, duration: 0.82, ease: 'expo.inOut' });
   }
 
-  _transitionMap(change, label = '全台灣', meta = 'FORMOSA WATCH / ELECTION MAP') {
+  _transitionMap(change, label = '全台灣', meta = 'FORMOSA OBSERVATORY / ELECTION MAP') {
     // 地圖與頁面共用 body 最上層的遮罩，避免手機抽屜建立 stacking context 後蓋住轉場。
     const veil = document.getElementById('page-transition');
     if (!veil) { change(); return; }
