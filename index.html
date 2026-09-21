@@ -809,7 +809,19 @@ class App {
 
   _candidateLocation(candidate) {
     const parts = [candidate.county, candidate.town, candidate.village].filter((value, index, list) => value && list.indexOf(value) === index);
-    if (candidate.district) parts.push(`第 ${candidate.district} 選舉區`);
+    if (candidate.district && candidate.district !== '?') {
+      // 選舉區一律寫成「第 N 選舉區（涵蓋地區）」
+      let areas = [];
+      const map = this.districtMap?.[candidate.countyCode];
+      if (candidate.source === 'councilors') {
+        areas = map?.districts?.[candidate.district]?.towns || [];
+      } else if (candidate.source === 'representatives') {
+        const configured = map?.representatives?.[candidate.areaId]?.[candidate.district];
+        areas = Array.isArray(configured) ? configured : configured ? [configured] : [];
+      }
+      if (!areas.length) areas = [candidate.village || candidate.town || candidate.county].filter(Boolean);
+      parts.push(`第 ${candidate.district} 選舉區${areas.length ? `（${areas.join('、')}）` : ''}`);
+    }
     return parts.join(' › ') || '全台灣';
   }
 
