@@ -87,6 +87,8 @@
   .search-result:hover,.search-result.active{background:#2a1013}
   .search-result-name{display:block;font-size:16px;font-weight:900}
   .search-result-meta{display:block;margin-top:3px;color:#a29c92;font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .addr-head{padding:12px 12px 4px;color:#ff7890;font-size:11px;font-weight:800;letter-spacing:.1em;line-height:1.5}
+  .addr-note{padding:4px 12px 10px;color:#8a857c;font-size:11.5px;font-weight:600;line-height:1.6}
   .search-message{padding:15px 13px;color:#a29c92;font-size:13px;font-weight:700;line-height:1.6}
   @media(max-width:660px){
     .pt-center{padding:34px 20px !important}.transition-title{font-size:clamp(40px,15vw,72px);line-height:.94}
@@ -720,6 +722,8 @@ class App {
       try {
         const index = await this._loadCandidateSearch();
         if (query !== this._normalizeSearch(input.value)) return;
+        const addressMatches = this._addrParse(input.value, index);
+        if (addressMatches) { this._searchMatches = []; this._searchActive = -1; this._renderAddressResults(results, addressMatches, input.value, index); return; }
         const rank = name => name === query ? 0 : name.startsWith(query) ? 1 : 2;
         this._searchMatches = index.candidates
           .map(candidate => ({ candidate, key: this._normalizeSearch(candidate.name) }))
@@ -766,6 +770,155 @@ class App {
 
   _normalizeSearch(value) {
     return String(value || '').normalize('NFKC').toLocaleLowerCase('zh-TW').replace(/[\s\u3000·‧・]/g, '');
+  }
+
+  // ---------- ADDRESS LOOKUP（輸入地址 → 這個地址可以投票選出的候選人） ----------
+  _addrNorm(value) { return String(value || '').normalize('NFKC').replace(/[\s　]/g, '').replace(/台/g, '臺'); }
+  _addrIndex(index) {
+    if (this._addrIdx && this._addrIdx.src === index) return this._addrIdx;
+    const counties = [], towns = [], villagesByTown = new Map(), by = new Map();
+    Object.values(index.areas || {}).forEach(a => {
+      const id = String(a.areaId || '');
+      if (id.length === 5) counties.push({ code: id, name: this._addrNorm(a.county || a.areaName), label: a.county || a.areaName });
+      else if (id.length === 8) towns.push({ id, code: a.countyCode, county: a.county, name: this._addrNorm(a.town || a.areaName), label: a.town || a.areaName });
+      else if (id.length > 8) {
+        const t = id.slice(0, 8); if (!villagesByTown.has(t)) villagesByTown.set(t, []);
+        villagesByTown.get(t).push({ id, name: this._addrNorm(a.village || a.areaName), label: a.village || a.areaName });
+      }
+    });
+    (index.candidates || []).forEach(c => { const k = c.source + '|' + c.areaId; if (!by.has(k)) by.set(k, []); by.get(k).push(c); });
+    this._addrIdx = { src: index, counties, towns, villagesByTown, by };
+    return this._addrIdx;
+  }
+  _addrParse(raw, index) {
+    const text = this._addrNorm(raw);
+    if (text.length < 2) return null;
+    const ix = this._addrIndex(index);
+    const cs = ix.counties.filter(c => c.name && text.includes(c.name));
+    let ts = ix.towns.filter(t => t.name && t.name.length >= 2 && text.includes(t.name));
+    if (cs.length) ts = ts.filter(t => cs.some(c => c.code === t.code));
+    if (!ts.length && !cs.length) return null;
+    const label = code => ix.counties.find(c => c.code === code)?.label || '';
+    const out = [];
+    if (ts.length) {
+      ts.slice(0, 6).forEach(t => {
+        const list = (ix.villagesByTown.get(t.id) || []).filter(v => v.name.length >= 2 && text.includes(v.name)).sort((a, b) => b.name.length - a.name.length);
+        out.push({ county: { code: t.code, label: label(t.code) || t.county }, town: t, village: list[0] || null });
+      });
+    } else cs.slice(0, 3).forEach(c => out.push({ county: c, town: null, village: null }));
+    return out;
+  }
+  _roleTitle(list, fallback) { return String(list?.[0]?.role || fallback).replace(/候選人$/, ''); }
+  _addrGroups(m, ix) {
+    const groups = [], by = ix.by, dm = this.districtMap?.[m.county.code] || {};
+    const put = (title, where, list) => { if (list && list.length) groups.push({ title, where, list }); };
+    const mayors = by.get('candidates|' + m.county.code) || [];
+    put(this._roleTitle(mayors, '縣市長'), m.county.label, mayors);
+    if (!m.town) return groups;
+    const districts = Object.keys(dm.districts || {}).filter(d => (dm.districts[d].towns || []).includes(m.town.label));
+    const councilors = by.get('councilors|' + m.county.code) || [];
+    districts.forEach(d => {
+      const towns = (dm.districts[d].towns || []).join('、');
+      put(this._roleTitle(councilors, '議員') + `｜第 ${d} 選舉區`, `${m.county.label} › 第 ${d} 選舉區（${towns}）`, councilors.filter(c => String(c.district) === String(d)));
+    });
+    const townMayors = by.get('candidates|' + m.town.id) || [];
+    put(this._roleTitle(townMayors, '鄉鎮市長') + `｜${m.town.label}`, `${m.county.label} › ${m.town.label}`, townMayors);
+    const reps = by.get('representatives|' + m.town.id) || [];
+    const repDistricts = [...new Set(reps.map(c => String(c.district)))].sort((a, b) => a.localeCompare(b, 'zh-Hant', { numeric: true }));
+    repDistricts.forEach(d => {
+      const configured = dm.representatives?.[m.town.id]?.[d];
+      const areas = Array.isArray(configured) ? configured : configured ? [configured] : [];
+      if (m.village && areas.length && !areas.includes(m.village.label)) return;
+      put(this._roleTitle(reps, '代表') + `｜${m.town.label}第 ${d} 選舉區`, `${m.county.label} › ${m.town.label} › 第 ${d} 選舉區（${areas.length ? areas.join('、') : m.town.label}）`, reps.filter(c => String(c.district) === d));
+    });
+    if (m.village) {
+      const chiefs = by.get('candidates|' + m.village.id) || [];
+      put(this._roleTitle(chiefs, '村里長') + `｜${m.village.label}`, `${m.county.label} › ${m.town.label} › ${m.village.label}`, chiefs);
+    }
+    return groups;
+  }
+  _renderAddressResults(container, matches, raw, index) {
+    const ix = this._addrIndex(index);
+    container.innerHTML = '';
+    matches.forEach(m => {
+      const head = document.createElement('div'); head.className = 'addr-head';
+      head.textContent = ['這個地址可以投票選出', [m.county.label, m.town?.label, m.village?.label].filter(Boolean).join(' › ')].join('：');
+      container.appendChild(head);
+      const groups = this._addrGroups(m, ix);
+      groups.forEach(g => {
+        const button = document.createElement('button');
+        button.type = 'button'; button.className = 'search-result'; button.setAttribute('role', 'option');
+        const name = document.createElement('span'); name.className = 'search-result-name'; name.textContent = `${g.title}（${g.list.length} 人）`;
+        const meta = document.createElement('span'); meta.className = 'search-result-meta'; meta.textContent = g.list.map(c => c.name).join('、');
+        button.append(name, meta);
+        button.addEventListener('click', () => this._openCandidateGroup(g));
+        container.appendChild(button);
+      });
+      if (!m.town) {
+        const note = document.createElement('div'); note.className = 'addr-note'; note.textContent = '再加上區、鄉鎮市名稱（例如：龜山區），就能一併查到議員、區長鄉鎮市長與代表。'; container.appendChild(note);
+      } else if (!m.village && (ix.villagesByTown.get(m.town.id) || []).length) {
+        const button = document.createElement('button');
+        button.type = 'button'; button.className = 'search-result';
+        const name = document.createElement('span'); name.className = 'search-result-name'; name.textContent = '查詢這個地址的村里長';
+        const meta = document.createElement('span'); meta.className = 'search-result-meta'; meta.textContent = '可直接加上里名（例如：文化里）；或按這裡用地圖定位';
+        button.append(name, meta);
+        button.addEventListener('click', async () => {
+          name.textContent = '定位中…（地址會送到 OpenStreetMap 查詢，本站不儲存）';
+          try {
+            const hit = await this._addrLocateVillage(m, raw);
+            if (hit) { m.village = hit; this._renderAddressResults(container, matches, raw, index); }
+            else name.textContent = '找不到這個地址的位置，請改輸入里名（例如：文化里）';
+          } catch (_) { name.textContent = '定位服務暫時無法使用，請改輸入里名（例如：文化里）'; }
+        });
+        container.appendChild(button);
+        const note = document.createElement('div'); note.className = 'addr-note'; note.textContent = '地圖定位為約略位置，長路或行政區交界處請再核對里名。'; container.appendChild(note);
+      }
+      if (m.town && !groups.length) {
+        const note = document.createElement('div'); note.className = 'addr-note'; note.textContent = '目前沒有這個地點的候選人資料。'; container.appendChild(note);
+      }
+    });
+  }
+  _openCandidateGroup(group) {
+    const input = document.getElementById('candidate-search-input');
+    this._closeCandidateSearch?.();
+    this._navigationRevision += 1;
+    this._setReadoutContext(null, null, group.where, group.title);
+    this._drawerBase(group.where, group.title, '--', '--');
+    document.getElementById('drawer-title').textContent = group.title;
+    this._hideBack();
+    this._hideSel('sel-type'); this._hideSel('sel-district'); this._hideSel('sel-village');
+    this._showCands(group.list);
+    input?.blur();
+  }
+  _pointInRing(x, y, ring) {
+    let inside = false;
+    for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+      const [xi, yi] = ring[i], [xj, yj] = ring[j];
+      if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) inside = !inside;
+    }
+    return inside;
+  }
+  _pointInFeature(x, y, feature) {
+    const g = feature.geometry; if (!g) return false;
+    const polys = g.type === 'Polygon' ? [g.coordinates] : g.type === 'MultiPolygon' ? g.coordinates : [];
+    return polys.some(poly => this._pointInRing(x, y, poly[0]) && !poly.slice(1).some(hole => this._pointInRing(x, y, hole)));
+  }
+  async _addrLocateVillage(m, raw) {
+    const base = String(raw || '').normalize('NFKC').trim();
+    const queries = [...new Set([base, base.replace(/\d+(之\d+)?號.*$/, '').trim(), base.replace(/\d+(巷|弄|號).*$/, '').trim()])].filter(Boolean);
+    let point = null;
+    for (let i = 0; i < queries.length && !point; i++) {
+      if (i) await new Promise(r => setTimeout(r, 1100));
+      const params = new URLSearchParams({ format: 'jsonv2', limit: '1', countrycodes: 'tw', 'accept-language': 'zh-TW', q: queries[i] });
+      const res = await fetch('https://nominatim.openstreetmap.org/search?' + params.toString());
+      if (!res.ok) throw new Error('geocode ' + res.status);
+      const rows = await res.json();
+      if (rows?.[0]) point = [parseFloat(rows[0].lon), parseFloat(rows[0].lat)];
+    }
+    if (!point) return null;
+    const topo = await this._loadTopo(`./data/villages/villages-${m.town.id}.json`);
+    const hit = this._feats(topo).find(f => this._pointInFeature(point[0], point[1], f));
+    return hit ? { id: String(hit.properties.id), label: hit.properties.name } : null;
   }
 
   async _loadCandidateSearch() {
