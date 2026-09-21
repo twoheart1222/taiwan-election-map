@@ -35,7 +35,7 @@
   .cand-scroll{overscroll-behavior:contain;touch-action:pan-y;-webkit-overflow-scrolling:touch}
   .dsel{width:100%;-webkit-appearance:none;appearance:none;background:#1f1c19 url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23E4022B' stroke-width='3' stroke-linecap='round'%3e%3cpath d='M6 9l6 6 6-6'/%3e%3c/svg%3e") no-repeat right 14px center/18px;border:1.5px solid #33302b;border-radius:12px;padding:13px 40px 13px 16px;font:700 14px 'Noto Sans TC',sans-serif;color:#f4f1ea;cursor:pointer}
   #role-tabs{flex:none;padding:0 26px 12px;gap:8px;flex-wrap:wrap}
-  .role-tab{flex:1 1 0;min-width:0;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 8px;border:1.5px solid #33302b;background:transparent;color:#a29c92;border-radius:999px;font:800 13px 'Noto Sans TC',sans-serif;cursor:pointer;white-space:nowrap;transition:all .2s}
+  .role-tab{flex:1 1 auto;min-width:max-content;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 12px;border:1.5px solid #33302b;background:transparent;color:#a29c92;border-radius:999px;font:800 13px 'Noto Sans TC',sans-serif;cursor:pointer;white-space:nowrap;transition:all .2s}
   .role-tab em{font:800 11px 'Archivo','Noto Sans TC';font-style:normal;opacity:.7}
   .role-tab:hover{border-color:#E4022B;color:#f4f1ea}
   .role-tab.on{background:#E4022B;border-color:#E4022B;color:#fff}
@@ -87,8 +87,6 @@
   .search-result:hover,.search-result.active{background:#2a1013}
   .search-result-name{display:block;font-size:16px;font-weight:900}
   .search-result-meta{display:block;margin-top:3px;color:#a29c92;font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .addr-head{padding:12px 12px 4px;color:#ff7890;font-size:11px;font-weight:800;letter-spacing:.1em;line-height:1.5}
-  .addr-note{padding:4px 12px 10px;color:#8a857c;font-size:11.5px;font-weight:600;line-height:1.6}
   .search-message{padding:15px 13px;color:#a29c92;font-size:13px;font-weight:700;line-height:1.6}
   @media(max-width:660px){
     .pt-center{padding:34px 20px !important}.transition-title{font-size:clamp(40px,15vw,72px);line-height:.94}
@@ -723,7 +721,8 @@ class App {
         const index = await this._loadCandidateSearch();
         if (query !== this._normalizeSearch(input.value)) return;
         const addressMatches = this._addrParse(input.value, index);
-        if (addressMatches) { this._searchMatches = []; this._searchActive = -1; this._renderAddressResults(results, addressMatches, input.value, index); return; }
+        if (addressMatches) { this._searchMatches = []; this._searchActive = -1; results.dataset.mode = 'address'; this._renderAddressResults(results, addressMatches, input.value, index); return; }
+        results.dataset.mode = 'name';
         const rank = name => name === query ? 0 : name.startsWith(query) ? 1 : 2;
         this._searchMatches = index.candidates
           .map(candidate => ({ candidate, key: this._normalizeSearch(candidate.name) }))
@@ -749,8 +748,8 @@ class App {
         this._searchActive = (this._searchActive + (event.key === 'ArrowDown' ? 1 : -1) + shown.length) % shown.length;
         shown.forEach((button, i) => button.classList.toggle('active', i === this._searchActive));
         shown[this._searchActive].scrollIntoView({ block: 'nearest' });
-      } else if (event.key === 'Enter' && this._searchActive >= 0) {
-        event.preventDefault(); shown[this._searchActive]?.click();
+      } else if (event.key === 'Enter' && (this._searchActive >= 0 || results.dataset.mode === 'address')) {
+        event.preventDefault(); shown[Math.max(this._searchActive, 0)]?.click();
       } else if (event.key === 'Escape') setMobileOpen(false);
     });
     row?.addEventListener('click', () => { if (isDesktop() && !search.classList.contains('open')) setDeskOpen(true); });
@@ -808,87 +807,98 @@ class App {
     } else cs.slice(0, 3).forEach(c => out.push({ county: c, town: null, village: null }));
     return out;
   }
-  _roleTitle(list, fallback) { return String(list?.[0]?.role || fallback).replace(/候選人$/, ''); }
-  _addrGroups(m, ix) {
-    const groups = [], by = ix.by, dm = this.districtMap?.[m.county.code] || {};
-    const put = (title, where, list) => { if (list && list.length) groups.push({ title, where, list }); };
+  _addrCategories(m, ix) {
+    const by = ix.by, dm = this.districtMap?.[m.county.code] || {}, cats = [];
     const mayors = by.get('candidates|' + m.county.code) || [];
-    put(this._roleTitle(mayors, '縣市長'), m.county.label, mayors);
-    if (!m.town) return groups;
+    if (mayors.length) cats.push({ key: 'mayor', label: '縣市首長', list: mayors });
+    if (!m.town) return cats;
     const districts = Object.keys(dm.districts || {}).filter(d => (dm.districts[d].towns || []).includes(m.town.label));
-    const councilors = by.get('councilors|' + m.county.code) || [];
-    districts.forEach(d => {
-      const towns = (dm.districts[d].towns || []).join('、');
-      put(this._roleTitle(councilors, '議員') + `｜第 ${d} 選舉區`, `${m.county.label} › 第 ${d} 選舉區（${towns}）`, councilors.filter(c => String(c.district) === String(d)));
-    });
+    const councilors = (by.get('councilors|' + m.county.code) || []).filter(c => districts.includes(String(c.district)));
+    if (councilors.length) cats.push({ key: 'council', label: '議員', list: councilors });
     const townMayors = by.get('candidates|' + m.town.id) || [];
-    put(this._roleTitle(townMayors, '鄉鎮市長') + `｜${m.town.label}`, `${m.county.label} › ${m.town.label}`, townMayors);
-    const reps = by.get('representatives|' + m.town.id) || [];
-    const repDistricts = [...new Set(reps.map(c => String(c.district)))].sort((a, b) => a.localeCompare(b, 'zh-Hant', { numeric: true }));
-    repDistricts.forEach(d => {
-      const configured = dm.representatives?.[m.town.id]?.[d];
-      const areas = Array.isArray(configured) ? configured : configured ? [configured] : [];
-      if (m.village && areas.length && !areas.includes(m.village.label)) return;
-      put(this._roleTitle(reps, '代表') + `｜${m.town.label}第 ${d} 選舉區`, `${m.county.label} › ${m.town.label} › 第 ${d} 選舉區（${areas.length ? areas.join('、') : m.town.label}）`, reps.filter(c => String(c.district) === d));
-    });
+    if (townMayors.length) cats.push({ key: 'town', label: '鄉鎮市區長', list: townMayors });
+    let reps = by.get('representatives|' + m.town.id) || [];
     if (m.village) {
-      const chiefs = by.get('candidates|' + m.village.id) || [];
-      put(this._roleTitle(chiefs, '村里長') + `｜${m.village.label}`, `${m.county.label} › ${m.town.label} › ${m.village.label}`, chiefs);
+      reps = reps.filter(c => {
+        const configured = dm.representatives?.[m.town.id]?.[String(c.district)];
+        const areas = Array.isArray(configured) ? configured : configured ? [configured] : [];
+        return !areas.length || areas.includes(m.village.label);
+      });
     }
-    return groups;
+    if (reps.length) cats.push({ key: 'rep', label: '代表', list: reps });
+    if (m.village) cats.push({ key: 'village', label: '村里長', list: by.get('candidates|' + m.village.id) || [] });
+    else if ((ix.villagesByTown.get(m.town.id) || []).length) cats.push({ key: 'village', label: '村里長', list: null });
+    return cats;
   }
+  // 搜尋框只放「查看這個地址的候選人」入口；點選（或按 Enter）後，和搜尋人名一樣在右側抽屜顯示。
   _renderAddressResults(container, matches, raw, index) {
     const ix = this._addrIndex(index);
     container.innerHTML = '';
     matches.forEach(m => {
-      const head = document.createElement('div'); head.className = 'addr-head';
-      head.textContent = ['這個地址可以投票選出', [m.county.label, m.town?.label, m.village?.label].filter(Boolean).join(' › ')].join('：');
-      container.appendChild(head);
-      const groups = this._addrGroups(m, ix);
-      groups.forEach(g => {
-        const button = document.createElement('button');
-        button.type = 'button'; button.className = 'search-result'; button.setAttribute('role', 'option');
-        const name = document.createElement('span'); name.className = 'search-result-name'; name.textContent = `${g.title}（${g.list.length} 人）`;
-        const meta = document.createElement('span'); meta.className = 'search-result-meta'; meta.textContent = g.list.map(c => c.name).join('、');
-        button.append(name, meta);
-        button.addEventListener('click', () => this._openCandidateGroup(g));
-        container.appendChild(button);
-      });
-      if (!m.town) {
-        const note = document.createElement('div'); note.className = 'addr-note'; note.textContent = '再加上區、鄉鎮市名稱（例如：龜山區），就能一併查到議員、區長鄉鎮市長與代表。'; container.appendChild(note);
-      } else if (!m.village && (ix.villagesByTown.get(m.town.id) || []).length) {
-        const button = document.createElement('button');
-        button.type = 'button'; button.className = 'search-result';
-        const name = document.createElement('span'); name.className = 'search-result-name'; name.textContent = '查詢這個地址的村里長';
-        const meta = document.createElement('span'); meta.className = 'search-result-meta'; meta.textContent = '可直接加上里名（例如：文化里）；或按這裡用地圖定位';
-        button.append(name, meta);
-        button.addEventListener('click', async () => {
-          name.textContent = '定位中…（地址會送到 OpenStreetMap 查詢，本站不儲存）';
-          try {
-            const hit = await this._addrLocateVillage(m, raw);
-            if (hit) { m.village = hit; this._renderAddressResults(container, matches, raw, index); }
-            else name.textContent = '找不到這個地址的位置，請改輸入里名（例如：文化里）';
-          } catch (_) { name.textContent = '定位服務暫時無法使用，請改輸入里名（例如：文化里）'; }
-        });
-        container.appendChild(button);
-        const note = document.createElement('div'); note.className = 'addr-note'; note.textContent = '地圖定位為約略位置，長路或行政區交界處請再核對里名。'; container.appendChild(note);
-      }
-      if (m.town && !groups.length) {
-        const note = document.createElement('div'); note.className = 'addr-note'; note.textContent = '目前沒有這個地點的候選人資料。'; container.appendChild(note);
-      }
+      const where = [m.county.label, m.town?.label, m.village?.label].filter(Boolean).join(' › ');
+      const cats = this._addrCategories(m, ix);
+      const button = document.createElement('button');
+      button.type = 'button'; button.className = 'search-result'; button.setAttribute('role', 'option');
+      const name = document.createElement('span'); name.className = 'search-result-name'; name.textContent = where;
+      const meta = document.createElement('span'); meta.className = 'search-result-meta';
+      meta.textContent = cats.length ? `查看可投票選出的：${cats.map(c => c.label).join('、')}` : '目前沒有這個地點的候選人資料';
+      button.append(name, meta);
+      button.addEventListener('click', () => this._openAddressDrawer(m, raw, index));
+      container.appendChild(button);
     });
   }
-  _openCandidateGroup(group) {
+  _openAddressDrawer(m, raw, index, initial) {
+    const ix = this._addrIndex(index);
+    const cats = this._addrCategories(m, ix);
+    const where = [m.county.label, m.town?.label, m.village?.label].filter(Boolean).join(' › ');
     const input = document.getElementById('candidate-search-input');
+    if (input) input.blur();
     this._closeCandidateSearch?.();
     this._navigationRevision += 1;
-    this._setReadoutContext(null, null, group.where, group.title);
-    this._drawerBase(group.where, group.title, '--', '--');
-    document.getElementById('drawer-title').textContent = group.title;
+    this._setReadoutContext(null, null, where, '地址查詢');
+    this._drawerBase(where, '地址查詢', '--', '--');
+    const title = document.getElementById('drawer-title');
+    title.textContent = '這個地址可以投票選出';
     this._hideBack();
     this._hideSel('sel-type'); this._hideSel('sel-district'); this._hideSel('sel-village');
-    this._showCands(group.list);
-    input?.blur();
+    if (!cats.length) { this._showPrompt('目前沒有這個地點的候選人資料。'); return; }
+    const districtLabel = (cat, d) => {
+      if (cat.key === 'council') return this._districtLabel(m.county.code, { district: d });
+      const configured = this.districtMap?.[m.county.code]?.representatives?.[m.town.id]?.[d];
+      const areas = Array.isArray(configured) ? configured : configured ? [configured] : [m.town.label];
+      return `第 ${d} 選舉區（${areas.join('、')}）`;
+    };
+    const tabs = cats.map(c => ({ key: c.key, label: c.label, count: c.list ? c.list.length : '' }));
+    this._roleTabs(`addr:${where}`, tabs, key => {
+      const cat = cats.find(c => c.key === key);
+      this._hideSel('sel-district'); this._hideSel('sel-village');
+      const names = { mayor: '縣市首長', council: '議員', town: '鄉鎮市區長', rep: '代表', village: '村里長' };
+      title.textContent = `${where}・${names[key] || cat.label}`;
+      if (cat.list === null) {
+        const box = document.getElementById('candidates');
+        box.innerHTML = `<div style="background:#1c1916;border:1px dashed #33302b;border-radius:18px;padding:22px;text-align:center"><div style="font-size:14px;font-weight:800;color:#f4f1ea;line-height:1.6">地址裡沒有里名，無法直接判斷村里</div><div style="margin-top:8px;font-size:12px;font-weight:600;color:#a29c92;line-height:1.7">可以在地址加上里名（例如：文化里）重新搜尋，或用地圖定位。定位會把地址送到 OpenStreetMap 查詢，本站不儲存；結果為約略位置，請再核對里名。</div><button id="addr-locate" type="button" style="margin-top:14px;padding:12px 18px;border:0;border-radius:999px;background:#E4022B;color:#fff;font:800 14px 'Noto Sans TC',sans-serif;cursor:pointer">用地圖定位這個地址的村里</button><div id="addr-locate-msg" style="margin-top:10px;font-size:12px;font-weight:700;color:#ff7890"></div></div>`;
+        document.getElementById('addr-locate').onclick = async () => {
+          const msg = document.getElementById('addr-locate-msg');
+          msg.style.color = '#a29c92'; msg.textContent = '定位中…';
+          try {
+            const hit = await this._addrLocateVillage(m, raw);
+            if (hit) { m.village = hit; this._openAddressDrawer(m, raw, index, 'village'); }
+            else { msg.style.color = '#ff7890'; msg.textContent = '找不到這個地址的位置，請改在地址加上里名（例如：文化里）。'; }
+          } catch (_) { msg.style.color = '#ff7890'; msg.textContent = '定位服務暫時無法使用，請改在地址加上里名（例如：文化里）。'; }
+        };
+        return;
+      }
+      const districts = [...new Set(cat.list.map(c => String(c.district ?? '')).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'zh-Hant', { numeric: true }));
+      if ((cat.key === 'council' || cat.key === 'rep') && districts.length > 1) {
+        const sel = document.getElementById('sel-district');
+        sel.innerHTML = `<option value="">── 全部選舉區（${cat.list.length} 人）──</option>` + districts.map(d => `<option value="${d}">${districtLabel(cat, d)}（${cat.list.filter(c => String(c.district) === d).length} 人）</option>`).join('');
+        this._showSel('sel-district');
+        sel.onchange = () => this._showCands(sel.value ? cat.list.filter(c => String(c.district) === sel.value) : cat.list);
+      } else if ((cat.key === 'council' || cat.key === 'rep') && districts.length === 1) {
+        title.textContent = `${where}・${names[key]}｜${districtLabel(cat, districts[0])}`;
+      }
+      this._showCands(cat.list);
+    }, initial || (cats.find(c => c.list && c.list.length) || cats[0]).key);
   }
   _pointInRing(x, y, ring) {
     let inside = false;
