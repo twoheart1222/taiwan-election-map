@@ -221,6 +221,32 @@
       </details>
     </div>
 
+    <section id="announcement-manager" class="bg-surface p-5 rounded-2xl border editorial-border shadow-[4px_4px_0px_#141517] space-y-4">
+      <div>
+        <h3 class="text-sm font-black flex items-center gap-2"><i data-lucide="megaphone" class="w-4 h-4 text-accent-orange"></i>站內公告</h3>
+        <p class="text-xs text-ink-500 mt-1">以半透明的方式顯示在前台。可自行修改內容、勾選要出現的頁面，儲存後前台立即更新。</p>
+      </div>
+      <label class="flex items-center gap-2 text-xs font-black"><input type="checkbox" id="ann-enabled" class="w-4 h-4 accent-[#E4022B]">啟用公告</label>
+      <div class="grid gap-2">
+        <input id="ann-title" maxlength="80" placeholder="公告標題，例如：金流審核中" class="bg-canvas border border-ink-300 rounded-lg px-2.5 py-2 text-xs font-bold">
+        <textarea id="ann-message" maxlength="600" rows="4" placeholder="公告內容（可換行）" class="bg-canvas border border-ink-300 rounded-lg px-2.5 py-2 text-xs font-medium"></textarea>
+      </div>
+      <div>
+        <div class="text-[10px] font-black tracking-wider text-ink-500 mb-2">顯示在哪些頁面</div>
+        <div class="flex flex-wrap gap-x-5 gap-y-2 text-xs font-bold">
+          <label class="flex items-center gap-1.5"><input type="checkbox" class="ann-page w-4 h-4 accent-[#E4022B]" value="map">地圖首頁</label>
+          <label class="flex items-center gap-1.5"><input type="checkbox" class="ann-page w-4 h-4 accent-[#E4022B]" value="observatory">政治觀察</label>
+          <label class="flex items-center gap-1.5"><input type="checkbox" class="ann-page w-4 h-4 accent-[#E4022B]" value="support">支持島民觀察室</label>
+          <label class="flex items-center gap-1.5"><input type="checkbox" class="ann-page w-4 h-4 accent-[#E4022B]" value="contact">聯絡我們</label>
+        </div>
+      </div>
+      <label class="flex items-start gap-2 text-xs font-bold"><input type="checkbox" id="ann-lock" class="w-4 h-4 mt-0.5 accent-[#E4022B]"><span>支持頁：用半透明遮罩蓋住捐款表單，並把公告顯示在遮罩上（表單暫時無法操作）<br><span class="font-medium text-ink-500">未勾選時，支持頁的公告與其他頁面一樣顯示在畫面下方。</span></span></label>
+      <div class="flex flex-wrap items-center gap-3">
+        <button type="button" onclick="saveAnnouncement()" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-accent-orange text-white text-xs font-black hover:bg-ink-900 transition"><i data-lucide="save" class="w-3.5 h-3.5"></i>儲存公告</button>
+        <span id="ann-status" class="text-xs font-bold text-ink-500" role="status"></span>
+      </div>
+    </section>
+
     <section id="observatory-manager" class="bg-surface p-5 rounded-2xl border editorial-border shadow-[4px_4px_0px_#141517] space-y-4">
       <div class="flex flex-wrap items-center justify-between gap-3">
         <div>
@@ -480,6 +506,7 @@
         });
       renderOverrideList();
       refreshPhotoCacheStatus();
+      await loadAnnouncement();
       await loadObservatoryLinks();
       await loadContactSubmissions();
       lucide.createIcons();
@@ -551,6 +578,45 @@
         return `<div class="grid grid-cols-[auto_1fr] sm:grid-cols-[auto_1fr_auto] items-center gap-2 px-3 py-2 bg-surface rounded-lg border border-ink-100"><span class="px-2 py-0.5 rounded bg-ink-100 text-[10px] font-black">${labels[level]}</span><span class="font-bold break-all">${escapeHTML(id)}</span><span class="col-span-2 sm:col-span-1 text-ink-500 sm:text-right">${escapeHTML(dateText)} · ${escapeHTML(item.updatedBy || '')}</span></div>`;
       }).join('');
     }
+
+    function fillAnnouncement(a) {
+      a = a || {};
+      document.getElementById('ann-enabled').checked = a.enabled === true;
+      document.getElementById('ann-title').value = a.title || '';
+      document.getElementById('ann-message').value = a.message || '';
+      document.querySelectorAll('.ann-page').forEach(box => { box.checked = a.pages?.[box.value] === true; });
+      document.getElementById('ann-lock').checked = a.supportLock === true;
+    }
+
+    async function loadAnnouncement() {
+      const status = document.getElementById('ann-status');
+      try {
+        fillAnnouncement(await apiFetch('/api/admin/announcement'));
+      } catch (err) {
+        status.textContent = '讀取失敗：' + err.message + '（若剛更新，請先重新部署 API Worker）';
+      }
+    }
+
+    window.saveAnnouncement = async function() {
+      const status = document.getElementById('ann-status');
+      const pages = {};
+      document.querySelectorAll('.ann-page').forEach(box => { pages[box.value] = box.checked; });
+      const body = {
+        enabled: document.getElementById('ann-enabled').checked,
+        title: document.getElementById('ann-title').value.trim(),
+        message: document.getElementById('ann-message').value.trim(),
+        pages,
+        supportLock: document.getElementById('ann-lock').checked,
+      };
+      status.textContent = '儲存中…';
+      try {
+        const result = await apiFetch('/api/admin/announcement', { method: 'PUT', body: JSON.stringify(body) });
+        fillAnnouncement(result);
+        status.textContent = '已儲存，前台已同步更新。';
+      } catch (err) {
+        status.textContent = '儲存失敗：' + err.message;
+      }
+    };
 
     function escapeHTML(value) {
       return String(value || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');

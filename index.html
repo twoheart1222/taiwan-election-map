@@ -10,15 +10,15 @@
 <meta property="og:site_name" content="Formosa Observatory｜島民觀察室">
 <meta property="og:title" content="島民選舉地圖">
 <meta property="og:description" content="用資料，看懂我們生活的這座島。">
-<meta property="og:url" content="https://taiwan-election-map.uprisevideoproduction.workers.dev/">
-<meta property="og:image" content="https://taiwan-election-map.uprisevideoproduction.workers.dev/social-preview.png">
+<meta property="og:url" content="https://formosaobservatory.com/">
+<meta property="og:image" content="https://formosaobservatory.com/social-preview.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="島民選舉地圖">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Formosa Observatory · 島民選舉地圖">
 <meta name="twitter:description" content="用資料，看懂我們生活的這座島。">
-<meta name="twitter:image" content="https://taiwan-election-map.uprisevideoproduction.workers.dev/social-preview.png">
+<meta name="twitter:image" content="https://formosaobservatory.com/social-preview.png">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
@@ -170,6 +170,18 @@
   }
   @media(max-width:380px){.brand-home{font-size:13px !important}.map-intro h1{font-size:27px !important}}
   @media(max-width:520px){.nav-brandsub{display:none}}
+  /* 站內公告：半透明浮層 */
+  .site-ann{position:fixed;left:50%;bottom:max(16px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:90;width:min(560px,calc(100% - 32px));box-sizing:border-box;padding:16px 44px 16px 18px;border-radius:16px;background:rgba(20,18,16,.68);border:1px solid rgba(244,241,234,.16);color:#f4f1ea;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 12px 40px rgba(0,0,0,.35);font-family:'Noto Sans TC','Archivo',sans-serif}
+  .site-ann[hidden]{display:none}
+  .site-ann .ann-kicker{font-family:'Archivo';font-weight:800;font-size:11px;letter-spacing:.22em;color:#ff5a6e;margin-bottom:6px}
+  .site-ann .ann-title{font-weight:900;font-size:16px;line-height:1.35;margin:0}
+  .site-ann .ann-msg{margin:6px 0 0;font-size:13.5px;line-height:1.7;color:#d6d0c4;white-space:pre-line}
+  .site-ann .ann-x{position:absolute;top:8px;right:8px;width:30px;height:30px;border:none;border-radius:50%;background:transparent;color:#a29c92;font-size:16px;cursor:pointer}
+  .site-ann .ann-x:hover{background:rgba(244,241,234,.1);color:#f4f1ea}
+  .don-lock{position:absolute;inset:0;z-index:5;border-radius:20px;display:flex;align-items:flex-start;justify-content:center;padding:clamp(48px,10vh,96px) 24px 24px;box-sizing:border-box;text-align:center;background:rgba(13,13,13,.62);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);color:#f4f1ea;font-family:'Noto Sans TC','Archivo',sans-serif}
+  .don-lock .ann-kicker{font-family:'Archivo';font-weight:800;font-size:11px;letter-spacing:.22em;color:#ff5a6e;margin-bottom:10px}
+  .don-lock .ann-title{font-weight:900;font-size:clamp(20px,2.4vw,26px);line-height:1.3;margin:0}
+  .don-lock .ann-msg{margin:10px auto 0;max-width:34em;font-size:14.5px;line-height:1.75;color:#e6e1d6;white-space:pre-line}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://unpkg.com/topojson-client@3/dist/topojson-client.min.js"></script>
@@ -208,6 +220,8 @@
       <div id="page-transition-rule" class="transition-rule"></div>
     </div>
   </div>
+
+  <div id="site-ann" class="site-ann" role="status" aria-live="polite" hidden></div>
 
   <div id="page" style="will-change:transform,filter">
 
@@ -401,7 +415,7 @@
       </header>
       <main style="flex:1;padding:0 clamp(18px,4vw,54px) clamp(56px,9vh,110px)">
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:clamp(20px,3vw,44px);align-items:start;max-width:1200px">
-          <div style="background:#f4f1ea;color:#0d0d0d;border-radius:20px;padding:clamp(24px,3vw,40px)">
+          <div id="don-card" style="position:relative;background:#f4f1ea;color:#0d0d0d;border-radius:20px;padding:clamp(24px,3vw,40px)">
             <div style="display:flex;gap:8px;padding:5px;background:#e6e1d6;border-radius:999px;margin-bottom:26px">
               <button class="freq-btn" data-freq="once" style="flex:1;padding:11px;border:none;border-radius:999px;font:800 14px 'Noto Sans TC';cursor:pointer;background:#E4022B;color:#fff">單次支持</button>
               <button class="freq-btn" data-freq="monthly" style="flex:1;padding:11px;border:none;border-radius:999px;font:800 14px 'Noto Sans TC';cursor:pointer;background:transparent;color:#0d0d0d">每月支持</button>
@@ -505,6 +519,7 @@ class App {
     this._wireCountyPicker();
     this._renderSites();
     this._loadObservatoryLinks();
+    this._loadAnnouncement();
     this._wireDonation();
     this._wireContact();
     this._waitLibs().then(() => {
@@ -642,10 +657,11 @@ class App {
     });
     const previous = this._currentView;
     const next = document.getElementById('view-' + name);
+    const setVisibleAndAnn = active => { setVisible(active); this._renderAnnouncement(active); };
     const current = previous ? document.getElementById('view-' + previous) : null;
     this._currentView = name;
     if (!previous || previous === name || !current || !next) {
-      setVisible(name);
+      setVisibleAndAnn(name);
       if (onSwap) onSwap();
     } else {
       // 原生 Web Animations：手機不再因外部動畫函式庫載入失敗而直接跳頁。
@@ -655,7 +671,7 @@ class App {
       const rule = document.getElementById('page-transition-rule');
       if (title) title.textContent = labels[name] || name;
       if (kicker) kicker.textContent = name === 'map' ? '返回 / HOME' : '前往 / NEXT';
-      this._playVeil(veil, title, kicker, rule, () => { setVisible(name); if (onSwap) onSwap(); }, '_viewTransitionToken');
+      this._playVeil(veil, title, kicker, rule, () => { setVisibleAndAnn(name); if (onSwap) onSwap(); }, '_viewTransitionToken');
     }
     document.querySelectorAll('.navlink,#mobile-menu [data-view]').forEach(l => l.classList.toggle('on', l.dataset.view === name));
     window.scrollTo(0, 0);
@@ -1927,6 +1943,53 @@ class App {
       { n: '政治開箱 Politics Design', cat: '政治視覺研究', url: 'https://politicsdesign.tw/', host: 'politicsdesign.tw', d: '台灣當代政治競選美學與民主視覺溝通研究平台。' },
     ];
   }
+  // ---------- ANNOUNCEMENT（後台可編輯的半透明公告） ----------
+  _annDefault() {
+    return { enabled: true, title: '金流審核中', message: '「支持島民觀察室」的金流服務正在審核中，暫時無法使用。開放後會在這裡公告，感謝你的關心與支持。', pages: { map: false, observatory: false, support: true, contact: false }, supportLock: true };
+  }
+  async _loadAnnouncement() {
+    this._ann = this._annDefault();
+    try {
+      const res = await fetch(`${this.apiBase}/?key=site_announcement`, { headers: { accept: 'application/json' } });
+      if (res.ok) { const data = await res.json(); if (data && typeof data === 'object') this._ann = data; }
+    } catch (_) { /* 讀不到時沿用預設公告 */ }
+    this._renderAnnouncement(this._currentView || 'map');
+  }
+  _renderAnnouncement(view) {
+    const a = this._ann, box = document.getElementById('site-ann');
+    if (!box) return;
+    const card = document.getElementById('don-card');
+    document.getElementById('don-lock')?.remove();
+    if (card) { card.removeAttribute('aria-disabled'); [...card.children].forEach(el => el.removeAttribute('inert')); }
+    this._supportLocked = false;
+    box.hidden = true;
+    if (!a || a.enabled !== true || !(a.title || a.message) || a.pages?.[view] !== true) return;
+    const build = (kind) => {
+      const k = document.createElement('div'); k.className = 'ann-kicker'; k.textContent = '公告 / NOTICE';
+      const wrap = document.createDocumentFragment(); wrap.appendChild(k);
+      if (a.title) { const t = document.createElement('p'); t.className = 'ann-title'; t.textContent = a.title; wrap.appendChild(t); }
+      if (a.message) { const m = document.createElement('p'); m.className = 'ann-msg'; m.textContent = a.message; wrap.appendChild(m); }
+      return wrap;
+    };
+    if (view === 'support' && a.supportLock === true && card) {
+      const [...kids] = card.children;
+      kids.forEach(el => el.setAttribute('inert', ''));
+      const lock = document.createElement('div'); lock.id = 'don-lock'; lock.className = 'don-lock';
+      const inner = document.createElement('div'); inner.appendChild(build()); lock.appendChild(inner);
+      card.appendChild(lock);
+      card.setAttribute('aria-disabled', 'true');
+      this._supportLocked = true;
+      return;
+    }
+    let dismissed = false, stamp = String(a.updatedAt || a.title || '');
+    try { dismissed = sessionStorage.getItem('ann-dismissed') === stamp; } catch (_) {}
+    if (dismissed) return;
+    box.replaceChildren(build());
+    const x = document.createElement('button'); x.type = 'button'; x.className = 'ann-x'; x.setAttribute('aria-label', '關閉公告'); x.textContent = '✕';
+    x.addEventListener('click', () => { box.hidden = true; try { sessionStorage.setItem('ann-dismissed', stamp); } catch (_) {} });
+    box.appendChild(x);
+    box.hidden = false;
+  }
   async _loadObservatoryLinks() {
     try {
       const res = await fetch(`${this.apiBase}/?key=observatory_links`, { headers: { accept: 'application/json' } });
@@ -1969,7 +2032,7 @@ class App {
   _paintAmt() { document.querySelectorAll('.amt-btn').forEach(b => { const on = b.dataset.amt === String(this.don.amt); b.style.background = on ? '#E4022B' : '#fff'; b.style.color = on ? '#fff' : '#0d0d0d'; b.style.borderColor = on ? '#E4022B' : '#d8d3c8'; }); }
   _paintPay() { document.querySelectorAll('.pay-btn').forEach(b => { const on = b.dataset.pay === this.don.pay; b.style.borderColor = on ? '#E4022B' : '#d8d3c8'; b.style.background = on ? '#fff5f6' : '#fff'; }); }
   _donLabel() { const el = document.getElementById('don-submit-label'); if (!el) return; const amt = this._donAmt(), freq = this.don.freq === 'monthly' ? '每月' : '單次'; el.textContent = amt > 0 ? `支持 NT$${amt.toLocaleString('en-US')} · ${freq}` : `輸入金額 · ${freq}`; }
-  _donSubmit() { const amt = this._donAmt(), btn = document.getElementById('don-submit'); if (amt <= 0) { this._showCustom(true); const ci = document.getElementById('amt-custom'); if (ci) ci.focus(); return; } btn.style.background = '#1B9431'; document.getElementById('don-submit-label').textContent = `感謝支持！NT$${amt.toLocaleString('en-US')} 已送出`; window.gsap && window.gsap.fromTo(btn, { scale: 0.96 }, { scale: 1, duration: 0.4, ease: 'back.out(2)' }); }
+  _donSubmit() { if (this._supportLocked) return; const amt = this._donAmt(), btn = document.getElementById('don-submit'); if (amt <= 0) { this._showCustom(true); const ci = document.getElementById('amt-custom'); if (ci) ci.focus(); return; } btn.style.background = '#1B9431'; document.getElementById('don-submit-label').textContent = `感謝支持！NT$${amt.toLocaleString('en-US')} 已送出`; window.gsap && window.gsap.fromTo(btn, { scale: 0.96 }, { scale: 1, duration: 0.4, ease: 'back.out(2)' }); }
 
   // ---------- CONTACT ----------
   _wireContact() {

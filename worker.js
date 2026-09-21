@@ -10,8 +10,8 @@ const SECURITY_HEADERS = {
   'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
 };
 
-// 公開 GET 允許讀取的 KV key（前端與 scripts/ 實際用到的只有這三個）
-const PUBLIC_KEYS = new Set(['overrides', 'observatory_links', 'election_summary']);
+// 公開 GET 允許讀取的 KV key（前端與 scripts/ 實際用到的只有這幾個）
+const PUBLIC_KEYS = new Set(['overrides', 'observatory_links', 'election_summary', 'site_announcement']);
 
 // 資料內容中會被當成連結/圖片網址渲染的欄位，寫入時強制過濾協定
 const URL_FIELDS = new Set([
@@ -24,6 +24,15 @@ const MAX_SINGLE_BODY = 512 * 1024;
 const MAX_CONTACT_BODY = 16 * 1024;
 const MAX_STRING = 4000;
 const MAX_DEPTH = 12;
+
+const ANNOUNCEMENT_PAGES = ['map', 'observatory', 'support', 'contact'];
+const DEFAULT_ANNOUNCEMENT = {
+  enabled: true,
+  title: '金流審核中',
+  message: '「支持島民觀察室」的金流服務正在審核中，暫時無法使用。開放後會在這裡公告，感謝你的關心與支持。',
+  pages: { map: false, observatory: false, support: true, contact: false },
+  supportLock: true,
+};
 
 const DEFAULT_OBSERVATORY_LINKS = [
   { n: '中選會選舉資料庫', cat: '官方數據庫', url: 'https://db.cec.gov.tw/', d: '歷屆公職選舉、登記名冊與官方選舉公報查詢。' },
@@ -348,6 +357,35 @@ async function handleAdmin(request, env, url) {
       const cleaned = sanitizeData(overrides);
       await writeJsonKV(env, 'overrides', cleaned);
       return jsonResponse(request, env, { ok: true, count: Object.keys(cleaned).length, updatedAt: new Date().toISOString(), updatedBy: session.email });
+    }
+  }
+
+  if (path === 'announcement') {
+    if (request.method === 'GET') {
+      const saved = await readJsonKV(env, 'site_announcement', null);
+      return jsonResponse(request, env, saved && typeof saved === 'object' ? saved : DEFAULT_ANNOUNCEMENT);
+    }
+    if (request.method === 'PUT') {
+      const payload = await readJsonBody(request, MAX_SINGLE_BODY);
+      if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+        return jsonResponse(request, env, { error: '請提供有效的公告內容' }, { status: 400 });
+      }
+      const pages = {};
+      ANNOUNCEMENT_PAGES.forEach((p) => { pages[p] = payload.pages?.[p] === true; });
+      const next = {
+        enabled: payload.enabled === true,
+        title: String(payload.title || '').trim().slice(0, 80),
+        message: String(payload.message || '').trim().slice(0, 600),
+        pages,
+        supportLock: payload.supportLock === true,
+        updatedAt: new Date().toISOString(),
+        updatedBy: session.email,
+      };
+      if (next.enabled && !next.title && !next.message) {
+        return jsonResponse(request, env, { error: '啟用公告時，標題與內容至少要填一項。' }, { status: 400 });
+      }
+      await writeJsonKV(env, 'site_announcement', next);
+      return jsonResponse(request, env, { ok: true, ...next });
     }
   }
 
