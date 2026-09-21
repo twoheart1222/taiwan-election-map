@@ -24,7 +24,7 @@
 <meta name="twitter:description" content="2026 年 11 月 28 日地方選舉互動地圖：輸入地址或姓名，查縣市長、議員、鄉鎮市長、村里長候選人與選區，涵蓋全台 22 縣市。">
 <meta name="twitter:image" content="https://formosaobservatory.com/social-preview.png">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@900&display=swap" rel="stylesheet">
 <style>
   *,*::before,*::after{box-sizing:border-box}
   html,body{margin:0;padding:0;background:#0d0d0d;overflow-x:hidden}
@@ -1056,9 +1056,14 @@ class App {
     let candidates = Array.isArray(index.candidates) ? [...index.candidates] : [];
     const areas = index.areas || {};
     const fields = ['name', 'party', 'role', 'photoUrl', 'gazetteUrl', 'taiwanGoGoUrl', 'facebook', 'instagram', 'threads', 'youtube', 'isIncumbent', 'votes', 'prevVotes', 'elected'];
-    const add = (candidate, context, source, district = null) => {
+    // 後台（KV）名冊沒有填的欄位（上期得票、社群、照片…），用 data/*.json 建立的索引補上，只補空白、不覆蓋後台已填的值。
+    const fillFields = ['photoUrl', 'gazetteUrl', 'taiwanGoGoUrl', 'facebook', 'instagram', 'threads', 'youtube', 'votes', 'prevVotes'];
+    const norm = n => String(n || '').normalize('NFKC').replace(/[A-Za-z]+/g, '').replace(/[・．.·‧@\s　]/g, '');
+    const blank = v => v == null || String(v).trim() === '';
+    const add = (candidate, context, source, district = null, base = null) => {
       if (!candidate?.name) return;
       const clean = {}; fields.forEach(field => { clean[field] = candidate[field] ?? (field === 'isIncumbent' || field === 'elected' ? false : null); });
+      if (base) fillFields.forEach(f => { if (blank(clean[f]) && !blank(base[f])) clean[f] = base[f]; });
       candidates.push({ ...clean, ...context, source, district });
     };
     Object.entries(overrides).forEach(([areaId, patch]) => {
@@ -1067,9 +1072,20 @@ class App {
       const { name: _legacyAreaName, areaName: _areaName, ...context } = area;
       ['candidates', 'councilors', 'representatives'].forEach(source => {
         if (!Array.isArray(patch[source])) return;
+        const prior = candidates.filter(candidate => candidate.areaId === areaId && candidate.source === source);
         candidates = candidates.filter(candidate => !(candidate.areaId === areaId && candidate.source === source));
-        if (source === 'candidates') patch[source].forEach(candidate => add(candidate, context, source));
-        else patch[source].forEach(block => (block.candidates || []).forEach(candidate => add(candidate, context, source, block.district || null)));
+        const byName = new Map(), byDistrictName = new Map();
+        prior.forEach(p => { const k = norm(p.name); if (!byName.has(k)) byName.set(k, p); byDistrictName.set(String(p.district ?? '') + '|' + k, p); });
+        const seen = new Set();
+        const list = source === 'candidates' ? patch[source].map(c => [c, null]) : patch[source].flatMap(block => (block.candidates || []).map(c => [c, block.district || null]));
+        list.forEach(([candidate, district]) => {
+          const k = norm(candidate?.name);
+          seen.add(k);
+          const base = byDistrictName.get(String(district ?? '') + '|' + k) || byName.get(k) || null;
+          add(candidate, context, source, district, base);
+        });
+        // KV 尚未同步到最新登記名單時，保留索引裡的候選人（與地圖頁的合併行為一致）。
+        prior.forEach(p => { if (!seen.has(norm(p.name))) candidates.push(p); });
       });
     });
     return { ...index, candidates };
@@ -1270,23 +1286,24 @@ class App {
         // KV 後台資料可能比 data/*.json 舊。不要整包取代候選人，否則本地已驗證的
         // Facebook / Instagram / Threads / YouTube（以及新登記候選人）會被 null 或舊名單吃掉。
         const localCandidates = Array.isArray(g.properties.candidates) ? g.properties.candidates : [];
-        const localByName = new Map(localCandidates.filter(c => c?.name).map(c => [c.name, c]));
+        const nrm = n => String(n || '').normalize('NFKC').replace(/[A-Za-z]+/g, '').replace(/[・．.·‧@\s\u3000]/g, '');
+        const localByName = new Map(localCandidates.filter(c => c?.name).map(c => [nrm(c.name), c]));
         const mergedNames = new Set();
         const fallbackFields = ['facebook', 'instagram', 'threads', 'youtube', 'photoUrl', 'gazetteUrl', 'taiwanGoGoUrl', 'prevVotes', 'votes'];
 
         g.properties.candidates = o.candidates.map(remote => {
-          const local = localByName.get(remote?.name) || {};
+          const local = localByName.get(nrm(remote?.name)) || {};
           const merged = { ...local, ...remote };
           fallbackFields.forEach(field => {
             if (!merged[field] && local[field]) merged[field] = local[field];
           });
-          if (merged.name) mergedNames.add(merged.name);
+          if (merged.name) mergedNames.add(nrm(merged.name));
           return merged;
         });
 
         // 若 KV 尚未同步到最新登記名單，保留 data/*.json 裡的新候選人。
         localCandidates.forEach(local => {
-          if (local?.name && !mergedNames.has(local.name)) g.properties.candidates.push(local);
+          if (local?.name && !mergedNames.has(nrm(local.name))) g.properties.candidates.push(local);
         });
       }
       if (o.councilors) g.properties.councilors = this._mergeBlocksWithLocal(o.councilors, g.properties.councilors);
@@ -2113,11 +2130,11 @@ class App {
     const thisVotes = fmtVotes(c.votes);
     const prevVotes = fmtVotes(c.prevVotes);
     const isWin = !!c.elected;
-    const voteCell = (label, val, pending) => `<div style="flex:1;min-width:0;padding:11px 14px;border-radius:14px;background:#221f1b;border:1px solid #2f2b26">
-      <div style="font-family:'Archivo','Noto Sans TC';font-weight:800;font-size:10px;letter-spacing:.12em;color:#8a857c;margin-bottom:6px">${label}</div>
+    const voteCell = (label, val, pending) => `<div style="flex:1;min-width:0;padding:11px 14px;border-radius:14px;background:${isWin ? '#fff' : '#221f1b'};border:1px solid ${isWin ? '#e2ddd1' : '#2f2b26'}">
+      <div style="font-family:'Archivo','Noto Sans TC';font-weight:800;font-size:10px;letter-spacing:.12em;color:${isWin ? '#8a8375' : '#8a857c'};margin-bottom:6px">${label}</div>
       ${val
-        ? `<div style="font-family:'Archivo','Noto Sans TC';font-weight:900;font-size:19px;line-height:1;color:${isWin ? '#f6c945' : '#f4f1ea'}">${val}</div>`
-        : `<div style="display:inline-flex;align-items:center;gap:5px;font-family:'Noto Sans TC';font-weight:800;font-size:11px;color:#a29c92"><span style="width:6px;height:6px;border-radius:50%;background:#6b655c"></span>${pending}</div>`}
+        ? `<div style="font-family:'Archivo','Noto Sans TC';font-weight:900;font-size:19px;line-height:1;color:${isWin ? '#c40225' : '#f4f1ea'}">${val}</div>`
+        : `<div style="display:inline-flex;align-items:center;gap:5px;font-family:'Noto Sans TC';font-weight:800;font-size:11px;color:${isWin ? '#6f695d' : '#a29c92'}"><span style="width:6px;height:6px;border-radius:50%;background:${isWin ? '#b8b1a2' : '#6b655c'}"></span>${pending}</div>`}
     </div>`;
     const votesBlock = `<div style="display:flex;gap:8px">
       ${voteCell('本期得票', thisVotes, '未開票')}
@@ -2127,11 +2144,11 @@ class App {
       ? `<a href="${safeUrl(c.gazetteUrl)}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border-radius:999px;background:#E4022B;color:#fff;font:800 13px 'Noto Sans TC'">查閱官方選舉公報 (PDF) →</a>`
       : '';
     const taiwanGoGo = safeUrl(c.taiwanGoGoUrl)
-      ? `<a href="${safeUrl(c.taiwanGoGoUrl)}" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border-radius:999px;background:transparent;border:1.5px solid #E4022B;color:#ff5a74;font:800 13px 'Noto Sans TC'">2026 議員參選人刑事紀錄圖鑑 →</a>`
+      ? `<a href="${safeUrl(c.taiwanGoGoUrl)}" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border-radius:999px;background:transparent;border:1.5px solid #E4022B;color:${isWin ? '#c40225' : '#ff5a74'};font:800 13px 'Noto Sans TC'">2026 議員參選人刑事紀錄圖鑑 →</a>`
       : '';
     const map = { facebook: 'Facebook', instagram: 'Instagram', threads: 'Threads', youtube: 'YouTube' };
     const socials = ['facebook', 'instagram', 'threads', 'youtube'].filter(k => safeUrl(c[k]));
-    const socialBlock = socials.length ? `<div style="display:flex;flex-wrap:wrap;gap:7px">${socials.map(k => `<a href="${safeUrl(c[k])}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;padding:4px 13px 4px 8px;border-radius:999px;background:#26231f;font-size:11px;font-weight:700;color:#c9c2b6">${this._socialIcon(k)}<span>${map[k]}</span></a>`).join('')}</div>` : '';
+    const socialBlock = socials.length ? `<div style="display:flex;flex-wrap:wrap;gap:7px">${socials.map(k => `<a href="${safeUrl(c[k])}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;padding:4px 13px 4px 8px;border-radius:999px;background:${isWin ? '#e6e1d6' : '#26231f'};font-size:11px;font-weight:700;color:${isWin ? '#3a352c' : '#c9c2b6'}">${this._socialIcon(k)}<span>${map[k]}</span></a>`).join('')}</div>` : '';
     const ch = esc((c.name || '').slice(0, 1));
     // data-fb 屬性存首字，onerror 時安全替換，避免字串插值問題
     const photoSrc = v => { const u = String(v || '').trim(); const m = u.match(/^(?:https?:\/\/[^\/]+\.workers\.dev)?(\/api\/photo\/[0-9a-f]+)$/i); return m ? (window.ELECTION_API_BASE ?? '') + m[1] : u; };
@@ -2139,21 +2156,22 @@ class App {
       ? `<img src="${safeUrl(photoSrc(c.photoUrl))}" alt="" loading="lazy" data-fb="${ch}" style="width:100%;height:100%;object-fit:cover;object-position:center 20%" onerror="this.style.display='none';this.parentNode.dataset.fb&&(this.parentNode.textContent=this.parentNode.dataset.fb)" referrerpolicy="no-referrer">`
       : ch;
     const cardStyle = isWin
-      ? 'background:linear-gradient(180deg,#241d0f 0%,#1c1916 42%);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:13px;border:1.5px solid #f6c945;box-shadow:0 0 0 1px rgba(246,201,69,.25),0 14px 40px rgba(246,201,69,.14)'
+      ? 'position:relative;background:#f4f1ea;color:#1a1714;border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:13px;border:1px solid #f4f1ea;box-shadow:0 14px 34px rgba(244,241,234,.12)'
       : 'background:#1c1916;border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:13px;border:1px solid #2a2723';
+    // 開票後蓋下的「當選」印章（右上角、微傾斜、邊緣帶墨跡粗糙感）
     const winRibbon = isWin
-      ? `<div style="display:flex;align-items:center;gap:7px;align-self:flex-start;padding:5px 13px 5px 10px;border-radius:999px;background:#f6c945;color:#241d0f;font-family:'Noto Sans TC','Archivo';font-weight:900;font-size:12px;letter-spacing:.02em"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#241d0f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>當選</div>`
+      ? `<svg viewBox="0 0 100 100" aria-label="當選" role="img" style="position:absolute;right:12px;top:10px;width:92px;height:92px;transform:rotate(-11deg);filter:drop-shadow(0 4px 8px rgba(228,2,43,.22));pointer-events:none"><defs><filter id="stamp-rough" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.6"/></filter></defs><g filter="url(#stamp-rough)" fill="none" stroke="#E4022B"><circle cx="50" cy="50" r="45" stroke-width="4.5"/><circle cx="50" cy="50" r="38" stroke-width="1.6"/><text x="50" y="66" text-anchor="middle" font-family="'Noto Serif TC','Songti TC',serif" font-weight="900" font-size="44" fill="#E4022B" stroke="none" letter-spacing="-2">當選</text><path d="M22 78 L78 78" stroke-width="1.6"/><text x="50" y="30" text-anchor="middle" font-family="Archivo,sans-serif" font-weight="900" font-size="8.5" fill="#E4022B" stroke="none" letter-spacing="3.4">ELECTED</text></g></svg>`
       : '';
     return `<article class="candidate-card" style="${cardStyle}">
       ${winRibbon}
-      <div class="candidate-main">
-        <div class="candidate-photo" data-fb="${ch}"${isWin ? ' style="box-shadow:0 0 0 2px #f6c945"' : ''}>${avatar}</div>
+      <div class="candidate-main"${isWin ? ' style="padding-right:96px"' : ''}>
+        <div class="candidate-photo" data-fb="${ch}"${isWin ? ' style="box-shadow:0 0 0 2px #E4022B;background:#e6e1d6;color:#1a1714"' : ''}>${avatar}</div>
         <div style="min-width:0;flex:1">
           <div class="candidate-title-row">
-            <h4 style="font-family:'Noto Sans TC','Archivo';font-weight:900;font-size:20px;line-height:1.25;margin:0;letter-spacing:0;color:#f4f1ea">${esc(c.name)}</h4>
-            ${c.isIncumbent ? '<span style="flex:none;padding:4px 11px;border-radius:999px;background:#16301c;color:#7fd598;font-size:11px;font-weight:800">爭取連任</span>' : ''}
+            <h4 style="font-family:'Noto Sans TC','Archivo';font-weight:900;font-size:20px;line-height:1.25;margin:0;letter-spacing:0;color:${isWin ? '#1a1714' : '#f4f1ea'}">${esc(c.name)}</h4>
+            ${c.isIncumbent ? `<span style="flex:none;padding:4px 11px;border-radius:999px;background:${isWin ? '#dcf3e2' : '#16301c'};color:${isWin ? '#1d6b35' : '#7fd598'};font-size:11px;font-weight:800">爭取連任</span>` : ''}
           </div>
-          <div style="display:flex;align-items:center;gap:8px;margin-top:5px;flex-wrap:wrap"><span style="color:#c9c2b6;display:inline-flex;align-items:center;gap:8px">${this._partyChip(c.party)}<span style="font-size:12.5px;font-weight:700">${esc(c.party)}</span></span><span style="width:4px;height:4px;border-radius:50%;background:#4d483f"></span><span style="font-size:12px;font-weight:800;color:#ff5a74">${esc(c.role)}</span></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:5px;flex-wrap:wrap"><span style="color:${isWin ? '#4a443a' : '#c9c2b6'};display:inline-flex;align-items:center;gap:8px">${this._partyChip(c.party)}<span style="font-size:12.5px;font-weight:700">${esc(c.party)}</span></span><span style="width:4px;height:4px;border-radius:50%;background:#4d483f"></span><span style="font-size:12px;font-weight:800;color:${isWin ? '#c40225' : '#ff5a74'}">${esc(c.role)}</span></div>
         </div>
       </div>
       ${votesBlock}${socialBlock}${taiwanGoGo}${gazette}
@@ -2253,7 +2271,10 @@ class App {
     const tile = (label, val, sub) => `<div style="background:#14110f;border:1px solid #2a2723;border-radius:12px;padding:10px 12px;min-width:0"><div style="font-size:11px;font-weight:700;color:#8a857c">${label}</div><div style="font-family:'Archivo','Noto Sans TC',sans-serif;font-weight:900;font-size:18px;color:#f4f1ea;font-variant-numeric:tabular-nums;margin-top:2px">${val}</div>${sub ? `<div style="font-size:11px;font-weight:600;color:#8a857c;margin-top:2px">${sub}</div>` : ''}</div>`;
     const row = (name, party, votes, share, win, tag) => {
       const w = share == null ? 0 : Math.max(1, Math.min(100, share));
-      return `<div style="padding:9px 0;border-top:1px solid #2a2723"><div style="display:flex;justify-content:space-between;gap:10px;align-items:baseline"><div style="min-width:0;font-weight:800;font-size:14px;color:#f4f1ea">${esc(name)}${win ? '<span style="margin-left:8px;padding:2px 8px;border-radius:999px;background:#E4022B;color:#fff;font-size:10px;font-weight:800;vertical-align:1px">當選</span>' : ''}${tag ? `<span style="margin-left:6px;padding:2px 8px;border-radius:999px;border:1px solid #4a453f;color:#c9c3b8;font-size:10px;font-weight:700;vertical-align:1px">${tag}</span>` : ''}<span style="display:block;font-size:11px;font-weight:600;color:#8a857c">${esc(party || '')}</span></div><div style="text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums"><div style="font-family:'Archivo',sans-serif;font-weight:900;font-size:15px;color:#f4f1ea">${votes == null ? '—' : fmt(votes)}<span style="font-size:11px;font-weight:700;color:#8a857c"> 票</span></div><div style="font-size:12px;font-weight:700;color:${win ? '#ff5a74' : '#a29c92'}">${pctT(share)}</div></div></div><div style="height:5px;border-radius:99px;background:#26231f;margin-top:6px;overflow:hidden"><div style="height:100%;width:${w}%;background:${win ? '#E4022B' : '#6b655c'};border-radius:99px"></div></div></div>`;
+      const badge = win ? `<span style="display:inline-flex;align-items:center;gap:4px;margin-left:8px;padding:2px 9px 2px 7px;border-radius:999px;background:#E4022B;color:#fff;font-size:11px;font-weight:800;vertical-align:1px"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2 6.4l2.6 2.6L10 3.4" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>當選</span>` : '';
+      const tagEl = tag ? `<span style="margin-left:6px;padding:2px 8px;border-radius:999px;border:1px solid #4a453f;color:#c9c3b8;font-size:10px;font-weight:700;vertical-align:1px">${tag}</span>` : '';
+      const wrap = win ? 'padding:10px 12px;margin:2px -12px;border-radius:14px;background:linear-gradient(90deg,rgba(228,2,43,.20),rgba(228,2,43,.05));box-shadow:inset 0 0 0 1px rgba(228,2,43,.45)' : 'padding:9px 0;border-top:1px solid #2a2723';
+      return `<div style="${wrap}"><div style="display:flex;justify-content:space-between;gap:10px;align-items:baseline"><div style="min-width:0;font-weight:800;font-size:14px;color:#f4f1ea">${esc(name)}${badge}${tagEl}<span style="display:block;font-size:11px;font-weight:600;color:#8a857c">${esc(party || '')}</span></div><div style="text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums"><div style="font-family:'Archivo',sans-serif;font-weight:900;font-size:15px;color:#f4f1ea">${votes == null ? '—' : fmt(votes)}<span style="font-size:11px;font-weight:700;color:#8a857c"> 票</span></div><div style="font-size:12px;font-weight:700;color:${win ? '#ff8fa0' : '#a29c92'}">${pctT(share)}</div></div></div><div style="height:5px;border-radius:99px;background:${win ? 'rgba(0,0,0,.35)' : '#26231f'};margin-top:6px;overflow:hidden"><div style="height:100%;width:${w}%;background:${win ? '#E4022B' : '#6b655c'};border-radius:99px"></div></div></div>`;
     };
     const head = (t, sub) => `<div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin:0 0 10px"><div style="font-family:'Noto Sans TC',sans-serif;font-weight:900;font-size:15px;color:#f4f1ea">${t}</div><div style="font-size:11px;font-weight:700;color:#8a857c">${sub}</div></div>`;
     const curVotes = cur?.candidates || {}, cn = Object.keys(curVotes).length;
