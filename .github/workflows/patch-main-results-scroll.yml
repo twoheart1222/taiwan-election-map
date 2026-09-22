@@ -1,0 +1,50 @@
+name: Patch main mobile RESULTS clipping
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/patch-main-results-scroll.mjs'
+      - '.github/workflows/patch-main-results-scroll.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Patch production index
+        run: node scripts/patch-main-results-scroll.mjs
+      - name: Validate patch markers
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const html = fs.readFileSync('index.html', 'utf8');
+          for (const marker of [
+            'overflow-anchor:none',
+            'line-height:1.4;min-height:18px;overflow:visible',
+            "const resetResultScroll = () =>",
+            "if (scrollShell) scrollShell.scrollTop = 0"
+          ]) {
+            if (!html.includes(marker)) throw new Error(`Missing marker: ${marker}`);
+          }
+          console.log('Production RESULTS clipping patch validated.');
+          NODE
+      - name: Commit production fix
+        run: |
+          if git diff --quiet -- index.html; then
+            echo 'No index.html changes.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git commit -m 'Fix mobile RESULTS heading clipping [skip ci]'
+          git push origin HEAD:main
