@@ -126,17 +126,6 @@ function renderCounty(name,result){
     $('county-detail').appendChild(link);
   }
 
-  if([2020,2024].includes(Number(current.year))){
-    const link=document.createElement('a');
-    link.dataset.historyTownDrilldown='true';
-    link.href=`./town.html?year=${current.year}&county=${encodeURIComponent(name)}`;
-    link.textContent=`查看 ${name} 鄉鎮市區 →`;
-    link.style.cssText='display:block;margin:12px 18px 16px;padding:12px 14px;border:1px solid #493d38;border-radius:12px;background:#211a18;color:#f4f1ea;font-size:12px;font-weight:900;text-align:center;transition:.15s';
-    link.addEventListener('mouseenter',()=>{link.style.borderColor='#E4022B';link.style.color='#E4022B'});
-    link.addEventListener('mouseleave',()=>{link.style.borderColor='#493d38';link.style.color='#f4f1ea'});
-    $('county-detail').appendChild(link);
-  }
-
 }
 
 function paintMap(){
