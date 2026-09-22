@@ -6,6 +6,7 @@ on:
     paths:
       - 'index.html'
       - 'scripts/validate-prev-results-ui.mjs'
+      - '.github/workflows/validate-prev-results-ui.yml'
   workflow_dispatch:
 
 jobs:
@@ -18,7 +19,9 @@ jobs:
         with:
           node-version: 22
       - name: Install dependencies
-        run: npm ci
+        run: |
+          npm ci
+          npm install --no-save playwright@1.63.0
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
       - name: Validate previous election section at 390px
