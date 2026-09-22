@@ -1,0 +1,68 @@
+name: Validate history UI
+
+on:
+  push:
+    branches:
+      - feature/historical-election-map-20260922
+    paths:
+      - history/index.html
+      - history/town.html
+      - history/local-executive.html
+      - history/local-executive.css
+      - history/local-executive.js
+      - history/product-ui.css
+      - history/product-ui.js
+      - history/archive-enhancements.css
+      - history/archive-enhancements.js
+      - history/query-refinement.css
+      - scripts/validate-history-ui.mjs
+      - scripts/validate-history-query-state.mjs
+      - scripts/validate-local-executive-ui.mjs
+      - .github/workflows/validate-history-ui.yml
+  pull_request:
+    paths:
+      - history/index.html
+      - history/town.html
+      - history/local-executive.html
+      - history/local-executive.css
+      - history/local-executive.js
+      - history/product-ui.css
+      - history/product-ui.js
+      - history/archive-enhancements.css
+      - history/archive-enhancements.js
+      - history/query-refinement.css
+      - scripts/validate-history-ui.mjs
+      - scripts/validate-history-query-state.mjs
+      - scripts/validate-local-executive-ui.mjs
+      - .github/workflows/validate-history-ui.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  browser-ui:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Validate desktop and mobile UI
+        run: |
+          node scripts/validate-history-ui.mjs
+          node scripts/validate-history-query-state.mjs
+          node scripts/validate-local-executive-ui.mjs
+      - name: Upload UI screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: history-ui-screenshots
+          path: artifacts/history-ui/*.png
+          if-no-files-found: warn
+          retention-days: 7

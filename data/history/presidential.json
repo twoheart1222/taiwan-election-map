@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "type": "president",
+  "source": {
+    "name": "中央選舉委員會選舉資料庫",
+    "url": "https://db.cec.gov.tw/Visual/?type=President",
+    "license": "政府資料開放授權條款第1版"
+  },
+  "note": "第一階段保存全國層級正式結果。countyResults 保留給依各屆當時行政區界匯入的縣市結果；不可用 2026 現行行政區直接回填舊屆資料。",
+  "elections": [
+    {
+      "year": 2024,
+      "term": 16,
+      "date": "2024-01-13",
+      "turnout": 71.86,
+      "validVotes": 13947506,
+      "candidates": [
+        {"no": 1, "president": "柯文哲", "vicePresident": "吳欣盈", "party": "台灣民眾黨", "partyKey": "TPP", "votes": 3690466},
+        {"no": 2, "president": "賴清德", "vicePresident": "蕭美琴", "party": "民主進步黨", "partyKey": "DPP", "votes": 5586019, "elected": true},
+        {"no": 3, "president": "侯友宜", "vicePresident": "趙少康", "party": "中國國民黨", "partyKey": "KMT", "votes": 4671021}
+      ],
+      "countyResults": null
+    },
+    {
+      "year": 2020,
+      "term": 15,
+      "date": "2020-01-11",
+      "turnout": 74.90,
+      "validVotes": 14300940,
+      "candidates": [
+        {"no": 1, "president": "宋楚瑜", "vicePresident": "余湘", "party": "親民黨", "partyKey": "PFP", "votes": 608590},
+        {"no": 2, "president": "韓國瑜", "vicePresident": "張善政", "party": "中國國民黨", "partyKey": "KMT", "votes": 5522119},
+        {"no": 3, "president": "蔡英文", "vicePresident": "賴清德", "party": "民主進步黨", "partyKey": "DPP", "votes": 8170231, "elected": true}
+      ],
+      "countyResults": null
+    },
+    {
+      "year": 2016,
+      "term": 14,
+      "date": "2016-01-16",
+      "turnout": 66.27,
+      "validVotes": 12284970,
+      "candidates": [
+        {"no": 1, "president": "朱立倫", "vicePresident": "王如玄", "party": "中國國民黨", "partyKey": "KMT", "votes": 3813365},
+        {"no": 2, "president": "蔡英文", "vicePresident": "陳建仁", "party": "民主進步黨", "partyKey": "DPP", "votes": 6894744, "elected": true},
+        {"no": 3, "president": "宋楚瑜", "vicePresident": "徐欣瑩", "party": "親民黨", "partyKey": "PFP", "votes": 1576861}
+      ],
+      "countyResults": null
+    },
+    {
+      "year": 2012,
+      "term": 13,
+      "date": "2012-01-14",
+      "turnout": 74.38,
+      "validVotes": 13354305,
+      "candidates": [
+        {"no": 1, "president": "蔡英文", "vicePresident": "蘇嘉全", "party": "民主進步黨", "partyKey": "DPP", "votes": 6093578},
+        {"no": 2, "president": "馬英九", "vicePresident": "吳敦義", "party": "中國國民黨", "partyKey": "KMT", "votes": 6891139, "elected": true},
+        {"no": 3, "president": "宋楚瑜", "vicePresident": "林瑞雄", "party": "親民黨", "partyKey": "PFP", "votes": 369588}
+      ],
+      "countyResults": null
+    },
+    {
+      "year": 2008,
+      "term": 12,
+      "date": "2008-03-22",
+      "turnout": 76.33,
+      "validVotes": 13103963,
+      "candidates": [
+        {"no": 1, "president": "謝長廷", "vicePresident": "蘇貞昌", "party": "民主進步黨", "partyKey": "DPP", "votes": 5444949},
+        {"no": 2, "president": "馬英九", "vicePresident": "蕭萬長", "party": "中國國民黨", "partyKey": "KMT", "votes": 7659014, "elected": true}
+      ],
+      "countyResults": null
+    },
+    {
+      "year": 2004,
+      "term": 11,
+      "date": "2004-03-20",
+      "turnout": 80.28,
+      "validVotes": 12914422,
+      "candidates": [
+        {"no": 1, "president": "陳水扁", "vicePresident": "呂秀蓮", "party": "民主進步黨", "partyKey": "DPP", "votes": 6471970, "elected": true},
+        {"no": 2, "president": "連戰", "vicePresident": "宋楚瑜", "party": "國親聯盟", "partyKey": "KMT", "votes": 6442452}
+      ],
+      "countyResults": null
+    },
+    {
+      "year": 2000,
+      "term": 10,
+      "date": "2000-03-18",
+      "turnout": 82.69,
+      "validVotes": 12664393,
+      "candidates": [
+        {"no": 1, "president": "宋楚瑜", "vicePresident": "張昭雄", "party": "連署", "partyKey": "IND", "votes": 4664972},
+        {"no": 2, "president": "連戰", "vicePresident": "蕭萬長", "party": "中國國民黨", "partyKey": "KMT", "votes": 2925513},
+        {"no": 3, "president": "李敖", "vicePresident": "馮滬祥", "party": "新黨", "partyKey": "NP", "votes": 16782},
+        {"no": 4, "president": "許信良", "vicePresident": "朱惠良", "party": "連署", "partyKey": "IND", "votes": 79429},
+        {"no": 5, "president": "陳水扁", "vicePresident": "呂秀蓮", "party": "民主進步黨", "partyKey": "DPP", "votes": 4977697, "elected": true}
+      ],
+      "countyResults": null
+    },
+    {
+      "year": 1996,
+      "term": 9,
+      "date": "1996-03-23",
+      "turnout": 76.04,
+      "validVotes": 10766119,
+      "candidates": [
+        {"no": 1, "president": "陳履安", "vicePresident": "王清峰", "party": "連署", "partyKey": "IND", "votes": 1074044},
+        {"no": 2, "president": "李登輝", "vicePresident": "連戰", "party": "中國國民黨", "partyKey": "KMT", "votes": 5813699, "elected": true},
+        {"no": 3, "president": "彭明敏", "vicePresident": "謝長廷", "party": "民主進步黨", "partyKey": "DPP", "votes": 2274586},
+        {"no": 4, "president": "林洋港", "vicePresident": "郝柏村", "party": "連署", "partyKey": "IND", "votes": 1603790}
+      ],
+      "countyResults": null
+    }
+  ]
+}
