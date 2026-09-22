@@ -1194,16 +1194,18 @@ class App {
 
   _flashCandidate(c) {
     const norm = s => String(s || '').replace(/[A-Za-z・．.·‧@\s]/g, '');
-    setTimeout(() => {
+    const started = Date.now();
+    const flash = () => {
       const box = document.getElementById('candidates'); if (!box) return;
       const el = [...box.children].find(n => norm(n.textContent).includes(norm(c.name)));
-      if (!el) return;
+      if (!el) { if (Date.now() - started < 4500) setTimeout(flash, 180); return; }
       el.scrollIntoView({ block: 'center', behavior: 'smooth' });
       el.classList.remove('search-target-ring');
       void el.offsetWidth;
       el.classList.add('search-target-ring');
       setTimeout(() => el.classList.remove('search-target-ring'), 1500);
-    }, 900);
+    };
+    setTimeout(flash, 350);
   }
 
   _openSearchFallback(candidate) {
