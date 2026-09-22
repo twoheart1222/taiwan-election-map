@@ -7,6 +7,7 @@
 <meta name="description" content="1996 至 2024 歷屆總統副總統選舉互動地圖：切換年份、比較全國與縣市得票、勝方與勝差。">
 <link rel="canonical" href="https://formosaobservatory.com/history/">
 <meta name="theme-color" content="#0d0d0d">
+<meta name="color-scheme" content="dark">
 <meta property="og:type" content="website"><meta property="og:locale" content="zh_TW">
 <meta property="og:site_name" content="Formosa Observatory｜島民觀察室">
 <meta property="og:title" content="歷年總統選舉地圖｜島民觀察室">
@@ -23,6 +24,7 @@
 .result-panel{padding:clamp(24px,4vw,46px);background:#12100e}.election-meta{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;padding-bottom:24px;border-bottom:1px solid var(--line)}.term{font:800 10px 'Archivo';letter-spacing:.2em;color:var(--red)}#election-title{margin:7px 0 0;font-size:clamp(25px,3.2vw,38px);line-height:1.15}.meta-stats{text-align:right;flex:none}.meta-stats strong{display:block;font:900 24px 'Archivo'}.meta-stats span{display:block;color:var(--muted);font-size:11px;margin-top:4px}.section-label{margin:26px 0 12px;font:800 10px 'Archivo';letter-spacing:.2em;color:var(--muted)}.candidate-list{display:grid;gap:10px}.candidate{position:relative;overflow:hidden;border:1px solid var(--line);background:var(--panel);border-radius:16px;padding:17px 18px}.candidate.elected{border-color:#5b5147}.candidate.elected:before{content:'當選';position:absolute;right:0;top:0;background:var(--yellow);color:#0d0d0d;padding:5px 10px;border-bottom-left-radius:10px;font-size:10px;font-weight:900}.cand-head{display:flex;justify-content:space-between;gap:14px;align-items:baseline}.cand-name{font-size:18px;font-weight:900}.cand-no{display:inline-grid;place-items:center;width:25px;height:25px;border-radius:50%;margin-right:8px;background:#27231f;color:#d8d2c9;font:900 12px 'Archivo'}.cand-party{color:var(--muted);font-size:11px;font-weight:700;margin-top:5px}.cand-votes{text-align:right;flex:none;font:900 19px 'Archivo'}.cand-votes small{display:block;font:700 10px 'Archivo';color:var(--muted);margin-top:3px}.bar{height:5px;background:#282420;border-radius:999px;margin-top:13px;overflow:hidden}.bar>i{display:block;height:100%;border-radius:999px}.county-detail{margin-top:26px;border-top:1px solid var(--line);padding-top:22px}.county-card{border:1px solid #38332e;border-radius:16px;background:#181512;overflow:hidden}.county-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:17px 18px;border-bottom:1px solid #302c27}.county-head h3{margin:0;font-size:22px}.county-head span{font:800 11px 'Archivo';color:#918b82}.county-rows{padding:8px 18px 14px}.county-row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #292521}.county-row:last-child{border:0}.county-row-name{font-weight:800;font-size:13px}.county-row-party{display:block;color:#7f7971;font-weight:600;font-size:10px;margin-top:2px}.county-row-votes{font:800 13px 'Archivo'}.county-row-share{min-width:55px;text-align:right;font:900 13px 'Archivo'}.winner-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px}.county-summary{display:flex;justify-content:space-between;gap:12px;padding:12px 18px;background:#211d19;color:#aaa39a;font-size:11px;font-weight:700}.county-empty{border:1px dashed #3a3530;border-radius:14px;padding:16px;color:#918b82;font-size:12px;line-height:1.75}.county-empty strong{display:block;color:#d1cbc2;font-size:13px;margin-bottom:3px}.source{margin-top:26px;padding-top:20px;border-top:1px solid var(--line);color:#736e67;font-size:11px;line-height:1.8}.source a{text-decoration:underline;text-underline-offset:4px;color:#aaa39a}.source a:hover{color:var(--red)}
 @media(max-width:900px){.hero-row{display:block}.hero-copy{margin-top:22px}.layout{grid-template-columns:1fr}.map-panel{min-height:540px;border-right:0;border-bottom:1px solid #1c1a17}.result-panel{padding-bottom:60px}#map{inset:70px 10px 76px}.nav-right a:first-child{display:none}}@media(max-width:520px){.site-nav{height:56px}.toolbar{top:56px}.type-pill{display:none}.hero{padding-top:34px}.hero h1{font-size:50px}.map-panel{min-height:470px}.meta-stats strong{font-size:20px}.candidate{padding:14px}.cand-name{font-size:16px}.cand-votes{font-size:16px}}
 </style>
+<link rel="stylesheet" href="./product-ui.css">
 </head>
 <body>
 <nav class="site-nav">
@@ -124,6 +126,17 @@ function renderCounty(name,result){
     $('county-detail').appendChild(link);
   }
 
+  if([2020,2024].includes(Number(current.year))){
+    const link=document.createElement('a');
+    link.dataset.historyTownDrilldown='true';
+    link.href=`./town.html?year=${current.year}&county=${encodeURIComponent(name)}`;
+    link.textContent=`查看 ${name} 鄉鎮市區 →`;
+    link.style.cssText='display:block;margin:12px 18px 16px;padding:12px 14px;border:1px solid #493d38;border-radius:12px;background:#211a18;color:#f4f1ea;font-size:12px;font-weight:900;text-align:center;transition:.15s';
+    link.addEventListener('mouseenter',()=>{link.style.borderColor='#E4022B';link.style.color='#E4022B'});
+    link.addEventListener('mouseleave',()=>{link.style.borderColor='#493d38';link.style.color='#f4f1ea'});
+    $('county-detail').appendChild(link);
+  }
+
 }
 
 function paintMap(){
@@ -179,5 +192,7 @@ async function init(){
 }
 init();
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="./product-ui.js"></script>
 </body>
 </html>
