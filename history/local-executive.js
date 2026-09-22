@@ -32,6 +32,21 @@
   let renderToken=0;
 
   async function fetchText(url){const r=await fetch(url,{cache:'force-cache'});if(!r.ok)throw new Error(`${r.status} ${url}`);return r.text()}
+  function parseCsv(text){
+    const table=[];let row=[],field='',quoted=false;
+    text=String(text||'').replace(/^\uFEFF/,'');
+    for(let i=0;i<text.length;i++){
+      const ch=text[i];
+      if(quoted){if(ch==='"'&&text[i+1]==='"'){field+='"';i++}else if(ch==='"')quoted=false;else field+=ch;continue}
+      if(ch==='"'){quoted=true;continue}
+      if(ch===','){row.push(field);field='';continue}
+      if(ch==='\n'){row.push(field.replace(/\r$/,''));table.push(row);row=[];field='';continue}
+      field+=ch;
+    }
+    if(field||row.length){row.push(field.replace(/\r$/,''));table.push(row)}
+    const headers=(table.shift()||[]).map(h=>h.trim());
+    return table.filter(cols=>cols.some(Boolean)).map(cols=>Object.fromEntries(headers.map((header,index)=>[header,cols[index]??''])));
+  }
   function normalizeRow(row){return{area:normalize(row.area),no:String(row.cand_no??row.no??''),name:String(row.cand_name??row.name??'').trim(),party:String(row.party||'').trim(),partyKey:partyKey(row.party),votes:Number(row.ticket_num??row.votes??0),elected:String(row.is_victor??'').toUpperCase()==='Y'||row.elected===true,note:row.note||''}}
   function buildRace(area,candidates){
     candidates.sort((a,b)=>b.votes-a.votes);
@@ -45,7 +60,7 @@
     target=Number(target);if(cache.has(target))return cache.get(target);
     const promise=(async()=>{
       const texts=await Promise.all(SOURCES[target].map(fetchText));
-      const rows=texts.flatMap(text=>d3.csvParse(text)).map(normalizeRow).filter(r=>r.area&&r.name&&Number.isFinite(r.votes));
+      const rows=texts.flatMap(parseCsv).map(normalizeRow).filter(r=>r.area&&r.name&&Number.isFinite(r.votes));
       if(target===2022&&!rows.some(r=>r.area==='嘉義市'))rows.push(...CHIAYI_2022.map(normalizeRow));
       const grouped={};for(const row of rows)(grouped[row.area]??=[]).push(row);
       const races={};for(const [area,candidates] of Object.entries(grouped))races[area]=buildRace(area,candidates);

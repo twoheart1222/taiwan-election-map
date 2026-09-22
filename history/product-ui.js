@@ -67,7 +67,9 @@
     title.textContent=state.label||'歷年選舉';veil.style.display='block';
     g.set(cols,{yPercent:0});g.set(title,{yPercent:0,autoAlpha:1});g.set(rule,{width:mobile()?72:110});
     const dur=mobile()?.3:.42;
-    g.timeline({defaults:{ease:'power3.inOut'},onComplete:()=>{veil.style.display='none'}})
+    const finish=()=>{veil.style.display='none'};
+    const fallback=setTimeout(finish,1400);
+    g.timeline({defaults:{ease:'power3.inOut'},onComplete:()=>{clearTimeout(fallback);finish()}})
       .to(title,{yPercent:-105,autoAlpha:0,duration:dur*.7,ease:'power2.in'},.04)
       .to(rule,{width:0,duration:dur*.5},.03)
       .to(cols,{yPercent:-110,duration:dur,stagger:.035},.12);
