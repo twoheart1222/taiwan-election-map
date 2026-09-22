@@ -46,7 +46,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   browser-ui:
@@ -57,18 +57,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Build local executive static artifact
-        run: node scripts/build-local-executive-history.mjs
-      - name: Persist generated history artifact
-        if: github.event_name == 'push'
-        run: |
-          if [ -n "$(git status --porcelain -- data/history/local-executive.json)" ]; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add data/history/local-executive.json
-            git commit -m "data: add static local executive history artifact"
-            git push origin HEAD:${GITHUB_REF_NAME}
-          fi
+      - name: Validate committed local executive artifact
+        run: node scripts/validate-local-executive-history.mjs
       - name: Install Playwright
         run: |
           npm install --no-save playwright@1.55.0
@@ -78,13 +68,11 @@ jobs:
           node scripts/validate-history-ui.mjs
           node scripts/validate-history-query-state.mjs
           node scripts/validate-local-executive-ui.mjs
-      - name: Upload UI screenshots and generated history artifact
+      - name: Upload UI screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: history-ui-screenshots
-          path: |
-            artifacts/history-ui/*.png
-            data/history/local-executive.json
+          path: artifacts/history-ui/*.png
           if-no-files-found: warn
           retention-days: 7
