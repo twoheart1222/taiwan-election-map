@@ -46,8 +46,10 @@ try{
   const type=page.locator('#archive-election-type');
   assert(await type.locator('option').count()===4,'election type catalog should expose 4 architecture slots');
   assert(await type.inputValue()==='president','president should be active');
-  for(const value of ['legislator','local-executive','councilor']){
-    assert(await type.locator(`option[value="${value}"]`).evaluate(el=>el.disabled===true),`${value} should be disabled until data exists`);
+  assert(await type.locator('option[value="local-executive"]').evaluate(el=>el.disabled===false),'local-executive should be enabled after data integration');
+  assert((await type.locator('option[value="local-executive"]').textContent())?.trim()==='縣市長','local-executive label should no longer say building');
+  for(const value of ['legislator','councilor']){
+    assert(await type.locator(`option[value="${value}"]`).evaluate(el=>el.disabled===true),`${value} should remain disabled until data exists`);
   }
   let summary=await text(page,'#archive-query-path');
   assert(summary.includes('總統副總統')&&summary.includes('2024')&&summary.includes('全國'),'default query summary is incomplete');
@@ -113,7 +115,20 @@ try{
   await mobile.screenshot({path:path.join(OUT,'history-query-state-mobile-390.png'),fullPage:true});
   await mobile.close();
 
-  console.log('History query-state validation passed:',{singleDeepLink,compareDeepLink});
+  const routePage=await browser.newPage({viewport:{width:1440,height:900}});
+  await routePage.goto(`${base}/history/?year=2024`,{waitUntil:'networkidle',timeout:30000});
+  await waitReady(routePage);
+  await routePage.locator('#archive-election-type').selectOption('local-executive');
+  await routePage.waitForURL(/\/history\/local-executive\.html\?type=local-executive&year=2022&level=national/,{timeout:10000});
+  await routePage.locator('#local-seat-grid .local-seat-card').first().waitFor({state:'visible',timeout:30000});
+  assert(await routePage.locator('#local-election-type').inputValue()==='local-executive','archive type router did not land on county mayor page');
+  await routePage.locator('#local-election-type').selectOption('president');
+  await routePage.waitForURL(/\/history\/\?type=president&year=2024&level=national/,{timeout:10000});
+  await waitReady(routePage);
+  assert(await routePage.locator('#archive-election-type').inputValue()==='president','county mayor page did not route back to president archive');
+  await routePage.close();
+
+  console.log('History query-state validation passed:',{singleDeepLink,compareDeepLink,typeRouting:'president ↔ local-executive'});
   await page.close();
 }finally{
   await browser.close();
