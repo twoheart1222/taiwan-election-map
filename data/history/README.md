@@ -32,6 +32,10 @@
 
 `/history/` 參考中選會選舉資料庫的查詢邏輯，但保留島民觀察室的黑／紅產品視覺。核心原則是「先選條件，再看資料」，避免把年份、比較器、地圖與結果同時平鋪。
 
+### 選舉類型目錄
+
+選舉類型已改成資料驅動的 selector 架構。目前只有「總統副總統」有完整已驗證資料，因此可選；「立法委員」、「縣市長」、「縣市議員」先保留為 disabled 的建置中資料槽，不顯示不存在的結果。未來新增選舉類型時沿用同一套年份、層級、地區與比較流程。
+
 ### 單屆結果
 
 使用者依序選擇：
@@ -53,7 +57,7 @@
 - `⇄` 交換方向
 - 地圖圖層
 
-A、B 可自由選擇八屆中的任兩個不同年份，B 年份同時作為右側全國候選人結果的基準年份。URL 保存 `compareA`、`compareB` 與 `mode=compare`。
+A、B 可自由選擇八屆中的任兩個不同年份，B 年份同時作為右側全國候選人結果的基準年份。
 
 目前有三種比較圖層：
 
@@ -62,6 +66,23 @@ A、B 可自由選擇八屆中的任兩個不同年份，B 年份同時作為右
 3. **藍綠 Swing**：`(DPP 得票率 − KMT 得票率) B − (DPP 得票率 − KMT 得票率) A`。負值使用 KMT 藍方向、正值使用 DPP 綠方向；只代表數值方向，不加入政治評價。
 
 如果年份組合缺少完整 DPP/KMT 雙方資料，Swing 顯示 `—`，不硬套公式。
+
+## 可分享查詢狀態
+
+查詢列下方會顯示「目前查詢」路徑，讓使用者不需要靠記憶判斷目前條件。例如：
+
+- `總統副總統 › 2024 › 全國`
+- `總統副總統 › 2024 › 縣市 › 臺北市`
+- `總統副總統 › 2012 → 2016 › 得票率變化 › 中國國民黨`
+
+查詢狀態會同步進 URL，可直接分享或重新整理後還原：
+
+- 單屆：`type`、`year`、`level`、`region`
+- 比較：`type`、`year`、`mode=compare`、`compareA`、`compareB`、`layer`，得票率圖層另保存 `party`
+
+單屆與比較模式只保留各自需要的 URL 參數，不把兩套狀態混在一起。初始化時先凍結原始 URL，資料載入與地圖重畫完成後才開始同步網址，避免 late render 把 deep-link 覆寫回預設狀態。
+
+「重設」會回到總統副總統、最新屆（目前 2024）、單屆、全國，並清除比較專用參數。
 
 ## 當選樣式
 
@@ -97,25 +118,29 @@ A、B 可自由選擇八屆中的任兩個不同年份，B 年份同時作為右
 - `scripts/patch-history-nav.mjs`：主站 desktop/mobile 歷年選舉入口。
 - `scripts/patch-history-drilldown.mjs`：縣市 → 鄉鎮市區入口。
 - `scripts/patch-history-product-ui.mjs`：接入 history product UI 與 enhancement assets。
-- `scripts/validate-history-ui.mjs`：Chromium desktop/mobile regression。
+- `scripts/validate-history-ui.mjs`：Chromium desktop/mobile UI regression。
+- `scripts/validate-history-query-state.mjs`：選舉類型目錄、查詢摘要、單屆／比較 deep-link、reset 與 mobile overflow regression。
 
 ## Chromium regression guard
 
 目前實際測試 1440×900、390×844、360×800，包含：
 
 - 單屆查詢的 8 個年份、全國／縣市層級與 22 縣市 select。
+- 選舉類型目錄 4 個架構槽；未建置類型必須 disabled。
 - 桌機 22 縣市與手機 22 縣市＋3 離島 inset。
 - A/B 各 8 個年份、同年份防呆、交換方向。
 - 勝方版圖／得票率變化／Swing 三種圖層與圖例。
+- `2024／臺北市` deep-link 重新整理後必須還原縣市結果。
+- `2012 → 2016／KMT 得票率變化` deep-link 必須還原 A/B、圖層與政黨。
+- reset 必須回到 2024／全國並清掉比較參數。
 - 主站同款 elected 視覺。
-- 無水平 overflow。
-- 手機查詢／比較控制觸控尺寸。
+- 無水平 overflow，手機 reset 觸控高度至少 40px。
 - 臺北市唯一鄉鎮下探 CTA 與 12 區互動。
 
-這套 UI regression 的目的不是只驗 CSS 存在，而是實際操作「單屆 → 縣市 → 跨屆 → 圖層切換 → 回單屆 → 鄉鎮下探」完整流程。
+這套 UI regression 的目的不是只驗 CSS 存在，而是實際操作「單屆 → 縣市 → 分享／重新整理 → 跨屆 → 圖層切換 → deep-link → 重設 → 鄉鎮下探」完整流程。
 
 ## 後續方向
 
 - 1996–2016 歷史鄉鎮名稱／邊界正規化。
 - 加入「當年行政區界線」模式，與現行 22 縣市比較模式分離。
-- 以同一套查詢架構擴充立委、縣市長等歷屆選舉類型。
+- 以同一套查詢架構正式接入立委、縣市長、縣市議員等已驗證歷史資料。
