@@ -42,14 +42,14 @@
     const g=gs();if(!g){location.href=url;return}
     const veil=buildTransition(),cols=[...veil.querySelectorAll('.history-transition-cols span')],title=veil.querySelector('.history-transition-title'),rule=veil.querySelector('.history-transition-rule');
     title.textContent=label;veil.style.display='block';
-    const dur=mobile()?.32:.46;
+    const dur=mobile()?.48:.52;
     g.killTweensOf([...cols,title,rule]);
     g.set(cols,{yPercent:110});g.set(title,{yPercent:120,autoAlpha:0});g.set(rule,{width:0});
     g.timeline({defaults:{ease:'power3.inOut'}})
       .to(cols,{yPercent:0,duration:dur,stagger:.035},0)
       .to(title,{yPercent:0,autoAlpha:1,duration:dur*.95,ease:'expo.out'},dur*.32)
       .to(rule,{width:mobile()?72:110,duration:dur*.72,ease:'power3.out'},dur*.46)
-      .add(()=>{try{sessionStorage.setItem('historyTransition',JSON.stringify({label,ts:Date.now()}))}catch(_){} location.href=url},dur*.92);
+      .add(()=>{try{sessionStorage.setItem('historyTransition',JSON.stringify({label,ts:Date.now()}))}catch(_){} location.href=url},dur*1.06);
   }
 
   function inboundTransition(){
@@ -70,13 +70,13 @@
   function initialReveal(fromTransition){
     if(reduce)return;
     const g=gs();if(!g)return;
-    const heroBits=document.querySelectorAll('.hero .kicker,.hero .crumb,.hero h1,.hero .hero-copy,.hero p');
-    const panels=isTown?document.querySelectorAll('.map-panel,.side'):document.querySelectorAll('.map-panel,.result-panel');
+    const heroBits=[...document.querySelectorAll('.hero .kicker,.hero .crumb,.hero h1,.hero .hero-copy,.hero p,.archive-head .archive-breadcrumb,.archive-head h1,.archive-head .archive-intro,.archive-head .archive-year-nav,.local-hero .kicker,.local-hero h1,.local-hero p,.local-hero .archive-year-nav')];
+    const panels=[...(isTown?document.querySelectorAll('.map-panel,.side'):document.querySelectorAll('.map-panel,.result-panel'))];
     g.set(heroBits,{willChange:'transform,opacity'});g.set(panels,{willChange:'transform,opacity'});
-    g.timeline({delay:fromTransition?.22:.08,defaults:{ease:'power3.out'}})
-      .fromTo(heroBits,{y:22,autoAlpha:0},{y:0,autoAlpha:1,duration:.72,stagger:.07},0)
-      .fromTo(panels,{y:18,autoAlpha:0},{y:0,autoAlpha:1,duration:.82,stagger:.08,ease:'expo.out'},.18)
-      .add(()=>{g.set([...heroBits,...panels],{clearProps:'willChange'})});
+    const timeline=g.timeline({delay:fromTransition?.22:.08,defaults:{ease:'power3.out'}});
+    if(heroBits.length)timeline.fromTo(heroBits,{y:22,autoAlpha:0},{y:0,autoAlpha:1,duration:.72,stagger:.07},0);
+    if(panels.length)timeline.fromTo(panels,{y:18,autoAlpha:0},{y:0,autoAlpha:1,duration:.82,stagger:.08,ease:'expo.out'},.18);
+    timeline.add(()=>{g.set([...heroBits,...panels],{clearProps:'willChange'})});
   }
 
   function animateReplacement(target,selector){
@@ -108,6 +108,14 @@
       setTimeout(()=>g.fromTo(targets,{autoAlpha:.56,y:7},{autoAlpha:1,y:0,duration:.46,ease:'power3.out',overwrite:true}),30);
       setTimeout(()=>btn.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'}),40);
     },true);
+  }
+
+  function animateContentChange(){
+    if(reduce)return;
+    const targets=[document.querySelector('.result-panel'),document.querySelector('.map-panel')].filter(Boolean);
+    const g=gs();
+    if(g){g.killTweensOf(targets);g.fromTo(targets,{autoAlpha:.42,y:14},{autoAlpha:1,y:0,duration:.58,stagger:.07,ease:'power3.out',overwrite:true});return}
+    targets.forEach((target,index)=>target.animate([{opacity:.42,transform:'translateY(14px)'},{opacity:1,transform:'translateY(0)'}],{duration:520,delay:index*55,easing:'cubic-bezier(.16,1,.3,1)'}));
   }
 
   function enableElectionTypeRouting(){
@@ -158,6 +166,8 @@
     requestAnimationFrame(check);addEventListener('resize',check,{passive:true});setTimeout(check,800);
   }
 
+  window.historyNavigate=navigate;
+  addEventListener('history:contentchange',animateContentChange);
   buildMobileNav();buildTransition();watchDynamic();enhanceYearSwitch();enableElectionTypeRouting();interceptNavigation();navScroll();mobileSafety();
   const fromTransition=inboundTransition();
   if(document.readyState==='complete')initialReveal(fromTransition);else addEventListener('load',()=>initialReveal(fromTransition),{once:true});

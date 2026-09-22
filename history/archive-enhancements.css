@@ -19,3 +19,57 @@ body.archive-comparing .map-title small{color:#f6c945}body.archive-comparing .co
 
 body.history-archive #candidates .candidate.elected.archive-elected-card,
 body.history-archive #candidates .candidate.elected.archive-elected-card:hover{background:#f4f1ea!important;color:#1a1714!important;border-color:#f4f1ea!important;border-radius:20px!important;box-shadow:0 14px 34px rgba(244,241,234,.12)!important}
+
+/* Election year rail: keeps the primary archive navigation visible, following
+   the CEC database's year-first information hierarchy. */
+.archive-year-nav{position:relative;z-index:2;display:flex;align-items:center;gap:18px;margin-top:24px;padding-top:18px;border-top:1px solid #2b2723}
+.archive-year-nav>span{flex:none;color:#8c857c;font:800 10px 'Archivo','Noto Sans TC';letter-spacing:.16em}
+body.history-archive #years,.local-year-nav .years{display:flex!important;align-items:stretch;gap:8px;min-width:0;overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x proximity;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+body.history-archive #years::-webkit-scrollbar,.local-year-nav .years::-webkit-scrollbar{display:none}
+.archive-year-nav .year-btn{position:relative;flex:0 0 auto;min-width:82px;min-height:54px;display:grid;align-content:center;gap:2px;border:1px solid #39342f;border-radius:10px;background:#161310;color:#8f8880;padding:8px 13px;text-align:left;cursor:pointer;scroll-snap-align:center;transition:transform .28s cubic-bezier(.16,1,.3,1),border-color .22s ease,background .22s ease,color .22s ease,box-shadow .22s ease}
+.archive-year-nav .year-btn span{font:900 16px 'Archivo';font-variant-numeric:tabular-nums}.archive-year-nav .year-btn small{font-size:9px;font-weight:800;color:#69635c}
+.archive-year-nav .year-btn:hover{transform:translateY(-2px);border-color:#6a6058;color:#fff}.archive-year-nav .year-btn.on{border-color:#E4022B;background:#2b1015;color:#fff;box-shadow:inset 3px 0 0 #E4022B,0 10px 25px rgba(228,2,43,.12)}.archive-year-nav .year-btn.on small{color:#d9aaaF}
+#archive-single-year-field{display:none!important}.archive-query-grid{grid-template-columns:minmax(160px,.9fr) minmax(220px,1.2fr) minmax(190px,1fr) minmax(190px,1fr)}
+
+@media(max-width:660px){
+  body.history-product{background:#0d0d0d}
+  body.history-archive .archive-head,.local-executive-page .local-hero{padding:24px 16px 18px;background:linear-gradient(145deg,#310c13 0%,#180e0f 54%,#0d0d0d 100%)}
+  body.history-archive .archive-title-row,.local-executive-page .local-hero-row{display:block;margin-top:8px}
+  body.history-archive .archive-breadcrumb,.local-executive-page .kicker{font-size:8px;letter-spacing:.15em}
+  body.history-archive .archive-head h1,.local-executive-page .local-hero h1{font-size:clamp(29px,9.5vw,38px);line-height:1.05;letter-spacing:-.04em}
+  body.history-archive .archive-intro,.local-executive-page .local-hero p{display:none}
+  .archive-year-nav{display:block;margin:18px -16px 0;padding:14px 0 0;border-color:rgba(255,255,255,.12)}
+  .archive-year-nav>span{display:block;margin:0 16px 9px;color:#c19c9f;font-size:9px}
+  body.history-archive #years,.local-year-nav .years{padding:0 16px 4px;gap:7px;scroll-padding-inline:16px}
+  .archive-year-nav .year-btn{min-width:76px;min-height:50px;border-color:rgba(255,255,255,.16);background:rgba(14,11,10,.45);padding:7px 11px}
+  .archive-year-nav .year-btn span{font-size:15px}.archive-year-nav .year-btn.on{background:#f4f1ea;color:#251014;border-color:#f4f1ea;box-shadow:none}.archive-year-nav .year-btn.on small{color:#765e61}
+
+  .archive-query-shell{position:relative;top:auto;padding:14px 16px 16px;background:#100e0d;box-shadow:none}
+  .archive-query-heading{margin-bottom:10px}.archive-query-heading p{display:none}.archive-query-heading h2{font-size:14px}.archive-query-heading span{font-size:8px}
+  .archive-query-grid{grid-template-columns:1fr 1fr;gap:10px 8px}
+  .archive-query-field:first-child{grid-column:1}.archive-query-field>label{margin-bottom:5px;font-size:8px}
+  #archive-single-year-field{display:none!important}
+  #archive-single-level-field,#archive-region-field{grid-column:auto!important}
+  .archive-query-field select,.archive-query-static,.archive-segment{height:42px!important;min-height:42px;border-radius:8px}
+  body.history-archive .archive-query-statebar{display:none!important}
+
+  body.history-archive .layout{display:flex;flex-direction:column;border-top:1px solid #25211e}
+  body.history-archive .result-panel{order:1;padding:24px 16px 34px;background:#f0ede5;color:#171310}
+  body.history-archive .map-panel{order:2;min-height:430px;background:radial-gradient(90% 90% at 48% 44%,#171512 0%,#0d0d0d 72%);border-top:1px solid #29241f;border-bottom:0}
+  body.history-archive .election-meta{padding-bottom:18px;border-color:#cbc5ba}
+  body.history-archive #election-title{color:#171310;font-size:27px}
+  body.history-archive .meta-stats strong{color:#171310}.result-panel .meta-stats span,.result-panel .section-label{color:#756e65}
+  body.history-archive .candidate-list{grid-template-columns:1fr 1fr;gap:9px}
+  body.history-archive .candidate{min-width:0;padding:13px!important;border-color:#d0c9bd!important;background:#e6e1d7!important;color:#171310;border-radius:10px!important;box-shadow:none!important}
+  body.history-archive .candidate .cand-head{display:block;padding-right:0;min-height:0}.candidate .cand-name{font-size:14px!important;line-height:1.45}.candidate .cand-no{width:22px;height:22px;margin-right:5px;background:#d3cdc1;color:#171310}.candidate .cand-party{color:#766f65}.candidate .cand-votes{margin-top:12px;text-align:left;color:#171310;font-size:17px!important}.candidate .cand-votes small{display:inline;margin-left:7px;color:#756e65}.candidate .bar{margin-top:8px;background:#d2ccc1}
+  body.history-archive #candidates .candidate.elected.archive-elected-card{grid-column:1/-1;padding:15px!important;border-color:#171310!important;background:#171310!important;color:#f4f1ea!important;border-radius:12px!important;box-shadow:none!important}
+  body.history-archive #candidates .candidate.elected.archive-elected-card .cand-head{padding-right:64px}.archive-elected-card .cand-name{color:#fff!important}.archive-elected-card .cand-no{background:#f4f1ea!important}.archive-elected-card .cand-party{color:#b9b1a7!important}.archive-elected-card .cand-votes{color:#ff4764!important}.archive-elected-stamp{width:60px!important;height:60px!important;right:7px!important;top:7px!important}
+  body.history-archive .county-detail{border-color:#cbc5ba}.county-card{border-color:#c9c1b5;background:#e6e1d7}.county-head{border-color:#c9c1b5}.county-head h3,.county-row-name,.county-row-votes,.county-row-share{color:#171310}.county-summary{background:#d9d2c6;color:#4f4941}.county-empty{border-color:#bdb6aa;color:#6d665e}.county-empty strong{color:#27221e}.source{border-color:#cbc5ba;color:#756e65}.source a{color:#403a34}
+  body.history-archive #mobile-map{inset:68px 4px 68px;height:calc(100% - 136px)}
+}
+
+@media(max-width:380px){
+  .archive-query-grid{grid-template-columns:1fr}.archive-query-field:first-child,#archive-single-level-field,#archive-region-field{grid-column:1!important}
+  body.history-archive .candidate-list{grid-template-columns:1fr}
+  body.history-archive #candidates .candidate.elected.archive-elected-card{grid-column:auto}
+}
