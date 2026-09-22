@@ -83,8 +83,10 @@
   .candidate-photo{width:88px;height:88px;overflow:hidden;border-radius:50%;background:#2a2723;display:grid;place-items:center;font-family:'Noto Sans TC';font-weight:900;font-size:28px;color:#f4f1ea}
   .candidate-title-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
   .candidate-card.search-target-ring{position:relative;isolation:isolate}
-  .candidate-card.search-target-ring::after{content:"";position:absolute;inset:-3px;z-index:3;padding:3px;border-radius:23px;pointer-events:none;background:conic-gradient(from 0turn,transparent 0turn .72turn,#f6a06b .86turn,#E4022B 1turn);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;transform:rotate(0turn);animation:candidate-ring-once 1.15s linear 1 forwards}
-  @keyframes candidate-ring-once{0%{opacity:0;transform:rotate(0turn)}10%{opacity:1}88%{opacity:1}100%{opacity:0;transform:rotate(1turn)}}
+  .candidate-card.search-target-ring::before{content:"";position:absolute;inset:-3px;z-index:3;border:2px solid #f6a06b;border-radius:inherit;pointer-events:none;box-shadow:0 0 0 1px rgba(228,2,43,.18),0 0 18px rgba(246,160,107,.2);animation:candidate-outline-once 1.45s ease-out 1 forwards}
+  .candidate-card.search-target-ring::after{content:"";position:absolute;inset:-5px;z-index:4;padding:5px;border-radius:inherit;pointer-events:none;background:conic-gradient(from 0turn,transparent 0turn .935turn,rgba(246,160,107,.15) .95turn,#f6a06b .968turn,#fff .982turn,#E4022B .992turn,transparent 1turn);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;filter:drop-shadow(0 0 5px #fff) drop-shadow(0 0 9px #E4022B);transform:rotate(0turn);animation:candidate-light-orbit 1.35s linear 1 forwards}
+  @keyframes candidate-outline-once{0%{opacity:0}9%,82%{opacity:1}100%{opacity:0}}
+  @keyframes candidate-light-orbit{0%{opacity:0;transform:rotate(0turn)}6%{opacity:1}92%{opacity:1}100%{opacity:0;transform:rotate(1turn)}}
   .drawer{font-family:'Noto Sans TC',system-ui,sans-serif}
   .map-hero{height:calc(100dvh - 60px) !important}
   .candidate-search{position:relative;width:fit-content;max-width:min(360px,calc(100vw - 32px));margin-top:20px;pointer-events:auto}
@@ -612,6 +614,22 @@ class App {
       const reveal = () => document.getElementById(a.dataset.section)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       if (this._currentView !== 'map') this._showView('map', () => setTimeout(reveal, 80));
       else reveal();
+    }));
+    document.querySelectorAll('a[href^="./history/"]').forEach(a => a.addEventListener('click', e => {
+      if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      closeMenu();
+      const destination = a.href;
+      const veil = document.getElementById('page-transition');
+      const title = document.getElementById('page-transition-label');
+      const kicker = document.getElementById('page-transition-kicker');
+      const rule = document.getElementById('page-transition-rule');
+      if (title) title.textContent = '歷年選舉';
+      if (kicker) kicker.textContent = '前往 / ELECTION ARCHIVE';
+      this._playVeil(veil, title, kicker, rule, () => {
+        try { sessionStorage.setItem('historyTransition', JSON.stringify({ label: '歷年選舉', ts: Date.now() })); } catch (_) {}
+        location.href = destination;
+      }, '_historyTransitionToken');
     }));
     toggle?.addEventListener('click', e => {
       e.stopPropagation();
@@ -1184,7 +1202,7 @@ class App {
       el.classList.remove('search-target-ring');
       void el.offsetWidth;
       el.classList.add('search-target-ring');
-      el.addEventListener('animationend', () => el.classList.remove('search-target-ring'), { once: true });
+      setTimeout(() => el.classList.remove('search-target-ring'), 1500);
     }, 900);
   }
 
