@@ -8,7 +8,7 @@ const OUTPUT_PATH = path.join(ROOT, 'data/history/presidential-counties.json');
 
 const COLUMNS = [
   'CountyCityName', 'TownshipName', 'VillageName', 'PollStationNo', 'DistrictName',
-  'DrawNo', 'VoteCounts', 'VoteRate', 'CandIdateName', 'EndorsementPartyName',
+  'DrawNo', 'VoteCounts', 'VoteRate', 'CandidateName', 'EndorsementPartyName',
   'Gender', 'IsIncumbent', 'Elected',
 ];
 
@@ -71,6 +71,7 @@ function normalizeCounty(value) {
 function clean(value) { return String(value ?? '').replace(/^\uFEFF/, '').trim(); }
 function asInt(value) { return Number(clean(value).replaceAll(',', '')) || 0; }
 function isZeroish(value) { const v = clean(value); return !v || /^0+$/.test(v); }
+function isCountyName(value) { const v = clean(value).replaceAll('台', '臺'); return Boolean(v) && v !== '全國'; }
 
 function rowsToObjects(rows) {
   if (!rows.length) return [];
@@ -81,23 +82,22 @@ function rowsToObjects(rows) {
 }
 
 function extractCountyRows(records) {
-  const strict = records.filter(r => clean(r.CountyCityName)
+  const strict = records.filter(r => isCountyName(r.CountyCityName)
     && !clean(r.TownshipName)
     && !clean(r.VillageName)
     && isZeroish(r.PollStationNo)
     && isZeroish(r.DistrictName));
   if (strict.length) return strict;
-  return records.filter(r => clean(r.CountyCityName)
+  return records.filter(r => isCountyName(r.CountyCityName)
     && !clean(r.TownshipName)
     && !clean(r.VillageName)
     && isZeroish(r.PollStationNo));
 }
 
 function aggregateCountyRows(rows) {
-  // Presidential VoteRecords contains one candidate row for the president and one
-  // for the vice-president on the same ticket. They share DrawNo and VoteCounts.
-  // First collapse those duplicated ticket rows inside the ORIGINAL county, then
-  // normalize old county names and sum only genuine pre-merger county/city units.
+  // VoteRecords may contain duplicated rows for president and vice-president on
+  // the same ticket. Collapse identical ticket totals inside the ORIGINAL county,
+  // then normalize historical county names and sum only genuine merger units.
   const originalTickets = new Map();
   for (const r of rows) {
     const originalCounty = clean(r.CountyCityName).replaceAll('台', '臺');
@@ -113,7 +113,7 @@ function aggregateCountyRows(rows) {
       originalTickets.set(key, {
         originalCounty,
         no,
-        name: clean(r.CandIdateName),
+        name: clean(r.CandidateName || r.CandIdateName),
         party: clean(r.EndorsementPartyName),
         votes,
       });
