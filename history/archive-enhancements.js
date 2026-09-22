@@ -156,6 +156,7 @@
     if(typeof window.paintMap==='function')window.paintMap();renderMobileMap();
   }
   function updateMapStatus(){
+    const heading=$('#map-heading');if(heading)heading.textContent=`${compareA} → ${compareB} 縣市比較`;
     const s=$('#map-status');if(!s)return;
     s.innerHTML=`<b>比較模式。</b> 地圖顯示 ${compareB} 勝方色；金色外框表示相較 ${compareA} 勝方政黨翻轉。點擊縣市查看兩屆得票率變化。`;
   }
