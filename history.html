@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>歷屆選舉地圖｜島民觀察室 Formosa Observatory</title>
+<meta name="description" content="島民觀察室歷屆選舉地圖：以年份、選舉類型與地區瀏覽臺灣歷年選舉結果。第一階段收錄 1996–2024 總統副總統直接選舉。">
+<link rel="canonical" href="https://formosaobservatory.com/history.html">
+<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
+<meta name="theme-color" content="#0d0d0d">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:site_name" content="Formosa Observatory｜島民觀察室">
+<meta property="og:title" content="歷屆選舉地圖｜島民觀察室">
+<meta property="og:description" content="用地圖回看臺灣歷次選舉。依選舉類型、年份與地區切換，查看候選人得票與選舉結果。">
+<meta property="og:url" content="https://formosaobservatory.com/history.html">
+<meta property="og:image" content="https://formosaobservatory.com/social-preview.png">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<script src="https://unpkg.com/topojson-client@3/dist/topojson-client.min.js"></script>
+<style>
+  :root{--bg:#0d0d0d;--panel:#151311;--panel2:#1d1a17;--line:#33302b;--muted:#918b81;--text:#f4f1ea;--red:#E4022B;--cream:#e9e3d8}
+  *,*::before,*::after{box-sizing:border-box}
+  html{background:var(--bg);scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'Noto Sans TC',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}button{font:inherit}
+  ::selection{background:var(--red);color:#fff}
+  ::-webkit-scrollbar{width:10px;height:8px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:#3a3630;border-radius:999px}
+  .site-nav{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:12px clamp(14px,3.5vw,44px);background:rgba(13,13,13,.88);backdrop-filter:blur(12px);border-bottom:1px solid #1c1a17}
+  .brand{display:flex;align-items:center;gap:10px;font-family:'Archivo','Noto Sans TC';font-weight:900;font-size:16px;letter-spacing:-.02em;white-space:nowrap}.brand-mark{width:11px;height:11px;background:var(--red);border-radius:2px}
+  .nav-right{display:flex;align-items:center;gap:22px;font-family:'Archivo','Noto Sans TC';font-weight:700;font-size:13px}.nav-link{color:#aaa399;transition:.2s}.nav-link:hover,.nav-link.on{color:var(--red)}.nav-home{padding:8px 15px;border:1px solid var(--line);border-radius:999px;color:var(--text)}.nav-home:hover{border-color:var(--red);color:var(--text)}
+  .hero{padding:clamp(34px,7vw,88px) clamp(16px,4vw,54px) clamp(28px,5vw,58px);border-bottom:1px solid #201d19;background:radial-gradient(100% 120% at 72% -20%,#24191a 0%,#0d0d0d 60%)}
+  .hero-inner{max-width:1500px;margin:auto;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(260px,.55fr);gap:clamp(28px,6vw,90px);align-items:end}
+  .kicker{font:800 11px/1 'Archivo','Noto Sans TC';letter-spacing:.28em;color:var(--red);text-transform:uppercase;margin-bottom:18px}
+  h1{font:900 clamp(46px,8.4vw,128px)/.86 'Noto Sans TC','Archivo';letter-spacing:-.055em;margin:0;text-wrap:balance}.hero p{max-width:670px;margin:24px 0 0;color:#b4ada2;font-size:clamp(14px,1.35vw,18px);line-height:1.85;font-weight:500}
+  .hero-index{border-left:1px solid var(--line);padding-left:clamp(18px,3vw,38px)}.hero-index strong{display:block;font:900 clamp(46px,6vw,82px)/.9 'Archivo';color:var(--red);letter-spacing:-.05em}.hero-index span{display:block;margin-top:12px;color:#aaa399;font-size:13px;line-height:1.75}
+  .workspace{max-width:1500px;margin:auto;padding:0 clamp(16px,4vw,54px) clamp(70px,10vw,130px)}
+  .controls{padding:30px 0 24px;border-bottom:1px solid #27231f}
+  .control-label{font:800 10px/1 'Archivo','Noto Sans TC';letter-spacing:.22em;color:#746e65;margin-bottom:12px;text-transform:uppercase}
+  .type-row,.year-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:5px;scrollbar-width:thin}.type-btn,.year-btn{flex:none;border:1px solid var(--line);background:#151311;color:#a9a298;border-radius:999px;padding:10px 15px;cursor:pointer;font-weight:800;font-size:13px;transition:.18s;white-space:nowrap}.type-btn:hover,.year-btn:hover{border-color:#6b625a;color:var(--text)}.type-btn.on,.year-btn.on{background:var(--red);border-color:var(--red);color:#fff}.type-btn[disabled]{cursor:not-allowed;opacity:.42}.type-btn small{margin-left:6px;font-size:9px;letter-spacing:.03em}.year-row{margin-top:18px}.year-btn{font-family:'Archivo';font-size:14px;padding-inline:18px}
+  .election-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;padding:34px 0 22px}.election-title h2{font-size:clamp(25px,3.4vw,48px);line-height:1.12;letter-spacing:-.035em;margin:0;font-weight:900}.election-meta{margin-top:9px;color:#8f887f;font:700 12px/1.5 'Archivo','Noto Sans TC';letter-spacing:.05em}.official-link{flex:none;display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border:1px solid var(--line);border-radius:999px;font-size:12px;font-weight:800;color:#c8c1b7;transition:.2s}.official-link:hover{border-color:var(--red);color:#fff}.official-link span{color:var(--red)}
+  .grid{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(360px,.72fr);gap:18px;align-items:stretch}
+  .map-card,.result-card{background:var(--panel);border:1px solid #29251f;border-radius:22px;overflow:hidden;min-height:620px}
+  .map-card{position:relative;background:radial-gradient(100% 110% at 52% 45%,#211d19 0%,#11100e 65%)}
+  .map-toolbar{position:absolute;z-index:8;top:18px;left:18px;right:18px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;pointer-events:none}.map-readout{background:rgba(13,13,13,.82);backdrop-filter:blur(9px);border:1px solid #302c27;border-radius:14px;padding:12px 14px;max-width:min(360px,70%)}.map-readout b{display:block;font-size:18px;font-weight:900}.map-readout span{display:block;margin-top:4px;color:#8d867c;font-size:11px;font-weight:700;line-height:1.5}.map-reset{pointer-events:auto;border:1px solid #3a3630;background:rgba(13,13,13,.86);color:#c6bfb5;border-radius:999px;padding:9px 13px;cursor:pointer;font-size:11px;font-weight:800}.map-reset:hover{border-color:var(--red);color:#fff}
+  #history-map{position:absolute;inset:0;width:100%;height:100%;display:block}.county{fill:#403a33;stroke:#171411;stroke-width:1.1;cursor:pointer;vector-effect:non-scaling-stroke;transition:fill .14s,filter .14s,opacity .14s}.county:hover{fill:#6a5f54;filter:brightness(1.08)}.county.selected{fill:var(--red);filter:drop-shadow(0 7px 10px rgba(228,2,43,.28))}.county.dim{opacity:.3}.county-label{fill:#d9d2c7;font:800 10px 'Noto Sans TC';text-anchor:middle;pointer-events:none;paint-order:stroke;stroke:#171411;stroke-width:3px;stroke-linejoin:round}.map-note{position:absolute;z-index:7;left:18px;bottom:18px;max-width:520px;background:rgba(13,13,13,.78);backdrop-filter:blur(8px);border:1px solid #302c27;border-radius:12px;padding:10px 12px;color:#918a80;font-size:11px;font-weight:650;line-height:1.65}.map-note strong{color:#d4cdc2}
+  .result-card{display:flex;flex-direction:column;padding:24px}.result-kicker{display:flex;align-items:center;justify-content:space-between;gap:10px;color:#8b847a;font:800 10px 'Archivo','Noto Sans TC';letter-spacing:.16em;text-transform:uppercase}.scope-pill{padding:5px 9px;border-radius:999px;background:#241d1d;color:#ff6b81;letter-spacing:.04em}.winner{padding:26px 0 20px;border-bottom:1px solid #2d2924}.winner-label{font-size:11px;color:#817a71;font-weight:800;margin-bottom:8px}.winner-name{display:flex;align-items:baseline;justify-content:space-between;gap:15px}.winner-name h3{margin:0;font-size:clamp(28px,3vw,44px);line-height:1;font-weight:900;letter-spacing:-.04em}.winner-name strong{font:900 clamp(29px,3.5vw,48px)/1 'Archivo';color:var(--red)}.winner-sub{margin-top:10px;color:#aaa399;font-size:13px;font-weight:700}.candidate-list{display:flex;flex-direction:column;gap:16px;padding:20px 0}.candidate-row{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:11px;align-items:center}.rank{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#25211d;color:#a9a298;font:800 11px 'Archivo'}.candidate-name{font-weight:900;font-size:15px}.candidate-party{margin-top:2px;color:#7f786f;font-size:11px;font-weight:700}.candidate-num{text-align:right}.candidate-num b{display:block;font:900 17px/1 'Archivo';color:#e9e3d8}.candidate-num span{display:block;margin-top:4px;color:#857e75;font:700 10px 'Archivo'}.bar{grid-column:2/4;height:5px;background:#2a2621;border-radius:999px;overflow:hidden;margin-top:-4px}.bar i{display:block;height:100%;background:#9b9287;border-radius:inherit}.candidate-row:first-child .bar i{background:var(--red)}
+  .stat-grid{margin-top:auto;padding-top:18px;border-top:1px solid #2d2924;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.stat{padding:12px;border-radius:13px;background:#1d1a17}.stat span{display:block;color:#777067;font-size:10px;font-weight:800}.stat b{display:block;margin-top:4px;font:900 18px 'Archivo','Noto Sans TC'}
+  .empty{margin:auto 0;text-align:center;padding:48px 18px}.empty-mark{font:900 64px/.9 'Archivo';color:#2b2722}.empty h3{font-size:22px;margin:20px 0 8px}.empty p{margin:0 auto;max-width:29em;color:#8c857b;font-size:13px;line-height:1.75}.empty a{display:inline-flex;margin-top:18px;padding:10px 16px;border:1px solid var(--line);border-radius:999px;color:#e5ded3;font-size:12px;font-weight:800}.empty a:hover{border-color:var(--red)}
+  .timeline{margin-top:22px;border-top:1px solid #27231f;padding-top:34px}.timeline-head{display:flex;justify-content:space-between;gap:20px;align-items:flex-end;margin-bottom:18px}.timeline h2{margin:0;font-size:clamp(25px,3vw,42px);letter-spacing:-.035em}.timeline-head p{max-width:470px;margin:0;color:#8d867c;font-size:12px;line-height:1.7}.timeline-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.era{background:#151311;border:1px solid #29251f;border-radius:16px;padding:18px;cursor:pointer;transition:.2s;text-align:left;color:inherit}.era:hover{transform:translateY(-2px);border-color:#544c44}.era.on{border-color:var(--red);box-shadow:inset 0 0 0 1px var(--red)}.era-year{font:900 30px/1 'Archivo';color:var(--red)}.era-title{font-size:13px;font-weight:900;margin-top:11px;line-height:1.5}.era-winner{margin-top:8px;color:#847d73;font-size:11px;font-weight:700}
+  .source{margin-top:46px;padding:32px;border-radius:20px;background:var(--cream);color:#111}.source .kicker{color:var(--red);margin-bottom:12px}.source h2{font-size:clamp(25px,3vw,40px);letter-spacing:-.035em;margin:0}.source-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:20px}.source p{margin:0;font-size:13px;line-height:1.85;color:#3f3933;font-weight:600}.source a{text-decoration:underline;text-underline-offset:4px;font-weight:900}.source a:hover{color:var(--red)}
+  .foot{padding:28px clamp(16px,4vw,54px);border-top:1px solid #211e1a;color:#6f6961;font-size:11px;font-weight:700}.foot-inner{max-width:1500px;margin:auto;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}.foot strong{color:#b8b1a6}
+  .tooltip{position:fixed;z-index:100;pointer-events:none;display:none;padding:8px 10px;border:1px solid #3a3630;background:#0d0d0d;color:#f4f1ea;border-radius:9px;box-shadow:0 12px 35px rgba(0,0,0,.35);font-size:12px;font-weight:800}
+  @media(max-width:980px){.hero-inner{grid-template-columns:1fr}.hero-index{border-left:0;border-top:1px solid var(--line);padding:20px 0 0}.grid{grid-template-columns:1fr}.map-card{min-height:64vh}.result-card{min-height:auto}.timeline-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.source-grid{grid-template-columns:1fr}}
+  @media(max-width:660px){.site-nav{padding:10px 12px}.nav-right .nav-link{display:none}.nav-home{font-size:11px;padding:8px 11px}.hero{padding-top:38px}.hero p{font-size:14px}.workspace{padding-inline:12px}.controls{padding-top:22px}.election-head{align-items:flex-start;flex-direction:column}.official-link{align-self:flex-start}.map-card{min-height:520px;border-radius:16px}.result-card{border-radius:16px;padding:18px}.map-toolbar{top:12px;left:12px;right:12px}.map-note{left:12px;right:12px;bottom:12px}.county-label{font-size:8px}.timeline-grid{grid-template-columns:1fr 1fr}.source{padding:22px}.brand{font-size:15px}}
+</style>
+</head>
+<body>
+<nav class="site-nav" aria-label="主要導覽">
+  <a class="brand" href="/" aria-label="返回島民觀察室首頁"><span class="brand-mark" aria-hidden="true"></span>島民觀察室</a>
+  <div class="nav-right">
+    <a class="nav-link" href="/">2026 選舉地圖</a>
+    <a class="nav-link on" href="/history.html" aria-current="page">歷屆選舉</a>
+    <a class="nav-home" href="/">回到首頁 →</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="kicker">Formosa Observatory / Historical Election Map</div>
+      <h1>歷屆<br>選舉地圖</h1>
+      <p>把每一次選擇放回地圖裡。從選舉類型、年份到地區逐層查看，對照候選人得票與政治版圖如何變化。介面參考中央選舉委員會「視覺化查詢」的分類邏輯，資料仍以官方公告為準。</p>
+    </div>
+    <div class="hero-index" aria-label="目前收錄範圍">
+      <strong>08</strong>
+      <span>屆總統副總統直接選舉<br>1996 → 2024<br>其他選舉類型將沿相同資料架構擴充</span>
+    </div>
+  </div>
+</header>
+
+<main class="workspace">
+  <section class="controls" aria-label="選舉篩選">
+    <div class="control-label">01 / Election type · 選舉類型</div>
+    <div class="type-row" id="type-row">
+      <button class="type-btn on" type="button" data-type="president">總統副總統</button>
+      <button class="type-btn" type="button" disabled>立法委員 <small>SOON</small></button>
+      <button class="type-btn" type="button" disabled>直轄市長 <small>SOON</small></button>
+      <button class="type-btn" type="button" disabled>縣市長 <small>SOON</small></button>
+      <button class="type-btn" type="button" disabled>直轄市議員 <small>SOON</small></button>
+      <button class="type-btn" type="button" disabled>縣市議員 <small>SOON</small></button>
+      <button class="type-btn" type="button" disabled>修憲複決／公投 <small>SOON</small></button>
+    </div>
+    <div class="control-label" style="margin-top:18px">02 / Election year · 選舉年份</div>
+    <div class="year-row" id="year-row"></div>
+  </section>
+
+  <section class="election-head">
+    <div class="election-title">
+      <h2 id="election-title">第 16 任總統副總統選舉</h2>
+      <div class="election-meta" id="election-meta">2024.01.13 · PRESIDENTIAL ELECTION</div>
+    </div>
+    <a class="official-link" href="https://db.cec.gov.tw/Visual/?type=President" target="_blank" rel="noopener noreferrer">中選會官方視覺化查詢 <span>↗</span></a>
+  </section>
+
+  <section class="grid">
+    <div class="map-card" aria-label="臺灣縣市地圖">
+      <div class="map-toolbar">
+        <div class="map-readout"><b id="map-area">全臺灣</b><span id="map-sub">點選縣市查看地區層級；再次點擊或按右側重設回到全國。</span></div>
+        <button class="map-reset" id="map-reset" type="button">全國結果</button>
+      </div>
+      <svg id="history-map" role="img" aria-label="臺灣縣市選舉結果地圖"></svg>
+      <div class="map-note" id="boundary-note"><strong>地圖層級：</strong>目前使用本站現行 22 縣市行政區底圖。2010 年以前曾有臺中縣市、臺南縣市、高雄縣市等不同邊界，因此舊選舉不會硬套現行縣市結果；待歷史行政區底圖匯入後再開放舊年份縣市著色。</div>
+    </div>
+
+    <aside class="result-card" id="result-card" aria-live="polite"></aside>
+  </section>
+
+  <section class="timeline">
+    <div class="timeline-head"><div><div class="kicker">Election timeline / 直選年代</div><h2>八次選擇，一張時間軸。</h2></div><p>點選任一屆即可切換。全國候選人票數已先建立為第一階段基礎資料；縣市、鄉鎮市區與村里結果則採獨立 JSON 分層載入，避免讓歷史資料與 2026 候選人資料互相覆蓋。</p></div>
+    <div class="timeline-grid" id="timeline-grid"></div>
+  </section>
+
+  <section class="source">
+    <div class="kicker">Data & methodology / 資料與方法</div>
+    <h2>官方資料優先，歷史邊界分開處理。</h2>
+    <div class="source-grid">
+      <p>選舉名稱、日期與結果以<strong>中央選舉委員會選舉資料庫</strong>為主要來源。本站不在瀏覽器即時爬取中選會頁面，而是將核對後的歷史結果整理成本站靜態資料，降低來源網站改版、CORS 或短暫無法連線對前台的影響。<br><br><a href="https://db.cec.gov.tw/Visual/?type=President" target="_blank" rel="noopener noreferrer">開啟中選會視覺化查詢 ↗</a></p>
+      <p>行政區在不同年代曾經合併或改制。尤其 2010 年五都改制前，縣市邊界與今天不同，因此本站不會把舊結果直接硬套到現行 22 縣市。後續資料層會按選舉年度綁定對應的歷史行政區 geometry，讓跨年度比較保持可追溯。</p>
+    </div>
+  </section>
+</main>
+
+<footer class="foot"><div class="foot-inner"><span><strong>Formosa Observatory｜島民觀察室</strong> · 歷屆選舉地圖</span><span>非政府官方網站 · 選舉數據以中央選舉委員會公告為準</span></div></footer>
+<div class="tooltip" id="tooltip" role="tooltip"></div>
+
+<script>
+const ELECTIONS = [
+  {year:2024,no:16,date:'2024.01.13',turnout:71.86,electorate:19548531,winner:'賴清德・蕭美琴',winnerParty:'民主進步黨',candidates:[
+    {name:'賴清德・蕭美琴',party:'民主進步黨',votes:5586019,pct:40.05},
+    {name:'侯友宜・趙少康',party:'中國國民黨',votes:4671021,pct:33.49},
+    {name:'柯文哲・吳欣盈',party:'台灣民眾黨',votes:3690466,pct:26.46}
+  ]},
+  {year:2020,no:15,date:'2020.01.11',turnout:74.90,electorate:19311105,winner:'蔡英文・賴清德',winnerParty:'民主進步黨',candidates:[
+    {name:'蔡英文・賴清德',party:'民主進步黨',votes:8170231,pct:57.13},
+    {name:'韓國瑜・張善政',party:'中國國民黨',votes:5522119,pct:38.61},
+    {name:'宋楚瑜・余湘',party:'親民黨',votes:608590,pct:4.26}
+  ]},
+  {year:2016,no:14,date:'2016.01.16',turnout:66.27,electorate:18782991,winner:'蔡英文・陳建仁',winnerParty:'民主進步黨',candidates:[
+    {name:'蔡英文・陳建仁',party:'民主進步黨',votes:6894744,pct:56.12},
+    {name:'朱立倫・王如玄',party:'中國國民黨',votes:3813365,pct:31.04},
+    {name:'宋楚瑜・徐欣瑩',party:'親民黨',votes:1576861,pct:12.84}
+  ]},
+  {year:2012,no:13,date:'2012.01.14',turnout:74.38,electorate:18086455,winner:'馬英九・吳敦義',winnerParty:'中國國民黨',candidates:[
+    {name:'馬英九・吳敦義',party:'中國國民黨',votes:6891139,pct:51.60},
+    {name:'蔡英文・蘇嘉全',party:'民主進步黨',votes:6093578,pct:45.63},
+    {name:'宋楚瑜・林瑞雄',party:'連署',votes:369588,pct:2.77}
+  ]},
+  {year:2008,no:12,date:'2008.03.22',turnout:76.33,electorate:17321622,winner:'馬英九・蕭萬長',winnerParty:'中國國民黨',candidates:[
+    {name:'馬英九・蕭萬長',party:'中國國民黨',votes:7659014,pct:58.45},
+    {name:'謝長廷・蘇貞昌',party:'民主進步黨',votes:5444949,pct:41.55}
+  ]},
+  {year:2004,no:11,date:'2004.03.20',turnout:80.28,electorate:16507179,winner:'陳水扁・呂秀蓮',winnerParty:'民主進步黨',candidates:[
+    {name:'陳水扁・呂秀蓮',party:'民主進步黨',votes:6471970,pct:50.11},
+    {name:'連戰・宋楚瑜',party:'中國國民黨／親民黨',votes:6442452,pct:49.89}
+  ]},
+  {year:2000,no:10,date:'2000.03.18',turnout:82.69,electorate:15462625,winner:'陳水扁・呂秀蓮',winnerParty:'民主進步黨',candidates:[
+    {name:'陳水扁・呂秀蓮',party:'民主進步黨',votes:4977697,pct:39.30},
+    {name:'宋楚瑜・張昭雄',party:'無黨籍',votes:4664972,pct:36.84},
+    {name:'連戰・蕭萬長',party:'中國國民黨',votes:2925513,pct:23.10},
+    {name:'許信良・朱惠良',party:'無黨籍',votes:79429,pct:.63},
+    {name:'李敖・馮滬祥',party:'新黨',votes:16782,pct:.13}
+  ]},
+  {year:1996,no:9,date:'1996.03.23',turnout:76.04,electorate:14313288,winner:'李登輝・連戰',winnerParty:'中國國民黨',candidates:[
+    {name:'李登輝・連戰',party:'中國國民黨',votes:5813699,pct:54.00},
+    {name:'彭明敏・謝長廷',party:'民主進步黨',votes:2274586,pct:21.13},
+    {name:'林洋港・郝柏村',party:'無黨籍',votes:1603790,pct:14.90},
+    {name:'陳履安・王清峰',party:'無黨籍',votes:1074044,pct:9.98}
+  ]}
+];
+
+const state = { year: 2024, area: null, countyResults: {}, features: [], path: null, svg: null };
+const fmt = new Intl.NumberFormat('zh-TW');
+const $ = s => document.querySelector(s);
+const esc = value => String(value ?? '').replace(/[&<>'"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));
+const selectedElection = () => ELECTIONS.find(e => e.year === state.year) || ELECTIONS[0];
+
+function syncUrl() {
+  const u = new URL(location.href);
+  u.searchParams.set('type','president');
+  u.searchParams.set('year', String(state.year));
+  if (state.area?.id) u.searchParams.set('county', state.area.id); else u.searchParams.delete('county');
+  history.replaceState(null,'',u);
+}
+
+function renderYearControls() {
+  $('#year-row').innerHTML = ELECTIONS.map(e => `<button type="button" class="year-btn${e.year===state.year?' on':''}" data-year="${e.year}">${e.year}</button>`).join('');
+  $('#year-row').querySelectorAll('[data-year]').forEach(btn => btn.onclick = () => selectYear(Number(btn.dataset.year)));
+}
+
+function renderTimeline() {
+  $('#timeline-grid').innerHTML = ELECTIONS.map(e => `<button type="button" class="era${e.year===state.year?' on':''}" data-era="${e.year}"><span class="era-year">${e.year}</span><span class="era-title">第 ${String(e.no).padStart(2,'0')} 任總統副總統選舉</span><span class="era-winner">當選｜${esc(e.winner)}</span></button>`).join('');
+  $('#timeline-grid').querySelectorAll('[data-era]').forEach(btn => btn.onclick = () => selectYear(Number(btn.dataset.era)));
+}
+
+function renderHeader() {
+  const e = selectedElection();
+  $('#election-title').textContent = `第 ${e.no} 任總統副總統選舉`;
+  $('#election-meta').textContent = `${e.date} · PRESIDENTIAL ELECTION · ${e.year}`;
+  document.title = `${e.year} 第 ${e.no} 任總統副總統選舉｜歷屆選舉地圖｜島民觀察室`;
+}
+
+function nationalResultHtml(e) {
+  const valid = e.candidates.reduce((n,c) => n + c.votes, 0);
+  const rows = e.candidates.map((c,i) => `<div class="candidate-row">
+    <span class="rank">${i+1}</span><div><div class="candidate-name">${esc(c.name)}</div><div class="candidate-party">${esc(c.party)}</div></div>
+    <div class="candidate-num"><b>${fmt.format(c.votes)}</b><span>${c.pct.toFixed(2)}%</span></div>
+    <div class="bar"><i style="width:${Math.max(.8,c.pct)}%"></i></div>
+  </div>`).join('');
+  return `<div class="result-kicker"><span>Election result / 全國</span><span class="scope-pill">NATIONAL</span></div>
+    <div class="winner"><div class="winner-label">當選組合</div><div class="winner-name"><h3>${esc(e.winner)}</h3><strong>${e.candidates[0].pct.toFixed(2)}%</strong></div><div class="winner-sub">${esc(e.winnerParty)} · ${fmt.format(e.candidates[0].votes)} 票</div></div>
+    <div class="candidate-list">${rows}</div>
+    <div class="stat-grid"><div class="stat"><span>有效票</span><b>${fmt.format(valid)}</b></div><div class="stat"><span>投票率</span><b>${e.turnout.toFixed(2)}%</b></div><div class="stat"><span>選舉人數</span><b>${fmt.format(e.electorate)}</b></div><div class="stat"><span>候選組數</span><b>${e.candidates.length}</b></div></div>`;
+}
+
+function countyResultHtml(e, area, data) {
+  if (!data?.candidates?.length) {
+    const oldBoundary = e.year <= 2008;
+    return `<div class="result-kicker"><span>Local result / 縣市</span><span class="scope-pill">${esc(area.name)}</span></div>
+      <div class="empty"><div class="empty-mark">${e.year}</div><h3>${esc(area.name)}結果資料待匯入</h3><p>${oldBoundary ? '本屆選舉發生在 2010 年行政區改制以前，本站不會把當年的縣市結果直接硬套到今天的 22 縣市底圖。' : '目前先完成全國結果與歷屆切換。縣市層級會由 data/history/president-年份.json 分層載入，匯入後即可自動排序、著色與顯示得票率。'}</p><a href="https://db.cec.gov.tw/Visual/?type=President" target="_blank" rel="noopener noreferrer">前往中選會查看官方結果 ↗</a></div>`;
+  }
+  const rows = [...data.candidates].sort((a,b)=>b.votes-a.votes);
+  const total = rows.reduce((n,c)=>n+c.votes,0);
+  const first = rows[0];
+  return `<div class="result-kicker"><span>Local result / 縣市</span><span class="scope-pill">${esc(area.name)}</span></div><div class="winner"><div class="winner-label">本區最高票</div><div class="winner-name"><h3>${esc(first.name)}</h3><strong>${(first.votes/total*100).toFixed(2)}%</strong></div><div class="winner-sub">${esc(first.party || '')} · ${fmt.format(first.votes)} 票</div></div><div class="candidate-list">${rows.map((c,i)=>{const pct=total?c.votes/total*100:0;return `<div class="candidate-row"><span class="rank">${i+1}</span><div><div class="candidate-name">${esc(c.name)}</div><div class="candidate-party">${esc(c.party||'')}</div></div><div class="candidate-num"><b>${fmt.format(c.votes)}</b><span>${pct.toFixed(2)}%</span></div><div class="bar"><i style="width:${Math.max(.8,pct)}%"></i></div></div>`}).join('')}</div>`;
+}
+
+function renderResult() {
+  const e = selectedElection();
+  $('#result-card').innerHTML = state.area ? countyResultHtml(e, state.area, state.countyResults[state.area.id]) : nationalResultHtml(e);
+  $('#map-area').textContent = state.area?.name || '全臺灣';
+  $('#map-sub').textContent = state.area ? `${e.year} · ${state.area.name} · 點「全國結果」返回` : '點選縣市查看地區層級；右側顯示全國候選人得票。';
+}
+
+async function loadCountyResults(year) {
+  try {
+    const r = await fetch(`./data/history/president-${year}.json`, {cache:'no-store'});
+    if (!r.ok) return {};
+    const payload = await r.json();
+    return payload.counties || payload || {};
+  } catch (_) { return {}; }
+}
+
+function winnerKey(data) {
+  if (!data?.candidates?.length) return '';
+  return [...data.candidates].sort((a,b)=>b.votes-a.votes)[0]?.name || '';
+}
+
+function updateMapStyle() {
+  if (!state.svg) return;
+  const hasCountyData = Object.keys(state.countyResults).length > 0;
+  state.svg.selectAll('.county')
+    .classed('selected', d => state.area?.id === String(d.properties.id))
+    .classed('dim', d => !!state.area && state.area?.id !== String(d.properties.id))
+    .attr('data-winner', d => winnerKey(state.countyResults[String(d.properties.id)]));
+  if (!hasCountyData) state.svg.selectAll('.county').style('fill', null);
+  else {
+    const names = [...new Set(Object.values(state.countyResults).map(winnerKey).filter(Boolean))];
+    const shades = ['#E4022B','#786f64','#b28f65','#6e7867','#785f76','#675f52'];
+    const scale = new Map(names.map((n,i)=>[n,shades[i%shades.length]]));
+    state.svg.selectAll('.county').style('fill', d => {
+      if (state.area?.id === String(d.properties.id)) return '#E4022B';
+      const w = winnerKey(state.countyResults[String(d.properties.id)]);
+      return w ? scale.get(w) : '#403a33';
+    });
+  }
+}
+
+async function selectYear(year) {
+  state.year = year;
+  state.area = null;
+  renderYearControls(); renderTimeline(); renderHeader(); renderResult(); syncUrl(); updateMapStyle();
+  state.countyResults = await loadCountyResults(year);
+  renderResult(); updateMapStyle();
+  $('#boundary-note').innerHTML = year <= 2008
+    ? '<strong>歷史邊界提醒：</strong>這一屆發生在 2010 年縣市合併改制前；目前地圖只作位置導覽，不把舊結果硬套到今日 22 縣市。後續將改用該屆歷史行政區底圖。'
+    : '<strong>地圖層級：</strong>目前先以縣市為第一層。當 data/history/president-'+year+'.json 匯入後，縣市會依最高票候選人自動著色並顯示各區結果。';
+}
+
+function centroidVisible(d) {
+  const p = state.path.centroid(d);
+  return Number.isFinite(p[0]) && Number.isFinite(p[1]) ? p : null;
+}
+
+async function initMap() {
+  const svgEl = $('#history-map');
+  const svg = d3.select(svgEl); state.svg = svg;
+  let topo;
+  try { topo = await fetch('./data/counties.json').then(r => { if(!r.ok) throw new Error(r.status); return r.json(); }); }
+  catch (err) { $('#map-sub').textContent = '行政區底圖載入失敗，請稍後重新整理。'; return; }
+  const key = Object.keys(topo.objects || {})[0];
+  if (!key) return;
+  const features = topojson.feature(topo, topo.objects[key]).features;
+  state.features = features;
+  const tooltip = $('#tooltip');
+
+  function draw() {
+    const w = Math.max(320, svgEl.clientWidth), h = Math.max(480, svgEl.clientHeight);
+    svg.attr('viewBox',`0 0 ${w} ${h}`);
+    const projection = d3.geoMercator().fitExtent([[Math.max(34,w*.08),72],[w-Math.max(34,w*.08),h-48]], {type:'FeatureCollection',features});
+    const path = d3.geoPath(projection); state.path = path;
+    svg.selectAll('*').remove();
+    const g = svg.append('g');
+    g.selectAll('path').data(features).join('path')
+      .attr('class','county').attr('d',path)
+      .attr('tabindex',0).attr('role','button').attr('aria-label',d=>d.properties.name)
+      .on('mouseenter',(ev,d)=>{tooltip.style.display='block';tooltip.textContent=d.properties.name;})
+      .on('mousemove',ev=>{tooltip.style.left=(ev.clientX+14)+'px';tooltip.style.top=(ev.clientY+12)+'px';})
+      .on('mouseleave',()=>tooltip.style.display='none')
+      .on('focus',(ev,d)=>{tooltip.style.display='block';tooltip.textContent=d.properties.name;})
+      .on('blur',()=>tooltip.style.display='none')
+      .on('keydown',(ev,d)=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();chooseCounty(d);}})
+      .on('click',(ev,d)=>chooseCounty(d));
+    const labels = features.map(d=>({d,p:centroidVisible(d)})).filter(x=>x.p);
+    g.selectAll('text').data(labels).join('text').attr('class','county-label').attr('x',x=>x.p[0]).attr('y',x=>x.p[1]+3).text(x=>x.d.properties.name.replace(/[縣市]$/,''));
+    updateMapStyle();
+  }
+  draw();
+  let timer; window.addEventListener('resize',()=>{clearTimeout(timer);timer=setTimeout(draw,120)});
+}
+
+function chooseCounty(feature) {
+  const id = String(feature.properties.id), name = feature.properties.name;
+  state.area = state.area?.id === id ? null : {id,name};
+  renderResult(); updateMapStyle(); syncUrl();
+}
+
+$('#map-reset').onclick = () => { state.area = null; renderResult(); updateMapStyle(); syncUrl(); };
+
+(function boot(){
+  const q = new URLSearchParams(location.search);
+  const requested = Number(q.get('year'));
+  if (ELECTIONS.some(e=>e.year===requested)) state.year=requested;
+  renderYearControls(); renderTimeline(); renderHeader(); renderResult();
+  Promise.all([initMap(), loadCountyResults(state.year)]).then(([,data])=>{
+    state.countyResults=data;
+    const county=q.get('county');
+    if(county){const f=state.features.find(x=>String(x.properties.id)===county);if(f)state.area={id:county,name:f.properties.name};}
+    renderResult();updateMapStyle();syncUrl();
+  });
+})();
+</script>
+</body>
+</html>
