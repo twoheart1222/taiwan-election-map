@@ -11,7 +11,16 @@ body.local-executive-page{--bg:#0d0d0d;--panel:#151311;--panel2:#1d1a17;--line:#
 .local-layout{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(390px,.88fr);min-height:730px}.local-map-panel{position:relative;min-height:730px;border-right:1px solid #1c1a17;overflow:hidden;background:radial-gradient(90% 90% at 48% 44%,#171512 0%,#0d0d0d 70%)}.local-map-title{position:absolute;z-index:5;top:28px;left:clamp(18px,3vw,38px)}.local-map-title small{display:block;color:var(--red);font:800 10px 'Archivo';letter-spacing:.2em}.local-map-title strong{display:block;margin-top:6px;font-size:20px}.local-map-status{position:absolute;z-index:5;left:clamp(18px,3vw,38px);right:clamp(18px,3vw,38px);bottom:22px;color:#817a72;font-size:11px;line-height:1.7}.local-map-status b{color:#bbb4aa}.local-map{position:absolute;inset:74px 26px 82px;width:calc(100% - 52px);height:calc(100% - 156px)}.local-county{fill:#201d1a;stroke:#4a4540;stroke-width:.85;vector-effect:non-scaling-stroke;cursor:pointer;transition:fill .18s,opacity .18s,stroke .18s,filter .18s}.local-county:hover{stroke:#fff;filter:brightness(1.18)}.local-county.selected{stroke:#fff;stroke-width:2}.local-county.flip{stroke:#f6c945;stroke-width:2.2}.local-county.muted{opacity:.36}
 .local-mobile-insets{display:none;position:absolute;z-index:6;left:16px;right:16px;bottom:70px;grid-template-columns:repeat(3,1fr);gap:7px}.local-inset{min-height:54px;border:1px solid #403a34;border-radius:10px;background:#161310;color:#f4f1ea;text-align:left;padding:8px 9px;cursor:pointer}.local-inset b{display:block;font-size:11px}.local-inset span{display:block;margin-top:4px;color:#817a72;font-size:9px}.local-inset i{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px}
 .local-result{padding:clamp(24px,4vw,44px);background:#12100e}.local-result-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;padding-bottom:22px;border-bottom:1px solid var(--line)}.local-result-head .term{color:var(--red);font:800 10px 'Archivo';letter-spacing:.16em}.local-result-head h2{margin:7px 0 0;font-size:clamp(24px,3vw,36px);line-height:1.15}.local-head-stat{text-align:right}.local-head-stat strong{display:block;font:900 25px 'Archivo'}.local-head-stat span{display:block;margin-top:4px;color:#777168;font-size:10px}
-.local-section-label{margin:24px 0 12px;color:#8a837a;font:800 10px 'Archivo';letter-spacing:.16em}.local-seat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.local-seat-card{border:1px solid #34302b;border-radius:14px;background:#171411;padding:14px}.local-seat-card .seat-top{display:flex;align-items:center;justify-content:space-between;gap:8px}.local-seat-card b{font-size:12px}.local-seat-card strong{font:900 23px 'Archivo'}.local-seat-card small{display:block;margin-top:7px;color:#777168;font-size:9px}.local-dot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:7px}.local-overview-note{margin-top:12px;padding:12px 14px;border:1px dashed #39342f;border-radius:12px;color:#8d867e;font-size:11px;line-height:1.65}
+.local-section-label{margin:24px 0 12px;color:#8a837a;font:800 10px 'Archivo';letter-spacing:.16em}.local-seat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.local-seat-card{position:relative;overflow:hidden;border:1px solid #34302b;border-radius:14px;background:#171411;padding:14px 14px 14px 17px}
+.local-seat-card:before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--seat-color,#5b5147)}
+.local-seat-card .seat-top{display:flex;align-items:center;gap:9px;min-width:0}
+.local-seat-card b{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;font-weight:800}
+.local-seat-card strong{display:block;margin-top:11px;font:900 25px 'Archivo'}
+.local-seat-card small{display:block;margin-top:5px;color:#777168;font-size:9px}
+.party-badge{flex:none;border-radius:9px;display:inline-grid;place-items:center;overflow:hidden;background:#fff;box-shadow:0 2px 7px rgba(0,0,0,.3),inset 0 0 0 1px rgba(255,255,255,.18);vertical-align:middle}
+.party-badge img{display:block}
+.local-overview-note{margin-top:12px;padding:12px 14px;border:1px dashed #39342f;border-radius:12px;color:#8d867e;font-size:11px;line-height:1.65}
 
 /* Candidate cards */
 .local-candidates{display:grid;gap:10px}
@@ -26,7 +35,8 @@ body.local-executive-page{--bg:#0d0d0d;--panel:#151311;--panel2:#1d1a17;--line:#
 .local-name{font-size:17px;font-weight:900}
 .local-number{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;margin-right:8px;background:#2a2622;color:#eee8df;font:900 11px 'Archivo'}
 .local-candidate.elected .local-number{background:#1a1714;color:#fff}
-.local-party{margin-top:5px;color:#8c857d;font-size:10px;font-weight:700}
+.local-party{margin-top:6px;display:flex;align-items:center;gap:6px;color:#8c857d;font-size:10px;font-weight:700}
+.local-party .party-badge{border-radius:5px;box-shadow:0 1px 3px rgba(0,0,0,.3)}
 .local-vote{text-align:right;flex:none;font:900 18px 'Archivo'}
 .local-candidate.elected .local-vote{color:#c6002e}
 .local-vote small{display:block;margin-top:3px;color:#817a72;font:700 10px 'Archivo'}

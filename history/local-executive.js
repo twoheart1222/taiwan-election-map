@@ -2,8 +2,40 @@
   const YEARS=[2014,2018,2022];
   const COUNTIES=['臺北市','新北市','桃園市','臺中市','臺南市','高雄市','基隆市','新竹市','嘉義市','新竹縣','苗栗縣','彰化縣','南投縣','雲林縣','嘉義縣','屏東縣','宜蘭縣','花蓮縣','臺東縣','澎湖縣','金門縣','連江縣'];
   const ISLANDS=['澎湖縣','金門縣','連江縣'];
-  const COLORS={DPP:'#2daf5d',KMT:'#3b82f6',TPP:'#28c4c7',PFP:'#f59e0b',NP:'#f6c945',IND:'#9b948a',OTHER:'#b79c78'};
-  const PARTY_LABEL={DPP:'民主進步黨',KMT:'中國國民黨',TPP:'台灣民眾黨',IND:'其他／無黨籍',OTHER:'其他政黨'};
+  // 政黨資料：顏色取自各黨徽本身的品牌色（非中選會圖表用的淡色），黨徽圖檔直接連結各黨官網。
+  // 若圖檔連結失效，badge 會自動退回「色塊＋簡稱」，不會顯示破圖。
+  const PARTY_META={
+    DPP:{name:'民主進步黨',abbr:'民',color:'#00A600',logo:'https://www.dpp.org.tw/contents/frontend/images/favicon.ico'},
+    KMT:{name:'中國國民黨',abbr:'國',color:'#000095',logo:'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjUcN-t6vnUINeiEYsiC06VKcQIC5bCwwMK6iphypaTaY5YNsXo0rNjhUsEDy5IU1JPJaI1Qygnkg0kOi5D5d1ruaKR_FVJxyoVjMT9wML5zsrGGPPOmKkpDrNbRIDC8ZngmsqlKMWb5GQX/s1600/kmt_logo.png'},
+    TPP:{name:'台灣民眾黨',abbr:'眾',color:'#28C8C8',logo:'https://www.tpp.org.tw/images/footer_logo2.png'},
+    NPP:{name:'時代力量',abbr:'力',color:'#FFC400',dark:true,logo:'https://newpowerparty.tw/wp-content/uploads/2024/10/icon.svg'},
+    PFP:{name:'親民黨',abbr:'親',color:'#FF6600'},
+    NP:{name:'新黨',abbr:'新',color:'#002FA7'},
+    IND:{name:'其他／無黨籍',abbr:'無',color:'#9D9D9D'},
+    OTHER:{name:'其他政黨',abbr:'他',color:'#B7A88E'},
+  };
+  const COLORS=Object.fromEntries(Object.entries(PARTY_META).map(([k,v])=>[k,v.color]));
+  const PARTY_LABEL=Object.fromEntries(Object.entries(PARTY_META).map(([k,v])=>[k,v.name]));
+  const partyAbbr=key=>(PARTY_META[key]||PARTY_META.OTHER).abbr;
+  // 圖檔載入失敗時的退回處理：用共用的全域函式操作 DOM，避免把含雙引號的 HTML
+  // 字串塞進 onerror="..." 這個雙引號屬性裡（那樣會被 HTML 解析器提前截斷，
+  // 產生殘缺的 JS 字面值，一旦圖片真的載入失敗就會丟出 SyntaxError）。
+  window.__partyBadgeFallback=img=>{
+    try{
+      const span=img.closest('.party-badge');
+      if(span&&span.dataset&&span.dataset.fallback){
+        span.innerHTML=span.dataset.fallback;
+      }
+    }catch(e){}
+  };
+  // 產生一個政黨徽章：有黨徽圖檔就顯示圖檔，圖檔載入失敗（onerror）時自動換成色塊＋簡稱。
+  function partyBadge(key,size){
+    const m=PARTY_META[key]||PARTY_META.OTHER;
+    const s=size||30;
+    const fallback=`<b style="width:100%;height:100%;display:grid;place-items:center;color:${m.dark?'#171411':'#fff'};font:900 ${Math.round(s*0.42)}px 'Noto Sans TC',sans-serif;text-shadow:${m.dark?'none':'0 1px 2px rgba(0,0,0,.35)'}">${esc(m.abbr)}</b>`;
+    const img=m.logo?`<img src="${esc(m.logo)}" alt="${esc(m.name)}" loading="lazy" style="width:100%;height:100%;object-fit:contain;padding:14%;box-sizing:border-box" onerror="window.__partyBadgeFallback(this)">`:fallback;
+    return `<span class="party-badge" data-fallback="${esc(fallback)}" style="width:${s}px;height:${s}px;background:${m.color}">${img}</span>`;
+  }
   const LAYER_LABEL={winner:'勝方版圖',share:'得票率變化',swing:'藍綠 Swing'};
   const SOURCES=Object.fromEntries(YEARS.map(y=>[y,[
     `https://raw.githubusercontent.com/kiang/db.cec.gov.tw/master/data/${y}/直轄市長.csv`,
@@ -19,8 +51,8 @@
   const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
   const fmt=new Intl.NumberFormat('zh-TW');
   const normalize=v=>String(v||'').replaceAll('台','臺').replace(/\s+/g,'').trim();
-  const esc=v=>String(v??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[ch]));
-  const partyKey=party=>{party=String(party||'');if(party==='民主進步黨')return'DPP';if(party==='中國國民黨')return'KMT';if(party==='台灣民眾黨')return'TPP';if(party==='親民黨')return'PFP';if(party==='新黨')return'NP';if(party.includes('無黨籍'))return'IND';return'OTHER'};
+  const esc=v=>String(v??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  const partyKey=party=>{party=String(party||'');if(party==='民主進步黨')return'DPP';if(party==='中國國民黨')return'KMT';if(party==='台灣民眾黨')return'TPP';if(party==='親民黨')return'PFP';if(party==='新黨')return'NP';if(party==='時代力量')return'NPP';if(party.includes('無黨籍'))return'IND';return'OTHER'};
   const partyColor=key=>COLORS[key]||COLORS.OTHER;
   const signed=(v,d=2)=>v==null||!Number.isFinite(v)?'—':`${v>=0?'+':''}${v.toFixed(d)}`;
   const pct=v=>v==null||!Number.isFinite(v)?'—':`${Number(v).toFixed(2)}%`;
@@ -114,12 +146,12 @@
   function overviewNote(data){const total=COUNTIES.reduce((sum,name)=>sum+data.races[name].winner.votes,0);return `本頁的「全台概覽」是 22 場地方首長選舉的席次分布，不把不同縣市候選人合併成一場全國選舉。22 位當選者合計取得 ${fmt.format(total)} 張候選人票。`}
   function renderSeats(data){
     const counts=seatCounts(data),keys=Object.keys(counts).sort((a,b)=>counts[b]-counts[a]||a.localeCompare(b));
-    $('#local-seat-grid').style.display='grid';$('#local-seat-grid').innerHTML=keys.map(key=>`<div class="local-seat-card"><div class="seat-top"><b><i class="local-dot" style="background:${partyColor(key)}"></i>${esc(seatLabel(key))}</b><strong>${counts[key]}</strong></div><small>22 席中的 ${((counts[key]/22)*100).toFixed(1)}%</small></div>`).join('');
+    $('#local-seat-grid').style.display='grid';$('#local-seat-grid').innerHTML=keys.map(key=>`<div class="local-seat-card" style="--seat-color:${partyColor(key)}"><div class="seat-top">${partyBadge(key,30)}<b>${esc(seatLabel(key))}</b></div><strong>${counts[key]}</strong><small>22 席中的 ${((counts[key]/22)*100).toFixed(1)}%</small></div>`).join('');
     $('#local-overview-note').style.display='block';$('#local-overview-note').textContent=overviewNote(data);
   }
   function renderRace(race){
     $('#local-seat-grid').style.display='none';$('#local-overview-note').style.display='none';const detail=$('#local-county-detail');detail.className='local-candidates';
-    detail.innerHTML=race.candidates.map(c=>`<article class="local-candidate${c.elected?' elected':''}">${c.elected?localElectedStamp():''}<div class="local-candidate-head"><div><div class="local-name"><span class="local-number">${esc(c.no)}</span>${esc(c.name)}</div><div class="local-party">${esc(c.party)}</div></div><div class="local-vote">${fmt.format(c.votes)}<small>${pct(c.share)}</small></div></div><div class="local-bar"><i style="width:${Math.max(0,Math.min(100,c.share))}%;background:${partyColor(c.partyKey)}"></i></div></article>`).join('')+(race.note?`<div class="local-overview-note" style="display:block">資料註記：${esc(race.note)}</div>`:'');
+    detail.innerHTML=race.candidates.map(c=>`<article class="local-candidate${c.elected?' elected':''}">${c.elected?localElectedStamp():''}<div class="local-candidate-head"><div><div class="local-name"><span class="local-number">${esc(c.no)}</span>${esc(c.name)}</div><div class="local-party">${partyBadge(c.partyKey,18)}${esc(c.party)}</div></div><div class="local-vote">${fmt.format(c.votes)}<small>${pct(c.share)}</small></div></div><div class="local-bar"><i style="width:${Math.max(0,Math.min(100,c.share))}%;background:${partyColor(c.partyKey)}"></i></div></article>`).join('')+(race.note?`<div class="local-overview-note" style="display:block">資料註記：${esc(race.note)}</div>`:'');
   }
   function showOverviewEmpty(){const d=$('#local-county-detail');d.className='local-empty';d.innerHTML='<strong>目前顯示全台概覽</strong>選擇「縣市」層級、地區下拉選單，或直接點擊地圖查看候選人得票。'}
 
@@ -137,7 +169,7 @@
   function comparisonColor(rows,key){const vals=rows.map(r=>key==='swing'?r.swing:(party==='DPP'?(r.dA==null||r.dB==null?null:r.dB-r.dA):(r.kA==null||r.kB==null?null:r.kB-r.kA))).filter(Number.isFinite),max=Math.max(1,...vals.map(Math.abs));return{max,scale:key==='swing'?d3.scaleLinear().domain([-max,0,max]).range([COLORS.KMT,'#28231f',COLORS.DPP]):d3.scaleLinear().domain([-max,0,max]).range(['#45515e','#27231f','#eee4d6'])}}
   function seatFor(rows,which,key){return rows.filter(r=>(which==='a'?r.aParty:r.bParty)===key).length}
   function renderLegend(rows){
-    if(layer==='winner'){$('#local-legend').innerHTML='<span><i style="background:#f6c945"></i>金框＝勝方政黨改變</span><span><i style="background:#2daf5d"></i>DPP</span><span><i style="background:#3b82f6"></i>KMT</span><span><i style="background:#9b948a"></i>其他／無黨籍</span>';return}
+    if(layer==='winner'){$('#local-legend').innerHTML=`<span><i style="background:#f6c945"></i>金框＝勝方政黨改變</span><span><i style="background:${COLORS.DPP}"></i>DPP</span><span><i style="background:${COLORS.KMT}"></i>KMT</span><span><i style="background:${COLORS.IND}"></i>其他／無黨籍</span>`;return}
     const {max}=comparisonColor(rows,layer);$('#local-legend').innerHTML=layer==='share'?`<span><i style="background:#45515e"></i>−${max.toFixed(1)} pp</span><span><i style="background:#27231f"></i>0</span><span><i style="background:#eee4d6"></i>+${max.toFixed(1)} pp</span>`:`<span><i style="background:${COLORS.KMT}"></i>KMT 方向</span><span><i style="background:#27231f"></i>0</span><span><i style="background:${COLORS.DPP}"></i>DPP 方向</span>`;
   }
   function renderCompareDetail(r){
