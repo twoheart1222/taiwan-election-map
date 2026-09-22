@@ -29,7 +29,7 @@ const blockPattern = /\n  if\(\[2020,2024\]\.includes\(Number\(current\.year\)\)
 renderCounty = renderCounty.replace(blockPattern, '');
 html = html.slice(0, start) + renderCounty + insertion + html.slice(boundary);
 
-const markerCount = (html.match(/data-history-town-drilldown/g) || []).length;
+const markerCount = (html.match(/link\.dataset\.historyTownDrilldown='true'/g) || []).length;
 if (markerCount !== 1) throw new Error(`Expected exactly one township drilldown block, found ${markerCount}`);
 
 html = html.replace(
