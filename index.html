@@ -1211,6 +1211,7 @@ class App {
       const el = [...box.children].find(n => norm(n.textContent).includes(norm(c.name)));
       if (!el) { if (Date.now() - started < 4500) setTimeout(flash, 180); return; }
       el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      clearTimeout(this._searchRingTimer);
       el.classList.remove('search-target-ring');
       el.querySelector('.candidate-search-orbit')?.remove();
       void el.offsetWidth;
@@ -1232,7 +1233,7 @@ class App {
         orbit.appendChild(rect);
       });
       el.appendChild(orbit);
-      setTimeout(() => { orbit.remove(); el.classList.remove('search-target-ring'); }, 1600);
+      this._searchRingTimer = setTimeout(() => { orbit.remove(); el.classList.remove('search-target-ring'); }, 1600);
     };
     setTimeout(flash, 350);
   }
