@@ -53,7 +53,18 @@ try {
     const drawer = document.getElementById('drawer');
     if (!shell || !box || !drawer) throw new Error('drawer DOM missing');
 
-    drawer.style.transform = 'translateX(0)';
+    // Put the real mobile drawer into a deterministic visible state. The production
+    // App normally does this when a county is opened; here we only exercise results rendering.
+    drawer.style.setProperty('transform', 'none', 'important');
+    drawer.style.setProperty('transition', 'none', 'important');
+    drawer.style.setProperty('top', '0', 'important');
+    drawer.style.setProperty('right', '0', 'important');
+    drawer.style.setProperty('width', '100%', 'important');
+    drawer.style.setProperty('height', '844px', 'important');
+    drawer.style.setProperty('z-index', '99999', 'important');
+    drawer.style.setProperty('background', '#141210', 'important');
+    drawer.style.setProperty('opacity', '1', 'important');
+    drawer.style.setProperty('visibility', 'visible', 'important');
     shell.style.height = '620px';
     shell.style.maxHeight = '620px';
     shell.style.overflowY = 'scroll';
@@ -118,6 +129,19 @@ try {
   assert(metrics.lineHeight >= 15, `kicker line-height too tight: ${metrics.lineHeight}px`);
   assert(metrics.overflowAnchor === 'none', `drawer scroll anchoring still enabled: ${metrics.overflowAnchor}`);
 
+  await page.evaluate(() => {
+    document.getElementById('preloader')?.remove();
+    const shell = document.querySelector('.drawer-body-scroll');
+    if (shell) shell.scrollTop = 0;
+    document.querySelectorAll('#drawer > :not(.drawer-body-scroll)').forEach(el => { el.style.display = 'none'; });
+    const drawer = document.getElementById('drawer');
+    drawer.style.setProperty('display', 'block', 'important');
+    drawer.style.setProperty('height', 'auto', 'important');
+    const box = document.getElementById('candidates');
+    box.style.setProperty('padding', '16px', 'important');
+    box.querySelectorAll(':scope > :not(.res-panel)').forEach(el => el.style.display = 'none');
+  });
+  await page.locator('.res-panel').scrollIntoViewIfNeeded();
   await page.locator('.res-panel').screenshot({ path:path.join(OUT, 'results-panel-mobile-390.png') });
   console.log('Results panel mobile regression passed:', metrics);
 } finally {
