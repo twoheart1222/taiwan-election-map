@@ -1,6 +1,7 @@
 (()=>{
   if(!document.body||/town\.html$/i.test(location.pathname))return;
-  const COLORS={DPP:'#2daf5d',KMT:'#3b82f6',TPP:'#28c4c7',PFP:'#f59e0b',NP:'#f6c945',IND:'#9b948a'};
+  // 顏色改用各黨黨徽本身的品牌色，與 history/index.html、history/local-executive.js 一致。
+  const COLORS={DPP:'#00A600',KMT:'#000095',TPP:'#28C8C8',PFP:'#FF6600',NP:'#002FA7',IND:'#9D9D9D'};
   const ISLANDS=['澎湖縣','金門縣','連江縣'];
   const ELECTION_TYPES=[
     {id:'president',label:'總統副總統',available:true},

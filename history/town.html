@@ -51,7 +51,8 @@
 <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
 <script>
-const PARTY_COLORS={DPP:'#2daf5d',KMT:'#3b82f6',TPP:'#28c4c7',PFP:'#f59e0b',NP:'#f6c945',IND:'#9b948a'};
+// 顏色改用各黨黨徽本身的品牌色，與 history/index.html、history/local-executive.js 一致。
+const PARTY_COLORS={DPP:'#00A600',KMT:'#000095',TPP:'#28C8C8',PFP:'#FF6600',NP:'#002FA7',IND:'#9D9D9D'};
 const fmt=new Intl.NumberFormat('zh-TW');
 const $=id=>document.getElementById(id);
 const params=new URLSearchParams(location.search);
