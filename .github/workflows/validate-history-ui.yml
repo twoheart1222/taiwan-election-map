@@ -17,6 +17,7 @@ on:
       - history/query-refinement.css
       - data/history/local-executive.json
       - scripts/build-local-executive-history.mjs
+      - scripts/validate-local-executive-history.mjs
       - scripts/validate-history-ui.mjs
       - scripts/validate-history-query-state.mjs
       - scripts/validate-local-executive-ui.mjs
@@ -36,6 +37,7 @@ on:
       - history/query-refinement.css
       - data/history/local-executive.json
       - scripts/build-local-executive-history.mjs
+      - scripts/validate-local-executive-history.mjs
       - scripts/validate-history-ui.mjs
       - scripts/validate-history-query-state.mjs
       - scripts/validate-local-executive-ui.mjs
@@ -44,7 +46,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   browser-ui:
@@ -57,6 +59,16 @@ jobs:
           node-version: 22
       - name: Build local executive static artifact
         run: node scripts/build-local-executive-history.mjs
+      - name: Persist generated history artifact
+        if: github.event_name == 'push'
+        run: |
+          if [ -n "$(git status --porcelain -- data/history/local-executive.json)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data/history/local-executive.json
+            git commit -m "data: add static local executive history artifact"
+            git push origin HEAD:${GITHUB_REF_NAME}
+          fi
       - name: Install Playwright
         run: |
           npm install --no-save playwright@1.55.0
