@@ -180,10 +180,10 @@
     $('#archive-mode-single')?.addEventListener('click',()=>setMode('single'));$('#archive-mode-compare')?.addEventListener('click',()=>setMode('compare'));
     document.querySelectorAll('#archive-level-switch [data-level]').forEach(b=>b.addEventListener('click',()=>setLevel(b.dataset.level)));
     $('#archive-region-select')?.addEventListener('change',e=>chooseRegion(e.target.value));
-    $('#archive-year-select')?.addEventListener('change',()=>{requestAnimationFrame(()=>{if(mode==='single'){level='national';const s=$('#archive-region-select');if(s)s.value='';syncLevelButtons()}syncUrl();renderQuerySummary()})});
+    $('#archive-year-select')?.addEventListener('change',()=>{requestAnimationFrame(()=>{if(mode==='single'){level='national';const s=$('#archive-region-select');if(s)s.value='';syncLevelButtons();if(typeof window.renderElection==='function')window.renderElection()}syncUrl();renderQuerySummary()})});
     $('#map')?.addEventListener('click',e=>{if(mode==='single'){const p=e.target.closest('path.county');if(p){level='county';syncLevelButtons();const s=$('#archive-region-select');if(s)s.value=normalize(p.dataset.county||featureName(p.__data__));syncUrl();renderQuerySummary()}}},true);
     $('#map')?.addEventListener('mousemove',comparePointer,true);$('#map')?.addEventListener('click',compareClick,true);$('#map')?.addEventListener('mouseleave',()=>{const t=$('#tooltip');if(t)t.style.display='none'},true);
-    addEventListener('archive:yearchange',()=>{syncRegionControls();renderMobileMap();applyElectedCards();if(mode==='compare'){styleComparisonMaps();updateMapStatus()}syncUrl();renderQuerySummary()});
+    addEventListener('archive:yearchange',()=>{syncRegionControls();renderMobileMap();applyElectedCards();if(mode==='compare'){styleComparisonMaps();updateMapStatus()}else{const region=normalize($('#archive-region-select')?.value);if(level==='county'&&region)requestAnimationFrame(()=>{if(mode==='single'&&level==='county'&&normalize($('#archive-region-select')?.value)===region)chooseRegion(region,{sync:false})})}syncUrl();renderQuerySummary()});
     addEventListener('archive:countychange',e=>{if(mode!=='single')return;level='county';syncLevelButtons();const s=$('#archive-region-select');if(s)s.value=normalize(e.detail?.county);syncUrl();renderQuerySummary()});
   }
 
