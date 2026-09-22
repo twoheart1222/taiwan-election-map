@@ -59,14 +59,14 @@ async function validateCompareMode(page,label,screenshotPath=null){
   const detail=await page.locator('#archive-compare-detail').textContent();assert(/Swing/.test(detail||''),`${label}: comparison detail is missing Swing`);
   await page.waitForTimeout(240);
   const selector=await archiveMapSelector(page);
-  const states=await page.locator(selector).evaluateAll(els=>els.map(el=>({county:el.dataset.county||'',flip:el.dataset.compareFlip||'',muted:el.dataset.compareMuted||'',selected:el.dataset.compareSelected||'',stroke:getComputedStyle(el).stroke,fill:getComputedStyle(el).fill,cls:el.getAttribute('class')||''})));
+  const states=await page.locator(selector).evaluateAll(els=>els.map(el=>({county:el.dataset.county||'',flip:el.dataset.compareFlip||'',muted:el.dataset.compareMuted||'',selected:el.dataset.compareSelected||'',stroke:getComputedStyle(el).stroke,fill:getComputedStyle(el).fill})));
   const flagged=states.filter(s=>s.flip==='true');
-  const gold=states.filter(s=>s.stroke==='rgb(246, 201, 69)');
-  console.log(`[${label}] comparison diagnostics: ${JSON.stringify({flagged:flagged.slice(0,8),gold:gold.slice(0,8),sample:states.slice(0,4)})}`);
-  if(screenshotPath){await page.evaluate(()=>window.scrollTo(0,0));await page.waitForTimeout(160);await page.screenshot({path:screenshotPath,fullPage:true});}
+  const mutedStroke=states.find(s=>s.muted==='true')?.stroke||'rgb(74, 69, 64)';
+  const highlighted=flagged.filter(s=>s.stroke&&s.stroke!=='none'&&s.stroke!==mutedStroke);
   assert(flagged.length>=1,`${label}: comparison state was not attached to map counties`);
-  assert(gold.length>=1,`${label}: comparison map has no gold flip outlines; flagged=${JSON.stringify(flagged.slice(0,5))}`);
+  assert(highlighted.length===flagged.length,`${label}: one or more flipped counties are not visually highlighted; flagged=${JSON.stringify(flagged.slice(0,6))}`);
   await noOverflow(page,`${label}-compare`);
+  if(screenshotPath){await page.evaluate(()=>window.scrollTo(0,0));await page.waitForTimeout(160);await page.screenshot({path:screenshotPath,fullPage:true});}
   await btn.click();await page.locator('#archive-compare-drawer').waitFor({state:'hidden',timeout:3000});
 }
 
