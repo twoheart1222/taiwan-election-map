@@ -132,7 +132,7 @@ function paintMap(){
   if(!svg||!features.length)return;
   svg.selectAll('path.county')
     .attr('class',d=>`county${countyResult(current,featureName(d))?' has-result':' no-result'}${selectedCounty===featureName(d)?' selected':''}`)
-    .attr('fill',d=>{const r=countyResult(current,featureName(d));return r?partyColor(current,r.winnerNo):'#201d1a'});
+    .style('fill',d=>{const r=countyResult(current,featureName(d));return r?partyColor(current,r.winnerNo):'#201d1a'});
 }
 
 function buildMap(topology){
