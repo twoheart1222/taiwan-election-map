@@ -15,9 +15,12 @@ on:
       - history/archive-enhancements.css
       - history/archive-enhancements.js
       - history/query-refinement.css
+      - data/history/local-executive.json
+      - scripts/build-local-executive-history.mjs
       - scripts/validate-history-ui.mjs
       - scripts/validate-history-query-state.mjs
       - scripts/validate-local-executive-ui.mjs
+      - package.json
       - .github/workflows/validate-history-ui.yml
   pull_request:
     paths:
@@ -31,9 +34,12 @@ on:
       - history/archive-enhancements.css
       - history/archive-enhancements.js
       - history/query-refinement.css
+      - data/history/local-executive.json
+      - scripts/build-local-executive-history.mjs
       - scripts/validate-history-ui.mjs
       - scripts/validate-history-query-state.mjs
       - scripts/validate-local-executive-ui.mjs
+      - package.json
       - .github/workflows/validate-history-ui.yml
   workflow_dispatch:
 
@@ -49,6 +55,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Build local executive static artifact
+        run: node scripts/build-local-executive-history.mjs
       - name: Install Playwright
         run: |
           npm install --no-save playwright@1.55.0
@@ -58,11 +66,13 @@ jobs:
           node scripts/validate-history-ui.mjs
           node scripts/validate-history-query-state.mjs
           node scripts/validate-local-executive-ui.mjs
-      - name: Upload UI screenshots
+      - name: Upload UI screenshots and generated history artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: history-ui-screenshots
-          path: artifacts/history-ui/*.png
+          path: |
+            artifacts/history-ui/*.png
+            data/history/local-executive.json
           if-no-files-found: warn
           retention-days: 7
