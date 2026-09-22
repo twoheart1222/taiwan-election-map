@@ -190,6 +190,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://unpkg.com/topojson-client@3/dist/topojson-client.min.js"></script>
 <script src="/site-config.js"></script>
+<script src="/election-data.js"></script>
 <script>
   /* =====================================================================
      後台校閱資料（候選人照片、社群連結、席次等）由 Cloudflare Worker + KV 供應。
@@ -1042,52 +1043,30 @@ class App {
       const response = await fetch('./data/candidate_search.json');
       if (!response.ok) throw new Error(`candidate search ${response.status}`);
       const index = await response.json();
-      const overrides = await Promise.race([
-        this._fetchOverrides(),
-        new Promise(resolve => setTimeout(() => resolve({}), 1600)),
-      ]);
+      const overrides = await this._fetchOverrides();
       return this._mergeSearchOverrides(index, overrides);
     })();
     return this._candidateSearch;
   }
 
   _mergeSearchOverrides(index, overrides) {
-    if (!overrides || typeof overrides !== 'object') return index;
-    let candidates = Array.isArray(index.candidates) ? [...index.candidates] : [];
-    const areas = index.areas || {};
-    const fields = ['name', 'party', 'role', 'photoUrl', 'gazetteUrl', 'taiwanGoGoUrl', 'facebook', 'instagram', 'threads', 'youtube', 'isIncumbent', 'votes', 'prevVotes', 'elected'];
-    // 後台（KV）名冊沒有填的欄位（上期得票、社群、照片…），用 data/*.json 建立的索引補上，只補空白、不覆蓋後台已填的值。
-    const fillFields = ['photoUrl', 'gazetteUrl', 'taiwanGoGoUrl', 'facebook', 'instagram', 'threads', 'youtube', 'votes', 'prevVotes'];
-    const norm = n => String(n || '').normalize('NFKC').replace(/[A-Za-z]+/g, '').replace(/[・．.·‧@\s　]/g, '');
-    const blank = v => v == null || String(v).trim() === '';
-    const add = (candidate, context, source, district = null, base = null) => {
-      if (!candidate?.name) return;
-      const clean = {}; fields.forEach(field => { clean[field] = candidate[field] ?? (field === 'isIncumbent' || field === 'elected' ? false : null); });
-      if (base) fillFields.forEach(f => { if (blank(clean[f]) && !blank(base[f])) clean[f] = base[f]; });
-      candidates.push({ ...clean, ...context, source, district });
-    };
-    Object.entries(overrides).forEach(([areaId, patch]) => {
-      const area = areas[areaId];
-      if (!area || !patch || typeof patch !== 'object') return;
-      const { name: _legacyAreaName, areaName: _areaName, ...context } = area;
-      ['candidates', 'councilors', 'representatives'].forEach(source => {
-        if (!Array.isArray(patch[source])) return;
-        const prior = candidates.filter(candidate => candidate.areaId === areaId && candidate.source === source);
-        candidates = candidates.filter(candidate => !(candidate.areaId === areaId && candidate.source === source));
-        const byName = new Map(), byDistrictName = new Map();
-        prior.forEach(p => { const k = norm(p.name); if (!byName.has(k)) byName.set(k, p); byDistrictName.set(String(p.district ?? '') + '|' + k, p); });
-        const seen = new Set();
-        const list = source === 'candidates' ? patch[source].map(c => [c, null]) : patch[source].flatMap(block => (block.candidates || []).map(c => [c, block.district || null]));
-        list.forEach(([candidate, district]) => {
-          const k = norm(candidate?.name);
-          seen.add(k);
-          const base = byDistrictName.get(String(district ?? '') + '|' + k) || byName.get(k) || null;
-          add(candidate, context, source, district, base);
-        });
-        // KV 尚未同步到最新登記名單時，保留索引裡的候選人（與地圖頁的合併行為一致）。
-        prior.forEach(p => { if (!seen.has(norm(p.name))) candidates.push(p); });
-      });
-    });
+    let candidates = [...(index.candidates || [])];
+    for (const [areaId, patch] of Object.entries(overrides || {})) {
+      const area = index.areas?.[areaId];
+      if (!area || !patch) continue;
+      const { name, areaName, ...context } = area;
+      for (const source of ['candidates', 'councilors', 'representatives']) {
+        if (!Object.hasOwn(patch, source)) continue;
+        const prior = candidates.filter(c => c.areaId === areaId && c.source === source);
+        const local = source === 'candidates' ? prior : Object.entries(Object.groupBy(prior, c => String(c.district ?? '')))
+          .map(([district, rows]) => ({ district, candidates: rows }));
+        const merged = ElectionData.mergeArea({ [source]: local }, { schemaVersion: patch.schemaVersion, [source]: patch[source] });
+        candidates = candidates.filter(c => !(c.areaId === areaId && c.source === source));
+        const add = (c, district = null) => { if (c.name) candidates.push({ ...c, ...context, areaId, source, district }); };
+        if (source === 'candidates') (merged[source] || []).forEach(c => add(c));
+        else ElectionData.blocksOf(merged[source]).forEach(b => (b.candidates || []).forEach(c => add(c, b.district)));
+      }
+    }
     return { ...index, candidates };
   }
 
@@ -1253,122 +1232,31 @@ class App {
     this._ov = (async () => {
       try {
         if (!window.OVERRIDES_URL) return {};
-        const r = await fetch(window.OVERRIDES_URL, { headers: { accept: 'application/json' } });
+        const r = await fetch(window.OVERRIDES_URL, { cache: 'no-store', signal: AbortSignal.timeout(20000), headers: { accept: 'application/json' } });
         if (!r.ok) throw new Error('overrides ' + r.status);
         const payload = await r.json();
         // Support both the current API payload and a future { data: ... } wrapper.
         const overrides = payload && payload.data && typeof payload.data === 'object' ? payload.data : payload;
-        return await this._mergeOfficialCouncilorProfiles(overrides);
-      } catch (err) { console.warn('讀取 overrides 失敗，僅顯示原始候選人資料。', err); return {}; }
+        return overrides;
+      } catch (err) {
+        this._ov = null;
+        if (!document.getElementById('data-load-error')) {
+          const notice = document.createElement('div');
+          notice.id = 'data-load-error';
+          notice.setAttribute('role', 'alert');
+          notice.style.cssText = 'position:fixed;bottom:16px;left:16px;right:16px;z-index:9999;background:#fff;color:#141517;padding:16px;border:2px solid #141517';
+          notice.textContent = '最新候選人資料暫時無法載入，請重新整理後再試。';
+          document.body.appendChild(notice);
+        }
+        throw err;
+      }
     })();
     return this._ov;
   }
-  async _mergeOfficialCouncilorProfiles(overrides) {
-    if (!overrides || typeof overrides !== 'object') return overrides;
-    try {
-      const [taipeiResult, taoyuanResult, hsinchuResult, changhuaResult] = await Promise.all([
-        fetch('./data/tcc_councilor_socials.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null),
-        fetch('./data/tycc_councilors.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null),
-        fetch('./data/hcc_councilors.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null),
-        fetch('./data/chcc_councilors.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null),
-      ]);
-      const taipeiFacebook = taipeiResult?.facebook || {};
-      const taoyuanProfiles = Array.isArray(taoyuanResult) ? taoyuanResult.filter(row => row?.name && row?.photoUrl) : [];
-      const taoyuanByName = new Map(taoyuanProfiles.map(row => [String(row.name).normalize('NFKC').replace(/[・．·‧\s]/g, ''), row]));
-      const hsinchuProfiles = Array.isArray(hsinchuResult?.councilors) ? hsinchuResult.councilors.filter(row => row?.name && row?.photoUrl) : [];
-      const hsinchuByName = new Map(hsinchuProfiles.map(row => [String(row.name).normalize('NFKC').replace(/[・．·‧\s]/g, ''), row]));
-      const changhuaProfiles = Array.isArray(changhuaResult?.councilors) ? changhuaResult.councilors.filter(row => row?.name && row?.photoUrl) : [];
-      const changhuaByName = new Map(changhuaProfiles.map(row => [String(row.name).normalize('NFKC').replace(/[・．·‧\s]/g, ''), row]));
-      const mergeCounty = (countyCode, patch) => {
-        const county = overrides[countyCode];
-        if (!county?.councilors) return county;
-        return { ...county, councilors: county.councilors.map(block => ({ ...block, candidates: (block.candidates || []).map(candidate => ({ ...candidate, ...patch(block, candidate) })) })) };
-      };
-      const next = { ...overrides };
-      if (Object.keys(taipeiFacebook).length) next['63000'] = mergeCounty('63000', (block, candidate) => ({ facebook: candidate.facebook || taipeiFacebook[`${block.district}:${candidate.name}`] || '' }));
-      if (taoyuanByName.size) next['68000'] = mergeCounty('68000', (_block, candidate) => {
-        const official = taoyuanByName.get(String(candidate.name || '').normalize('NFKC').replace(/[・．·‧\s]/g, ''));
-        if (!official) return {};
-        return { photoUrl: candidate.photoUrl || String(official.photoUrl || '').replace(/\\/g, '/'), facebook: candidate.facebook || official.facebook || '' };
-      });
-      if (hsinchuByName.size) next['10018'] = mergeCounty('10018', (_block, candidate) => {
-        const official = hsinchuByName.get(String(candidate.name || '').normalize('NFKC').replace(/[・．·‧\s]/g, ''));
-        if (!official) return {};
-        return { photoUrl: candidate.photoUrl || official.photoUrl || '', facebook: candidate.facebook || official.facebook || '' };
-      });
-      if (changhuaByName.size) next['10007'] = mergeCounty('10007', (_block, candidate) => {
-        const official = changhuaByName.get(String(candidate.name || '').normalize('NFKC').replace(/[・．·‧\s]/g, ''));
-        if (!official) return {};
-        return { photoUrl: candidate.photoUrl || official.photoUrl || '', facebook: candidate.facebook || official.facebook || '' };
-      });
-      return next;
-    } catch (error) {
-      console.warn('讀取地方議員官方公開資料失敗。', error);
-      return overrides;
-    }
-  }
-  // KV 的議員／代表名冊若沒有上期得票等欄位，就用 data/*.json 補上（只補空白，不覆蓋後台已填的值）。
-  // 先依選區＋姓名對應，找不到時改用同縣市內的姓名對應。
-  _mergeBlocksWithLocal(remote, local) {
-    const list = v => Array.isArray(v) ? v : (v && Array.isArray(v.blocks) ? v.blocks : null);
-    const rBlocks = list(remote), lBlocks = list(local);
-    if (!rBlocks || !lBlocks || !lBlocks.length) return remote;
-    const norm = n => String(n || '').normalize('NFKC').replace(/[・．·‧\s\u3000]/g, '');
-    const fields = ['facebook', 'instagram', 'threads', 'youtube', 'photoUrl', 'gazetteUrl', 'taiwanGoGoUrl', 'prevVotes', 'votes'];
-    const byDistrict = new Map(), byName = new Map();
-    lBlocks.forEach(b => (b.candidates || []).forEach(c => {
-      if (!c?.name) return;
-      byDistrict.set(String(b.district ?? '') + '|' + norm(c.name), c);
-      if (!byName.has(norm(c.name))) byName.set(norm(c.name), c);
-    }));
-    const blank = v => v == null || String(v).trim() === '';
-    const merged = rBlocks.map(b => ({
-      ...b,
-      candidates: (b.candidates || []).map(rc => {
-        const key = String(b.district ?? '') + '|' + norm(rc?.name);
-        const lc = byDistrict.get(key) || byName.get(norm(rc?.name));
-        if (!lc) return rc;
-        const out = { ...rc };
-        fields.forEach(f => { if (blank(out[f]) && !blank(lc[f])) out[f] = lc[f]; });
-        if (typeof out.elected !== 'boolean' && typeof lc.elected === 'boolean') out.elected = lc.elected;
-        return out;
-      })
-    }));
-    return Array.isArray(remote) ? merged : { ...remote, blocks: merged };
-  }
   _applyOverrides(topo) {
-    const ov = this._overrides; if (!ov || !Object.keys(ov).length) return topo;
     const key = Object.keys(topo.objects)[0];
     topo.objects[key].geometries.forEach(g => {
-      const o = ov[g.properties.id]; if (!o) return;
-      if (o.candidates) {
-        // KV 後台資料可能比 data/*.json 舊。不要整包取代候選人，否則本地已驗證的
-        // Facebook / Instagram / Threads / YouTube（以及新登記候選人）會被 null 或舊名單吃掉。
-        const localCandidates = Array.isArray(g.properties.candidates) ? g.properties.candidates : [];
-        const nrm = n => String(n || '').normalize('NFKC').replace(/[A-Za-z]+/g, '').replace(/[・．.·‧@\s\u3000]/g, '');
-        const localByName = new Map(localCandidates.filter(c => c?.name).map(c => [nrm(c.name), c]));
-        const mergedNames = new Set();
-        const fallbackFields = ['facebook', 'instagram', 'threads', 'youtube', 'photoUrl', 'gazetteUrl', 'taiwanGoGoUrl', 'prevVotes', 'votes'];
-
-        g.properties.candidates = o.candidates.map(remote => {
-          const local = localByName.get(nrm(remote?.name)) || {};
-          const merged = { ...local, ...remote };
-          fallbackFields.forEach(field => {
-            if (!merged[field] && local[field]) merged[field] = local[field];
-          });
-          if (merged.name) mergedNames.add(nrm(merged.name));
-          return merged;
-        });
-
-        // 若 KV 尚未同步到最新登記名單，保留 data/*.json 裡的新候選人。
-        localCandidates.forEach(local => {
-          if (local?.name && !mergedNames.has(nrm(local.name))) g.properties.candidates.push(local);
-        });
-      }
-      if (o.councilors) g.properties.councilors = this._mergeBlocksWithLocal(o.councilors, g.properties.councilors);
-      if (o.representatives) g.properties.representatives = this._mergeBlocksWithLocal(o.representatives, g.properties.representatives);
-      if (o.voters !== undefined) g.properties.voters = o.voters;
-      if (o.quota !== undefined) g.properties.quota = o.quota;
+      g.properties = ElectionData.mergeArea(g.properties, this._overrides?.[g.properties.id]);
     });
     return topo;
   }
@@ -1386,7 +1274,7 @@ class App {
     if (this._inited) return; this._inited = true;
     let THREE; try { THREE = await import('https://unpkg.com/three@0.160.0/build/three.module.js'); } catch (e) { console.warn('three load failed', e); return; }
     this.THREE = THREE;
-    this._overrides = await Promise.race([this._fetchOverrides(), new Promise(r => setTimeout(() => r({}), 2600))]);
+    this._overrides = await this._fetchOverrides();
     const [dmap, quota] = await Promise.all([
       fetch('./data/district_town_map.json').then(r => r.json()).catch(() => ({})),
       fetch('./data/district_quota.json').then(r => r.json()).catch(() => ({})),

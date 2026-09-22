@@ -294,11 +294,15 @@
   </main>
 
   <script src="/site-config.js"></script>
+  <script src="/election-data.js"></script>
   <script>
     const API_BASE = window.ELECTION_API_BASE ?? '';
 
     let currentUser = null;
     let allOverrides = {};
+    let overridesLoaded = false;
+    let mutationBusy = false;
+    let formReady = false;
 
     let countiesTopo = null;
     let districtTownMap = {};
@@ -323,6 +327,7 @@
       const headers = new Headers(options.headers || {});
       if (!headers.has('Content-Type') && options.body) headers.set('Content-Type', 'application/json');
       const res = await fetch(apiUrl(path), {
+        cache: 'no-store',
         ...options,
         headers,
         credentials: 'include',
@@ -336,7 +341,18 @@
         const message = body && body.error ? body.error : `API request failed (${res.status})`;
         throw new Error(message);
       }
+      if (!body || typeof body !== 'object') throw new Error('API 未回傳 JSON，登入可能已過期，請重新登入。');
       return body;
+    }
+
+    async function persistOverride(code, payload, revision = allOverrides[code]?._revision || '0') {
+      if (!overridesLoaded) throw new Error('尚未成功載入資料，請重新整理後再試。');
+      const saved = await apiFetch(`/api/admin/overrides/${encodeURIComponent(code)}`, {
+        method: 'PUT', headers: { 'If-Match': revision }, body: JSON.stringify(payload),
+      });
+      if (!saved.data?._revision) throw new Error('API 版本不相容，請先部署新版 API。');
+      allOverrides[code] = saved.data;
+      return saved.data;
     }
 
     function isCachedPhotoUrl(value) {
@@ -391,7 +407,9 @@
     window.cacheAllOverridePhotos = async function() {
       const button = document.getElementById('cache-all-photos-btn');
       const status = document.getElementById('cache-all-photos-status');
-      const refs = Object.entries(allOverrides).flatMap(([code, payload]) => collectPhotoRefs(payload, code));
+      if (mutationBusy || !overridesLoaded) return;
+      const snapshot = structuredClone(allOverrides);
+      const refs = Object.entries(snapshot).flatMap(([code, payload]) => collectPhotoRefs(payload, code));
       const grouped = new Map();
       refs.forEach(ref => {
         if (!grouped.has(ref.url)) grouped.set(ref.url, []);
@@ -400,6 +418,7 @@
       const sources = [...grouped.keys()];
       if (!sources.length) { status.textContent = '目前沒有需要快取的外部照片。'; return; }
 
+      mutationBusy = true;
       button.disabled = true;
       const replacements = new Map();
       const failures = [];
@@ -431,13 +450,11 @@
         });
 
         if (changedCodes.size) {
-          const updatedAt = new Date().toISOString();
-          changedCodes.forEach(code => {
-            allOverrides[code].updatedAt = updatedAt;
-            allOverrides[code].updatedBy = currentUser?.email || 'admin';
-          });
+          const changes = Object.fromEntries([...changedCodes].map(code => [code, snapshot[code]]));
+          const expectedRevisions = Object.fromEntries([...changedCodes].map(code => [code, snapshot[code]._revision]));
           status.textContent = `正在將 ${changedCodes.size} 筆更新寫回 Cloudflare KV…`;
-          await apiFetch('/api/admin/overrides', { method: 'PUT', body: JSON.stringify({ overrides: allOverrides }) });
+          const saved = await apiFetch('/api/admin/overrides', { method: 'PUT', body: JSON.stringify({ overrides: changes, expectedRevisions }) });
+          Object.assign(allOverrides, saved.overrides);
           replacePhotoUrls(workingCandidates, replacements);
           replacePhotoUrls(workingCouncilors, replacements);
           document.querySelectorAll('.c-photourl').forEach(input => {
@@ -452,6 +469,7 @@
       } catch (err) {
         status.textContent = `批次快取失敗：${err.message}`;
       } finally {
+        mutationBusy = false;
         button.disabled = false;
       }
     };
@@ -472,11 +490,13 @@
         userBox.classList.add('flex');
         gate.classList.add('hidden');
         unauthorized.classList.add('hidden');
-        editor.classList.remove('hidden');
         await bootEditor();
+        editor.classList.remove('hidden');
       } catch (err) {
         currentUser = null;
-        gateMsg.textContent = '登入失敗：' + err.message;
+        document.getElementById('gate').classList.remove('hidden');
+        document.getElementById('editor').classList.add('hidden');
+        gateMsg.textContent = '載入失敗：' + err.message;
       }
     }
 
@@ -506,12 +526,10 @@
         fetchJSON('./data/district_town_map.json').catch(() => ({})),
       ]);
 
-      try {
-        allOverrides = await apiFetch('/api/admin/overrides') || {};
-      } catch (err) {
-        console.warn('讀取現有 overrides 失敗', err);
-        allOverrides = {};
-      }
+      overridesLoaded = false;
+      allOverrides = await apiFetch('/api/admin/overrides');
+      if (Array.isArray(allOverrides)) throw new Error('覆寫資料格式不正確');
+      overridesLoaded = true;
 
       const selCity = document.getElementById('a-select-city');
       selCity.innerHTML = '<option value="">選擇縣市</option>';
@@ -917,11 +935,13 @@
 
     // ---------- 載入節點資料 ----------
     function loadNode(scope, countyFeature, townFeature, villFeature) {
+      formReady = false;
       currentScope = scope;
+      currentDistrictMode = 'all';
       const feature = scope === 'county' ? countyFeature : (scope === 'town' ? townFeature : villFeature);
       currentCode = feature.properties.id;
       currentBase = feature.properties;
-      const override = allOverrides[currentCode] || {};
+      const override = ElectionData.mergeArea(currentBase, allOverrides[currentCode]);
 
       document.getElementById('edit-panel').classList.remove('hidden');
       const scopeTagText = scope === 'county' ? '縣市層級' : scope === 'town' ? '鄉鎮市區層級' : '村里層級';
@@ -933,8 +953,8 @@
       document.getElementById('save-status').textContent = allOverrides[currentCode] ? '（此節點已有後台編輯覆寫）' : '';
 
       document.getElementById('voters-quota-block').classList.toggle('hidden', scope !== 'county');
-      document.getElementById('f-voters').value = (override.voters !== undefined ? override.voters : currentBase.voters) || '';
-      document.getElementById('f-quota').value = (override.quota !== undefined ? override.quota : currentBase.quota) || '';
+      document.getElementById('f-voters').value = override.voters ?? '';
+      document.getElementById('f-quota').value = override.quota ?? '';
 
       workingCandidates = JSON.parse(JSON.stringify(override.candidates !== undefined ? override.candidates : (currentBase.candidates || [])));
       
@@ -955,7 +975,9 @@
 
     // ---------- 縣市切換：首長 VS 議員 ----------
     window.switchCountyRole = function(role) {
+      if (formReady) captureCurrentForm();
       currentCountyRole = role;
+      formReady = false;
       const btnMayor = document.getElementById('tab-btn-mayor');
       const btnCouncilor = document.getElementById('tab-btn-councilor');
       const districtBox = document.getElementById('council-district-box');
@@ -1006,10 +1028,11 @@
       });
       picker.innerHTML = html;
       picker.value = currentDistrictMode;
-      onCouncilDistrictChange();
+      onCouncilDistrictChange(true);
     }
 
-    window.onCouncilDistrictChange = function() {
+    window.onCouncilDistrictChange = function(skipCapture = false) {
+      if (formReady && !skipCapture) captureCurrentForm();
       const picker = document.getElementById('select-council-district');
       currentDistrictMode = picker.value;
       const quotaBox = document.getElementById('single-district-quota-box');
@@ -1031,7 +1054,7 @@
         const block = workingCouncilors[idx];
         if (!block) return;
         document.getElementById('candidates-heading').textContent = `${councilDistrictLabel(block)}議員名冊`;
-        document.getElementById('f-district-quota').value = block.quota || '';
+        document.getElementById('f-district-quota').value = block.quota ?? '';
         renderCandidateRows(block.candidates || [], false);
       }
     };
@@ -1054,6 +1077,7 @@
       wrap.innerHTML = '';
       candidates.forEach(c => addCandidateRow(c, isAllView));
       if (candidates.length === 0) addCandidateRow(null, isAllView);
+      formReady = true;
       lucide.createIcons();
     }
 
@@ -1072,6 +1096,8 @@
       const row = document.createElement('div');
       row.className = 'card-brutal bg-canvas rounded-xl p-3.5 space-y-2.5 relative';
       row.dataset.district = dist;
+      row._candidate = { ...c };
+      delete row._candidate._district;
 
       const districtBadge = (currentCountyRole === 'councilor') ? `
         <div class="flex items-center space-x-1.5 mb-1">
@@ -1105,11 +1131,11 @@
         <div class="grid grid-cols-2 gap-2">
           <label class="block">
             <span class="text-[10px] font-black uppercase tracking-wider text-ink-500 block mb-1">本期得票（開票後填）</span>
-            <input placeholder="例：45,231　未填＝顯示未開票" class="c-votes w-full bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.votes || '')}">
+            <input placeholder="例：45,231　未填＝顯示未開票" class="c-votes w-full bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.votes ?? '')}">
           </label>
           <label class="c-prevvotes-wrap block">
             <span class="text-[10px] font-black uppercase tracking-wider text-ink-500 block mb-1">上期得票（曾參選即可填，落選也顯示）</span>
-            <input placeholder="例：38,902　可日後補填" class="c-prevvotes w-full bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.prevVotes || '')}">
+            <input placeholder="例：38,902　可日後補填" class="c-prevvotes w-full bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.prevVotes ?? '')}">
           </label>
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 items-center">
@@ -1181,16 +1207,16 @@
     };
 
     function escapeAttr(s) {
-      return (s || '').toString().replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+      return (s ?? '').toString().replace(/&/g, '&amp;').replace(/"/g, '&quot;');
     }
 
     function collectCandidatesFromForm() {
       return [...document.querySelectorAll('#candidate-rows > div')].map(row => ({
+        ...row._candidate,
         name: row.querySelector('.c-name').value.trim(),
         party: row.querySelector('.c-party').value.trim() || '無',
         role: row.querySelector('.c-role').value.trim(),
         district: row.dataset.district || '1',
-        registeredDate: '',
         gazetteUrl: row.querySelector('.c-gazette').value.trim() || null,
         facebook: row.querySelector('.c-facebook').value.trim() || null,
         taiwanGoGoUrl: row.querySelector('.c-taiwangogo').value.trim() || null,
@@ -1205,7 +1231,7 @@
       })).filter(c => c.name);
     }
 
-    function buildCurrentPayload() {
+    function captureCurrentForm() {
       if (currentScope === 'county') {
         if (currentCountyRole === 'mayor') {
           workingCandidates = collectCandidatesFromForm();
@@ -1226,7 +1252,14 @@
         workingCandidates = collectCandidatesFromForm();
       }
 
+    }
+
+    function buildCurrentPayload() {
+      captureCurrentForm();
       const payload = {
+        ...allOverrides[currentCode],
+        representatives: ElectionData.mergeArea(currentBase, allOverrides[currentCode]).representatives,
+        schemaVersion: 2,
         candidates: workingCandidates || [],
         updatedAt: new Date().toISOString(),
         updatedBy: currentUser ? currentUser.email : 'local-user',
@@ -1253,24 +1286,23 @@
         return;
       }
 
+      if (mutationBusy || !overridesLoaded) return;
+      mutationBusy = true;
+      const code = currentCode;
       const status = document.getElementById('save-status');
       status.textContent = '儲存中…';
       const payload = buildCurrentPayload();
 
       try {
-        const saved = await apiFetch(`/api/admin/overrides/${encodeURIComponent(currentCode)}`, {
-          method: 'PUT',
-          body: JSON.stringify(payload),
-        });
-        allOverrides[currentCode] = payload;
-        status.textContent = '已儲存 ✓';
+        const saved = await persistOverride(code, payload);
+        if (currentCode === code) status.textContent = '已儲存，KV 已同步 ✓';
         renderOverrideList();
         alert(`🎉 儲存成功！資料已成功寫入 Cloudflare KV。\n\n更新時間：${saved.updatedAt || payload.updatedAt}`);
       } catch (err) {
         status.textContent = '儲存失敗：' + err.message;
         console.error('KV Save Error:', err);
         alert(`❌ 儲存失敗！\n\n錯誤原因：${err.message}\n\n排查提示：\n1. 請確認 election-api Worker 已部署新版 API；\n2. 請確認 API 網域的 Cloudflare Access 規則仍在啟用中。`);
-      }
+      } finally { mutationBusy = false; }
     };
 
     // ---------- 備援功能：直接下載目前覆寫 JSON ----------
@@ -1288,18 +1320,20 @@
     };
 
     window.resetOverride = async function() {
-      if (!currentUser || !currentCode) return;
+      if (!currentUser || !currentCode || mutationBusy || !overridesLoaded) return;
       if (!allOverrides[currentCode]) { document.getElementById('save-status').textContent = '（本來就沒有覆寫紀錄）'; return; }
       if (!confirm('確定要刪除此節點的後台編輯紀錄，還原為原始資料嗎？')) return;
+      const code = currentCode;
+      mutationBusy = true;
       try {
-        await apiFetch(`/api/admin/overrides/${encodeURIComponent(currentCode)}`, { method: 'DELETE' });
-        delete allOverrides[currentCode];
+        await apiFetch(`/api/admin/overrides/${encodeURIComponent(code)}`, { method: 'DELETE', headers: { 'If-Match': allOverrides[code]._revision } });
+        delete allOverrides[code];
         document.getElementById('save-status').textContent = '已還原為原始資料';
         renderOverrideList();
-        selCity.dispatchEvent(new Event('change'));
+        if (currentCode === code) selCity.dispatchEvent(new Event('change'));
       } catch (err) {
         document.getElementById('save-status').textContent = '還原失敗：' + err.message;
-      }
+      } finally { mutationBusy = false; }
     };
 
     // ---------- 選擇檔案更新：強制作業 ----------

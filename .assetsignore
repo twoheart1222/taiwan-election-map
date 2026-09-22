@@ -11,5 +11,12 @@ github.md
 package.json
 package-lock.json
 worker.js
+override-store.js
+storage-baseline.json
+tests/
+.test-build/
+STORAGE.md
+AGENTS.md
+CLAUDE.md
 wrangler.toml
 wrangler.api.toml
