@@ -11,7 +11,9 @@ on:
       - history/product-ui.js
       - history/archive-enhancements.css
       - history/archive-enhancements.js
+      - history/query-refinement.css
       - scripts/validate-history-ui.mjs
+      - scripts/validate-history-query-state.mjs
       - .github/workflows/validate-history-ui.yml
   pull_request:
     paths:
@@ -21,7 +23,9 @@ on:
       - history/product-ui.js
       - history/archive-enhancements.css
       - history/archive-enhancements.js
+      - history/query-refinement.css
       - scripts/validate-history-ui.mjs
+      - scripts/validate-history-query-state.mjs
       - .github/workflows/validate-history-ui.yml
   workflow_dispatch:
 
@@ -42,7 +46,9 @@ jobs:
           npm install --no-save playwright@1.55.0
           npx playwright install --with-deps chromium
       - name: Validate desktop and mobile UI
-        run: node scripts/validate-history-ui.mjs
+        run: |
+          node scripts/validate-history-ui.mjs
+          node scripts/validate-history-query-state.mjs
       - name: Upload UI screenshots
         if: always()
         uses: actions/upload-artifact@v4
