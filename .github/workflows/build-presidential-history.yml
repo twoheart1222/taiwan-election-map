@@ -10,6 +10,9 @@ on:
       - scripts/build-modern-presidential-towns.mjs
       - scripts/patch-history-nav.mjs
       - scripts/patch-history-drilldown.mjs
+      - scripts/patch-history-product-ui.mjs
+      - history/product-ui.css
+      - history/product-ui.js
       - data/history/presidential.json
       - .github/workflows/build-presidential-history.yml
   workflow_dispatch:
@@ -74,15 +77,18 @@ jobs:
       - name: Add township drilldown entry
         run: node scripts/patch-history-drilldown.mjs
 
-      - name: Commit generated history data
+      - name: Wire shared history product UI
+        run: node scripts/patch-history-product-ui.mjs
+
+      - name: Commit generated history data and page wiring
         shell: bash
         run: |
-          if git diff --quiet -- data/history/presidential-counties.json data/history/presidential-towns.json index.html history/index.html; then
-            echo "Historical data and navigation are already up to date."
+          if git diff --quiet -- data/history/presidential-counties.json data/history/presidential-towns.json index.html history/index.html history/town.html; then
+            echo "Historical data and UI wiring are already up to date."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/history/presidential-counties.json data/history/presidential-towns.json index.html history/index.html
+          git add data/history/presidential-counties.json data/history/presidential-towns.json index.html history/index.html history/town.html
           git commit -m "data: build verified presidential history results"
           git push origin HEAD:feature/historical-election-map-20260922
