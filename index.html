@@ -83,10 +83,11 @@
   .candidate-photo{width:88px;height:88px;overflow:hidden;border-radius:50%;background:#2a2723;display:grid;place-items:center;font-family:'Noto Sans TC';font-weight:900;font-size:28px;color:#f4f1ea}
   .candidate-title-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
   .candidate-card.search-target-ring{position:relative;isolation:isolate}
-  .candidate-card.search-target-ring::before{content:"";position:absolute;inset:-3px;z-index:3;border:2px solid #f6a06b;border-radius:inherit;pointer-events:none;box-shadow:0 0 0 1px rgba(228,2,43,.18),0 0 18px rgba(246,160,107,.2);animation:candidate-outline-once 1.45s ease-out 1 forwards}
-  .candidate-card.search-target-ring::after{content:"";position:absolute;inset:-5px;z-index:4;padding:5px;border-radius:inherit;pointer-events:none;background:conic-gradient(from 0turn,transparent 0turn .935turn,rgba(246,160,107,.15) .95turn,#f6a06b .968turn,#fff .982turn,#E4022B .992turn,transparent 1turn);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;filter:drop-shadow(0 0 5px #fff) drop-shadow(0 0 9px #E4022B);transform:rotate(0turn);animation:candidate-light-orbit 1.35s linear 1 forwards}
-  @keyframes candidate-outline-once{0%{opacity:0}9%,82%{opacity:1}100%{opacity:0}}
-  @keyframes candidate-light-orbit{0%{opacity:0;transform:rotate(0turn)}6%{opacity:1}92%{opacity:1}100%{opacity:0;transform:rotate(1turn)}}
+  .candidate-search-orbit{position:absolute;inset:-4px;width:calc(100% + 8px);height:calc(100% + 8px);z-index:4;overflow:visible;pointer-events:none}
+  .candidate-search-orbit .orbit-outline{fill:none;stroke:#f6a06b;stroke-width:2;opacity:.82;filter:drop-shadow(0 0 5px rgba(246,160,107,.32));animation:candidate-outline-once 1.55s ease-out 1 forwards}
+  .candidate-search-orbit .orbit-light{fill:none;stroke:#fff;stroke-width:4;stroke-linecap:round;stroke-dasharray:1.2 98.8;filter:drop-shadow(0 0 3px #fff) drop-shadow(0 0 7px #E4022B) drop-shadow(0 0 12px #f6a06b);animation:candidate-border-run 1.45s linear 1 forwards}
+  @keyframes candidate-outline-once{0%{opacity:0}8%,84%{opacity:.82}100%{opacity:0}}
+  @keyframes candidate-border-run{0%{opacity:0;stroke-dashoffset:0}5%{opacity:1}94%{opacity:1}100%{opacity:0;stroke-dashoffset:-100}}
   .drawer{font-family:'Noto Sans TC',system-ui,sans-serif}
   .map-hero{height:calc(100dvh - 60px) !important}
   .candidate-search{position:relative;width:fit-content;max-width:min(360px,calc(100vw - 32px));margin-top:20px;pointer-events:auto}
@@ -643,7 +644,10 @@ class App {
     });
     document.addEventListener('click', e => { if (!menu?.contains(e.target) && e.target !== toggle) closeMenu(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
-    this._showView('map');
+    const initialHash = location.hash.replace(/^#/, '');
+    const initialView = ['observatory', 'support', 'contact'].includes(initialHash) ? initialHash : 'map';
+    this._showView(initialView);
+    if (initialHash === 'about') setTimeout(() => document.getElementById('about')?.scrollIntoView({ block: 'start' }), 120);
   }
   _wireCountyPicker() {
     const picker = document.getElementById('mobile-county-picker');
@@ -869,6 +873,7 @@ class App {
 
   // ---------- ADDRESS LOOKUP（輸入地址 → 這個地址可以投票選出的候選人） ----------
   _addrNorm(value) { return String(value || '').normalize('NFKC').replace(/[\s　]/g, '').replace(/台/g, '臺'); }
+  _addrLoose(value) { return this._addrNorm(value).replace(/[縣市區鄉鎮村里]/g, ''); }
   _addrIndex(index) {
     if (this._addrIdx && this._addrIdx.src === index) return this._addrIdx;
     const counties = [], towns = [], villagesByTown = new Map(), by = new Map();
@@ -889,15 +894,21 @@ class App {
     const text = this._addrNorm(raw);
     if (text.length < 2) return null;
     const ix = this._addrIndex(index);
-    const cs = ix.counties.filter(c => c.name && text.includes(c.name));
-    let ts = ix.towns.filter(t => t.name && t.name.length >= 2 && text.includes(t.name));
+    const looseText = this._addrLoose(text);
+    const includesArea = name => {
+      if (!name) return false;
+      const looseName = this._addrLoose(name);
+      return text.includes(name) || (looseName.length >= 2 && looseText.includes(looseName));
+    };
+    const cs = ix.counties.filter(c => includesArea(c.name));
+    let ts = ix.towns.filter(t => t.name && includesArea(t.name));
     if (cs.length) ts = ts.filter(t => cs.some(c => c.code === t.code));
     if (!ts.length && !cs.length) return null;
     const label = code => ix.counties.find(c => c.code === code)?.label || '';
     const out = [];
     if (ts.length) {
       ts.slice(0, 6).forEach(t => {
-        const list = (ix.villagesByTown.get(t.id) || []).filter(v => v.name.length >= 2 && text.includes(v.name)).sort((a, b) => b.name.length - a.name.length);
+        const list = (ix.villagesByTown.get(t.id) || []).filter(v => v.name.length >= 2 && includesArea(v.name)).sort((a, b) => b.name.length - a.name.length);
         out.push({ county: { code: t.code, label: label(t.code) || t.county }, town: t, village: list[0] || null });
       });
     } else cs.slice(0, 3).forEach(c => out.push({ county: c, town: null, village: null }));
@@ -1201,9 +1212,27 @@ class App {
       if (!el) { if (Date.now() - started < 4500) setTimeout(flash, 180); return; }
       el.scrollIntoView({ block: 'center', behavior: 'smooth' });
       el.classList.remove('search-target-ring');
+      el.querySelector('.candidate-search-orbit')?.remove();
       void el.offsetWidth;
       el.classList.add('search-target-ring');
-      setTimeout(() => el.classList.remove('search-target-ring'), 1500);
+      const width = Math.max(1, el.offsetWidth + 8), height = Math.max(1, el.offsetHeight + 8);
+      const radius = Math.min(parseFloat(getComputedStyle(el).borderRadius) || 8, height / 2);
+      const ns = 'http://www.w3.org/2000/svg';
+      const orbit = document.createElementNS(ns, 'svg');
+      orbit.classList.add('candidate-search-orbit');
+      orbit.setAttribute('viewBox', `0 0 ${width} ${height}`);
+      orbit.setAttribute('preserveAspectRatio', 'none');
+      orbit.setAttribute('aria-hidden', 'true');
+      ['orbit-outline', 'orbit-light'].forEach(className => {
+        const rect = document.createElementNS(ns, 'rect');
+        rect.setAttribute('x', '3'); rect.setAttribute('y', '3');
+        rect.setAttribute('width', String(Math.max(1, width - 6))); rect.setAttribute('height', String(Math.max(1, height - 6)));
+        rect.setAttribute('rx', String(radius)); rect.setAttribute('pathLength', '100');
+        rect.setAttribute('vector-effect', 'non-scaling-stroke'); rect.classList.add(className);
+        orbit.appendChild(rect);
+      });
+      el.appendChild(orbit);
+      setTimeout(() => { orbit.remove(); el.classList.remove('search-target-ring'); }, 1600);
     };
     setTimeout(flash, 350);
   }

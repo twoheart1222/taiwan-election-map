@@ -14,7 +14,7 @@
     toggle.type='button';toggle.className='history-mobile-toggle';toggle.setAttribute('aria-expanded','false');toggle.setAttribute('aria-controls','history-mobile-menu');toggle.setAttribute('aria-label','開啟頁面選單');
     toggle.innerHTML='<span class="history-ham" aria-hidden="true"><i></i><i></i><i></i></span>';
     const menu=document.createElement('div');menu.id='history-mobile-menu';menu.className='history-mobile-menu';menu.setAttribute('aria-label','手機頁面選單');
-    menu.innerHTML=`<a href="../">2026 選舉地圖 <span aria-hidden="true">→</span></a><a class="on" href="./">歷年選舉 <span aria-hidden="true">→</span></a><a href="../#about">關於我們 <span aria-hidden="true">→</span></a>`;
+    menu.innerHTML=`<a href="../#map">選舉地圖 <span aria-hidden="true">→</span></a><a class="on" href="./">歷年選舉 <span aria-hidden="true">→</span></a><a href="../#observatory">政治觀察 <span aria-hidden="true">→</span></a><a href="../#about">關於我們 <span aria-hidden="true">→</span></a><a href="../#support">支持島民觀察室 <span aria-hidden="true">→</span></a>`;
     nav.append(toggle,menu);
     const setOpen=open=>{toggle.classList.toggle('open',open);menu.classList.toggle('open',open);toggle.setAttribute('aria-expanded',String(open));toggle.setAttribute('aria-label',open?'關閉頁面選單':'開啟頁面選單');};
     toggle.addEventListener('click',()=>setOpen(!menu.classList.contains('open')));
@@ -61,11 +61,13 @@
 
   function inboundTransition(){
     let state=null;try{state=JSON.parse(sessionStorage.getItem('historyTransition')||'null');sessionStorage.removeItem('historyTransition')}catch(_){}
-    if(!state||Date.now()-Number(state.ts||0)>5000||reduce)return false;
-    const g=gs();if(!g)return false;
+    const release=()=>document.documentElement.classList.remove('history-transition-pending');
+    if(!state||Date.now()-Number(state.ts||0)>5000||reduce){release();return false}
+    const g=gs();if(!g){release();return false}
     const veil=buildTransition(),cols=[...veil.querySelectorAll('.history-transition-cols span')],title=veil.querySelector('.history-transition-title'),rule=veil.querySelector('.history-transition-rule');
     title.textContent=state.label||'歷年選舉';veil.style.display='block';
     g.set(cols,{yPercent:0});g.set(title,{yPercent:0,autoAlpha:1});g.set(rule,{width:mobile()?72:110});
+    release();
     const dur=mobile()?.3:.42;
     const finish=()=>{veil.style.display='none'};
     const fallback=setTimeout(finish,1400);

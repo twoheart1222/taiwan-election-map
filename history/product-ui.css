@@ -1,5 +1,8 @@
 :root{--history-nav-h:62px;--history-ease:cubic-bezier(.16,1,.3,1)}
 html{scroll-behavior:smooth}
+html.history-transition-pending{background:#0d0d0d}
+html.history-transition-pending body{visibility:hidden}
+html.history-transition-pending .history-transition{visibility:visible}
 body{overflow-x:hidden}
 body.history-product{background:#0d0d0d}
 body.history-product .site-nav{height:var(--history-nav-h);padding:0 clamp(14px,3.5vw,44px);background:rgba(13,13,13,.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid #1c1a17;transition:background .28s ease,border-color .28s ease}
@@ -11,6 +14,8 @@ body.history-product .brand:hover .brand-dot{transform:rotate(12deg) scale(1.12)
 body.history-product .nav-right{font:600 13px 'Archivo','Noto Sans TC',sans-serif;letter-spacing:.04em;gap:clamp(10px,2vw,26px)}
 body.history-product .nav-right a{color:#b6afa4;transition:color .2s ease,opacity .2s ease}
 body.history-product .nav-right a:hover,body.history-product .nav-right .on{color:#E4022B}
+body.history-product .nav-right .history-support-link{display:inline-flex;align-items:center;padding:8px 16px;border-radius:999px;background:#E4022B;color:#fff;font-weight:800}
+body.history-product .nav-right .history-support-link:hover{color:#fff;background:#ff173f}
 
 .history-mobile-toggle,.history-mobile-menu{display:none}
 .history-nav-title{display:none;color:#8f8880;font:800 11px 'Archivo','Noto Sans TC',sans-serif;letter-spacing:.04em;white-space:nowrap}

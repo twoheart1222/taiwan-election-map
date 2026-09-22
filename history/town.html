@@ -2,6 +2,7 @@
 <html lang="zh-TW">
 <head>
 <meta charset="utf-8">
+<script>try{const s=JSON.parse(sessionStorage.getItem('historyTransition')||'null');if(s&&Date.now()-Number(s.ts||0)<5000)document.documentElement.classList.add('history-transition-pending')}catch(_){}</script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png">
 <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
@@ -25,7 +26,7 @@
 <link rel="stylesheet" href="./product-ui.css">
 </head>
 <body>
-<nav class="site-nav"><a class="brand" href="../"><img class="brand-mark" src="/assets/brand/formosa-mark.png" alt=""><span>島民觀察室</span></a><div class="nav-right"><a href="./">歷年選舉</a><a href="../">2026 選舉地圖</a></div></nav>
+<nav class="site-nav"><a class="brand" href="../"><img class="brand-mark" src="/assets/brand/formosa-mark.png" alt=""><span>島民觀察室</span></a><div class="nav-right"><a href="../#map">選舉地圖</a><a class="on" href="./">歷年選舉</a><a href="../#observatory">政治觀察</a><a href="../#about">關於我們</a><a class="history-support-link" href="../#support">支持島民觀察室</a></div></nav>
 <header class="hero">
   <div class="crumb"><a id="history-link" href="./">歷年選舉</a><span>›</span><b id="crumb-county">縣市</b></div>
   <div class="kicker">COUNTY → TOWNSHIP / DISTRICT</div>
