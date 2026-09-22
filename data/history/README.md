@@ -41,7 +41,11 @@
 
 前台頁面：`/history/local-executive.html`
 
+資料檔：`data/history/local-executive.json`
+
 支援：2014、2018、2022 三屆，皆以現行 22 縣市為比較單位。
+
+前台執行時只讀本站同源的 `local-executive.json`；**不會在瀏覽器端請求 GitHub raw CSV**。外部 CSV 只在人工執行資料建置腳本時使用，因此 raw GitHub、CORS 或外部鏡像暫時異常不會影響正式站既有歷史結果。
 
 ### 分類原則
 
@@ -67,11 +71,20 @@
 
 前台在嘉義市結果與 2022 地圖說明中保留「2022-12-18 重行選舉」註記，不把這筆補充資料偽裝成 11 月 26 日同批資料。
 
-### 資料來源
+### 資料來源與建置方式
 
 - 中央選舉委員會選舉資料庫。
 - `kiang/db.cec.gov.tw` 中選會資料鏡像：2014、2018、2022 的 `直轄市長.csv` 與 `縣市長.csv`。
 - 2022 嘉義市重行選舉：中選會審定／公告結果。
+
+更新資料時執行：
+
+```bash
+npm run build:local-executive-history
+npm run validate:local-executive-history
+```
+
+第一個指令才會連到來源 CSV 並重建 `data/history/local-executive.json`；第二個指令完全讀取 repo 內資料，驗證 schema、3 屆 × 22 縣市、當選者、票數加總、已知結果與 runtime 無 GitHub raw dependency。
 
 ### 縣市長跨屆比較
 
@@ -126,16 +139,21 @@
 
 ### 縣市長
 
+- `local-executive.json` 必須是 schema version 1，且 election type 為 `local-executive`。
 - 2014、2018、2022 每屆必須完整 22 場縣市首長選舉。
-- 缺任一縣市即中止載入，不用殘缺資料產生席次圖。
-- 2022 嘉義市必須使用 12 月 18 日重行選舉正式結果補足。
-- Browser regression 驗證 2022 臺北市蔣萬安 575,590 票、2014 臺北市柯文哲結果、縣市 deep-link、三種比較圖層及手機離島 inset。
+- 每場必須恰有一位當選者，`validVotes` 與候選人票數加總一致，勝差計算一致。
+- 已知結果 guard：2014 臺北市柯文哲 853,983；2022 臺北市蔣萬安 575,590；2022 嘉義市黃敏惠 59,874。
+- 2022 嘉義市必須保留 `2022-12-18` 重行選舉註記。
+- `history/local-executive.js` 必須讀取本站 `../data/history/local-executive.json`，且不得包含 `raw.githubusercontent.com`。
+- Browser regression 驗證縣市 deep-link、三種比較圖層及手機離島 inset。
 
 ## 自動化與 regression
 
 - `scripts/build-presidential-history.mjs`：建置與驗證 1996–2016 縣市結果。
 - `scripts/append-modern-presidential-history.mjs`：接入並驗證 2020、2024 縣市結果。
 - `scripts/build-modern-presidential-towns.mjs`：建置並驗證 2020、2024 鄉鎮市區結果。
+- `scripts/build-local-executive-history.mjs`：維護時從中選會鏡像抓取 2014／2018／2022 CSV，合併嘉義市重行選舉，產生 deterministic `local-executive.json`。
+- `scripts/validate-local-executive-history.mjs`：完全離線驗證 committed JSON 與 runtime 無外部 raw dependency。
 - `scripts/validate-history-ui.mjs`：總統歷史頁 desktop/mobile UI regression。
 - `scripts/validate-history-query-state.mjs`：deep-link、reset、選舉類型 selector，以及 `總統副總統 ↔ 縣市長` 雙向 routing regression。
 - `scripts/validate-local-executive-ui.mjs`：2014／2018／2022 縣市長、22 縣市、縣市結果、比較圖層、手機 inset、最終 panel 可見狀態與 screenshot regression。
@@ -144,7 +162,6 @@
 
 ## 後續方向
 
-- 將縣市長外部 CSV 進一步建置成本站靜態 history artifact，降低 runtime 對外部鏡像的依賴。
 - 1996–2016 總統歷史鄉鎮名稱／邊界正規化。
 - 加入「當年行政區界線」模式，與現行 22 縣市比較模式分離。
 - 以同一套查詢架構接入立法委員、縣市議員等已驗證歷史資料。
