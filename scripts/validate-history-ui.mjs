@@ -37,26 +37,53 @@ async function attachConsoleGuard(page,label){
   page.on('console',msg=>{if(msg.type()==='error'&&/(ReferenceError|TypeError|SyntaxError|Uncaught)/i.test(msg.text()))fatal.push(`console: ${msg.text()}`)});
   return()=>assert(!fatal.length,`${label}: ${fatal.join(' | ')}`);
 }
+async function archiveMapSelector(page){return (page.viewportSize()?.width||999)>660?'#map path.county.has-result':'#mobile-map path.archive-county'}
 async function activateCounty(page,name){
-  const found=await page.locator('path.county.has-result').evaluateAll((els,target)=>{
-    const norm=value=>String(value||'').replaceAll('台','臺').trim();
-    const el=els.find(node=>norm(node.__data__?.properties?.name||node.__data__?.properties?.COUNTYNAME||node.__data__?.properties?.COUNTY)===target);
-    if(!el)return false;
-    el.dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true,view:window}));
-    return true;
-  },name);
-  assert(found,`could not find county path for ${name}`);
+  const selector=await archiveMapSelector(page);
+  const loc=page.locator(`${selector}[data-county="${name}"]`);
+  await loc.waitFor({state:'visible',timeout:10000});
+  await loc.evaluate(el=>el.dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true,view:window})));
+}
+async function assertWinnerColors(page,label,selector){
+  const fills=await page.locator(selector).evaluateAll(els=>[...new Set(els.map(el=>getComputedStyle(el).fill))]);
+  assert(fills.length>=2,`${label}: county winner colors are not visually distinct (${fills.join(', ')})`);
+  assert(!fills.every(fill=>fill==='rgb(32, 29, 26)'||fill==='rgb(39, 35, 31)'),`${label}: county map is still using neutral fallback fills`);
+}
+async function validateCompareMode(page,label,screenshotPath=null){
+  const btn=page.locator('#archive-compare-toggle');await btn.waitFor({state:'visible',timeout:10000});
+  const bh=await btn.evaluate(el=>el.getBoundingClientRect().height);assert(bh>=40,`${label}: compare target too short (${bh})`);
+  await btn.click();
+  const drawer=page.locator('#archive-compare-drawer.open');await drawer.waitFor({state:'visible',timeout:5000});
+  const stats=await page.locator('#archive-compare-stats .archive-compare-stat').count();assert(stats===3,`${label}: comparison summary stats missing (${stats})`);
+  const flips=await page.locator('#archive-flips [data-county]').count();assert(flips>=1,`${label}: expected at least one 2020→2024 flipped county`);
+  const detail=await page.locator('#archive-compare-detail').textContent();assert(/Swing/.test(detail||''),`${label}: comparison detail is missing Swing`);
+  const selector=await archiveMapSelector(page);
+  const gold=await page.locator(selector).evaluateAll(els=>els.filter(el=>getComputedStyle(el).stroke==='rgb(246, 201, 69)').length);
+  assert(gold>=1,`${label}: comparison map has no gold flip outlines`);
+  await noOverflow(page,`${label}-compare`);
+  if(screenshotPath){await page.evaluate(()=>window.scrollTo(0,0));await page.waitForTimeout(160);await page.screenshot({path:screenshotPath,fullPage:true});}
+  await btn.click();await page.locator('#archive-compare-drawer').waitFor({state:'hidden',timeout:3000});
 }
 
 async function openArchive(page,base,label){
   const guard=await attachConsoleGuard(page,label);
   await page.goto(`${base}/history/?year=2024`,{waitUntil:'networkidle',timeout:30000});
-  await page.locator('path.county.has-result').first().waitFor({state:'visible',timeout:15000});
-  const count=await page.locator('path.county.has-result').count();assert(count>=22,`${label}: expected 22 county result paths, got ${count}`);
+  await page.locator('#archive-compare-toggle').waitFor({state:'visible',timeout:15000});
+  const width=page.viewportSize()?.width||999;
+  if(width<=660){
+    const paths=page.locator('#mobile-map path.archive-county');await paths.first().waitFor({state:'visible',timeout:15000});
+    const count=await paths.count();assert(count===22,`${label}: expected 22 mobile county paths, got ${count}`);
+    const insets=await page.locator('#mobile-map .archive-inset-box').count();assert(insets===3,`${label}: expected 3 island inset boxes, got ${insets}`);
+    const labels=await page.locator('#mobile-map .archive-inset-label').allTextContents();
+    for(const island of ['澎湖縣','金門縣','連江縣'])assert(labels.includes(island),`${label}: missing ${island} inset label`);
+    await assertWinnerColors(page,label,'#mobile-map path.archive-county');
+  }else{
+    await page.locator('#map path.county.has-result').first().waitFor({state:'visible',timeout:15000});
+    const count=await page.locator('#map path.county.has-result').count();assert(count>=22,`${label}: expected 22 county result paths, got ${count}`);
+    await page.waitForFunction(()=>document.querySelectorAll('#map path.county[data-county]').length>=22,null,{timeout:10000});
+    await assertWinnerColors(page,label,'#map path.county.has-result');
+  }
   await page.waitForTimeout(1050);
-  const fills=await page.locator('path.county.has-result').evaluateAll(els=>[...new Set(els.map(el=>getComputedStyle(el).fill))]);
-  assert(fills.length>=2,`${label}: county winner colors are not visually distinct (${fills.join(', ')})`);
-  assert(!fills.every(fill=>fill==='rgb(32, 29, 26)'),`${label}: county map is still using the neutral fallback fill`);
   await noOverflow(page,label);
   await visibleSize(page,'.map-panel',300,400,label);
   const title=await page.locator('#election-title').textContent();assert(/2024/.test(title||''),`${label}: 2024 election title missing`);
@@ -66,6 +93,7 @@ async function openArchive(page,base,label){
 async function desktop(browser,base){
   const page=await browser.newPage({viewport:{width:1440,height:900},deviceScaleFactor:1});
   await openArchive(page,base,'desktop');
+  await validateCompareMode(page,'desktop',path.join(OUT,'history-compare-desktop-1440.png'));
   await activateCounty(page,'臺北市');
   await page.locator('#county-detail.county-card').waitFor({state:'visible',timeout:5000});
   await page.waitForTimeout(520);
@@ -85,6 +113,7 @@ async function mobileArchive(browser,base,width,height,label,screenshot=false){
   await toggle.click();assert(await page.locator('.history-mobile-menu').evaluate(el=>el.classList.contains('open')),`${label}: mobile menu did not open`);
   await toggle.click();
   const yearH=await page.locator('.year-btn.on').evaluate(el=>el.getBoundingClientRect().height);assert(yearH>=40,`${label}: year touch target too small (${yearH})`);
+  await validateCompareMode(page,label,screenshot?path.join(OUT,`history-compare-mobile-${width}.png`):null);
   await activateCounty(page,'臺北市');
   await page.locator('#county-detail.county-card').waitFor({state:'visible',timeout:5000});
   await page.waitForTimeout(520);
@@ -100,7 +129,7 @@ async function mobileArchive(browser,base,width,height,label,screenshot=false){
   const townCount=await page.locator('path.town').count();assert(townCount>=12,`${label}: Taipei township map did not render expected districts`);
   await noOverflow(page,`${label}-town`);
   const townBtn=page.locator('.town-btn').first();await townBtn.waitFor({state:'visible'});
-  const bh=await townBtn.evaluate(el=>el.getBoundingClientRect().height);assert(bh>=44,`${label}: township touch target too small (${bh})`);
+  const th=await townBtn.evaluate(el=>el.getBoundingClientRect().height);assert(th>=44,`${label}: township touch target too small (${th})`);
   await townBtn.click();await page.locator('#town-detail .county-summary').waitFor({state:'visible',timeout:5000});
   await page.waitForTimeout(520);
   await page.evaluate(()=>window.scrollTo(0,0));
@@ -117,5 +146,5 @@ try{
   await desktop(browser,base);
   await mobileArchive(browser,base,390,844,'mobile-390',true);
   await mobileArchive(browser,base,360,800,'mobile-360',false);
-  console.log('History UI validation passed: desktop 1440px, mobile 390px and mobile 360px.');
+  console.log('History UI validation passed: desktop, comparison mode, mobile inset map, 390px and 360px flows.');
 }finally{await browser.close();await new Promise(resolve=>s.close(resolve));}
