@@ -5,6 +5,7 @@
   "scripts": {
     "build:storage": "node scripts/build-storage-baseline.mjs",
     "build:local-executive-history": "node scripts/build-local-executive-history.mjs",
+    "validate:local-executive-history": "node scripts/validate-local-executive-history.mjs",
     "predeploy:api": "npm run build:storage",
     "predev:api": "npm run build:storage",
     "test": "node --test tests/*.test.mjs",
