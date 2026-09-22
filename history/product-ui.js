@@ -32,6 +32,7 @@
 
   function transitionLabel(url,anchor){
     if(anchor?.dataset?.historyTownDrilldown)return anchor.textContent.replace(/→/g,'').trim();
+    if(/local-executive\.html/.test(url))return '縣市長';
     if(/town\.html/.test(url))return document.getElementById('crumb-county')?.textContent||'鄉鎮市區';
     return '歷年選舉';
   }
@@ -109,6 +110,28 @@
     },true);
   }
 
+  function enableElectionTypeRouting(){
+    if(isTown||body.classList.contains('local-executive-page'))return;
+    const enable=()=>{
+      const select=document.getElementById('archive-election-type');
+      const option=select?.querySelector('option[value="local-executive"]');
+      if(!option)return false;
+      if(option.disabled)option.disabled=false;
+      if(option.textContent!=='縣市長')option.textContent='縣市長';
+      return true;
+    };
+    enable();
+    const observer=new MutationObserver(()=>{if(enable())observer.disconnect()});
+    observer.observe(document.documentElement,{childList:true,subtree:true});
+    document.addEventListener('change',e=>{
+      const select=e.target;
+      if(!(select instanceof HTMLSelectElement)||select.id!=='archive-election-type'||select.value!=='local-executive')return;
+      e.preventDefault();e.stopImmediatePropagation();
+      const url=new URL('./local-executive.html',location.href);url.search='?type=local-executive&year=2022&level=national';
+      navigate(url.href,'縣市長');
+    },true);
+  }
+
   function interceptNavigation(){
     document.addEventListener('click',e=>{
       if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
@@ -135,7 +158,7 @@
     requestAnimationFrame(check);addEventListener('resize',check,{passive:true});setTimeout(check,800);
   }
 
-  buildMobileNav();buildTransition();watchDynamic();enhanceYearSwitch();interceptNavigation();navScroll();mobileSafety();
+  buildMobileNav();buildTransition();watchDynamic();enhanceYearSwitch();enableElectionTypeRouting();interceptNavigation();navScroll();mobileSafety();
   const fromTransition=inboundTransition();
   if(document.readyState==='complete')initialReveal(fromTransition);else addEventListener('load',()=>initialReveal(fromTransition),{once:true});
 })();
