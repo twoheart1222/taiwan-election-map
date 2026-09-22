@@ -83,6 +83,7 @@
   }
   function syncControls(){
     $('#local-year').innerHTML=YEARS.map(y=>`<option value="${y}"${y===year?' selected':''}>${y}</option>`).join('');
+    const yearRail=$('#local-years');if(yearRail){yearRail.innerHTML=YEARS.map(y=>`<button class="year-btn${y===year?' on':''}" data-local-year="${y}" aria-current="${y===year?'true':'false'}"><span>${y}</span><small>縣市長</small></button>`).join('');$$('#local-years [data-local-year]').forEach(b=>b.addEventListener('click',()=>changeYear(Number(b.dataset.localYear))))}
     $('#local-region').innerHTML='<option value="">全台概覽</option>'+COUNTIES.map(name=>`<option value="${name}"${name===region?' selected':''}>${name}</option>`).join('');
     $$('#local-mode-switch [data-mode]').forEach(b=>b.classList.toggle('on',b.dataset.mode===mode));
     $$('#local-level-switch [data-level]').forEach(b=>b.classList.toggle('on',b.dataset.level===level));
@@ -157,11 +158,12 @@
 
   function selectCounty(name){name=normalize(name);if(!COUNTIES.includes(name))return;if(mode==='compare'){compareSelection=name;renderCompare();return}level='county';region=name;syncControls();renderSingle()}
   function setLoading(text){$('#local-map-status').textContent=text}
+  async function changeYear(next){if(!YEARS.includes(next)||next===year)return;year=next;await render();window.dispatchEvent(new CustomEvent('history:contentchange',{detail:{label:`${year} 縣市長選舉`}}))}
   function showError(err){console.error(err);$('#local-map-status').innerHTML='<b>資料載入失敗。</b> 請重新整理；若持續發生，可能是外部資料鏡像暫時無法連線。';const d=$('#local-county-detail');d.className='local-empty';d.innerHTML=`<strong>無法載入選舉資料</strong>${esc(err?.message||err)}`}
   function bind(){
-    $('#local-election-type').addEventListener('change',e=>{if(e.target.value==='president')location.href='./?type=president&year=2024&level=national';else e.target.value='local-executive'});
+    $('#local-election-type').addEventListener('change',e=>{if(e.target.value==='president'){const url='./?type=president&year=2024&level=national';if(typeof window.historyNavigate==='function')window.historyNavigate(url,'總統副總統');else location.href=url}else e.target.value='local-executive'});
     $$('#local-mode-switch [data-mode]').forEach(b=>b.addEventListener('click',()=>{mode=b.dataset.mode;compareSelection='';syncControls();render()}));
-    $('#local-year').addEventListener('change',e=>{year=Number(e.target.value);render()});
+    $('#local-year').addEventListener('change',e=>changeYear(Number(e.target.value)));
     $$('#local-level-switch [data-level]').forEach(b=>b.addEventListener('click',()=>{level=b.dataset.level;if(level==='national')region='';else if(!region)region=COUNTIES[0];syncControls();render()}));
     $('#local-region').addEventListener('change',e=>{region=normalize(e.target.value);level=region?'county':'national';syncControls();render()});
     $('#local-compare-a').addEventListener('change',e=>{const v=Number(e.target.value);if(v!==compareB)compareA=v;syncControls();render()});

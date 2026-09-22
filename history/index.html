@@ -42,6 +42,10 @@
     <h1>歷年選舉資料庫</h1>
     <p class="archive-intro"><strong>先選條件，再看資料。</strong> 參考中選會選舉資料庫的查詢邏輯，將單屆結果與跨屆比較分開；1996–2024 總統副總統選舉皆可查詢縣市結果。</p>
   </div>
+  <nav class="archive-year-nav" aria-label="總統選舉年度">
+    <span>選舉年度</span>
+    <div id="years" class="years"></div>
+  </nav>
 </header>
 <section class="archive-query-shell" aria-label="選舉資料查詢">
   <div class="archive-query-heading">
@@ -77,7 +81,6 @@
     </div>
   </div>
   <div id="archive-compare-slot"></div>
-  <div id="years" aria-hidden="true"></div>
 </section>
 <main class="layout">
   <section class="map-panel">
@@ -115,7 +118,7 @@ function candidatePercent(e,c){return e.validVotes?c.votes/e.validVotes*100:0}
 function countyYear(e){return countyArchive?.years?.[String(e.year)]||null}
 function countyResult(e,name){return countyYear(e)?.counties?.[normalizeName(name)]||null}
 function renderYears(){
-  $('years').innerHTML=archive.elections.map(e=>`<button class="year-btn${e.year===current.year?' on':''}" data-year="${e.year}">${e.year}</button>`).join('');
+  $('years').innerHTML=archive.elections.map(e=>`<button class="year-btn${e.year===current.year?' on':''}" data-year="${e.year}" aria-current="${e.year===current.year?'true':'false'}"><span>${e.year}</span><small>第 ${e.term} 任</small></button>`).join('');
   document.querySelectorAll('.year-btn').forEach(btn=>btn.addEventListener('click',()=>selectYear(Number(btn.dataset.year))));
   const select=$('archive-year-select');
   if(select){select.innerHTML=archive.elections.map(e=>`<option value="${e.year}">${e.year}｜第 ${e.term} 任</option>`).join('');select.value=String(current.year)}
@@ -147,7 +150,7 @@ function buildMap(topology){
   const object=topology.objects[Object.keys(topology.objects)[0]];features=topojson.feature(topology,object).features;svg=d3.select('#map');const node=$('map');
   const draw=()=>{const w=node.clientWidth||700,h=node.clientHeight||560;svg.attr('viewBox',`0 0 ${w} ${h}`);const projection=d3.geoMercator().fitExtent([[18,12],[w-18,h-12]],{type:'FeatureCollection',features});path=d3.geoPath(projection);const tooltip=$('tooltip');const sel=svg.selectAll('path.county').data(features,d=>featureName(d)).join('path').attr('class','county').attr('data-county',d=>featureName(d)).attr('d',path);sel.on('mousemove',(event,d)=>{const name=featureName(d),r=countyResult(current,name),winner=r?nationalCandidate(current,r.winnerNo):null;tooltip.style.display='block';tooltip.style.left=`${event.clientX+14}px`;tooltip.style.top=`${event.clientY+14}px`;tooltip.innerHTML=r?`${name}<br>${winner?`${winner.president}領先 · `:''}${fmt.format(r.margin)} 票`:`${name}<br>此屆縣市資料尚未載入`}).on('mouseleave',()=>{tooltip.style.display='none'}).on('click',(_,d)=>renderCounty(featureName(d),countyResult(current,featureName(d))));paintMap()};draw();new ResizeObserver(draw).observe(node)
 }
-function selectYear(year){const next=archive.elections.find(e=>Number(e.year)===Number(year));if(!next)return;current=next;renderYears();renderElection();const u=new URL(location.href);u.searchParams.set('year',String(year));history.replaceState(null,'',u)}
+function selectYear(year){const next=archive.elections.find(e=>Number(e.year)===Number(year));if(!next||Number(current?.year)===Number(year))return;current=next;renderYears();renderElection();const u=new URL(location.href);u.searchParams.set('year',String(year));history.replaceState(null,'',u);window.dispatchEvent(new CustomEvent('history:contentchange',{detail:{label:`${year} 總統選舉`}}))}
 async function init(){
   try{const [national,topology,counties]=await Promise.all([fetch('../data/history/presidential.json').then(r=>{if(!r.ok)throw new Error('presidential.json');return r.json()}),fetch('../data/counties.json').then(r=>{if(!r.ok)throw new Error('counties.json');return r.json()}),fetch('../data/history/presidential-counties.json').then(r=>r.ok?r.json():null).catch(()=>null)]);archive=national;countyArchive=counties;const requested=Number(new URLSearchParams(location.search).get('year'));current=archive.elections.find(e=>e.year===requested)||archive.elections.find(e=>e.year===2024)||archive.elections.at(-1);renderYears();buildMap(topology);renderElection()}catch(error){console.error(error);$('map-status').innerHTML='<b>資料載入失敗。</b> 請重新整理頁面；若持續發生，請回報島民觀察室。'}
 }
