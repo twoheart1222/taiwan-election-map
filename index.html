@@ -142,7 +142,7 @@
     .drawer-stats>div{padding:8px 9px !important;border-radius:8px !important}
     .drawer-stats>div>span:first-child{font-size:8px !important;letter-spacing:0 !important;white-space:nowrap}
     .drawer-stats>div>span:last-child{font-size:16px !important;margin-top:2px !important}
-    .drawer-body-scroll{flex:1 !important;min-height:0 !important;overflow-y:scroll !important;overscroll-behavior-y:contain;touch-action:pan-y;-webkit-overflow-scrolling:touch;padding-top:2px}
+    .drawer-body-scroll{flex:1 !important;min-height:0 !important;overflow-y:scroll !important;overscroll-behavior-y:contain;touch-action:pan-y;-webkit-overflow-scrolling:touch;padding-top:2px;overflow-anchor:none}
     #back-area{position:sticky;top:0;z-index:4;padding:8px 16px !important;background:linear-gradient(#141210 75%,rgba(20,18,16,0))}
     #candidates{flex:none !important;min-height:auto !important;overflow:visible !important;padding:4px 16px max(40px,calc(24px + env(safe-area-inset-bottom))) !important}
     .map-intro{top:18px !important;left:16px !important;max-width:calc(100% - 32px) !important}
@@ -2207,7 +2207,15 @@ class App {
     if (!el || token !== this._resTok) return;
     box.querySelector('.res-panel')?.remove();
     box.insertBefore(el, box.firstChild);
-    box.scrollTop = 0;
+    // 手機實際捲動容器是 .drawer-body-scroll。結果卡是非同步插入到候選人前方，
+    // 瀏覽器 scroll anchoring 會為了維持原本候選人位置而把新插入的 RESULTS 標題推到視窗上方。
+    const scrollShell = document.querySelector('.drawer-body-scroll');
+    const resetResultScroll = () => {
+      box.scrollTop = 0;
+      if (scrollShell) scrollShell.scrollTop = 0;
+    };
+    resetResultScroll();
+    requestAnimationFrame(resetResultScroll);
   }
   _resultsPanel(p, prev, cur) {
     const esc = v => String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
@@ -2237,7 +2245,7 @@ class App {
       return { c, v, share: pct(v, curValid) };
     }).sort((a, b) => (b.v ?? -1) - (a.v ?? -1));
     const topV = Math.max(...curRows.map(r => r.v ?? -1));
-    let html = `<div style="font-family:'Archivo',sans-serif;font-weight:700;font-size:11px;letter-spacing:.24em;color:#E4022B;margin-bottom:14px">選情數據 / RESULTS</div>`;
+    let html = `<div class="results-kicker" style="font-family:'Archivo',sans-serif;font-weight:700;font-size:11px;line-height:1.4;letter-spacing:.24em;color:#E4022B;min-height:16px;overflow:visible;margin-bottom:14px">選情數據 / RESULTS</div>`;
     html += head('本期（2026）', cn ? (cur.finalized ? '開票結果' : '開票中／統計中') : '11 月 28 日投票');
     html += `<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:8px">${tile('選舉人數', fmt(cur?.electors))}${tile('投票數', fmt(cur?.votesCast))}${tile('投票率', pctT(curTurn), delta)}${tile('有效票', fmt(curValid))}</div>`;
     html += curRows.map(r => row(r.c.name, r.c.party, r.v, r.share, cn > 0 && r.v != null && r.v === topV && cur?.finalized === true, '')).join('');
