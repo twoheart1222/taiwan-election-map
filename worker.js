@@ -29,7 +29,8 @@ const MAX_CONTACT_BODY = 16 * 1024;
 const MAX_STRING = 4000;
 const MAX_DEPTH = 12;
 
-const ANNOUNCEMENT_PAGES = ['map', 'observatory', 'support', 'contact'];
+const ANNOUNCEMENT_PAGES = ['map', 'history', 'observatory', 'support', 'contact'];
+const ANNOUNCEMENT_DISPLAYS = new Set(['compact', 'wide', 'fullscreen']);
 const MAX_ANNOUNCEMENTS = 20;
 const DEFAULT_ANNOUNCEMENT = {
   id: 'support-review',
@@ -37,6 +38,7 @@ const DEFAULT_ANNOUNCEMENT = {
   title: '金流審核中',
   message: '「支持島民觀察室」的金流服務正在審核中，暫時無法使用。開放後會在這裡公告，感謝你的關心與支持。',
   pages: { map: false, observatory: false, support: true, contact: false },
+  display: 'compact',
   supportLock: true,
 };
 
@@ -58,6 +60,7 @@ function cleanAnnouncement(a, index = 0) {
     title: String(a.title || '').trim().slice(0, 80),
     message: String(a.message || '').trim().slice(0, 600),
     pages,
+    display: ANNOUNCEMENT_DISPLAYS.has(a.display) ? a.display : 'compact',
     supportLock: a.supportLock === true,
   };
 }

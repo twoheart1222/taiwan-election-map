@@ -75,6 +75,14 @@ test('API migration, version conflicts, concurrent writes, atomic batches and KV
     return { status: response.status, body: await response.json() };
   };
   const read = () => request('/api/admin/overrides');
+  const announcement = await request('/api/admin/announcement', 'PUT', { items: [{
+    id: 'history-alert', enabled: true, title: '歷屆公告', message: '測試內容',
+    pages: { history: true }, display: 'fullscreen', supportLock: false,
+  }] });
+  assert.equal(announcement.status, 200);
+  assert.equal(announcement.body.items[0].pages.history, true);
+  assert.equal(announcement.body.items[0].display, 'fullscreen');
+  assert.deepEqual((await request('/?key=site_announcement')).body.items, announcement.body.items);
   const parity = async () => {
     const admin = await read();
     const publicData = await request('/?key=overrides');

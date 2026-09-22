@@ -230,7 +230,7 @@
       <div class="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h3 class="text-sm font-black flex items-center gap-2"><i data-lucide="megaphone" class="w-4 h-4 text-accent-orange"></i>站內公告</h3>
-          <p class="text-xs text-ink-500 mt-1">可建立多則公告，每則各自勾選要出現的頁面與內容。以半透明方式顯示在前台，儲存後立即更新。</p>
+          <p class="text-xs text-ink-500 mt-1">可建立多則公告，設定顯示頁面與尺寸。可選右下精簡、全寬橫幅或全頁公告，儲存後立即更新。</p>
         </div>
         <button type="button" onclick="addAnnouncement()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-ink-900 text-surface text-xs font-bold hover:bg-accent-orange transition"><i data-lucide="plus" class="w-3.5 h-3.5"></i>新增公告</button>
       </div>
@@ -624,7 +624,7 @@
     }
 
     let announcements = [];
-    const ANN_PAGES = [['map', '地圖首頁'], ['observatory', '政治觀察'], ['support', '支持島民觀察室'], ['contact', '聯絡我們']];
+    const ANN_PAGES = [['map', '地圖首頁'], ['history', '歷屆選舉'], ['observatory', '政治觀察'], ['support', '支持島民觀察室'], ['contact', '聯絡我們']];
 
     function renderAnnouncements() {
       const box = document.getElementById('ann-list');
@@ -640,6 +640,7 @@
           </div>
           <input class="ann-title bg-surface border border-ink-300 rounded-lg px-2.5 py-2 text-xs font-bold" maxlength="80" placeholder="公告標題，例如：金流審核中" value="${escapeHTML(a.title)}">
           <textarea class="ann-message bg-surface border border-ink-300 rounded-lg px-2.5 py-2 text-xs font-medium" maxlength="600" rows="3" placeholder="公告內容（可換行）">${escapeHTML(a.message)}</textarea>
+          <label class="grid gap-1.5 text-xs font-bold"><span class="text-[10px] font-black tracking-wider text-ink-500">公告呈現大小</span><select class="ann-display select-editorial bg-surface border border-ink-300 rounded-lg px-2.5 py-2 pr-8 text-xs font-bold"><option value="compact" ${(a.display||'compact')==='compact'?'selected':''}>精簡浮層（原本大小）</option><option value="wide" ${a.display==='wide'?'selected':''}>全寬橫幅</option><option value="fullscreen" ${a.display==='fullscreen'?'selected':''}>全頁大型公告</option></select></label>
           <div>
             <div class="text-[10px] font-black tracking-wider text-ink-500 mb-1.5">顯示在哪些頁面</div>
             <div class="flex flex-wrap gap-x-5 gap-y-2 text-xs font-bold">${ANN_PAGES.map(([k, label]) => `<label class="flex items-center gap-1.5"><input type="checkbox" class="ann-page w-4 h-4 accent-[#E4022B]" value="${k}" ${a.pages?.[k] ? 'checked' : ''}>${label}</label>`).join('')}</div>
@@ -659,6 +660,7 @@
           title: row.querySelector('.ann-title').value.trim(),
           message: row.querySelector('.ann-message').value.trim(),
           pages,
+          display: row.querySelector('.ann-display').value,
           supportLock: row.querySelector('.ann-lock').checked,
         };
       });
@@ -666,7 +668,7 @@
 
     window.addAnnouncement = function() {
       announcements = collectAnnouncements();
-      announcements.push({ id: 'ann-' + Date.now().toString(36), enabled: true, title: '', message: '', pages: { map: true }, supportLock: false });
+      announcements.push({ id: 'ann-' + Date.now().toString(36), enabled: true, title: '', message: '', pages: { map: true }, display: 'compact', supportLock: false });
       renderAnnouncements();
     };
 
