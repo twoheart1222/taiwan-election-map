@@ -3,6 +3,14 @@ main = "worker.js"
 compatibility_date = "2026-09-16"
 preview_urls = false
 
+[[durable_objects.bindings]]
+name = "OVERRIDE_STORE"
+class_name = "OverrideStore"
+
+[[migrations]]
+tag = "v1-override-store"
+new_sqlite_classes = ["OverrideStore"]
+
 [vars]
 ALLOWED_ORIGINS = "https://formosaobservatory.com,https://www.formosaobservatory.com,https://taiwan-election-map.uprisevideoproduction.workers.dev"
 ADMIN_REDIRECT_URL = "https://formosaobservatory.com/admin.html"

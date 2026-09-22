@@ -51,7 +51,7 @@
           ? typeof target[field] !== 'boolean'
           : isBlank(target[field]);
 
-        if (targetIsBlank && sourceHasValue) {
+        if (targetIsBlank && sourceHasValue && !(stats.explicitSnapshot && Object.hasOwn(target, field))) {
           target[field] = clone(sourceValue);
           stats.fieldsFilled += 1;
 
@@ -164,7 +164,7 @@
       return;
     }
 
-    if (!countiesTopo || typeof allOverrides !== 'object') {
+    if (!countiesTopo || !overridesLoaded || typeof allOverrides !== 'object') {
       alert('基礎資料或 KV 覆寫尚未載入完成，請重新整理後再試一次。');
       return;
     }
@@ -173,13 +173,15 @@
       '這個同步會把 GitHub data/counties.json 裡已有的資料補到 KV 的空欄位：\n\n' +
       'Facebook / Instagram / Threads / YouTube / 照片\n' +
       '本期得票 / 上期得票 / 當選狀態\n\n' +
-      'KV 中已經有值的欄位不會被覆蓋。\n' +
+      '完整紀錄只補缺少的欄位，已儲存的空白也會保留。\n' +
       '因此你手動修改過的資料會保留。\n\n' +
       '確定開始同步嗎？'
     );
 
     if (!confirmed) return;
 
+    if (mutationBusy) return;
+    mutationBusy = true;
     button.disabled = true;
     button.textContent = '同步中…';
     status.textContent = '正在比較 GitHub 基礎資料與 Cloudflare KV…';
@@ -215,6 +217,7 @@
 
         const stats = {
           changed: false,
+          explicitSnapshot: existing?.schemaVersion === 2,
           fieldsFilled: 0,
           socialFieldsFilled: 0,
           electionFieldsFilled: 0,
@@ -280,15 +283,7 @@
         if (!stats.changed) continue;
 
         try {
-          await apiFetch(
-            `/api/admin/overrides/${encodeURIComponent(code)}`,
-            {
-              method: 'PUT',
-              body: JSON.stringify(next),
-            }
-          );
-
-          allOverrides[code] = next;
+          await persistOverride(code, next);
           summary.countiesChanged += 1;
           summary.fieldsFilled += stats.fieldsFilled;
           summary.socialFieldsFilled += stats.socialFieldsFilled;
@@ -345,6 +340,7 @@
         '\n\n請確認 API Worker、Cloudflare Access 與 ADMIN_TOKEN 設定。'
       );
     } finally {
+      mutationBusy = false;
       button.disabled = false;
       button.textContent = '同步 GitHub 選舉資料＋社群＋照片到 KV';
     }
@@ -377,8 +373,8 @@
             將 GitHub data/counties.json 中已有的
             Facebook / Instagram / Threads / YouTube / 照片 /
             本期得票 / 上期得票 / 當選狀態
-            補進 KV 的空白欄位。
-            KV 已有值一律保留，因此後台手動修正優先，不會被自動同步蓋掉。
+            補進尚未建立的欄位。
+            後台已儲存的值與刻意清空的欄位都會保留。
           </p>
         </div>
 

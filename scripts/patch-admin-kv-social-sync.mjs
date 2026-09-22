@@ -1,3 +1,4 @@
+throw new Error('此歷史修補工具已停用，避免覆蓋統一儲存版本。請閱讀 STORAGE.md。');
 import { readFile, writeFile } from 'node:fs/promises';
 
 const path = 'admin.html';

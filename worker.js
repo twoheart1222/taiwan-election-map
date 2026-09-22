@@ -1,4 +1,6 @@
 import { EmailMessage } from 'cloudflare:email';
+import { validateMap } from './override-store.js';
+export { OverrideStore } from './override-store.js';
 
 const JSON_HEADERS = {
   'Content-Type': 'application/json; charset=utf-8',
@@ -113,7 +115,7 @@ function corsHeaders(request, env) {
   const allowed = allowedOrigins(env);
   const headers = {
     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-    'Access-Control-Allow-Headers': 'Authorization, Content-Type',
+    'Access-Control-Allow-Headers': 'Authorization, Content-Type, If-Match',
     'Access-Control-Max-Age': '600',
     'Vary': 'Origin',
   };
@@ -340,6 +342,21 @@ async function requireAdmin(request, env) {
 
 /* ------------------------------ handlers ------------------------------ */
 
+async function overrideStore(env, command) {
+  if (!env.OVERRIDE_STORE) throw new HttpError(503, '尚未綁定 OVERRIDE_STORE，請部署新版 API 設定。');
+  const stub = env.OVERRIDE_STORE.get(env.OVERRIDE_STORE.idFromName('election-overrides'));
+  const response = await stub.fetch('https://store/overrides', command ? {
+    method: 'POST', body: JSON.stringify(command),
+  } : {});
+  const body = await response.json();
+  if (!response.ok) throw new HttpError(response.status, body.error);
+  return body;
+}
+
+function checkOverrides(value) {
+  try { validateMap(value); } catch (_) { throw new HttpError(400, '無效的候選人覆寫資料格式'); }
+}
+
 async function handlePublicGet(request, env, url) {
   const key = normalizeKey(url.searchParams.get('key'));
   if (!key) {
@@ -350,7 +367,7 @@ async function handlePublicGet(request, env, url) {
     return jsonResponse(request, env, { error: '找不到資料' }, { status: 404 });
   }
 
-  const raw = await env.ELECTION_KV.get(key);
+  const raw = key === 'overrides' ? JSON.stringify(await overrideStore(env)) : await env.ELECTION_KV.get(key);
   if (!raw) {
     return jsonResponse(request, env, { error: '找不到資料' }, { status: 404 });
   }
@@ -397,8 +414,7 @@ async function handleAdmin(request, env, url) {
 
   if (path === 'overrides') {
     if (request.method === 'GET') {
-      const overrides = await readJsonKV(env, 'overrides', {});
-      return jsonResponse(request, env, overrides || {});
+      return jsonResponse(request, env, await overrideStore(env));
     }
     if (request.method === 'PUT') {
       const payload = await readJsonBody(request, MAX_ADMIN_BODY);
@@ -407,8 +423,10 @@ async function handleAdmin(request, env, url) {
         return jsonResponse(request, env, { error: '請提供有效的 overrides 物件' }, { status: 400 });
       }
       const cleaned = sanitizeData(overrides);
-      await writeJsonKV(env, 'overrides', cleaned);
-      return jsonResponse(request, env, { ok: true, count: Object.keys(cleaned).length, updatedAt: new Date().toISOString(), updatedBy: session.email });
+      checkOverrides(cleaned);
+      return jsonResponse(request, env, await overrideStore(env, {
+        changes: cleaned, expected: payload.expectedRevisions, actor: session.email,
+      }));
     }
   }
 
@@ -530,30 +548,23 @@ async function handleAdmin(request, env, url) {
     if (!/^[A-Za-z0-9_\-]{1,64}$/.test(code)) {
       return jsonResponse(request, env, { error: '無效的代碼' }, { status: 400 });
     }
-    const overrides = await readJsonKV(env, 'overrides', {});
-
     if (request.method === 'PUT') {
       const raw = await readJsonBody(request, MAX_SINGLE_BODY);
       if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
         return jsonResponse(request, env, { error: '請提供有效的物件' }, { status: 400 });
       }
       const payload = sanitizeData(raw);
-      const updatedAt = new Date().toISOString();
-      const next = {
-        ...payload,
-        updatedAt: payload.updatedAt || updatedAt,
-        updatedBy: payload.updatedBy || session.email,
-      };
-      overrides[code] = next;
-      await writeJsonKV(env, 'overrides', overrides);
-      await writeJsonKV(env, `override:${code}`, next);
-      return jsonResponse(request, env, { ok: true, code, updatedAt: next.updatedAt });
+      checkOverrides({ [code]: payload });
+      const revision = request.headers.get('If-Match');
+      const saved = await overrideStore(env, { changes: { [code]: payload },
+        expected: revision === null ? {} : { [code]: revision }, actor: session.email });
+      return jsonResponse(request, env, { ok: true, code, data: saved.overrides[code], updatedAt: saved.overrides[code].updatedAt });
     }
 
     if (request.method === 'DELETE') {
-      delete overrides[code];
-      await writeJsonKV(env, 'overrides', overrides);
-      await env.ELECTION_KV.delete(`override:${code}`);
+      const revision = request.headers.get('If-Match');
+      await overrideStore(env, { changes: { [code]: null },
+        expected: revision === null ? {} : { [code]: revision }, actor: session.email });
       return jsonResponse(request, env, { ok: true, code });
     }
   }
@@ -561,6 +572,9 @@ async function handleAdmin(request, env, url) {
   const kvMatch = path.match(/^kv\/([^/]+)$/);
   if (kvMatch && request.method === 'PUT') {
     const key = decodeURIComponent(kvMatch[1]);
+    if (key === 'overrides' || key.startsWith('override:') || key.startsWith('backup:overrides:')) {
+      throw new HttpError(409, '候選人資料請使用 /api/admin/overrides 版本化儲存介面。');
+    }
     if (!/^[A-Za-z0-9_:\-]{1,80}$/.test(key) || key.startsWith('photo:')) {
       return jsonResponse(request, env, { error: '無效的 key' }, { status: 400 });
     }
