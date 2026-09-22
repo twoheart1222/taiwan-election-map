@@ -95,9 +95,6 @@ function extractCountyRows(records) {
 }
 
 function aggregateCountyRows(rows) {
-  // VoteRecords may contain duplicated rows for president and vice-president on
-  // the same ticket. Collapse identical ticket totals inside the ORIGINAL county,
-  // then normalize historical county names and sum only genuine merger units.
   const originalTickets = new Map();
   for (const r of rows) {
     const originalCounty = clean(r.CountyCityName).replaceAll('台', '臺');
@@ -179,7 +176,7 @@ async function main() {
   const byYear = new Map(archive.elections.map(e => [Number(e.year), e]));
   const output = {
     schemaVersion: 1,
-    generatedAt: new Date().toISOString(),
+    generator: 'scripts/build-presidential-history.mjs',
     boundaryMode: 'current-22-normalized',
     boundaryNote: '跨屆比較使用現行 22 縣市邊界。舊臺北縣對應新北市、桃園縣對應桃園市；2010 合併前的臺中縣市、臺南縣市、高雄縣市票數分別加總。',
     source: {
