@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" type="image/png" sizes="512x512" href="/favicon.png">
+<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<title>鄉鎮市區選舉地圖｜島民觀察室</title>
+<meta name="description" content="2020、2024 總統副總統選舉鄉鎮市區得票互動地圖。">
+<meta name="theme-color" content="#0d0d0d">
+<meta name="color-scheme" content="dark">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d0d0d;--panel:#151311;--panel2:#1d1a17;--line:#302c27;--text:#f4f1ea;--muted:#918b82;--red:#E4022B;--yellow:#f6c945}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:'Noto Sans TC',system-ui,sans-serif}body{min-height:100vh}a{color:inherit;text-decoration:none}button{font:inherit}::selection{background:var(--red);color:#fff}
+.site-nav{position:sticky;top:0;z-index:60;height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(16px,4vw,48px);background:rgba(13,13,13,.93);backdrop-filter:blur(12px);border-bottom:1px solid #1c1a17}.brand{display:flex;align-items:center;gap:10px;font:900 16px 'Archivo','Noto Sans TC';letter-spacing:-.02em}.brand-mark{width:42px;height:36px;object-fit:contain;padding:4px 5px;background:#f4f1ea;border-radius:8px}.nav-right{display:flex;align-items:center;gap:18px;font-weight:800;font-size:12px;color:#aaa39a}.nav-right a:hover{color:var(--red)}
+.hero{padding:34px clamp(16px,4vw,48px) 24px;border-bottom:1px solid #1c1a17;background:radial-gradient(85% 130% at 18% -20%,#23191a 0%,#0d0d0d 62%)}.crumb{display:flex;align-items:center;gap:8px;color:#817a72;font-size:12px;font-weight:800}.crumb a:hover{color:var(--red)}.crumb b{color:#d8d2ca}.kicker{margin-top:22px;font:800 10px 'Archivo';letter-spacing:.25em;color:var(--red)}.hero h1{margin:8px 0 0;font-size:clamp(36px,6vw,74px);line-height:.95;letter-spacing:-.05em}.hero p{margin:16px 0 0;color:#9a938b;line-height:1.75;font-size:13px;max-width:720px}
+.layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(350px,.75fr);min-height:700px}.map-panel{position:relative;min-height:720px;border-right:1px solid #1c1a17;background:radial-gradient(90% 90% at 48% 44%,#171512 0%,#0d0d0d 70%)}#map{position:absolute;inset:70px 26px 64px}.map-head{position:absolute;z-index:5;top:24px;left:clamp(18px,3vw,38px);right:clamp(18px,3vw,38px);display:flex;align-items:center;justify-content:space-between;gap:16px}.map-head small{display:block;color:var(--red);font:800 10px 'Archivo';letter-spacing:.18em}.map-head strong{display:block;margin-top:4px;font-size:20px}.back{border:1px solid #39342f;border-radius:999px;padding:8px 12px;color:#c9c1b8;font-size:11px;font-weight:900;background:#171411}.back:hover{border-color:var(--red);color:#fff}.town{stroke:#4a4540;stroke-width:.8;vector-effect:non-scaling-stroke;cursor:pointer;transition:filter .15s,stroke .15s}.town:hover{stroke:#fff;filter:brightness(1.15)}.town.selected{stroke:#fff;stroke-width:2}.tooltip{position:fixed;z-index:100;pointer-events:none;display:none;background:#f4f1ea;color:#0d0d0d;border-radius:10px;padding:9px 11px;box-shadow:0 12px 35px rgba(0,0,0,.35);font-size:12px;font-weight:800;line-height:1.5}
+.side{padding:clamp(24px,4vw,42px);background:#12100e}.eyebrow{font:800 10px 'Archivo';letter-spacing:.2em;color:#918b82}.side h2{margin:8px 0 0;font-size:30px;letter-spacing:-.03em}.county-summary{margin-top:18px;padding:16px;border:1px solid #37322d;border-radius:14px;background:#181512}.summary-row{display:flex;justify-content:space-between;gap:14px;align-items:flex-end}.summary-row strong{font:900 22px 'Archivo'}.summary-row span{font-size:11px;color:#8f8981}.section{margin-top:26px;border-top:1px solid var(--line);padding-top:22px}.section-label{font:800 10px 'Archivo';letter-spacing:.18em;color:#918b82;margin-bottom:10px}.candidate{border-bottom:1px solid #292521;padding:11px 0}.candidate:last-child{border-bottom:0}.cand-main{display:flex;justify-content:space-between;gap:12px}.cand-name{font-weight:900;font-size:14px}.cand-party{font-size:10px;color:#817a72;margin-top:2px}.cand-votes{text-align:right;font:900 14px 'Archivo'}.cand-votes small{display:block;font-size:10px;color:#817a72;margin-top:2px}.empty{border:1px dashed #3c3732;border-radius:14px;padding:18px;color:#918b82;font-size:12px;line-height:1.8}.town-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;max-height:340px;overflow:auto}.town-btn{border:1px solid #302c27;border-radius:10px;background:#171411;color:#bdb5ac;padding:9px 10px;text-align:left;cursor:pointer;font-size:11px;font-weight:800}.town-btn:hover,.town-btn.on{border-color:var(--red);color:#fff}.source{margin-top:24px;color:#6f6962;font-size:10px;line-height:1.7}.source a{text-decoration:underline;text-underline-offset:3px}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.map-panel{min-height:560px;border-right:0;border-bottom:1px solid #1c1a17}.side{padding-bottom:54px}}@media(max-width:520px){.site-nav{height:56px}.nav-right{display:none}.hero h1{font-size:48px}.map-panel{min-height:500px}#map{inset:76px 6px 54px}.town-list{grid-template-columns:repeat(3,minmax(0,1fr))}}
+</style>
+<link rel="stylesheet" href="./product-ui.css">
+</head>
+<body>
+<nav class="site-nav"><a class="brand" href="../"><img class="brand-mark" src="/assets/brand/formosa-mark.png" alt=""><span>島民觀察室</span></a><div class="nav-right"><a href="./">歷年選舉</a><a href="../">2026 選舉地圖</a></div></nav>
+<header class="hero">
+  <div class="crumb"><a id="history-link" href="./">歷年選舉</a><span>›</span><b id="crumb-county">縣市</b></div>
+  <div class="kicker">COUNTY → TOWNSHIP / DISTRICT</div>
+  <h1 id="hero-title">鄉鎮市區選舉地圖</h1>
+  <p id="hero-copy">點選地圖上的鄉鎮市區，查看各組候選人的得票與得票率。</p>
+</header>
+<main class="layout">
+  <section class="map-panel">
+    <div class="map-head"><div><small id="map-kicker">TOWNSHIP MAP</small><strong id="map-title"></strong></div><a id="back-link" class="back" href="./">← 返回全台</a></div>
+    <svg id="map" role="img" aria-label="鄉鎮市區選舉地圖"></svg>
+  </section>
+  <aside class="side">
+    <div class="eyebrow">COUNTY RESULT</div>
+    <h2 id="county-title"></h2>
+    <div id="county-summary" class="county-summary"></div>
+    <div class="section"><div class="section-label">選取鄉鎮市區 / TOWNSHIP RESULT</div><div id="town-detail" class="empty">請從地圖或下方列表選擇一個鄉鎮市區。</div></div>
+    <div class="section"><div class="section-label">快速選擇 / TOWNSHIPS</div><div id="town-list" class="town-list"></div></div>
+    <div class="source">資料來源：中央選舉委員會原始選舉資料整理。2020 使用中選會資料之 processed region-level CSV；2024 使用中選會原始 elbase / elctks 鏡像。地理界線使用 Ministry of the Interior 衍生之 taiwan-atlas TopoJSON。</div>
+  </aside>
+</main>
+<div id="tooltip" class="tooltip"></div>
+<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+<script>
+const PARTY_COLORS={DPP:'#2daf5d',KMT:'#3b82f6',TPP:'#28c4c7',PFP:'#f59e0b',NP:'#f6c945',IND:'#9b948a'};
+const fmt=new Intl.NumberFormat('zh-TW');
+const $=id=>document.getElementById(id);
+const params=new URLSearchParams(location.search);
+const year=Number(params.get('year')||2024);
+const county=normalize(params.get('county')||'臺北市');
+let election,townData,countyData,features=[],path,svg,selected=null;
+
+function normalize(v){return String(v||'').replaceAll('台','臺').replace(/\s+/g,'').trim()}
+function nationalCandidate(no){return election?.candidates?.find(c=>String(c.no)===String(no))||null}
+function partyColor(no){const c=nationalCandidate(no);return PARTY_COLORS[c?.partyKey]||PARTY_COLORS.IND}
+function featureTown(f){return normalize(f?.properties?.TOWNNAME||'')}
+function featureCounty(f){return normalize(f?.properties?.COUNTYNAME||'')}
+function resultForTown(name){return townData?.years?.[String(year)]?.counties?.[county]?.[normalize(name)]||null}
+
+function renderCountySummary(){
+  const c=countyData?.years?.[String(year)]?.counties?.[county];
+  if(!c){$('county-summary').innerHTML='<div class="empty">找不到縣市結果。</div>';return}
+  const winner=nationalCandidate(c.winnerNo);
+  $('county-summary').innerHTML=`<div class="summary-row"><div><span>${year} ${county}勝方</span><div style="margin-top:5px;font-weight:900">${winner?.president||'—'} <small style="color:#817a72">${winner?.party||''}</small></div></div><div style="text-align:right"><strong>${fmt.format(c.validVotes)}</strong><span>有效票</span></div></div>`;
+}
+
+function renderTownDetail(name){
+  const r=resultForTown(name);
+  if(!r){$('town-detail').className='empty';$('town-detail').textContent=`${name} 暫無資料。`;return}
+  selected=name;
+  const winner=nationalCandidate(r.winnerNo);
+  $('town-detail').className='';
+  $('town-detail').innerHTML=`<div class="county-summary" style="margin-top:0"><div class="summary-row"><div><span>領先</span><div style="margin-top:5px;font-weight:900"><i style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${partyColor(r.winnerNo)};margin-right:7px"></i>${winner?.president||'—'}</div></div><div style="text-align:right"><strong>${fmt.format(r.margin)}</strong><span>勝差票數</span></div></div><div style="margin-top:10px;color:#817a72;font-size:10px">有效票 ${fmt.format(r.validVotes)}</div></div><div style="margin-top:10px">${r.candidates.map(c=>{const meta=nationalCandidate(c.no);return `<div class="candidate"><div class="cand-main"><div><div class="cand-name">${meta?.president||c.name}</div><div class="cand-party">${meta?.party||c.party}</div></div><div class="cand-votes">${fmt.format(c.votes)}<small>${c.share.toFixed(2)}%</small></div></div></div>`}).join('')}</div>`;
+  document.querySelectorAll('.town-btn').forEach(b=>b.classList.toggle('on',normalize(b.dataset.town)===normalize(name)));
+  if(svg)svg.selectAll('.town').classed('selected',d=>featureTown(d)===normalize(name));
+}
+
+function draw(){
+  const node=$('map');
+  const w=Math.max(320,node.clientWidth||700),h=Math.max(320,node.clientHeight||600);
+  d3.select(node).selectAll('*').remove();
+  svg=d3.select(node).attr('viewBox',`0 0 ${w} ${h}`);
+  const projection=d3.geoMercator().fitExtent([[20,20],[w-20,h-20]],{type:'FeatureCollection',features});
+  path=d3.geoPath(projection);
+  const tip=$('tooltip');
+  svg.selectAll('path').data(features).join('path').attr('class','town').attr('d',path).attr('fill',d=>{const r=resultForTown(featureTown(d));return r?partyColor(r.winnerNo):'#27231f'}).on('mousemove',(event,d)=>{const name=featureTown(d),r=resultForTown(name),winner=r?nationalCandidate(r.winnerNo):null;tip.style.display='block';tip.style.left=`${event.clientX+13}px`;tip.style.top=`${event.clientY+13}px`;tip.innerHTML=r?`${name}<br>${winner?.president||'—'}領先 ${fmt.format(r.margin)} 票`:name}).on('mouseleave',()=>tip.style.display='none').on('click',(_,d)=>renderTownDetail(featureTown(d)));
+}
+
+async function init(){
+  $('history-link').href=`./?year=${year}`;$('back-link').href=`./?year=${year}`;$('crumb-county').textContent=county;$('hero-title').textContent=`${year} ${county}`;$('map-title').textContent=`${county}鄉鎮市區`;$('county-title').textContent=`${year} ${county}`;
+  try{
+    const [nationalRes,townRes,countyRes,topologyRes]=await Promise.all([
+      fetch('../data/history/presidential.json'),fetch('../data/history/presidential-towns.json'),fetch('../data/history/presidential-counties.json'),fetch('https://cdn.jsdelivr.net/npm/taiwan-atlas/towns-10t.json')
+    ]);
+    if(!nationalRes.ok||!townRes.ok||!countyRes.ok||!topologyRes.ok)throw new Error('資料載入失敗');
+    const [national,topTown,topCounty,topology]=await Promise.all([nationalRes.json(),townRes.json(),countyRes.json(),topologyRes.json()]);
+    election=national.elections.find(e=>Number(e.year)===year);townData=topTown;countyData=topCounty;
+    if(!election)throw new Error(`找不到 ${year} 全國選舉資料`);
+    if(!townData.years?.[String(year)])throw new Error(`${year} 尚未開放鄉鎮市區下探，目前先支援 2020、2024。`);
+    const all=topojson.feature(topology,topology.objects.towns).features;
+    features=all.filter(f=>featureCounty(f)===county);
+    if(!features.length)throw new Error(`找不到 ${county} 的鄉鎮市區界線`);
+    const available=townData.years[String(year)].counties?.[county]||{};
+    $('town-list').innerHTML=Object.keys(available).sort((a,b)=>a.localeCompare(b,'zh-Hant')).map(name=>`<button class="town-btn" data-town="${name}">${name}</button>`).join('');
+    document.querySelectorAll('.town-btn').forEach(b=>b.addEventListener('click',()=>renderTownDetail(b.dataset.town)));
+    renderCountySummary();draw();
+  }catch(err){$('town-detail').className='empty';$('town-detail').innerHTML=`<strong style="color:#ddd">目前無法顯示</strong><br>${err.message}`;$('town-list').innerHTML='';}
+}
+window.addEventListener('resize',()=>features.length&&draw());
+init();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="./product-ui.js"></script>
+</body>
+</html>

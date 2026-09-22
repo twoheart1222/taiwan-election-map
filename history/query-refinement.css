@@ -1,0 +1,26 @@
+.archive-type-select{letter-spacing:.01em}
+.archive-type-select option:disabled{color:#6d675f}
+.archive-query-statebar{display:flex;align-items:center;gap:10px;margin-top:12px;padding-top:11px;border-top:1px solid #28241f;min-width:0}
+.archive-query-state-label{flex:none;color:#6f6961;font:800 9px 'Archivo','Noto Sans TC';letter-spacing:.14em}
+.archive-query-path{display:flex;align-items:center;gap:6px;min-width:0;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.archive-query-path::-webkit-scrollbar{display:none}
+.archive-query-chip{display:inline-flex;align-items:center;min-height:28px;flex:0 0 auto;padding:5px 9px;border:1px solid #39342f;border-radius:999px;background:#151311;color:#d0c9c0;font-size:10px;font-weight:900;white-space:nowrap}
+.archive-query-chip.type{border-color:rgba(228,2,43,.42);background:#241113;color:#fff}
+.archive-query-chip.type::before{content:'';width:6px;height:6px;margin-right:6px;border-radius:50%;background:#E4022B}
+.archive-query-sep{flex:0 0 auto;color:#514c46;font:800 11px 'Archivo'}
+.archive-query-reset{flex:none;min-height:30px;border:1px solid #39342f;border-radius:8px;background:transparent;color:#8e877e;padding:0 10px;font-size:10px;font-weight:900;cursor:pointer;transition:border-color .18s,color .18s,background .18s}
+.archive-query-reset:hover{border-color:#706960;color:#f4f1ea;background:#181512}
+.archive-query-reset:focus-visible{outline:2px solid #f6c945;outline-offset:2px}
+
+@media(max-width:760px){
+  .archive-query-statebar{gap:8px;align-items:flex-start}
+  .archive-query-state-label{padding-top:8px}
+}
+@media(max-width:520px){
+  .archive-query-statebar{display:grid;grid-template-columns:1fr auto;gap:8px}
+  .archive-query-state-label{grid-column:1;padding:0}
+  .archive-query-reset{grid-column:2;grid-row:1/3;min-height:40px;align-self:center}
+  .archive-query-path{grid-column:1;flex-wrap:wrap;overflow:visible;gap:5px}
+  .archive-query-chip{min-height:30px}
+  .archive-query-sep{display:none}
+}

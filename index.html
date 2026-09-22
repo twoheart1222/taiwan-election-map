@@ -82,6 +82,9 @@
   .candidate-main{display:grid;grid-template-columns:88px minmax(0,1fr);gap:16px;align-items:center}
   .candidate-photo{width:88px;height:88px;overflow:hidden;border-radius:50%;background:#2a2723;display:grid;place-items:center;font-family:'Noto Sans TC';font-weight:900;font-size:28px;color:#f4f1ea}
   .candidate-title-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .candidate-card.search-target-ring{position:relative;isolation:isolate}
+  .candidate-card.search-target-ring::after{content:"";position:absolute;inset:-3px;z-index:3;padding:3px;border-radius:23px;pointer-events:none;background:conic-gradient(from 0turn,transparent 0turn .72turn,#f6a06b .86turn,#E4022B 1turn);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;transform:rotate(0turn);animation:candidate-ring-once 1.15s linear 1 forwards}
+  @keyframes candidate-ring-once{0%{opacity:0;transform:rotate(0turn)}10%{opacity:1}88%{opacity:1}100%{opacity:0;transform:rotate(1turn)}}
   .drawer{font-family:'Noto Sans TC',system-ui,sans-serif}
   .map-hero{height:calc(100dvh - 60px) !important}
   .candidate-search{position:relative;width:fit-content;max-width:min(360px,calc(100vw - 32px));margin-top:20px;pointer-events:auto}
@@ -258,6 +261,7 @@
       </div>
       <div class="nav-actions" style="display:flex;align-items:center;gap:clamp(10px,2vw,26px);font-family:'Archivo';font-weight:600;font-size:13px;letter-spacing:.04em;flex:none">
         <a href="#" data-view="map" class="navlink on">選舉地圖</a>
+        <a href="./history/" class="navlink">歷年選舉</a>
         <a href="#" data-view="observatory" class="navlink">政治觀察</a>
         <a href="#about" data-section="about" class="navlink">關於我們</a>
         <a href="#" data-view="support" style="display:inline-flex;align-items:center;gap:7px;padding:8px 16px;background:#E4022B;color:#fff;border-radius:999px;font-weight:800">支持島民觀察室</a>
@@ -268,6 +272,7 @@
       <button id="mobile-menu-toggle" class="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="開啟頁面選單"><span class="ham-lines" aria-hidden="true"><i></i><i></i><i></i></span></button>
       <div id="mobile-menu" class="mobile-menu" aria-label="手機頁面選單">
         <a href="#" data-view="map">選舉地圖 <span aria-hidden="true">→</span></a>
+        <a href="./history/">歷年選舉 <span aria-hidden="true">→</span></a>
         <a href="#" data-view="observatory">政治觀察 <span aria-hidden="true">→</span></a>
         <a href="#about" data-section="about">關於我們 <span aria-hidden="true">→</span></a>
         <a href="#" data-view="support">支持島民觀察室 <span aria-hidden="true">→</span></a>
@@ -1176,8 +1181,10 @@ class App {
       const el = [...box.children].find(n => norm(n.textContent).includes(norm(c.name)));
       if (!el) return;
       el.scrollIntoView({ block: 'center', behavior: 'smooth' });
-      el.style.outline = '2px solid #f6a06b'; el.style.outlineOffset = '3px';
-      setTimeout(() => { el.style.outline = ''; el.style.outlineOffset = ''; }, 3200);
+      el.classList.remove('search-target-ring');
+      void el.offsetWidth;
+      el.classList.add('search-target-ring');
+      el.addEventListener('animationend', () => el.classList.remove('search-target-ring'), { once: true });
     }, 900);
   }
 
@@ -2182,9 +2189,10 @@ class App {
     this._setDrawerLock(true);
     this._drawerOpen = true; this._applyViewOffset();
   }
-  _setDrawerLock(locked) {
-    document.documentElement.style.overflow = locked ? 'hidden' : '';
-    document.body.style.overflow = locked ? 'hidden' : '';
+  _setDrawerLock() {
+    // 抽屜本身已有獨立捲動區；不要鎖住整頁，否則搜尋完成後桌面與手機都無法繼續往下滑。
+    document.documentElement.style.removeProperty('overflow');
+    document.body.style.removeProperty('overflow');
   }
 
   // ---------- OBSERVATORY ----------
