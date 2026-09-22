@@ -126,9 +126,11 @@ function build2024(elbaseText, elctksText, election) {
   const townNames = new Map();
 
   // elbase: 省市, 縣市, 選區, 鄉鎮市區, 村里, 名稱
+  // Lower-level rows do not consistently use election district 00, so map by
+  // province/county/town codes and verify the final sums against county totals.
   for (const row of baseRows) {
     const [provinceCity, countyCode, district, townCode, villageCode, rawName] = row;
-    if (district !== '00' || villageCode !== '0000') continue;
+    if (villageCode !== '0000') continue;
     if (townCode === '000') {
       const county = normalizeName(rawName);
       if (provinceCity !== '00' && COUNTY_ORDER.includes(county)) countyNames.set(`${provinceCity}|${countyCode}`, county);
@@ -136,7 +138,7 @@ function build2024(elbaseText, elctksText, election) {
   }
   for (const row of baseRows) {
     const [provinceCity, countyCode, district, townCode, villageCode, rawName] = row;
-    if (district !== '00' || townCode === '000' || villageCode !== '0000') continue;
+    if (townCode === '000' || villageCode !== '0000') continue;
     const county = countyNames.get(`${provinceCity}|${countyCode}`);
     if (!county) continue;
     const town = normalizeName(rawName);
@@ -149,7 +151,7 @@ function build2024(elbaseText, elctksText, election) {
   // unique polling-place rows into townships, then verify back to county totals.
   for (const row of ticketRows) {
     const [provinceCity, countyCode, district, townCode, villageCode, poll, candidateNo, votes] = row;
-    if (district !== '00' || townCode === '000' || asInt(poll) === 0) continue;
+    if (townCode === '000' || asInt(poll) === 0) continue;
     const area = townNames.get(`${provinceCity}|${countyCode}|${townCode}`);
     if (!area) continue;
     const meta = election.candidates.find(c => String(c.no) === String(asInt(candidateNo)));
