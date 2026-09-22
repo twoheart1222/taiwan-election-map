@@ -13,6 +13,8 @@ on:
       - scripts/patch-history-product-ui.mjs
       - history/product-ui.css
       - history/product-ui.js
+      - history/archive-enhancements.css
+      - history/archive-enhancements.js
       - data/history/presidential.json
       - .github/workflows/build-presidential-history.yml
   workflow_dispatch:
