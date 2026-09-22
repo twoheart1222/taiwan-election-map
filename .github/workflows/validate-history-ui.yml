@@ -9,6 +9,8 @@ on:
       - history/town.html
       - history/product-ui.css
       - history/product-ui.js
+      - history/archive-enhancements.css
+      - history/archive-enhancements.js
       - scripts/validate-history-ui.mjs
       - .github/workflows/validate-history-ui.yml
   pull_request:
@@ -17,6 +19,8 @@ on:
       - history/town.html
       - history/product-ui.css
       - history/product-ui.js
+      - history/archive-enhancements.css
+      - history/archive-enhancements.js
       - scripts/validate-history-ui.mjs
       - .github/workflows/validate-history-ui.yml
   workflow_dispatch:
