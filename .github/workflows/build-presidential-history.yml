@@ -7,6 +7,7 @@ on:
     paths:
       - scripts/build-presidential-history.mjs
       - scripts/append-modern-presidential-history.mjs
+      - scripts/build-modern-presidential-towns.mjs
       - scripts/patch-history-nav.mjs
       - data/history/presidential.json
       - .github/workflows/build-presidential-history.yml
@@ -46,7 +47,7 @@ jobs:
         with:
           node-version: 22
 
-      - name: Download processed 2020 county results
+      - name: Download processed 2020 results
         shell: bash
         run: |
           mkdir -p .history-sources/2020
@@ -55,6 +56,7 @@ jobs:
             -o /tmp/presidential-2020.zip
           unzip -q -o /tmp/presidential-2020.zip -d .history-sources/2020
           test -f .history-sources/2020/presidential_counties.csv
+          test -f .history-sources/2020/presidential_regions.csv
 
       - name: Build and validate 1996–2016 county results
         run: node scripts/build-presidential-history.mjs
@@ -62,18 +64,21 @@ jobs:
       - name: Append and validate 2020–2024 county results
         run: node scripts/append-modern-presidential-history.mjs
 
+      - name: Build and validate 2020–2024 township results
+        run: node scripts/build-modern-presidential-towns.mjs
+
       - name: Add history navigation entry
         run: node scripts/patch-history-nav.mjs
 
       - name: Commit generated history data
         shell: bash
         run: |
-          if git diff --quiet -- data/history/presidential-counties.json index.html; then
+          if git diff --quiet -- data/history/presidential-counties.json data/history/presidential-towns.json index.html; then
             echo "Historical data and navigation are already up to date."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/history/presidential-counties.json index.html
-          git commit -m "data: build verified presidential county results"
+          git add data/history/presidential-counties.json data/history/presidential-towns.json index.html
+          git commit -m "data: build verified presidential history results"
           git push origin HEAD:feature/historical-election-map-20260922
