@@ -4,13 +4,14 @@
   const ISLANDS=['澎湖縣','金門縣','連江縣'];
   // 政黨資料：顏色取自各黨徽本身的品牌色（非中選會圖表用的淡色），黨徽圖檔直接連結各黨官網。
   // 若圖檔連結失效，badge 會自動退回「色塊＋簡稱」，不會顯示破圖。
+  // 黨徽圖檔改用站內資產（/assets/party-logos/），不再連到各黨官網，避免圖檔被移除或防盜連。
   const PARTY_META={
-    DPP:{name:'民主進步黨',abbr:'民',color:'#00A600',logo:'https://www.dpp.org.tw/contents/frontend/images/favicon.ico'},
-    KMT:{name:'中國國民黨',abbr:'國',color:'#000095',logo:'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjUcN-t6vnUINeiEYsiC06VKcQIC5bCwwMK6iphypaTaY5YNsXo0rNjhUsEDy5IU1JPJaI1Qygnkg0kOi5D5d1ruaKR_FVJxyoVjMT9wML5zsrGGPPOmKkpDrNbRIDC8ZngmsqlKMWb5GQX/s1600/kmt_logo.png'},
-    TPP:{name:'台灣民眾黨',abbr:'眾',color:'#28C8C8',logo:'https://www.tpp.org.tw/images/footer_logo2.png'},
-    NPP:{name:'時代力量',abbr:'力',color:'#FFC400',dark:true,logo:'https://newpowerparty.tw/wp-content/uploads/2024/10/icon.svg'},
-    PFP:{name:'親民黨',abbr:'親',color:'#FF6600'},
-    NP:{name:'新黨',abbr:'新',color:'#002FA7'},
+    DPP:{name:'民主進步黨',abbr:'民',color:'#00A600',logo:'/assets/party-logos/dpp.webp'},
+    KMT:{name:'中國國民黨',abbr:'國',color:'#000095',logo:'/assets/party-logos/kmt.webp'},
+    TPP:{name:'台灣民眾黨',abbr:'眾',color:'#28C8C8',logo:'/assets/party-logos/tpp.png'},
+    NPP:{name:'時代力量',abbr:'力',color:'#FFC400',dark:true,logo:'/assets/party-logos/npp.webp'},
+    PFP:{name:'親民黨',abbr:'親',color:'#FF6600',logo:'/assets/party-logos/pfp.webp'},
+    NP:{name:'新黨',abbr:'新',color:'#002FA7',logo:'/assets/party-logos/np.webp'},
     IND:{name:'其他／無黨籍',abbr:'無',color:'#9D9D9D'},
     OTHER:{name:'其他政黨',abbr:'他',color:'#B7A88E'},
   };
