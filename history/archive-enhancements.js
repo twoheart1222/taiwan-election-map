@@ -4,7 +4,6 @@
   const ISLANDS=['澎湖縣','金門縣','連江縣'];
   const $=s=>document.querySelector(s);
   const normalize=v=>String(v||'').replaceAll('台','臺').replace(/\s+/g,'').trim();
-  const fmt=new Intl.NumberFormat('zh-TW');
   let national=null,counties=null,topology=null,features=[];
   let compareActive=false,compareSelection=null,resizeTimer=null;
 
@@ -39,10 +38,7 @@
       d20:shareForParty(2020,r20,'DPP'),d24:shareForParty(2024,r24,'DPP'),
       k20:shareForParty(2020,r20,'KMT'),k24:shareForParty(2024,r24,'KMT')};
   }
-  function allComparisons(){
-    const names=Object.keys(counties?.years?.['2024']?.counties||{});
-    return names.map(compareRow).filter(Boolean);
-  }
+  function allComparisons(){return Object.keys(counties?.years?.['2024']?.counties||{}).map(compareRow).filter(Boolean)}
 
   function buildCompareUI(){
     const row=$('.toolbar-row');if(!row||$('#archive-compare-toggle'))return;
@@ -79,23 +75,24 @@
     document.querySelectorAll('.archive-flip').forEach(b=>b.classList.toggle('selected',normalize(b.dataset.county)===name));
   }
 
-  function syncBaseCountyNames(){
-    document.querySelectorAll('#map path.county').forEach(p=>{const n=featureName(p.__data__);if(n)p.dataset.county=n});
-  }
+  function syncBaseCountyNames(){document.querySelectorAll('#map path.county').forEach(p=>{const n=featureName(p.__data__);if(n)p.dataset.county=n})}
   function mapPaths(){syncBaseCountyNames();return [...document.querySelectorAll('#map path.county,#mobile-map path.archive-county')]}
-  function clearCompareClasses(p){p.classList.remove('archive-flipped','archive-compare-muted','archive-compare-selected')}
+  function clearCompareState(p){
+    delete p.dataset.compareFlip;delete p.dataset.compareMuted;delete p.dataset.compareSelected;
+    p.classList.remove('archive-flipped','archive-compare-muted','archive-compare-selected');
+  }
   function styleComparisonMaps(){
     if(!compareActive)return;
     mapPaths().forEach(p=>{
       const name=normalize(p.dataset.county||featureName(p.__data__)),r=compareRow(name);if(!r)return;
       p.style.fill=partyColor(r.p24);
-      p.classList.toggle('archive-flipped',r.flip);
-      p.classList.toggle('archive-compare-muted',!r.flip);
-      p.classList.toggle('archive-compare-selected',compareSelection===name);
+      p.dataset.compareFlip=String(r.flip);
+      p.dataset.compareMuted=String(!r.flip);
+      p.dataset.compareSelected=String(compareSelection===name);
     });
   }
   function restoreMaps(){
-    mapPaths().forEach(p=>{clearCompareClasses(p);p.style.opacity='';p.style.stroke='';p.style.strokeWidth='';p.style.filter=''});
+    mapPaths().forEach(p=>{clearCompareState(p);p.style.opacity='';p.style.stroke='';p.style.strokeWidth='';p.style.filter=''});
     if(typeof window.paintMap==='function')window.paintMap();
     renderMobileMap();
   }
