@@ -13,6 +13,7 @@ body.history-product .nav-right a{color:#b6afa4;transition:color .2s ease,opacit
 body.history-product .nav-right a:hover,body.history-product .nav-right .on{color:#E4022B}
 
 .history-mobile-toggle,.history-mobile-menu{display:none}
+.history-nav-title{display:none;color:#8f8880;font:800 11px 'Archivo','Noto Sans TC',sans-serif;letter-spacing:.04em;white-space:nowrap}
 .history-mobile-toggle{width:40px;height:40px;place-items:center;flex:none;border:1px solid #33302b;border-radius:6px;background:#171512;color:#f4f1ea;cursor:pointer;transition:background .28s ease,border-color .28s ease,color .28s ease}
 .history-mobile-toggle:focus-visible{outline:2px solid #E4022B;outline-offset:2px}
 .history-mobile-toggle.open{background:#E4022B;border-color:#E4022B;color:#fff}
@@ -94,7 +95,8 @@ body.history-town .candidate:hover{background:#171311;padding-left:8px;padding-r
   body.history-product .site-nav{height:56px;padding:8px 12px;gap:8px}
   body.history-product .brand{font-size:15px;white-space:nowrap;min-width:0}
   body.history-product .nav-right{display:none!important}
-  .history-mobile-toggle{display:grid;margin-left:auto}
+  .history-nav-title{display:block;min-width:0;margin-left:auto;overflow:hidden;text-overflow:ellipsis;color:#aaa39a;text-align:right}
+  .history-mobile-toggle{display:grid;margin-left:8px}
   .history-mobile-menu{display:block}
   .history-transition-center{padding:34px 20px}.history-transition-title{font-size:clamp(40px,15vw,72px);line-height:.94}.history-transition-kicker{font-size:10px;letter-spacing:.2em}
   body.history-archive .hero{padding:34px 16px 28px}

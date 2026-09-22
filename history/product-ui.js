@@ -22,6 +22,13 @@
     document.addEventListener('keydown',e=>{if(e.key==='Escape')setOpen(false)});
   }
 
+  function buildNavTitle(){
+    const nav=document.querySelector('.site-nav');if(!nav||nav.querySelector('.history-nav-title'))return;
+    const context=document.createElement('span');context.className='history-nav-title';
+    context.textContent=body.classList.contains('local-executive-page')?'歷年選舉 · 縣市長':isTown?'歷年選舉 · 鄉鎮結果':'歷年選舉 · 總統';
+    nav.insertBefore(context,nav.querySelector('.nav-right'));
+  }
+
   function buildTransition(){
     let veil=document.querySelector('.history-transition');
     if(veil)return veil;
@@ -70,13 +77,15 @@
   function initialReveal(fromTransition){
     if(reduce)return;
     const g=gs();if(!g)return;
-    const heroBits=[...document.querySelectorAll('.hero .kicker,.hero .crumb,.hero h1,.hero .hero-copy,.hero p,.archive-head .archive-breadcrumb,.archive-head h1,.archive-head .archive-intro,.archive-head .archive-year-nav,.local-hero .kicker,.local-hero h1,.local-hero p,.local-hero .archive-year-nav')];
+    const heroBits=[...document.querySelectorAll('.hero .kicker,.hero .crumb,.hero .hero-copy,.hero p,.archive-head .archive-breadcrumb,.archive-head .archive-intro,.archive-head .archive-year-nav,.local-hero .kicker,.local-hero p,.local-hero .archive-year-nav')];
+    const headings=[...document.querySelectorAll('.hero h1,.archive-head h1,.local-hero h1')];
     const panels=[...(isTown?document.querySelectorAll('.map-panel,.side'):document.querySelectorAll('.map-panel,.result-panel'))];
-    g.set(heroBits,{willChange:'transform,opacity'});g.set(panels,{willChange:'transform,opacity'});
+    g.set(heroBits,{willChange:'transform,opacity'});g.set(headings,{willChange:'transform,opacity'});g.set(panels,{willChange:'transform,opacity'});
     const timeline=g.timeline({delay:fromTransition?.22:.08,defaults:{ease:'power3.out'}});
+    if(headings.length)timeline.fromTo(headings,{y:10,autoAlpha:.72},{y:0,autoAlpha:1,duration:.45,stagger:.04},0);
     if(heroBits.length)timeline.fromTo(heroBits,{y:22,autoAlpha:0},{y:0,autoAlpha:1,duration:.72,stagger:.07},0);
     if(panels.length)timeline.fromTo(panels,{y:18,autoAlpha:0},{y:0,autoAlpha:1,duration:.82,stagger:.08,ease:'expo.out'},.18);
-    timeline.add(()=>{g.set([...heroBits,...panels],{clearProps:'willChange'})});
+    timeline.add(()=>{g.set([...heroBits,...headings,...panels],{clearProps:'willChange'})});
   }
 
   function animateReplacement(target,selector){
@@ -168,7 +177,7 @@
 
   window.historyNavigate=navigate;
   addEventListener('history:contentchange',animateContentChange);
-  buildMobileNav();buildTransition();watchDynamic();enhanceYearSwitch();enableElectionTypeRouting();interceptNavigation();navScroll();mobileSafety();
+  buildNavTitle();buildMobileNav();buildTransition();watchDynamic();enhanceYearSwitch();enableElectionTypeRouting();interceptNavigation();navScroll();mobileSafety();
   const fromTransition=inboundTransition();
   if(document.readyState==='complete')initialReveal(fromTransition);else addEventListener('load',()=>initialReveal(fromTransition),{once:true});
 })();
