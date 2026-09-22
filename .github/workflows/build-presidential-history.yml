@@ -1,0 +1,50 @@
+name: Build presidential history data
+
+on:
+  push:
+    branches:
+      - feature/historical-election-map-20260922
+    paths:
+      - scripts/build-presidential-history.mjs
+      - scripts/patch-history-nav.mjs
+      - data/history/presidential.json
+      - .github/workflows/build-presidential-history.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-history:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout feature branch
+        uses: actions/checkout@v4
+        with:
+          ref: feature/historical-election-map-20260922
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Build and validate county results
+        run: node scripts/build-presidential-history.mjs
+
+      - name: Add history navigation entry
+        run: node scripts/patch-history-nav.mjs
+
+      - name: Commit generated history data
+        shell: bash
+        run: |
+          if git diff --quiet -- data/history/presidential-counties.json index.html; then
+            echo "Historical data and navigation are already up to date."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/history/presidential-counties.json index.html
+          git commit -m "data: build verified presidential county results"
+          git push origin HEAD:feature/historical-election-map-20260922
