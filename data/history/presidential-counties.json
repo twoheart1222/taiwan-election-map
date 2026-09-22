@@ -1,0 +1,5142 @@
+{
+  "schemaVersion": 1,
+  "generator": "scripts/build-presidential-history.mjs",
+  "boundaryMode": "current-22-normalized",
+  "boundaryNote": "跨屆比較使用現行 22 縣市邊界。舊臺北縣對應新北市、桃園縣對應桃園市；2010 合併前的臺中縣市、臺南縣市、高雄縣市票數分別加總。",
+  "source": {
+    "primary": "中央選舉委員會選舉資料庫",
+    "mirror": "MISNUK/CECDataSet",
+    "mirrorUrl": "https://github.com/MISNUK/CECDataSet",
+    "coverage": "1996–2024",
+    "modernAdapters": [
+      "2020: everdark/TW_Presidential_Election_2020 release 0.4 county CSV",
+      "2024: kiang/db.cec.gov.tw CEC raw elbase/elctks mirror"
+    ]
+  },
+  "years": {
+    "1996": {
+      "sourceUrl": "https://raw.githubusercontent.com/MISNUK/CECDataSet/master/data/1996_%E7%AC%AC09%E4%BB%BB%E7%B8%BD%E7%B5%B1%EF%BC%88%E5%89%AF%E7%B8%BD%E7%B5%B1%EF%BC%89%E9%81%B8%E8%88%89/VoteRecords.csv",
+      "counties": {
+        "臺北市": {
+          "validVotes": 1392429,
+          "winnerNo": "2",
+          "margin": 195449,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳履安、王清峰",
+              "party": "無",
+              "votes": 165541,
+              "share": 11.8886
+            },
+            {
+              "no": "2",
+              "name": "李登輝、連戰",
+              "party": "中國國民黨",
+              "votes": 541721,
+              "share": 38.9047
+            },
+            {
+              "no": "3",
+              "name": "彭明敏、謝長廷",
+              "party": "民主進步黨",
+              "votes": 338895,
+              "share": 24.3384
+            },
+            {
+              "no": "4",
+              "name": "林洋港、郝柏村",
+              "party": "無",
+              "votes": 346272,
+              "share": 24.8682
+            }
+          ]
+        },
+        "新北市": {
+          "validVotes": 1643960,
+          "winnerNo": "2",
+          "margin": 422990,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳履安、王清峰",
+              "party": "無",
+              "votes": 186973,
+              "share": 11.3733
+            },
+            {
+              "no": "2",
+              "name": "李登輝、連戰",
+              "party": "中國國民黨",
+              "votes": 793718,
+              "share": 48.2809
+            },
+            {
+              "no": "3",
+              "name": "彭明敏、謝長廷",
+              "party": "民主進步黨",
+              "votes": 370728,
+              "share": 22.5509
+            },
+            {
+              "no": "4",
+              "name": "林洋港、郝柏村",
+              "party": "無",
+              "votes": 292541,
+              "share": 17.7949
+            }
+          ]
+        },
+        "桃園市": {
+          "validVotes": 757754,
+          "winnerNo": "2",
+          "margin": 294591,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳履安、王清峰",
+              "party": "無",
+              "votes": 91048,
+              "share": 12.0155
+            },
+            {
+              "no": "2",
+              "name": "李登輝、連戰",
+              "party": "中國國民黨",
+              "votes": 423198,
+              "share": 55.849
+            },
+            {
+              "no": "3",
+              "name": "彭明敏、謝長廷",
+              "party": "民主進步黨",
+              "votes": 114901,
+              "share": 15.1634
+            },
+            {
+              "no": "4",
+              "name": "林洋港、郝柏村",
+              "party": "無",
+              "votes": 128607,
+              "share": 16.9721
+            }
+          ]
+        },
+        "臺中市": {
+          "validVotes": 1130960,
+          "winnerNo": "2",
+          "margin": 425083,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳履安、王清峰",
+              "party": "無",
+              "votes": 117874,
+              "share": 10.4225
+            },
+            {
+              "no": "2",
+              "name": "李登輝、連戰",
+              "party": "中國國民黨",
+              "votes": 622533,
+              "share": 55.0447
+            },
+            {
+              "no": "3",
+              "name": "彭明敏、謝長廷",
+              "party": "民主進步黨",
+              "votes": 197450,
+              "share": 17.4586
+            },
+            {
+              "no": "4",
+              "name": "林洋港、郝柏村",
+              "party": "無",
+              "votes": 193103,
+              "share": 17.0743
+            }
+          ]
+        },
+        "臺南市": {
+          "validVotes": 907673,
+          "winnerNo": "2",
+          "margin": 329363,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳履安、王清峰",
+              "party": "無",
+              "votes": 80321,
+              "share": 8.8491
+            },
+            {
+              "no": "2",
+              "name": "李登輝、連戰",
+              "party": "中國國民黨",
+              "votes": 549261,
+              "share": 60.5131
+            },
+            {
+              "no": "3",
+              "name": "彭明敏、謝長廷",
+              "party": "民主進步黨",
+              "votes": 219898,
+              "share": 24.2266
+            },
+            {
+              "no": "4",
+              "name": "林洋港、郝柏村",
+              "party": "無",
+              "votes": 58193,
+              "share": 6.4112
+            }
+          ]
+        },
+        "高雄市": {
+          "validVotes": 1358904,
+          "winnerNo": "2",
+          "margin": 393428,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳履安、王清峰",
+              "party": "無",
+              "votes": 115948,
+              "share": 8.5325
+            },
+            {
+              "no": "2",
+              "name": "李登輝、連戰",
+              "party": "中國國民黨",
+              "votes": 745777,
+              "share": 54.8808
+            },
+            {
+              "no": "3",
+              "name": "彭明敏、謝長廷",
+              "party": "民主進步黨",
+              "votes": 352349,
+              "share": 25.9289
+            },
+            {
+              "no": "4",
+              "name": "林洋港、郝柏村",
+              "party": "無",
+              "votes": 144830,
+              "share": 10.6579
+            }
+          ]
+        },
+        "基隆市": {
+          "validVotes": 193407,
+          "winnerNo": "2",
+          "margin": 61245,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳履安、王清峰",
+              "party": "無",
+              "votes": 25950,
+              "share": 13.4173
+            },
+            {
+              "no": "2",
+              "name": "李登輝、連戰",
+              "party": "中國國民黨",
+              "votes": 97223,
+              "share": 50.2686
+            },
+            {
+              "no": "3",
+              "name": "彭明敏、謝長廷",
+              "party": "民主進步黨",
+              "votes": 34256,
+              "share": 17.7119
+            },
+            {
+              "no": "4",
+              "name": "林洋港、郝柏村",
+              "party": "無",
+              "votes": 35978,
+              "share": 18.6022
+            }
+          ]
+        },
+        "新竹市": {
+          "validVotes": 174851,
+          "winnerNo": "2",
+          "margin": 63657,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳履安、王清峰",
+              "party": "無",
+              "votes": 22603,
+              "share": 12.927
+            },
+            {
+              "no": "2",
+              "name": "李登輝、連戰",
+              "party": "中國國民黨",
+              "votes": 93812,
+              "share": 53.6525
+            },
+            {
+              "no": "3",
+              "name": "彭明敏、謝長廷",
+              "party": "民主進步黨",
+              "votes": 28281,
+              "share": 16.1743
+            },
+            {
+              "no": "4",
+              "name": "林洋港、郝柏村",
+              "party": "無",
+              "votes": 30155,
+              "share": 17.2461
+            }
+          ]
+        },
+        "嘉義市": {
+          "validVotes": 128888,
+          "winnerNo": "2",
+          "margin": 17644,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳履安、王清峰",
+              "party": "無",
+              "votes": 12761,
+              "share": 9.9008
+            },
+            {
+              "no": "2",
+              "name": "李登輝、連戰",
+              "party": "中國國民黨",
+              "votes": 60628,
+              "share": 47.0393
+            },
+            {
+              "no": "3",
+              "name": "彭明敏、謝長廷",
+              "party": "民主進步黨",
+              "votes": 42984,
+              "share": 33.3499
+            },
+            {
+              "no": "4",
+              "name": "林洋港、郝柏村",
+              "party": "無",
+              "votes": 12515,
+              "share": 9.71
+            }
+          ]
+        },
+        "新竹縣": {
+          "validVotes": 211964,
+          "winnerNo": "2",
+          "margin": 115575,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳履安、王清峰",
+              "party": "無",
+              "votes": 24746,
+              "share": 11.6746
+            },
+            {
+              "no": "2",
+              "name": "李登輝、連戰",
+              "party": "中國國民黨",
+              "votes": 140321,
+              "share": 66.2004
+            },
+            {
+              "no": "3",
+              "name": "彭明敏、謝長廷",
+              "party": "民主進步黨",
+              "votes": 23555,
+              "share": 11.1127
+            },
+            {
+              "no": "4",
+              "name": "林洋港、郝柏村",
+              "party": "無",
+              "votes": 23342,
+              "share": 11.0122
+            }
+          ]
+        },
+        "苗栗縣": {
+          "validVotes": 289972,
+          "winnerNo": "2",
+          "margin": 171557,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳履安、王清峰",
+              "party": "無",
+              "votes": 29884,
+              "share": 10.3058
+            },
+            {
+              "no": "2",
+              "name": "李登輝、連戰",
+              "party": "中國國民黨",
+              "votes": 202593,
+              "share": 69.8664
+            },
+            {
+              "no": "3",
+              "name": "彭明敏、謝長廷",
+              "party": "民主進步黨",
+              "votes": 31036,
+              "share": 10.7031
+            },
+            {
+              "no": "4",
+              "name": "林洋港、郝柏村",
+              "party": "無",
+              "votes": 26459,
+              "share": 9.1247
+            }
+          ]
+        },
+        "彰化縣": {
+          "validVotes": 640888,
+          "winnerNo": "2",
+          "margin": 291666,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳履安、王清峰",
+              "party": "無",
+              "votes": 62138,
+              "share": 9.6956
+            },
+            {
+              "no": "2",
+              "name": "李登輝、連戰",
+              "party": "中國國民黨",
+              "votes": 407820,
+              "share": 63.6336
+            },
+            {
+              "no": "3",
+              "name": "彭明敏、謝長廷",
+              "party": "民主進步黨",
+              "votes": 116154,
+              "share": 18.1239
+            },
+            {
+              "no": "4",
+              "name": "林洋港、郝柏村",
+              "party": "無",
+              "votes": 54776,
+              "share": 8.5469
+            }
+          ]
+        },
+        "南投縣": {
+          "validVotes": 274002,
+          "winnerNo": "4",
+          "margin": 41180,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳履安、王清峰",
+              "party": "無",
+              "votes": 14552,
+              "share": 5.3109
+            },
+            {
+              "no": "2",
+              "name": "李登輝、連戰",
+              "party": "中國國民黨",
+              "votes": 86357,
+              "share": 31.5169
+            },
+            {
+              "no": "3",
+              "name": "彭明敏、謝長廷",
+              "party": "民主進步黨",
+              "votes": 45556,
+              "share": 16.6262
+            },
+            {
+              "no": "4",
+              "name": "林洋港、郝柏村",
+              "party": "無",
+              "votes": 127537,
+              "share": 46.546
+            }
+          ]
+        },
+        "雲林縣": {
+          "validVotes": 358817,
+          "winnerNo": "2",
+          "margin": 169086,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳履安、王清峰",
+              "party": "無",
+              "votes": 25914,
+              "share": 7.2221
+            },
+            {
+              "no": "2",
+              "name": "李登輝、連戰",
+              "party": "中國國民黨",
+              "votes": 237871,
+              "share": 66.2931
+            },
+            {
+              "no": "3",
+              "name": "彭明敏、謝長廷",
+              "party": "民主進步黨",
+              "votes": 68785,
+              "share": 19.1699
+            },
+            {
+              "no": "4",
+              "name": "林洋港、郝柏村",
+              "party": "無",
+              "votes": 26247,
+              "share": 7.3149
+            }
+          ]
+        },
+        "嘉義縣": {
+          "validVotes": 275041,
+          "winnerNo": "2",
+          "margin": 117608,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳履安、王清峰",
+              "party": "無",
+              "votes": 17515,
+              "share": 6.3681
+            },
+            {
+              "no": "2",
+              "name": "李登輝、連戰",
+              "party": "中國國民黨",
+              "votes": 180709,
+              "share": 65.7026
+            },
+            {
+              "no": "3",
+              "name": "彭明敏、謝長廷",
+              "party": "民主進步黨",
+              "votes": 63101,
+              "share": 22.9424
+            },
+            {
+              "no": "4",
+              "name": "林洋港、郝柏村",
+              "party": "無",
+              "votes": 13716,
+              "share": 4.9869
+            }
+          ]
+        },
+        "屏東縣": {
+          "validVotes": 460641,
+          "winnerNo": "2",
+          "margin": 172529,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳履安、王清峰",
+              "party": "無",
+              "votes": 26644,
+              "share": 5.7841
+            },
+            {
+              "no": "2",
+              "name": "李登輝、連戰",
+              "party": "中國國民黨",
+              "votes": 289812,
+              "share": 62.9149
+            },
+            {
+              "no": "3",
+              "name": "彭明敏、謝長廷",
+              "party": "民主進步黨",
+              "votes": 117283,
+              "share": 25.4608
+            },
+            {
+              "no": "4",
+              "name": "林洋港、郝柏村",
+              "party": "無",
+              "votes": 26902,
+              "share": 5.8401
+            }
+          ]
+        },
+        "宜蘭縣": {
+          "validVotes": 230176,
+          "winnerNo": "2",
+          "margin": 58361,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳履安、王清峰",
+              "party": "無",
+              "votes": 20573,
+              "share": 8.9379
+            },
+            {
+              "no": "2",
+              "name": "李登輝、連戰",
+              "party": "中國國民黨",
+              "votes": 126405,
+              "share": 54.9167
+            },
+            {
+              "no": "3",
+              "name": "彭明敏、謝長廷",
+              "party": "民主進步黨",
+              "votes": 68044,
+              "share": 29.5617
+            },
+            {
+              "no": "4",
+              "name": "林洋港、郝柏村",
+              "party": "無",
+              "votes": 15154,
+              "share": 6.5837
+            }
+          ]
+        },
+        "花蓮縣": {
+          "validVotes": 163527,
+          "winnerNo": "2",
+          "margin": 78904,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳履安、王清峰",
+              "party": "無",
+              "votes": 14568,
+              "share": 8.9086
+            },
+            {
+              "no": "2",
+              "name": "李登輝、連戰",
+              "party": "中國國民黨",
+              "votes": 104740,
+              "share": 64.0506
+            },
+            {
+              "no": "3",
+              "name": "彭明敏、謝長廷",
+              "party": "民主進步黨",
+              "votes": 18383,
+              "share": 11.2416
+            },
+            {
+              "no": "4",
+              "name": "林洋港、郝柏村",
+              "party": "無",
+              "votes": 25836,
+              "share": 15.7992
+            }
+          ]
+        },
+        "臺東縣": {
+          "validVotes": 108461,
+          "winnerNo": "2",
+          "margin": 59705,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳履安、王清峰",
+              "party": "無",
+              "votes": 8160,
+              "share": 7.5234
+            },
+            {
+              "no": "2",
+              "name": "李登輝、連戰",
+              "party": "中國國民黨",
+              "votes": 74211,
+              "share": 68.4218
+            },
+            {
+              "no": "3",
+              "name": "彭明敏、謝長廷",
+              "party": "民主進步黨",
+              "votes": 14506,
+              "share": 13.3744
+            },
+            {
+              "no": "4",
+              "name": "林洋港、郝柏村",
+              "party": "無",
+              "votes": 11584,
+              "share": 10.6803
+            }
+          ]
+        },
+        "澎湖縣": {
+          "validVotes": 40514,
+          "winnerNo": "2",
+          "margin": 17297,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳履安、王清峰",
+              "party": "無",
+              "votes": 4170,
+              "share": 10.2927
+            },
+            {
+              "no": "2",
+              "name": "李登輝、連戰",
+              "party": "中國國民黨",
+              "votes": 25367,
+              "share": 62.6129
+            },
+            {
+              "no": "3",
+              "name": "彭明敏、謝長廷",
+              "party": "民主進步黨",
+              "votes": 8070,
+              "share": 19.919
+            },
+            {
+              "no": "4",
+              "name": "林洋港、郝柏村",
+              "party": "無",
+              "votes": 2907,
+              "share": 7.1753
+            }
+          ]
+        },
+        "金門縣": {
+          "validVotes": 20665,
+          "winnerNo": "2",
+          "margin": 2278,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳履安、王清峰",
+              "party": "無",
+              "votes": 5805,
+              "share": 28.091
+            },
+            {
+              "no": "2",
+              "name": "李登輝、連戰",
+              "party": "中國國民黨",
+              "votes": 8401,
+              "share": 40.6533
+            },
+            {
+              "no": "3",
+              "name": "彭明敏、謝長廷",
+              "party": "民主進步黨",
+              "votes": 336,
+              "share": 1.6259
+            },
+            {
+              "no": "4",
+              "name": "林洋港、郝柏村",
+              "party": "無",
+              "votes": 6123,
+              "share": 29.6298
+            }
+          ]
+        },
+        "連江縣": {
+          "validVotes": 2625,
+          "winnerNo": "2",
+          "margin": 208,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳履安、王清峰",
+              "party": "無",
+              "votes": 356,
+              "share": 13.5619
+            },
+            {
+              "no": "2",
+              "name": "李登輝、連戰",
+              "party": "中國國民黨",
+              "votes": 1221,
+              "share": 46.5143
+            },
+            {
+              "no": "3",
+              "name": "彭明敏、謝長廷",
+              "party": "民主進步黨",
+              "votes": 35,
+              "share": 1.3333
+            },
+            {
+              "no": "4",
+              "name": "林洋港、郝柏村",
+              "party": "無",
+              "votes": 1013,
+              "share": 38.5905
+            }
+          ]
+        }
+      }
+    },
+    "2000": {
+      "sourceUrl": "https://raw.githubusercontent.com/MISNUK/CECDataSet/master/data/2000_%E7%AC%AC10%E4%BB%BB%E7%B8%BD%E7%B5%B1%EF%BC%88%E5%89%AF%E7%B8%BD%E7%B5%B1%EF%BC%89%E9%81%B8%E8%88%89/VoteRecords.csv",
+      "counties": {
+        "臺北市": {
+          "validVotes": 1587166,
+          "winnerNo": "1",
+          "margin": 34073,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜、張昭雄",
+              "party": "無",
+              "votes": 631538,
+              "share": 39.7903
+            },
+            {
+              "no": "2",
+              "name": "連戰、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 347564,
+              "share": 21.8984
+            },
+            {
+              "no": "3",
+              "name": "李敖、馮滬祥",
+              "party": "新黨",
+              "votes": 1876,
+              "share": 0.1182
+            },
+            {
+              "no": "4",
+              "name": "許信良、朱惠良",
+              "party": "無",
+              "votes": 8723,
+              "share": 0.5496
+            },
+            {
+              "no": "5",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 597465,
+              "share": 37.6435
+            }
+          ]
+        },
+        "新北市": {
+          "validVotes": 2019149,
+          "winnerNo": "1",
+          "margin": 71225,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜、張昭雄",
+              "party": "無",
+              "votes": 812821,
+              "share": 40.2556
+            },
+            {
+              "no": "2",
+              "name": "連戰、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 451707,
+              "share": 22.3712
+            },
+            {
+              "no": "3",
+              "name": "李敖、馮滬祥",
+              "party": "新黨",
+              "votes": 2384,
+              "share": 0.1181
+            },
+            {
+              "no": "4",
+              "name": "許信良、朱惠良",
+              "party": "無",
+              "votes": 10641,
+              "share": 0.527
+            },
+            {
+              "no": "5",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 741596,
+              "share": 36.7281
+            }
+          ]
+        },
+        "桃園市": {
+          "validVotes": 943092,
+          "winnerNo": "1",
+          "margin": 114250,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜、張昭雄",
+              "party": "無",
+              "votes": 413370,
+              "share": 43.8314
+            },
+            {
+              "no": "2",
+              "name": "連戰、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 208881,
+              "share": 22.1485
+            },
+            {
+              "no": "3",
+              "name": "李敖、馮滬祥",
+              "party": "新黨",
+              "votes": 1140,
+              "share": 0.1209
+            },
+            {
+              "no": "4",
+              "name": "許信良、朱惠良",
+              "party": "無",
+              "votes": 20581,
+              "share": 2.1823
+            },
+            {
+              "no": "5",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 299120,
+              "share": 31.7169
+            }
+          ]
+        },
+        "臺中市": {
+          "validVotes": 1361782,
+          "winnerNo": "1",
+          "margin": 36970,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜、張昭雄",
+              "party": "無",
+              "votes": 535985,
+              "share": 39.3591
+            },
+            {
+              "no": "2",
+              "name": "連戰、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 318223,
+              "share": 23.3681
+            },
+            {
+              "no": "3",
+              "name": "李敖、馮滬祥",
+              "party": "新黨",
+              "votes": 1792,
+              "share": 0.1316
+            },
+            {
+              "no": "4",
+              "name": "許信良、朱惠良",
+              "party": "無",
+              "votes": 6767,
+              "share": 0.4969
+            },
+            {
+              "no": "5",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 499015,
+              "share": 36.6443
+            }
+          ]
+        },
+        "臺南市": {
+          "validVotes": 1060843,
+          "winnerNo": "5",
+          "margin": 271349,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜、張昭雄",
+              "party": "無",
+              "votes": 250516,
+              "share": 23.6148
+            },
+            {
+              "no": "2",
+              "name": "連戰、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 267122,
+              "share": 25.1802
+            },
+            {
+              "no": "3",
+              "name": "李敖、馮滬祥",
+              "party": "新黨",
+              "votes": 1744,
+              "share": 0.1644
+            },
+            {
+              "no": "4",
+              "name": "許信良、朱惠良",
+              "party": "無",
+              "votes": 2990,
+              "share": 0.2819
+            },
+            {
+              "no": "5",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 538471,
+              "share": 50.7588
+            }
+          ]
+        },
+        "高雄市": {
+          "validVotes": 1596620,
+          "winnerNo": "5",
+          "margin": 275295,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜、張昭雄",
+              "party": "無",
+              "votes": 465639,
+              "share": 29.164
+            },
+            {
+              "no": "2",
+              "name": "連戰、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 382565,
+              "share": 23.9609
+            },
+            {
+              "no": "3",
+              "name": "李敖、馮滬祥",
+              "party": "新黨",
+              "votes": 1901,
+              "share": 0.1191
+            },
+            {
+              "no": "4",
+              "name": "許信良、朱惠良",
+              "party": "無",
+              "votes": 5581,
+              "share": 0.3496
+            },
+            {
+              "no": "5",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 740934,
+              "share": 46.4064
+            }
+          ]
+        },
+        "基隆市": {
+          "validVotes": 225543,
+          "winnerNo": "1",
+          "margin": 36477,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜、張昭雄",
+              "party": "無",
+              "votes": 106032,
+              "share": 47.0119
+            },
+            {
+              "no": "2",
+              "name": "連戰、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 48545,
+              "share": 21.5236
+            },
+            {
+              "no": "3",
+              "name": "李敖、馮滬祥",
+              "party": "新黨",
+              "votes": 295,
+              "share": 0.1308
+            },
+            {
+              "no": "4",
+              "name": "許信良、朱惠良",
+              "party": "無",
+              "votes": 1116,
+              "share": 0.4948
+            },
+            {
+              "no": "5",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 69555,
+              "share": 30.8389
+            }
+          ]
+        },
+        "新竹市": {
+          "validVotes": 206444,
+          "winnerNo": "1",
+          "margin": 18652,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜、張昭雄",
+              "party": "無",
+              "votes": 88412,
+              "share": 42.8261
+            },
+            {
+              "no": "2",
+              "name": "連戰、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 46234,
+              "share": 22.3954
+            },
+            {
+              "no": "3",
+              "name": "李敖、馮滬祥",
+              "party": "新黨",
+              "votes": 292,
+              "share": 0.1414
+            },
+            {
+              "no": "4",
+              "name": "許信良、朱惠良",
+              "party": "無",
+              "votes": 1746,
+              "share": 0.8457
+            },
+            {
+              "no": "5",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 69760,
+              "share": 33.7912
+            }
+          ]
+        },
+        "嘉義市": {
+          "validVotes": 149184,
+          "winnerNo": "5",
+          "margin": 26351,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜、張昭雄",
+              "party": "無",
+              "votes": 43773,
+              "share": 29.3416
+            },
+            {
+              "no": "2",
+              "name": "連戰、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 34670,
+              "share": 23.2398
+            },
+            {
+              "no": "3",
+              "name": "李敖、馮滬祥",
+              "party": "新黨",
+              "votes": 169,
+              "share": 0.1133
+            },
+            {
+              "no": "4",
+              "name": "許信良、朱惠良",
+              "party": "無",
+              "votes": 448,
+              "share": 0.3003
+            },
+            {
+              "no": "5",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 70124,
+              "share": 47.005
+            }
+          ]
+        },
+        "新竹縣": {
+          "validVotes": 248608,
+          "winnerNo": "1",
+          "margin": 66698,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜、張昭雄",
+              "party": "無",
+              "votes": 128231,
+              "share": 51.5796
+            },
+            {
+              "no": "2",
+              "name": "連戰、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 51442,
+              "share": 20.692
+            },
+            {
+              "no": "3",
+              "name": "李敖、馮滬祥",
+              "party": "新黨",
+              "votes": 309,
+              "share": 0.1243
+            },
+            {
+              "no": "4",
+              "name": "許信良、朱惠良",
+              "party": "無",
+              "votes": 7093,
+              "share": 2.8531
+            },
+            {
+              "no": "5",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 61533,
+              "share": 24.751
+            }
+          ]
+        },
+        "苗栗縣": {
+          "validVotes": 323368,
+          "winnerNo": "1",
+          "margin": 73826,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜、張昭雄",
+              "party": "無",
+              "votes": 160533,
+              "share": 49.6441
+            },
+            {
+              "no": "2",
+              "name": "連戰、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 71798,
+              "share": 22.2032
+            },
+            {
+              "no": "3",
+              "name": "李敖、馮滬祥",
+              "party": "新黨",
+              "votes": 399,
+              "share": 0.1234
+            },
+            {
+              "no": "4",
+              "name": "許信良、朱惠良",
+              "party": "無",
+              "votes": 3931,
+              "share": 1.2156
+            },
+            {
+              "no": "5",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 86707,
+              "share": 26.8137
+            }
+          ]
+        },
+        "彰化縣": {
+          "validVotes": 745447,
+          "winnerNo": "5",
+          "margin": 47261,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜、張昭雄",
+              "party": "無",
+              "votes": 251310,
+              "share": 33.7127
+            },
+            {
+              "no": "2",
+              "name": "連戰、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 191685,
+              "share": 25.7141
+            },
+            {
+              "no": "3",
+              "name": "李敖、馮滬祥",
+              "party": "新黨",
+              "votes": 1070,
+              "share": 0.1435
+            },
+            {
+              "no": "4",
+              "name": "許信良、朱惠良",
+              "party": "無",
+              "votes": 2811,
+              "share": 0.3771
+            },
+            {
+              "no": "5",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 298571,
+              "share": 40.0526
+            }
+          ]
+        },
+        "南投縣": {
+          "validVotes": 308637,
+          "winnerNo": "1",
+          "margin": 38423,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜、張昭雄",
+              "party": "無",
+              "votes": 144863,
+              "share": 46.9364
+            },
+            {
+              "no": "2",
+              "name": "連戰、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 56025,
+              "share": 18.1524
+            },
+            {
+              "no": "3",
+              "name": "李敖、馮滬祥",
+              "party": "新黨",
+              "votes": 395,
+              "share": 0.128
+            },
+            {
+              "no": "4",
+              "name": "許信良、朱惠良",
+              "party": "無",
+              "votes": 914,
+              "share": 0.2961
+            },
+            {
+              "no": "5",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 106440,
+              "share": 34.4871
+            }
+          ]
+        },
+        "雲林縣": {
+          "validVotes": 412285,
+          "winnerNo": "5",
+          "margin": 79527,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜、張昭雄",
+              "party": "無",
+              "votes": 114188,
+              "share": 27.6964
+            },
+            {
+              "no": "2",
+              "name": "連戰、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 102177,
+              "share": 24.7831
+            },
+            {
+              "no": "3",
+              "name": "李敖、馮滬祥",
+              "party": "新黨",
+              "votes": 975,
+              "share": 0.2365
+            },
+            {
+              "no": "4",
+              "name": "許信良、朱惠良",
+              "party": "無",
+              "votes": 1230,
+              "share": 0.2983
+            },
+            {
+              "no": "5",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 193715,
+              "share": 46.9857
+            }
+          ]
+        },
+        "嘉義縣": {
+          "validVotes": 318292,
+          "winnerNo": "5",
+          "margin": 71622,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜、張昭雄",
+              "party": "無",
+              "votes": 85890,
+              "share": 26.9847
+            },
+            {
+              "no": "2",
+              "name": "連戰、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 73409,
+              "share": 23.0634
+            },
+            {
+              "no": "3",
+              "name": "李敖、馮滬祥",
+              "party": "新黨",
+              "votes": 561,
+              "share": 0.1763
+            },
+            {
+              "no": "4",
+              "name": "許信良、朱惠良",
+              "party": "無",
+              "votes": 920,
+              "share": 0.289
+            },
+            {
+              "no": "5",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 157512,
+              "share": 49.4866
+            }
+          ]
+        },
+        "屏東縣": {
+          "validVotes": 515508,
+          "winnerNo": "5",
+          "margin": 95638,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜、張昭雄",
+              "party": "無",
+              "votes": 131371,
+              "share": 25.4838
+            },
+            {
+              "no": "2",
+              "name": "連戰、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 142934,
+              "share": 27.7268
+            },
+            {
+              "no": "3",
+              "name": "李敖、馮滬祥",
+              "party": "新黨",
+              "votes": 692,
+              "share": 0.1342
+            },
+            {
+              "no": "4",
+              "name": "許信良、朱惠良",
+              "party": "無",
+              "votes": 1939,
+              "share": 0.3761
+            },
+            {
+              "no": "5",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 238572,
+              "share": 46.279
+            }
+          ]
+        },
+        "宜蘭縣": {
+          "validVotes": 261874,
+          "winnerNo": "5",
+          "margin": 36608,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜、張昭雄",
+              "party": "無",
+              "votes": 86549,
+              "share": 33.0499
+            },
+            {
+              "no": "2",
+              "name": "連戰、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 51082,
+              "share": 19.5063
+            },
+            {
+              "no": "3",
+              "name": "李敖、馮滬祥",
+              "party": "新黨",
+              "votes": 350,
+              "share": 0.1337
+            },
+            {
+              "no": "4",
+              "name": "許信良、朱惠良",
+              "party": "無",
+              "votes": 736,
+              "share": 0.2811
+            },
+            {
+              "no": "5",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 123157,
+              "share": 47.0291
+            }
+          ]
+        },
+        "花蓮縣": {
+          "validVotes": 186979,
+          "winnerNo": "1",
+          "margin": 69918,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜、張昭雄",
+              "party": "無",
+              "votes": 109962,
+              "share": 58.8098
+            },
+            {
+              "no": "2",
+              "name": "連戰、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 36043,
+              "share": 19.2765
+            },
+            {
+              "no": "3",
+              "name": "李敖、馮滬祥",
+              "party": "新黨",
+              "votes": 194,
+              "share": 0.1038
+            },
+            {
+              "no": "4",
+              "name": "許信良、朱惠良",
+              "party": "無",
+              "votes": 736,
+              "share": 0.3936
+            },
+            {
+              "no": "5",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 40044,
+              "share": 21.4163
+            }
+          ]
+        },
+        "臺東縣": {
+          "validVotes": 121104,
+          "winnerNo": "1",
+          "margin": 35254,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜、張昭雄",
+              "party": "無",
+              "votes": 63913,
+              "share": 52.7753
+            },
+            {
+              "no": "2",
+              "name": "連戰、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 28659,
+              "share": 23.6648
+            },
+            {
+              "no": "3",
+              "name": "李敖、馮滬祥",
+              "party": "新黨",
+              "votes": 136,
+              "share": 0.1123
+            },
+            {
+              "no": "4",
+              "name": "許信良、朱惠良",
+              "party": "無",
+              "votes": 294,
+              "share": 0.2428
+            },
+            {
+              "no": "5",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 28102,
+              "share": 23.2048
+            }
+          ]
+        },
+        "澎湖縣": {
+          "validVotes": 44811,
+          "winnerNo": "1",
+          "margin": 1236,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜、張昭雄",
+              "party": "無",
+              "votes": 17723,
+              "share": 39.5506
+            },
+            {
+              "no": "2",
+              "name": "連戰、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 10418,
+              "share": 23.2488
+            },
+            {
+              "no": "3",
+              "name": "李敖、馮滬祥",
+              "party": "新黨",
+              "votes": 64,
+              "share": 0.1428
+            },
+            {
+              "no": "4",
+              "name": "許信良、朱惠良",
+              "party": "無",
+              "votes": 119,
+              "share": 0.2656
+            },
+            {
+              "no": "5",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 16487,
+              "share": 36.7923
+            }
+          ]
+        },
+        "金門縣": {
+          "validVotes": 24435,
+          "winnerNo": "1",
+          "margin": 16448,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜、張昭雄",
+              "party": "無",
+              "votes": 19991,
+              "share": 81.813
+            },
+            {
+              "no": "2",
+              "name": "連戰、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 3543,
+              "share": 14.4997
+            },
+            {
+              "no": "3",
+              "name": "李敖、馮滬祥",
+              "party": "新黨",
+              "votes": 37,
+              "share": 0.1514
+            },
+            {
+              "no": "4",
+              "name": "許信良、朱惠良",
+              "party": "無",
+              "votes": 105,
+              "share": 0.4297
+            },
+            {
+              "no": "5",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 759,
+              "share": 3.1062
+            }
+          ]
+        },
+        "連江縣": {
+          "validVotes": 3222,
+          "winnerNo": "1",
+          "margin": 1575,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜、張昭雄",
+              "party": "無",
+              "votes": 2362,
+              "share": 73.3085
+            },
+            {
+              "no": "2",
+              "name": "連戰、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 787,
+              "share": 24.4258
+            },
+            {
+              "no": "3",
+              "name": "李敖、馮滬祥",
+              "party": "新黨",
+              "votes": 7,
+              "share": 0.2173
+            },
+            {
+              "no": "4",
+              "name": "許信良、朱惠良",
+              "party": "無",
+              "votes": 8,
+              "share": 0.2483
+            },
+            {
+              "no": "5",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 58,
+              "share": 1.8001
+            }
+          ]
+        }
+      }
+    },
+    "2004": {
+      "sourceUrl": "https://raw.githubusercontent.com/MISNUK/CECDataSet/master/data/2004_%E7%AC%AC11%E4%BB%BB%E7%B8%BD%E7%B5%B1%EF%BC%88%E5%89%AF%E7%B8%BD%E7%B5%B1%EF%BC%89%E9%81%B8%E8%88%89/VoteRecords.csv",
+      "counties": {
+        "臺北市": {
+          "validVotes": 1588249,
+          "winnerNo": "2",
+          "margin": 207491,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 690379,
+              "share": 43.4679
+            },
+            {
+              "no": "2",
+              "name": "連戰、宋楚瑜",
+              "party": "中國國民黨",
+              "votes": 897870,
+              "share": 56.5321
+            }
+          ]
+        },
+        "新北市": {
+          "validVotes": 2130880,
+          "winnerNo": "2",
+          "margin": 130350,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 1000265,
+              "share": 46.9414
+            },
+            {
+              "no": "2",
+              "name": "連戰、宋楚瑜",
+              "party": "中國國民黨",
+              "votes": 1130615,
+              "share": 53.0586
+            }
+          ]
+        },
+        "桃園市": {
+          "validVotes": 1004458,
+          "winnerNo": "2",
+          "margin": 106918,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 448770,
+              "share": 44.6778
+            },
+            {
+              "no": "2",
+              "name": "連戰、宋楚瑜",
+              "party": "中國國民黨",
+              "votes": 555688,
+              "share": 55.3222
+            }
+          ]
+        },
+        "臺中市": {
+          "validVotes": 1414754,
+          "winnerNo": "1",
+          "margin": 394,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 707574,
+              "share": 50.0139
+            },
+            {
+              "no": "2",
+              "name": "連戰、宋楚瑜",
+              "party": "中國國民黨",
+              "votes": 707180,
+              "share": 49.9861
+            }
+          ]
+        },
+        "臺南市": {
+          "validVotes": 1086394,
+          "winnerNo": "1",
+          "margin": 260254,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 673324,
+              "share": 61.9779
+            },
+            {
+              "no": "2",
+              "name": "連戰、宋楚瑜",
+              "party": "中國國民黨",
+              "votes": 413070,
+              "share": 38.0221
+            }
+          ]
+        },
+        "高雄市": {
+          "validVotes": 1627275,
+          "winnerNo": "1",
+          "margin": 223863,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 925569,
+              "share": 56.8785
+            },
+            {
+              "no": "2",
+              "name": "連戰、宋楚瑜",
+              "party": "中國國民黨",
+              "votes": 701706,
+              "share": 43.1215
+            }
+          ]
+        },
+        "基隆市": {
+          "validVotes": 222565,
+          "winnerNo": "2",
+          "margin": 42013,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 90276,
+              "share": 40.5616
+            },
+            {
+              "no": "2",
+              "name": "連戰、宋楚瑜",
+              "party": "中國國民黨",
+              "votes": 132289,
+              "share": 59.4384
+            }
+          ]
+        },
+        "新竹市": {
+          "validVotes": 215742,
+          "winnerNo": "2",
+          "margin": 22106,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 96818,
+              "share": 44.8768
+            },
+            {
+              "no": "2",
+              "name": "連戰、宋楚瑜",
+              "party": "中國國民黨",
+              "votes": 118924,
+              "share": 55.1232
+            }
+          ]
+        },
+        "嘉義市": {
+          "validVotes": 152878,
+          "winnerNo": "1",
+          "margin": 18526,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 85702,
+              "share": 56.0591
+            },
+            {
+              "no": "2",
+              "name": "連戰、宋楚瑜",
+              "party": "中國國民黨",
+              "votes": 67176,
+              "share": 43.9409
+            }
+          ]
+        },
+        "新竹縣": {
+          "validVotes": 257603,
+          "winnerNo": "2",
+          "margin": 72451,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 92576,
+              "share": 35.9375
+            },
+            {
+              "no": "2",
+              "name": "連戰、宋楚瑜",
+              "party": "中國國民黨",
+              "votes": 165027,
+              "share": 64.0625
+            }
+          ]
+        },
+        "苗栗縣": {
+          "validVotes": 314486,
+          "winnerNo": "2",
+          "margin": 67632,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 123427,
+              "share": 39.2472
+            },
+            {
+              "no": "2",
+              "name": "連戰、宋楚瑜",
+              "party": "中國國民黨",
+              "votes": 191059,
+              "share": 60.7528
+            }
+          ]
+        },
+        "彰化縣": {
+          "validVotes": 733424,
+          "winnerNo": "1",
+          "margin": 33168,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 383296,
+              "share": 52.2612
+            },
+            {
+              "no": "2",
+              "name": "連戰、宋楚瑜",
+              "party": "中國國民黨",
+              "votes": 350128,
+              "share": 47.7388
+            }
+          ]
+        },
+        "南投縣": {
+          "validVotes": 300328,
+          "winnerNo": "2",
+          "margin": 7498,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 146415,
+              "share": 48.7517
+            },
+            {
+              "no": "2",
+              "name": "連戰、宋楚瑜",
+              "party": "中國國民黨",
+              "votes": 153913,
+              "share": 51.2483
+            }
+          ]
+        },
+        "雲林縣": {
+          "validVotes": 403035,
+          "winnerNo": "1",
+          "margin": 83223,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 243129,
+              "share": 60.3245
+            },
+            {
+              "no": "2",
+              "name": "連戰、宋楚瑜",
+              "party": "中國國民黨",
+              "votes": 159906,
+              "share": 39.6755
+            }
+          ]
+        },
+        "嘉義縣": {
+          "validVotes": 317655,
+          "winnerNo": "1",
+          "margin": 81277,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 199466,
+              "share": 62.7933
+            },
+            {
+              "no": "2",
+              "name": "連戰、宋楚瑜",
+              "party": "中國國民黨",
+              "votes": 118189,
+              "share": 37.2067
+            }
+          ]
+        },
+        "屏東縣": {
+          "validVotes": 515117,
+          "winnerNo": "1",
+          "margin": 83525,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 299321,
+              "share": 58.1074
+            },
+            {
+              "no": "2",
+              "name": "連戰、宋楚瑜",
+              "party": "中國國民黨",
+              "votes": 215796,
+              "share": 41.8926
+            }
+          ]
+        },
+        "宜蘭縣": {
+          "validVotes": 256209,
+          "winnerNo": "1",
+          "margin": 39487,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 147848,
+              "share": 57.706
+            },
+            {
+              "no": "2",
+              "name": "連戰、宋楚瑜",
+              "party": "中國國民黨",
+              "votes": 108361,
+              "share": 42.294
+            }
+          ]
+        },
+        "花蓮縣": {
+          "validVotes": 179542,
+          "winnerNo": "2",
+          "margin": 72540,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 53501,
+              "share": 29.7986
+            },
+            {
+              "no": "2",
+              "name": "連戰、宋楚瑜",
+              "party": "中國國民黨",
+              "votes": 126041,
+              "share": 70.2014
+            }
+          ]
+        },
+        "臺東縣": {
+          "validVotes": 116585,
+          "winnerNo": "2",
+          "margin": 36179,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 40203,
+              "share": 34.4839
+            },
+            {
+              "no": "2",
+              "name": "連戰、宋楚瑜",
+              "party": "中國國民黨",
+              "votes": 76382,
+              "share": 65.5161
+            }
+          ]
+        },
+        "澎湖縣": {
+          "validVotes": 44801,
+          "winnerNo": "2",
+          "margin": 477,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 22162,
+              "share": 49.4676
+            },
+            {
+              "no": "2",
+              "name": "連戰、宋楚瑜",
+              "party": "中國國民黨",
+              "votes": 22639,
+              "share": 50.5324
+            }
+          ]
+        },
+        "金門縣": {
+          "validVotes": 28134,
+          "winnerNo": "2",
+          "margin": 24732,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 1701,
+              "share": 6.0461
+            },
+            {
+              "no": "2",
+              "name": "連戰、宋楚瑜",
+              "party": "中國國民黨",
+              "votes": 26433,
+              "share": 93.9539
+            }
+          ]
+        },
+        "連江縣": {
+          "validVotes": 4308,
+          "winnerNo": "2",
+          "margin": 3812,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "陳水扁、呂秀蓮",
+              "party": "民主進步黨",
+              "votes": 248,
+              "share": 5.7567
+            },
+            {
+              "no": "2",
+              "name": "連戰、宋楚瑜",
+              "party": "中國國民黨",
+              "votes": 4060,
+              "share": 94.2433
+            }
+          ]
+        }
+      }
+    },
+    "2008": {
+      "sourceUrl": "https://raw.githubusercontent.com/MISNUK/CECDataSet/master/data/2008_%E7%AC%AC12%E4%BB%BB%E7%B8%BD%E7%B5%B1%EF%BC%88%E5%89%AF%E7%B8%BD%E7%B5%B1%EF%BC%89%E9%81%B8%E8%88%89/VoteRecords.csv",
+      "counties": {
+        "臺北市": {
+          "validVotes": 1604802,
+          "winnerNo": "2",
+          "margin": 418290,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "謝長廷、蘇貞昌",
+              "party": "民主進步黨",
+              "votes": 593256,
+              "share": 36.9676
+            },
+            {
+              "no": "2",
+              "name": "馬英九、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 1011546,
+              "share": 63.0324
+            }
+          ]
+        },
+        "新北市": {
+          "validVotes": 2226334,
+          "winnerNo": "2",
+          "margin": 492504,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "謝長廷、蘇貞昌",
+              "party": "民主進步黨",
+              "votes": 866915,
+              "share": 38.9391
+            },
+            {
+              "no": "2",
+              "name": "馬英九、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 1359419,
+              "share": 61.0609
+            }
+          ]
+        },
+        "桃園市": {
+          "validVotes": 1073018,
+          "winnerNo": "2",
+          "margin": 314186,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "謝長廷、蘇貞昌",
+              "party": "民主進步黨",
+              "votes": 379416,
+              "share": 35.3597
+            },
+            {
+              "no": "2",
+              "name": "馬英九、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 693602,
+              "share": 64.6403
+            }
+          ]
+        },
+        "臺中市": {
+          "validVotes": 1452134,
+          "winnerNo": "2",
+          "margin": 291220,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "謝長廷、蘇貞昌",
+              "party": "民主進步黨",
+              "votes": 580457,
+              "share": 39.9727
+            },
+            {
+              "no": "2",
+              "name": "馬英九、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 871677,
+              "share": 60.0273
+            }
+          ]
+        },
+        "臺南市": {
+          "validVotes": 1071009,
+          "winnerNo": "1",
+          "margin": 71439,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "謝長廷、蘇貞昌",
+              "party": "民主進步黨",
+              "votes": 571224,
+              "share": 53.3351
+            },
+            {
+              "no": "2",
+              "name": "馬英九、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 499785,
+              "share": 46.6649
+            }
+          ]
+        },
+        "高雄市": {
+          "validVotes": 1636852,
+          "winnerNo": "2",
+          "margin": 8318,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "謝長廷、蘇貞昌",
+              "party": "民主進步黨",
+              "votes": 814267,
+              "share": 49.7459
+            },
+            {
+              "no": "2",
+              "name": "馬英九、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 822585,
+              "share": 50.2541
+            }
+          ]
+        },
+        "基隆市": {
+          "validVotes": 224889,
+          "winnerNo": "2",
+          "margin": 79765,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "謝長廷、蘇貞昌",
+              "party": "民主進步黨",
+              "votes": 72562,
+              "share": 32.2657
+            },
+            {
+              "no": "2",
+              "name": "馬英九、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 152327,
+              "share": 67.7343
+            }
+          ]
+        },
+        "新竹市": {
+          "validVotes": 225564,
+          "winnerNo": "2",
+          "margin": 66296,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "謝長廷、蘇貞昌",
+              "party": "民主進步黨",
+              "votes": 79634,
+              "share": 35.3044
+            },
+            {
+              "no": "2",
+              "name": "馬英九、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 145930,
+              "share": 64.6956
+            }
+          ]
+        },
+        "嘉義市": {
+          "validVotes": 152155,
+          "winnerNo": "2",
+          "margin": 7271,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "謝長廷、蘇貞昌",
+              "party": "民主進步黨",
+              "votes": 72442,
+              "share": 47.6107
+            },
+            {
+              "no": "2",
+              "name": "馬英九、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 79713,
+              "share": 52.3893
+            }
+          ]
+        },
+        "新竹縣": {
+          "validVotes": 281623,
+          "winnerNo": "2",
+          "margin": 135267,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "謝長廷、蘇貞昌",
+              "party": "民主進步黨",
+              "votes": 73178,
+              "share": 25.9844
+            },
+            {
+              "no": "2",
+              "name": "馬英九、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 208445,
+              "share": 74.0156
+            }
+          ]
+        },
+        "苗栗縣": {
+          "validVotes": 319864,
+          "winnerNo": "2",
+          "margin": 134274,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "謝長廷、蘇貞昌",
+              "party": "民主進步黨",
+              "votes": 92795,
+              "share": 29.0108
+            },
+            {
+              "no": "2",
+              "name": "馬英九、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 227069,
+              "share": 70.9892
+            }
+          ]
+        },
+        "彰化縣": {
+          "validVotes": 728834,
+          "winnerNo": "2",
+          "margin": 110566,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "謝長廷、蘇貞昌",
+              "party": "民主進步黨",
+              "votes": 309134,
+              "share": 42.4149
+            },
+            {
+              "no": "2",
+              "name": "馬英九、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 419700,
+              "share": 57.5851
+            }
+          ]
+        },
+        "南投縣": {
+          "validVotes": 289585,
+          "winnerNo": "2",
+          "margin": 69675,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "謝長廷、蘇貞昌",
+              "party": "民主進步黨",
+              "votes": 109955,
+              "share": 37.9699
+            },
+            {
+              "no": "2",
+              "name": "馬英九、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 179630,
+              "share": 62.0301
+            }
+          ]
+        },
+        "雲林縣": {
+          "validVotes": 387263,
+          "winnerNo": "1",
+          "margin": 11853,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "謝長廷、蘇貞昌",
+              "party": "民主進步黨",
+              "votes": 199558,
+              "share": 51.5304
+            },
+            {
+              "no": "2",
+              "name": "馬英九、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 187705,
+              "share": 48.4696
+            }
+          ]
+        },
+        "嘉義縣": {
+          "validVotes": 306436,
+          "winnerNo": "1",
+          "margin": 27230,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "謝長廷、蘇貞昌",
+              "party": "民主進步黨",
+              "votes": 166833,
+              "share": 54.443
+            },
+            {
+              "no": "2",
+              "name": "馬英九、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 139603,
+              "share": 45.557
+            }
+          ]
+        },
+        "屏東縣": {
+          "validVotes": 497100,
+          "winnerNo": "1",
+          "margin": 2490,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "謝長廷、蘇貞昌",
+              "party": "民主進步黨",
+              "votes": 249795,
+              "share": 50.2505
+            },
+            {
+              "no": "2",
+              "name": "馬英九、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 247305,
+              "share": 49.7495
+            }
+          ]
+        },
+        "宜蘭縣": {
+          "validVotes": 254651,
+          "winnerNo": "2",
+          "margin": 7251,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "謝長廷、蘇貞昌",
+              "party": "民主進步黨",
+              "votes": 123700,
+              "share": 48.5763
+            },
+            {
+              "no": "2",
+              "name": "馬英九、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 130951,
+              "share": 51.4237
+            }
+          ]
+        },
+        "花蓮縣": {
+          "validVotes": 177607,
+          "winnerNo": "2",
+          "margin": 97601,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "謝長廷、蘇貞昌",
+              "party": "民主進步黨",
+              "votes": 40003,
+              "share": 22.5233
+            },
+            {
+              "no": "2",
+              "name": "馬英九、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 137604,
+              "share": 77.4767
+            }
+          ]
+        },
+        "臺東縣": {
+          "validVotes": 111382,
+          "winnerNo": "2",
+          "margin": 51954,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "謝長廷、蘇貞昌",
+              "party": "民主進步黨",
+              "votes": 29714,
+              "share": 26.6776
+            },
+            {
+              "no": "2",
+              "name": "馬英九、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 81668,
+              "share": 73.3224
+            }
+          ]
+        },
+        "澎湖縣": {
+          "validVotes": 43218,
+          "winnerNo": "2",
+          "margin": 6856,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "謝長廷、蘇貞昌",
+              "party": "民主進步黨",
+              "votes": 18181,
+              "share": 42.0681
+            },
+            {
+              "no": "2",
+              "name": "馬英九、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 25037,
+              "share": 57.9319
+            }
+          ]
+        },
+        "金門縣": {
+          "validVotes": 35094,
+          "winnerNo": "2",
+          "margin": 31674,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "謝長廷、蘇貞昌",
+              "party": "民主進步黨",
+              "votes": 1710,
+              "share": 4.8726
+            },
+            {
+              "no": "2",
+              "name": "馬英九、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 33384,
+              "share": 95.1274
+            }
+          ]
+        },
+        "連江縣": {
+          "validVotes": 4549,
+          "winnerNo": "2",
+          "margin": 4109,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "謝長廷、蘇貞昌",
+              "party": "民主進步黨",
+              "votes": 220,
+              "share": 4.8362
+            },
+            {
+              "no": "2",
+              "name": "馬英九、蕭萬長",
+              "party": "中國國民黨",
+              "votes": 4329,
+              "share": 95.1638
+            }
+          ]
+        }
+      }
+    },
+    "2012": {
+      "sourceUrl": "https://raw.githubusercontent.com/MISNUK/CECDataSet/master/data/2012_%E7%AC%AC13%E4%BB%BB%E7%B8%BD%E7%B5%B1%EF%BC%88%E5%89%AF%E7%B8%BD%E7%B5%B1%EF%BC%89%E9%81%B8%E8%88%89/VoteRecords.csv",
+      "counties": {
+        "臺北市": {
+          "validVotes": 1604730,
+          "winnerNo": "2",
+          "margin": 294152,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "蔡英文、蘇嘉全",
+              "party": "民主進步黨",
+              "votes": 634565,
+              "share": 39.5434
+            },
+            {
+              "no": "2",
+              "name": "馬英九、吳敦義",
+              "party": "中國國民黨",
+              "votes": 928717,
+              "share": 57.8737
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、林瑞雄",
+              "party": "無",
+              "votes": 41448,
+              "share": 2.5829
+            }
+          ]
+        },
+        "新北市": {
+          "validVotes": 2318493,
+          "winnerNo": "2",
+          "margin": 238122,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "蔡英文、蘇嘉全",
+              "party": "民主進步黨",
+              "votes": 1007551,
+              "share": 43.4572
+            },
+            {
+              "no": "2",
+              "name": "馬英九、吳敦義",
+              "party": "中國國民黨",
+              "votes": 1245673,
+              "share": 53.7277
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、林瑞雄",
+              "party": "無",
+              "votes": 65269,
+              "share": 2.8151
+            }
+          ]
+        },
+        "桃園市": {
+          "validVotes": 1117386,
+          "winnerNo": "2",
+          "margin": 193843,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "蔡英文、蘇嘉全",
+              "party": "民主進步黨",
+              "votes": 445308,
+              "share": 39.8527
+            },
+            {
+              "no": "2",
+              "name": "馬英九、吳敦義",
+              "party": "中國國民黨",
+              "votes": 639151,
+              "share": 57.2006
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、林瑞雄",
+              "party": "無",
+              "votes": 32927,
+              "share": 2.9468
+            }
+          ]
+        },
+        "臺中市": {
+          "validVotes": 1519100,
+          "winnerNo": "2",
+          "margin": 113598,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "蔡英文、蘇嘉全",
+              "party": "民主進步黨",
+              "votes": 678736,
+              "share": 44.6801
+            },
+            {
+              "no": "2",
+              "name": "馬英九、吳敦義",
+              "party": "中國國民黨",
+              "votes": 792334,
+              "share": 52.1581
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、林瑞雄",
+              "party": "無",
+              "votes": 48030,
+              "share": 3.1617
+            }
+          ]
+        },
+        "臺南市": {
+          "validVotes": 1093572,
+          "winnerNo": "1",
+          "margin": 195958,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "蔡英文、蘇嘉全",
+              "party": "民主進步黨",
+              "votes": 631232,
+              "share": 57.722
+            },
+            {
+              "no": "2",
+              "name": "馬英九、吳敦義",
+              "party": "中國國民黨",
+              "votes": 435274,
+              "share": 39.803
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、林瑞雄",
+              "party": "無",
+              "votes": 27066,
+              "share": 2.475
+            }
+          ]
+        },
+        "高雄市": {
+          "validVotes": 1653088,
+          "winnerNo": "1",
+          "margin": 152697,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "蔡英文、蘇嘉全",
+              "party": "民主進步黨",
+              "votes": 883158,
+              "share": 53.4247
+            },
+            {
+              "no": "2",
+              "name": "馬英九、吳敦義",
+              "party": "中國國民黨",
+              "votes": 730461,
+              "share": 44.1877
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、林瑞雄",
+              "party": "無",
+              "votes": 39469,
+              "share": 2.3876
+            }
+          ]
+        },
+        "基隆市": {
+          "validVotes": 216389,
+          "winnerNo": "2",
+          "margin": 48732,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "蔡英文、蘇嘉全",
+              "party": "民主進步黨",
+              "votes": 79562,
+              "share": 36.768
+            },
+            {
+              "no": "2",
+              "name": "馬英九、吳敦義",
+              "party": "中國國民黨",
+              "votes": 128294,
+              "share": 59.2886
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、林瑞雄",
+              "party": "無",
+              "votes": 8533,
+              "share": 3.9434
+            }
+          ]
+        },
+        "新竹市": {
+          "validVotes": 234576,
+          "winnerNo": "2",
+          "margin": 42096,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "蔡英文、蘇嘉全",
+              "party": "民主進步黨",
+              "votes": 92632,
+              "share": 39.4891
+            },
+            {
+              "no": "2",
+              "name": "馬英九、吳敦義",
+              "party": "中國國民黨",
+              "votes": 134728,
+              "share": 57.4347
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、林瑞雄",
+              "party": "無",
+              "votes": 7216,
+              "share": 3.0762
+            }
+          ]
+        },
+        "嘉義市": {
+          "validVotes": 150288,
+          "winnerNo": "1",
+          "margin": 7176,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "蔡英文、蘇嘉全",
+              "party": "民主進步黨",
+              "votes": 76711,
+              "share": 51.0427
+            },
+            {
+              "no": "2",
+              "name": "馬英九、吳敦義",
+              "party": "中國國民黨",
+              "votes": 69535,
+              "share": 46.2678
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、林瑞雄",
+              "party": "無",
+              "votes": 4042,
+              "share": 2.6895
+            }
+          ]
+        },
+        "新竹縣": {
+          "validVotes": 290137,
+          "winnerNo": "2",
+          "margin": 101056,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "蔡英文、蘇嘉全",
+              "party": "民主進步黨",
+              "votes": 89741,
+              "share": 30.9306
+            },
+            {
+              "no": "2",
+              "name": "馬英九、吳敦義",
+              "party": "中國國民黨",
+              "votes": 190797,
+              "share": 65.761
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、林瑞雄",
+              "party": "無",
+              "votes": 9599,
+              "share": 3.3084
+            }
+          ]
+        },
+        "苗栗縣": {
+          "validVotes": 322961,
+          "winnerNo": "2",
+          "margin": 99036,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "蔡英文、蘇嘉全",
+              "party": "民主進步黨",
+              "votes": 107164,
+              "share": 33.1817
+            },
+            {
+              "no": "2",
+              "name": "馬英九、吳敦義",
+              "party": "中國國民黨",
+              "votes": 206200,
+              "share": 63.8467
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、林瑞雄",
+              "party": "無",
+              "votes": 9597,
+              "share": 2.9716
+            }
+          ]
+        },
+        "彰化縣": {
+          "validVotes": 731440,
+          "winnerNo": "2",
+          "margin": 29899,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "蔡英文、蘇嘉全",
+              "party": "民主進步黨",
+              "votes": 340069,
+              "share": 46.4931
+            },
+            {
+              "no": "2",
+              "name": "馬英九、吳敦義",
+              "party": "中國國民黨",
+              "votes": 369968,
+              "share": 50.5808
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、林瑞雄",
+              "party": "無",
+              "votes": 21403,
+              "share": 2.9261
+            }
+          ]
+        },
+        "南投縣": {
+          "validVotes": 290506,
+          "winnerNo": "2",
+          "margin": 35626,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "蔡英文、蘇嘉全",
+              "party": "民主進步黨",
+              "votes": 123077,
+              "share": 42.3664
+            },
+            {
+              "no": "2",
+              "name": "馬英九、吳敦義",
+              "party": "中國國民黨",
+              "votes": 158703,
+              "share": 54.6299
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、林瑞雄",
+              "party": "無",
+              "votes": 8726,
+              "share": 3.0037
+            }
+          ]
+        },
+        "雲林縣": {
+          "validVotes": 383694,
+          "winnerNo": "1",
+          "margin": 54250,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "蔡英文、蘇嘉全",
+              "party": "民主進步黨",
+              "votes": 214141,
+              "share": 55.8104
+            },
+            {
+              "no": "2",
+              "name": "馬英九、吳敦義",
+              "party": "中國國民黨",
+              "votes": 159891,
+              "share": 41.6715
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、林瑞雄",
+              "party": "無",
+              "votes": 9662,
+              "share": 2.5182
+            }
+          ]
+        },
+        "嘉義縣": {
+          "validVotes": 309773,
+          "winnerNo": "1",
+          "margin": 60517,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "蔡英文、蘇嘉全",
+              "party": "民主進步黨",
+              "votes": 181463,
+              "share": 58.5793
+            },
+            {
+              "no": "2",
+              "name": "馬英九、吳敦義",
+              "party": "中國國民黨",
+              "votes": 120946,
+              "share": 39.0434
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、林瑞雄",
+              "party": "無",
+              "votes": 7364,
+              "share": 2.3772
+            }
+          ]
+        },
+        "屏東縣": {
+          "validVotes": 492855,
+          "winnerNo": "1",
+          "margin": 60151,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "蔡英文、蘇嘉全",
+              "party": "民主進步黨",
+              "votes": 271722,
+              "share": 55.1322
+            },
+            {
+              "no": "2",
+              "name": "馬英九、吳敦義",
+              "party": "中國國民黨",
+              "votes": 211571,
+              "share": 42.9276
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、林瑞雄",
+              "party": "無",
+              "votes": 9562,
+              "share": 1.9401
+            }
+          ]
+        },
+        "宜蘭縣": {
+          "validVotes": 257304,
+          "winnerNo": "1",
+          "margin": 19660,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "蔡英文、蘇嘉全",
+              "party": "民主進步黨",
+              "votes": 135156,
+              "share": 52.5277
+            },
+            {
+              "no": "2",
+              "name": "馬英九、吳敦義",
+              "party": "中國國民黨",
+              "votes": 115496,
+              "share": 44.887
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、林瑞雄",
+              "party": "無",
+              "votes": 6652,
+              "share": 2.5853
+            }
+          ]
+        },
+        "花蓮縣": {
+          "validVotes": 169019,
+          "winnerNo": "2",
+          "margin": 74970,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "蔡英文、蘇嘉全",
+              "party": "民主進步黨",
+              "votes": 43845,
+              "share": 25.9409
+            },
+            {
+              "no": "2",
+              "name": "馬英九、吳敦義",
+              "party": "中國國民黨",
+              "votes": 118815,
+              "share": 70.2968
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、林瑞雄",
+              "party": "無",
+              "votes": 6359,
+              "share": 3.7623
+            }
+          ]
+        },
+        "臺東縣": {
+          "validVotes": 109553,
+          "winnerNo": "2",
+          "margin": 39406,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "蔡英文、蘇嘉全",
+              "party": "民主進步黨",
+              "votes": 33417,
+              "share": 30.503
+            },
+            {
+              "no": "2",
+              "name": "馬英九、吳敦義",
+              "party": "中國國民黨",
+              "votes": 72823,
+              "share": 66.4728
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、林瑞雄",
+              "party": "無",
+              "votes": 3313,
+              "share": 3.0241
+            }
+          ]
+        },
+        "澎湖縣": {
+          "validVotes": 45378,
+          "winnerNo": "2",
+          "margin": 1862,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "蔡英文、蘇嘉全",
+              "party": "民主進步黨",
+              "votes": 20717,
+              "share": 45.6543
+            },
+            {
+              "no": "2",
+              "name": "馬英九、吳敦義",
+              "party": "中國國民黨",
+              "votes": 22579,
+              "share": 49.7576
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、林瑞雄",
+              "party": "無",
+              "votes": 2082,
+              "share": 4.5881
+            }
+          ]
+        },
+        "金門縣": {
+          "validVotes": 38859,
+          "winnerNo": "2",
+          "margin": 31483,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "蔡英文、蘇嘉全",
+              "party": "民主進步黨",
+              "votes": 3193,
+              "share": 8.2169
+            },
+            {
+              "no": "2",
+              "name": "馬英九、吳敦義",
+              "party": "中國國民黨",
+              "votes": 34676,
+              "share": 89.2354
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、林瑞雄",
+              "party": "無",
+              "votes": 990,
+              "share": 2.5477
+            }
+          ]
+        },
+        "連江縣": {
+          "validVotes": 5204,
+          "winnerNo": "2",
+          "margin": 4089,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "蔡英文、蘇嘉全",
+              "party": "民主進步黨",
+              "votes": 418,
+              "share": 8.0323
+            },
+            {
+              "no": "2",
+              "name": "馬英九、吳敦義",
+              "party": "中國國民黨",
+              "votes": 4507,
+              "share": 86.6065
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、林瑞雄",
+              "party": "無",
+              "votes": 279,
+              "share": 5.3613
+            }
+          ]
+        }
+      }
+    },
+    "2016": {
+      "sourceUrl": "https://raw.githubusercontent.com/MISNUK/CECDataSet/master/data/2016_%E7%AC%AC14%E4%BB%BB%E7%B8%BD%E7%B5%B1%EF%BC%88%E5%89%AF%E7%B8%BD%E7%B5%B1%EF%BC%89%E9%81%B8%E8%88%89/VoteRecords.csv",
+      "counties": {
+        "臺北市": {
+          "validVotes": 1457678,
+          "winnerNo": "2",
+          "margin": 210892,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "朱立倫、王如玄",
+              "party": "中國國民黨",
+              "votes": 546491,
+              "share": 37.4905
+            },
+            {
+              "no": "2",
+              "name": "蔡英文、陳建仁",
+              "party": "民主進步黨",
+              "votes": 757383,
+              "share": 51.9582
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、徐欣瑩",
+              "party": "親民黨",
+              "votes": 153804,
+              "share": 10.5513
+            }
+          ]
+        },
+        "新北市": {
+          "validVotes": 2127748,
+          "winnerNo": "2",
+          "margin": 456514,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "朱立倫、王如玄",
+              "party": "中國國民黨",
+              "votes": 709374,
+              "share": 33.3392
+            },
+            {
+              "no": "2",
+              "name": "蔡英文、陳建仁",
+              "party": "民主進步黨",
+              "votes": 1165888,
+              "share": 54.7945
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、徐欣瑩",
+              "party": "親民黨",
+              "votes": 252486,
+              "share": 11.8663
+            }
+          ]
+        },
+        "桃園市": {
+          "validVotes": 1073104,
+          "winnerNo": "2",
+          "margin": 178560,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "朱立倫、王如玄",
+              "party": "中國國民黨",
+              "votes": 369013,
+              "share": 34.3874
+            },
+            {
+              "no": "2",
+              "name": "蔡英文、陳建仁",
+              "party": "民主進步黨",
+              "votes": 547573,
+              "share": 51.027
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、徐欣瑩",
+              "party": "親民黨",
+              "votes": 156518,
+              "share": 14.5855
+            }
+          ]
+        },
+        "臺中市": {
+          "validVotes": 1442096,
+          "winnerNo": "2",
+          "margin": 363276,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "朱立倫、王如玄",
+              "party": "中國國民黨",
+              "votes": 430005,
+              "share": 29.8181
+            },
+            {
+              "no": "2",
+              "name": "蔡英文、陳建仁",
+              "party": "民主進步黨",
+              "votes": 793281,
+              "share": 55.0089
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、徐欣瑩",
+              "party": "親民黨",
+              "votes": 218810,
+              "share": 15.1731
+            }
+          ]
+        },
+        "臺南市": {
+          "validVotes": 993236,
+          "winnerNo": "2",
+          "margin": 451412,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "朱立倫、王如玄",
+              "party": "中國國民黨",
+              "votes": 219196,
+              "share": 22.0689
+            },
+            {
+              "no": "2",
+              "name": "蔡英文、陳建仁",
+              "party": "民主進步黨",
+              "votes": 670608,
+              "share": 67.5175
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、徐欣瑩",
+              "party": "親民黨",
+              "votes": 103432,
+              "share": 10.4136
+            }
+          ]
+        },
+        "高雄市": {
+          "validVotes": 1506756,
+          "winnerNo": "2",
+          "margin": 563345,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "朱立倫、王如玄",
+              "party": "中國國民黨",
+              "votes": 391823,
+              "share": 26.0044
+            },
+            {
+              "no": "2",
+              "name": "蔡英文、陳建仁",
+              "party": "民主進步黨",
+              "votes": 955168,
+              "share": 63.3923
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、徐欣瑩",
+              "party": "親民黨",
+              "votes": 159765,
+              "share": 10.6032
+            }
+          ]
+        },
+        "基隆市": {
+          "validVotes": 193714,
+          "winnerNo": "2",
+          "margin": 25045,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "朱立倫、王如玄",
+              "party": "中國國民黨",
+              "votes": 68357,
+              "share": 35.2876
+            },
+            {
+              "no": "2",
+              "name": "蔡英文、陳建仁",
+              "party": "民主進步黨",
+              "votes": 93402,
+              "share": 48.2164
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、徐欣瑩",
+              "party": "親民黨",
+              "votes": 31955,
+              "share": 16.496
+            }
+          ]
+        },
+        "新竹市": {
+          "validVotes": 221355,
+          "winnerNo": "2",
+          "margin": 41615,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "朱立倫、王如玄",
+              "party": "中國國民黨",
+              "votes": 71771,
+              "share": 32.4235
+            },
+            {
+              "no": "2",
+              "name": "蔡英文、陳建仁",
+              "party": "民主進步黨",
+              "votes": 113386,
+              "share": 51.2236
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、徐欣瑩",
+              "party": "親民黨",
+              "votes": 36198,
+              "share": 16.3529
+            }
+          ]
+        },
+        "嘉義市": {
+          "validVotes": 138891,
+          "winnerNo": "2",
+          "margin": 44321,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "朱立倫、王如玄",
+              "party": "中國國民黨",
+              "votes": 38822,
+              "share": 27.9514
+            },
+            {
+              "no": "2",
+              "name": "蔡英文、陳建仁",
+              "party": "民主進步黨",
+              "votes": 83143,
+              "share": 59.8621
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、徐欣瑩",
+              "party": "親民黨",
+              "votes": 16926,
+              "share": 12.1865
+            }
+          ]
+        },
+        "新竹縣": {
+          "validVotes": 268136,
+          "winnerNo": "2",
+          "margin": 19420,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "朱立倫、王如玄",
+              "party": "中國國民黨",
+              "votes": 94603,
+              "share": 35.2817
+            },
+            {
+              "no": "2",
+              "name": "蔡英文、陳建仁",
+              "party": "民主進步黨",
+              "votes": 114023,
+              "share": 42.5243
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、徐欣瑩",
+              "party": "親民黨",
+              "votes": 59510,
+              "share": 22.194
+            }
+          ]
+        },
+        "苗栗縣": {
+          "validVotes": 287028,
+          "winnerNo": "2",
+          "margin": 22682,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "朱立倫、王如玄",
+              "party": "中國國民黨",
+              "votes": 107779,
+              "share": 37.55
+            },
+            {
+              "no": "2",
+              "name": "蔡英文、陳建仁",
+              "party": "民主進步黨",
+              "votes": 130461,
+              "share": 45.4524
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、徐欣瑩",
+              "party": "親民黨",
+              "votes": 48788,
+              "share": 16.9976
+            }
+          ]
+        },
+        "彰化縣": {
+          "validVotes": 670660,
+          "winnerNo": "2",
+          "margin": 185619,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "朱立倫、王如玄",
+              "party": "中國國民黨",
+              "votes": 193117,
+              "share": 28.7951
+            },
+            {
+              "no": "2",
+              "name": "蔡英文、陳建仁",
+              "party": "民主進步黨",
+              "votes": 378736,
+              "share": 56.4721
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、徐欣瑩",
+              "party": "親民黨",
+              "votes": 98807,
+              "share": 14.7328
+            }
+          ]
+        },
+        "南投縣": {
+          "validVotes": 260576,
+          "winnerNo": "2",
+          "margin": 52500,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "朱立倫、王如玄",
+              "party": "中國國民黨",
+              "votes": 83604,
+              "share": 32.0843
+            },
+            {
+              "no": "2",
+              "name": "蔡英文、陳建仁",
+              "party": "民主進步黨",
+              "votes": 136104,
+              "share": 52.232
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、徐欣瑩",
+              "party": "親民黨",
+              "votes": 40868,
+              "share": 15.6837
+            }
+          ]
+        },
+        "雲林縣": {
+          "validVotes": 345125,
+          "winnerNo": "2",
+          "margin": 132795,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "朱立倫、王如玄",
+              "party": "中國國民黨",
+              "votes": 86047,
+              "share": 24.9321
+            },
+            {
+              "no": "2",
+              "name": "蔡英文、陳建仁",
+              "party": "民主進步黨",
+              "votes": 218842,
+              "share": 63.4095
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、徐欣瑩",
+              "party": "親民黨",
+              "votes": 40236,
+              "share": 11.6584
+            }
+          ]
+        },
+        "嘉義縣": {
+          "validVotes": 279807,
+          "winnerNo": "2",
+          "margin": 117488,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "朱立倫、王如玄",
+              "party": "中國國民黨",
+              "votes": 65425,
+              "share": 23.3822
+            },
+            {
+              "no": "2",
+              "name": "蔡英文、陳建仁",
+              "party": "民主進步黨",
+              "votes": 182913,
+              "share": 65.3711
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、徐欣瑩",
+              "party": "親民黨",
+              "votes": 31469,
+              "share": 11.2467
+            }
+          ]
+        },
+        "屏東縣": {
+          "validVotes": 449356,
+          "winnerNo": "2",
+          "margin": 164006,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "朱立倫、王如玄",
+              "party": "中國國民黨",
+              "votes": 121291,
+              "share": 26.9922
+            },
+            {
+              "no": "2",
+              "name": "蔡英文、陳建仁",
+              "party": "民主進步黨",
+              "votes": 285297,
+              "share": 63.4902
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、徐欣瑩",
+              "party": "親民黨",
+              "votes": 42768,
+              "share": 9.5176
+            }
+          ]
+        },
+        "宜蘭縣": {
+          "validVotes": 233302,
+          "winnerNo": "2",
+          "margin": 85582,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "朱立倫、王如玄",
+              "party": "中國國民黨",
+              "votes": 59216,
+              "share": 25.3817
+            },
+            {
+              "no": "2",
+              "name": "蔡英文、陳建仁",
+              "party": "民主進步黨",
+              "votes": 144798,
+              "share": 62.0646
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、徐欣瑩",
+              "party": "親民黨",
+              "votes": 29288,
+              "share": 12.5537
+            }
+          ]
+        },
+        "花蓮縣": {
+          "validVotes": 154843,
+          "winnerNo": "1",
+          "margin": 16696,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "朱立倫、王如玄",
+              "party": "中國國民黨",
+              "votes": 73894,
+              "share": 47.7219
+            },
+            {
+              "no": "2",
+              "name": "蔡英文、陳建仁",
+              "party": "民主進步黨",
+              "votes": 57198,
+              "share": 36.9394
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、徐欣瑩",
+              "party": "親民黨",
+              "votes": 23751,
+              "share": 15.3388
+            }
+          ]
+        },
+        "臺東縣": {
+          "validVotes": 97663,
+          "winnerNo": "1",
+          "margin": 6064,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "朱立倫、王如玄",
+              "party": "中國國民黨",
+              "votes": 43581,
+              "share": 44.6239
+            },
+            {
+              "no": "2",
+              "name": "蔡英文、陳建仁",
+              "party": "民主進步黨",
+              "votes": 37517,
+              "share": 38.4148
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、徐欣瑩",
+              "party": "親民黨",
+              "votes": 16565,
+              "share": 16.9614
+            }
+          ]
+        },
+        "澎湖縣": {
+          "validVotes": 42623,
+          "winnerNo": "2",
+          "margin": 9094,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "朱立倫、王如玄",
+              "party": "中國國民黨",
+              "votes": 12564,
+              "share": 29.477
+            },
+            {
+              "no": "2",
+              "name": "蔡英文、陳建仁",
+              "party": "民主進步黨",
+              "votes": 21658,
+              "share": 50.8129
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、徐欣瑩",
+              "party": "親民黨",
+              "votes": 8401,
+              "share": 19.71
+            }
+          ]
+        },
+        "金門縣": {
+          "validVotes": 36805,
+          "winnerNo": "1",
+          "margin": 17701,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "朱立倫、王如玄",
+              "party": "中國國民黨",
+              "votes": 24327,
+              "share": 66.097
+            },
+            {
+              "no": "2",
+              "name": "蔡英文、陳建仁",
+              "party": "民主進步黨",
+              "votes": 6626,
+              "share": 18.003
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、徐欣瑩",
+              "party": "親民黨",
+              "votes": 5852,
+              "share": 15.9
+            }
+          ]
+        },
+        "連江縣": {
+          "validVotes": 4468,
+          "winnerNo": "1",
+          "margin": 2326,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "朱立倫、王如玄",
+              "party": "中國國民黨",
+              "votes": 3065,
+              "share": 68.5989
+            },
+            {
+              "no": "2",
+              "name": "蔡英文、陳建仁",
+              "party": "民主進步黨",
+              "votes": 739,
+              "share": 16.5398
+            },
+            {
+              "no": "3",
+              "name": "宋楚瑜、徐欣瑩",
+              "party": "親民黨",
+              "votes": 664,
+              "share": 14.8612
+            }
+          ]
+        }
+      }
+    },
+    "2020": {
+      "sourceUrl": "https://github.com/everdark/TW_Presidential_Election_2020/releases/tag/0.4",
+      "sourceNote": "中選會原始資料之 county-level processed CSV",
+      "counties": {
+        "臺北市": {
+          "validVotes": 1632453,
+          "winnerNo": "3",
+          "margin": 190024,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜",
+              "party": "親民黨",
+              "votes": 70769,
+              "share": 4.3351
+            },
+            {
+              "no": "2",
+              "name": "韓國瑜",
+              "party": "中國國民黨",
+              "votes": 685830,
+              "share": 42.0122
+            },
+            {
+              "no": "3",
+              "name": "蔡英文",
+              "party": "民主進步黨",
+              "votes": 875854,
+              "share": 53.6526
+            }
+          ]
+        },
+        "新北市": {
+          "validVotes": 2466187,
+          "winnerNo": "3",
+          "margin": 434305,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜",
+              "party": "親民黨",
+              "votes": 112620,
+              "share": 4.5666
+            },
+            {
+              "no": "2",
+              "name": "韓國瑜",
+              "party": "中國國民黨",
+              "votes": 959631,
+              "share": 38.9115
+            },
+            {
+              "no": "3",
+              "name": "蔡英文",
+              "party": "民主進步黨",
+              "votes": 1393936,
+              "share": 56.5219
+            }
+          ]
+        },
+        "桃園市": {
+          "validVotes": 1311141,
+          "winnerNo": "3",
+          "margin": 188511,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜",
+              "party": "親民黨",
+              "votes": 63132,
+              "share": 4.815
+            },
+            {
+              "no": "2",
+              "name": "韓國瑜",
+              "party": "中國國民黨",
+              "votes": 529749,
+              "share": 40.4037
+            },
+            {
+              "no": "3",
+              "name": "蔡英文",
+              "party": "民主進步黨",
+              "votes": 718260,
+              "share": 54.7813
+            }
+          ]
+        },
+        "臺中市": {
+          "validVotes": 1698470,
+          "winnerNo": "3",
+          "margin": 320938,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜",
+              "party": "親民黨",
+              "votes": 84800,
+              "share": 4.9927
+            },
+            {
+              "no": "2",
+              "name": "韓國瑜",
+              "party": "中國國民黨",
+              "votes": 646366,
+              "share": 38.0558
+            },
+            {
+              "no": "3",
+              "name": "蔡英文",
+              "party": "民主進步黨",
+              "votes": 967304,
+              "share": 56.9515
+            }
+          ]
+        },
+        "臺南市": {
+          "validVotes": 1167248,
+          "winnerNo": "3",
+          "margin": 446769,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜",
+              "party": "親民黨",
+              "votes": 41075,
+              "share": 3.519
+            },
+            {
+              "no": "2",
+              "name": "韓國瑜",
+              "party": "中國國民黨",
+              "votes": 339702,
+              "share": 29.1028
+            },
+            {
+              "no": "3",
+              "name": "蔡英文",
+              "party": "民主進步黨",
+              "votes": 786471,
+              "share": 67.3782
+            }
+          ]
+        },
+        "高雄市": {
+          "validVotes": 1763826,
+          "winnerNo": "3",
+          "margin": 486725,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜",
+              "party": "親民黨",
+              "votes": 55309,
+              "share": 3.1357
+            },
+            {
+              "no": "2",
+              "name": "韓國瑜",
+              "party": "中國國民黨",
+              "votes": 610896,
+              "share": 34.6347
+            },
+            {
+              "no": "3",
+              "name": "蔡英文",
+              "party": "民主進步黨",
+              "votes": 1097621,
+              "share": 62.2296
+            }
+          ]
+        },
+        "新竹縣": {
+          "validVotes": 325039,
+          "winnerNo": "2",
+          "margin": 1844,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜",
+              "party": "親民黨",
+              "votes": 18435,
+              "share": 5.6716
+            },
+            {
+              "no": "2",
+              "name": "韓國瑜",
+              "party": "中國國民黨",
+              "votes": 154224,
+              "share": 47.4478
+            },
+            {
+              "no": "3",
+              "name": "蔡英文",
+              "party": "民主進步黨",
+              "votes": 152380,
+              "share": 46.8805
+            }
+          ]
+        },
+        "苗栗縣": {
+          "validVotes": 326601,
+          "winnerNo": "2",
+          "margin": 17311,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜",
+              "party": "親民黨",
+              "votes": 15222,
+              "share": 4.6607
+            },
+            {
+              "no": "2",
+              "name": "韓國瑜",
+              "party": "中國國民黨",
+              "votes": 164345,
+              "share": 50.3198
+            },
+            {
+              "no": "3",
+              "name": "蔡英文",
+              "party": "民主進步黨",
+              "votes": 147034,
+              "share": 45.0195
+            }
+          ]
+        },
+        "彰化縣": {
+          "validVotes": 763231,
+          "winnerNo": "3",
+          "margin": 144501,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜",
+              "party": "親民黨",
+              "votes": 35060,
+              "share": 4.5936
+            },
+            {
+              "no": "2",
+              "name": "韓國瑜",
+              "party": "中國國民黨",
+              "votes": 291835,
+              "share": 38.2368
+            },
+            {
+              "no": "3",
+              "name": "蔡英文",
+              "party": "民主進步黨",
+              "votes": 436336,
+              "share": 57.1696
+            }
+          ]
+        },
+        "南投縣": {
+          "validVotes": 299152,
+          "winnerNo": "3",
+          "margin": 18255,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜",
+              "party": "親民黨",
+              "votes": 13315,
+              "share": 4.4509
+            },
+            {
+              "no": "2",
+              "name": "韓國瑜",
+              "party": "中國國民黨",
+              "votes": 133791,
+              "share": 44.7234
+            },
+            {
+              "no": "3",
+              "name": "蔡英文",
+              "party": "民主進步黨",
+              "votes": 152046,
+              "share": 50.8257
+            }
+          ]
+        },
+        "雲林縣": {
+          "validVotes": 399788,
+          "winnerNo": "3",
+          "margin": 107775,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜",
+              "party": "親民黨",
+              "votes": 15331,
+              "share": 3.8348
+            },
+            {
+              "no": "2",
+              "name": "韓國瑜",
+              "party": "中國國民黨",
+              "votes": 138341,
+              "share": 34.6036
+            },
+            {
+              "no": "3",
+              "name": "蔡英文",
+              "party": "民主進步黨",
+              "votes": 246116,
+              "share": 61.5616
+            }
+          ]
+        },
+        "嘉義縣": {
+          "validVotes": 307290,
+          "winnerNo": "3",
+          "margin": 98532,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜",
+              "party": "親民黨",
+              "votes": 11138,
+              "share": 3.6246
+            },
+            {
+              "no": "2",
+              "name": "韓國瑜",
+              "party": "中國國民黨",
+              "votes": 98810,
+              "share": 32.1553
+            },
+            {
+              "no": "3",
+              "name": "蔡英文",
+              "party": "民主進步黨",
+              "votes": 197342,
+              "share": 64.2201
+            }
+          ]
+        },
+        "屏東縣": {
+          "validVotes": 511050,
+          "winnerNo": "3",
+          "margin": 138323,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜",
+              "party": "親民黨",
+              "votes": 14021,
+              "share": 2.7436
+            },
+            {
+              "no": "2",
+              "name": "韓國瑜",
+              "party": "中國國民黨",
+              "votes": 179353,
+              "share": 35.095
+            },
+            {
+              "no": "3",
+              "name": "蔡英文",
+              "party": "民主進步黨",
+              "votes": 317676,
+              "share": 62.1614
+            }
+          ]
+        },
+        "宜蘭縣": {
+          "validVotes": 274406,
+          "winnerNo": "3",
+          "margin": 83647,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜",
+              "party": "親民黨",
+              "votes": 10739,
+              "share": 3.9135
+            },
+            {
+              "no": "2",
+              "name": "韓國瑜",
+              "party": "中國國民黨",
+              "votes": 90010,
+              "share": 32.8018
+            },
+            {
+              "no": "3",
+              "name": "蔡英文",
+              "party": "民主進步黨",
+              "votes": 173657,
+              "share": 63.2847
+            }
+          ]
+        },
+        "花蓮縣": {
+          "validVotes": 185212,
+          "winnerNo": "2",
+          "margin": 45325,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜",
+              "party": "親民黨",
+              "votes": 6869,
+              "share": 3.7087
+            },
+            {
+              "no": "2",
+              "name": "韓國瑜",
+              "party": "中國國民黨",
+              "votes": 111834,
+              "share": 60.3816
+            },
+            {
+              "no": "3",
+              "name": "蔡英文",
+              "party": "民主進步黨",
+              "votes": 66509,
+              "share": 35.9097
+            }
+          ]
+        },
+        "臺東縣": {
+          "validVotes": 115668,
+          "winnerNo": "2",
+          "margin": 23321,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜",
+              "party": "親民黨",
+              "votes": 4163,
+              "share": 3.5991
+            },
+            {
+              "no": "2",
+              "name": "韓國瑜",
+              "party": "中國國民黨",
+              "votes": 67413,
+              "share": 58.2815
+            },
+            {
+              "no": "3",
+              "name": "蔡英文",
+              "party": "民主進步黨",
+              "votes": 44092,
+              "share": 38.1194
+            }
+          ]
+        },
+        "澎湖縣": {
+          "validVotes": 50904,
+          "winnerNo": "3",
+          "margin": 6499,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜",
+              "party": "親民黨",
+              "votes": 2583,
+              "share": 5.0743
+            },
+            {
+              "no": "2",
+              "name": "韓國瑜",
+              "party": "中國國民黨",
+              "votes": 20911,
+              "share": 41.0793
+            },
+            {
+              "no": "3",
+              "name": "蔡英文",
+              "party": "民主進步黨",
+              "votes": 27410,
+              "share": 53.8465
+            }
+          ]
+        },
+        "基隆市": {
+          "validVotes": 226204,
+          "winnerNo": "3",
+          "margin": 15606,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜",
+              "party": "親民黨",
+              "votes": 11878,
+              "share": 5.251
+            },
+            {
+              "no": "2",
+              "name": "韓國瑜",
+              "party": "中國國民黨",
+              "votes": 99360,
+              "share": 43.925
+            },
+            {
+              "no": "3",
+              "name": "蔡英文",
+              "party": "民主進步黨",
+              "votes": 114966,
+              "share": 50.824
+            }
+          ]
+        },
+        "新竹市": {
+          "validVotes": 261102,
+          "winnerNo": "3",
+          "margin": 41549,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜",
+              "party": "親民黨",
+              "votes": 14103,
+              "share": 5.4013
+            },
+            {
+              "no": "2",
+              "name": "韓國瑜",
+              "party": "中國國民黨",
+              "votes": 102725,
+              "share": 39.3429
+            },
+            {
+              "no": "3",
+              "name": "蔡英文",
+              "party": "民主進步黨",
+              "votes": 144274,
+              "share": 55.2558
+            }
+          ]
+        },
+        "嘉義市": {
+          "validVotes": 161738,
+          "winnerNo": "3",
+          "margin": 42996,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜",
+              "party": "親民黨",
+              "votes": 6204,
+              "share": 3.8358
+            },
+            {
+              "no": "2",
+              "name": "韓國瑜",
+              "party": "中國國民黨",
+              "votes": 56269,
+              "share": 34.7902
+            },
+            {
+              "no": "3",
+              "name": "蔡英文",
+              "party": "民主進步黨",
+              "votes": 99265,
+              "share": 61.374
+            }
+          ]
+        },
+        "金門縣": {
+          "validVotes": 48040,
+          "winnerNo": "2",
+          "margin": 25492,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜",
+              "party": "親民黨",
+              "votes": 1636,
+              "share": 3.4055
+            },
+            {
+              "no": "2",
+              "name": "韓國瑜",
+              "party": "中國國民黨",
+              "votes": 35948,
+              "share": 74.8293
+            },
+            {
+              "no": "3",
+              "name": "蔡英文",
+              "party": "民主進步黨",
+              "votes": 10456,
+              "share": 21.7652
+            }
+          ]
+        },
+        "連江縣": {
+          "validVotes": 6190,
+          "winnerNo": "2",
+          "margin": 3550,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "宋楚瑜",
+              "party": "親民黨",
+              "votes": 188,
+              "share": 3.0372
+            },
+            {
+              "no": "2",
+              "name": "韓國瑜",
+              "party": "中國國民黨",
+              "votes": 4776,
+              "share": 77.1567
+            },
+            {
+              "no": "3",
+              "name": "蔡英文",
+              "party": "民主進步黨",
+              "votes": 1226,
+              "share": 19.8061
+            }
+          ]
+        }
+      }
+    },
+    "2024": {
+      "sourceUrl": "https://github.com/kiang/db.cec.gov.tw/tree/master/voteData/2024總統立委/總統",
+      "sourceNote": "中選會原始 elbase/elctks 格式鏡像",
+      "counties": {
+        "臺北市": {
+          "validVotes": 1542011,
+          "winnerNo": "2",
+          "margin": 641,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "柯文哲",
+              "party": "台灣民眾黨",
+              "votes": 366854,
+              "share": 23.7906
+            },
+            {
+              "no": "2",
+              "name": "賴清德",
+              "party": "民主進步黨",
+              "votes": 587899,
+              "share": 38.1255
+            },
+            {
+              "no": "3",
+              "name": "侯友宜",
+              "party": "中國國民黨",
+              "votes": 587258,
+              "share": 38.0839
+            }
+          ]
+        },
+        "新北市": {
+          "validVotes": 2458480,
+          "winnerNo": "2",
+          "margin": 84261,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "柯文哲",
+              "party": "台灣民眾黨",
+              "votes": 645105,
+              "share": 26.24
+            },
+            {
+              "no": "2",
+              "name": "賴清德",
+              "party": "民主進步黨",
+              "votes": 948818,
+              "share": 38.5937
+            },
+            {
+              "no": "3",
+              "name": "侯友宜",
+              "party": "中國國民黨",
+              "votes": 864557,
+              "share": 35.1663
+            }
+          ]
+        },
+        "桃園市": {
+          "validVotes": 1350792,
+          "winnerNo": "2",
+          "margin": 15618,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "柯文哲",
+              "party": "台灣民眾黨",
+              "votes": 413528,
+              "share": 30.6137
+            },
+            {
+              "no": "2",
+              "name": "賴清德",
+              "party": "民主進步黨",
+              "votes": 476441,
+              "share": 35.2712
+            },
+            {
+              "no": "3",
+              "name": "侯友宜",
+              "party": "中國國民黨",
+              "votes": 460823,
+              "share": 34.115
+            }
+          ]
+        },
+        "臺中市": {
+          "validVotes": 1707203,
+          "winnerNo": "2",
+          "margin": 89066,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "柯文哲",
+              "party": "台灣民眾黨",
+              "votes": 513025,
+              "share": 30.0506
+            },
+            {
+              "no": "2",
+              "name": "賴清德",
+              "party": "民主進步黨",
+              "votes": 641622,
+              "share": 37.5832
+            },
+            {
+              "no": "3",
+              "name": "侯友宜",
+              "party": "中國國民黨",
+              "votes": 552556,
+              "share": 32.3662
+            }
+          ]
+        },
+        "臺南市": {
+          "validVotes": 1120238,
+          "winnerNo": "2",
+          "margin": 283944,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "柯文哲",
+              "party": "台灣民眾黨",
+              "votes": 262560,
+              "share": 23.4379
+            },
+            {
+              "no": "2",
+              "name": "賴清德",
+              "party": "民主進步黨",
+              "votes": 570811,
+              "share": 50.9544
+            },
+            {
+              "no": "3",
+              "name": "侯友宜",
+              "party": "中國國民黨",
+              "votes": 286867,
+              "share": 25.6077
+            }
+          ]
+        },
+        "高雄市": {
+          "validVotes": 1636962,
+          "winnerNo": "2",
+          "margin": 321914,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "柯文哲",
+              "party": "台灣民眾黨",
+              "votes": 358096,
+              "share": 21.8756
+            },
+            {
+              "no": "2",
+              "name": "賴清德",
+              "party": "民主進步黨",
+              "votes": 800390,
+              "share": 48.8948
+            },
+            {
+              "no": "3",
+              "name": "侯友宜",
+              "party": "中國國民黨",
+              "votes": 478476,
+              "share": 29.2295
+            }
+          ]
+        },
+        "宜蘭縣": {
+          "validVotes": 267129,
+          "winnerNo": "2",
+          "margin": 42076,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "柯文哲",
+              "party": "台灣民眾黨",
+              "votes": 70171,
+              "share": 26.2686
+            },
+            {
+              "no": "2",
+              "name": "賴清德",
+              "party": "民主進步黨",
+              "votes": 119517,
+              "share": 44.7413
+            },
+            {
+              "no": "3",
+              "name": "侯友宜",
+              "party": "中國國民黨",
+              "votes": 77441,
+              "share": 28.9901
+            }
+          ]
+        },
+        "新竹縣": {
+          "validVotes": 340310,
+          "winnerNo": "3",
+          "margin": 5031,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "柯文哲",
+              "party": "台灣民眾黨",
+              "votes": 120985,
+              "share": 35.5514
+            },
+            {
+              "no": "2",
+              "name": "賴清德",
+              "party": "民主進步黨",
+              "votes": 93309,
+              "share": 27.4188
+            },
+            {
+              "no": "3",
+              "name": "侯友宜",
+              "party": "中國國民黨",
+              "votes": 126016,
+              "share": 37.0298
+            }
+          ]
+        },
+        "苗栗縣": {
+          "validVotes": 318665,
+          "winnerNo": "3",
+          "margin": 35593,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "柯文哲",
+              "party": "台灣民眾黨",
+              "votes": 95637,
+              "share": 30.0118
+            },
+            {
+              "no": "2",
+              "name": "賴清德",
+              "party": "民主進步黨",
+              "votes": 91798,
+              "share": 28.8071
+            },
+            {
+              "no": "3",
+              "name": "侯友宜",
+              "party": "中國國民黨",
+              "votes": 131230,
+              "share": 41.1812
+            }
+          ]
+        },
+        "彰化縣": {
+          "validVotes": 741368,
+          "winnerNo": "2",
+          "margin": 38374,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "柯文哲",
+              "party": "台灣民眾黨",
+              "votes": 214714,
+              "share": 28.9619
+            },
+            {
+              "no": "2",
+              "name": "賴清德",
+              "party": "民主進步黨",
+              "votes": 282514,
+              "share": 38.1071
+            },
+            {
+              "no": "3",
+              "name": "侯友宜",
+              "party": "中國國民黨",
+              "votes": 244140,
+              "share": 32.931
+            }
+          ]
+        },
+        "南投縣": {
+          "validVotes": 287296,
+          "winnerNo": "3",
+          "margin": 5884,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "柯文哲",
+              "party": "台灣民眾黨",
+              "votes": 74854,
+              "share": 26.0547
+            },
+            {
+              "no": "2",
+              "name": "賴清德",
+              "party": "民主進步黨",
+              "votes": 103279,
+              "share": 35.9486
+            },
+            {
+              "no": "3",
+              "name": "侯友宜",
+              "party": "中國國民黨",
+              "votes": 109163,
+              "share": 37.9967
+            }
+          ]
+        },
+        "雲林縣": {
+          "validVotes": 380619,
+          "winnerNo": "2",
+          "margin": 57883,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "柯文哲",
+              "party": "台灣民眾黨",
+              "votes": 99470,
+              "share": 26.1337
+            },
+            {
+              "no": "2",
+              "name": "賴清德",
+              "party": "民主進步黨",
+              "votes": 169516,
+              "share": 44.5369
+            },
+            {
+              "no": "3",
+              "name": "侯友宜",
+              "party": "中國國民黨",
+              "votes": 111633,
+              "share": 29.3293
+            }
+          ]
+        },
+        "嘉義縣": {
+          "validVotes": 292534,
+          "winnerNo": "2",
+          "margin": 53868,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "柯文哲",
+              "party": "台灣民眾黨",
+              "votes": 67382,
+              "share": 23.0339
+            },
+            {
+              "no": "2",
+              "name": "賴清德",
+              "party": "民主進步黨",
+              "votes": 139510,
+              "share": 47.6902
+            },
+            {
+              "no": "3",
+              "name": "侯友宜",
+              "party": "中國國民黨",
+              "votes": 85642,
+              "share": 29.2759
+            }
+          ]
+        },
+        "屏東縣": {
+          "validVotes": 475927,
+          "winnerNo": "2",
+          "margin": 79321,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "柯文哲",
+              "party": "台灣民眾黨",
+              "votes": 103028,
+              "share": 21.6479
+            },
+            {
+              "no": "2",
+              "name": "賴清德",
+              "party": "民主進步黨",
+              "votes": 226110,
+              "share": 47.5094
+            },
+            {
+              "no": "3",
+              "name": "侯友宜",
+              "party": "中國國民黨",
+              "votes": 146789,
+              "share": 30.8428
+            }
+          ]
+        },
+        "臺東縣": {
+          "validVotes": 109941,
+          "winnerNo": "3",
+          "margin": 24089,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "柯文哲",
+              "party": "台灣民眾黨",
+              "votes": 25590,
+              "share": 23.2761
+            },
+            {
+              "no": "2",
+              "name": "賴清德",
+              "party": "民主進步黨",
+              "votes": 30131,
+              "share": 27.4065
+            },
+            {
+              "no": "3",
+              "name": "侯友宜",
+              "party": "中國國民黨",
+              "votes": 54220,
+              "share": 49.3174
+            }
+          ]
+        },
+        "花蓮縣": {
+          "validVotes": 174157,
+          "winnerNo": "3",
+          "margin": 44796,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "柯文哲",
+              "party": "台灣民眾黨",
+              "votes": 43047,
+              "share": 24.7174
+            },
+            {
+              "no": "2",
+              "name": "賴清德",
+              "party": "民主進步黨",
+              "votes": 43157,
+              "share": 24.7805
+            },
+            {
+              "no": "3",
+              "name": "侯友宜",
+              "party": "中國國民黨",
+              "votes": 87953,
+              "share": 50.5021
+            }
+          ]
+        },
+        "澎湖縣": {
+          "validVotes": 49277,
+          "winnerNo": "2",
+          "margin": 971,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "柯文哲",
+              "party": "台灣民眾黨",
+              "votes": 12202,
+              "share": 24.7621
+            },
+            {
+              "no": "2",
+              "name": "賴清德",
+              "party": "民主進步黨",
+              "votes": 19023,
+              "share": 38.6042
+            },
+            {
+              "no": "3",
+              "name": "侯友宜",
+              "party": "中國國民黨",
+              "votes": 18052,
+              "share": 36.6337
+            }
+          ]
+        },
+        "基隆市": {
+          "validVotes": 218781,
+          "winnerNo": "3",
+          "margin": 8428,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "柯文哲",
+              "party": "台灣民眾黨",
+              "votes": 58195,
+              "share": 26.5997
+            },
+            {
+              "no": "2",
+              "name": "賴清德",
+              "party": "民主進步黨",
+              "votes": 76079,
+              "share": 34.774
+            },
+            {
+              "no": "3",
+              "name": "侯友宜",
+              "party": "中國國民黨",
+              "votes": 84507,
+              "share": 38.6263
+            }
+          ]
+        },
+        "新竹市": {
+          "validVotes": 266389,
+          "winnerNo": "2",
+          "margin": 1295,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "柯文哲",
+              "party": "台灣民眾黨",
+              "votes": 91384,
+              "share": 34.3047
+            },
+            {
+              "no": "2",
+              "name": "賴清德",
+              "party": "民主進步黨",
+              "votes": 92679,
+              "share": 34.7909
+            },
+            {
+              "no": "3",
+              "name": "侯友宜",
+              "party": "中國國民黨",
+              "votes": 82326,
+              "share": 30.9044
+            }
+          ]
+        },
+        "嘉義市": {
+          "validVotes": 157656,
+          "winnerNo": "2",
+          "margin": 18692,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "柯文哲",
+              "party": "台灣民眾黨",
+              "votes": 39950,
+              "share": 25.34
+            },
+            {
+              "no": "2",
+              "name": "賴清德",
+              "party": "民主進步黨",
+              "votes": 68199,
+              "share": 43.2581
+            },
+            {
+              "no": "3",
+              "name": "侯友宜",
+              "party": "中國國民黨",
+              "votes": 49507,
+              "share": 31.4019
+            }
+          ]
+        },
+        "連江縣": {
+          "validVotes": 6159,
+          "winnerNo": "3",
+          "margin": 2209,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "柯文哲",
+              "party": "台灣民眾黨",
+              "votes": 1651,
+              "share": 26.8063
+            },
+            {
+              "no": "2",
+              "name": "賴清德",
+              "party": "民主進步黨",
+              "votes": 648,
+              "share": 10.5212
+            },
+            {
+              "no": "3",
+              "name": "侯友宜",
+              "party": "中國國民黨",
+              "votes": 3860,
+              "share": 62.6725
+            }
+          ]
+        },
+        "金門縣": {
+          "validVotes": 45612,
+          "winnerNo": "3",
+          "margin": 14967,
+          "candidates": [
+            {
+              "no": "1",
+              "name": "柯文哲",
+              "party": "台灣民眾黨",
+              "votes": 13038,
+              "share": 28.5846
+            },
+            {
+              "no": "2",
+              "name": "賴清德",
+              "party": "民主進步黨",
+              "votes": 4569,
+              "share": 10.0171
+            },
+            {
+              "no": "3",
+              "name": "侯友宜",
+              "party": "中國國民黨",
+              "votes": 28005,
+              "share": 61.3983
+            }
+          ]
+        }
+      }
+    }
+  }
+}
