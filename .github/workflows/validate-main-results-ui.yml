@@ -1,0 +1,43 @@
+name: Validate main results UI
+
+on:
+  push:
+    branches:
+      - feature/historical-election-map-20260922
+    paths:
+      - index.html
+      - scripts/validate-results-panel-ui.mjs
+      - .github/workflows/validate-main-results-ui.yml
+  pull_request:
+    paths:
+      - index.html
+      - scripts/validate-results-panel-ui.mjs
+      - .github/workflows/validate-main-results-ui.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  results-mobile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Validate results heading at 390px
+        run: node scripts/validate-results-panel-ui.mjs
+      - name: Upload mobile result screenshot
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: main-results-ui
+          path: artifacts/main-ui/results-panel-mobile-390.png
+          if-no-files-found: warn
+          retention-days: 7
