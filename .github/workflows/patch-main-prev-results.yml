@@ -1,0 +1,50 @@
+name: Patch main previous result clipping
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/patch-main-prev-results.mjs'
+      - '.github/workflows/patch-main-prev-results.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Patch previous result section
+        run: node scripts/patch-main-prev-results.mjs
+      - name: Validate patch markers
+        run: |
+          node - <<'NODE'
+          const fs = require('fs');
+          const html = fs.readFileSync('index.html', 'utf8');
+          for (const marker of [
+            '.res-panel.open .res-panel-content>div{overflow:visible}',
+            'class="prev-election-section"',
+            "'prev-results-head'",
+            'min-height:22px;line-height:1.35;overflow:visible'
+          ]) {
+            if (!html.includes(marker)) throw new Error(`Missing marker: ${marker}`);
+          }
+          console.log('Previous election clipping patch validated.');
+          NODE
+      - name: Commit production fix
+        run: |
+          if git diff --quiet -- index.html; then
+            echo 'No index.html changes.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git commit -m 'Fix previous election result clipping [skip ci]'
+          git push origin HEAD:main
