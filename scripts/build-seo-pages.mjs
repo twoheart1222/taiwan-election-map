@@ -19,7 +19,7 @@ const counties = feats(readJson('data/counties.json'));
 const dmap = readJson('data/district_town_map.json');
 const quota = readJson('data/district_quota.json');
 
-const CSS = `*{box-sizing:border-box}body{margin:0;background:#0d0d0d;color:#e9e5dc;font:16px/1.75 "Noto Sans TC",system-ui,sans-serif}a{color:#ff5a72}main{max-width:960px;margin:0 auto;padding:28px 18px 64px}nav.top{display:flex;gap:14px;flex-wrap:wrap;font-size:14px;margin-bottom:22px}h1{font-size:clamp(26px,5vw,42px);line-height:1.2;margin:.2em 0 .4em}h2{font-size:22px;margin:2em 0 .5em;border-left:4px solid #E4022B;padding-left:10px}h3{font-size:17px;margin:1.4em 0 .4em}table{border-collapse:collapse;width:100%;font-size:15px}th,td{border-bottom:1px solid #2b2b2b;padding:6px 8px;text-align:left;vertical-align:top}th{color:#a29c92;font-weight:600}.note{color:#a29c92;font-size:14px}.cta{display:inline-block;margin:10px 0;padding:10px 20px;background:#E4022B;color:#fff;border-radius:999px;text-decoration:none;font-weight:700}ul.links{columns:3 150px;padding-left:18px}footer{margin-top:48px;color:#8a857c;font-size:13px;border-top:1px solid #2b2b2b;padding-top:16px}`;
+const CSS = `*{box-sizing:border-box}body{margin:0;background:#0d0d0d;color:#e9e5dc;font:16px/1.75 "Noto Sans TC",system-ui,sans-serif}a{color:#ff5a72}main{max-width:960px;margin:0 auto;padding:28px 18px 64px}nav.top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:14px;margin-bottom:22px}.brand{display:inline-flex;align-items:center;gap:9px;color:#f4f1ea;text-decoration:none;font-weight:800}.brand img{width:40px;height:34px;object-fit:contain;padding:4px 5px;background:#f4f1ea;border-radius:7px}h1{font-size:clamp(26px,5vw,42px);line-height:1.2;margin:.2em 0 .4em}h2{font-size:22px;margin:2em 0 .5em;border-left:4px solid #E4022B;padding-left:10px}h3{font-size:17px;margin:1.4em 0 .4em}table{border-collapse:collapse;width:100%;font-size:15px}th,td{border-bottom:1px solid #2b2b2b;padding:6px 8px;text-align:left;vertical-align:top}th{color:#a29c92;font-weight:600}.note{color:#a29c92;font-size:14px}.cta{display:inline-block;margin:10px 0;padding:10px 20px;background:#E4022B;color:#fff;border-radius:999px;text-decoration:none;font-weight:700}ul.links{columns:3 150px;padding-left:18px}footer{margin-top:48px;color:#8a857c;font-size:13px;border-top:1px solid #2b2b2b;padding-top:16px}`;
 
 function shell({ title, desc, canon, h1, body, ld, crumbs }) {
   const bc = {
@@ -31,7 +31,10 @@ function shell({ title, desc, canon, h1, body, ld, crumbs }) {
     inLanguage: 'zh-TW', dateModified: today, isPartOf: { '@type': 'WebSite', name: NAME, url: SITE + '/' },
     about: { '@type': 'Event', name: '2026 年中華民國地方公職人員選舉', startDate: ELECTION_DATE, location: { '@type': 'Country', name: '臺灣' } },
   };
-  const ldAll = [bc, page, ...(ld || [])].map((o) => `<script type="application/ld+json">${JSON.stringify(o).replace(/</g, '\\u003c')}</script>`).join('\n');
+  const organization = {
+    '@context': 'https://schema.org', '@type': 'Organization', name: NAME, url: SITE + '/', logo: SITE + '/favicon.png',
+  };
+  const ldAll = [bc, page, organization, ...(ld || [])].map((o) => `<script type="application/ld+json">${JSON.stringify(o).replace(/</g, '\\u003c')}</script>`).join('\n');
   return `<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -40,6 +43,11 @@ function shell({ title, desc, canon, h1, body, ld, crumbs }) {
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(desc)}">
 <link rel="canonical" href="${SITE}${canon}">
+<link rel="icon" type="image/png" sizes="512x512" href="/favicon.png">
+<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
 <meta name="theme-color" content="#0d0d0d">
 <meta property="og:type" content="article"><meta property="og:locale" content="zh_TW">
@@ -52,7 +60,7 @@ ${ldAll}
 </head>
 <body>
 <main>
-<nav class="top" aria-label="導覽"><a href="/">島民選舉地圖</a><a href="/election/">全台縣市</a>${crumbs.slice(2).map((c) => `<a href="${c[1]}">${esc(c[0])}</a>`).join('')}</nav>
+<nav class="top" aria-label="導覽"><a class="brand" href="/"><img src="/assets/brand/formosa-mark.png" alt=""><span>島民觀察室</span></a><a href="/election/">全台縣市</a>${crumbs.slice(2).map((c) => `<a href="${c[1]}">${esc(c[0])}</a>`).join('')}</nav>
 <h1>${esc(h1)}</h1>
 ${body}
 <footer>資料整理：${esc(NAME)}（<a href="/">${SITE.replace('https://', '')}</a>），最後更新 ${today}。本站為獨立民間資訊平台，非中央選舉委員會或任何政黨、候選人之官方網站；候選人名單、選區與票數以中央選舉委員會公告為準。聯絡：<a href="mailto:contact@formosaobservatory.com">contact@formosaobservatory.com</a></footer>
