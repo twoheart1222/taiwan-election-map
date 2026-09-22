@@ -70,17 +70,20 @@ try {
     const section = panel.querySelector('.prev-election-section');
     const head = panel.querySelector('.prev-results-head');
     const winner = [...section.children].find(el => el.textContent.includes('張麗善'));
+    const winnerName = winner?.firstElementChild?.firstElementChild;
     const inner = panel.querySelector('.res-panel-content > div');
-    if (!section || !head || !winner || !inner) throw new Error('previous result DOM missing');
+    if (!section || !head || !winner || !winnerName || !inner) throw new Error('previous result DOM missing');
     const sr = section.getBoundingClientRect();
     const hr = head.getBoundingClientRect();
     const wr = winner.getBoundingClientRect();
+    const nr = winnerName.getBoundingClientRect();
     const pr = panel.getBoundingClientRect();
     return {
       panelLeft:pr.left, panelRight:pr.right,
       sectionTop:sr.top, sectionLeft:sr.left, sectionRight:sr.right,
       headTop:hr.top, headBottom:hr.bottom, headHeight:hr.height,
       winnerLeft:wr.left, winnerRight:wr.right,
+      winnerTextLeft:nr.left, winnerTextInset:nr.left - sr.left,
       openOverflow:getComputedStyle(inner).overflow,
       headText:head.textContent.trim(),
       panelText:panel.textContent
@@ -91,8 +94,9 @@ try {
   assert(metrics.headHeight >= 20, `previous heading line box too short: ${metrics.headHeight}`);
   assert(metrics.headTop >= metrics.sectionTop, 'previous heading is clipped above its section');
   assert(metrics.openOverflow === 'visible', `expanded results still clip content: ${metrics.openOverflow}`);
-  assert(metrics.winnerLeft >= metrics.panelLeft - 1, `winner row clipped left: ${metrics.winnerLeft} < ${metrics.panelLeft}`);
-  assert(metrics.winnerRight <= metrics.panelRight + 1, `winner row clipped right: ${metrics.winnerRight} > ${metrics.panelRight}`);
+  assert(metrics.winnerLeft >= metrics.sectionLeft - 1, `winner row escapes section left: ${metrics.winnerLeft} < ${metrics.sectionLeft}`);
+  assert(metrics.winnerRight <= metrics.sectionRight + 1, `winner row escapes section right: ${metrics.winnerRight} > ${metrics.sectionRight}`);
+  assert(metrics.winnerTextInset >= 10, `winner name lacks safe left inset: ${metrics.winnerTextInset}px`);
   assert(metrics.panelText.includes('207,519'), '2022 winner votes missing');
   assert(metrics.panelText.includes('56.57%'), '2022 winner share missing');
 
