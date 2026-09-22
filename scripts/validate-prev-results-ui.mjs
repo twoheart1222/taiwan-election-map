@@ -9,6 +9,14 @@ const OUT = path.join(ROOT, 'artifacts', 'prev-results-ui');
 const MIME = { '.html':'text/html; charset=utf-8', '.css':'text/css; charset=utf-8', '.js':'text/javascript; charset=utf-8', '.json':'application/json; charset=utf-8' };
 const assert = (ok, msg) => { if (!ok) throw new Error(msg); };
 
+// 歷年縣市長的當選樣式必須與目前總統歷年頁一致：深色卡＋黃色右上角「當選」。
+const localExecutiveCss = await fs.readFile(path.join(ROOT, 'history', 'local-executive.css'), 'utf8');
+assert(localExecutiveCss.includes('.local-candidate.elected{border-color:#5b5147}'), 'local elected card border does not match president style');
+assert(localExecutiveCss.includes(".local-candidate.elected:before{content:'當選'"), 'local elected yellow corner badge missing');
+assert(localExecutiveCss.includes('background:var(--yellow);color:#0d0d0d'), 'local elected badge colors do not match president style');
+assert(!localExecutiveCss.includes("content:'當選 / ELECTED'"), 'old local elected stamp still present');
+assert(!localExecutiveCss.includes('.local-candidate.elected{background:#f4f1ea'), 'old cream elected card still present');
+
 const server = http.createServer(async (req, res) => {
   try {
     const url = new URL(req.url, 'http://127.0.0.1');
@@ -69,21 +77,25 @@ try {
 
     const section = panel.querySelector('.prev-election-section');
     const head = panel.querySelector('.prev-results-head');
-    const winner = [...section.children].find(el => el.textContent.includes('張麗善'));
-    const winnerName = winner?.firstElementChild?.firstElementChild;
     const inner = panel.querySelector('.res-panel-content > div');
-    if (!section || !head || !winner || !winnerName || !inner) throw new Error('previous result DOM missing');
+    const names = ['張麗善','劉建國','林佳瑜'];
+    const rows = names.map(name => [...section.children].find(el => el.textContent.includes(name)));
+    const nameNodes = rows.map(row => row?.firstElementChild?.firstElementChild);
+    if (!section || !head || !inner || rows.some(row => !row) || nameNodes.some(node => !node)) throw new Error('previous result DOM missing');
+
     const sr = section.getBoundingClientRect();
     const hr = head.getBoundingClientRect();
-    const wr = winner.getBoundingClientRect();
-    const nr = winnerName.getBoundingClientRect();
+    const winnerRect = rows[0].getBoundingClientRect();
+    const nameLefts = nameNodes.map(node => node.getBoundingClientRect().left);
     const pr = panel.getBoundingClientRect();
     return {
       panelLeft:pr.left, panelRight:pr.right,
       sectionTop:sr.top, sectionLeft:sr.left, sectionRight:sr.right,
       headTop:hr.top, headBottom:hr.bottom, headHeight:hr.height,
-      winnerLeft:wr.left, winnerRight:wr.right,
-      winnerTextLeft:nr.left, winnerTextInset:nr.left - sr.left,
+      winnerLeft:winnerRect.left, winnerRight:winnerRect.right,
+      winnerTextInset:nameLefts[0] - sr.left,
+      nameLefts,
+      nameAlignmentSpread:Math.max(...nameLefts)-Math.min(...nameLefts),
       openOverflow:getComputedStyle(inner).overflow,
       headText:head.textContent.trim(),
       panelText:panel.textContent
@@ -97,6 +109,7 @@ try {
   assert(metrics.winnerLeft >= metrics.sectionLeft - 1, `winner row escapes section left: ${metrics.winnerLeft} < ${metrics.sectionLeft}`);
   assert(metrics.winnerRight <= metrics.sectionRight + 1, `winner row escapes section right: ${metrics.winnerRight} > ${metrics.sectionRight}`);
   assert(metrics.winnerTextInset >= 10, `winner name lacks safe left inset: ${metrics.winnerTextInset}px`);
+  assert(metrics.nameAlignmentSpread <= 1, `candidate names are not left-aligned: ${metrics.nameLefts.join(', ')}`);
   assert(metrics.panelText.includes('207,519'), '2022 winner votes missing');
   assert(metrics.panelText.includes('56.57%'), '2022 winner share missing');
 
