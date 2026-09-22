@@ -14,7 +14,7 @@
   const normalize=v=>String(v||'').replaceAll('台','臺').replace(/\s+/g,'').trim();
   const esc=v=>String(v??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
   let national=null,counties=null,topology=null,features=[];
-  let electionType='president',mode='single',level='national',compareA=2020,compareB=2024,compareLayer='winner',compareParty='DPP',compareSelection=null,availableYears=[],resizeTimer=null;
+  let electionType='president',mode='single',level='national',compareA=2020,compareB=2024,compareLayer='winner',compareParty='DPP',compareSelection=null,availableYears=[],resizeTimer=null,queryHydrated=false;
 
   function currentYear(){const y=Number($('#archive-year-select')?.value);return Number.isFinite(y)?y:2024}
   function election(year){return national?.elections?.find(e=>Number(e.year)===Number(year))||null}
@@ -103,6 +103,7 @@
   function selectOptions(selected,blocked){return availableYears.map(y=>`<option value="${y}"${y===selected?' selected':''}${y===blocked?' disabled':''}>${y}</option>`).join('')}
   function syncCompareControls(){const a=$('#archive-compare-a'),b=$('#archive-compare-b');if(a){a.innerHTML=selectOptions(compareA,compareB);a.value=String(compareA)}if(b){b.innerHTML=selectOptions(compareB,compareA);b.value=String(compareB)}document.body.dataset.compareA=String(compareA);document.body.dataset.compareB=String(compareB)}
   function syncUrl(){
+    if(!queryHydrated)return;
     const u=new URL(location.href);
     u.searchParams.set('type',electionType);
     u.searchParams.set('year',String(currentYear()));
@@ -170,11 +171,11 @@
     const layer=q.get('layer');if(['winner','share','swing'].includes(layer))compareLayer=layer;
     const party=q.get('party');if(['DPP','KMT'].includes(party))compareParty=party;
     [compareA,compareB]=initialComparePair(q);syncCompareControls();syncLayerControls();
-    if(q.get('mode')==='compare'||(q.has('compareA')&&q.has('compareB'))){setMode('compare',{sync:false});syncUrl();renderQuerySummary();return}
+    if(q.get('mode')==='compare'||(q.has('compareA')&&q.has('compareB'))){setMode('compare',{sync:false});renderQuerySummary();return}
     setMode('single',{sync:false});
     level=q.get('level')==='county'?'county':'national';syncLevelButtons();syncRegionControls();
     const region=normalize(q.get('region'));if(level==='county'&&region&&countyResult(currentYear(),region))chooseRegion(region,{sync:false});else setLevel(level,{sync:false});
-    syncUrl();renderQuerySummary();
+    renderQuerySummary();
   }
   function bindStaticControls(){
     $('#archive-mode-single')?.addEventListener('click',()=>setMode('single'));$('#archive-mode-compare')?.addEventListener('click',()=>setMode('compare'));
@@ -188,11 +189,13 @@
   }
 
   async function init(){
+    const initialQuery=new URLSearchParams(location.search);
     loadQueryStyles();buildQueryChrome();buildCompareUI();bindStaticControls();watchElectedCards();mobileSvg();
     try{
       const[n,c,t]=await Promise.all([fetch('../data/history/presidential.json').then(r=>{if(!r.ok)throw new Error('national');return r.json()}),fetch('../data/history/presidential-counties.json').then(r=>{if(!r.ok)throw new Error('counties');return r.json()}),fetch('../data/counties.json').then(r=>{if(!r.ok)throw new Error('topology');return r.json()})]);
       national=n;counties=c;topology=t;const object=topology.objects[Object.keys(topology.objects)[0]];features=window.topojson.feature(topology,object).features;availableYears=(national.elections||[]).map(e=>Number(e.year)).filter(Number.isFinite).sort((a,b)=>a-b);
-      restoreFromUrl(new URLSearchParams(location.search));
+      restoreFromUrl(initialQuery);
+      queryHydrated=true;syncUrl();renderQuerySummary();
       renderMobileMap();applyElectedCards();
       new MutationObserver(()=>{syncBaseCountyNames();if(mode==='compare')requestAnimationFrame(styleComparisonMaps)}).observe($('#map'),{childList:true,subtree:true});
       addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(renderMobileMap,120)},{passive:true});
