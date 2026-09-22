@@ -18,6 +18,19 @@ function patch(html,file){
     if(!html.includes(needle))throw new Error(`${file}: missing </body>`);
     html=html.replace(needle,'<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>\n<script src="./product-ui.js"></script>\n</body>');
   }
+
+  // The archive's base CSS provides a neutral fallback `fill` on .county.
+  // A CSS fill property outranks an SVG presentation attribute, so D3 must
+  // write winner colors as an inline style rather than attr('fill', ...).
+  if(file==='history/index.html'){
+    html=html.replace(
+      ".attr('fill',d=>{const r=countyResult(current,featureName(d));return r?partyColor(current,r.winnerNo):'#201d1a'});",
+      ".style('fill',d=>{const r=countyResult(current,featureName(d));return r?partyColor(current,r.winnerNo):'#201d1a'});",
+    );
+    if(!html.includes(".style('fill',d=>{const r=countyResult(current,featureName(d));return r?partyColor(current,r.winnerNo):'#201d1a'});")){
+      throw new Error(`${file}: dynamic county fill patch is missing`);
+    }
+  }
   return html;
 }
 
