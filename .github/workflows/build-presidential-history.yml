@@ -6,6 +6,7 @@ on:
       - feature/historical-election-map-20260922
     paths:
       - scripts/build-presidential-history.mjs
+      - scripts/append-modern-presidential-history.mjs
       - scripts/patch-history-nav.mjs
       - data/history/presidential.json
       - .github/workflows/build-presidential-history.yml
@@ -14,10 +15,14 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: presidential-history-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build-history:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - name: Checkout feature branch
         uses: actions/checkout@v4
@@ -25,31 +30,37 @@ jobs:
           ref: feature/historical-election-map-20260922
           fetch-depth: 0
 
+      - name: Checkout 2024 CEC raw-data mirror
+        uses: actions/checkout@v4
+        with:
+          repository: kiang/db.cec.gov.tw
+          ref: master
+          path: .history-sources/cec
+          sparse-checkout: |
+            voteData/2024總統立委/總統/elbase.csv
+            voteData/2024總統立委/總統/elctks.csv
+          sparse-checkout-cone-mode: false
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      - name: Inspect 1996 county summary shape
+      - name: Download processed 2020 county results
         shell: bash
         run: |
-          python - <<'PY'
-          import csv, io, urllib.parse, urllib.request
-          folder='1996_第09任總統（副總統）選舉'
-          url='https://raw.githubusercontent.com/MISNUK/CECDataSet/master/data/'+urllib.parse.quote(folder)+'/VoteRecords.csv'
-          text=urllib.request.urlopen(url).read().decode('utf-8-sig')
-          rows=list(csv.DictReader(io.StringIO(text)))
-          matches=[]
-          for r in rows:
-              if (r.get('CountyCityName') or '').strip() and not (r.get('TownshipName') or '').strip() and not (r.get('VillageName') or '').strip() and str(r.get('PollStationNo') or '').strip() in ('','0'):
-                  matches.append(r)
-              if len(matches)>=16: break
-          print('columns=', list(rows[0].keys()) if rows else [])
-          for r in matches: print({k:r.get(k) for k in ('CountyCityName','TownshipName','VillageName','PollStationNo','DistrictName','DrawNo','VoteCounts','CandIdateName','EndorsementPartyName')})
-          PY
+          mkdir -p .history-sources/2020
+          curl -L --fail --retry 3 \
+            https://github.com/everdark/TW_Presidential_Election_2020/releases/download/0.4/presidential.zip \
+            -o /tmp/presidential-2020.zip
+          unzip -q -o /tmp/presidential-2020.zip -d .history-sources/2020
+          test -f .history-sources/2020/presidential_counties.csv
 
-      - name: Build and validate county results
+      - name: Build and validate 1996–2016 county results
         run: node scripts/build-presidential-history.mjs
+
+      - name: Append and validate 2020–2024 county results
+        run: node scripts/append-modern-presidential-history.mjs
 
       - name: Add history navigation entry
         run: node scripts/patch-history-nav.mjs
