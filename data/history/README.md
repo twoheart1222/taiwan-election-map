@@ -53,6 +53,7 @@
 - 手機版使用獨立漢堡選單、水平年份選擇器、堆疊式地圖／結果區與至少約 40–48px 的主要觸控目標；hover tooltip 在觸控裝置停用。
 - 支援 `prefers-reduced-motion`；使用者要求減少動態時會略過裝飾性轉場。
 - `/history/*` 有獨立 CSP，明確允許頁面使用的 D3、TopoJSON、GSAP 與行政區 TopoJSON 來源。
+- 縣市勝方色由 D3 寫入 SVG inline style，避免基礎中性色 CSS 蓋掉動態政黨色。
 
 ## 瀏覽器與手機驗證
 
@@ -67,13 +68,14 @@
 驗證內容包含：
 
 1. 2024 全台 22 個有結果縣市皆成功渲染。
-2. 頁面不得產生水平 overflow。
-3. 手機漢堡選單可開關，年份與主要操作按鈕具足夠觸控高度。
-4. 縣市點擊後必須出現結果卡，且 2020／2024 只允許一個鄉鎮市區下探入口。
-5. 下探轉場後鄉鎮市區地圖必須渲染，鄉鎮按鈕可點並能開啟票數結果。
-6. CI 會保存桌面、390px 歷史頁與 390px 鄉鎮頁全頁截圖，供人工目視檢查。
+2. 縣市地圖必須出現至少兩種實際勝方色，不能全部退回中性灰底。
+3. 頁面不得產生水平 overflow。
+4. 手機漢堡選單可開關，年份與主要操作按鈕具足夠觸控高度。
+5. 固定以臺北市驗證縣市結果卡，且 2020／2024 只允許一個鄉鎮市區下探入口。
+6. 下探轉場後臺北市 12 區地圖必須渲染，鄉鎮按鈕可點並能開啟票數結果。
+7. CI 會等待局部動畫穩定後，保存桌面、390px 歷史頁與 390px 鄉鎮頁全頁截圖，供人工目視檢查。
 
-這組瀏覽器驗證曾實際抓到重複產生「查看鄉鎮市區」按鈕的問題，因此 `scripts/patch-history-drilldown.mjs` 現在會先清除舊 block，再確保每次建置後只存在一個 canonical drilldown CTA。
+這組瀏覽器驗證曾實際抓到兩個 UI regression：重複產生「查看鄉鎮市區」按鈕，以及縣市動態勝方色被基礎 CSS 中性色覆蓋。前者已改為冪等 patch，後者也加入顏色 regression guard。
 
 ## 資料驗證規則
 
@@ -99,8 +101,8 @@
 - `scripts/build-modern-presidential-towns.mjs`：2020、2024 鄉鎮市區資料
 - `scripts/patch-history-nav.mjs`：首頁歷年選舉入口
 - `scripts/patch-history-drilldown.mjs`：歷史頁的縣市 → 鄉鎮市區入口，並保證 patch 冪等。
-- `scripts/patch-history-product-ui.mjs`：將共用產品 UI 資產接入全台與鄉鎮頁。
-- `scripts/validate-history-ui.mjs`：Playwright 桌機／手機互動驗證。
+- `scripts/patch-history-product-ui.mjs`：將共用產品 UI 資產接入全台與鄉鎮頁，並保證動態縣市色不被中性色覆蓋。
+- `scripts/validate-history-ui.mjs`：Playwright 桌機／手機互動與視覺 regression 驗證。
 - `.github/workflows/build-presidential-history.yml`：下載來源、執行資料驗證並更新產出檔。
 - `.github/workflows/validate-history-ui.yml`：實際 Chromium UI 驗證與截圖。
 
