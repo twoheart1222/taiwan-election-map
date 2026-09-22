@@ -13,10 +13,16 @@ function patch(html,file){
     if(!html.includes(needle))throw new Error(`${file}: missing </style> anchor`);
     html=html.replace(needle,'</style>\n<link rel="stylesheet" href="./product-ui.css">\n</head>');
   }
+  if(file==='history/index.html'&&!html.includes('href="./archive-enhancements.css"')){
+    html=html.replace('<link rel="stylesheet" href="./product-ui.css">','<link rel="stylesheet" href="./product-ui.css">\n<link rel="stylesheet" href="./archive-enhancements.css">');
+  }
   if(!html.includes('cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js')){
     const needle='</body>';
     if(!html.includes(needle))throw new Error(`${file}: missing </body>`);
     html=html.replace(needle,'<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>\n<script src="./product-ui.js"></script>\n</body>');
+  }
+  if(file==='history/index.html'&&!html.includes('src="./archive-enhancements.js"')){
+    html=html.replace('<script src="./product-ui.js"></script>','<script src="./product-ui.js"></script>\n<script src="./archive-enhancements.js"></script>');
   }
 
   // The archive's base CSS provides a neutral fallback `fill` on .county.
@@ -29,6 +35,9 @@ function patch(html,file){
     );
     if(!html.includes(".style('fill',d=>{const r=countyResult(current,featureName(d));return r?partyColor(current,r.winnerNo):'#201d1a'});")){
       throw new Error(`${file}: dynamic county fill patch is missing`);
+    }
+    if(!html.includes('archive-enhancements.css')||!html.includes('archive-enhancements.js')){
+      throw new Error(`${file}: archive enhancement assets are missing`);
     }
   }
   return html;
