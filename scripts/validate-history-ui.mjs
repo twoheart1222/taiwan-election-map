@@ -57,11 +57,16 @@ async function validateCompareMode(page,label,screenshotPath=null){
   const stats=await page.locator('#archive-compare-stats .archive-compare-stat').count();assert(stats===3,`${label}: comparison summary stats missing (${stats})`);
   const flips=await page.locator('#archive-flips [data-county]').count();assert(flips>=1,`${label}: expected at least one 2020→2024 flipped county`);
   const detail=await page.locator('#archive-compare-detail').textContent();assert(/Swing/.test(detail||''),`${label}: comparison detail is missing Swing`);
+  await page.waitForTimeout(240);
   const selector=await archiveMapSelector(page);
-  const gold=await page.locator(selector).evaluateAll(els=>els.filter(el=>getComputedStyle(el).stroke==='rgb(246, 201, 69)').length);
-  assert(gold>=1,`${label}: comparison map has no gold flip outlines`);
-  await noOverflow(page,`${label}-compare`);
+  const states=await page.locator(selector).evaluateAll(els=>els.map(el=>({county:el.dataset.county||'',flip:el.dataset.compareFlip||'',muted:el.dataset.compareMuted||'',selected:el.dataset.compareSelected||'',stroke:getComputedStyle(el).stroke,fill:getComputedStyle(el).fill,cls:el.getAttribute('class')||''})));
+  const flagged=states.filter(s=>s.flip==='true');
+  const gold=states.filter(s=>s.stroke==='rgb(246, 201, 69)');
+  console.log(`[${label}] comparison diagnostics: ${JSON.stringify({flagged:flagged.slice(0,8),gold:gold.slice(0,8),sample:states.slice(0,4)})}`);
   if(screenshotPath){await page.evaluate(()=>window.scrollTo(0,0));await page.waitForTimeout(160);await page.screenshot({path:screenshotPath,fullPage:true});}
+  assert(flagged.length>=1,`${label}: comparison state was not attached to map counties`);
+  assert(gold.length>=1,`${label}: comparison map has no gold flip outlines; flagged=${JSON.stringify(flagged.slice(0,5))}`);
+  await noOverflow(page,`${label}-compare`);
   await btn.click();await page.locator('#archive-compare-drawer').waitFor({state:'hidden',timeout:3000});
 }
 
