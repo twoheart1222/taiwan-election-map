@@ -54,7 +54,7 @@
       <div class="section-label">縣市結果 / COUNTY RESULT</div>
       <div id="county-detail" class="county-empty"></div>
     </div>
-    <div class="source">主要資料來源：<a href="https://db.cec.gov.tw/Visual/?type=President" target="_blank" rel="noopener noreferrer">中央選舉委員會選舉資料庫</a>。1996–2016 縣市層級由中選會原始格式鏡像自動建置並以全國票數交叉驗證；本站為非官方整理。</div>
+    <div class="source">主要資料來源：<a href="https://db.cec.gov.tw/Visual/?type=President" target="_blank" rel="noopener noreferrer">中央選舉委員會選舉資料庫</a>。1996–2024 縣市層級皆經逐候選人票數加總驗證；2020、2024 另提供鄉鎮市區下探。本站為非官方整理。</div>
   </aside>
 </main>
 <div id="tooltip" class="tooltip"></div>
@@ -113,6 +113,17 @@ function renderCounty(name,result){
     const meta=nationalCandidate(current,c.no),color=partyColor(current,c.no),share=Number(c.share ?? (result.validVotes?c.votes/result.validVotes*100:0));
     return `<div class="county-row"><div class="county-row-name">${String(c.no)===String(winner.no)?`<i class="winner-dot" style="background:${color}"></i>`:''}${meta?`${meta.president}・${meta.vicePresident}`:(c.name||`候選人 ${c.no}`)}<span class="county-row-party">${meta?.party||c.party||''}</span></div><div class="county-row-votes">${fmt.format(c.votes)}</div><div class="county-row-share">${share.toFixed(2)}%</div></div>`;
   }).join('')}</div><div class="county-summary"><span>勝方：${nationalCandidate(current,winner.no)?.president||winner.name}</span><span>勝差 ${fmt.format(result.margin)} 票</span></div>`;
+  if([2020,2024].includes(Number(current.year))){
+    const link=document.createElement('a');
+    link.dataset.historyTownDrilldown='true';
+    link.href=`./town.html?year=${current.year}&county=${encodeURIComponent(name)}`;
+    link.textContent=`查看 ${name} 鄉鎮市區 →`;
+    link.style.cssText='display:block;margin:12px 18px 16px;padding:12px 14px;border:1px solid #493d38;border-radius:12px;background:#211a18;color:#f4f1ea;font-size:12px;font-weight:900;text-align:center;transition:.15s';
+    link.addEventListener('mouseenter',()=>{link.style.borderColor='#E4022B';link.style.color='#E4022B'});
+    link.addEventListener('mouseleave',()=>{link.style.borderColor='#493d38';link.style.color='#f4f1ea'});
+    $('county-detail').appendChild(link);
+  }
+
 }
 
 function paintMap(){
