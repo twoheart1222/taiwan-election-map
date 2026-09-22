@@ -9,13 +9,13 @@ const OUT = path.join(ROOT, 'artifacts', 'prev-results-ui');
 const MIME = { '.html':'text/html; charset=utf-8', '.css':'text/css; charset=utf-8', '.js':'text/javascript; charset=utf-8', '.json':'application/json; charset=utf-8' };
 const assert = (ok, msg) => { if (!ok) throw new Error(msg); };
 
-// 歷年縣市長的當選樣式必須與目前總統歷年頁一致：深色卡＋黃色右上角「當選」。
+// 歷年縣市長的當選樣式必須與目前總統歷年頁一致：米白卡＋右上角旋轉紅色「當選」印章
+// （2026-09-23 改版：不再是深色卡＋黃色右上角文字徽章，此處斷言已同步更新）。
 const localExecutiveCss = await fs.readFile(path.join(ROOT, 'history', 'local-executive.css'), 'utf8');
-assert(localExecutiveCss.includes('.local-candidate.elected{border-color:#5b5147}'), 'local elected card border does not match president style');
-assert(localExecutiveCss.includes(".local-candidate.elected:before{content:'當選'"), 'local elected yellow corner badge missing');
-assert(localExecutiveCss.includes('background:var(--yellow);color:#0d0d0d'), 'local elected badge colors do not match president style');
-assert(!localExecutiveCss.includes("content:'當選 / ELECTED'"), 'old local elected stamp still present');
-assert(!localExecutiveCss.includes('.local-candidate.elected{background:#f4f1ea'), 'old cream elected card still present');
+assert(localExecutiveCss.includes('.local-candidate.elected{overflow:visible;background:#f4f1ea'), 'local elected card is not the cream card matching president style');
+assert(localExecutiveCss.includes('.local-elected-stamp{'), 'local elected red ink-stamp element missing');
+assert(!localExecutiveCss.includes("content:'當選 / ELECTED'"), 'old rotated pill elected badge still present');
+assert(!localExecutiveCss.includes(".local-candidate.elected:before{content:'當選'"), 'old dark-card yellow-corner elected badge still present');
 
 const server = http.createServer(async (req, res) => {
   try {
