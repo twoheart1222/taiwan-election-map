@@ -47,6 +47,7 @@
     const headers=(table.shift()||[]).map(h=>h.trim());
     return table.filter(cols=>cols.some(Boolean)).map(cols=>Object.fromEntries(headers.map((header,index)=>[header,cols[index]??''])));
   }
+  function localElectedStamp(){return `<svg class="local-elected-stamp" viewBox="0 0 100 100" aria-label="當選" role="img"><defs><filter id="local-stamp-rough" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.6"/></filter></defs><g filter="url(#local-stamp-rough)" fill="none" stroke="#E4022B"><circle cx="50" cy="50" r="45" stroke-width="4.5"/><circle cx="50" cy="50" r="38" stroke-width="1.6"/><text x="50" y="66" text-anchor="middle" font-family="'Noto Serif TC','Songti TC',serif" font-weight="900" font-size="44" fill="#E4022B" stroke="none" letter-spacing="-2">當選</text><path d="M22 78 L78 78" stroke-width="1.6"/><text x="50" y="30" text-anchor="middle" font-family="Archivo,sans-serif" font-weight="900" font-size="8.5" fill="#E4022B" stroke="none" letter-spacing="3.4">ELECTED</text></g></svg>`}
   function normalizeRow(row){return{area:normalize(row.area),no:String(row.cand_no??row.no??''),name:String(row.cand_name??row.name??'').trim(),party:String(row.party||'').trim(),partyKey:partyKey(row.party),votes:Number(row.ticket_num??row.votes??0),elected:String(row.is_victor??'').toUpperCase()==='Y'||row.elected===true,note:row.note||''}}
   function buildRace(area,candidates){
     candidates.sort((a,b)=>b.votes-a.votes);
@@ -118,7 +119,7 @@
   }
   function renderRace(race){
     $('#local-seat-grid').style.display='none';$('#local-overview-note').style.display='none';const detail=$('#local-county-detail');detail.className='local-candidates';
-    detail.innerHTML=race.candidates.map(c=>`<article class="local-candidate${c.elected?' elected':''}"><div class="local-candidate-head"><div><div class="local-name"><span class="local-number">${esc(c.no)}</span>${esc(c.name)}</div><div class="local-party">${esc(c.party)}</div></div><div class="local-vote">${fmt.format(c.votes)}<small>${pct(c.share)}</small></div></div><div class="local-bar"><i style="width:${Math.max(0,Math.min(100,c.share))}%;background:${partyColor(c.partyKey)}"></i></div></article>`).join('')+(race.note?`<div class="local-overview-note" style="display:block">資料註記：${esc(race.note)}</div>`:'');
+    detail.innerHTML=race.candidates.map(c=>`<article class="local-candidate${c.elected?' elected':''}">${c.elected?localElectedStamp():''}<div class="local-candidate-head"><div><div class="local-name"><span class="local-number">${esc(c.no)}</span>${esc(c.name)}</div><div class="local-party">${esc(c.party)}</div></div><div class="local-vote">${fmt.format(c.votes)}<small>${pct(c.share)}</small></div></div><div class="local-bar"><i style="width:${Math.max(0,Math.min(100,c.share))}%;background:${partyColor(c.partyKey)}"></i></div></article>`).join('')+(race.note?`<div class="local-overview-note" style="display:block">資料註記：${esc(race.note)}</div>`:'');
   }
   function showOverviewEmpty(){const d=$('#local-county-detail');d.className='local-empty';d.innerHTML='<strong>目前顯示全台概覽</strong>選擇「縣市」層級、地區下拉選單，或直接點擊地圖查看候選人得票。'}
 

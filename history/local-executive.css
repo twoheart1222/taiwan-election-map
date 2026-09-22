@@ -17,10 +17,11 @@ body.local-executive-page{--bg:#0d0d0d;--panel:#151311;--panel2:#1d1a17;--line:#
 .local-candidates{display:grid;gap:10px}
 .local-candidate{position:relative;overflow:hidden;border:1px solid #35302b;background:#171411;border-radius:15px;padding:16px}
 
-/* Elected card: same visual language as presidential archive */
-.local-candidate.elected{background:#f4f1ea;color:#171411;border-color:#f4f1ea;box-shadow:0 12px 32px rgba(0,0,0,.24)}
+/* Elected card: same visual language as presidential archive (cream card + red ink stamp) */
+.local-candidate.elected{overflow:visible;background:#f4f1ea;color:#171411;border-color:#f4f1ea;box-shadow:0 14px 34px rgba(244,241,234,.12)}
 .local-candidate.elected .local-party,.local-candidate.elected .local-vote small{color:#655e56}
-.local-candidate.elected:after{content:'當選 / ELECTED';position:absolute;right:-22px;top:17px;transform:rotate(8deg);border:2px solid #E4022B;color:#E4022B;border-radius:999px;padding:4px 25px;font:900 9px 'Archivo','Noto Sans TC',sans-serif;letter-spacing:.08em;pointer-events:none}
+.local-candidate.elected .local-candidate-head{padding-right:96px;min-height:74px;align-items:flex-start}
+.local-elected-stamp{position:absolute;right:12px;top:10px;width:92px;height:92px;transform:rotate(-11deg);filter:drop-shadow(0 4px 8px rgba(228,2,43,.22));pointer-events:none;z-index:2}
 .local-candidate-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
 .local-name{font-size:17px;font-weight:900}
 .local-number{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;margin-right:8px;background:#2a2622;color:#eee8df;font:900 11px 'Archivo'}
@@ -37,7 +38,7 @@ body.local-executive-page{--bg:#0d0d0d;--panel:#151311;--panel2:#1d1a17;--line:#
 .local-source{margin-top:25px;padding-top:18px;border-top:1px solid var(--line);color:#756f67;font-size:10px;line-height:1.75}.local-source a{text-decoration:underline;text-underline-offset:3px;color:#aaa39a}.local-tooltip{position:fixed;z-index:100;display:none;pointer-events:none;background:#f4f1ea;color:#171411;border-radius:10px;padding:9px 11px;box-shadow:0 12px 35px rgba(0,0,0,.35);font-size:11px;font-weight:800;line-height:1.5}
 @media(max-width:980px){.local-query-grid{grid-template-columns:repeat(3,1fr)}.local-layout{grid-template-columns:1fr}.local-map-panel{min-height:600px;border-right:0;border-bottom:1px solid #1c1a17}.local-result{padding-bottom:60px}.local-compare-controls.on{grid-template-columns:1fr 44px 1fr}.local-compare-controls .local-layer-field{grid-column:1/-1}}
 @media(max-width:660px){.local-hero-row{display:block}.local-hero p{margin-top:13px}.local-query-shell{top:56px}.local-query-heading p{display:none}.local-query-grid{grid-template-columns:1fr 1fr}.local-field:first-child{grid-column:1/-1}.local-field select,.local-segment{height:46px}.local-compare-controls.on{grid-template-columns:1fr 42px 1fr}.local-map-panel{min-height:570px}.local-map{inset:72px 8px 136px;width:calc(100% - 16px);height:calc(100% - 208px)}.local-mobile-insets{display:grid}.local-seat-grid{grid-template-columns:1fr 1fr}.local-statebar{display:grid;grid-template-columns:1fr auto;gap:8px}.local-state-label{grid-column:1}.local-reset{grid-column:2;grid-row:1/3;min-height:42px}.local-state-path{grid-column:1;flex-wrap:wrap;overflow:visible}.local-sep{display:none}.local-result{padding:24px 16px 52px}}
-@media(max-width:420px){.local-query-grid{grid-template-columns:1fr}.local-field:first-child{grid-column:auto}.local-compare-controls.on{grid-template-columns:1fr 42px 1fr}.local-layer-switch{grid-column:1/-1}.local-result-head h2{font-size:25px}.local-head-stat strong{font-size:21px}.local-seat-grid{grid-template-columns:1fr 1fr}.local-candidate{padding:14px}.local-name{font-size:15px}.local-vote{font-size:16px}}
+@media(max-width:420px){.local-query-grid{grid-template-columns:1fr}.local-field:first-child{grid-column:auto}.local-compare-controls.on{grid-template-columns:1fr 42px 1fr}.local-layer-switch{grid-column:1/-1}.local-result-head h2{font-size:25px}.local-head-stat strong{font-size:21px}.local-seat-grid{grid-template-columns:1fr 1fr}.local-candidate{padding:14px}.local-name{font-size:15px}.local-vote{font-size:16px}.local-candidate.elected .local-candidate-head{padding-right:74px}.local-elected-stamp{width:72px;height:72px;right:7px;top:8px}}
 
 @media(max-width:660px){
   .local-query-shell{position:relative;top:auto;padding:14px 16px 16px;background:#100e0d;box-shadow:none}
