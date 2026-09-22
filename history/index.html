@@ -96,6 +96,18 @@
     </div>
     <div class="section-label">全國得票 / NATIONAL RESULT</div>
     <div id="candidates" class="candidate-list"></div>
+    <section class="archive-insights" aria-labelledby="archive-insights-title">
+      <div class="section-label" id="archive-insights-title">選舉概況 / ELECTION OVERVIEW</div>
+      <div id="election-overview" class="overview-grid"></div>
+      <div class="insight-card">
+        <div class="insight-head"><div><small>PARTY VOTE</small><h3 id="party-summary-title">政黨得票數／得票率</h3></div><span>得票率低於 5% 列為其他</span></div>
+        <div id="party-summary" class="party-summary"></div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-head"><div><small>TURNOUT TREND</small><h3 id="turnout-trend-title">歷屆投票率變化</h3></div><span>1996–2024</span></div>
+        <div id="turnout-trend" class="turnout-trend"></div>
+      </div>
+    </section>
     <div class="county-detail">
       <div class="section-label">地區結果 / AREA RESULT</div>
       <div id="county-detail" class="county-empty"></div>
@@ -118,6 +130,21 @@ function partyColor(e,no){const c=nationalCandidate(e,no);return PARTY_COLORS[c?
 function candidatePercent(e,c){return e.validVotes?c.votes/e.validVotes*100:0}
 function countyYear(e){return countyArchive?.years?.[String(e.year)]||null}
 function countyResult(e,name){return countyYear(e)?.counties?.[normalizeName(name)]||null}
+function scopedCandidates(e,result){return (result?.candidates||e.candidates).map(c=>{const meta=nationalCandidate(e,c.no)||c;return{party:meta.party||c.party||'無黨籍',partyKey:meta.partyKey||'IND',votes:Number(c.votes)||0}})}
+function renderInsights(name,result){
+  const scope=result||current,validVotes=Number(scope.validVotes)||0;
+  const overview=[['選舉人數','ELECTORS',scope.electors],['投票數','BALLOTS',scope.votesCast],['有效票','VALID',scope.validVotes],['無效票','INVALID',scope.invalidVotes],['投票率','TURNOUT',scope.turnout==null?null:`${Number(scope.turnout).toFixed(2)}%`]];
+  $('election-overview').innerHTML=overview.map(([label,en,value])=>`<div class="overview-stat"><span>${label}<small>${en}</small></span><strong>${value==null?'—':typeof value==='number'?fmt.format(value):value}</strong></div>`).join('');
+  const parties=new Map();for(const c of scopedCandidates(current,result)){const key=c.party||'無黨籍',p=parties.get(key)||{party:key,partyKey:c.partyKey,votes:0};p.votes+=c.votes;parties.set(key,p)}
+  const rows=[...parties.values()].map(p=>({...p,share:validVotes?p.votes/validVotes*100:0})).sort((a,b)=>b.votes-a.votes),minor=rows.filter(p=>p.share<5),major=rows.filter(p=>p.share>=5);if(minor.length)major.push({party:'其他',partyKey:'IND',votes:minor.reduce((s,p)=>s+p.votes,0),share:minor.reduce((s,p)=>s+p.share,0),count:minor.length});
+  $('party-summary-title').textContent=`${name||'全國'}政黨得票數／得票率`;
+  $('party-summary').innerHTML=major.map(p=>`<div class="party-summary-row"><i style="background:${PARTY_COLORS[p.partyKey]||PARTY_COLORS.IND}"></i><div><b>${p.party}</b>${p.count?`<small>${p.count} 個政黨／組合</small>`:''}</div><strong>${fmt.format(p.votes)}<small>${p.share.toFixed(2)}%</small></strong><span><em style="width:${Math.max(1,p.share)}%;background:${PARTY_COLORS[p.partyKey]||PARTY_COLORS.IND}"></em></span></div>`).join('');
+  const points=archive.elections.slice().sort((a,b)=>a.year-b.year).map(e=>{const r=name?countyResult(e,name):e;return r?{year:e.year,value:Number(r.turnout)}:null}).filter(p=>p&&Number.isFinite(p.value));
+  $('turnout-trend-title').textContent=`${name||'全國'}歷屆投票率變化`;
+  if(!points.length){$('turnout-trend').innerHTML='<div class="trend-empty">目前沒有歷屆投票率資料</div>';return}
+  const W=620,H=190,pad={l:38,r:16,t:20,b:35},lo=Math.max(0,Math.floor(Math.min(...points.map(p=>p.value))-5)),hi=Math.min(100,Math.ceil(Math.max(...points.map(p=>p.value))+5)),x=i=>pad.l+(W-pad.l-pad.r)*(points.length===1?.5:i/(points.length-1)),y=v=>pad.t+(H-pad.t-pad.b)*(hi-v)/(hi-lo||1),d=points.map((p,i)=>`${i?'L':'M'}${x(i)},${y(p.value)}`).join(' ');
+  $('turnout-trend').innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${name||'全國'}歷屆投票率折線圖"><line x1="${pad.l}" y1="${y(lo)}" x2="${W-pad.r}" y2="${y(lo)}" class="trend-axis"/><line x1="${pad.l}" y1="${y(hi)}" x2="${W-pad.r}" y2="${y(hi)}" class="trend-grid"/><text x="4" y="${y(hi)+4}" class="trend-y">${hi}%</text><text x="4" y="${y(lo)+4}" class="trend-y">${lo}%</text><path d="${d}" class="trend-line"/>${points.map((p,i)=>`<g class="trend-point${p.year===current.year?' current':''}"><circle cx="${x(i)}" cy="${y(p.value)}" r="${p.year===current.year?5:3.5}"/><text x="${x(i)}" y="${H-12}" text-anchor="middle" class="trend-year">${String(p.year).slice(2)}</text><text x="${x(i)}" y="${y(p.value)-9}" text-anchor="middle" class="trend-value">${p.value.toFixed(1)}</text></g>`).join('')}</svg>`;
+}
 function renderYears(){
   $('years').innerHTML=archive.elections.map(e=>`<button class="year-btn${e.year===current.year?' on':''}" data-year="${e.year}" aria-current="${e.year===current.year?'true':'false'}"><span>${e.year}</span><small>第 ${e.term} 任</small></button>`).join('');
   document.querySelectorAll('.year-btn').forEach(btn=>btn.addEventListener('click',()=>selectYear(Number(btn.dataset.year))));
@@ -133,6 +160,7 @@ function renderElection(){
   const select=$('archive-year-select');if(select)select.value=String(e.year);
   const rows=[...e.candidates].sort((a,b)=>b.votes-a.votes);
   $('candidates').innerHTML=rows.map(c=>{const pct=candidatePercent(e,c),color=PARTY_COLORS[c.partyKey]||PARTY_COLORS.IND;return `<article class="candidate${c.elected?' elected':''}"><div class="cand-head"><div><div class="cand-name"><span class="cand-no">${c.no}</span>${c.president}・${c.vicePresident}</div><div class="cand-party">${c.party}</div></div><div class="cand-votes">${fmt.format(c.votes)}<small>${pct.toFixed(2)}%</small></div></div><div class="bar"><i style="width:${pct}%;background:${color}"></i></div></article>`}).join('');
+  renderInsights(null,null);
   const cy=countyYear(e);
   $('map-status').innerHTML=cy?`<b>縣市資料已載入。</b> 點擊地圖或使用上方地區選單查看縣市票數與勝差。${e.year<=2008?' 舊縣市已按現行 22 縣市基準合併。':''}`:'<b>此屆縣市資料尚未接入。</b> 地圖維持中性底圖。';
   selectedCounty=null;$('county-detail').className='county-empty';$('county-detail').innerHTML=cy?'<strong>目前顯示全國結果</strong>選擇「縣市」層級或直接點擊地圖，即可查看地方結果。':'<strong>縣市資料建置中</strong>這個年份目前只顯示已驗證的全國結果。';paintMap();
@@ -140,7 +168,8 @@ function renderElection(){
 }
 function renderCounty(name,result){
   selectedCounty=name;paintMap();
-  if(!result){$('county-detail').className='county-empty';$('county-detail').innerHTML=`<strong>${name}</strong>目前沒有這一屆的縣市票數。`;return}
+  if(!result){$('county-detail').className='county-empty';$('county-detail').innerHTML=`<strong>${name}</strong>目前沒有這一屆的縣市票數。`;renderInsights(name,null);return}
+  renderInsights(name,result);
   const ranked=[...result.candidates].sort((a,b)=>b.votes-a.votes),winner=ranked[0];
   $('county-detail').className='county-card';$('county-detail').innerHTML=`<div class="county-head"><h3>${name}</h3><span>${fmt.format(result.validVotes)} VALID VOTES</span></div><div class="county-rows">${ranked.map(c=>{const meta=nationalCandidate(current,c.no),color=partyColor(current,c.no),share=Number(c.share ?? (result.validVotes?c.votes/result.validVotes*100:0));return `<div class="county-row"><div class="county-row-name">${String(c.no)===String(winner.no)?`<i class="winner-dot" style="background:${color}"></i>`:''}${meta?`${meta.president}・${meta.vicePresident}`:(c.name||`候選人 ${c.no}`)}<span class="county-row-party">${meta?.party||c.party||''}</span></div><div class="county-row-votes">${fmt.format(c.votes)}</div><div class="county-row-share">${share.toFixed(2)}%</div></div>`}).join('')}</div><div class="county-summary"><span>勝方：${nationalCandidate(current,winner.no)?.president||winner.name}</span><span>勝差 ${fmt.format(result.margin)} 票</span></div>`;
   if([2020,2024].includes(Number(current.year))){const link=document.createElement('a');link.dataset.historyTownDrilldown='true';link.href=`./town.html?year=${current.year}&county=${encodeURIComponent(name)}`;link.textContent=`查看 ${name} 鄉鎮市區 →`;link.style.cssText='display:block;margin:12px 18px 16px;padding:12px 14px;border:1px solid #493d38;border-radius:12px;background:#211a18;color:#f4f1ea;font-size:12px;font-weight:900;text-align:center;transition:.15s';$('county-detail').appendChild(link)}

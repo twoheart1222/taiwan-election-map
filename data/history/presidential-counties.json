@@ -11,7 +11,8 @@
     "modernAdapters": [
       "2020: everdark/TW_Presidential_Election_2020 release 0.4 county CSV",
       "2024: kiang/db.cec.gov.tw CEC raw elbase/elctks mirror"
-    ]
+    ],
+    "profileApi": "https://db.cec.gov.tw/static/elections/elections/data/profiles/ELC/P0/00/{theme}/{level}/00_000_00_000_0000.json"
   },
   "years": {
     "1996": {
@@ -50,7 +51,12 @@
               "votes": 346272,
               "share": 24.8682
             }
-          ]
+          ],
+          "population": 2695294,
+          "electors": 1842261,
+          "votesCast": 1404951,
+          "invalidVotes": 12522,
+          "turnout": 76.26
         },
         "新北市": {
           "validVotes": 1643960,
@@ -85,7 +91,12 @@
               "votes": 292541,
               "share": 17.7949
             }
-          ]
+          ],
+          "population": 3858942,
+          "electors": 2166016,
+          "votesCast": 1661034,
+          "invalidVotes": 17074,
+          "turnout": 76.69
         },
         "桃園市": {
           "validVotes": 757754,
@@ -120,7 +131,12 @@
               "votes": 128607,
               "share": 16.9721
             }
-          ]
+          ],
+          "population": 1765854,
+          "electors": 985365,
+          "votesCast": 767709,
+          "invalidVotes": 9955,
+          "turnout": 77.91
         },
         "臺中市": {
           "validVotes": 1130960,
@@ -155,7 +171,12 @@
               "votes": 193103,
               "share": 17.0743
             }
-          ]
+          ],
+          "population": 2425118,
+          "electors": 1453151,
+          "votesCast": 1144143,
+          "invalidVotes": 13183,
+          "turnout": 78.74
         },
         "臺南市": {
           "validVotes": 907673,
@@ -190,7 +211,12 @@
               "votes": 58193,
               "share": 6.4112
             }
-          ]
+          ],
+          "population": 1853415,
+          "electors": 1212416,
+          "votesCast": 916495,
+          "invalidVotes": 8822,
+          "turnout": 75.59
         },
         "高雄市": {
           "validVotes": 1358904,
@@ -225,7 +251,12 @@
               "votes": 144830,
               "share": 10.6579
             }
-          ]
+          ],
+          "population": 2759709,
+          "electors": 1761359,
+          "votesCast": 1372203,
+          "invalidVotes": 13299,
+          "turnout": 77.91
         },
         "基隆市": {
           "validVotes": 193407,
@@ -260,7 +291,12 @@
               "votes": 35978,
               "share": 18.6022
             }
-          ]
+          ],
+          "population": 391188,
+          "electors": 254276,
+          "votesCast": 195154,
+          "invalidVotes": 1747,
+          "turnout": 76.75
         },
         "新竹市": {
           "validVotes": 174851,
@@ -295,7 +331,12 @@
               "votes": 30155,
               "share": 17.2461
             }
-          ]
+          ],
+          "population": 364552,
+          "electors": 226574,
+          "votesCast": 176882,
+          "invalidVotes": 2031,
+          "turnout": 78.07
         },
         "嘉義市": {
           "validVotes": 128888,
@@ -330,7 +371,12 @@
               "votes": 12515,
               "share": 9.71
             }
-          ]
+          ],
+          "population": 261233,
+          "electors": 175137,
+          "votesCast": 130018,
+          "invalidVotes": 1130,
+          "turnout": 74.24
         },
         "新竹縣": {
           "validVotes": 211964,
@@ -365,7 +411,12 @@
               "votes": 23342,
               "share": 11.0122
             }
-          ]
+          ],
+          "population": 434218,
+          "electors": 270365,
+          "votesCast": 215015,
+          "invalidVotes": 3051,
+          "turnout": 79.53
         },
         "苗栗縣": {
           "validVotes": 289972,
@@ -400,7 +451,12 @@
               "votes": 26459,
               "share": 9.1247
             }
-          ]
+          ],
+          "population": 546229,
+          "electors": 376581,
+          "votesCast": 293767,
+          "invalidVotes": 3795,
+          "turnout": 78.01
         },
         "彰化縣": {
           "validVotes": 640888,
@@ -435,7 +491,12 @@
               "votes": 54776,
               "share": 8.5469
             }
-          ]
+          ],
+          "population": 1271684,
+          "electors": 841294,
+          "votesCast": 649300,
+          "invalidVotes": 8412,
+          "turnout": 77.18
         },
         "南投縣": {
           "validVotes": 274002,
@@ -470,7 +531,12 @@
               "votes": 127537,
               "share": 46.546
             }
-          ]
+          ],
+          "population": 532261,
+          "electors": 371630,
+          "votesCast": 276788,
+          "invalidVotes": 2786,
+          "turnout": 74.48
         },
         "雲林縣": {
           "validVotes": 358817,
@@ -505,7 +571,12 @@
               "votes": 26247,
               "share": 7.3149
             }
-          ]
+          ],
+          "population": 741745,
+          "electors": 521592,
+          "votesCast": 363160,
+          "invalidVotes": 4343,
+          "turnout": 69.63
         },
         "嘉義縣": {
           "validVotes": 275041,
@@ -540,7 +611,12 @@
               "votes": 13716,
               "share": 4.9869
             }
-          ]
+          ],
+          "population": 566351,
+          "electors": 398362,
+          "votesCast": 278146,
+          "invalidVotes": 3105,
+          "turnout": 69.82
         },
         "屏東縣": {
           "validVotes": 460641,
@@ -575,7 +651,12 @@
               "votes": 26902,
               "share": 5.8401
             }
-          ]
+          ],
+          "population": 897336,
+          "electors": 623207,
+          "votesCast": 465393,
+          "invalidVotes": 4752,
+          "turnout": 74.68
         },
         "宜蘭縣": {
           "validVotes": 230176,
@@ -610,7 +691,12 @@
               "votes": 15154,
               "share": 6.5837
             }
-          ]
+          ],
+          "population": 452967,
+          "electors": 313770,
+          "votesCast": 232239,
+          "invalidVotes": 2063,
+          "turnout": 74.02
         },
         "花蓮縣": {
           "validVotes": 163527,
@@ -645,7 +731,12 @@
               "votes": 25836,
               "share": 15.7992
             }
-          ]
+          ],
+          "population": 349507,
+          "electors": 245715,
+          "votesCast": 165891,
+          "invalidVotes": 2364,
+          "turnout": 67.51
         },
         "臺東縣": {
           "validVotes": 108461,
@@ -680,7 +771,12 @@
               "votes": 11584,
               "share": 10.6803
             }
-          ]
+          ],
+          "population": 242541,
+          "electors": 176313,
+          "votesCast": 110170,
+          "invalidVotes": 1709,
+          "turnout": 62.49
         },
         "澎湖縣": {
           "validVotes": 40514,
@@ -715,7 +811,12 @@
               "votes": 2907,
               "share": 7.1753
             }
-          ]
+          ],
+          "population": 93690,
+          "electors": 63533,
+          "votesCast": 41077,
+          "invalidVotes": 563,
+          "turnout": 64.65
         },
         "金門縣": {
           "validVotes": 20665,
@@ -750,7 +851,12 @@
               "votes": 6123,
               "share": 29.6298
             }
-          ]
+          ],
+          "population": 60973,
+          "electors": 30476,
+          "votesCast": 21066,
+          "invalidVotes": 401,
+          "turnout": 69.12
         },
         "連江縣": {
           "validVotes": 2625,
@@ -785,7 +891,12 @@
               "votes": 1013,
               "share": 38.5905
             }
-          ]
+          ],
+          "population": 9158,
+          "electors": 3895,
+          "votesCast": 2678,
+          "invalidVotes": 53,
+          "turnout": 68.75
         }
       }
     },
@@ -832,7 +943,12 @@
               "votes": 597465,
               "share": 37.6435
             }
-          ]
+          ],
+          "population": 2695294,
+          "electors": 1914915,
+          "votesCast": 1599615,
+          "invalidVotes": 12449,
+          "turnout": 83.53
         },
         "新北市": {
           "validVotes": 2019149,
@@ -874,7 +990,12 @@
               "votes": 741596,
               "share": 36.7281
             }
-          ]
+          ],
+          "population": 3858942,
+          "electors": 2437456,
+          "votesCast": 2041860,
+          "invalidVotes": 22711,
+          "turnout": 83.77
         },
         "桃園市": {
           "validVotes": 943092,
@@ -916,7 +1037,12 @@
               "votes": 299120,
               "share": 31.7169
             }
-          ]
+          ],
+          "population": 1765854,
+          "electors": 1134413,
+          "votesCast": 954720,
+          "invalidVotes": 11628,
+          "turnout": 84.16
         },
         "臺中市": {
           "validVotes": 1361782,
@@ -958,7 +1084,12 @@
               "votes": 499015,
               "share": 36.6443
             }
-          ]
+          ],
+          "population": 2425118,
+          "electors": 1629060,
+          "votesCast": 1376126,
+          "invalidVotes": 14344,
+          "turnout": 84.47
         },
         "臺南市": {
           "validVotes": 1060843,
@@ -1000,7 +1131,12 @@
               "votes": 538471,
               "share": 50.7588
             }
-          ]
+          ],
+          "population": 1853415,
+          "electors": 1298361,
+          "votesCast": 1069656,
+          "invalidVotes": 8813,
+          "turnout": 82.39
         },
         "高雄市": {
           "validVotes": 1596620,
@@ -1042,7 +1178,12 @@
               "votes": 740934,
               "share": 46.4064
             }
-          ]
+          ],
+          "population": 2759709,
+          "electors": 1916992,
+          "votesCast": 1610574,
+          "invalidVotes": 13954,
+          "turnout": 84.02
         },
         "基隆市": {
           "validVotes": 225543,
@@ -1084,7 +1225,12 @@
               "votes": 69555,
               "share": 30.8389
             }
-          ]
+          ],
+          "population": 391188,
+          "electors": 275256,
+          "votesCast": 227501,
+          "invalidVotes": 1958,
+          "turnout": 82.65
         },
         "新竹市": {
           "validVotes": 206444,
@@ -1126,7 +1272,12 @@
               "votes": 69760,
               "share": 33.7912
             }
-          ]
+          ],
+          "population": 364552,
+          "electors": 249395,
+          "votesCast": 208629,
+          "invalidVotes": 2185,
+          "turnout": 83.65
         },
         "嘉義市": {
           "validVotes": 149184,
@@ -1168,7 +1319,12 @@
               "votes": 70124,
               "share": 47.005
             }
-          ]
+          ],
+          "population": 261233,
+          "electors": 183325,
+          "votesCast": 150318,
+          "invalidVotes": 1134,
+          "turnout": 82
         },
         "新竹縣": {
           "validVotes": 248608,
@@ -1210,7 +1366,12 @@
               "votes": 61533,
               "share": 24.751
             }
-          ]
+          ],
+          "population": 434218,
+          "electors": 295192,
+          "votesCast": 251215,
+          "invalidVotes": 2607,
+          "turnout": 85.1
         },
         "苗栗縣": {
           "validVotes": 323368,
@@ -1252,7 +1413,12 @@
               "votes": 86707,
               "share": 26.8137
             }
-          ]
+          ],
+          "population": 546229,
+          "electors": 390780,
+          "votesCast": 326666,
+          "invalidVotes": 3298,
+          "turnout": 83.59
         },
         "彰化縣": {
           "validVotes": 745447,
@@ -1294,7 +1460,12 @@
               "votes": 298571,
               "share": 40.0526
             }
-          ]
+          ],
+          "population": 1271684,
+          "electors": 896075,
+          "votesCast": 753444,
+          "invalidVotes": 7997,
+          "turnout": 84.08
         },
         "南投縣": {
           "validVotes": 308637,
@@ -1336,7 +1507,12 @@
               "votes": 106440,
               "share": 34.4871
             }
-          ]
+          ],
+          "population": 532261,
+          "electors": 383478,
+          "votesCast": 311259,
+          "invalidVotes": 2622,
+          "turnout": 81.17
         },
         "雲林縣": {
           "validVotes": 412285,
@@ -1378,7 +1554,12 @@
               "votes": 193715,
               "share": 46.9857
             }
-          ]
+          ],
+          "population": 741745,
+          "electors": 538140,
+          "votesCast": 415583,
+          "invalidVotes": 3298,
+          "turnout": 77.23
         },
         "嘉義縣": {
           "validVotes": 318292,
@@ -1420,7 +1601,12 @@
               "votes": 157512,
               "share": 49.4866
             }
-          ]
+          ],
+          "population": 566351,
+          "electors": 410702,
+          "votesCast": 321298,
+          "invalidVotes": 3006,
+          "turnout": 78.23
         },
         "屏東縣": {
           "validVotes": 515508,
@@ -1462,7 +1648,12 @@
               "votes": 238572,
               "share": 46.279
             }
-          ]
+          ],
+          "population": 897336,
+          "electors": 647524,
+          "votesCast": 519516,
+          "invalidVotes": 4008,
+          "turnout": 80.23
         },
         "宜蘭縣": {
           "validVotes": 261874,
@@ -1504,7 +1695,12 @@
               "votes": 123157,
               "share": 47.0291
             }
-          ]
+          ],
+          "population": 452967,
+          "electors": 325691,
+          "votesCast": 263903,
+          "invalidVotes": 2029,
+          "turnout": 81.03
         },
         "花蓮縣": {
           "validVotes": 186979,
@@ -1546,7 +1742,12 @@
               "votes": 40044,
               "share": 21.4163
             }
-          ]
+          ],
+          "population": 349507,
+          "electors": 252771,
+          "votesCast": 189180,
+          "invalidVotes": 2201,
+          "turnout": 74.84
         },
         "臺東縣": {
           "validVotes": 121104,
@@ -1588,7 +1789,12 @@
               "votes": 28102,
               "share": 23.2048
             }
-          ]
+          ],
+          "population": 242541,
+          "electors": 177706,
+          "votesCast": 122522,
+          "invalidVotes": 1418,
+          "turnout": 68.95
         },
         "澎湖縣": {
           "validVotes": 44811,
@@ -1630,7 +1836,12 @@
               "votes": 16487,
               "share": 36.7923
             }
-          ]
+          ],
+          "population": 93690,
+          "electors": 64887,
+          "votesCast": 45199,
+          "invalidVotes": 388,
+          "turnout": 69.66
         },
         "金門縣": {
           "validVotes": 24435,
@@ -1672,7 +1883,12 @@
               "votes": 759,
               "share": 3.1062
             }
-          ]
+          ],
+          "population": 60973,
+          "electors": 35808,
+          "votesCast": 24649,
+          "invalidVotes": 214,
+          "turnout": 68.84
         },
         "連江縣": {
           "validVotes": 3222,
@@ -1714,7 +1930,12 @@
               "votes": 58,
               "share": 1.8001
             }
-          ]
+          ],
+          "population": 9158,
+          "electors": 4698,
+          "votesCast": 3238,
+          "invalidVotes": 16,
+          "turnout": 68.92
         }
       }
     },
@@ -1740,7 +1961,12 @@
               "votes": 897870,
               "share": 56.5321
             }
-          ]
+          ],
+          "population": 2695294,
+          "electors": 1981562,
+          "votesCast": 1619038,
+          "invalidVotes": 30789,
+          "turnout": 81.71
         },
         "新北市": {
           "validVotes": 2130880,
@@ -1761,7 +1987,12 @@
               "votes": 1130615,
               "share": 53.0586
             }
-          ]
+          ],
+          "population": 3858942,
+          "electors": 2685778,
+          "votesCast": 2183828,
+          "invalidVotes": 52948,
+          "turnout": 81.31
         },
         "桃園市": {
           "validVotes": 1004458,
@@ -1782,7 +2013,12 @@
               "votes": 555688,
               "share": 55.3222
             }
-          ]
+          ],
+          "population": 1765854,
+          "electors": 1273026,
+          "votesCast": 1035296,
+          "invalidVotes": 30838,
+          "turnout": 81.33
         },
         "臺中市": {
           "validVotes": 1414754,
@@ -1803,7 +2039,12 @@
               "votes": 707180,
               "share": 49.9861
             }
-          ]
+          ],
+          "population": 2425118,
+          "electors": 1781432,
+          "votesCast": 1446590,
+          "invalidVotes": 31836,
+          "turnout": 81.2
         },
         "臺南市": {
           "validVotes": 1086394,
@@ -1824,7 +2065,12 @@
               "votes": 413070,
               "share": 38.0221
             }
-          ]
+          ],
+          "population": 1853415,
+          "electors": 1374191,
+          "votesCast": 1113954,
+          "invalidVotes": 27560,
+          "turnout": 81.06
         },
         "高雄市": {
           "validVotes": 1627275,
@@ -1845,7 +2091,12 @@
               "votes": 701706,
               "share": 43.1215
             }
-          ]
+          ],
+          "population": 2759709,
+          "electors": 2037097,
+          "votesCast": 1664190,
+          "invalidVotes": 36915,
+          "turnout": 81.69
         },
         "基隆市": {
           "validVotes": 222565,
@@ -1866,7 +2117,12 @@
               "votes": 132289,
               "share": 59.4384
             }
-          ]
+          ],
+          "population": 391188,
+          "electors": 290439,
+          "votesCast": 227561,
+          "invalidVotes": 4996,
+          "turnout": 78.35
         },
         "新竹市": {
           "validVotes": 215742,
@@ -1887,7 +2143,12 @@
               "votes": 118924,
               "share": 55.1232
             }
-          ]
+          ],
+          "population": 364552,
+          "electors": 271967,
+          "votesCast": 220885,
+          "invalidVotes": 5143,
+          "turnout": 81.22
         },
         "嘉義市": {
           "validVotes": 152878,
@@ -1908,7 +2169,12 @@
               "votes": 67176,
               "share": 43.9409
             }
-          ]
+          ],
+          "population": 261233,
+          "electors": 193458,
+          "votesCast": 155783,
+          "invalidVotes": 2905,
+          "turnout": 80.53
         },
         "新竹縣": {
           "validVotes": 257603,
@@ -1929,7 +2195,12 @@
               "votes": 165027,
               "share": 64.0625
             }
-          ]
+          ],
+          "population": 434218,
+          "electors": 323148,
+          "votesCast": 264340,
+          "invalidVotes": 6737,
+          "turnout": 81.8
         },
         "苗栗縣": {
           "validVotes": 314486,
@@ -1950,7 +2221,12 @@
               "votes": 191059,
               "share": 60.7528
             }
-          ]
+          ],
+          "population": 546229,
+          "electors": 407634,
+          "votesCast": 325354,
+          "invalidVotes": 10868,
+          "turnout": 79.82
         },
         "彰化縣": {
           "validVotes": 733424,
@@ -1971,7 +2247,12 @@
               "votes": 350128,
               "share": 47.7388
             }
-          ]
+          ],
+          "population": 1271684,
+          "electors": 947526,
+          "votesCast": 759712,
+          "invalidVotes": 26288,
+          "turnout": 80.18
         },
         "南投縣": {
           "validVotes": 300328,
@@ -1992,7 +2273,12 @@
               "votes": 153913,
               "share": 51.2483
             }
-          ]
+          ],
+          "population": 532261,
+          "electors": 396464,
+          "votesCast": 309112,
+          "invalidVotes": 8784,
+          "turnout": 77.97
         },
         "雲林縣": {
           "validVotes": 403035,
@@ -2013,7 +2299,12 @@
               "votes": 159906,
               "share": 39.6755
             }
-          ]
+          ],
+          "population": 741745,
+          "electors": 552795,
+          "votesCast": 419783,
+          "invalidVotes": 16748,
+          "turnout": 75.94
         },
         "嘉義縣": {
           "validVotes": 317655,
@@ -2034,7 +2325,12 @@
               "votes": 118189,
               "share": 37.2067
             }
-          ]
+          ],
+          "population": 566351,
+          "electors": 421904,
+          "votesCast": 329209,
+          "invalidVotes": 11554,
+          "turnout": 78.03
         },
         "屏東縣": {
           "validVotes": 515117,
@@ -2055,7 +2351,12 @@
               "votes": 215796,
               "share": 41.8926
             }
-          ]
+          ],
+          "population": 897336,
+          "electors": 669646,
+          "votesCast": 528500,
+          "invalidVotes": 13383,
+          "turnout": 78.92
         },
         "宜蘭縣": {
           "validVotes": 256209,
@@ -2076,7 +2377,12 @@
               "votes": 108361,
               "share": 42.294
             }
-          ]
+          ],
+          "population": 452967,
+          "electors": 337886,
+          "votesCast": 265094,
+          "invalidVotes": 8885,
+          "turnout": 78.46
         },
         "花蓮縣": {
           "validVotes": 179542,
@@ -2097,7 +2403,12 @@
               "votes": 126041,
               "share": 70.2014
             }
-          ]
+          ],
+          "population": 349507,
+          "electors": 259334,
+          "votesCast": 184065,
+          "invalidVotes": 4523,
+          "turnout": 70.98
         },
         "臺東縣": {
           "validVotes": 116585,
@@ -2118,7 +2429,12 @@
               "votes": 76382,
               "share": 65.5161
             }
-          ]
+          ],
+          "population": 242541,
+          "electors": 180255,
+          "votesCast": 119783,
+          "invalidVotes": 3198,
+          "turnout": 66.45
         },
         "澎湖縣": {
           "validVotes": 44801,
@@ -2139,7 +2455,12 @@
               "votes": 22639,
               "share": 50.5324
             }
-          ]
+          ],
+          "population": 93690,
+          "electors": 69545,
+          "votesCast": 46014,
+          "invalidVotes": 1213,
+          "turnout": 66.16
         },
         "金門縣": {
           "validVotes": 28134,
@@ -2160,7 +2481,12 @@
               "votes": 26433,
               "share": 93.9539
             }
-          ]
+          ],
+          "population": 60973,
+          "electors": 45353,
+          "votesCast": 29203,
+          "invalidVotes": 1069,
+          "turnout": 64.39
         },
         "連江縣": {
           "validVotes": 4308,
@@ -2181,7 +2507,12 @@
               "votes": 4060,
               "share": 94.2433
             }
-          ]
+          ],
+          "population": 9158,
+          "electors": 6739,
+          "votesCast": 4425,
+          "invalidVotes": 117,
+          "turnout": 65.66
         }
       }
     },
@@ -2207,7 +2538,12 @@
               "votes": 1011546,
               "share": 63.0324
             }
-          ]
+          ],
+          "population": 2625359,
+          "electors": 2042805,
+          "votesCast": 1617609,
+          "invalidVotes": 12807,
+          "turnout": 79.19
         },
         "新北市": {
           "validVotes": 2226334,
@@ -2228,7 +2564,12 @@
               "votes": 1359419,
               "share": 61.0609
             }
-          ]
+          ],
+          "population": 3789488,
+          "electors": 2878477,
+          "votesCast": 2247503,
+          "invalidVotes": 21169,
+          "turnout": 78.08
         },
         "桃園市": {
           "validVotes": 1073018,
@@ -2249,7 +2590,12 @@
               "votes": 693602,
               "share": 64.6403
             }
-          ]
+          ],
+          "population": 1928968,
+          "electors": 1396390,
+          "votesCast": 1083348,
+          "invalidVotes": 10330,
+          "turnout": 77.58
         },
         "臺中市": {
           "validVotes": 1452134,
@@ -2270,7 +2616,12 @@
               "votes": 871677,
               "share": 60.0273
             }
-          ]
+          ],
+          "population": 2601381,
+          "electors": 1905163,
+          "votesCast": 1466731,
+          "invalidVotes": 14597,
+          "turnout": 76.99
         },
         "臺南市": {
           "validVotes": 1071009,
@@ -2291,7 +2642,12 @@
               "votes": 499785,
               "share": 46.6649
             }
-          ]
+          ],
+          "population": 1868568,
+          "electors": 1432399,
+          "votesCast": 1080466,
+          "invalidVotes": 9457,
+          "turnout": 75.43
         },
         "高雄市": {
           "validVotes": 1636852,
@@ -2312,7 +2668,12 @@
               "votes": 822585,
               "share": 50.2541
             }
-          ]
+          ],
+          "population": 2762512,
+          "electors": 2117156,
+          "votesCast": 1649823,
+          "invalidVotes": 12971,
+          "turnout": 77.93
         },
         "基隆市": {
           "validVotes": 224889,
@@ -2333,7 +2694,12 @@
               "votes": 152327,
               "share": 67.7343
             }
-          ]
+          ],
+          "population": 390188,
+          "electors": 297794,
+          "votesCast": 226590,
+          "invalidVotes": 1701,
+          "turnout": 76.09
         },
         "新竹市": {
           "validVotes": 225564,
@@ -2354,7 +2720,12 @@
               "votes": 145930,
               "share": 64.6956
             }
-          ]
+          ],
+          "population": 397577,
+          "electors": 289862,
+          "votesCast": 227600,
+          "invalidVotes": 2036,
+          "turnout": 78.52
         },
         "嘉義市": {
           "validVotes": 152155,
@@ -2375,7 +2746,12 @@
               "votes": 79713,
               "share": 52.3893
             }
-          ]
+          ],
+          "population": 272804,
+          "electors": 200834,
+          "votesCast": 153309,
+          "invalidVotes": 1154,
+          "turnout": 76.34
         },
         "新竹縣": {
           "validVotes": 281623,
@@ -2396,7 +2772,12 @@
               "votes": 208445,
               "share": 74.0156
             }
-          ]
+          ],
+          "population": 494225,
+          "electors": 358433,
+          "votesCast": 284346,
+          "invalidVotes": 2723,
+          "turnout": 79.33
         },
         "苗栗縣": {
           "validVotes": 319864,
@@ -2417,7 +2798,12 @@
               "votes": 227069,
               "share": 70.9892
             }
-          ]
+          ],
+          "population": 559802,
+          "electors": 420176,
+          "votesCast": 322838,
+          "invalidVotes": 2974,
+          "turnout": 76.83
         },
         "彰化縣": {
           "validVotes": 728834,
@@ -2438,7 +2824,12 @@
               "votes": 419700,
               "share": 57.5851
             }
-          ]
+          ],
+          "population": 1313709,
+          "electors": 981262,
+          "votesCast": 736392,
+          "invalidVotes": 7558,
+          "turnout": 75.05
         },
         "南投縣": {
           "validVotes": 289585,
@@ -2459,7 +2850,12 @@
               "votes": 179630,
               "share": 62.0301
             }
-          ]
+          ],
+          "population": 533494,
+          "electors": 404968,
+          "votesCast": 292052,
+          "invalidVotes": 2467,
+          "turnout": 72.12
         },
         "雲林縣": {
           "validVotes": 387263,
@@ -2480,7 +2876,12 @@
               "votes": 187705,
               "share": 48.4696
             }
-          ]
+          ],
+          "population": 725949,
+          "electors": 557704,
+          "votesCast": 390714,
+          "invalidVotes": 3451,
+          "turnout": 70.06
         },
         "嘉義縣": {
           "validVotes": 306436,
@@ -2501,7 +2902,12 @@
               "votes": 139603,
               "share": 45.557
             }
-          ]
+          ],
+          "population": 551498,
+          "electors": 427808,
+          "votesCast": 309372,
+          "invalidVotes": 2936,
+          "turnout": 72.32
         },
         "屏東縣": {
           "validVotes": 497100,
@@ -2522,7 +2928,12 @@
               "votes": 247305,
               "share": 49.7495
             }
-          ]
+          ],
+          "population": 889806,
+          "electors": 679205,
+          "votesCast": 500923,
+          "invalidVotes": 3823,
+          "turnout": 73.75
         },
         "宜蘭縣": {
           "validVotes": 254651,
@@ -2543,7 +2954,12 @@
               "votes": 130951,
               "share": 51.4237
             }
-          ]
+          ],
+          "population": 460193,
+          "electors": 346921,
+          "votesCast": 256642,
+          "invalidVotes": 1991,
+          "turnout": 73.98
         },
         "花蓮縣": {
           "validVotes": 177607,
@@ -2564,7 +2980,12 @@
               "votes": 137604,
               "share": 77.4767
             }
-          ]
+          ],
+          "population": 343610,
+          "electors": 260820,
+          "votesCast": 179577,
+          "invalidVotes": 1970,
+          "turnout": 68.85
         },
         "臺東縣": {
           "validVotes": 111382,
@@ -2585,7 +3006,12 @@
               "votes": 81668,
               "share": 73.3224
             }
-          ]
+          ],
+          "population": 233954,
+          "electors": 177843,
+          "votesCast": 112359,
+          "invalidVotes": 977,
+          "turnout": 63.18
         },
         "澎湖縣": {
           "validVotes": 43218,
@@ -2606,7 +3032,12 @@
               "votes": 25037,
               "share": 57.9319
             }
-          ]
+          ],
+          "population": 92157,
+          "electors": 72170,
+          "votesCast": 43581,
+          "invalidVotes": 363,
+          "turnout": 60.39
         },
         "金門縣": {
           "validVotes": 35094,
@@ -2627,7 +3058,12 @@
               "votes": 33384,
               "share": 95.1274
             }
-          ]
+          ],
+          "population": 80191,
+          "electors": 65572,
+          "votesCast": 35266,
+          "invalidVotes": 172,
+          "turnout": 53.78
         },
         "連江縣": {
           "validVotes": 4549,
@@ -2648,7 +3084,12 @@
               "votes": 4329,
               "share": 95.1638
             }
-          ]
+          ],
+          "population": 9878,
+          "electors": 7860,
+          "votesCast": 4568,
+          "invalidVotes": 19,
+          "turnout": 58.12
         }
       }
     },
@@ -2681,7 +3122,12 @@
               "votes": 41448,
               "share": 2.5829
             }
-          ]
+          ],
+          "population": 2650968,
+          "electors": 2102664,
+          "votesCast": 1614399,
+          "invalidVotes": 9669,
+          "turnout": 76.78
         },
         "新北市": {
           "validVotes": 2318493,
@@ -2709,7 +3155,12 @@
               "votes": 65269,
               "share": 2.8151
             }
-          ]
+          ],
+          "population": 3916451,
+          "electors": 3074849,
+          "votesCast": 2333708,
+          "invalidVotes": 15215,
+          "turnout": 75.9
         },
         "桃園市": {
           "validVotes": 1117386,
@@ -2737,7 +3188,12 @@
               "votes": 32927,
               "share": 2.9468
             }
-          ]
+          ],
+          "population": 2013305,
+          "electors": 1506311,
+          "votesCast": 1124996,
+          "invalidVotes": 7610,
+          "turnout": 74.69
         },
         "臺中市": {
           "validVotes": 1519100,
@@ -2765,7 +3221,12 @@
               "votes": 48030,
               "share": 3.1617
             }
-          ]
+          ],
+          "population": 2664394,
+          "electors": 2018158,
+          "votesCast": 1529053,
+          "invalidVotes": 9953,
+          "turnout": 75.76
         },
         "臺南市": {
           "validVotes": 1093572,
@@ -2793,7 +3254,12 @@
               "votes": 27066,
               "share": 2.475
             }
-          ]
+          ],
+          "population": 1876960,
+          "electors": 1485047,
+          "votesCast": 1101662,
+          "invalidVotes": 8090,
+          "turnout": 74.18
         },
         "高雄市": {
           "validVotes": 1653088,
@@ -2821,7 +3287,12 @@
               "votes": 39469,
               "share": 2.3876
             }
-          ]
+          ],
+          "population": 2774470,
+          "electors": 2192005,
+          "votesCast": 1664032,
+          "invalidVotes": 10944,
+          "turnout": 75.91
         },
         "基隆市": {
           "validVotes": 216389,
@@ -2849,7 +3320,12 @@
               "votes": 8533,
               "share": 3.9434
             }
-          ]
+          ],
+          "population": 379927,
+          "electors": 302139,
+          "votesCast": 217803,
+          "invalidVotes": 1414,
+          "turnout": 72.09
         },
         "新竹市": {
           "validVotes": 234576,
@@ -2877,7 +3353,12 @@
               "votes": 7216,
               "share": 3.0762
             }
-          ]
+          ],
+          "population": 420052,
+          "electors": 312118,
+          "votesCast": 236204,
+          "invalidVotes": 1628,
+          "turnout": 75.68
         },
         "嘉義市": {
           "validVotes": 150288,
@@ -2905,7 +3386,12 @@
               "votes": 4042,
               "share": 2.6895
             }
-          ]
+          ],
+          "population": 271526,
+          "electors": 205711,
+          "votesCast": 151261,
+          "invalidVotes": 973,
+          "turnout": 73.53
         },
         "新竹縣": {
           "validVotes": 290137,
@@ -2933,7 +3419,12 @@
               "votes": 9599,
               "share": 3.3084
             }
-          ]
+          ],
+          "population": 517641,
+          "electors": 384261,
+          "votesCast": 292313,
+          "invalidVotes": 2176,
+          "turnout": 76.07
         },
         "苗栗縣": {
           "validVotes": 322961,
@@ -2961,7 +3452,12 @@
               "votes": 9597,
               "share": 2.9716
             }
-          ]
+          ],
+          "population": 562010,
+          "electors": 436219,
+          "votesCast": 325561,
+          "invalidVotes": 2600,
+          "turnout": 74.63
         },
         "彰化縣": {
           "validVotes": 731440,
@@ -2989,7 +3485,12 @@
               "votes": 21403,
               "share": 2.9261
             }
-          ]
+          ],
+          "population": 1303039,
+          "electors": 1005714,
+          "votesCast": 738807,
+          "invalidVotes": 7367,
+          "turnout": 73.46
         },
         "南投縣": {
           "validVotes": 290506,
@@ -3017,7 +3518,12 @@
               "votes": 8726,
               "share": 3.0037
             }
-          ]
+          ],
+          "population": 522807,
+          "electors": 411482,
+          "votesCast": 292671,
+          "invalidVotes": 2165,
+          "turnout": 71.13
         },
         "雲林縣": {
           "validVotes": 383694,
@@ -3045,7 +3551,12 @@
               "votes": 9662,
               "share": 2.5182
             }
-          ]
+          ],
+          "population": 713556,
+          "electors": 563034,
+          "votesCast": 388042,
+          "invalidVotes": 4348,
+          "turnout": 68.92
         },
         "嘉義縣": {
           "validVotes": 309773,
@@ -3073,7 +3584,12 @@
               "votes": 7364,
               "share": 2.3772
             }
-          ]
+          ],
+          "population": 537942,
+          "electors": 431588,
+          "votesCast": 312825,
+          "invalidVotes": 3052,
+          "turnout": 72.48
         },
         "屏東縣": {
           "validVotes": 492855,
@@ -3101,7 +3617,12 @@
               "votes": 9562,
               "share": 1.9401
             }
-          ]
+          ],
+          "population": 864529,
+          "electors": 684517,
+          "votesCast": 497426,
+          "invalidVotes": 4571,
+          "turnout": 72.67
         },
         "宜蘭縣": {
           "validVotes": 257304,
@@ -3129,7 +3650,12 @@
               "votes": 6652,
               "share": 2.5853
             }
-          ]
+          ],
+          "population": 459061,
+          "electors": 358059,
+          "votesCast": 259741,
+          "invalidVotes": 2437,
+          "turnout": 72.54
         },
         "花蓮縣": {
           "validVotes": 169019,
@@ -3157,7 +3683,12 @@
               "votes": 6359,
               "share": 3.7623
             }
-          ]
+          ],
+          "population": 336838,
+          "electors": 263888,
+          "votesCast": 170589,
+          "invalidVotes": 1570,
+          "turnout": 64.64
         },
         "臺東縣": {
           "validVotes": 109553,
@@ -3185,7 +3716,12 @@
               "votes": 3313,
               "share": 3.0241
             }
-          ]
+          ],
+          "population": 228290,
+          "electors": 178938,
+          "votesCast": 110572,
+          "invalidVotes": 1019,
+          "turnout": 61.79
         },
         "澎湖縣": {
           "validVotes": 45378,
@@ -3213,7 +3749,12 @@
               "votes": 2082,
               "share": 4.5881
             }
-          ]
+          ],
+          "population": 97157,
+          "electors": 77817,
+          "votesCast": 45921,
+          "invalidVotes": 543,
+          "turnout": 59.01
         },
         "金門縣": {
           "validVotes": 38859,
@@ -3241,7 +3782,12 @@
               "votes": 990,
               "share": 2.5477
             }
-          ]
+          ],
+          "population": 103883,
+          "electors": 83949,
+          "votesCast": 39175,
+          "invalidVotes": 316,
+          "turnout": 46.67
         },
         "連江縣": {
           "validVotes": 5204,
@@ -3269,7 +3815,12 @@
               "votes": 279,
               "share": 5.3613
             }
-          ]
+          ],
+          "population": 10106,
+          "electors": 7987,
+          "votesCast": 5255,
+          "invalidVotes": 51,
+          "turnout": 65.79
         }
       }
     },
@@ -3302,7 +3853,12 @@
               "votes": 153804,
               "share": 10.5513
             }
-          ]
+          ],
+          "population": 2702809,
+          "electors": 2175986,
+          "votesCast": 1480218,
+          "invalidVotes": 22540,
+          "turnout": 68.03
         },
         "新北市": {
           "validVotes": 2127748,
@@ -3330,7 +3886,12 @@
               "votes": 252486,
               "share": 11.8663
             }
-          ]
+          ],
+          "population": 3969855,
+          "electors": 3204367,
+          "votesCast": 2154229,
+          "invalidVotes": 26481,
+          "turnout": 67.23
         },
         "桃園市": {
           "validVotes": 1073104,
@@ -3358,7 +3919,12 @@
               "votes": 156518,
               "share": 14.5855
             }
-          ]
+          ],
+          "population": 2102513,
+          "electors": 1627598,
+          "votesCast": 1085002,
+          "invalidVotes": 11898,
+          "turnout": 66.66
         },
         "臺中市": {
           "validVotes": 1442096,
@@ -3386,7 +3952,12 @@
               "votes": 218810,
               "share": 15.1731
             }
-          ]
+          ],
+          "population": 2742503,
+          "electors": 2138519,
+          "votesCast": 1461896,
+          "invalidVotes": 19800,
+          "turnout": 68.36
         },
         "臺南市": {
           "validVotes": 993236,
@@ -3414,7 +3985,12 @@
               "votes": 103432,
               "share": 10.4136
             }
-          ]
+          ],
+          "population": 1885390,
+          "electors": 1528246,
+          "votesCast": 1005693,
+          "invalidVotes": 12457,
+          "turnout": 65.81
         },
         "高雄市": {
           "validVotes": 1506756,
@@ -3442,7 +4018,12 @@
               "votes": 159765,
               "share": 10.6032
             }
-          ]
+          ],
+          "population": 2778512,
+          "electors": 2254324,
+          "votesCast": 1524873,
+          "invalidVotes": 18117,
+          "turnout": 67.64
         },
         "基隆市": {
           "validVotes": 193714,
@@ -3470,7 +4051,12 @@
               "votes": 31955,
               "share": 16.496
             }
-          ]
+          ],
+          "population": 372226,
+          "electors": 306548,
+          "votesCast": 196146,
+          "invalidVotes": 2432,
+          "turnout": 63.99
         },
         "新竹市": {
           "validVotes": 221355,
@@ -3498,7 +4084,12 @@
               "votes": 36198,
               "share": 16.3529
             }
-          ]
+          ],
+          "population": 433774,
+          "electors": 328580,
+          "votesCast": 224493,
+          "invalidVotes": 3138,
+          "turnout": 68.32
         },
         "嘉義市": {
           "validVotes": 138891,
@@ -3526,7 +4117,12 @@
               "votes": 16926,
               "share": 12.1865
             }
-          ]
+          ],
+          "population": 270415,
+          "electors": 210758,
+          "votesCast": 140383,
+          "invalidVotes": 1492,
+          "turnout": 66.61
         },
         "新竹縣": {
           "validVotes": 268136,
@@ -3554,7 +4150,12 @@
               "votes": 59510,
               "share": 22.194
             }
-          ]
+          ],
+          "population": 541527,
+          "electors": 412731,
+          "votesCast": 271939,
+          "invalidVotes": 3803,
+          "turnout": 65.89
         },
         "苗栗縣": {
           "validVotes": 287028,
@@ -3582,7 +4183,12 @@
               "votes": 48788,
               "share": 16.9976
             }
-          ]
+          ],
+          "population": 564111,
+          "electors": 448520,
+          "votesCast": 290680,
+          "invalidVotes": 3652,
+          "turnout": 64.81
         },
         "彰化縣": {
           "validVotes": 670660,
@@ -3610,7 +4216,12 @@
               "votes": 98807,
               "share": 14.7328
             }
-          ]
+          ],
+          "population": 1288696,
+          "electors": 1022962,
+          "votesCast": 681581,
+          "invalidVotes": 10921,
+          "turnout": 66.63
         },
         "南投縣": {
           "validVotes": 260576,
@@ -3638,7 +4249,12 @@
               "votes": 40868,
               "share": 15.6837
             }
-          ]
+          ],
+          "population": 509738,
+          "electors": 415122,
+          "votesCast": 264225,
+          "invalidVotes": 3649,
+          "turnout": 63.65
         },
         "雲林縣": {
           "validVotes": 345125,
@@ -3666,7 +4282,12 @@
               "votes": 40236,
               "share": 11.6584
             }
-          ]
+          ],
+          "population": 699793,
+          "electors": 566207,
+          "votesCast": 350122,
+          "invalidVotes": 4997,
+          "turnout": 61.84
         },
         "嘉義縣": {
           "validVotes": 279807,
@@ -3694,7 +4315,12 @@
               "votes": 31469,
               "share": 11.2467
             }
-          ]
+          ],
+          "population": 520119,
+          "electors": 430885,
+          "votesCast": 284102,
+          "invalidVotes": 4295,
+          "turnout": 65.93
         },
         "屏東縣": {
           "validVotes": 449356,
@@ -3722,7 +4348,12 @@
               "votes": 42768,
               "share": 9.5176
             }
-          ]
+          ],
+          "population": 841669,
+          "electors": 689170,
+          "votesCast": 454951,
+          "invalidVotes": 5595,
+          "turnout": 66.01
         },
         "宜蘭縣": {
           "validVotes": 233302,
@@ -3750,7 +4381,12 @@
               "votes": 29288,
               "share": 12.5537
             }
-          ]
+          ],
+          "population": 458070,
+          "electors": 369211,
+          "votesCast": 236490,
+          "invalidVotes": 3188,
+          "turnout": 64.05
         },
         "花蓮縣": {
           "validVotes": 154843,
@@ -3778,7 +4414,12 @@
               "votes": 23751,
               "share": 15.3388
             }
-          ]
+          ],
+          "population": 332033,
+          "electors": 267862,
+          "votesCast": 157185,
+          "invalidVotes": 2342,
+          "turnout": 58.68
         },
         "臺東縣": {
           "validVotes": 97663,
@@ -3806,7 +4447,12 @@
               "votes": 16565,
               "share": 16.9614
             }
-          ]
+          ],
+          "population": 222645,
+          "electors": 179547,
+          "votesCast": 98871,
+          "invalidVotes": 1208,
+          "turnout": 55.07
         },
         "澎湖縣": {
           "validVotes": 42623,
@@ -3834,7 +4480,12 @@
               "votes": 8401,
               "share": 19.71
             }
-          ]
+          ],
+          "population": 102317,
+          "electors": 84222,
+          "votesCast": 43266,
+          "invalidVotes": 643,
+          "turnout": 51.37
         },
         "金門縣": {
           "validVotes": 36805,
@@ -3862,7 +4513,12 @@
               "votes": 5852,
               "share": 15.9
             }
-          ]
+          ],
+          "population": 132532,
+          "electors": 111386,
+          "votesCast": 37404,
+          "invalidVotes": 599,
+          "turnout": 33.58
         },
         "連江縣": {
           "validVotes": 4468,
@@ -3890,7 +4546,12 @@
               "votes": 664,
               "share": 14.8612
             }
-          ]
+          ],
+          "population": 12546,
+          "electors": 10240,
+          "votesCast": 4553,
+          "invalidVotes": 85,
+          "turnout": 44.46
         }
       }
     },
@@ -3924,7 +4585,12 @@
               "votes": 875854,
               "share": 53.6526
             }
-          ]
+          ],
+          "population": 2645293,
+          "electors": 2167264,
+          "votesCast": 1653834,
+          "invalidVotes": 21381,
+          "turnout": 76.31
         },
         "新北市": {
           "validVotes": 2466187,
@@ -3952,7 +4618,12 @@
               "votes": 1393936,
               "share": 56.5219
             }
-          ]
+          ],
+          "population": 4016477,
+          "electors": 3321459,
+          "votesCast": 2494228,
+          "invalidVotes": 28041,
+          "turnout": 75.09
         },
         "桃園市": {
           "validVotes": 1311141,
@@ -3980,7 +4651,12 @@
               "votes": 718260,
               "share": 54.7813
             }
-          ]
+          ],
+          "population": 2246893,
+          "electors": 1780755,
+          "votesCast": 1325207,
+          "invalidVotes": 14066,
+          "turnout": 74.42
         },
         "臺中市": {
           "validVotes": 1698470,
@@ -4008,7 +4684,12 @@
               "votes": 967304,
               "share": 56.9515
             }
-          ]
+          ],
+          "population": 2814224,
+          "electors": 2251064,
+          "votesCast": 1719020,
+          "invalidVotes": 20550,
+          "turnout": 76.36
         },
         "臺南市": {
           "validVotes": 1167248,
@@ -4036,7 +4717,12 @@
               "votes": 786471,
               "share": 67.3782
             }
-          ]
+          ],
+          "population": 1881156,
+          "electors": 1556845,
+          "votesCast": 1179589,
+          "invalidVotes": 12341,
+          "turnout": 75.77
         },
         "高雄市": {
           "validVotes": 1763826,
@@ -4064,7 +4750,12 @@
               "votes": 1097621,
               "share": 62.2296
             }
-          ]
+          ],
+          "population": 2773060,
+          "electors": 2299558,
+          "votesCast": 1780832,
+          "invalidVotes": 17006,
+          "turnout": 77.44
         },
         "新竹縣": {
           "validVotes": 325039,
@@ -4092,7 +4783,12 @@
               "votes": 152380,
               "share": 46.8805
             }
-          ]
+          ],
+          "population": 563368,
+          "electors": 438049,
+          "votesCast": 329009,
+          "invalidVotes": 3970,
+          "turnout": 75.11
         },
         "苗栗縣": {
           "validVotes": 326601,
@@ -4120,7 +4816,12 @@
               "votes": 147034,
               "share": 45.0195
             }
-          ]
+          ],
+          "population": 545645,
+          "electors": 447422,
+          "votesCast": 330179,
+          "invalidVotes": 3578,
+          "turnout": 73.8
         },
         "彰化縣": {
           "validVotes": 763231,
@@ -4148,7 +4849,12 @@
               "votes": 436336,
               "share": 57.1696
             }
-          ]
+          ],
+          "population": 1272789,
+          "electors": 1035507,
+          "votesCast": 773508,
+          "invalidVotes": 10277,
+          "turnout": 74.7
         },
         "南投縣": {
           "validVotes": 299152,
@@ -4176,7 +4882,12 @@
               "votes": 152046,
               "share": 50.8257
             }
-          ]
+          ],
+          "population": 494352,
+          "electors": 413485,
+          "votesCast": 302707,
+          "invalidVotes": 3555,
+          "turnout": 73.21
         },
         "雲林縣": {
           "validVotes": 399788,
@@ -4204,7 +4915,12 @@
               "votes": 246116,
               "share": 61.5616
             }
-          ]
+          ],
+          "population": 681584,
+          "electors": 565269,
+          "votesCast": 404991,
+          "invalidVotes": 5203,
+          "turnout": 71.65
         },
         "嘉義縣": {
           "validVotes": 307290,
@@ -4232,7 +4948,12 @@
               "votes": 197342,
               "share": 64.2201
             }
-          ]
+          ],
+          "population": 503357,
+          "electors": 428640,
+          "votesCast": 311038,
+          "invalidVotes": 3748,
+          "turnout": 72.56
         },
         "屏東縣": {
           "validVotes": 511050,
@@ -4260,7 +4981,12 @@
               "votes": 317676,
               "share": 62.1614
             }
-          ]
+          ],
+          "population": 819429,
+          "electors": 688793,
+          "votesCast": 516042,
+          "invalidVotes": 4992,
+          "turnout": 74.92
         },
         "宜蘭縣": {
           "validVotes": 274406,
@@ -4288,7 +5014,12 @@
               "votes": 173657,
               "share": 63.2847
             }
-          ]
+          ],
+          "population": 454226,
+          "electors": 375608,
+          "votesCast": 277435,
+          "invalidVotes": 3029,
+          "turnout": 73.86
         },
         "花蓮縣": {
           "validVotes": 185212,
@@ -4316,7 +5047,12 @@
               "votes": 66509,
               "share": 35.9097
             }
-          ]
+          ],
+          "population": 326369,
+          "electors": 269558,
+          "votesCast": 187293,
+          "invalidVotes": 2081,
+          "turnout": 69.48
         },
         "臺東縣": {
           "validVotes": 115668,
@@ -4344,7 +5080,12 @@
               "votes": 44092,
               "share": 38.1194
             }
-          ]
+          ],
+          "population": 216966,
+          "electors": 179536,
+          "votesCast": 116787,
+          "invalidVotes": 1119,
+          "turnout": 65.05
         },
         "澎湖縣": {
           "validVotes": 50904,
@@ -4372,7 +5113,12 @@
               "votes": 27410,
               "share": 53.8465
             }
-          ]
+          ],
+          "population": 105236,
+          "electors": 88432,
+          "votesCast": 51548,
+          "invalidVotes": 644,
+          "turnout": 58.29
         },
         "基隆市": {
           "validVotes": 226204,
@@ -4400,7 +5146,12 @@
               "votes": 114966,
               "share": 50.824
             }
-          ]
+          ],
+          "population": 368905,
+          "electors": 311801,
+          "votesCast": 228662,
+          "invalidVotes": 2458,
+          "turnout": 73.34
         },
         "新竹市": {
           "validVotes": 261102,
@@ -4428,7 +5179,12 @@
               "votes": 144274,
               "share": 55.2558
             }
-          ]
+          ],
+          "population": 448472,
+          "electors": 345345,
+          "votesCast": 264525,
+          "invalidVotes": 3423,
+          "turnout": 76.6
         },
         "嘉義市": {
           "validVotes": 161738,
@@ -4456,7 +5212,12 @@
               "votes": 99265,
               "share": 61.374
             }
-          ]
+          ],
+          "population": 267733,
+          "electors": 215055,
+          "votesCast": 163402,
+          "invalidVotes": 1664,
+          "turnout": 75.98
         },
         "金門縣": {
           "validVotes": 48040,
@@ -4484,7 +5245,12 @@
               "votes": 10456,
               "share": 21.7652
             }
-          ]
+          ],
+          "population": 140149,
+          "electors": 120721,
+          "votesCast": 48463,
+          "invalidVotes": 423,
+          "turnout": 40.14
         },
         "連江縣": {
           "validVotes": 6190,
@@ -4512,7 +5278,12 @@
               "votes": 1226,
               "share": 19.8061
             }
-          ]
+          ],
+          "population": 13093,
+          "electors": 10939,
+          "votesCast": 6272,
+          "invalidVotes": 82,
+          "turnout": 57.34
         }
       }
     },
@@ -4546,7 +5317,12 @@
               "votes": 587258,
               "share": 38.0839
             }
-          ]
+          ],
+          "population": 2509894,
+          "electors": 2090062,
+          "votesCast": 1552592,
+          "invalidVotes": 10581,
+          "turnout": 74.28
         },
         "新北市": {
           "validVotes": 2458480,
@@ -4574,7 +5350,12 @@
               "votes": 864557,
               "share": 35.1663
             }
-          ]
+          ],
+          "population": 4039946,
+          "electors": 3402064,
+          "votesCast": 2476077,
+          "invalidVotes": 17597,
+          "turnout": 72.78
         },
         "桃園市": {
           "validVotes": 1350792,
@@ -4602,7 +5383,12 @@
               "votes": 460823,
               "share": 34.115
             }
-          ]
+          ],
+          "population": 2315727,
+          "electors": 1882592,
+          "votesCast": 1359689,
+          "invalidVotes": 8897,
+          "turnout": 72.22
         },
         "臺中市": {
           "validVotes": 1707203,
@@ -4630,7 +5416,12 @@
               "votes": 552556,
               "share": 32.3662
             }
-          ]
+          ],
+          "population": 2844250,
+          "electors": 2328896,
+          "votesCast": 1719917,
+          "invalidVotes": 12714,
+          "turnout": 73.85
         },
         "臺南市": {
           "validVotes": 1120238,
@@ -4658,7 +5449,12 @@
               "votes": 286867,
               "share": 25.6077
             }
-          ]
+          ],
+          "population": 1859776,
+          "electors": 1567432,
+          "votesCast": 1128215,
+          "invalidVotes": 7977,
+          "turnout": 71.98
         },
         "高雄市": {
           "validVotes": 1636962,
@@ -4686,7 +5482,12 @@
               "votes": 478476,
               "share": 29.2295
             }
-          ]
+          ],
+          "population": 2737608,
+          "electors": 2312303,
+          "votesCast": 1647466,
+          "invalidVotes": 10504,
+          "turnout": 71.25
         },
         "宜蘭縣": {
           "validVotes": 267129,
@@ -4714,7 +5515,12 @@
               "votes": 77441,
               "share": 28.9901
             }
-          ]
+          ],
+          "population": 449963,
+          "electors": 379026,
+          "votesCast": 269054,
+          "invalidVotes": 1925,
+          "turnout": 70.99
         },
         "新竹縣": {
           "validVotes": 340310,
@@ -4742,7 +5548,12 @@
               "votes": 126016,
               "share": 37.0298
             }
-          ]
+          ],
+          "population": 588906,
+          "electors": 466558,
+          "votesCast": 342752,
+          "invalidVotes": 2442,
+          "turnout": 73.46
         },
         "苗栗縣": {
           "validVotes": 318665,
@@ -4770,7 +5581,12 @@
               "votes": 131230,
               "share": 41.1812
             }
-          ]
+          ],
+          "population": 534677,
+          "electors": 447767,
+          "votesCast": 320991,
+          "invalidVotes": 2326,
+          "turnout": 71.69
         },
         "彰化縣": {
           "validVotes": 741368,
@@ -4798,7 +5614,12 @@
               "votes": 244140,
               "share": 32.931
             }
-          ]
+          ],
+          "population": 1239614,
+          "electors": 1032636,
+          "votesCast": 747757,
+          "invalidVotes": 6389,
+          "turnout": 72.41
         },
         "南投縣": {
           "validVotes": 287296,
@@ -4826,7 +5647,12 @@
               "votes": 109163,
               "share": 37.9967
             }
-          ]
+          ],
+          "population": 477326,
+          "electors": 407149,
+          "votesCast": 289514,
+          "invalidVotes": 2218,
+          "turnout": 71.11
         },
         "雲林縣": {
           "validVotes": 380619,
@@ -4854,7 +5680,12 @@
               "votes": 111633,
               "share": 29.3293
             }
-          ]
+          ],
+          "population": 659841,
+          "electors": 560296,
+          "votesCast": 384037,
+          "invalidVotes": 3418,
+          "turnout": 68.54
         },
         "嘉義縣": {
           "validVotes": 292534,
@@ -4882,7 +5713,12 @@
               "votes": 85642,
               "share": 29.2759
             }
-          ]
+          ],
+          "population": 484892,
+          "electors": 423199,
+          "votesCast": 294998,
+          "invalidVotes": 2464,
+          "turnout": 69.71
         },
         "屏東縣": {
           "validVotes": 475927,
@@ -4910,7 +5746,12 @@
               "votes": 146789,
               "share": 30.8428
             }
-          ]
+          ],
+          "population": 795417,
+          "electors": 681631,
+          "votesCast": 479379,
+          "invalidVotes": 3452,
+          "turnout": 70.33
         },
         "臺東縣": {
           "validVotes": 109941,
@@ -4938,7 +5779,12 @@
               "votes": 54220,
               "share": 49.3174
             }
-          ]
+          ],
+          "population": 211550,
+          "electors": 178728,
+          "votesCast": 110836,
+          "invalidVotes": 895,
+          "turnout": 62.01
         },
         "花蓮縣": {
           "validVotes": 174157,
@@ -4966,7 +5812,12 @@
               "votes": 87953,
               "share": 50.5021
             }
-          ]
+          ],
+          "population": 317643,
+          "electors": 267824,
+          "votesCast": 176018,
+          "invalidVotes": 1861,
+          "turnout": 65.72
         },
         "澎湖縣": {
           "validVotes": 49277,
@@ -4994,7 +5845,12 @@
               "votes": 18052,
               "share": 36.6337
             }
-          ]
+          ],
+          "population": 107761,
+          "electors": 92642,
+          "votesCast": 49750,
+          "invalidVotes": 473,
+          "turnout": 53.7
         },
         "基隆市": {
           "validVotes": 218781,
@@ -5022,7 +5878,12 @@
               "votes": 84507,
               "share": 38.6263
             }
-          ]
+          ],
+          "population": 362354,
+          "electors": 312207,
+          "votesCast": 220365,
+          "invalidVotes": 1584,
+          "turnout": 70.58
         },
         "新竹市": {
           "validVotes": 266389,
@@ -5050,7 +5911,12 @@
               "votes": 82326,
               "share": 30.9044
             }
-          ]
+          ],
+          "population": 456116,
+          "electors": 359465,
+          "votesCast": 268127,
+          "invalidVotes": 1738,
+          "turnout": 74.59
         },
         "嘉義市": {
           "validVotes": 157656,
@@ -5078,7 +5944,12 @@
               "votes": 49507,
               "share": 31.4019
             }
-          ]
+          ],
+          "population": 263596,
+          "electors": 217549,
+          "votesCast": 158595,
+          "invalidVotes": 939,
+          "turnout": 72.9
         },
         "連江縣": {
           "validVotes": 6159,
@@ -5106,7 +5977,12 @@
               "votes": 3860,
               "share": 62.6725
             }
-          ]
+          ],
+          "population": 14071,
+          "electors": 12083,
+          "votesCast": 6201,
+          "invalidVotes": 42,
+          "turnout": 51.32
         },
         "金門縣": {
           "validVotes": 45612,
@@ -5134,7 +6010,12 @@
               "votes": 28005,
               "share": 61.3983
             }
-          ]
+          ],
+          "population": 144080,
+          "electors": 126422,
+          "votesCast": 45981,
+          "invalidVotes": 369,
+          "turnout": 36.37
         }
       }
     }

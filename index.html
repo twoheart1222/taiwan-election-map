@@ -102,6 +102,12 @@
   #candidate-search-input::placeholder{color:#8a857c;font-weight:600}
   .candidate-search-results{position:absolute;top:calc(100% + 8px);left:0;right:0;max-height:min(54dvh,420px);overflow-y:auto;display:none;background:#171512;border:1px solid #33302b;border-radius:14px;box-shadow:0 20px 50px rgba(0,0,0,.62);padding:6px;z-index:35}
   .candidate-search-results.open{display:block}
+  .res-panel-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;gap:14px;border:0;background:transparent;color:#E4022B;padding:0;cursor:pointer;text-align:left;font:700 11px 'Archivo','Noto Sans TC',sans-serif;letter-spacing:.2em}
+  .res-panel-toggle svg{flex:none;transition:transform .3s cubic-bezier(.16,1,.3,1)}
+  .res-panel.open .res-panel-toggle svg{transform:rotate(180deg)}
+  .res-panel-content{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .38s cubic-bezier(.16,1,.3,1),opacity .24s ease;margin-top:0}
+  .res-panel-content>div{min-height:0;overflow:hidden}
+  .res-panel.open .res-panel-content{grid-template-rows:1fr;opacity:1;margin-top:16px}
   .search-result{width:100%;display:block;border:0;border-radius:9px;background:transparent;color:#f4f1ea;text-align:left;padding:11px 12px;cursor:pointer;font-family:'Noto Sans TC',sans-serif}
   .search-result:hover,.search-result.active{background:#2a1013}
   .search-result-name{display:block;font-size:16px;font-weight:900}
@@ -990,6 +996,7 @@ class App {
       this._hideSel('sel-district'); this._hideSel('sel-village');
       const names = { mayor: '縣市首長', council: '議員', town: '鄉鎮市區長', rep: '代表', village: '村里長' };
       title.textContent = `${where}・${names[key] || cat.label}`;
+      this._countUp(document.getElementById('stat-quota'), this._addressQuota(m, cat));
       if (cat.list === null) {
         const box = document.getElementById('candidates');
         box.innerHTML = `<div style="background:#1c1916;border:1px dashed #33302b;border-radius:18px;padding:22px;text-align:center"><div style="font-size:14px;font-weight:800;color:#f4f1ea;line-height:1.6">地址裡沒有里名，無法直接判斷村里</div><div style="margin-top:8px;font-size:12px;font-weight:600;color:#a29c92;line-height:1.7">可以在地址加上里名（例如：文化里）重新搜尋，或用這台手機／電腦的定位判斷（需要你人在這個地址附近）。定位只在你的裝置上比對，不會上傳。</div><button id="addr-locate" type="button" style="margin-top:14px;padding:12px 18px;border:0;border-radius:999px;background:#E4022B;color:#fff;font:800 14px 'Noto Sans TC',sans-serif;cursor:pointer">使用我的位置判斷村里</button><div id="addr-locate-msg" style="margin-top:10px;font-size:12px;font-weight:700;color:#ff7890"></div></div>`;
@@ -1009,12 +1016,28 @@ class App {
         const sel = document.getElementById('sel-district');
         sel.innerHTML = `<option value="">── 全部選舉區（${cat.list.length} 人）──</option>` + districts.map(d => `<option value="${d}">${districtLabel(cat, d)}（${cat.list.filter(c => String(c.district) === d).length} 人）</option>`).join('');
         this._showSel('sel-district');
-        sel.onchange = () => this._showCands(sel.value ? cat.list.filter(c => String(c.district) === sel.value) : cat.list);
+        sel.onchange = () => {
+          const scoped = sel.value ? cat.list.filter(c => String(c.district) === sel.value) : cat.list;
+          this._countUp(document.getElementById('stat-quota'), this._addressQuota(m, { ...cat, list: scoped }));
+          this._showCands(scoped);
+        };
       } else if ((cat.key === 'council' || cat.key === 'rep') && districts.length === 1) {
         title.textContent = `${where}・${names[key]}｜${districtLabel(cat, districts[0])}`;
       }
       this._showCands(cat.list);
     }, initial || (cats.find(c => c.list && c.list.length) || cats[0]).key);
+  }
+  _addressQuota(m, cat) {
+    if (!cat) return '--';
+    if (['mayor', 'town', 'village'].includes(cat.key)) return '1 席';
+    const districts = [...new Set((cat.list || []).map(c => String(c.district ?? '')).filter(Boolean))];
+    if (cat.key === 'council') {
+      const seats = districts.map(d => this.quotaMap?.[m.county.code]?.[d]).filter(n => Number.isInteger(n) && n > 0);
+      if (seats.length === 1) return `${seats[0]} 席`;
+      if (seats.length > 1) return `${seats.reduce((sum, n) => sum + n, 0)} 席`;
+    }
+    if (cat.key === 'rep') return districts.length > 1 ? `${districts.length} 個選區` : '多席次';
+    return '--';
   }
   _pointInRing(x, y, ring) {
     let inside = false;
@@ -2119,9 +2142,23 @@ class App {
   }
 
   _partyChip(name) {
-    const chip = (bg, fg, ch) => `<span style="width:24px;height:24px;flex:none;border-radius:50%;background:${bg};color:${fg};display:inline-flex;align-items:center;justify-content:center;font:800 13px 'Noto Sans TC',sans-serif">${ch}</span>`;
-    const P = { '民主進步黨': chip('#1B9431', '#fff', '民'), '中國國民黨': chip('#002B82', '#fff', '國'), '台灣民眾黨': chip('#28C7C7', '#fff', '眾'), '時代力量': chip('#F5C200', '#201e1d', '力'), '無黨籍': chip('#cfc7b8', '#201e1d', '無'), '無': chip('#cfc7b8', '#201e1d', '無') };
-    return P[name] || chip('#cfc7b8', '#201e1d', '黨');
+    const esc = v => String(v || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const chip = (bg, fg, mark, border = 'transparent') => `<span role="img" aria-label="${esc(name || '無黨籍')}黨徽" style="width:26px;height:26px;flex:none;border-radius:50%;border:1px solid ${border};background:${bg};color:${fg};display:inline-flex;align-items:center;justify-content:center;font:900 11px 'Archivo','Noto Sans TC',sans-serif;letter-spacing:-.06em">${mark}</span>`;
+    const sun = '<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="3.1" fill="#fff"/><path d="M12 1.7l1.3 5.6L17 2.9l-1.4 5.6 5.2-2.5-4.5 3.7 5.7-.2-5.5 1.7 5.5 1.7-5.7-.2 4.5 3.7-5.2-2.5 1.4 5.6-3.7-4.4-1.3 5.6-1.3-5.6L7 19.5l1.4-5.6-5.2 2.5 4.5-3.7-5.7.2 5.5-1.7L2 9.5l5.7.2L3.2 6l5.2 2.5L7 2.9l3.7 4.4z" fill="#fff"/></svg>';
+    const P = {
+      '民主進步黨': chip('#158b35', '#fff', 'DPP'), '中國國民黨': chip('#082f88', '#fff', sun),
+      '台灣民眾黨': chip('#26bfc1', '#fff', 'TPP'), '時代力量': chip('#f6cc21', '#171310', '時'),
+      '親民黨': chip('#f29a22', '#fff', '親'), '新黨': chip('#f3d233', '#173e85', '新'),
+      '台灣基進': chip('#a51c63', '#fff', '基'), '台聯黨': chip('#79a928', '#fff', '台聯'),
+      '台灣綠黨': chip('#55a630', '#fff', '綠'), '小民參政歐巴桑聯盟': chip('#e56d9f', '#fff', '小民'),
+      '勞動黨': chip('#c51e2a', '#ffe15b', '勞'), '社會民主黨': chip('#a74091', '#fff', '社民'),
+      '人民民主黨': chip('#8f2236', '#fff', '人民'), '司法改革黨': chip('#66539b', '#fff', '司改'),
+      '無黨籍': chip('#d7d0c2', '#28231e', '無'), '無': chip('#d7d0c2', '#28231e', '無'),
+    };
+    if (P[name]) return P[name];
+    let hash = 0; for (const ch of String(name || '黨')) hash = ((hash * 31) + ch.charCodeAt(0)) >>> 0;
+    const colors = ['#315c83', '#7b4d87', '#9b522f', '#397061', '#805d28', '#6f4961'];
+    return chip(colors[hash % colors.length], '#fff', esc(String(name || '黨').replace(/黨$/, '').slice(0, 2) || '黨'));
   }
   _socialIcon(key) {
     const S = {
@@ -2303,7 +2340,7 @@ class App {
       return { c, v, share: pct(v, curValid) };
     }).sort((a, b) => (b.v ?? -1) - (a.v ?? -1));
     const topV = Math.max(...curRows.map(r => r.v ?? -1));
-    let html = `<div style="font-family:'Archivo',sans-serif;font-weight:700;font-size:11px;letter-spacing:.24em;color:#E4022B;margin-bottom:14px">選情數據 / RESULTS</div>`;
+    let html = '';
     html += head('本期（2026）', cn ? (cur.finalized ? '開票結果' : '開票中／統計中') : '11 月 28 日投票');
     html += `<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:8px">${tile('選舉人數', fmt(cur?.electors))}${tile('投票數', fmt(cur?.votesCast))}${tile('投票率', pctT(curTurn), delta)}${tile('有效票', fmt(curValid))}</div>`;
     html += curRows.map(r => row(r.c.name, r.c.party, r.v, r.share, cn > 0 && r.v != null && r.v === topV && cur?.finalized === true, '')).join('');
@@ -2318,7 +2355,11 @@ class App {
     const el = document.createElement('div');
     el.className = 'res-panel';
     el.style.cssText = 'background:#1c1916;border:1px solid #2a2723;border-radius:18px;padding:18px 18px 16px;flex:none';
-    el.innerHTML = html;
+    el.innerHTML = `<button type="button" class="res-panel-toggle" aria-expanded="false"><span>選情數據 / RESULTS</span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="res-panel-content"><div>${html}</div></div>`;
+    el.querySelector('.res-panel-toggle').addEventListener('click', event => {
+      const open = el.classList.toggle('open');
+      event.currentTarget.setAttribute('aria-expanded', String(open));
+    });
     return el;
   }
   // ---------- ANNOUNCEMENT（後台可編輯的半透明公告） ----------
