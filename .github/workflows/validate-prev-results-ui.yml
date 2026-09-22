@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'index.html'
+      - 'history/local-executive.css'
       - 'scripts/validate-prev-results-ui.mjs'
       - '.github/workflows/validate-prev-results-ui.yml'
   workflow_dispatch:
