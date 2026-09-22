@@ -87,8 +87,6 @@ function extractCountyRows(records) {
     && isZeroish(r.PollStationNo)
     && isZeroish(r.DistrictName));
   if (strict.length) return strict;
-  // Some older exports omit/alter the district summary marker. The other hierarchy
-  // fields are still sufficient to identify county-level summaries.
   return records.filter(r => clean(r.CountyCityName)
     && !clean(r.TownshipName)
     && !clean(r.VillageName)
@@ -96,23 +94,40 @@ function extractCountyRows(records) {
 }
 
 function aggregateCountyRows(rows) {
-  const counties = new Map();
+  // Presidential VoteRecords contains one candidate row for the president and one
+  // for the vice-president on the same ticket. They share DrawNo and VoteCounts.
+  // First collapse those duplicated ticket rows inside the ORIGINAL county, then
+  // normalize old county names and sum only genuine pre-merger county/city units.
+  const originalTickets = new Map();
   for (const r of rows) {
-    const county = normalizeCounty(r.CountyCityName);
+    const originalCounty = clean(r.CountyCityName).replaceAll('台', '臺');
     const no = clean(r.DrawNo);
-    if (!county || !no) continue;
+    if (!originalCounty || !no) continue;
+    const key = `${originalCounty}\u0000${no}`;
+    const votes = asInt(r.VoteCounts);
+    const existing = originalTickets.get(key);
+    if (existing && existing.votes !== votes) {
+      throw new Error(`Conflicting duplicate ticket rows for ${originalCounty} #${no}: ${existing.votes} vs ${votes}`);
+    }
+    if (!existing) {
+      originalTickets.set(key, {
+        originalCounty,
+        no,
+        name: clean(r.CandIdateName),
+        party: clean(r.EndorsementPartyName),
+        votes,
+      });
+    }
+  }
+
+  const counties = new Map();
+  for (const ticket of originalTickets.values()) {
+    const county = normalizeCounty(ticket.originalCounty);
     if (!counties.has(county)) counties.set(county, new Map());
     const bucket = counties.get(county);
-    const current = bucket.get(no) || {
-      no,
-      name: clean(r.CandIdateName),
-      party: clean(r.EndorsementPartyName),
-      votes: 0,
-    };
-    current.votes += asInt(r.VoteCounts);
-    if (!current.name) current.name = clean(r.CandIdateName);
-    if (!current.party) current.party = clean(r.EndorsementPartyName);
-    bucket.set(no, current);
+    const current = bucket.get(ticket.no) || { no: ticket.no, name: ticket.name, party: ticket.party, votes: 0 };
+    current.votes += ticket.votes;
+    bucket.set(ticket.no, current);
   }
   return counties;
 }
