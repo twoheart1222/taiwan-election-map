@@ -145,10 +145,11 @@ function build2024(elbaseText, elctksText, election) {
   }
 
   const buckets = new Map();
-  // elctks: 省市別, 縣市別, 選區別, 鄉鎮市區, 村里別, 投開票所, 候選人號次, 得票數, 得票率, 當選註記
+  // 2024 elctks does not expose reliable township-summary rows. Aggregate the
+  // unique polling-place rows into townships, then verify back to county totals.
   for (const row of ticketRows) {
     const [provinceCity, countyCode, district, townCode, villageCode, poll, candidateNo, votes] = row;
-    if (district !== '00' || townCode === '000' || villageCode !== '0000' || asInt(poll) !== 0) continue;
+    if (district !== '00' || townCode === '000' || asInt(poll) === 0) continue;
     const area = townNames.get(`${provinceCity}|${countyCode}|${townCode}`);
     if (!area) continue;
     const meta = election.candidates.find(c => String(c.no) === String(asInt(candidateNo)));
@@ -157,8 +158,9 @@ function build2024(elbaseText, elctksText, election) {
     if (!buckets.has(key)) buckets.set(key, new Map());
     const bucket = buckets.get(key);
     const no = String(meta.no);
-    if (bucket.has(no)) throw new Error(`2024 duplicate township candidate summary: ${area.county}${area.town} #${no}`);
-    bucket.set(no, { no, name: meta.president, party: meta.party, votes: asInt(votes) });
+    const current = bucket.get(no) || { no, name: meta.president, party: meta.party, votes: 0 };
+    current.votes += asInt(votes);
+    bucket.set(no, current);
   }
 
   const counties = Object.fromEntries(COUNTY_ORDER.map(name => [name, {}]));
@@ -197,7 +199,7 @@ async function main() {
     topology: 'https://cdn.jsdelivr.net/npm/taiwan-atlas/towns-10t.json',
     source: {
       2020: 'everdark/TW_Presidential_Election_2020 release 0.4 presidential_regions.csv',
-      2024: 'kiang/db.cec.gov.tw CEC raw elbase/elctks mirror',
+      2024: 'kiang/db.cec.gov.tw CEC raw elbase/elctks mirror (polling places aggregated to township)',
     },
     years: {
       '2020': { counties: result2020 },
