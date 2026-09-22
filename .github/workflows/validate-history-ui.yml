@@ -7,6 +7,9 @@ on:
     paths:
       - history/index.html
       - history/town.html
+      - history/local-executive.html
+      - history/local-executive.css
+      - history/local-executive.js
       - history/product-ui.css
       - history/product-ui.js
       - history/archive-enhancements.css
@@ -14,11 +17,15 @@ on:
       - history/query-refinement.css
       - scripts/validate-history-ui.mjs
       - scripts/validate-history-query-state.mjs
+      - scripts/validate-local-executive-ui.mjs
       - .github/workflows/validate-history-ui.yml
   pull_request:
     paths:
       - history/index.html
       - history/town.html
+      - history/local-executive.html
+      - history/local-executive.css
+      - history/local-executive.js
       - history/product-ui.css
       - history/product-ui.js
       - history/archive-enhancements.css
@@ -26,6 +33,7 @@ on:
       - history/query-refinement.css
       - scripts/validate-history-ui.mjs
       - scripts/validate-history-query-state.mjs
+      - scripts/validate-local-executive-ui.mjs
       - .github/workflows/validate-history-ui.yml
   workflow_dispatch:
 
@@ -49,6 +57,7 @@ jobs:
         run: |
           node scripts/validate-history-ui.mjs
           node scripts/validate-history-query-state.mjs
+          node scripts/validate-local-executive-ui.mjs
       - name: Upload UI screenshots
         if: always()
         uses: actions/upload-artifact@v4
