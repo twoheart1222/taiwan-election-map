@@ -1,3 +1,4 @@
+// Regression target: expanded 2022 previous-election section on 390px mobile.
 import http from 'node:http';
 import fs from 'node:fs/promises';
 import path from 'node:path';
