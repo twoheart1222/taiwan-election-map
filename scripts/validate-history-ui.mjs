@@ -41,8 +41,8 @@ async function attachConsoleGuard(page,label){
 async function openArchive(page,base,label){
   const guard=await attachConsoleGuard(page,label);
   await page.goto(`${base}/history/?year=2024`,{waitUntil:'networkidle',timeout:30000});
-  await page.locator('path.county').first().waitFor({state:'visible',timeout:15000});
-  const count=await page.locator('path.county').count();assert(count>=22,`${label}: expected >=22 county paths, got ${count}`);
+  await page.locator('path.county.has-result').first().waitFor({state:'visible',timeout:15000});
+  const count=await page.locator('path.county.has-result').count();assert(count>=22,`${label}: expected 22 county result paths, got ${count}`);
   await noOverflow(page,label);
   await visibleSize(page,'.map-panel',300,400,label);
   const title=await page.locator('#election-title').textContent();assert(/2024/.test(title||''),`${label}: 2024 election title missing`);
@@ -52,7 +52,7 @@ async function openArchive(page,base,label){
 async function desktop(browser,base){
   const page=await browser.newPage({viewport:{width:1440,height:900},deviceScaleFactor:1});
   await openArchive(page,base,'desktop');
-  await page.locator('path.county').first().click({force:true});
+  await page.locator('path.county.has-result').first().click({force:true});
   await page.locator('#county-detail.county-card').waitFor({state:'visible',timeout:5000});
   const drill=page.locator('[data-history-town-drilldown]');await drill.waitFor({state:'visible'});
   const h=await drill.evaluate(el=>el.getBoundingClientRect().height);assert(h>=40,`desktop: drilldown target too short (${h})`);
@@ -68,7 +68,7 @@ async function mobileArchive(browser,base,width,height,label,screenshot=false){
   await toggle.click();assert(await page.locator('.history-mobile-menu').evaluate(el=>el.classList.contains('open')),`${label}: mobile menu did not open`);
   await toggle.click();
   const yearH=await page.locator('.year-btn.on').evaluate(el=>el.getBoundingClientRect().height);assert(yearH>=40,`${label}: year touch target too small (${yearH})`);
-  await page.locator('path.county').first().click({force:true});
+  await page.locator('path.county.has-result').first().click({force:true});
   const drill=page.locator('[data-history-town-drilldown]');await drill.waitFor({state:'visible',timeout:5000});
   const dh=await drill.evaluate(el=>el.getBoundingClientRect().height);assert(dh>=44,`${label}: drilldown touch target too small (${dh})`);
   if(screenshot)await page.screenshot({path:path.join(OUT,`history-mobile-${width}.png`),fullPage:true});
