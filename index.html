@@ -549,6 +549,15 @@
    資料檔：./data/counties.json、./data/towns/towns-<縣市id>.json、
            ./data/villages/villages-<鄉鎮id>.json、district_town_map.json、district_quota.json
    ======================================================================= */
+// 政黨黨徽圖檔載入失敗時的退回處理：集中用這個共用的全域函式操作 DOM，
+// 不把含雙引號的 HTML 字串塞進 onerror="..." 屬性裡（那樣會被 HTML 解析器提前截斷，
+// 產生殘缺的 JS 字面值，圖片一旦真的載入失敗就會噴出 SyntaxError）。
+window.__partyChipFallback = img => {
+  try {
+    const span = img.closest('.party-chip');
+    if (span && span.dataset && span.dataset.fallback) span.innerHTML = span.dataset.fallback;
+  } catch (e) {}
+};
 class App {
   init() {
     this.target = new Date('2026-11-28T08:00:00+08:00').getTime();
@@ -2149,17 +2158,29 @@ class App {
   }
 
   _partyChip(name) {
-    const esc = v => String(v || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    const chip = (bg, fg, mark, border = 'transparent') => `<span role="img" aria-label="${esc(name || '無黨籍')}黨徽" style="width:26px;height:26px;flex:none;border-radius:50%;border:1px solid ${border};background:${bg};color:${fg};display:inline-flex;align-items:center;justify-content:center;font:900 11px 'Archivo','Noto Sans TC',sans-serif;letter-spacing:-.06em">${mark}</span>`;
+    const esc = v => String(v || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+    // 有真實黨徽圖檔（/assets/party-logos/）就顯示圖檔；載入失敗時透過 window.__partyChipFallback
+    // （定義於本檔案上方）自動退回原本的色塊＋簡稱樣式，不把含雙引號的 HTML 字串塞進 onerror 屬性裡。
+    const chip = (bg, fg, mark, logo, border = 'transparent') => {
+      const fallback = `<span role="img" aria-label="${esc(name || '無黨籍')}黨徽" style="width:100%;height:100%;display:inline-flex;align-items:center;justify-content:center;color:${fg};font:900 11px 'Archivo','Noto Sans TC',sans-serif;letter-spacing:-.06em">${mark}</span>`;
+      const inner = logo
+        ? `<img src="${esc(logo)}" alt="${esc(name || '無黨籍')}黨徽" loading="lazy" style="width:100%;height:100%;object-fit:contain" onerror="window.__partyChipFallback(this)">`
+        : fallback;
+      return `<span class="party-chip" data-fallback="${esc(fallback)}" style="width:26px;height:26px;flex:none;border-radius:50%;overflow:hidden;border:1px solid ${border};background:${bg};display:inline-flex;align-items:center;justify-content:center">${inner}</span>`;
+    };
     const sun = '<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="3.1" fill="#fff"/><path d="M12 1.7l1.3 5.6L17 2.9l-1.4 5.6 5.2-2.5-4.5 3.7 5.7-.2-5.5 1.7 5.5 1.7-5.7-.2 4.5 3.7-5.2-2.5 1.4 5.6-3.7-4.4-1.3 5.6-1.3-5.6L7 19.5l1.4-5.6-5.2 2.5 4.5-3.7-5.7.2 5.5-1.7L2 9.5l5.7.2L3.2 6l5.2 2.5L7 2.9l3.7 4.4z" fill="#fff"/></svg>';
     // 六大黨顏色改用各黨黨徽本身的品牌色，與 /history/ 各頁一致（非中選會圖表用的淡色）；
-    // 其餘小黨與備援雜湊色沿用原本設計，未更動。
+    // 六大黨＋台灣基進／歐巴桑聯盟改用真實黨徽圖檔；其餘小黨與備援雜湊色沿用原本設計，未更動。
     const P = {
-      '民主進步黨': chip('#00A600', '#fff', 'DPP'), '中國國民黨': chip('#000095', '#fff', sun),
-      '台灣民眾黨': chip('#28C8C8', '#fff', 'TPP'), '時代力量': chip('#FFC400', '#171310', '時'),
-      '親民黨': chip('#FF6600', '#fff', '親'), '新黨': chip('#002FA7', '#fff', '新'),
-      '台灣基進': chip('#a51c63', '#fff', '基'), '台聯黨': chip('#79a928', '#fff', '台聯'),
-      '台灣綠黨': chip('#55a630', '#fff', '綠'), '小民參政歐巴桑聯盟': chip('#e56d9f', '#fff', '小民'),
+      '民主進步黨': chip('#00A600', '#fff', 'DPP', '/assets/party-logos/dpp.webp'),
+      '中國國民黨': chip('#000095', '#fff', sun, '/assets/party-logos/kmt.webp'),
+      '台灣民眾黨': chip('#28C8C8', '#fff', 'TPP', '/assets/party-logos/tpp.png'),
+      '時代力量': chip('#FFC400', '#171310', '時', '/assets/party-logos/npp.webp'),
+      '親民黨': chip('#FF6600', '#fff', '親', '/assets/party-logos/pfp.webp'),
+      '新黨': chip('#002FA7', '#fff', '新', '/assets/party-logos/np.webp'),
+      '台灣基進': chip('#a51c63', '#fff', '基', '/assets/party-logos/taiwan-statebuilding.webp'),
+      '台聯黨': chip('#79a928', '#fff', '台聯'),
+      '台灣綠黨': chip('#55a630', '#fff', '綠'), '小民參政歐巴桑聯盟': chip('#e56d9f', '#fff', '小民', '/assets/party-logos/obasang.webp'),
       '勞動黨': chip('#c51e2a', '#ffe15b', '勞'), '社會民主黨': chip('#a74091', '#fff', '社民'),
       '人民民主黨': chip('#8f2236', '#fff', '人民'), '司法改革黨': chip('#66539b', '#fff', '司改'),
       '無黨籍': chip('#9D9D9D', '#fff', '無'), '無': chip('#9D9D9D', '#fff', '無'),
