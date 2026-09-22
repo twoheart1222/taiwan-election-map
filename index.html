@@ -111,6 +111,7 @@
   .res-panel-content{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .38s cubic-bezier(.16,1,.3,1),opacity .24s ease;margin-top:0}
   .res-panel-content>div{min-height:0;overflow:hidden}
   .res-panel.open .res-panel-content{grid-template-rows:1fr;opacity:1;margin-top:16px}
+  .res-panel.open .res-panel-content>div{overflow:visible}
   .search-result{width:100%;display:block;border:0;border-radius:9px;background:transparent;color:#f4f1ea;text-align:left;padding:11px 12px;cursor:pointer;font-family:'Noto Sans TC',sans-serif}
   .search-result:hover,.search-result.active{background:#2a1013}
   .search-result-name{display:block;font-size:16px;font-weight:900}
@@ -2342,7 +2343,7 @@ class App {
       const wrap = win ? 'padding:10px 12px;margin:2px -12px;border-radius:14px;background:linear-gradient(90deg,rgba(228,2,43,.20),rgba(228,2,43,.05));box-shadow:inset 0 0 0 1px rgba(228,2,43,.45)' : 'padding:9px 0;border-top:1px solid #2a2723';
       return `<div style="${wrap}"><div style="display:flex;justify-content:space-between;gap:10px;align-items:baseline"><div style="min-width:0;font-weight:800;font-size:14px;color:#f4f1ea">${esc(name)}${badge}${tagEl}<span style="display:block;font-size:11px;font-weight:600;color:#8a857c">${esc(party || '')}</span></div><div style="text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums"><div style="font-family:'Archivo',sans-serif;font-weight:900;font-size:15px;color:#f4f1ea">${votes == null ? '—' : fmt(votes)}<span style="font-size:11px;font-weight:700;color:#8a857c"> 票</span></div><div style="font-size:12px;font-weight:700;color:${win ? '#ff8fa0' : '#a29c92'}">${pctT(share)}</div></div></div><div style="height:5px;border-radius:99px;background:${win ? 'rgba(0,0,0,.35)' : '#26231f'};margin-top:6px;overflow:hidden"><div style="height:100%;width:${w}%;background:${win ? '#E4022B' : '#6b655c'};border-radius:99px"></div></div></div>`;
     };
-    const head = (t, sub) => `<div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin:0 0 10px"><div style="font-family:'Noto Sans TC',sans-serif;font-weight:900;font-size:15px;color:#f4f1ea">${t}</div><div style="font-size:11px;font-weight:700;color:#8a857c">${sub}</div></div>`;
+    const head = (t, sub, cls = '') => `<div class="results-period-head ${cls}" style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin:0 0 10px;min-height:22px;line-height:1.35;overflow:visible"><div style="font-family:'Noto Sans TC',sans-serif;font-weight:900;font-size:15px;line-height:1.35;color:#f4f1ea">${t}</div><div style="font-size:11px;font-weight:700;line-height:1.35;color:#8a857c">${sub}</div></div>`;
     const curVotes = cur?.candidates || {}, cn = Object.keys(curVotes).length;
     const curValid = cur?.validVotes ?? (cn ? Object.values(curVotes).reduce((a, b) => a + b, 0) : null);
     const curTurn = pct(cur?.votesCast, cur?.electors);
@@ -2361,10 +2362,10 @@ class App {
     if (!cn) html += `<div style="margin-top:8px;font-size:12px;font-weight:600;line-height:1.6;color:#8a857c">尚未開票；開票後會在這裡公布各候選人得票數與得票率。</div>`;
     if (prev) {
       const runNow = new Set(mayors.map(c => norm(c.name)));
-      html += `<div style="height:18px"></div>` + head('上期（2022）', `${esc(prev.voteDate).replace(/-/g, '/')} 投票`);
+      html += `<section class="prev-election-section" style="margin-top:22px;padding-top:18px;border-top:1px solid #2a2723;overflow:visible">` + head('上期（2022）', `${esc(prev.voteDate).replace(/-/g, '/')} 投票`, 'prev-results-head');
       html += `<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:8px">${tile('選舉人數', fmt(prev.electors))}${tile('投票數', fmt(prev.votesCast))}${tile('投票率', pctT(prev.turnout))}${tile('有效票', fmt(prev.validVotes), `無效票 ${fmt(prev.invalidVotes)}`)}</div>`;
       html += prev.candidates.map(c => row(c.name, c.party, c.votes, c.pct, c.elected, runNow.has(norm(c.name)) ? '本屆再參選' : '')).join('');
-      html += `<div style="margin-top:8px;font-size:11px;font-weight:600;line-height:1.6;color:#6f6a62">資料來源：中央選舉委員會選舉資料庫；得票率＝得票數 ÷ 有效票。</div>`;
+      html += `<div style="margin-top:8px;font-size:11px;font-weight:600;line-height:1.6;color:#6f6a62">資料來源：中央選舉委員會選舉資料庫；得票率＝得票數 ÷ 有效票。</div></section>`;
     }
     const el = document.createElement('div');
     el.className = 'res-panel';
