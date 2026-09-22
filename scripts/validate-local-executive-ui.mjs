@@ -3,35 +3,132 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { chromium } from 'playwright';
 
-const ROOT=process.cwd(),OUT=path.join(ROOT,'artifacts/history-ui');
+const ROOT=process.cwd();
+const OUT=path.join(ROOT,'artifacts/history-ui');
 const MIME={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.json':'application/json; charset=utf-8','.png':'image/png','.svg':'image/svg+xml'};
-function server(){return http.createServer(async(req,res)=>{try{const u=new URL(req.url,'http://127.0.0.1'),pathname=decodeURIComponent(u.pathname.endsWith('/')?u.pathname+'index.html':u.pathname),file=path.resolve(ROOT,'.'+pathname);if(!file.startsWith(ROOT+path.sep))throw new Error('path traversal');const data=await fs.readFile(file);res.writeHead(200,{'content-type':MIME[path.extname(file)]||'application/octet-stream','cache-control':'no-store'});res.end(data)}catch{res.writeHead(404,{'content-type':'text/plain'});res.end('not found')}})}
+const CSP="script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net";
+
+function server(){
+  return http.createServer(async(req,res)=>{
+    try{
+      const u=new URL(req.url,'http://127.0.0.1');
+      const pathname=decodeURIComponent(u.pathname.endsWith('/')?u.pathname+'index.html':u.pathname);
+      const file=path.resolve(ROOT,'.'+pathname);
+      if(!file.startsWith(ROOT+path.sep))throw new Error('path traversal');
+      const data=await fs.readFile(file);
+      res.writeHead(200,{
+        'content-type':MIME[path.extname(file)]||'application/octet-stream',
+        'cache-control':'no-store',
+        'content-security-policy':CSP
+      });
+      res.end(data);
+    }catch{
+      res.writeHead(404,{'content-type':'text/plain','content-security-policy':CSP});
+      res.end('not found');
+    }
+  });
+}
+
 function assert(ok,msg){if(!ok)throw new Error(msg)}
 async function noOverflow(page,label){const v=await page.evaluate(()=>({sw:document.documentElement.scrollWidth,cw:document.documentElement.clientWidth}));assert(v.sw<=v.cw+2,`${label}: horizontal overflow ${v.sw}-${v.cw}`)}
 async function waitLoaded(page){await page.locator('#local-seat-grid .local-seat-card').first().waitFor({state:'visible',timeout:30000});await page.waitForFunction(()=>document.querySelector('#local-map-status')?.textContent.includes('完整 22 縣市'),null,{timeout:30000})}
 async function waitVisualSettled(page){await page.waitForFunction(()=>['.local-map-panel','.local-result'].every(sel=>{const el=document.querySelector(sel);return el&&Number.parseFloat(getComputedStyle(el).opacity||'1')>=.98}),null,{timeout:8000})}
-async function fatalGuard(page,label){const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error'&&/(ReferenceError|TypeError|SyntaxError|Uncaught)/i.test(m.text()))errors.push(m.text())});return()=>assert(!errors.length,`${label}: ${errors.join(' | ')}`)}
+async function fatalGuard(page,label){
+  const errors=[];
+  page.on('pageerror',e=>errors.push(e.message));
+  page.on('console',m=>{
+    const text=m.text();
+    if(m.type()==='error'&&/(ReferenceError|TypeError|SyntaxError|EvalError|Uncaught|Content Security Policy|unsafe-eval|Evaluating a string as JavaScript|Refused to evaluate)/i.test(text))errors.push(text);
+  });
+  return()=>assert(!errors.length,`${label}: ${errors.join(' | ')}`);
+}
+
 async function validateBase(page,label,mobile=false){
-  const done=await fatalGuard(page,label);await page.goto(`${page._base}/history/local-executive.html?type=local-executive&year=2022&level=national`,{waitUntil:'domcontentloaded',timeout:30000});await waitLoaded(page);
-  const type=page.locator('#local-election-type');assert(await type.locator('option').count()===4,`${label}: election type options incomplete`);assert(await type.inputValue()==='local-executive',`${label}: local executive type not selected`);
-  assert(await page.locator('#local-year option').count()===3,`${label}: expected 2014/2018/2022`);assert(await page.locator('#local-head-number').textContent()==='22',`${label}: overview should show 22 seats`);assert(await page.locator('#local-seat-grid .local-seat-card').count()>=3,`${label}: seat distribution missing`);
-  if(mobile){assert(await page.locator('#local-map path.local-county').count()===19,`${label}: mobile main map should contain 19 non-island counties`);assert(await page.locator('#local-mobile-insets .local-inset').count()===3,`${label}: mobile island insets missing`)}else{assert(await page.locator('#local-map path.local-county').count()===22,`${label}: desktop map should contain 22 counties`)}
-  await noOverflow(page,label);done();
+  const done=await fatalGuard(page,label);
+  await page.goto(`${page._base}/history/local-executive.html?type=local-executive&year=2022&level=national`,{waitUntil:'domcontentloaded',timeout:30000});
+  await waitLoaded(page);
+  const type=page.locator('#local-election-type');
+  assert(await type.locator('option').count()===4,`${label}: election type options incomplete`);
+  assert(await type.inputValue()==='local-executive',`${label}: local executive type not selected`);
+  assert(await page.locator('#local-year option').count()===3,`${label}: expected 2014/2018/2022`);
+  assert(await page.locator('#local-head-number').textContent()==='22',`${label}: overview should show 22 seats`);
+  assert(await page.locator('#local-seat-grid .local-seat-card').count()>=3,`${label}: seat distribution missing`);
+  if(mobile){
+    assert(await page.locator('#local-map path.local-county').count()===19,`${label}: mobile main map should contain 19 non-island counties`);
+    assert(await page.locator('#local-mobile-insets .local-inset').count()===3,`${label}: mobile island insets missing`);
+  }else{
+    assert(await page.locator('#local-map path.local-county').count()===22,`${label}: desktop map should contain 22 counties`);
+  }
+  await noOverflow(page,label);
+  done();
 }
+
 async function validateCounty(page,label){
-  await page.locator('#local-level-switch [data-level="county"]').click();await page.locator('#local-region').selectOption('臺北市');await page.locator('#local-county-detail .local-candidate.elected').waitFor({state:'visible',timeout:10000});
-  const detail=await page.locator('#local-county-detail').textContent();assert(detail.includes('蔣萬安'),`${label}: Taipei winner missing`);assert(detail.includes('575,590'),`${label}: Taipei winner votes missing`);assert(new URL(page.url()).searchParams.get('region')==='臺北市',`${label}: county URL state missing`);
-  await page.reload({waitUntil:'domcontentloaded'});await page.locator('#local-county-detail .local-candidate.elected').waitFor({state:'visible',timeout:30000});assert(await page.locator('#local-region').inputValue()==='臺北市',`${label}: county deep link did not restore`);
-  await page.locator('#local-year').selectOption('2014');await page.waitForFunction(()=>document.querySelector('#local-result-title')?.textContent.includes('2014'),null,{timeout:30000});assert((await page.locator('#local-county-detail').textContent()).includes('柯文哲'),`${label}: 2014 Taipei result missing`);
+  await page.locator('#local-level-switch [data-level="county"]').click();
+  await page.locator('#local-region').selectOption('臺北市');
+  await page.locator('#local-county-detail .local-candidate.elected').waitFor({state:'visible',timeout:10000});
+  const detail=await page.locator('#local-county-detail').textContent();
+  assert(detail.includes('蔣萬安'),`${label}: Taipei winner missing`);
+  assert(detail.includes('575,590'),`${label}: Taipei winner votes missing`);
+  assert(new URL(page.url()).searchParams.get('region')==='臺北市',`${label}: county URL state missing`);
+  await page.reload({waitUntil:'domcontentloaded'});
+  await page.locator('#local-county-detail .local-candidate.elected').waitFor({state:'visible',timeout:30000});
+  assert(await page.locator('#local-region').inputValue()==='臺北市',`${label}: county deep link did not restore`);
+  await page.locator('#local-year').selectOption('2014');
+  await page.waitForFunction(()=>document.querySelector('#local-result-title')?.textContent.includes('2014'),null,{timeout:30000});
+  assert((await page.locator('#local-county-detail').textContent()).includes('柯文哲'),`${label}: 2014 Taipei result missing`);
 }
+
 async function validateCompare(page,label){
-  await page.locator('#local-mode-switch [data-mode="compare"]').click();await page.locator('#local-compare-controls.on').waitFor({state:'visible'});await page.locator('#local-compare-a').selectOption('2018');await page.locator('#local-compare-b').selectOption('2022');
-  await page.waitForFunction(()=>document.querySelector('#local-result-title')?.textContent.includes('2018 → 2022'),null,{timeout:30000});assert(await page.locator('#local-compare-stats .local-compare-stat').count()===3,`${label}: compare stats missing`);assert(await page.locator('#local-flips [data-county]').count()>=1,`${label}: flip counties missing`);
-  await page.locator('#local-layer-switch [data-layer="share"]').click();await page.locator('#local-party-switch.on').waitFor({state:'visible'});await page.locator('#local-party-switch [data-party="KMT"]').click();assert(new URL(page.url()).searchParams.get('party')==='KMT',`${label}: party URL state missing`);
-  await page.locator('#local-layer-switch [data-layer="swing"]').click();await page.waitForFunction(()=>new URL(location.href).searchParams.get('layer')==='swing');assert((await page.locator('#local-map-status').textContent()).includes('藍綠 Swing'),`${label}: swing status missing`);
-  await page.locator('#local-layer-switch [data-layer="share"]').click();await page.locator('#local-party-switch [data-party="KMT"]').click();const deep=page.url();await page.reload({waitUntil:'domcontentloaded'});await page.locator('#local-compare-controls.on').waitFor({state:'visible',timeout:30000});await page.waitForFunction(()=>document.querySelector('#local-result-title')?.textContent.includes('2018 → 2022'),null,{timeout:30000});assert(await page.locator('#local-party-switch [data-party="KMT"].on').count()===1,`${label}: compare deep link party not restored`);assert(page.url()===deep,`${label}: compare deep link changed after reload`);
+  await page.locator('#local-mode-switch [data-mode="compare"]').click();
+  await page.locator('#local-compare-controls.on').waitFor({state:'visible'});
+  await page.locator('#local-compare-a').selectOption('2018');
+  await page.locator('#local-compare-b').selectOption('2022');
+  await page.waitForFunction(()=>document.querySelector('#local-result-title')?.textContent.includes('2018 → 2022'),null,{timeout:30000});
+  assert(await page.locator('#local-compare-stats .local-compare-stat').count()===3,`${label}: compare stats missing`);
+  assert(await page.locator('#local-flips [data-county]').count()>=1,`${label}: flip counties missing`);
+  await page.locator('#local-layer-switch [data-layer="share"]').click();
+  await page.locator('#local-party-switch.on').waitFor({state:'visible'});
+  await page.locator('#local-party-switch [data-party="KMT"]').click();
+  assert(new URL(page.url()).searchParams.get('party')==='KMT',`${label}: party URL state missing`);
+  await page.locator('#local-layer-switch [data-layer="swing"]').click();
+  await page.waitForFunction(()=>new URL(location.href).searchParams.get('layer')==='swing');
+  assert((await page.locator('#local-map-status').textContent()).includes('藍綠 Swing'),`${label}: swing status missing`);
+  await page.locator('#local-layer-switch [data-layer="share"]').click();
+  await page.locator('#local-party-switch [data-party="KMT"]').click();
+  const deep=page.url();
+  await page.reload({waitUntil:'domcontentloaded'});
+  await page.locator('#local-compare-controls.on').waitFor({state:'visible',timeout:30000});
+  await page.waitForFunction(()=>document.querySelector('#local-result-title')?.textContent.includes('2018 → 2022'),null,{timeout:30000});
+  assert(await page.locator('#local-party-switch [data-party="KMT"].on').count()===1,`${label}: compare deep link party not restored`);
+  assert(page.url()===deep,`${label}: compare deep link changed after reload`);
   await noOverflow(page,`${label}-compare`);
 }
-async function run(browser,base,viewport,label,mobile=false){const page=await browser.newPage({viewport,isMobile:mobile,hasTouch:mobile});page._base=base;await validateBase(page,label,mobile);await waitVisualSettled(page);await page.screenshot({path:path.join(OUT,`local-executive-${label}.png`),fullPage:true});await validateCounty(page,label);await validateCompare(page,label);await waitVisualSettled(page);await page.evaluate(()=>window.scrollTo(0,0));await page.screenshot({path:path.join(OUT,`local-executive-compare-${label}.png`),fullPage:true});await page.close()}
 
-await fs.mkdir(OUT,{recursive:true});const s=server();await new Promise(r=>s.listen(0,'127.0.0.1',r));const base=`http://127.0.0.1:${s.address().port}`,browser=await chromium.launch({headless:true});try{await run(browser,base,{width:1440,height:900},'desktop-1440',false);await run(browser,base,{width:390,height:844},'mobile-390',true);console.log('Local executive UI validation passed: 2014/2018/2022, 22 counties, county deep links, comparison layers, visible final panels and mobile insets.')}finally{await browser.close();await new Promise(r=>s.close(r))}
+async function run(browser,base,viewport,label,mobile=false){
+  const page=await browser.newPage({viewport,isMobile:mobile,hasTouch:mobile});
+  page._base=base;
+  await validateBase(page,label,mobile);
+  await waitVisualSettled(page);
+  await page.screenshot({path:path.join(OUT,`local-executive-${label}.png`),fullPage:true});
+  await validateCounty(page,label);
+  await validateCompare(page,label);
+  await waitVisualSettled(page);
+  await page.evaluate(()=>window.scrollTo(0,0));
+  await page.screenshot({path:path.join(OUT,`local-executive-compare-${label}.png`),fullPage:true});
+  await page.close();
+}
+
+await fs.mkdir(OUT,{recursive:true});
+const s=server();
+await new Promise(r=>s.listen(0,'127.0.0.1',r));
+const base=`http://127.0.0.1:${s.address().port}`;
+const browser=await chromium.launch({headless:true});
+try{
+  await run(browser,base,{width:1440,height:900},'desktop-1440',false);
+  await run(browser,base,{width:390,height:844},'mobile-390',true);
+  console.log('Local executive UI validation passed under production CSP: no unsafe-eval, 2014/2018/2022, 22 counties, deep links, comparison layers and mobile insets.');
+}finally{
+  await browser.close();
+  await new Promise(r=>s.close(r));
+}
