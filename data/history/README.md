@@ -45,15 +45,27 @@
 
 ## 歷史頁產品 UI
 
-`/history/` 與 `/history/town.html` 共用 `history/product-ui.css` 與 `history/product-ui.js`，避免兩個頁面各自維護不同的互動語言。
+`/history/` 與 `/history/town.html` 共用 `history/product-ui.css` 與 `history/product-ui.js`，避免兩個頁面各自維護不同的互動語言。`/history/` 另使用 `history/archive-enhancements.css` 與 `history/archive-enhancements.js` 提供跨屆比較及手機地圖版型。
 
 - 轉場沿用主站 GSAP 語言：多欄全螢幕遮罩、`power3` / `expo` easing，以及接近主站 `cubic-bezier(.16,1,.3,1)` 的位移節奏。
 - 頁面初次進場會依序顯示 hero、地圖與結果區；縣市／鄉鎮結果更新則使用較短的局部 transition，避免每次操作都出現重動畫。
 - 2020、2024 的「縣市 → 鄉鎮市區」導覽使用同一套轉場，並以 `sessionStorage` 銜接下一頁的入場動畫。
 - 手機版使用獨立漢堡選單、水平年份選擇器、堆疊式地圖／結果區與至少約 40–48px 的主要觸控目標；hover tooltip 在觸控裝置停用。
+- 手機全台地圖採「臺灣本島主圖 + 澎湖／金門／連江三個 inset」呈現；仍使用同一份 22 縣市已驗證資料，避免為了完整顯示離島而把本島縮得過小。
 - 支援 `prefers-reduced-motion`；使用者要求減少動態時會略過裝飾性轉場。
 - `/history/*` 有獨立 CSP，明確允許頁面使用的 D3、TopoJSON、GSAP 與行政區 TopoJSON 來源。
 - 縣市勝方色由 D3 寫入 SVG inline style，避免基礎中性色 CSS 蓋掉動態政黨色。
+
+## 2020 → 2024 跨屆比較
+
+`/history/` 提供 `2020 ↔ 2024` 比較模式，僅以已驗證縣市結果計算，不加入評論性判斷。
+
+- 地圖仍以 2024 各縣市勝方政黨色顯示。
+- 若同一縣市的勝方政黨與 2020 不同，使用金色外框標示「勝方政黨翻轉」。
+- 比較面板列出 2020 勝方、2024 勝方、DPP／KMT 得票率及其跨屆變化。
+- Swing 定義為：`(DPP 得票率 − KMT 得票率) 2024 − (DPP 得票率 − KMT 得票率) 2020`，單位為百分點（pp）。正負號只描述藍綠得票率差的數值位移，不代表價值判斷。
+- 目前 2020 → 2024 依上述規則辨識出 2 個勝方政黨翻轉縣市：南投縣、基隆市。
+- 比較模式與一般年份檢視共用 `presidential.json` 與 `presidential-counties.json`，不另建立人工比較資料表。
 
 ## 瀏覽器與手機驗證
 
@@ -69,13 +81,15 @@
 
 1. 2024 全台 22 個有結果縣市皆成功渲染。
 2. 縣市地圖必須出現至少兩種實際勝方色，不能全部退回中性灰底。
-3. 頁面不得產生水平 overflow。
-4. 手機漢堡選單可開關，年份與主要操作按鈕具足夠觸控高度。
-5. 固定以臺北市驗證縣市結果卡，且 2020／2024 只允許一個鄉鎮市區下探入口。
-6. 下探轉場後臺北市 12 區地圖必須渲染，鄉鎮按鈕可點並能開啟票數結果。
-7. CI 會等待局部動畫穩定後，保存桌面、390px 歷史頁與 390px 鄉鎮頁全頁截圖，供人工目視檢查。
+3. 手機地圖必須維持 22 個可操作縣市，並完整產生澎湖、金門、連江 3 個 inset 框。
+4. 2020 ↔ 2024 比較模式必須產生摘要、翻轉縣市、Swing 明細，且所有 `flip=true` 縣市必須有不同於一般縣市的高亮外框。
+5. 頁面不得產生水平 overflow。
+6. 手機漢堡選單可開關，年份、比較模式與主要操作按鈕具足夠觸控高度。
+7. 固定以臺北市驗證縣市結果卡，且 2020／2024 只允許一個鄉鎮市區下探入口。
+8. 下探轉場後臺北市 12 區地圖必須渲染，鄉鎮按鈕可點並能開啟票數結果。
+9. CI 會等待局部動畫穩定後，保存一般桌面、比較模式桌面、一般 390px、比較模式 390px 與 390px 鄉鎮頁全頁截圖，供人工目視檢查。
 
-這組瀏覽器驗證曾實際抓到兩個 UI regression：重複產生「查看鄉鎮市區」按鈕，以及縣市動態勝方色被基礎 CSS 中性色覆蓋。前者已改為冪等 patch，後者也加入顏色 regression guard。
+這組瀏覽器驗證曾實際抓到多個 UI regression：重複產生「查看鄉鎮市區」按鈕、縣市動態勝方色被基礎 CSS 中性色覆蓋，以及比較模式狀態與 D3 重畫互相覆蓋。現在分別以冪等 patch、顏色 regression guard 與 `data-compare-*` 狀態屬性處理。
 
 ## 資料驗證規則
 
@@ -101,8 +115,8 @@
 - `scripts/build-modern-presidential-towns.mjs`：2020、2024 鄉鎮市區資料
 - `scripts/patch-history-nav.mjs`：首頁歷年選舉入口
 - `scripts/patch-history-drilldown.mjs`：歷史頁的縣市 → 鄉鎮市區入口，並保證 patch 冪等。
-- `scripts/patch-history-product-ui.mjs`：將共用產品 UI 資產接入全台與鄉鎮頁，並保證動態縣市色不被中性色覆蓋。
-- `scripts/validate-history-ui.mjs`：Playwright 桌機／手機互動與視覺 regression 驗證。
+- `scripts/patch-history-product-ui.mjs`：將共用產品 UI 與 archive enhancement 資產接入頁面，並保證動態縣市色不被中性色覆蓋。
+- `scripts/validate-history-ui.mjs`：Playwright 桌機／手機互動、比較模式、inset 地圖與視覺 regression 驗證。
 - `.github/workflows/build-presidential-history.yml`：下載來源、執行資料驗證並更新產出檔。
 - `.github/workflows/validate-history-ui.yml`：實際 Chromium UI 驗證與截圖。
 
