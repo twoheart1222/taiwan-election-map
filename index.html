@@ -6,6 +6,11 @@
 <title>2026 地方選舉候選人查詢地圖｜島民觀察室 Formosa Observatory</title>
 <meta name="description" content="2026 年 11 月 28 日地方選舉互動地圖：輸入地址或姓名，查縣市長、議員、鄉鎮市長、村里長候選人與選區，涵蓋全台 22 縣市。">
 <link rel="canonical" href="https://formosaobservatory.com/">
+<link rel="icon" type="image/png" sizes="512x512" href="/favicon.png">
+<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
 <meta name="theme-color" content="#0d0d0d">
 <meta name="keywords" content="2026地方選舉,九合一選舉,候選人查詢,縣市長候選人,議員候選人,村里長候選人,選區查詢,島民觀察室,Formosa Observatory">
@@ -16,6 +21,8 @@
 <meta property="og:description" content="2026 年 11 月 28 日地方選舉互動地圖：輸入地址或姓名，查縣市長、議員、鄉鎮市長、村里長候選人與選區，涵蓋全台 22 縣市。">
 <meta property="og:url" content="https://formosaobservatory.com/">
 <meta property="og:image" content="https://formosaobservatory.com/social-preview.png">
+<meta property="og:image:secure_url" content="https://formosaobservatory.com/social-preview.png">
+<meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="島民選舉地圖">
@@ -23,6 +30,7 @@
 <meta name="twitter:title" content="2026 地方選舉候選人查詢地圖｜島民觀察室 Formosa Observatory">
 <meta name="twitter:description" content="2026 年 11 月 28 日地方選舉互動地圖：輸入地址或姓名，查縣市長、議員、鄉鎮市長、村里長候選人與選區，涵蓋全台 22 縣市。">
 <meta name="twitter:image" content="https://formosaobservatory.com/social-preview.png">
+<meta name="twitter:image:alt" content="島民觀察室 2026 全台選舉開箱圖鑑">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@900&display=swap" rel="stylesheet">
 <style>
@@ -53,6 +61,10 @@
   input.don{width:100%;padding:14px 16px;border:1.5px solid #d8d3c8;border-radius:12px;font:600 15px 'Noto Sans TC',sans-serif;background:#fff;color:#0d0d0d;outline:none;transition:border-color .2s}
   input.don:focus{border-color:#E4022B}input.don::placeholder{color:#a49e93;font-weight:500}
   .navlink{opacity:.82;transition:opacity .2s,color .2s}.navlink:hover{opacity:1}.navlink.on{color:#E4022B;opacity:1}
+  .brand-mark-tile{width:42px;height:36px;display:grid;place-items:center;flex:none;padding:4px 5px;background:#f4f1ea;border-radius:8px;box-shadow:inset 0 0 0 1px rgba(13,13,13,.12)}
+  .brand-mark-tile img{display:block;width:100%;height:100%;object-fit:contain}
+  .brand-lockup-plaque{display:inline-flex;align-items:center;padding:10px 14px;background:#f4f1ea;border-radius:12px;box-shadow:inset 0 0 0 1px rgba(13,13,13,.12)}
+  .brand-lockup-plaque img{display:block;width:clamp(230px,30vw,360px);max-width:100%;height:auto}
   .page-transition{position:fixed;inset:0;z-index:140;display:none;pointer-events:none;overflow:hidden}
   .pt-cols{position:absolute;inset:0;display:flex}
   .pt-cols>span{flex:1;height:100%;background:#0d0d0d;will-change:transform}
@@ -73,6 +85,12 @@
   .candidate-main{display:grid;grid-template-columns:88px minmax(0,1fr);gap:16px;align-items:center}
   .candidate-photo{width:88px;height:88px;overflow:hidden;border-radius:50%;background:#2a2723;display:grid;place-items:center;font-family:'Noto Sans TC';font-weight:900;font-size:28px;color:#f4f1ea}
   .candidate-title-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .candidate-card.search-target-ring{position:relative;isolation:isolate}
+  .candidate-search-orbit{position:absolute;inset:-4px;width:calc(100% + 8px);height:calc(100% + 8px);z-index:4;overflow:visible;pointer-events:none}
+  .candidate-search-orbit .orbit-outline{fill:none;stroke:#f6a06b;stroke-width:2;opacity:.82;filter:drop-shadow(0 0 5px rgba(246,160,107,.32));animation:candidate-outline-once 1.55s ease-out 1 forwards}
+  .candidate-search-orbit .orbit-light{fill:none;stroke:#fff;stroke-width:4;stroke-linecap:round;stroke-dasharray:1.2 98.8;filter:drop-shadow(0 0 3px #fff) drop-shadow(0 0 7px #E4022B) drop-shadow(0 0 12px #f6a06b);animation:candidate-border-run 1.45s linear 1 forwards}
+  @keyframes candidate-outline-once{0%{opacity:0}8%,84%{opacity:.82}100%{opacity:0}}
+  @keyframes candidate-border-run{0%{opacity:0;stroke-dashoffset:0}5%{opacity:1}94%{opacity:1}100%{opacity:0;stroke-dashoffset:-100}}
   .drawer{font-family:'Noto Sans TC',system-ui,sans-serif}
   .map-hero{height:calc(100dvh - 60px) !important}
   .candidate-search{position:relative;width:fit-content;max-width:min(360px,calc(100vw - 32px));margin-top:20px;pointer-events:auto}
@@ -87,6 +105,13 @@
   #candidate-search-input::placeholder{color:#8a857c;font-weight:600}
   .candidate-search-results{position:absolute;top:calc(100% + 8px);left:0;right:0;max-height:min(54dvh,420px);overflow-y:auto;display:none;background:#171512;border:1px solid #33302b;border-radius:14px;box-shadow:0 20px 50px rgba(0,0,0,.62);padding:6px;z-index:35}
   .candidate-search-results.open{display:block}
+  .res-panel-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;gap:14px;border:0;background:transparent;color:#E4022B;padding:0;cursor:pointer;text-align:left;font:700 11px 'Archivo','Noto Sans TC',sans-serif;letter-spacing:.2em;line-height:1.4;min-height:18px;overflow:visible}
+  .res-panel-toggle svg{flex:none;transition:transform .3s cubic-bezier(.16,1,.3,1)}
+  .res-panel.open .res-panel-toggle svg{transform:rotate(180deg)}
+  .res-panel-content{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .38s cubic-bezier(.16,1,.3,1),opacity .24s ease;margin-top:0}
+  .res-panel-content>div{min-height:0;overflow:hidden}
+  .res-panel.open .res-panel-content{grid-template-rows:1fr;opacity:1;margin-top:16px}
+  .res-panel.open .res-panel-content>div{overflow:visible}
   .search-result{width:100%;display:block;border:0;border-radius:9px;background:transparent;color:#f4f1ea;text-align:left;padding:11px 12px;cursor:pointer;font-family:'Noto Sans TC',sans-serif}
   .search-result:hover,.search-result.active{background:#2a1013}
   .search-result-name{display:block;font-size:16px;font-weight:900}
@@ -99,6 +124,7 @@
     .site-nav{padding:10px 12px !important;gap:8px !important}
     .site-nav>div:first-child{min-width:0;flex:1}
     .brand-home{gap:8px !important;font-size:15px !important;line-height:1.2 !important;letter-spacing:0 !important;white-space:nowrap}
+    .brand-mark-tile{width:38px;height:32px;padding:4px}
     .navlink,.side-hint{display:none !important}
     .nav-daysbox{display:flex !important;gap:4px !important;border-left:0 !important;padding-left:0 !important}
     .nav-daysbox>span:first-child{display:none !important}
@@ -142,7 +168,7 @@
     .drawer-stats>div{padding:8px 9px !important;border-radius:8px !important}
     .drawer-stats>div>span:first-child{font-size:8px !important;letter-spacing:0 !important;white-space:nowrap}
     .drawer-stats>div>span:last-child{font-size:16px !important;margin-top:2px !important}
-    .drawer-body-scroll{flex:1 !important;min-height:0 !important;overflow-y:scroll !important;overscroll-behavior-y:contain;touch-action:pan-y;-webkit-overflow-scrolling:touch;padding-top:2px}
+    .drawer-body-scroll{flex:1 !important;min-height:0 !important;overflow-y:scroll !important;overscroll-behavior-y:contain;touch-action:pan-y;-webkit-overflow-scrolling:touch;padding-top:2px;overflow-anchor:none}
     #back-area{position:sticky;top:0;z-index:4;padding:8px 16px !important;background:linear-gradient(#141210 75%,rgba(20,18,16,0))}
     #candidates{flex:none !important;min-height:auto !important;overflow:visible !important;padding:4px 16px max(40px,calc(24px + env(safe-area-inset-bottom))) !important}
     .map-intro{top:18px !important;left:16px !important;max-width:calc(100% - 32px) !important}
@@ -182,6 +208,8 @@
   .site-ann .ann-msg{margin:6px 0 0;font-size:13.5px;line-height:1.7;color:#d6d0c4;white-space:pre-line}
   .site-ann .ann-x{position:absolute;top:8px;right:8px;width:30px;height:30px;border:none;border-radius:50%;background:transparent;color:#a29c92;font-size:16px;cursor:pointer}
   .site-ann .ann-x:hover{background:rgba(244,241,234,.1);color:#f4f1ea}
+  .site-ann.site-ann--wide{width:calc(100% - 32px);max-width:1180px;padding:22px 64px 22px 26px;border-radius:18px}.site-ann.site-ann--wide .ann-title{font-size:clamp(20px,2.4vw,30px)}.site-ann.site-ann--wide .ann-msg{max-width:900px;font-size:15px}
+  .site-ann.site-ann--fullscreen{inset:0;left:0;bottom:0;transform:none;width:100%;display:grid;align-content:center;justify-items:center;text-align:center;padding:clamp(48px,9vw,120px);border:0;border-radius:0;background:rgba(13,13,13,.9);backdrop-filter:blur(18px)}.site-ann.site-ann--fullscreen>div{width:min(860px,100%)}.site-ann.site-ann--fullscreen .ann-kicker{font-size:13px}.site-ann.site-ann--fullscreen .ann-title{font-size:clamp(34px,7vw,76px);letter-spacing:-.04em}.site-ann.site-ann--fullscreen .ann-msg{max-width:720px;margin:18px auto 0;font-size:clamp(15px,2vw,20px)}.site-ann.site-ann--fullscreen .ann-x{top:clamp(18px,3vw,34px);right:clamp(18px,3vw,34px);width:44px;height:44px;background:rgba(244,241,234,.08);color:#fff}
   .don-lock{position:absolute;inset:0;z-index:5;border-radius:20px;display:flex;align-items:flex-start;justify-content:center;padding:clamp(48px,10vh,96px) 24px 24px;box-sizing:border-box;text-align:center;background:rgba(13,13,13,.62);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);color:#f4f1ea;font-family:'Noto Sans TC','Archivo',sans-serif}
   .don-lock .ann-kicker{font-family:'Archivo';font-weight:800;font-size:11px;letter-spacing:.22em;color:#ff5a6e;margin-bottom:10px}
   .don-lock .ann-title{font-weight:900;font-size:clamp(20px,2.4vw,26px);line-height:1.3;margin:0}
@@ -190,6 +218,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://unpkg.com/topojson-client@3/dist/topojson-client.min.js"></script>
 <script src="/site-config.js"></script>
+<script src="/election-data.js"></script>
 <script>
   /* =====================================================================
      後台校閱資料（候選人照片、社群連結、席次等）由 Cloudflare Worker + KV 供應。
@@ -202,8 +231,9 @@
   /* 保險絲：8 秒後若 preloader 仍在，強制淡出（避免任何載入失敗卡住畫面） */
   setTimeout(function(){var p=document.getElementById('preloader');if(p&&getComputedStyle(p).display!=='none'){p.style.transition='opacity .6s';p.style.opacity='0';setTimeout(function(){p.style.display='none';},650);}},8000);
 </script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "Formosa Observatory｜島民觀察室", "alternateName": ["島民觀察室", "Formosa Observatory", "推手影像製作有限公司"], "url": "https://formosaobservatory.com/", "logo": "https://formosaobservatory.com/social-preview.png", "email": "contact@formosaobservatory.com"}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Formosa Observatory｜島民選舉地圖", "alternateName": "島民觀察室", "url": "https://formosaobservatory.com/", "inLanguage": "zh-TW", "publisher": {"@type": "Organization", "name": "Formosa Observatory｜島民觀察室"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "Formosa Observatory｜島民觀察室", "alternateName": ["島民觀察室", "Formosa Observatory", "推手影像製作有限公司"], "url": "https://formosaobservatory.com/", "logo": "https://formosaobservatory.com/favicon.png", "email": "contact@formosaobservatory.com"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Formosa Observatory｜島民選舉地圖", "alternateName": "島民觀察室", "url": "https://formosaobservatory.com/", "image": "https://formosaobservatory.com/social-preview.png", "thumbnailUrl": "https://formosaobservatory.com/social-preview.png", "inLanguage": "zh-TW", "publisher": {"@type": "Organization", "name": "Formosa Observatory｜島民觀察室"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","url":"https://formosaobservatory.com/","name":"2026 地方選舉候選人查詢地圖｜島民觀察室","primaryImageOfPage":{"@type":"ImageObject","url":"https://formosaobservatory.com/social-preview.png","width":1200,"height":630}}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "島民選舉地圖", "url": "https://formosaobservatory.com/", "applicationCategory": "ReferenceApplication", "operatingSystem": "Any", "inLanguage": "zh-TW", "description": "2026 年 11 月 28 日臺灣地方選舉互動地圖，可依縣市、鄉鎮市區、村里、候選人姓名或地址查詢候選人。", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "TWD"}}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "2026 年地方選舉是哪一天？", "acceptedAnswer": {"@type": "Answer", "text": "2026 年（民國 115 年）地方公職人員選舉訂於 2026 年 11 月 28 日舉行，全國共選出 11,051 名地方公職人員。"}}, {"@type": "Question", "name": "這次地方選舉要投哪些選票？", "acceptedAnswer": {"@type": "Answer", "text": "依居住地不同而異，可能包含直轄市長或縣市長、直轄市議員或縣市議員、鄉鎮市長、鄉鎮市民代表、村里長。直轄市一般行政區沒有鄉鎮市長與鄉鎮市民代表選舉（山地原住民區除外），實際選票以選舉委員會公告為準。"}}, {"@type": "Question", "name": "怎麼查詢我住的地方有哪些候選人？", "acceptedAnswer": {"@type": "Answer", "text": "在本站地圖上方的搜尋框輸入地址，或按「使用我目前的位置」，就能直接列出該地址可投的縣市長、議員、鄉鎮市長、鄉鎮市民代表與村里長候選人。定位只在你的裝置上比對，不會上傳位置。"}}, {"@type": "Question", "name": "島民選舉地圖的資料從哪裡來？", "acceptedAnswer": {"@type": "Answer", "text": "資料彙整自中央選舉委員會、內政部地方公職人員資訊與各縣市議會公開名冊，並由維護團隊校閱；候選人名單、選區與票數仍以中央選舉委員會公告為準。"}}, {"@type": "Question", "name": "Formosa Observatory（島民觀察室）是官方網站嗎？", "acceptedAnswer": {"@type": "Answer", "text": "不是。本站為獨立民間資訊平台，非中央選舉委員會或任何政黨、候選人之官方網站。資料如有錯誤，歡迎來信 contact@formosaobservatory.com 更正。"}}]}</script>
 </head>
@@ -237,7 +267,7 @@
     <nav class="site-nav" style="position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px clamp(14px,3.5vw,44px);background:rgba(13,13,13,.82);backdrop-filter:blur(10px);border-bottom:1px solid #1c1a17">
       <div style="display:flex;align-items:center;gap:clamp(14px,3vw,34px);min-width:0">
         <a href="#" data-view="map" data-home class="brand-home" aria-label="返回島民選舉地圖首頁" style="display:flex;align-items:center;gap:10px;font-family:'Archivo';font-weight:900;letter-spacing:-.02em;font-size:16px;flex:none">
-          <span style="width:11px;height:11px;background:#E4022B;display:inline-block;border-radius:2px"></span>島民觀察室
+          <span class="brand-mark-tile" aria-hidden="true"><img src="/assets/brand/formosa-mark.png" alt=""></span><span>島民觀察室</span>
         </a>
         <div class="nav-daysbox" style="display:flex;align-items:baseline;gap:8px;flex:none;white-space:nowrap;border-left:1px solid #1c1a17;padding-left:clamp(14px,3vw,34px)">
           <span id="next-choice-label" style="font-family:'Noto Sans TC';font-weight:700;font-size:12px;color:#8a857c;white-space:nowrap">距離島民下一次選擇</span>
@@ -247,6 +277,7 @@
       </div>
       <div class="nav-actions" style="display:flex;align-items:center;gap:clamp(10px,2vw,26px);font-family:'Archivo';font-weight:600;font-size:13px;letter-spacing:.04em;flex:none">
         <a href="#" data-view="map" class="navlink on">選舉地圖</a>
+        <a href="./history/" class="navlink">歷年選舉</a>
         <a href="#" data-view="observatory" class="navlink">政治觀察</a>
         <a href="#about" data-section="about" class="navlink">關於我們</a>
         <a href="#" data-view="support" style="display:inline-flex;align-items:center;gap:7px;padding:8px 16px;background:#E4022B;color:#fff;border-radius:999px;font-weight:800">支持島民觀察室</a>
@@ -257,6 +288,7 @@
       <button id="mobile-menu-toggle" class="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="開啟頁面選單"><span class="ham-lines" aria-hidden="true"><i></i><i></i><i></i></span></button>
       <div id="mobile-menu" class="mobile-menu" aria-label="手機頁面選單">
         <a href="#" data-view="map">選舉地圖 <span aria-hidden="true">→</span></a>
+        <a href="./history/">歷年選舉 <span aria-hidden="true">→</span></a>
         <a href="#" data-view="observatory">政治觀察 <span aria-hidden="true">→</span></a>
         <a href="#about" data-section="about">關於我們 <span aria-hidden="true">→</span></a>
         <a href="#" data-view="support">支持島民觀察室 <span aria-hidden="true">→</span></a>
@@ -399,7 +431,7 @@
         <div style="max-width:860px;border-bottom:1px solid #2b2926"><details style="border-top:1px solid #2b2926;padding:14px 0"><summary style="cursor:pointer;font-weight:700;font-size:16px;color:#f4f1ea">2026 年地方選舉是哪一天？</summary><p style="margin:10px 0 0;color:#a29c92;font-size:15px;line-height:1.8;max-width:760px">2026 年（民國 115 年）地方公職人員選舉訂於 2026 年 11 月 28 日舉行，全國共選出 11,051 名地方公職人員。</p></details><details style="border-top:1px solid #2b2926;padding:14px 0"><summary style="cursor:pointer;font-weight:700;font-size:16px;color:#f4f1ea">這次地方選舉要投哪些選票？</summary><p style="margin:10px 0 0;color:#a29c92;font-size:15px;line-height:1.8;max-width:760px">依居住地不同而異，可能包含直轄市長或縣市長、直轄市議員或縣市議員、鄉鎮市長、鄉鎮市民代表、村里長。直轄市一般行政區沒有鄉鎮市長與鄉鎮市民代表選舉（山地原住民區除外），實際選票以選舉委員會公告為準。</p></details><details style="border-top:1px solid #2b2926;padding:14px 0"><summary style="cursor:pointer;font-weight:700;font-size:16px;color:#f4f1ea">怎麼查詢我住的地方有哪些候選人？</summary><p style="margin:10px 0 0;color:#a29c92;font-size:15px;line-height:1.8;max-width:760px">在本站地圖上方的搜尋框輸入地址，或按「使用我目前的位置」，就能直接列出該地址可投的縣市長、議員、鄉鎮市長、鄉鎮市民代表與村里長候選人。定位只在你的裝置上比對，不會上傳位置。</p></details><details style="border-top:1px solid #2b2926;padding:14px 0"><summary style="cursor:pointer;font-weight:700;font-size:16px;color:#f4f1ea">島民選舉地圖的資料從哪裡來？</summary><p style="margin:10px 0 0;color:#a29c92;font-size:15px;line-height:1.8;max-width:760px">資料彙整自中央選舉委員會、內政部地方公職人員資訊與各縣市議會公開名冊，並由維護團隊校閱；候選人名單、選區與票數仍以中央選舉委員會公告為準。</p></details><details style="border-top:1px solid #2b2926;padding:14px 0"><summary style="cursor:pointer;font-weight:700;font-size:16px;color:#f4f1ea">Formosa Observatory（島民觀察室）是官方網站嗎？</summary><p style="margin:10px 0 0;color:#a29c92;font-size:15px;line-height:1.8;max-width:760px">不是。本站為獨立民間資訊平台，非中央選舉委員會或任何政黨、候選人之官方網站。資料如有錯誤，歡迎來信 contact@formosaobservatory.com 更正。</p></details></div>
       </section>
             <footer style="background:#0d0d0d;color:#8a857c;padding:clamp(40px,7vh,80px) clamp(18px,4vw,54px);display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;border-top:1px solid #1c1a17">
-        <div><div style="font-family:'Archivo';font-weight:900;font-size:clamp(22px,3vw,40px);color:#f4f1ea;letter-spacing:-.02em">Formosa Observatory｜島民觀察室</div><div style="font-size:12px;letter-spacing:.1em;margin-top:8px">© 2026 Formosa Observatory 島民觀察室<br>Independent Taiwan Election &amp; Civic Data Platform</div></div>
+        <div><a href="#" data-view="map" data-home class="brand-lockup-plaque" aria-label="返回島民選舉地圖首頁"><img src="/assets/brand/formosa-lockup.png" alt="Formosa Observatory 島民觀察室"></a><div style="font-size:12px;letter-spacing:.1em;margin-top:10px">© 2026 Formosa Observatory 島民觀察室<br>Independent Taiwan Election &amp; Civic Data Platform</div></div>
         <div style="max-width:500px;font-family:'Noto Sans TC';font-weight:600;font-size:12px;line-height:1.7;text-align:right">本站為獨立民間資訊平台，非中央選舉委員會或任何政府機關之官方網站。<br><a href="#" data-view="contact" style="color:#f4f1ea">資料更正與聯絡</a></div>
       </footer>
     </div>
@@ -471,7 +503,7 @@
         </div>
       </main>
       <footer style="background:#0d0d0d;color:#8a857c;padding:clamp(30px,5vh,60px) clamp(18px,4vw,54px);display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;border-top:1px solid #1c1a17">
-        <div style="font-family:'Archivo';font-weight:900;font-size:clamp(18px,2.4vw,26px);color:#f4f1ea;letter-spacing:-.02em">Formosa Observatory｜島民觀察室</div>
+        <a href="#" data-view="map" data-home class="brand-lockup-plaque" aria-label="返回島民選舉地圖首頁"><img src="/assets/brand/formosa-lockup.png" alt="Formosa Observatory 島民觀察室"></a>
         <div style="font-family:'Archivo';font-weight:600;font-size:12px;letter-spacing:.08em;text-align:right">© 2026 Formosa Observatory 島民觀察室<br>Independent Taiwan Election &amp; Civic Data Platform</div>
       </footer>
     </div>
@@ -597,6 +629,22 @@ class App {
       if (this._currentView !== 'map') this._showView('map', () => setTimeout(reveal, 80));
       else reveal();
     }));
+    document.querySelectorAll('a[href^="./history/"]').forEach(a => a.addEventListener('click', e => {
+      if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      closeMenu();
+      const destination = a.href;
+      const veil = document.getElementById('page-transition');
+      const title = document.getElementById('page-transition-label');
+      const kicker = document.getElementById('page-transition-kicker');
+      const rule = document.getElementById('page-transition-rule');
+      if (title) title.textContent = '歷年選舉';
+      if (kicker) kicker.textContent = '前往 / ELECTION ARCHIVE';
+      this._playVeil(veil, title, kicker, rule, () => {
+        try { sessionStorage.setItem('historyTransition', JSON.stringify({ label: '歷年選舉', ts: Date.now() })); } catch (_) {}
+        location.href = destination;
+      }, '_historyTransitionToken');
+    }));
     toggle?.addEventListener('click', e => {
       e.stopPropagation();
       this._closeCandidateSearch?.();
@@ -609,7 +657,10 @@ class App {
     });
     document.addEventListener('click', e => { if (!menu?.contains(e.target) && e.target !== toggle) closeMenu(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
-    this._showView('map');
+    const initialHash = location.hash.replace(/^#/, '');
+    const initialView = ['observatory', 'support', 'contact'].includes(initialHash) ? initialHash : 'map';
+    this._showView(initialView);
+    if (initialHash === 'about') setTimeout(() => document.getElementById('about')?.scrollIntoView({ block: 'start' }), 120);
   }
   _wireCountyPicker() {
     const picker = document.getElementById('mobile-county-picker');
@@ -835,6 +886,7 @@ class App {
 
   // ---------- ADDRESS LOOKUP（輸入地址 → 這個地址可以投票選出的候選人） ----------
   _addrNorm(value) { return String(value || '').normalize('NFKC').replace(/[\s　]/g, '').replace(/台/g, '臺'); }
+  _addrLoose(value) { return this._addrNorm(value).replace(/[縣市區鄉鎮村里]/g, ''); }
   _addrIndex(index) {
     if (this._addrIdx && this._addrIdx.src === index) return this._addrIdx;
     const counties = [], towns = [], villagesByTown = new Map(), by = new Map();
@@ -855,15 +907,21 @@ class App {
     const text = this._addrNorm(raw);
     if (text.length < 2) return null;
     const ix = this._addrIndex(index);
-    const cs = ix.counties.filter(c => c.name && text.includes(c.name));
-    let ts = ix.towns.filter(t => t.name && t.name.length >= 2 && text.includes(t.name));
+    const looseText = this._addrLoose(text);
+    const includesArea = name => {
+      if (!name) return false;
+      const looseName = this._addrLoose(name);
+      return text.includes(name) || (looseName.length >= 2 && looseText.includes(looseName));
+    };
+    const cs = ix.counties.filter(c => includesArea(c.name));
+    let ts = ix.towns.filter(t => t.name && includesArea(t.name));
     if (cs.length) ts = ts.filter(t => cs.some(c => c.code === t.code));
     if (!ts.length && !cs.length) return null;
     const label = code => ix.counties.find(c => c.code === code)?.label || '';
     const out = [];
     if (ts.length) {
       ts.slice(0, 6).forEach(t => {
-        const list = (ix.villagesByTown.get(t.id) || []).filter(v => v.name.length >= 2 && text.includes(v.name)).sort((a, b) => b.name.length - a.name.length);
+        const list = (ix.villagesByTown.get(t.id) || []).filter(v => v.name.length >= 2 && includesArea(v.name)).sort((a, b) => b.name.length - a.name.length);
         out.push({ county: { code: t.code, label: label(t.code) || t.county }, town: t, village: list[0] || null });
       });
     } else cs.slice(0, 3).forEach(c => out.push({ county: c, town: null, village: null }));
@@ -945,6 +1003,7 @@ class App {
       this._hideSel('sel-district'); this._hideSel('sel-village');
       const names = { mayor: '縣市首長', council: '議員', town: '鄉鎮市區長', rep: '代表', village: '村里長' };
       title.textContent = `${where}・${names[key] || cat.label}`;
+      this._countUp(document.getElementById('stat-quota'), this._addressQuota(m, cat));
       if (cat.list === null) {
         const box = document.getElementById('candidates');
         box.innerHTML = `<div style="background:#1c1916;border:1px dashed #33302b;border-radius:18px;padding:22px;text-align:center"><div style="font-size:14px;font-weight:800;color:#f4f1ea;line-height:1.6">地址裡沒有里名，無法直接判斷村里</div><div style="margin-top:8px;font-size:12px;font-weight:600;color:#a29c92;line-height:1.7">可以在地址加上里名（例如：文化里）重新搜尋，或用這台手機／電腦的定位判斷（需要你人在這個地址附近）。定位只在你的裝置上比對，不會上傳。</div><button id="addr-locate" type="button" style="margin-top:14px;padding:12px 18px;border:0;border-radius:999px;background:#E4022B;color:#fff;font:800 14px 'Noto Sans TC',sans-serif;cursor:pointer">使用我的位置判斷村里</button><div id="addr-locate-msg" style="margin-top:10px;font-size:12px;font-weight:700;color:#ff7890"></div></div>`;
@@ -964,12 +1023,28 @@ class App {
         const sel = document.getElementById('sel-district');
         sel.innerHTML = `<option value="">── 全部選舉區（${cat.list.length} 人）──</option>` + districts.map(d => `<option value="${d}">${districtLabel(cat, d)}（${cat.list.filter(c => String(c.district) === d).length} 人）</option>`).join('');
         this._showSel('sel-district');
-        sel.onchange = () => this._showCands(sel.value ? cat.list.filter(c => String(c.district) === sel.value) : cat.list);
+        sel.onchange = () => {
+          const scoped = sel.value ? cat.list.filter(c => String(c.district) === sel.value) : cat.list;
+          this._countUp(document.getElementById('stat-quota'), this._addressQuota(m, { ...cat, list: scoped }));
+          this._showCands(scoped);
+        };
       } else if ((cat.key === 'council' || cat.key === 'rep') && districts.length === 1) {
         title.textContent = `${where}・${names[key]}｜${districtLabel(cat, districts[0])}`;
       }
       this._showCands(cat.list);
     }, initial || (cats.find(c => c.list && c.list.length) || cats[0]).key);
+  }
+  _addressQuota(m, cat) {
+    if (!cat) return '--';
+    if (['mayor', 'town', 'village'].includes(cat.key)) return '1 席';
+    const districts = [...new Set((cat.list || []).map(c => String(c.district ?? '')).filter(Boolean))];
+    if (cat.key === 'council') {
+      const seats = districts.map(d => this.quotaMap?.[m.county.code]?.[d]).filter(n => Number.isInteger(n) && n > 0);
+      if (seats.length === 1) return `${seats[0]} 席`;
+      if (seats.length > 1) return `${seats.reduce((sum, n) => sum + n, 0)} 席`;
+    }
+    if (cat.key === 'rep') return districts.length > 1 ? `${districts.length} 個選區` : '多席次';
+    return '--';
   }
   _pointInRing(x, y, ring) {
     let inside = false;
@@ -1042,52 +1117,30 @@ class App {
       const response = await fetch('./data/candidate_search.json');
       if (!response.ok) throw new Error(`candidate search ${response.status}`);
       const index = await response.json();
-      const overrides = await Promise.race([
-        this._fetchOverrides(),
-        new Promise(resolve => setTimeout(() => resolve({}), 1600)),
-      ]);
+      const overrides = await this._fetchOverrides();
       return this._mergeSearchOverrides(index, overrides);
     })();
     return this._candidateSearch;
   }
 
   _mergeSearchOverrides(index, overrides) {
-    if (!overrides || typeof overrides !== 'object') return index;
-    let candidates = Array.isArray(index.candidates) ? [...index.candidates] : [];
-    const areas = index.areas || {};
-    const fields = ['name', 'party', 'role', 'photoUrl', 'gazetteUrl', 'taiwanGoGoUrl', 'facebook', 'instagram', 'threads', 'youtube', 'isIncumbent', 'votes', 'prevVotes', 'elected'];
-    // 後台（KV）名冊沒有填的欄位（上期得票、社群、照片…），用 data/*.json 建立的索引補上，只補空白、不覆蓋後台已填的值。
-    const fillFields = ['photoUrl', 'gazetteUrl', 'taiwanGoGoUrl', 'facebook', 'instagram', 'threads', 'youtube', 'votes', 'prevVotes'];
-    const norm = n => String(n || '').normalize('NFKC').replace(/[A-Za-z]+/g, '').replace(/[・．.·‧@\s　]/g, '');
-    const blank = v => v == null || String(v).trim() === '';
-    const add = (candidate, context, source, district = null, base = null) => {
-      if (!candidate?.name) return;
-      const clean = {}; fields.forEach(field => { clean[field] = candidate[field] ?? (field === 'isIncumbent' || field === 'elected' ? false : null); });
-      if (base) fillFields.forEach(f => { if (blank(clean[f]) && !blank(base[f])) clean[f] = base[f]; });
-      candidates.push({ ...clean, ...context, source, district });
-    };
-    Object.entries(overrides).forEach(([areaId, patch]) => {
-      const area = areas[areaId];
-      if (!area || !patch || typeof patch !== 'object') return;
-      const { name: _legacyAreaName, areaName: _areaName, ...context } = area;
-      ['candidates', 'councilors', 'representatives'].forEach(source => {
-        if (!Array.isArray(patch[source])) return;
-        const prior = candidates.filter(candidate => candidate.areaId === areaId && candidate.source === source);
-        candidates = candidates.filter(candidate => !(candidate.areaId === areaId && candidate.source === source));
-        const byName = new Map(), byDistrictName = new Map();
-        prior.forEach(p => { const k = norm(p.name); if (!byName.has(k)) byName.set(k, p); byDistrictName.set(String(p.district ?? '') + '|' + k, p); });
-        const seen = new Set();
-        const list = source === 'candidates' ? patch[source].map(c => [c, null]) : patch[source].flatMap(block => (block.candidates || []).map(c => [c, block.district || null]));
-        list.forEach(([candidate, district]) => {
-          const k = norm(candidate?.name);
-          seen.add(k);
-          const base = byDistrictName.get(String(district ?? '') + '|' + k) || byName.get(k) || null;
-          add(candidate, context, source, district, base);
-        });
-        // KV 尚未同步到最新登記名單時，保留索引裡的候選人（與地圖頁的合併行為一致）。
-        prior.forEach(p => { if (!seen.has(norm(p.name))) candidates.push(p); });
-      });
-    });
+    let candidates = [...(index.candidates || [])];
+    for (const [areaId, patch] of Object.entries(overrides || {})) {
+      const area = index.areas?.[areaId];
+      if (!area || !patch) continue;
+      const { name, areaName, ...context } = area;
+      for (const source of ['candidates', 'councilors', 'representatives']) {
+        if (!Object.hasOwn(patch, source)) continue;
+        const prior = candidates.filter(c => c.areaId === areaId && c.source === source);
+        const local = source === 'candidates' ? prior : Object.entries(Object.groupBy(prior, c => String(c.district ?? '')))
+          .map(([district, rows]) => ({ district, candidates: rows }));
+        const merged = ElectionData.mergeArea({ [source]: local }, { schemaVersion: patch.schemaVersion, [source]: patch[source] });
+        candidates = candidates.filter(c => !(c.areaId === areaId && c.source === source));
+        const add = (c, district = null) => { if (c.name) candidates.push({ ...c, ...context, areaId, source, district }); };
+        if (source === 'candidates') (merged[source] || []).forEach(c => add(c));
+        else ElectionData.blocksOf(merged[source]).forEach(b => (b.candidates || []).forEach(c => add(c, b.district)));
+      }
+    }
     return { ...index, candidates };
   }
 
@@ -1182,14 +1235,37 @@ class App {
 
   _flashCandidate(c) {
     const norm = s => String(s || '').replace(/[A-Za-z・．.·‧@\s]/g, '');
-    setTimeout(() => {
+    const started = Date.now();
+    const flash = () => {
       const box = document.getElementById('candidates'); if (!box) return;
       const el = [...box.children].find(n => norm(n.textContent).includes(norm(c.name)));
-      if (!el) return;
+      if (!el) { if (Date.now() - started < 4500) setTimeout(flash, 180); return; }
       el.scrollIntoView({ block: 'center', behavior: 'smooth' });
-      el.style.outline = '2px solid #f6a06b'; el.style.outlineOffset = '3px';
-      setTimeout(() => { el.style.outline = ''; el.style.outlineOffset = ''; }, 3200);
-    }, 900);
+      clearTimeout(this._searchRingTimer);
+      el.classList.remove('search-target-ring');
+      el.querySelector('.candidate-search-orbit')?.remove();
+      void el.offsetWidth;
+      el.classList.add('search-target-ring');
+      const width = Math.max(1, el.offsetWidth + 8), height = Math.max(1, el.offsetHeight + 8);
+      const radius = Math.min(parseFloat(getComputedStyle(el).borderRadius) || 8, height / 2);
+      const ns = 'http://www.w3.org/2000/svg';
+      const orbit = document.createElementNS(ns, 'svg');
+      orbit.classList.add('candidate-search-orbit');
+      orbit.setAttribute('viewBox', `0 0 ${width} ${height}`);
+      orbit.setAttribute('preserveAspectRatio', 'none');
+      orbit.setAttribute('aria-hidden', 'true');
+      ['orbit-outline', 'orbit-light'].forEach(className => {
+        const rect = document.createElementNS(ns, 'rect');
+        rect.setAttribute('x', '3'); rect.setAttribute('y', '3');
+        rect.setAttribute('width', String(Math.max(1, width - 6))); rect.setAttribute('height', String(Math.max(1, height - 6)));
+        rect.setAttribute('rx', String(radius)); rect.setAttribute('pathLength', '100');
+        rect.setAttribute('vector-effect', 'non-scaling-stroke'); rect.classList.add(className);
+        orbit.appendChild(rect);
+      });
+      el.appendChild(orbit);
+      this._searchRingTimer = setTimeout(() => { orbit.remove(); el.classList.remove('search-target-ring'); }, 1600);
+    };
+    setTimeout(flash, 350);
   }
 
   _openSearchFallback(candidate) {
@@ -1253,122 +1329,31 @@ class App {
     this._ov = (async () => {
       try {
         if (!window.OVERRIDES_URL) return {};
-        const r = await fetch(window.OVERRIDES_URL, { headers: { accept: 'application/json' } });
+        const r = await fetch(window.OVERRIDES_URL, { cache: 'no-store', signal: AbortSignal.timeout(20000), headers: { accept: 'application/json' } });
         if (!r.ok) throw new Error('overrides ' + r.status);
         const payload = await r.json();
         // Support both the current API payload and a future { data: ... } wrapper.
         const overrides = payload && payload.data && typeof payload.data === 'object' ? payload.data : payload;
-        return await this._mergeOfficialCouncilorProfiles(overrides);
-      } catch (err) { console.warn('讀取 overrides 失敗，僅顯示原始候選人資料。', err); return {}; }
+        return overrides;
+      } catch (err) {
+        this._ov = null;
+        if (!document.getElementById('data-load-error')) {
+          const notice = document.createElement('div');
+          notice.id = 'data-load-error';
+          notice.setAttribute('role', 'alert');
+          notice.style.cssText = 'position:fixed;bottom:16px;left:16px;right:16px;z-index:9999;background:#fff;color:#141517;padding:16px;border:2px solid #141517';
+          notice.textContent = '最新候選人資料暫時無法載入，請重新整理後再試。';
+          document.body.appendChild(notice);
+        }
+        throw err;
+      }
     })();
     return this._ov;
   }
-  async _mergeOfficialCouncilorProfiles(overrides) {
-    if (!overrides || typeof overrides !== 'object') return overrides;
-    try {
-      const [taipeiResult, taoyuanResult, hsinchuResult, changhuaResult] = await Promise.all([
-        fetch('./data/tcc_councilor_socials.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null),
-        fetch('./data/tycc_councilors.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null),
-        fetch('./data/hcc_councilors.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null),
-        fetch('./data/chcc_councilors.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : null),
-      ]);
-      const taipeiFacebook = taipeiResult?.facebook || {};
-      const taoyuanProfiles = Array.isArray(taoyuanResult) ? taoyuanResult.filter(row => row?.name && row?.photoUrl) : [];
-      const taoyuanByName = new Map(taoyuanProfiles.map(row => [String(row.name).normalize('NFKC').replace(/[・．·‧\s]/g, ''), row]));
-      const hsinchuProfiles = Array.isArray(hsinchuResult?.councilors) ? hsinchuResult.councilors.filter(row => row?.name && row?.photoUrl) : [];
-      const hsinchuByName = new Map(hsinchuProfiles.map(row => [String(row.name).normalize('NFKC').replace(/[・．·‧\s]/g, ''), row]));
-      const changhuaProfiles = Array.isArray(changhuaResult?.councilors) ? changhuaResult.councilors.filter(row => row?.name && row?.photoUrl) : [];
-      const changhuaByName = new Map(changhuaProfiles.map(row => [String(row.name).normalize('NFKC').replace(/[・．·‧\s]/g, ''), row]));
-      const mergeCounty = (countyCode, patch) => {
-        const county = overrides[countyCode];
-        if (!county?.councilors) return county;
-        return { ...county, councilors: county.councilors.map(block => ({ ...block, candidates: (block.candidates || []).map(candidate => ({ ...candidate, ...patch(block, candidate) })) })) };
-      };
-      const next = { ...overrides };
-      if (Object.keys(taipeiFacebook).length) next['63000'] = mergeCounty('63000', (block, candidate) => ({ facebook: candidate.facebook || taipeiFacebook[`${block.district}:${candidate.name}`] || '' }));
-      if (taoyuanByName.size) next['68000'] = mergeCounty('68000', (_block, candidate) => {
-        const official = taoyuanByName.get(String(candidate.name || '').normalize('NFKC').replace(/[・．·‧\s]/g, ''));
-        if (!official) return {};
-        return { photoUrl: candidate.photoUrl || String(official.photoUrl || '').replace(/\\/g, '/'), facebook: candidate.facebook || official.facebook || '' };
-      });
-      if (hsinchuByName.size) next['10018'] = mergeCounty('10018', (_block, candidate) => {
-        const official = hsinchuByName.get(String(candidate.name || '').normalize('NFKC').replace(/[・．·‧\s]/g, ''));
-        if (!official) return {};
-        return { photoUrl: candidate.photoUrl || official.photoUrl || '', facebook: candidate.facebook || official.facebook || '' };
-      });
-      if (changhuaByName.size) next['10007'] = mergeCounty('10007', (_block, candidate) => {
-        const official = changhuaByName.get(String(candidate.name || '').normalize('NFKC').replace(/[・．·‧\s]/g, ''));
-        if (!official) return {};
-        return { photoUrl: candidate.photoUrl || official.photoUrl || '', facebook: candidate.facebook || official.facebook || '' };
-      });
-      return next;
-    } catch (error) {
-      console.warn('讀取地方議員官方公開資料失敗。', error);
-      return overrides;
-    }
-  }
-  // KV 的議員／代表名冊若沒有上期得票等欄位，就用 data/*.json 補上（只補空白，不覆蓋後台已填的值）。
-  // 先依選區＋姓名對應，找不到時改用同縣市內的姓名對應。
-  _mergeBlocksWithLocal(remote, local) {
-    const list = v => Array.isArray(v) ? v : (v && Array.isArray(v.blocks) ? v.blocks : null);
-    const rBlocks = list(remote), lBlocks = list(local);
-    if (!rBlocks || !lBlocks || !lBlocks.length) return remote;
-    const norm = n => String(n || '').normalize('NFKC').replace(/[・．·‧\s\u3000]/g, '');
-    const fields = ['facebook', 'instagram', 'threads', 'youtube', 'photoUrl', 'gazetteUrl', 'taiwanGoGoUrl', 'prevVotes', 'votes'];
-    const byDistrict = new Map(), byName = new Map();
-    lBlocks.forEach(b => (b.candidates || []).forEach(c => {
-      if (!c?.name) return;
-      byDistrict.set(String(b.district ?? '') + '|' + norm(c.name), c);
-      if (!byName.has(norm(c.name))) byName.set(norm(c.name), c);
-    }));
-    const blank = v => v == null || String(v).trim() === '';
-    const merged = rBlocks.map(b => ({
-      ...b,
-      candidates: (b.candidates || []).map(rc => {
-        const key = String(b.district ?? '') + '|' + norm(rc?.name);
-        const lc = byDistrict.get(key) || byName.get(norm(rc?.name));
-        if (!lc) return rc;
-        const out = { ...rc };
-        fields.forEach(f => { if (blank(out[f]) && !blank(lc[f])) out[f] = lc[f]; });
-        if (typeof out.elected !== 'boolean' && typeof lc.elected === 'boolean') out.elected = lc.elected;
-        return out;
-      })
-    }));
-    return Array.isArray(remote) ? merged : { ...remote, blocks: merged };
-  }
   _applyOverrides(topo) {
-    const ov = this._overrides; if (!ov || !Object.keys(ov).length) return topo;
     const key = Object.keys(topo.objects)[0];
     topo.objects[key].geometries.forEach(g => {
-      const o = ov[g.properties.id]; if (!o) return;
-      if (o.candidates) {
-        // KV 後台資料可能比 data/*.json 舊。不要整包取代候選人，否則本地已驗證的
-        // Facebook / Instagram / Threads / YouTube（以及新登記候選人）會被 null 或舊名單吃掉。
-        const localCandidates = Array.isArray(g.properties.candidates) ? g.properties.candidates : [];
-        const nrm = n => String(n || '').normalize('NFKC').replace(/[A-Za-z]+/g, '').replace(/[・．.·‧@\s\u3000]/g, '');
-        const localByName = new Map(localCandidates.filter(c => c?.name).map(c => [nrm(c.name), c]));
-        const mergedNames = new Set();
-        const fallbackFields = ['facebook', 'instagram', 'threads', 'youtube', 'photoUrl', 'gazetteUrl', 'taiwanGoGoUrl', 'prevVotes', 'votes'];
-
-        g.properties.candidates = o.candidates.map(remote => {
-          const local = localByName.get(nrm(remote?.name)) || {};
-          const merged = { ...local, ...remote };
-          fallbackFields.forEach(field => {
-            if (!merged[field] && local[field]) merged[field] = local[field];
-          });
-          if (merged.name) mergedNames.add(nrm(merged.name));
-          return merged;
-        });
-
-        // 若 KV 尚未同步到最新登記名單，保留 data/*.json 裡的新候選人。
-        localCandidates.forEach(local => {
-          if (local?.name && !mergedNames.has(nrm(local.name))) g.properties.candidates.push(local);
-        });
-      }
-      if (o.councilors) g.properties.councilors = this._mergeBlocksWithLocal(o.councilors, g.properties.councilors);
-      if (o.representatives) g.properties.representatives = this._mergeBlocksWithLocal(o.representatives, g.properties.representatives);
-      if (o.voters !== undefined) g.properties.voters = o.voters;
-      if (o.quota !== undefined) g.properties.quota = o.quota;
+      g.properties = ElectionData.mergeArea(g.properties, this._overrides?.[g.properties.id]);
     });
     return topo;
   }
@@ -1386,7 +1371,7 @@ class App {
     if (this._inited) return; this._inited = true;
     let THREE; try { THREE = await import('https://unpkg.com/three@0.160.0/build/three.module.js'); } catch (e) { console.warn('three load failed', e); return; }
     this.THREE = THREE;
-    this._overrides = await Promise.race([this._fetchOverrides(), new Promise(r => setTimeout(() => r({}), 2600))]);
+    this._overrides = await this._fetchOverrides();
     const [dmap, quota] = await Promise.all([
       fetch('./data/district_town_map.json').then(r => r.json()).catch(() => ({})),
       fetch('./data/district_quota.json').then(r => r.json()).catch(() => ({})),
@@ -2164,19 +2149,25 @@ class App {
   }
 
   _partyChip(name) {
-    // 顏色改用各黨黨徽本身的品牌色，與 /history/ 各頁一致（非中選會圖表用的淡色）。
-    const chip = (bg, fg, ch) => `<span style="width:24px;height:24px;flex:none;border-radius:50%;background:${bg};color:${fg};display:inline-flex;align-items:center;justify-content:center;font:800 13px 'Noto Sans TC',sans-serif">${ch}</span>`;
+    const esc = v => String(v || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const chip = (bg, fg, mark, border = 'transparent') => `<span role="img" aria-label="${esc(name || '無黨籍')}黨徽" style="width:26px;height:26px;flex:none;border-radius:50%;border:1px solid ${border};background:${bg};color:${fg};display:inline-flex;align-items:center;justify-content:center;font:900 11px 'Archivo','Noto Sans TC',sans-serif;letter-spacing:-.06em">${mark}</span>`;
+    const sun = '<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="3.1" fill="#fff"/><path d="M12 1.7l1.3 5.6L17 2.9l-1.4 5.6 5.2-2.5-4.5 3.7 5.7-.2-5.5 1.7 5.5 1.7-5.7-.2 4.5 3.7-5.2-2.5 1.4 5.6-3.7-4.4-1.3 5.6-1.3-5.6L7 19.5l1.4-5.6-5.2 2.5 4.5-3.7-5.7.2 5.5-1.7L2 9.5l5.7.2L3.2 6l5.2 2.5L7 2.9l3.7 4.4z" fill="#fff"/></svg>';
+    // 六大黨顏色改用各黨黨徽本身的品牌色，與 /history/ 各頁一致（非中選會圖表用的淡色）；
+    // 其餘小黨與備援雜湊色沿用原本設計，未更動。
     const P = {
-      '民主進步黨': chip('#00A600', '#fff', '民'),
-      '中國國民黨': chip('#000095', '#fff', '國'),
-      '台灣民眾黨': chip('#28C8C8', '#fff', '眾'),
-      '時代力量': chip('#FFC400', '#171411', '力'),
-      '親民黨': chip('#FF6600', '#fff', '親'),
-      '新黨': chip('#002FA7', '#fff', '新'),
-      '無黨籍': chip('#9D9D9D', '#201e1d', '無'),
-      '無': chip('#9D9D9D', '#201e1d', '無'),
+      '民主進步黨': chip('#00A600', '#fff', 'DPP'), '中國國民黨': chip('#000095', '#fff', sun),
+      '台灣民眾黨': chip('#28C8C8', '#fff', 'TPP'), '時代力量': chip('#FFC400', '#171310', '時'),
+      '親民黨': chip('#FF6600', '#fff', '親'), '新黨': chip('#002FA7', '#fff', '新'),
+      '台灣基進': chip('#a51c63', '#fff', '基'), '台聯黨': chip('#79a928', '#fff', '台聯'),
+      '台灣綠黨': chip('#55a630', '#fff', '綠'), '小民參政歐巴桑聯盟': chip('#e56d9f', '#fff', '小民'),
+      '勞動黨': chip('#c51e2a', '#ffe15b', '勞'), '社會民主黨': chip('#a74091', '#fff', '社民'),
+      '人民民主黨': chip('#8f2236', '#fff', '人民'), '司法改革黨': chip('#66539b', '#fff', '司改'),
+      '無黨籍': chip('#9D9D9D', '#fff', '無'), '無': chip('#9D9D9D', '#fff', '無'),
     };
-    return P[name] || chip('#B7A88E', '#201e1d', '黨');
+    if (P[name]) return P[name];
+    let hash = 0; for (const ch of String(name || '黨')) hash = ((hash * 31) + ch.charCodeAt(0)) >>> 0;
+    const colors = ['#315c83', '#7b4d87', '#9b522f', '#397061', '#805d28', '#6f4961'];
+    return chip(colors[hash % colors.length], '#fff', esc(String(name || '黨').replace(/黨$/, '').slice(0, 2) || '黨'));
   }
   _socialIcon(key) {
     const S = {
@@ -2294,9 +2285,10 @@ class App {
     this._setDrawerLock(true);
     this._drawerOpen = true; this._applyViewOffset();
   }
-  _setDrawerLock(locked) {
-    document.documentElement.style.overflow = locked ? 'hidden' : '';
-    document.body.style.overflow = locked ? 'hidden' : '';
+  _setDrawerLock() {
+    // 抽屜本身已有獨立捲動區；不要鎖住整頁，否則搜尋完成後桌面與手機都無法繼續往下滑。
+    document.documentElement.style.removeProperty('overflow');
+    document.body.style.removeProperty('overflow');
   }
 
   // ---------- OBSERVATORY ----------
@@ -2327,7 +2319,15 @@ class App {
     if (!el || token !== this._resTok) return;
     box.querySelector('.res-panel')?.remove();
     box.insertBefore(el, box.firstChild);
-    box.scrollTop = 0;
+    // RESULTS 會非同步插到候選人前面；手機瀏覽器的 scroll anchoring 可能保留舊視角，
+    // 讓新插入的標題落到捲動視窗上方，因此同時重設實際 drawer 捲動容器。
+    const scrollShell = document.querySelector('.drawer-body-scroll');
+    const resetResultScroll = () => {
+      box.scrollTop = 0;
+      if (scrollShell) scrollShell.scrollTop = 0;
+    };
+    resetResultScroll();
+    requestAnimationFrame(resetResultScroll);
   }
   _resultsPanel(p, prev, cur) {
     const esc = v => String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
@@ -2342,10 +2342,10 @@ class App {
       const w = share == null ? 0 : Math.max(1, Math.min(100, share));
       const badge = win ? `<span style="display:inline-flex;align-items:center;gap:4px;margin-left:8px;padding:2px 9px 2px 7px;border-radius:999px;background:#E4022B;color:#fff;font-size:11px;font-weight:800;vertical-align:1px"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2 6.4l2.6 2.6L10 3.4" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>當選</span>` : '';
       const tagEl = tag ? `<span style="margin-left:6px;padding:2px 8px;border-radius:999px;border:1px solid #4a453f;color:#c9c3b8;font-size:10px;font-weight:700;vertical-align:1px">${tag}</span>` : '';
-      const wrap = win ? 'padding:10px 12px;margin:2px -12px;border-radius:14px;background:linear-gradient(90deg,rgba(228,2,43,.20),rgba(228,2,43,.05));box-shadow:inset 0 0 0 1px rgba(228,2,43,.45)' : 'padding:9px 0;border-top:1px solid #2a2723';
+      const wrap = win ? 'padding:10px 12px;margin:2px 0;border-radius:14px;background:linear-gradient(90deg,rgba(228,2,43,.20),rgba(228,2,43,.05));box-shadow:inset 0 0 0 1px rgba(228,2,43,.45)' : 'padding:9px 12px;border-top:1px solid #2a2723';
       return `<div style="${wrap}"><div style="display:flex;justify-content:space-between;gap:10px;align-items:baseline"><div style="min-width:0;font-weight:800;font-size:14px;color:#f4f1ea">${esc(name)}${badge}${tagEl}<span style="display:block;font-size:11px;font-weight:600;color:#8a857c">${esc(party || '')}</span></div><div style="text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums"><div style="font-family:'Archivo',sans-serif;font-weight:900;font-size:15px;color:#f4f1ea">${votes == null ? '—' : fmt(votes)}<span style="font-size:11px;font-weight:700;color:#8a857c"> 票</span></div><div style="font-size:12px;font-weight:700;color:${win ? '#ff8fa0' : '#a29c92'}">${pctT(share)}</div></div></div><div style="height:5px;border-radius:99px;background:${win ? 'rgba(0,0,0,.35)' : '#26231f'};margin-top:6px;overflow:hidden"><div style="height:100%;width:${w}%;background:${win ? '#E4022B' : '#6b655c'};border-radius:99px"></div></div></div>`;
     };
-    const head = (t, sub) => `<div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin:0 0 10px"><div style="font-family:'Noto Sans TC',sans-serif;font-weight:900;font-size:15px;color:#f4f1ea">${t}</div><div style="font-size:11px;font-weight:700;color:#8a857c">${sub}</div></div>`;
+    const head = (t, sub, cls = '') => `<div class="results-period-head ${cls}" style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin:0 0 10px;min-height:22px;line-height:1.35;overflow:visible"><div style="font-family:'Noto Sans TC',sans-serif;font-weight:900;font-size:15px;line-height:1.35;color:#f4f1ea">${t}</div><div style="font-size:11px;font-weight:700;line-height:1.35;color:#8a857c">${sub}</div></div>`;
     const curVotes = cur?.candidates || {}, cn = Object.keys(curVotes).length;
     const curValid = cur?.validVotes ?? (cn ? Object.values(curVotes).reduce((a, b) => a + b, 0) : null);
     const curTurn = pct(cur?.votesCast, cur?.electors);
@@ -2357,27 +2357,31 @@ class App {
       return { c, v, share: pct(v, curValid) };
     }).sort((a, b) => (b.v ?? -1) - (a.v ?? -1));
     const topV = Math.max(...curRows.map(r => r.v ?? -1));
-    let html = `<div style="font-family:'Archivo',sans-serif;font-weight:700;font-size:11px;letter-spacing:.24em;color:#E4022B;margin-bottom:14px">選情數據 / RESULTS</div>`;
+    let html = '';
     html += head('本期（2026）', cn ? (cur.finalized ? '開票結果' : '開票中／統計中') : '11 月 28 日投票');
     html += `<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:8px">${tile('選舉人數', fmt(cur?.electors))}${tile('投票數', fmt(cur?.votesCast))}${tile('投票率', pctT(curTurn), delta)}${tile('有效票', fmt(curValid))}</div>`;
     html += curRows.map(r => row(r.c.name, r.c.party, r.v, r.share, cn > 0 && r.v != null && r.v === topV && cur?.finalized === true, '')).join('');
     if (!cn) html += `<div style="margin-top:8px;font-size:12px;font-weight:600;line-height:1.6;color:#8a857c">尚未開票；開票後會在這裡公布各候選人得票數與得票率。</div>`;
     if (prev) {
       const runNow = new Set(mayors.map(c => norm(c.name)));
-      html += `<div style="height:18px"></div>` + head('上期（2022）', `${esc(prev.voteDate).replace(/-/g, '/')} 投票`);
+      html += `<section class="prev-election-section" style="margin-top:22px;padding-top:18px;border-top:1px solid #2a2723;overflow:visible">` + head('上期（2022）', `${esc(prev.voteDate).replace(/-/g, '/')} 投票`, 'prev-results-head');
       html += `<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-bottom:8px">${tile('選舉人數', fmt(prev.electors))}${tile('投票數', fmt(prev.votesCast))}${tile('投票率', pctT(prev.turnout))}${tile('有效票', fmt(prev.validVotes), `無效票 ${fmt(prev.invalidVotes)}`)}</div>`;
       html += prev.candidates.map(c => row(c.name, c.party, c.votes, c.pct, c.elected, runNow.has(norm(c.name)) ? '本屆再參選' : '')).join('');
-      html += `<div style="margin-top:8px;font-size:11px;font-weight:600;line-height:1.6;color:#6f6a62">資料來源：中央選舉委員會選舉資料庫；得票率＝得票數 ÷ 有效票。</div>`;
+      html += `<div style="margin-top:8px;font-size:11px;font-weight:600;line-height:1.6;color:#6f6a62">資料來源：中央選舉委員會選舉資料庫；得票率＝得票數 ÷ 有效票。</div></section>`;
     }
     const el = document.createElement('div');
     el.className = 'res-panel';
     el.style.cssText = 'background:#1c1916;border:1px solid #2a2723;border-radius:18px;padding:18px 18px 16px;flex:none';
-    el.innerHTML = html;
+    el.innerHTML = `<button type="button" class="res-panel-toggle" aria-expanded="false"><span>選情數據 / RESULTS</span><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="res-panel-content"><div>${html}</div></div>`;
+    el.querySelector('.res-panel-toggle').addEventListener('click', event => {
+      const open = el.classList.toggle('open');
+      event.currentTarget.setAttribute('aria-expanded', String(open));
+    });
     return el;
   }
   // ---------- ANNOUNCEMENT（後台可編輯的半透明公告） ----------
   _annDefault() {
-    return { items: [{ id: 'support-review', enabled: true, title: '金流審核中', message: '「支持島民觀察室」的金流服務正在審核中，暫時無法使用。開放後會在這裡公告，感謝你的關心與支持。', pages: { map: false, observatory: false, support: true, contact: false }, supportLock: true }] };
+    return { items: [{ id: 'support-review', enabled: true, title: '金流審核中', message: '「支持島民觀察室」的金流服務正在審核中，暫時無法使用。開放後會在這裡公告，感謝你的關心與支持。', pages: { map: false, history: false, observatory: false, support: true, contact: false }, display: 'compact', supportLock: true }] };
   }
   // 相容舊版（單一公告物件）與新版（{ items: [...] }，每則公告各自勾選出現的頁面）
   _annItems(data) {
@@ -2403,6 +2407,9 @@ class App {
     box.hidden = true;
     let list = this._annItems(this._ann).filter(a => a && a.enabled === true && (a.title || a.message) && a.pages?.[view] === true);
     if (!list.length) return;
+    const rank = { compact: 0, wide: 1, fullscreen: 2 };
+    const display = list.reduce((best, item) => (rank[item.display] || 0) > rank[best] ? item.display : best, 'compact');
+    box.className = `site-ann site-ann--${display}`;
     const build = (items) => {
       const wrap = document.createDocumentFragment();
       const k = document.createElement('div'); k.className = 'ann-kicker'; k.textContent = '公告 / NOTICE'; wrap.appendChild(k);
@@ -2425,7 +2432,7 @@ class App {
         if (!list.length) return;
       }
     }
-    const stamp = list.map(a => `${a.id || ''}:${a.title || ''}:${a.message || ''}`).join('|') + String(this._ann?.updatedAt || '');
+    const stamp = list.map(a => `${a.id || ''}:${a.title || ''}:${a.message || ''}:${a.display || 'compact'}`).join('|') + String(this._ann?.updatedAt || '');
     let dismissed = false;
     try { dismissed = sessionStorage.getItem('ann-dismissed') === stamp; } catch (_) {}
     if (dismissed) return;
