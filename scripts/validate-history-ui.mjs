@@ -53,7 +53,7 @@ async function desktop(browser,base){
   const page=await browser.newPage({viewport:{width:1440,height:900},deviceScaleFactor:1});
   await openArchive(page,base,'desktop');
   await page.locator('path.county').first().click({force:true});
-  await page.locator('#county-detail .county-card').waitFor({state:'visible',timeout:5000});
+  await page.locator('#county-detail.county-card').waitFor({state:'visible',timeout:5000});
   const drill=page.locator('[data-history-town-drilldown]');await drill.waitFor({state:'visible'});
   const h=await drill.evaluate(el=>el.getBoundingClientRect().height);assert(h>=40,`desktop: drilldown target too short (${h})`);
   await page.screenshot({path:path.join(OUT,'history-desktop-1440.png'),fullPage:true});
