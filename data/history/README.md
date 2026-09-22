@@ -43,7 +43,39 @@
 
 1996–2016 目前維持縣市層級，不用現代鄉鎮界線硬套歷史資料。後續若擴充，需先完成各年份行政區名稱與邊界正規化。
 
-## 驗證規則
+## 歷史頁產品 UI
+
+`/history/` 與 `/history/town.html` 共用 `history/product-ui.css` 與 `history/product-ui.js`，避免兩個頁面各自維護不同的互動語言。
+
+- 轉場沿用主站 GSAP 語言：多欄全螢幕遮罩、`power3` / `expo` easing，以及接近主站 `cubic-bezier(.16,1,.3,1)` 的位移節奏。
+- 頁面初次進場會依序顯示 hero、地圖與結果區；縣市／鄉鎮結果更新則使用較短的局部 transition，避免每次操作都出現重動畫。
+- 2020、2024 的「縣市 → 鄉鎮市區」導覽使用同一套轉場，並以 `sessionStorage` 銜接下一頁的入場動畫。
+- 手機版使用獨立漢堡選單、水平年份選擇器、堆疊式地圖／結果區與至少約 40–48px 的主要觸控目標；hover tooltip 在觸控裝置停用。
+- 支援 `prefers-reduced-motion`；使用者要求減少動態時會略過裝飾性轉場。
+- `/history/*` 有獨立 CSP，明確允許頁面使用的 D3、TopoJSON、GSAP 與行政區 TopoJSON 來源。
+
+## 瀏覽器與手機驗證
+
+`.github/workflows/validate-history-ui.yml` 會用 Playwright + Chromium 實際操作歷史頁，而不是只做靜態 CSS 檢查。
+
+目前驗證 viewport：
+
+- Desktop：1440 × 900
+- Mobile：390 × 844
+- Mobile：360 × 800
+
+驗證內容包含：
+
+1. 2024 全台 22 個有結果縣市皆成功渲染。
+2. 頁面不得產生水平 overflow。
+3. 手機漢堡選單可開關，年份與主要操作按鈕具足夠觸控高度。
+4. 縣市點擊後必須出現結果卡，且 2020／2024 只允許一個鄉鎮市區下探入口。
+5. 下探轉場後鄉鎮市區地圖必須渲染，鄉鎮按鈕可點並能開啟票數結果。
+6. CI 會保存桌面、390px 歷史頁與 390px 鄉鎮頁全頁截圖，供人工目視檢查。
+
+這組瀏覽器驗證曾實際抓到重複產生「查看鄉鎮市區」按鈕的問題，因此 `scripts/patch-history-drilldown.mjs` 現在會先清除舊 block，再確保每次建置後只存在一個 canonical drilldown CTA。
+
+## 資料驗證規則
 
 `presidential-counties.json` 與 `presidential-towns.json` 只允許由 GitHub Actions 建置。
 
@@ -66,7 +98,10 @@
 - `scripts/append-modern-presidential-history.mjs`：2020、2024 縣市資料
 - `scripts/build-modern-presidential-towns.mjs`：2020、2024 鄉鎮市區資料
 - `scripts/patch-history-nav.mjs`：首頁歷年選舉入口
-- `scripts/patch-history-drilldown.mjs`：歷史頁的縣市 → 鄉鎮市區入口
-- `.github/workflows/build-presidential-history.yml`：下載來源、執行驗證並更新產出檔
+- `scripts/patch-history-drilldown.mjs`：歷史頁的縣市 → 鄉鎮市區入口，並保證 patch 冪等。
+- `scripts/patch-history-product-ui.mjs`：將共用產品 UI 資產接入全台與鄉鎮頁。
+- `scripts/validate-history-ui.mjs`：Playwright 桌機／手機互動驗證。
+- `.github/workflows/build-presidential-history.yml`：下載來源、執行資料驗證並更新產出檔。
+- `.github/workflows/validate-history-ui.yml`：實際 Chromium UI 驗證與截圖。
 
 不要直接編輯產出的 JSON；若來源或轉換規則需要更新，修改建置腳本後由 workflow 重新產生。
