@@ -52,8 +52,9 @@
   }
 
   function navigate(url,label='歷年選舉'){
-    if(reduce){location.href=url;return}
-    const g=gs();if(!g){location.href=url;return}
+    const commit=()=>{try{sessionStorage.setItem('historyTransition',JSON.stringify({label,ts:Date.now()}))}catch(_){}location.href=url};
+    if(reduce){commit();return}
+    const g=gs();if(!g){commit();return}
     const veil=buildTransition(),cols=[...veil.querySelectorAll('.history-transition-cols span')],title=veil.querySelector('.history-transition-title'),rule=veil.querySelector('.history-transition-rule');
     title.textContent=label;veil.style.display='block';
     const dur=mobile()?.48:.52;
@@ -63,7 +64,7 @@
       .to(cols,{yPercent:0,duration:dur,stagger:.035},0)
       .to(title,{yPercent:0,autoAlpha:1,duration:dur*.95,ease:'expo.out'},dur*.32)
       .to(rule,{width:mobile()?72:110,duration:dur*.72,ease:'power3.out'},dur*.46)
-      .add(()=>{try{sessionStorage.setItem('historyTransition',JSON.stringify({label,ts:Date.now()}))}catch(_){} location.href=url},dur*1.06);
+      .add(commit,dur*1.06);
   }
 
   function inboundTransition(){

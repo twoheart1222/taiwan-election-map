@@ -7,8 +7,9 @@
 try{
   const incoming=JSON.parse(sessionStorage.getItem('historyTransition')||'null');
   const target=location.hash.replace(/^#/,'')||'map';
+  const labels={map:'島民選舉地圖',observatory:'政治觀察',about:'關於我們',contact:'聯絡我們'};
   if(incoming&&Date.now()-Number(incoming.ts||0)<5000&&['map','observatory','about','contact'].includes(target)){
-    window.__historyInbound=incoming;
+    window.__historyInbound={...incoming,label:labels[target]};
     sessionStorage.removeItem('historyTransition');
     document.documentElement.classList.add('history-inbound');
   }
@@ -759,6 +760,14 @@ class App {
   _playInboundVeil(label) {
     const veil = document.getElementById('page-transition');
     if (!veil) { document.documentElement.classList.remove('history-inbound'); return; }
+    // The normal countdown intro finishes later than the cross-page veil. Hide it
+    // permanently for this navigation so it cannot flash between the two reveals.
+    const preloader = document.getElementById('preloader');
+    const page = document.getElementById('page');
+    if (preloader) preloader.style.display = 'none';
+    if (page) { page.style.filter = 'none'; page.style.transform = 'none'; }
+    this._revealed = true;
+    clearTimeout(this._failsafe);
     const cols = [...veil.querySelectorAll('.pt-cols > span')];
     const title = document.getElementById('page-transition-label');
     const kicker = document.getElementById('page-transition-kicker');
