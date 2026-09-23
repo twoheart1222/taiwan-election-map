@@ -1,5 +1,6 @@
 :root{--history-nav-h:62px;--history-ease:cubic-bezier(.16,1,.3,1)}
 html{scroll-behavior:smooth}
+.history-ad-slot{width:min(970px,calc(100% - 32px));min-height:100px;margin:32px auto;overflow:hidden}
 html.history-transition-pending{background:#0d0d0d}
 html.history-transition-pending body{visibility:hidden}
 html.history-transition-pending .history-transition{visibility:visible}
