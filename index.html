@@ -1146,23 +1146,37 @@ class App {
   }
 
   _mergeSearchOverrides(index, overrides) {
-    let candidates = [...(index.candidates || [])];
+    const original = index.candidates || [];
+    const priorByAreaSource = new Map();
+    original.forEach(candidate => {
+      const key = `${candidate.areaId}|${candidate.source}`;
+      if (!priorByAreaSource.has(key)) priorByAreaSource.set(key, []);
+      priorByAreaSource.get(key).push(candidate);
+    });
+    const replaced = new Set(), additions = [];
     for (const [areaId, patch] of Object.entries(overrides || {})) {
       const area = index.areas?.[areaId];
       if (!area || !patch) continue;
       const { name, areaName, ...context } = area;
       for (const source of ['candidates', 'councilors', 'representatives']) {
         if (!Object.hasOwn(patch, source)) continue;
-        const prior = candidates.filter(c => c.areaId === areaId && c.source === source);
-        const local = source === 'candidates' ? prior : Object.entries(Object.groupBy(prior, c => String(c.district ?? '')))
-          .map(([district, rows]) => ({ district, candidates: rows }));
+        const lookupKey = `${areaId}|${source}`;
+        replaced.add(lookupKey);
+        const prior = priorByAreaSource.get(lookupKey) || [];
+        const local = source === 'candidates' ? prior : [...prior.reduce((groups, candidate) => {
+          const district = String(candidate.district ?? '');
+          if (!groups.has(district)) groups.set(district, []);
+          groups.get(district).push(candidate);
+          return groups;
+        }, new Map())].map(([district, rows]) => ({ district, candidates: rows }));
         const merged = ElectionData.mergeArea({ [source]: local }, { schemaVersion: patch.schemaVersion, [source]: patch[source] });
-        candidates = candidates.filter(c => !(c.areaId === areaId && c.source === source));
-        const add = (c, district = null) => { if (c.name) candidates.push({ ...c, ...context, areaId, source, district }); };
+        const add = (c, district = null) => { if (c.name) additions.push({ ...c, ...context, areaId, source, district }); };
         if (source === 'candidates') (merged[source] || []).forEach(c => add(c));
         else ElectionData.blocksOf(merged[source]).forEach(b => (b.candidates || []).forEach(c => add(c, b.district)));
       }
     }
+    const candidates = original.filter(candidate => !replaced.has(`${candidate.areaId}|${candidate.source}`));
+    candidates.push(...additions);
     return { ...index, candidates };
   }
 
