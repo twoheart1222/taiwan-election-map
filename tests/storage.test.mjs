@@ -101,6 +101,31 @@ test('map navigation retains its hover until the transition veil has finished', 
   assert.equal(cleared, true);
 });
 
+test('transition veil starts hidden and delayed columns use backwards fill', async () => {
+  const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
+  const method = html.slice(html.indexOf('  _playVeil(veil'), html.indexOf('  _playInboundVeil('));
+  const animations = [];
+  const node = () => ({
+    style: {},
+    getAnimations: () => [],
+    animate: (frames, options) => { animations.push({ frames, options }); return {}; },
+  });
+  const cols = Array.from({ length: 5 }, node);
+  const veil = { ...node(), querySelectorAll: () => cols };
+  const title = node(), kicker = node(), rule = node();
+  const app = vm.runInNewContext(`({${method}})`, {
+    window: { matchMedia: () => ({ matches: false }) },
+    setTimeout: () => 1,
+  });
+  app._playVeil(veil, title, kicker, rule, () => {});
+  assert.equal(veil.style.display, 'block');
+  assert.ok(cols.every(col => col.style.transform === 'translateY(101%)'));
+  assert.equal(title.style.transform, 'translateY(100%)');
+  assert.equal(kicker.style.opacity, '0');
+  assert.equal(rule.style.width, '0');
+  assert.ok(animations.slice(0, cols.length).every(animation => animation.options.fill === 'both'));
+});
+
 test('API migration, version conflicts, concurrent writes, atomic batches and KV parity', async t => {
   const dir = await mkdtemp(join(tmpdir(), 'election-storage-'));
   await build({ entryPoints: [new URL('../worker.js', import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1')],
