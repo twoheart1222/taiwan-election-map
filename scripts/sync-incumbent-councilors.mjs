@@ -270,25 +270,12 @@ const unmatchedOfficials = [];
 for (const [key, official] of officialsByKey) {
   const match = candidateMatches.get(key);
   if (!match) {
-    const document = overrides[official.countyCode];
-    const blocks = councilorBlocks(document);
-    const block = blocks?.find((item) => Number(item.district) === official.district);
-    if (!block) {
-      unmatchedOfficials.push(official);
-      continue;
-    }
-    const candidate = {
-      name: official.name,
-      party: official.party || '無黨籍',
-      role: official.county.endsWith('市') ? '市議員候選人' : '縣議員候選人',
-      photoUrl: official.photoUrl || '',
-      facebook: '',
-      isIncumbent: true,
-    };
-    block.candidates ||= [];
-    block.candidates.push(candidate);
-    candidateMatches.set(key, { candidate, district: block.district });
-    added.push({ ...official, district: block.district });
+    // 2026 年候選人登記已截止（見中選會候選人登記彙總表）。這裡「找不到對應候選人」
+    // 一律代表該現任議員這屆沒有在同一個選區重新登記參選（退休、轉戰其他職位等），
+    // 不再自動塞一筆虛構的候選人資料進去——過去這裡會憑空新增 isIncumbent:true
+    // 的候選人卡片，導致像雲林縣第一選區的張維崢、賴淑娞（轉戰鄉鎮市長）被誤植回
+    // 議員候選人名單。只記錄成 unmatchedOfficials 供人工複查，不寫回 overrides。
+    unmatchedOfficials.push(official);
     continue;
   }
 
