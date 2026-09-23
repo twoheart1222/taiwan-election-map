@@ -1,0 +1,5 @@
+Contact: mailto:contact@formosaobservatory.com
+Expires: 2027-09-24T00:00:00Z
+Preferred-Languages: zh-TW, en
+Canonical: https://formosaobservatory.com/.well-known/security.txt
+Policy: https://github.com/twoheart1222/taiwan-election-map/security/policy
