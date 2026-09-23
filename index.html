@@ -1498,21 +1498,23 @@ class App {
     }, { threshold: 0.01 }).observe(el);
     let lastFrame = 0, lastLabelFrame = 0;
     const loop = now => {
-      this._raf = requestAnimationFrame(loop);
+      this._raf = 0;
       if (document.hidden || this._currentView !== 'map' || !this._mapVisible) return;
       if (this._auto && now >= this._autoUntil) { this._auto = false; this._needsRender = true; }
       const auto = this._auto && this.nav.length === 1;
       const animating = now < (this._renderUntil || 0);
       if (!auto && !animating && !this._needsRender) return;
       const interval = 1000 / (mobileMQ.matches ? 20 : 30);
-      if (now - lastFrame < interval) return;
+      if (now - lastFrame < interval) { this._raf = requestAnimationFrame(loop); return; }
       lastFrame = now;
       if (auto) { this.camState.az += 0.0032; this._updateCam(); }
       if (now - lastLabelFrame >= 100 || (!auto && !animating)) { this._updateLabels(); lastLabelFrame = now; }
       renderer.render(scene, cam);
       this._needsRender = false;
+      if ((auto || now < (this._renderUntil || 0)) && !this._raf) this._raf = requestAnimationFrame(loop);
     };
-    this._raf = requestAnimationFrame(loop);
+    this._renderLoop = loop;
+    this._requestRender(4500);
     this._onResize = () => { const w = el.clientWidth, h = el.clientHeight; if (!w || !h) return; cam.aspect = w / h; cam.updateProjectionMatrix(); renderer.setSize(w, h); this._applyViewOffset(); this._requestRender(120); };
     window.addEventListener('resize', this._onResize);
     document.addEventListener('visibilitychange', () => { if (!document.hidden) { this._requestRender(250); this._onResize(); } });
@@ -1523,6 +1525,9 @@ class App {
   _requestRender(duration = 0) {
     this._needsRender = true;
     this._renderUntil = Math.max(this._renderUntil || 0, performance.now() + duration);
+    if (this._renderLoop && !this._raf && !document.hidden && this._currentView === 'map' && this._mapVisible !== false) {
+      this._raf = requestAnimationFrame(this._renderLoop);
+    }
   }
   _updateCam() { const s = this.camState, c = this.cam, sp = Math.sin(s.pol); c.position.set(s.tx + s.r * sp * Math.sin(s.az), s.ty + s.r * Math.cos(s.pol), s.tz + s.r * sp * Math.cos(s.az)); c.lookAt(s.tx, s.ty, s.tz); this._requestRender(); }
   _applyViewOffset() {
