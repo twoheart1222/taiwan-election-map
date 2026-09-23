@@ -1538,7 +1538,7 @@ class App {
         requestAnimationFrame(() => this._onResize?.());
       }
     }, { threshold: 0.01 }).observe(el);
-    let lastFrame = 0, lastLabelFrame = 0;
+    let lastFrame = 0;
     const loop = now => {
       this._raf = 0;
       if (document.hidden || this._currentView !== 'map' || !this._mapVisible) return;
@@ -1546,11 +1546,13 @@ class App {
       const auto = this._auto && this.nav.length === 1;
       const animating = now < (this._renderUntil || 0);
       if (!auto && !animating && !this._needsRender) return;
-      const interval = 1000 / (mobileMQ.matches ? 20 : 30);
-      if (now - lastFrame < interval) { this._raf = requestAnimationFrame(loop); return; }
+      // Keep active map motion synchronized with the display. The former 20/30 FPS
+      // throttle remained after AdSense was removed and made every camera/tween
+      // transition visibly stutter. Idle scenes still stop rendering below.
+      const delta = lastFrame ? Math.min(50, now - lastFrame) : 16.67;
       lastFrame = now;
-      if (auto) { this.camState.az += 0.0032; this._updateCam(); }
-      if (now - lastLabelFrame >= 100 || (!auto && !animating)) { this._updateLabels(); lastLabelFrame = now; }
+      if (auto) { this.camState.az += delta * 0.000096; this._updateCam(); }
+      this._updateLabels();
       renderer.render(scene, cam);
       this._needsRender = false;
       if ((auto || now < (this._renderUntil || 0)) && !this._raf) this._raf = requestAnimationFrame(loop);
