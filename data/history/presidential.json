@@ -1,13 +1,15 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "type": "president",
   "source": {
     "name": "中央選舉委員會選舉資料庫",
-    "url": "https://db.cec.gov.tw/Visual/?type=President",
+    "url": "https://db.cec.gov.tw/ElecTable/Election?type=President",
     "license": "政府資料開放授權條款第1版",
-    "profileApi": "https://db.cec.gov.tw/static/elections/elections/data/profiles/ELC/P0/00/{theme}/{level}/00_000_00_000_0000.json"
+    "listApi": "https://db.cec.gov.tw/static/elections/list/ELC_P0.json",
+    "ticketApi": "https://db.cec.gov.tw/static/elections/data/tickets/ELC/P0/00/{theme}/{level}/{area}.json",
+    "profileApi": "https://db.cec.gov.tw/static/elections/data/profiles/ELC/P0/00/{theme}/{level}/{area}.json"
   },
-  "note": "第一階段保存全國層級正式結果。countyResults 保留給依各屆當時行政區界匯入的縣市結果；不可用 2026 現行行政區直接回填舊屆資料。",
+  "note": "全國、縣市與鄉鎮市區結果皆由中選會官方選舉資料庫公開 JSON 建置；跨屆比較將舊行政區正規化為現行名稱。",
   "elections": [
     {
       "year": 2024,
@@ -154,8 +156,8 @@
           "no": 3,
           "president": "宋楚瑜",
           "vicePresident": "林瑞雄",
-          "party": "親民黨",
-          "partyKey": "PFP",
+          "party": "無黨籍及未經政黨推薦",
+          "partyKey": "IND",
           "votes": 369588
         }
       ],
@@ -216,7 +218,7 @@
           "no": 2,
           "president": "連戰",
           "vicePresident": "宋楚瑜",
-          "party": "國親聯盟",
+          "party": "中國國民黨",
           "partyKey": "KMT",
           "votes": 6442452
         }
@@ -239,7 +241,7 @@
           "president": "宋楚瑜",
           "vicePresident": "張昭雄",
           "party": "連署",
-          "partyKey": "IND",
+          "partyKey": "OTHER",
           "votes": 4664972
         },
         {
@@ -263,7 +265,7 @@
           "president": "許信良",
           "vicePresident": "朱惠良",
           "party": "連署",
-          "partyKey": "IND",
+          "partyKey": "OTHER",
           "votes": 79429
         },
         {
@@ -294,7 +296,7 @@
           "president": "陳履安",
           "vicePresident": "王清峰",
           "party": "連署",
-          "partyKey": "IND",
+          "partyKey": "OTHER",
           "votes": 1074044
         },
         {
@@ -319,7 +321,7 @@
           "president": "林洋港",
           "vicePresident": "郝柏村",
           "party": "連署",
-          "partyKey": "IND",
+          "partyKey": "OTHER",
           "votes": 1603790
         }
       ],

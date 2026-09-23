@@ -9,7 +9,7 @@
 <link rel="shortcut icon" href="/favicon.ico">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <title>鄉鎮市區選舉地圖｜島民觀察室</title>
-<meta name="description" content="2020、2024 總統副總統選舉鄉鎮市區得票互動地圖。">
+<meta name="description" content="中選會官方資料可完整取得年份的總統副總統選舉鄉鎮市區得票互動地圖。">
 <meta name="theme-color" content="#0d0d0d">
 <meta name="color-scheme" content="dark">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -106,7 +106,7 @@ async function init(){
     const [national,topTown,topCounty,topology]=await Promise.all([nationalRes.json(),townRes.json(),countyRes.json(),topologyRes.json()]);
     election=national.elections.find(e=>Number(e.year)===year);townData=topTown;countyData=topCounty;
     if(!election)throw new Error(`找不到 ${year} 全國選舉資料`);
-    if(!townData.years?.[String(year)])throw new Error(`${year} 尚未開放鄉鎮市區下探，目前先支援 2020、2024。`);
+    if(!townData.years?.[String(year)])throw new Error(`${year} 的中選會官方鄉鎮資料目前不完整，因此未開放下探。`);
     const all=topojson.feature(topology,topology.objects.towns).features;
     features=all.filter(f=>featureCounty(f)===county);
     if(!features.length)throw new Error(`找不到 ${county} 的鄉鎮市區界線`);

@@ -38,17 +38,7 @@
     return `<span class="party-badge" data-fallback="${esc(fallback)}" style="width:${s}px;height:${s}px;background:${m.color}">${img}</span>`;
   }
   const LAYER_LABEL={winner:'勝方版圖',share:'得票率變化',swing:'藍綠 Swing'};
-  const SOURCES=Object.fromEntries(YEARS.map(y=>[y,[
-    `https://raw.githubusercontent.com/kiang/db.cec.gov.tw/master/data/${y}/直轄市長.csv`,
-    `https://raw.githubusercontent.com/kiang/db.cec.gov.tw/master/data/${y}/縣市長.csv`
-  ]]));
-  const CHIAYI_2022=[
-    {area:'嘉義市',no:'1',name:'黃敏惠',party:'中國國民黨',votes:59874,elected:true,note:'2022-12-18 重行選舉'},
-    {area:'嘉義市',no:'2',name:'李俊俋',party:'民主進步黨',votes:32790,elected:false,note:'2022-12-18 重行選舉'},
-    {area:'嘉義市',no:'3',name:'陳泰山',party:'無黨籍及未經政黨推薦',votes:246,elected:false,note:'2022-12-18 重行選舉'},
-    {area:'嘉義市',no:'4',name:'黃宏成台灣阿成世界偉人財神總統',party:'無黨籍及未經政黨推薦',votes:535,elected:false,note:'2022-12-18 重行選舉'},
-    {area:'嘉義市',no:'5',name:'鄭凱升',party:'無黨籍及未經政黨推薦',votes:368,elected:false,note:'2022-12-18 重行選舉'}
-  ];
+  const DATA_URL='../data/history/local-executive.json';
   const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
   const fmt=new Intl.NumberFormat('zh-TW');
   const normalize=v=>String(v||'').replaceAll('台','臺').replace(/\s+/g,'').trim();
@@ -64,40 +54,13 @@
   let mode='single',year=2022,level='national',region='',compareA=2018,compareB=2022,layer='winner',party='DPP',compareSelection='';
   let renderToken=0;
 
-  async function fetchText(url){const r=await fetch(url,{cache:'force-cache'});if(!r.ok)throw new Error(`${r.status} ${url}`);return r.text()}
-  function parseCsv(text){
-    const table=[];let row=[],field='',quoted=false;
-    text=String(text||'').replace(/^\uFEFF/,'');
-    for(let i=0;i<text.length;i++){
-      const ch=text[i];
-      if(quoted){if(ch==='"'&&text[i+1]==='"'){field+='"';i++}else if(ch==='"')quoted=false;else field+=ch;continue}
-      if(ch==='"'){quoted=true;continue}
-      if(ch===','){row.push(field);field='';continue}
-      if(ch==='\n'){row.push(field.replace(/\r$/,''));table.push(row);row=[];field='';continue}
-      field+=ch;
-    }
-    if(field||row.length){row.push(field.replace(/\r$/,''));table.push(row)}
-    const headers=(table.shift()||[]).map(h=>h.trim());
-    return table.filter(cols=>cols.some(Boolean)).map(cols=>Object.fromEntries(headers.map((header,index)=>[header,cols[index]??''])));
-  }
   function localElectedStamp(){return `<svg class="local-elected-stamp" viewBox="0 0 100 100" aria-label="當選" role="img"><defs><filter id="local-stamp-rough" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.6"/></filter></defs><g filter="url(#local-stamp-rough)" fill="none" stroke="#E4022B"><circle cx="50" cy="50" r="45" stroke-width="4.5"/><circle cx="50" cy="50" r="38" stroke-width="1.6"/><text x="50" y="66" text-anchor="middle" font-family="'Noto Serif TC','Songti TC',serif" font-weight="900" font-size="44" fill="#E4022B" stroke="none" letter-spacing="-2">當選</text><path d="M22 78 L78 78" stroke-width="1.6"/><text x="50" y="30" text-anchor="middle" font-family="Archivo,sans-serif" font-weight="900" font-size="8.5" fill="#E4022B" stroke="none" letter-spacing="3.4">ELECTED</text></g></svg>`}
-  function normalizeRow(row){return{area:normalize(row.area),no:String(row.cand_no??row.no??''),name:String(row.cand_name??row.name??'').trim(),party:String(row.party||'').trim(),partyKey:partyKey(row.party),votes:Number(row.ticket_num??row.votes??0),elected:String(row.is_victor??'').toUpperCase()==='Y'||row.elected===true,note:row.note||''}}
-  function buildRace(area,candidates){
-    candidates.sort((a,b)=>b.votes-a.votes);
-    const validVotes=candidates.reduce((sum,c)=>sum+c.votes,0);
-    candidates.forEach(c=>c.share=validVotes?c.votes/validVotes*100:0);
-    const winner=candidates.find(c=>c.elected)||candidates[0];
-    candidates.forEach(c=>c.elected=c===winner);
-    return{area,candidates,validVotes,winner,margin:candidates.length>1?winner.votes-candidates[1].votes:winner.votes,note:candidates.find(c=>c.note)?.note||''};
-  }
+  const archivePromise=fetch(DATA_URL,{cache:'force-cache'}).then(response=>{if(!response.ok)throw new Error(`${response.status} ${DATA_URL}`);return response.json()});
   async function loadYear(target){
     target=Number(target);if(cache.has(target))return cache.get(target);
     const promise=(async()=>{
-      const texts=await Promise.all(SOURCES[target].map(fetchText));
-      const rows=texts.flatMap(parseCsv).map(normalizeRow).filter(r=>r.area&&r.name&&Number.isFinite(r.votes));
-      if(target===2022&&!rows.some(r=>r.area==='嘉義市'))rows.push(...CHIAYI_2022.map(normalizeRow));
-      const grouped={};for(const row of rows)(grouped[row.area]??=[]).push(row);
-      const races={};for(const [area,candidates] of Object.entries(grouped))races[area]=buildRace(area,candidates);
+      const archive=await archivePromise,races=archive.years?.[String(target)]?.races;
+      if(!races)throw new Error(`${target} 縣市長資料不存在`);
       const missing=COUNTIES.filter(name=>!races[name]);if(missing.length)throw new Error(`${target} 縣市長資料不完整：${missing.join('、')}`);
       return{year:target,races};
     })();
@@ -208,7 +171,7 @@
   function selectCounty(name){name=normalize(name);if(!COUNTIES.includes(name))return;if(mode==='compare'){compareSelection=name;renderCompare();return}level='county';region=name;syncControls();renderSingle()}
   function setLoading(text){$('#local-map-status').textContent=text}
   async function changeYear(next){if(!YEARS.includes(next)||next===year)return;year=next;await render();window.dispatchEvent(new CustomEvent('history:contentchange',{detail:{label:`${year} 縣市長選舉`}}))}
-  function showError(err){console.error(err);$('#local-map-status').innerHTML='<b>資料載入失敗。</b> 請重新整理；若持續發生，可能是外部資料鏡像暫時無法連線。';const d=$('#local-county-detail');d.className='local-empty';d.innerHTML=`<strong>無法載入選舉資料</strong>${esc(err?.message||err)}`}
+  function showError(err){console.error(err);$('#local-map-status').innerHTML='<b>資料載入失敗。</b> 請重新整理；若持續發生，請回報島民觀察室。';const d=$('#local-county-detail');d.className='local-empty';d.innerHTML=`<strong>無法載入選舉資料</strong>${esc(err?.message||err)}`}
   function bind(){
     $('#local-election-type').addEventListener('change',e=>{if(e.target.value==='president'){const url='./?type=president&year=2024&level=national';if(typeof window.historyNavigate==='function')window.historyNavigate(url,'總統副總統');else location.href=url}else e.target.value='local-executive'});
     $$('#local-mode-switch [data-mode]').forEach(b=>b.addEventListener('click',()=>{mode=b.dataset.mode;compareSelection='';syncControls();render()}));

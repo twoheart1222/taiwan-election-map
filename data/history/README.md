@@ -15,15 +15,17 @@
 
 - `presidential.json`：八屆全國結果與候選人 metadata。
 - `presidential-counties.json`：八屆皆正規化為現行 22 縣市，可做一致的跨屆縣市比較。
-- `presidential-towns.json`：2020、2024 鄉鎮市區結果，兩屆皆完整 368 個鄉鎮市區。
+- `presidential-towns.json`：八屆鄉鎮市區結果，每屆完整 368 個鄉鎮市區。
+- `local-executive.json`：2014、2018、2022 縣市長結果，供前台直接載入。
 
 ### 資料來源
 
-- 全國結果：中央選舉委員會選舉資料庫。
-- 1996–2016：`MISNUK/CECDataSet` 保存的中選會原始格式 `VoteRecords.csv`。
-- 2020：`everdark/TW_Presidential_Election_2020` release 0.4。
-- 2024：`kiang/db.cec.gov.tw` 的中選會原始格式鏡像。
+- 全國、縣市及可取得的鄉鎮市區結果：中央選舉委員會選舉資料庫官方公開 JSON。
+- 清單端點：`https://db.cec.gov.tw/static/elections/list/ELC_P0.json`。
+- 票數與投票概況：`https://db.cec.gov.tw/static/elections/data/{tickets|profiles}/...`。
 - 鄉鎮界線：`taiwan-atlas` 內政部行政區界線衍生 TopoJSON。
+
+網站執行時只讀取本站 `data/history/` 靜態檔，不直接跨站呼叫中選會，也不依賴第三方資料鏡像。
 
 ### 歷史行政區正規化
 
@@ -35,7 +37,7 @@
 - 臺南縣＋臺南市 → 臺南市
 - 高雄縣＋高雄市 → 高雄市
 
-這個正規化適合做跨屆版圖與數值比較，但不代表當年行政區界線。1996–2016 目前只提供縣市層級；2020、2024 才提供鄉鎮市區下探。
+這個正規化適合做跨屆版圖與數值比較，但不代表當年行政區界線。八屆鄉鎮資料均正規化為現行 368 區；1996、2000 臺南市舊中區與西區合併為中西區。
 
 ## 縣市長資料
 
@@ -69,9 +71,8 @@
 
 ### 資料來源
 
-- 中央選舉委員會選舉資料庫。
-- `kiang/db.cec.gov.tw` 中選會資料鏡像：2014、2018、2022 的 `直轄市長.csv` 與 `縣市長.csv`。
-- 2022 嘉義市重行選舉：中選會審定／公告結果。
+- 中央選舉委員會選舉資料庫官方公開 JSON：`ELC_C1`（直轄市長）與 `ELC_C2`（縣市長）。
+- 2022 嘉義市採中選會 2022-12-18 重行選舉主題的正式結果。
 
 ### 縣市長跨屆比較
 
@@ -122,7 +123,7 @@
 
 - 每屆縣市層級必須完整 22 縣市。
 - 每組候選人的 22 縣市票數加總必須完全等於全國得票。
-- 2020／2024 鄉鎮市區必須完整 368 區，且逐候選人加總必須等於已驗證縣市票數。
+- 每個開放下探的年份必須完整 368 區，且逐候選人加總必須等於已驗證縣市票數。
 
 ### 縣市長
 
@@ -133,9 +134,7 @@
 
 ## 自動化與 regression
 
-- `scripts/build-presidential-history.mjs`：建置與驗證 1996–2016 縣市結果。
-- `scripts/append-modern-presidential-history.mjs`：接入並驗證 2020、2024 縣市結果。
-- `scripts/build-modern-presidential-towns.mjs`：建置並驗證 2020、2024 鄉鎮市區結果。
+- `scripts/build-official-election-history.mjs`：只從中選會官方端點建置總統、縣市、鄉鎮與縣市長資料，並驗證各層票數加總。
 - `scripts/validate-history-ui.mjs`：總統歷史頁 desktop/mobile UI regression。
 - `scripts/validate-history-query-state.mjs`：deep-link、reset、選舉類型 selector，以及 `總統副總統 ↔ 縣市長` 雙向 routing regression。
 - `scripts/validate-local-executive-ui.mjs`：2014／2018／2022 縣市長、22 縣市、縣市結果、比較圖層、手機 inset、最終 panel 可見狀態與 screenshot regression。
@@ -144,7 +143,5 @@
 
 ## 後續方向
 
-- 將縣市長外部 CSV 進一步建置成本站靜態 history artifact，降低 runtime 對外部鏡像的依賴。
-- 1996–2016 總統歷史鄉鎮名稱／邊界正規化。
 - 加入「當年行政區界線」模式，與現行 22 縣市比較模式分離。
 - 以同一套查詢架構接入立法委員、縣市議員等已驗證歷史資料。

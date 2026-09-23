@@ -23,6 +23,44 @@ test('historical election profiles cover every year and normalized county', asyn
   }
 });
 
+test('official CEC artifacts cover every presidential township and local executive race', async () => {
+  const [national, counties, towns, localExecutives, localScript] = await Promise.all([
+    readJson('data/history/presidential.json'),
+    readJson('data/history/presidential-counties.json'),
+    readJson('data/history/presidential-towns.json'),
+    readJson('data/history/local-executive.json'),
+    readFile(new URL('../history/local-executive.js', import.meta.url), 'utf8'),
+  ]);
+  const artifactText = JSON.stringify({ national, counties, towns, localExecutives });
+  assert.match(artifactText, /db\.cec\.gov\.tw/);
+  assert.doesNotMatch(artifactText, /kiang|MISNUK|everdark/i);
+  assert.doesNotMatch(localScript, /raw\.githubusercontent\.com|kiang|MISNUK|everdark/i);
+
+  assert.deepEqual(towns.coverage, [1996, 2000, 2004, 2008, 2012, 2016, 2020, 2024]);
+  for (const election of national.elections) {
+    const year = String(election.year);
+    const countyResults = counties.years[year].counties;
+    const townCounties = towns.years[year].counties;
+    assert.equal(Object.values(townCounties).reduce((sum, entries) => sum + Object.keys(entries).length, 0), 368, `${year} township coverage`);
+    for (const [county, result] of Object.entries(countyResults)) {
+      for (const candidate of result.candidates) {
+        const townVotes = Object.values(townCounties[county]).reduce((sum, town) => sum + (town.candidates.find(item => String(item.no) === String(candidate.no))?.votes || 0), 0);
+        assert.equal(townVotes, candidate.votes, `${year} ${county} candidate ${candidate.no} township sum`);
+      }
+    }
+  }
+
+  for (const year of ['2014', '2018', '2022']) {
+    const races = localExecutives.years[year].races;
+    assert.equal(Object.keys(races).length, 22, `${year} local executive coverage`);
+    for (const [county, race] of Object.entries(races)) {
+      assert.equal(race.candidates.reduce((sum, candidate) => sum + candidate.votes, 0), race.validVotes, `${year} ${county} valid votes`);
+      assert.equal(race.candidates.filter(candidate => candidate.elected).length, 1, `${year} ${county} elected candidate`);
+    }
+  }
+  assert.equal(localExecutives.years['2022'].races['嘉義市'].note, '2022-12-18 重行選舉');
+});
+
 test('history page script compiles and exposes the overview renderers', async () => {
   const html = await readFile(new URL('../history/index.html', import.meta.url), 'utf8');
   const scripts = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)]
