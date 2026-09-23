@@ -731,8 +731,8 @@ class App {
     const counties = [...source].sort((a, b) => a.properties.name.localeCompare(b.properties.name, 'zh-Hant'));
     menu.innerHTML = '<button type="button" class="mobile-county-option" data-county-code="">全台灣</button>' + counties.map(feature => `<button type="button" class="mobile-county-option" data-county-code="${feature.properties.id}">${feature.properties.name}</button>`).join('');
   }
-  _playVeil(veil, title, kicker, rule, change, key = '_veilToken') {
-    if (!veil || !veil.animate) { change(); return; }
+  _playVeil(veil, title, kicker, rule, change, key = '_veilToken', onDone = null) {
+    if (!veil || !veil.animate) { change(); onDone?.(); return; }
     const token = (this[key] || 0) + 1;
     this[key] = token;
     const cols = [...veil.querySelectorAll('.pt-cols > span')];
@@ -758,7 +758,11 @@ class App {
         [{ transform: 'translateY(0)' }, { transform: 'translateY(-101%)' }],
         { duration: 560, delay: i * stagger, easing: 'cubic-bezier(.76,0,.24,1)', fill: 'forwards' }
       ));
-      setTimeout(() => { if (this[key] === token) veil.style.display = 'none'; }, 560 + stagger * Math.max(0, cols.length - 1) + 40);
+      setTimeout(() => {
+        if (this[key] !== token) return;
+        veil.style.display = 'none';
+        onDone?.();
+      }, 560 + stagger * Math.max(0, cols.length - 1) + 40);
     }, swapAt + (reduced ? 80 : 360));
   }
   _playInboundVeil(label) {
@@ -1517,7 +1521,7 @@ class App {
       if (!hoverFrame) hoverFrame = requestAnimationFrame(() => { hoverFrame = 0; this._hoverTest(hoverX, hoverY, drag); });
     }, { passive: true });
     window.addEventListener('pointerup', () => { drag = false; dom.style.cursor = 'grab'; });
-    dom.addEventListener('pointerleave', () => this._setHovered(null));
+    dom.addEventListener('pointerleave', () => { if (!this._mapTransitioning) this._setHovered(null); });
     dom.addEventListener('click', e => {
       if (mobileMQ.matches) {
         // 手機：地圖固定不旋轉，並放寬點擊範圍——沒點中時選 34px 內最近的縣市／區域
@@ -1652,7 +1656,16 @@ class App {
     const rule = document.getElementById('page-transition-rule');
     if (title) title.textContent = label;
     if (kicker) kicker.textContent = meta;
-    this._playVeil(veil, title, kicker, rule, change, '_mapTransitionToken');
+    this._mapTransitioning = true;
+    this._playVeil(
+      veil,
+      title,
+      kicker,
+      rule,
+      change,
+      '_mapTransitionToken',
+      () => { this._mapTransitioning = false; this._setHovered(null); }
+    );
   }
 
   _miniCue(change, label = '', meta = '村里選情 / VILLAGE') {
@@ -1711,7 +1724,11 @@ class App {
       b.textContent = mesh.userData.props.name;
       b.style.cssText = "position:absolute;transform:translate(-50%,-50%);pointer-events:auto;cursor:pointer;white-space:nowrap;border:1px solid rgba(255,255,255,.16);background:rgba(13,13,13,.68);color:#f4f1ea;font:800 12px 'Noto Sans TC',sans-serif;letter-spacing:.02em;padding:3px 10px;border-radius:999px;box-shadow:0 2px 10px rgba(0,0,0,.45);transition:background .2s,color .2s";
       b.onpointerenter = () => { this._setHovered(mesh); this._showFeatureReadout(mesh); };
-      b.onpointerleave = () => { if (this._hovered === mesh) this._setHovered(null); this._restoreReadout(); };
+      b.onpointerleave = () => {
+        if (this._mapTransitioning) return;
+        if (this._hovered === mesh) this._setHovered(null);
+        this._restoreReadout();
+      };
       b.onclick = e => { e.stopPropagation(); this._pick(mesh.userData.props); };
       this.labelLayer.appendChild(b);
       return { mesh, el: b };

@@ -75,6 +75,32 @@ test('rapid map hover keeps exactly one transient region highlighted', async () 
   assert.equal(paints.at(-1)[1], 'base');
 });
 
+test('map navigation retains its hover until the transition veil has finished', async () => {
+  const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
+  const method = html.slice(html.indexOf('  _transitionMap(change'), html.indexOf('  _miniCue(change'));
+  const nodes = {
+    'page-transition': {},
+    'page-transition-label': {},
+    'page-transition-kicker': {},
+    'page-transition-rule': {},
+  };
+  const app = vm.runInNewContext(`({${method}})`, { document: { getElementById: id => nodes[id] } });
+  let finishTransition, changed = false, cleared = false;
+  app._playVeil = (_veil, _title, _kicker, _rule, change, _key, onDone) => {
+    assert.equal(app._mapTransitioning, true);
+    change();
+    finishTransition = onDone;
+  };
+  app._setHovered = value => { if (value === null) cleared = true; };
+  app._transitionMap(() => { changed = true; }, '新北市', '縣市選情 / COUNTY');
+  assert.equal(changed, true);
+  assert.equal(cleared, false);
+  assert.equal(app._mapTransitioning, true);
+  finishTransition();
+  assert.equal(app._mapTransitioning, false);
+  assert.equal(cleared, true);
+});
+
 test('API migration, version conflicts, concurrent writes, atomic batches and KV parity', async t => {
   const dir = await mkdtemp(join(tmpdir(), 'election-storage-'));
   await build({ entryPoints: [new URL('../worker.js', import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1')],
