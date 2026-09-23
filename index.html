@@ -1484,26 +1484,47 @@ class App {
     };
     document.querySelector('.crumb-btn[data-level="all"]').onclick = () => this._goLevel(0);
 
-    this._auto = true;
+    this._auto = !mobileMQ.matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this._autoUntil = performance.now() + 4500;
+    this._needsRender = true;
+    this._renderUntil = this._autoUntil;
     this._mapVisible = true;
-    if ('IntersectionObserver' in window) new IntersectionObserver(([entry]) => { this._mapVisible = entry.isIntersecting; }, { threshold: 0.01 }).observe(el);
-    let lastFrame = 0;
+    if ('IntersectionObserver' in window) new IntersectionObserver(([entry]) => {
+      this._mapVisible = entry.isIntersecting;
+      if (entry.isIntersecting) {
+        this._requestRender(250);
+        requestAnimationFrame(() => this._onResize?.());
+      }
+    }, { threshold: 0.01 }).observe(el);
+    let lastFrame = 0, lastLabelFrame = 0;
     const loop = now => {
       this._raf = requestAnimationFrame(loop);
       if (document.hidden || this._currentView !== 'map' || !this._mapVisible) return;
-      const interval = 1000 / (mobileMQ.matches ? 15 : 30);
+      if (this._auto && now >= this._autoUntil) { this._auto = false; this._needsRender = true; }
+      const auto = this._auto && this.nav.length === 1;
+      const animating = now < (this._renderUntil || 0);
+      if (!auto && !animating && !this._needsRender) return;
+      const interval = 1000 / (mobileMQ.matches ? 20 : 30);
       if (now - lastFrame < interval) return;
       lastFrame = now;
-      if (this._auto && this.nav.length === 1 && !mobileMQ.matches) { this.camState.az += 0.0032; this._updateCam(); }
-      this._updateLabels(); renderer.render(scene, cam);
+      if (auto) { this.camState.az += 0.0032; this._updateCam(); }
+      if (now - lastLabelFrame >= 100 || (!auto && !animating)) { this._updateLabels(); lastLabelFrame = now; }
+      renderer.render(scene, cam);
+      this._needsRender = false;
     };
     this._raf = requestAnimationFrame(loop);
-    this._onResize = () => { const w = el.clientWidth, h = el.clientHeight; if (!w || !h) return; cam.aspect = w / h; cam.updateProjectionMatrix(); renderer.setSize(w, h); this._applyViewOffset(); };
+    this._onResize = () => { const w = el.clientWidth, h = el.clientHeight; if (!w || !h) return; cam.aspect = w / h; cam.updateProjectionMatrix(); renderer.setSize(w, h); this._applyViewOffset(); this._requestRender(120); };
     window.addEventListener('resize', this._onResize);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) { this._requestRender(250); this._onResize(); } });
+    dom.addEventListener('webglcontextrestored', () => this._requestRender(500));
     window.gsap.from(this.flat.position, { y: -34, duration: 1.5, ease: 'power3.out', delay: 2.1 });
   }
 
-  _updateCam() { const s = this.camState, c = this.cam, sp = Math.sin(s.pol); c.position.set(s.tx + s.r * sp * Math.sin(s.az), s.ty + s.r * Math.cos(s.pol), s.tz + s.r * sp * Math.cos(s.az)); c.lookAt(s.tx, s.ty, s.tz); }
+  _requestRender(duration = 0) {
+    this._needsRender = true;
+    this._renderUntil = Math.max(this._renderUntil || 0, performance.now() + duration);
+  }
+  _updateCam() { const s = this.camState, c = this.cam, sp = Math.sin(s.pol); c.position.set(s.tx + s.r * sp * Math.sin(s.az), s.ty + s.r * Math.cos(s.pol), s.tz + s.r * sp * Math.cos(s.az)); c.lookAt(s.tx, s.ty, s.tz); this._requestRender(); }
   _applyViewOffset() {
     if (!this.cam || !this.el) return;
     const W = this.el.clientWidth, H = this.el.clientHeight;
@@ -1511,6 +1532,7 @@ class App {
     if (this._drawerOpen && W > 760) this.cam.setViewOffset(W, H, Math.round(drawerW / 2), 0, W, H);
     else this.cam.clearViewOffset();
     this.cam.updateProjectionMatrix();
+    this._requestRender();
   }
   _islet(lo, la) { return lo > 122.5 || lo < 118.0 || la > 25.5 || la < 21.7; }
   _worldBBox(feats) {
@@ -1607,6 +1629,7 @@ class App {
     this.flat.scale.set(0.9, 0.9, 0.9);
     this.flat.rotation.z = is3D ? 0 : -0.035;
     this.labelLayer.style.opacity = '0';
+    this._requestRender(1250);
     window.gsap.timeline({ defaults: { ease: 'power4.out' } })
       .fromTo(this.flat.children.map(m => m.position), { z: -4 }, { z: 0, duration: 0.85, stagger: 0.004 }, 0)
       .to(this.flat.scale, { x: 1, y: 1, z: 1, duration: 1.05, ease: 'expo.out' }, 0)
@@ -1725,6 +1748,7 @@ class App {
     const isVillage = this.active?.level === 'village';
     const z = isVillage ? (mode === 'hot' ? 0.45 : mode === 'district' ? 0.25 : 0) : (mode === 'hot' ? 3.2 : mode === 'district' ? 2.4 : 0);
     window.gsap.to(mesh.position, { z, duration: 0.45, ease: 'power3.out' });
+    this._requestRender(500);
   }
   _focusFeature(feature, mode = 'district') {
     if (!this.active || !feature) return;
@@ -1733,6 +1757,7 @@ class App {
     window.gsap.killTweensOf(target.scale);
     window.gsap.killTweensOf(target.position);
     this._selected = target;
+    this._requestRender(1350);
     this.active.meshes.forEach(m => m.scale.set(1, 1, 1));
     this.active.meshes.forEach(m => this._paint(m, m === target ? mode : 'dim'));
     if (this.labels) this.labels.forEach(L => {
