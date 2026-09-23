@@ -1,4 +1,4 @@
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { load } from 'cheerio';
 
@@ -6,6 +6,7 @@ const BASE_URL = 'https://www.kcc.gov.tw';
 const LIST_URL = `${BASE_URL}/Member_List1.aspx?n=39&sms=9028`;
 const outputPath = path.resolve(process.argv[2] || 'data/kcc_councilors.json');
 const includeInactive = process.argv.includes('--include-inactive');
+const refreshDetails = process.argv.includes('--refresh-details');
 const REQUEST_TIMEOUT_MS = 25000;
 const MAX_RETRIES = 3;
 
@@ -198,9 +199,33 @@ if (listed.length < 50) {
 }
 
 const selected = includeInactive ? listed : listed.filter((member) => member.status === 'active');
-const details = await mapLimit(selected, 2, async (member) => {
-  const html = await fetchHtml(member.detailUrl);
-  return parseDetail(member, html);
+let previous = [];
+try {
+  previous = JSON.parse(await readFile(outputPath, 'utf8'));
+  if (!Array.isArray(previous)) previous = [];
+} catch {
+  previous = [];
+}
+const previousByUrl = new Map(previous.filter((member) => member?.detailUrl).map((member) => [member.detailUrl, member]));
+let reusedDetails = 0;
+let refreshedDetails = 0;
+let fallbackDetails = 0;
+const details = await mapLimit(selected, 4, async (member) => {
+  const cached = previousByUrl.get(member.detailUrl);
+  if (cached && !refreshDetails) {
+    reusedDetails += 1;
+    return { ...cached, ...member };
+  }
+  try {
+    const html = await fetchHtml(member.detailUrl);
+    refreshedDetails += 1;
+    return parseDetail(member, html);
+  } catch (error) {
+    if (!cached) throw error;
+    fallbackDetails += 1;
+    console.warn(`KCC detail refresh failed for ${member.name}; retaining the last verified detail data.`);
+    return { ...cached, ...member };
+  }
 });
 
 const uniqueNames = new Set(details.map((member) => member.name));
@@ -233,6 +258,10 @@ console.log(JSON.stringify({
   listedMembers: listed.length,
   exportedMembers: output.length,
   activeOnly: !includeInactive,
+  refreshDetails,
+  reusedDetails,
+  refreshedDetails,
+  fallbackDetails,
   officialPhotos: output.length,
   facebookLinks: facebookPresent,
   missingFacebook: output.length - facebookPresent,
