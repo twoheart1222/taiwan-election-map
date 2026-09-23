@@ -5,6 +5,10 @@ import path from 'node:path';
 import { load } from 'cheerio';
 
 const SOURCE_URL = 'https://www.moi.gov.tw/LocalOfficial.aspx?n=577&sms=11395&TYP=KND0007';
+const CEC_ROSTER_URL = 'https://web.cec.gov.tw/api/file/f1abbda2-229b-4a02-8dfb-58beb3ceca61.pdf';
+const CEC_ROSTER_TITLE = '9-(115年村里長選舉候選人登記彙總表)';
+const CEC_ROSTER_DATE = '115-09-07';
+const CEC_ROSTER_CANDIDATES = 14100;
 const API_URL = overridesUrl();
 const PAGE_SIZE = 200;
 const PLACEHOLDER_PHOTOS = new Set([
@@ -161,7 +165,12 @@ for (const target of targets) {
   const key = `${normalizeText(meta.place)}|${normalizeText(candidate.name)}`;
   const official = officials.get(key);
   const wasIncumbent = Boolean(candidate.isIncumbent);
-  candidate.isIncumbent = Boolean(official);
+  // The CEC registration roster defines who is a candidate. The MOI roster is
+  // used only to positively identify registered candidates who currently hold
+  // the same village-chief office. Preserve a previously verified incumbent
+  // flag when a later MOI scrape temporarily omits a record; absence from one
+  // scrape is not evidence that the candidate stopped being an incumbent.
+  candidate.isIncumbent = wasIncumbent || Boolean(official);
   if (candidate.isIncumbent !== wasIncumbent) {
     target.markChanged();
     changedTopologies.set(target.villagePath, target.topology);
@@ -186,7 +195,7 @@ for (const [villageId, document] of Object.entries(overrides)) {
     if (PLACEHOLDER_PHOTOS.has(candidate.photoUrl)) candidate.photoUrl = null;
     const key = `${normalizeText(meta.place)}|${normalizeText(candidate.name)}`;
     const official = officials.get(key);
-    candidate.isIncumbent = Boolean(official);
+    candidate.isIncumbent = Boolean(candidate.isIncumbent) || Boolean(official);
     if (!official) continue;
     stats.overrideIncumbents += 1;
     if (!candidate.photoUrl && official.photoUrl) {
@@ -200,6 +209,15 @@ for (const [villageId, document] of Object.entries(overrides)) {
 const sourceStats = new Map();
 for (const record of scraped.records) sourceStats.set(record.county, (sourceStats.get(record.county) || 0) + 1);
 const report = {
+  candidateRosterSource: {
+    title: CEC_ROSTER_TITLE,
+    url: CEC_ROSTER_URL,
+    publishedAt: CEC_ROSTER_DATE,
+    candidateRows: CEC_ROSTER_CANDIDATES,
+    note: '中選會登記名冊界定候選人範圍；該表備註欄未標示現任身分。',
+  },
+  incumbentSource: SOURCE_URL,
+  markingMethod: '中選會登記名單與內政部現任村里長名冊以選舉區及姓名交叉比對；只新增可核對的爭取連任標記，不因單次來源漏列而自動取消既有標記。',
   sourceUrl: SOURCE_URL,
   sourceUpdatedAt: scraped.updatedAt,
   syncedAt: new Date().toISOString(),
@@ -220,7 +238,23 @@ if (!dryRun) {
   for (const [file, topology] of changedTopologies) {
     await writeFile(file, `${JSON.stringify(topology)}\n`, 'utf8');
   }
+  const incumbentSyncRecords = targets
+    .filter(({ candidate }) => candidate.isIncumbent === true)
+    .map(({ candidate, meta }) => ({
+      areaId: String(meta.villageId),
+      name: candidate.name,
+    }));
+  await writeFile('data/village_incumbent_sync.json', `${JSON.stringify({
+    generatedAt: report.syncedAt,
+    candidateRosterSource: report.candidateRosterSource,
+    incumbentSource: report.incumbentSource,
+    markingMethod: report.markingMethod,
+    records: incumbentSyncRecords,
+  })}\n`, 'utf8');
   await writeFile('data/moi_village_chiefs.json', `${JSON.stringify({
+    candidateRosterSource: report.candidateRosterSource,
+    incumbentSource: report.incumbentSource,
+    markingMethod: report.markingMethod,
     sourceUrl: SOURCE_URL,
     sourceUpdatedAt: scraped.updatedAt,
     syncedAt: report.syncedAt,

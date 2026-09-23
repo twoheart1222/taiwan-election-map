@@ -346,6 +346,105 @@
     }
   }
 
+  async function syncVillageIncumbentsToKv() {
+    const status = document.getElementById('kv-village-incumbent-status');
+    const button = document.getElementById('kv-village-incumbent-btn');
+
+    if (!currentUser) {
+      alert('請先使用 Cloudflare Access 登入後台，再同步村里長連任標記。');
+      return;
+    }
+    if (!overridesLoaded || typeof allOverrides !== 'object') {
+      alert('KV 覆寫尚未載入完成，請重新整理後再試一次。');
+      return;
+    }
+    if (!confirm(
+      '這個同步會依中選會 115 年村里長候選人登記名單，搭配內政部現任村里長名冊，' +
+      '把可核對的「爭取連任」標記補進 Cloudflare KV。\n\n' +
+      '只會把 false 補成 true，不會取消既有標記，也不會改動候選人名單或其他手動資料。\n\n' +
+      '確定開始同步嗎？'
+    )) return;
+
+    if (mutationBusy) return;
+    mutationBusy = true;
+    button.disabled = true;
+    button.textContent = '同步中…';
+    status.textContent = '正在載入村里長連任比對結果…';
+
+    try {
+      const response = await fetch('./data/village_incumbent_sync.json', { cache: 'no-store' });
+      if (!response.ok) throw new Error(`連任資料讀取失敗（${response.status}）`);
+      const source = await response.json();
+      const records = Array.isArray(source.records) ? source.records : [];
+      const namesByArea = new Map();
+      for (const record of records) {
+        const areaId = String(record?.areaId || '');
+        const name = cleanName(record?.name);
+        if (!/^\d{11}$/.test(areaId) || !name) continue;
+        if (!namesByArea.has(areaId)) namesByArea.set(areaId, new Set());
+        namesByArea.get(areaId).add(name);
+      }
+
+      const changes = {};
+      const expectedRevisions = {};
+      let candidatesUpdated = 0;
+      let overrideCandidatesMissing = 0;
+
+      for (const [areaId, incumbentNames] of namesByArea) {
+        const existing = allOverrides[areaId];
+        if (!existing || !Array.isArray(existing.candidates)) continue;
+        const next = clone(existing);
+        let changed = false;
+        const found = new Set();
+
+        for (const candidate of next.candidates) {
+          const name = cleanName(candidate?.name);
+          if (!incumbentNames.has(name)) continue;
+          found.add(name);
+          if (candidate.isIncumbent === true) continue;
+          candidate.isIncumbent = true;
+          candidatesUpdated += 1;
+          changed = true;
+        }
+        overrideCandidatesMissing += [...incumbentNames].filter(name => !found.has(name)).length;
+        if (!changed) continue;
+
+        next.updatedAt = new Date().toISOString();
+        next.updatedBy = currentUser.email || 'admin-village-incumbent-sync';
+        changes[areaId] = next;
+        expectedRevisions[areaId] = existing._revision || '0';
+      }
+
+      const changedAreas = Object.keys(changes).length;
+      if (changedAreas) {
+        const saved = await apiFetch('/api/admin/overrides', {
+          method: 'PUT',
+          body: JSON.stringify({ overrides: changes, expectedRevisions }),
+        });
+        Object.assign(allOverrides, saved.overrides || {});
+        if (typeof renderOverrideList === 'function') renderOverrideList();
+      }
+
+      status.textContent = `已更新 ${candidatesUpdated} 位候選人、${changedAreas} 個村里 ✓`;
+      alert(
+        `村里長連任標記同步完成。\n\n` +
+        `候選人範圍：中選會 115 年登記名單\n` +
+        `現任身分：內政部現任村里長名冊\n` +
+        `新增連任標記：${candidatesUpdated} 位\n` +
+        `更新村里：${changedAreas} 個` +
+        (overrideCandidatesMissing ? `\n既有 KV 名冊未找到：${overrideCandidatesMissing} 位` : '')
+      );
+    } catch (err) {
+      console.error('Village incumbent sync failed', err);
+      status.textContent = `同步失敗：${err.message}`;
+      alert(`村里長連任標記同步失敗。\n\n${err.message}`);
+    } finally {
+      mutationBusy = false;
+      button.disabled = false;
+      button.textContent = '同步村里長爭取連任標記';
+    }
+  }
+
   function mountSyncCard() {
     const editor = document.getElementById('editor');
 
@@ -394,6 +493,21 @@
       >
         尚未執行同步
       </div>
+
+      <div class="border-t border-ink-200 pt-3 mt-3 flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <div class="text-xs font-black">村里長爭取連任</div>
+          <p class="text-[11px] text-ink-500 mt-1">以中選會登記名單為候選人範圍，和內政部現任名冊交叉比對後補進 KV。</p>
+          <div id="kv-village-incumbent-status" class="text-[11px] font-bold text-ink-500 mt-1" role="status">尚未執行同步</div>
+        </div>
+        <button
+          id="kv-village-incumbent-btn"
+          type="button"
+          class="px-4 py-2.5 rounded-xl bg-accent-orange text-white text-xs font-bold hover:bg-ink-900 transition shadow-[2px_2px_0px_#141517]"
+        >
+          同步村里長爭取連任標記
+        </button>
+      </div>
     `;
 
     const firstCard = editor.firstElementChild;
@@ -407,6 +521,9 @@
     document
       .getElementById('kv-social-sync-btn')
       .addEventListener('click', syncGitHubFieldsToKv);
+    document
+      .getElementById('kv-village-incumbent-btn')
+      .addEventListener('click', syncVillageIncumbentsToKv);
   }
 
   if (document.readyState === 'loading') {

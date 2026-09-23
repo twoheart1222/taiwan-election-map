@@ -1,9 +1,18 @@
 {
+  "candidateRosterSource": {
+    "title": "9-(115年村里長選舉候選人登記彙總表)",
+    "url": "https://web.cec.gov.tw/api/file/f1abbda2-229b-4a02-8dfb-58beb3ceca61.pdf",
+    "publishedAt": "115-09-07",
+    "candidateRows": 14100,
+    "note": "中選會登記名冊界定候選人範圍；該表備註欄未標示現任身分。"
+  },
+  "incumbentSource": "https://www.moi.gov.tw/LocalOfficial.aspx?n=577&sms=11395&TYP=KND0007",
+  "markingMethod": "中選會登記名單與內政部現任村里長名冊以選舉區及姓名交叉比對；只新增可核對的爭取連任標記，不因單次來源漏列而自動取消既有標記。",
   "sourceUrl": "https://www.moi.gov.tw/LocalOfficial.aspx?n=577&sms=11395&TYP=KND0007",
-  "sourceUpdatedAt": "115-09-17",
-  "syncedAt": "2026-09-17T01:32:05.493Z",
-  "sourceRecords": 7493,
-  "matchedCandidates": 6457,
+  "sourceUpdatedAt": "115-09-23",
+  "syncedAt": "2026-09-23T15:37:28.573Z",
+  "sourceRecords": 7591,
+  "matchedCandidates": 6554,
   "counties": [
     {
       "county": "連江縣",
@@ -47,7 +56,7 @@
       "photosAdded": 0,
       "overrideIncumbents": 54,
       "overridePhotosAvailable": 54,
-      "overridePhotosAdded": 53
+      "overridePhotosAdded": 0
     },
     {
       "county": "南投縣",
@@ -113,7 +122,7 @@
       "photosAdded": 0,
       "overrideIncumbents": 10,
       "overridePhotosAvailable": 10,
-      "overridePhotosAdded": 9
+      "overridePhotosAdded": 0
     },
     {
       "county": "基隆市",
@@ -124,7 +133,7 @@
       "photosAdded": 0,
       "overrideIncumbents": 30,
       "overridePhotosAvailable": 30,
-      "overridePhotosAdded": 29
+      "overridePhotosAdded": 0
     },
     {
       "county": "新竹市",
@@ -150,36 +159,36 @@
     },
     {
       "county": "新北市",
-      "sourceOfficials": 920,
+      "sourceOfficials": 980,
       "candidates": 1635,
-      "incumbents": 817,
-      "photosAvailable": 810,
+      "incumbents": 877,
+      "photosAvailable": 871,
       "photosAdded": 0,
-      "overrideIncumbents": 70,
-      "overridePhotosAvailable": 70,
-      "overridePhotosAdded": 68
+      "overrideIncumbents": 108,
+      "overridePhotosAvailable": 108,
+      "overridePhotosAdded": 37
     },
     {
       "county": "臺中市",
-      "sourceOfficials": 579,
+      "sourceOfficials": 618,
       "candidates": 1119,
-      "incumbents": 521,
-      "photosAvailable": 521,
+      "incumbents": 558,
+      "photosAvailable": 558,
       "photosAdded": 0,
-      "overrideIncumbents": 19,
-      "overridePhotosAvailable": 19,
-      "overridePhotosAdded": 18
+      "overrideIncumbents": 29,
+      "overridePhotosAvailable": 29,
+      "overridePhotosAdded": 9
     },
     {
       "county": "臺南市",
-      "sourceOfficials": 639,
+      "sourceOfficials": 638,
       "candidates": 1040,
       "incumbents": 504,
       "photosAvailable": 504,
       "photosAdded": 0,
       "overrideIncumbents": 63,
       "overridePhotosAvailable": 63,
-      "overridePhotosAdded": 62
+      "overridePhotosAdded": 0
     },
     {
       "county": "桃園市",
@@ -190,7 +199,7 @@
       "photosAdded": 0,
       "overrideIncumbents": 16,
       "overridePhotosAvailable": 16,
-      "overridePhotosAdded": 15
+      "overridePhotosAdded": 0
     },
     {
       "county": "苗栗縣",
@@ -212,7 +221,7 @@
       "photosAdded": 0,
       "overrideIncumbents": 11,
       "overridePhotosAvailable": 11,
-      "overridePhotosAdded": 11
+      "overridePhotosAdded": 0
     },
     {
       "county": "嘉義市",
@@ -243,9 +252,9 @@
       "incumbents": 790,
       "photosAvailable": 772,
       "photosAdded": 0,
-      "overrideIncumbents": 51,
-      "overridePhotosAvailable": 51,
-      "overridePhotosAdded": 49
+      "overrideIncumbents": 52,
+      "overridePhotosAvailable": 52,
+      "overridePhotosAdded": 0
     }
   ]
 }
