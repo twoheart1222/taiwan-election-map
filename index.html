@@ -1517,6 +1517,7 @@ class App {
       if (!hoverFrame) hoverFrame = requestAnimationFrame(() => { hoverFrame = 0; this._hoverTest(hoverX, hoverY, drag); });
     }, { passive: true });
     window.addEventListener('pointerup', () => { drag = false; dom.style.cursor = 'grab'; });
+    dom.addEventListener('pointerleave', () => this._setHovered(null));
     dom.addEventListener('click', e => {
       if (mobileMQ.matches) {
         // 手機：地圖固定不旋轉，並放寬點擊範圍——沒點中時選 34px 內最近的縣市／區域
@@ -1709,8 +1710,8 @@ class App {
       b.className = 'map-label';
       b.textContent = mesh.userData.props.name;
       b.style.cssText = "position:absolute;transform:translate(-50%,-50%);pointer-events:auto;cursor:pointer;white-space:nowrap;border:1px solid rgba(255,255,255,.16);background:rgba(13,13,13,.68);color:#f4f1ea;font:800 12px 'Noto Sans TC',sans-serif;letter-spacing:.02em;padding:3px 10px;border-radius:999px;box-shadow:0 2px 10px rgba(0,0,0,.45);transition:background .2s,color .2s";
-      b.onpointerenter = () => { this._hovered = mesh; if (mesh !== this._selected && !mesh.userData.district) this._paint(mesh, 'hot'); b.style.background = '#E4022B'; this._showFeatureReadout(mesh); };
-      b.onpointerleave = () => { if (mesh !== this._selected && !mesh.userData.district) this._paint(mesh, 'base'); b.style.background = 'rgba(13,13,13,.68)'; if (this._hovered === mesh) this._hovered = null; this._restoreReadout(); };
+      b.onpointerenter = () => { this._setHovered(mesh); this._showFeatureReadout(mesh); };
+      b.onpointerleave = () => { if (this._hovered === mesh) this._setHovered(null); this._restoreReadout(); };
       b.onclick = e => { e.stopPropagation(); this._pick(mesh.userData.props); };
       this.labelLayer.appendChild(b);
       return { mesh, el: b };
@@ -1804,12 +1805,38 @@ class App {
     this._writeReadout(mesh.userData.props.name, `${this._tally(mesh.userData.props, this.active?.level)} · 點擊下探`);
   }
 
+  _setHovered(next) {
+    if (!this.active) return;
+    next = next || null;
+    // Pointer events from the WebGL canvas and the floating labels can cross in
+    // either order. Clear every transient highlight before applying the next one
+    // so a fast sweep can never leave several regions raised and red.
+    this.active.meshes.forEach(mesh => {
+      if (!mesh.userData.hoverHot || mesh === next) return;
+      mesh.userData.hoverHot = false;
+      if (mesh !== this._selected && !mesh.userData.district) this._paint(mesh, this._selected ? 'dim' : 'base');
+    });
+    this._hovered = next;
+    if (next && next !== this._selected && !next.userData.district) {
+      next.userData.hoverHot = true;
+      this._paint(next, 'hot');
+    }
+    if (this.labels) this.labels.forEach(({ mesh, el }) => {
+      const hovered = mesh === next;
+      if (hovered) el.style.background = '#E4022B';
+      else if (mesh === this._selected) el.style.background = '#E4022B';
+      else if (mesh.userData.district) el.style.background = '#f6a06b';
+      else el.style.background = this._selected ? 'rgba(13,13,13,.5)' : 'rgba(13,13,13,.68)';
+    });
+  }
+
   _paint(mesh, mode) {
     const col = mode === 'hot' ? this.hotCol : mode === 'district' ? this.districtCol : mode === 'dim' ? this.dimCol : this.baseCol;
     mesh.material.color.copy(col); mesh.material.emissive.setHex(mode === 'hot' ? 0x3a0008 : mode === 'district' ? 0x3a1c00 : 0x000000);
     const isVillage = this.active?.level === 'village';
     const z = isVillage ? (mode === 'hot' ? 0.45 : mode === 'district' ? 0.25 : 0) : (mode === 'hot' ? 3.2 : mode === 'district' ? 2.4 : 0);
-    window.gsap.to(mesh.position, { z, duration: 0.45, ease: 'power3.out' });
+    window.gsap.killTweensOf(mesh.position);
+    window.gsap.to(mesh.position, { z, duration: 0.45, ease: 'power3.out', overwrite: true });
     this._requestRender(500);
   }
   _focusFeature(feature, mode = 'district') {
@@ -1880,9 +1907,7 @@ class App {
     this.ray.setFromCamera(this.mouse, this.cam);
     const hit = this.ray.intersectObjects(this.active.meshes, false)[0], m = hit ? hit.object : null;
     if (m === this._hovered) { dom.style.cursor = dragging ? 'grabbing' : (m ? 'pointer' : 'grab'); return; }
-    if (this._hovered && this._hovered !== this._selected && !this._hovered.userData.district) this._paint(this._hovered, 'base');
-    this._hovered = m;
-    if (m && m !== this._selected && !m.userData.district) this._paint(m, 'hot');
+    this._setHovered(m);
     if (m && !this._selected) this._showFeatureReadout(m);
     else if (!m) this._restoreReadout();
     dom.style.cursor = dragging ? 'grabbing' : (m ? 'pointer' : 'grab');

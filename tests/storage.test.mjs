@@ -50,6 +50,31 @@ test('browser scripts compile; map and search use the same roster semantics', as
   assert.equal(result.candidates[0].name, '甲');
 });
 
+test('rapid map hover keeps exactly one transient region highlighted', async () => {
+  const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
+  const method = html.slice(html.indexOf('  _setHovered(next)'), html.indexOf('  _paint(mesh, mode)'));
+  const app = vm.runInNewContext(`({${method}})`);
+  const first = { userData: {} }, second = { userData: {} };
+  const firstLabel = { style: {} }, secondLabel = { style: {} };
+  const paints = [];
+  Object.assign(app, {
+    active: { meshes: [first, second] },
+    labels: [{ mesh: first, el: firstLabel }, { mesh: second, el: secondLabel }],
+    _selected: null,
+    _paint: (mesh, mode) => paints.push([mesh, mode]),
+  });
+  app._setHovered(first);
+  app._setHovered(second);
+  assert.equal(first.userData.hoverHot, false);
+  assert.equal(second.userData.hoverHot, true);
+  assert.equal(firstLabel.style.background, 'rgba(13,13,13,.68)');
+  assert.equal(secondLabel.style.background, '#E4022B');
+  assert.deepEqual(paints.map(([, mode]) => mode), ['hot', 'base', 'hot']);
+  app._setHovered(null);
+  assert.equal(second.userData.hoverHot, false);
+  assert.equal(paints.at(-1)[1], 'base');
+});
+
 test('API migration, version conflicts, concurrent writes, atomic batches and KV parity', async t => {
   const dir = await mkdtemp(join(tmpdir(), 'election-storage-'));
   await build({ entryPoints: [new URL('../worker.js', import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1')],
