@@ -61,5 +61,5 @@ test('SEO page generator carries the same brand and favicon', () => {
   const generator = text('scripts/build-seo-pages.mjs');
   assert.match(generator, /assets\/brand\/formosa-mark\.png/);
   assert.match(generator, /href="\/favicon\.png"/);
-  assert.match(generator, /logo: SITE \+ '\/favicon\.png'/);
+  assert.match(generator, /logo: \{ '@type': 'ImageObject', url: SITE \+ '\/favicon\.png'/);
 });
