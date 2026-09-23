@@ -295,7 +295,6 @@ window.addEventListener('load',()=>setTimeout(()=>{
         <a href="./history/" class="navlink">歷年選舉</a>
         <a href="#" data-view="observatory" class="navlink">政治觀察</a>
         <a href="#about" data-section="about" class="navlink">關於我們</a>
-        <a href="#" data-view="support" style="display:inline-flex;align-items:center;gap:7px;padding:8px 16px;background:#E4022B;color:#fff;border-radius:999px;font-weight:800">支持島民觀察室</a>
       </div>
       <button id="mobile-search-toggle" class="mobile-search-toggle" type="button" aria-expanded="false" aria-controls="candidate-search" aria-label="開啟候選人與地址搜尋">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="6.5" stroke-width="2.3"></circle><path d="m16 16 4 4" stroke-width="2.3" stroke-linecap="round"></path></svg>
@@ -306,7 +305,6 @@ window.addEventListener('load',()=>setTimeout(()=>{
         <a href="./history/">歷年選舉 <span aria-hidden="true">→</span></a>
         <a href="#" data-view="observatory">政治觀察 <span aria-hidden="true">→</span></a>
         <a href="#about" data-section="about">關於我們 <span aria-hidden="true">→</span></a>
-        <a href="#" data-view="support">支持島民觀察室 <span aria-hidden="true">→</span></a>
       </div>
     </nav>
 
@@ -408,7 +406,6 @@ window.addEventListener('load',()=>setTimeout(()=>{
         <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:clamp(30px,6vh,60px)">
           <a href="#" data-view="observatory" style="display:inline-flex;align-items:center;gap:9px;padding:15px 28px;background:#0d0d0d;color:#fff;border-radius:999px;font-family:'Archivo';font-weight:800;font-size:15px">政治觀察 →</a>
           <a href="#" data-view="contact" style="display:inline-flex;align-items:center;gap:9px;padding:15px 28px;background:transparent;border:1.5px solid #0d0d0d;color:#0d0d0d;border-radius:999px;font-family:'Archivo';font-weight:800;font-size:15px">聯絡我們 →</a>
-          <a href="#" data-view="support" style="display:inline-flex;align-items:center;gap:9px;padding:15px 28px;background:transparent;border:1.5px solid #0d0d0d;color:#0d0d0d;border-radius:999px;font-family:'Archivo';font-weight:800;font-size:15px">支持島民觀察室 →</a>
         </div>
         <div class="source-register">
           <h3 style="font-family:'Noto Sans TC','Archivo',sans-serif;font-weight:900;font-size:clamp(22px,3vw,36px);line-height:1.15;margin:0">資料來源與核對</h3>
@@ -461,7 +458,7 @@ window.addEventListener('load',()=>setTimeout(()=>{
       <main id="obs-list" style="flex:1"></main>
       <footer style="background:#E4022B;color:#0d0d0d;padding:clamp(40px,7vh,80px) clamp(18px,4vw,54px);display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
         <div><div style="font-family:'Noto Sans TC','Archivo';font-weight:900;font-size:clamp(24px,4vw,48px);letter-spacing:-.02em;line-height:1">一起看緊<br>你的選票。</div>
-        <a href="#" data-view="support" style="display:inline-flex;align-items:center;gap:9px;margin-top:22px;padding:13px 24px;background:#0d0d0d;color:#fff;border-radius:999px;font-family:'Archivo';font-weight:800;font-size:14px">支持島民觀察室 →</a></div>
+        </div>
         <div style="font-family:'Archivo';font-weight:600;font-size:12px;letter-spacing:.08em;text-align:right">Formosa Observatory · 2026<br>連結由維護者統一校閱發布</div>
       </footer>
     </div>
@@ -682,7 +679,7 @@ class App {
     document.addEventListener('click', e => { if (!menu?.contains(e.target) && e.target !== toggle) closeMenu(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
     const initialHash = location.hash.replace(/^#/, '');
-    const initialView = ['observatory', 'support', 'contact'].includes(initialHash) ? initialHash : 'map';
+    const initialView = ['observatory', 'contact'].includes(initialHash) ? initialHash : 'map';
     this._showView(initialView);
     if (initialHash === 'about') setTimeout(() => document.getElementById('about')?.scrollIntoView({ block: 'start' }), 120);
   }
@@ -752,6 +749,7 @@ class App {
     }, swapAt + (reduced ? 80 : 360));
   }
   _showView(name, onSwap) {
+    if (name === 'support') name = 'map';
     const names = ['map', 'observatory', 'support', 'contact'];
     const labels = { map: '島民選舉地圖', observatory: '政治觀察', support: '支持島民觀察室', contact: '聯絡我們' };
     const setVisible = active => names.forEach(v => {
@@ -1141,7 +1139,7 @@ class App {
       const response = await fetch('./data/candidate_search.json');
       if (!response.ok) throw new Error(`candidate search ${response.status}`);
       const index = await response.json();
-      const overrides = await this._fetchOverrides();
+      const overrides = await this._ensureFullOverrides();
       return this._mergeSearchOverrides(index, overrides);
     })();
     return this._candidateSearch;
@@ -1348,19 +1346,22 @@ class App {
   }
 
   // ---------- OVERRIDES (Cloudflare Worker + KV) ----------
-  _fetchOverrides() {
-    if (this._ov) return this._ov;
-    this._ov = (async () => {
+  _fetchOverrides(scope = 'county') {
+    const cacheKey = scope === 'all' ? '_allOverrides' : '_countyOverrides';
+    if (this[cacheKey]) return this[cacheKey];
+    this[cacheKey] = (async () => {
       try {
         if (!window.OVERRIDES_URL) return {};
-        const r = await fetch(window.OVERRIDES_URL, { cache: 'no-store', signal: AbortSignal.timeout(20000), headers: { accept: 'application/json' } });
+        const url = new URL(window.OVERRIDES_URL, location.href);
+        if (scope === 'county') url.searchParams.set('scope', 'county');
+        const r = await fetch(url, { cache: 'no-store', signal: AbortSignal.timeout(20000), headers: { accept: 'application/json' } });
         if (!r.ok) throw new Error('overrides ' + r.status);
         const payload = await r.json();
         // Support both the current API payload and a future { data: ... } wrapper.
         const overrides = payload && payload.data && typeof payload.data === 'object' ? payload.data : payload;
         return overrides;
       } catch (err) {
-        this._ov = null;
+        this[cacheKey] = null;
         if (!document.getElementById('data-load-error')) {
           const notice = document.createElement('div');
           notice.id = 'data-load-error';
@@ -1372,7 +1373,13 @@ class App {
         throw err;
       }
     })();
-    return this._ov;
+    return this[cacheKey];
+  }
+  async _ensureFullOverrides() {
+    const overrides = await this._fetchOverrides('all');
+    this._overrides = overrides;
+    this._fullOverridesLoaded = true;
+    return overrides;
   }
   _applyOverrides(topo) {
     const key = Object.keys(topo.objects)[0];
@@ -1395,7 +1402,8 @@ class App {
     if (this._inited) return; this._inited = true;
     let THREE; try { THREE = await import('https://unpkg.com/three@0.160.0/build/three.module.js'); } catch (e) { console.warn('three load failed', e); return; }
     this.THREE = THREE;
-    this._overrides = await this._fetchOverrides();
+    const countyOverrides = await this._fetchOverrides('county');
+    if (!this._fullOverridesLoaded) this._overrides = countyOverrides;
     const [dmap, quota] = await Promise.all([
       fetch('./data/district_town_map.json').then(r => r.json()).catch(() => ({})),
       fetch('./data/district_quota.json').then(r => r.json()).catch(() => ({})),
@@ -1424,8 +1432,9 @@ class App {
     const scene = new THREE.Scene(); this.scene = scene;
     const W = el.clientWidth, H = el.clientHeight;
     const cam = new THREE.PerspectiveCamera(42, W / H, 0.1, 4000); this.cam = cam;
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(devicePixelRatio, 2)); renderer.setSize(W, H); el.appendChild(renderer.domElement); this._renderer = renderer;
+    const mobileMQ = window.matchMedia('(max-width:660px)'); this._mobileMQ = mobileMQ;
+    const renderer = new THREE.WebGLRenderer({ antialias: !mobileMQ.matches, alpha: true, powerPreference: 'high-performance' });
+    renderer.setPixelRatio(Math.min(devicePixelRatio || 1, mobileMQ.matches ? 1.15 : 1.5)); renderer.setSize(W, H); el.appendChild(renderer.domElement); this._renderer = renderer;
     const ll = document.createElement('div'); ll.style.cssText = 'position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:2'; el.appendChild(ll); this.labelLayer = ll;
     scene.add(new THREE.HemisphereLight(0xffffff, 0x1a1714, 1.05));
     const klight = new THREE.DirectionalLight(0xffffff, 1.35); klight.position.set(-24, 80, 30); scene.add(klight);
@@ -1441,15 +1450,17 @@ class App {
 
     this.ray = new THREE.Raycaster(); this.mouse = new THREE.Vector2();
     let drag = false, lx = 0, ly = 0, moved = 0;
-    const mobileMQ = window.matchMedia('(max-width:660px)'); this._mobileMQ = mobileMQ;
     const dom = renderer.domElement;
     const gx = e => e.clientX ?? (e.touches && e.touches[0].clientX);
     const gy = e => e.clientY ?? (e.touches && e.touches[0].clientY);
     dom.addEventListener('pointerdown', e => { drag = true; moved = 0; this._auto = false; lx = gx(e); ly = gy(e); dom.style.cursor = 'grabbing'; });
+    let hoverFrame = 0, hoverX = 0, hoverY = 0;
     window.addEventListener('pointermove', e => {
       if (drag && !mobileMQ.matches) { const x = gx(e), y = gy(e); moved += Math.abs(x - lx) + Math.abs(y - ly); this.camState.az += (x - lx) * 0.006; this.camState.pol = Math.max(0.12, Math.min(1.15, this.camState.pol + (y - ly) * 0.005)); lx = x; ly = y; this._updateCam(); }
-      this._hoverTest(gx(e), gy(e), drag);
-    });
+      if (!drag && e.target !== dom) return;
+      hoverX = gx(e); hoverY = gy(e);
+      if (!hoverFrame) hoverFrame = requestAnimationFrame(() => { hoverFrame = 0; this._hoverTest(hoverX, hoverY, drag); });
+    }, { passive: true });
     window.addEventListener('pointerup', () => { drag = false; dom.style.cursor = 'grab'; });
     dom.addEventListener('click', e => {
       if (mobileMQ.matches) {
@@ -1474,8 +1485,19 @@ class App {
     document.querySelector('.crumb-btn[data-level="all"]').onclick = () => this._goLevel(0);
 
     this._auto = true;
-    const loop = () => { this._raf = requestAnimationFrame(loop); if (this._auto && this.nav.length === 1 && !mobileMQ.matches) { this.camState.az += 0.0016; this._updateCam(); } this._updateLabels(); renderer.render(scene, cam); };
-    loop();
+    this._mapVisible = true;
+    if ('IntersectionObserver' in window) new IntersectionObserver(([entry]) => { this._mapVisible = entry.isIntersecting; }, { threshold: 0.01 }).observe(el);
+    let lastFrame = 0;
+    const loop = now => {
+      this._raf = requestAnimationFrame(loop);
+      if (document.hidden || this._currentView !== 'map' || !this._mapVisible) return;
+      const interval = 1000 / (mobileMQ.matches ? 15 : 30);
+      if (now - lastFrame < interval) return;
+      lastFrame = now;
+      if (this._auto && this.nav.length === 1 && !mobileMQ.matches) { this.camState.az += 0.0032; this._updateCam(); }
+      this._updateLabels(); renderer.render(scene, cam);
+    };
+    this._raf = requestAnimationFrame(loop);
     this._onResize = () => { const w = el.clientWidth, h = el.clientHeight; if (!w || !h) return; cam.aspect = w / h; cam.updateProjectionMatrix(); renderer.setSize(w, h); this._applyViewOffset(); };
     window.addEventListener('resize', this._onResize);
     window.gsap.from(this.flat.position, { y: -34, duration: 1.5, ease: 'power3.out', delay: 2.1 });
@@ -1797,7 +1819,7 @@ class App {
     this._auto = false; this.county = { code: p.id, name: p.name, props: p };
     this.town = null; this.townFeats = []; this.villageFeats = [];
     // 點擊當下就開始轉場並同步載入圖層；抽屜與地圖在轉場遮罩全蓋住時一起換上，避免抽屜先跳出、轉場才姍姍來遲。
-    const topoP = this._loadTopo(`./data/towns/towns-${p.id}.json`);
+    const topoP = this._ensureFullOverrides().then(() => this._loadTopo(`./data/towns/towns-${p.id}.json`));
     this._transitionMap(() => {
       topoP.then(topo => {
         if (revision !== this._navigationRevision || this.county?.code !== p.id) return;

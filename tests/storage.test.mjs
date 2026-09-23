@@ -64,7 +64,9 @@ test('API migration, version conflicts, concurrent writes, atomic batches and KV
   const kv = await mf.getKVNamespace('ELECTION_KV');
   const fixture = process.env.ELECTION_TEST_SNAPSHOT ? JSON.parse(await readFile(process.env.ELECTION_TEST_SNAPSHOT, 'utf8')) : {};
   const original = { ...fixture, A: { candidates: [{ name: '甲', votes: 1 }], representatives: [], extra: 'keep' },
-    B: { candidates: [{ name: '乙', votes: 2 }] } };
+    B: { candidates: [{ name: '乙', votes: 2 }] },
+    '63000': { candidates: [{ name: '縣市資料' }] },
+    '63000010': { candidates: [{ name: '鄉鎮資料' }] } };
   await kv.put('overrides', JSON.stringify(original));
   await kv.put('override:A', JSON.stringify({ candidates: [{ name: '過期資料' }] }));
   const request = async (path, method = 'GET', body, revision) => {
@@ -92,6 +94,10 @@ test('API migration, version conflicts, concurrent writes, atomic batches and KV
     return admin.body;
   };
   let data = await parity();
+  const countyOnly = await request('/?key=overrides&scope=county');
+  assert.equal(countyOnly.status, 200);
+  assert.deepEqual(Object.keys(countyOnly.body), ['63000']);
+  assert.deepEqual(countyOnly.body['63000'], data['63000']);
   assert.equal(data.A.schemaVersion, 2);
   assert.equal(data.A.candidates[0].name, '甲');
   assert.deepEqual(await kv.get('backup:overrides:before-unified-store', 'json'), original);

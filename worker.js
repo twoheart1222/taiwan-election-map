@@ -370,7 +370,19 @@ async function handlePublicGet(request, env, url) {
     return jsonResponse(request, env, { error: '找不到資料' }, { status: 404 });
   }
 
-  const raw = key === 'overrides' ? JSON.stringify(await overrideStore(env)) : await env.ELECTION_KV.get(key);
+  let raw;
+  if (key === 'overrides') {
+    const snapshot = await overrideStore(env);
+    // The map landing view only needs county records. This remains a filtered
+    // view of the authoritative OverrideStore snapshot, so admin/public data do
+    // not gain a second source of truth.
+    const data = url.searchParams.get('scope') === 'county'
+      ? Object.fromEntries(Object.entries(snapshot).filter(([id]) => /^\d{5}$/.test(id)))
+      : snapshot;
+    raw = JSON.stringify(data);
+  } else {
+    raw = await env.ELECTION_KV.get(key);
+  }
   if (!raw) {
     return jsonResponse(request, env, { error: '找不到資料' }, { status: 404 });
   }
