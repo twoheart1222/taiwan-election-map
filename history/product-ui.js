@@ -39,6 +39,13 @@
 
   function transitionLabel(url,anchor){
     if(anchor?.dataset?.historyTownDrilldown)return anchor.textContent.replace(/→/g,'').trim();
+    const destination=new URL(url,location.href);
+    if(!destination.pathname.includes('/history/')){
+      if(destination.hash==='#observatory')return '政治觀察';
+      if(destination.hash==='#about')return '關於我們';
+      if(destination.hash==='#contact')return '聯絡我們';
+      return '島民選舉地圖';
+    }
     if(/local-executive\.html/.test(url))return '縣市長';
     if(/town\.html/.test(url))return document.getElementById('crumb-county')?.textContent||'鄉鎮市區';
     return '歷年選舉';
@@ -161,7 +168,8 @@
       const url=new URL(a.href,location.href);
       if(url.origin!==location.origin)return;
       const isHistory=url.pathname.includes('/history/')||/\/history$/.test(url.pathname);
-      if(!isHistory)return;
+      const isHome=/\/(?:index\.html)?$/.test(url.pathname)&&['#map','#observatory','#about','#contact',''].includes(url.hash);
+      if(!isHistory&&!isHome)return;
       e.preventDefault();navigate(url.href,transitionLabel(url.href,a));
     });
   }

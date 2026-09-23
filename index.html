@@ -3,6 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>
+try{
+  const incoming=JSON.parse(sessionStorage.getItem('historyTransition')||'null');
+  const target=location.hash.replace(/^#/,'')||'map';
+  if(incoming&&Date.now()-Number(incoming.ts||0)<5000&&['map','observatory','about','contact'].includes(target)){
+    window.__historyInbound=incoming;
+    sessionStorage.removeItem('historyTransition');
+    document.documentElement.classList.add('history-inbound');
+  }
+}catch(_){}
+</script>
 <!-- 互動地圖首頁不載入 AdSense；廣告保留於歷年選舉與內容頁，避免廣告 iframe 與 WebGL 爭用資源。 -->
 <title>2026 地方選舉候選人查詢地圖｜島民觀察室 Formosa Observatory</title>
 <meta name="description" content="2026 年 11 月 28 日地方選舉互動地圖：輸入地址或姓名，查縣市長、議員、鄉鎮市長、村里長候選人與選區，涵蓋全台 22 縣市。">
@@ -67,6 +78,9 @@
   .brand-lockup-plaque{display:inline-flex;align-items:center;padding:10px 14px;background:#f4f1ea;border-radius:12px;box-shadow:inset 0 0 0 1px rgba(13,13,13,.12)}
   .brand-lockup-plaque img{display:block;width:clamp(230px,30vw,360px);max-width:100%;height:auto}
   .page-transition{position:fixed;inset:0;z-index:140;display:none;pointer-events:none;overflow:hidden}
+  html.history-inbound #preloader{display:none !important}
+  html.history-inbound .page-transition{display:block}
+  html.history-inbound .pt-cols>span{transform:translateY(0)}
   .pt-cols{position:absolute;inset:0;display:flex}
   .pt-cols>span{flex:1;height:100%;background:#0d0d0d;will-change:transform}
   .pt-cols>span:nth-child(even){background:#131110}
@@ -260,6 +274,13 @@
       <div id="page-transition-rule" class="transition-rule"></div>
     </div>
   </div>
+  <script>
+  if(window.__historyInbound){
+    document.getElementById('page-transition-label').textContent=window.__historyInbound.label||'島民選舉地圖';
+    document.getElementById('page-transition-kicker').textContent='返回 / FORMOSA OBSERVATORY';
+    document.getElementById('page-transition-rule').style.width='min(300px,46vw)';
+  }
+  </script>
 
   <div id="site-ann" class="site-ann" role="status" aria-live="polite" hidden></div>
 
@@ -667,6 +688,7 @@ class App {
     const initialHash = location.hash.replace(/^#/, '');
     const initialView = ['observatory', 'contact'].includes(initialHash) ? initialHash : 'map';
     this._showView(initialView);
+    if (window.__historyInbound) this._playInboundVeil(window.__historyInbound.label);
     if (initialHash === 'about') setTimeout(() => document.getElementById('about')?.scrollIntoView({ block: 'start' }), 120);
   }
   _wireCountyPicker() {
@@ -733,6 +755,27 @@ class App {
       ));
       setTimeout(() => { if (this[key] === token) veil.style.display = 'none'; }, 560 + stagger * Math.max(0, cols.length - 1) + 40);
     }, swapAt + (reduced ? 80 : 360));
+  }
+  _playInboundVeil(label) {
+    const veil = document.getElementById('page-transition');
+    if (!veil) { document.documentElement.classList.remove('history-inbound'); return; }
+    const cols = [...veil.querySelectorAll('.pt-cols > span')];
+    const title = document.getElementById('page-transition-label');
+    const kicker = document.getElementById('page-transition-kicker');
+    const rule = document.getElementById('page-transition-rule');
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (title) title.textContent = label || '島民選舉地圖';
+    veil.style.display = 'block';
+    requestAnimationFrame(() => {
+      title?.animate([{ transform: 'translateY(0)', opacity: 1 }, { transform: 'translateY(-110%)', opacity: 0 }], { duration: reduced ? 80 : 420, easing: 'cubic-bezier(.7,0,.84,0)', fill: 'forwards' });
+      kicker?.animate([{ opacity: 1 }, { opacity: 0 }], { duration: reduced ? 80 : 230, fill: 'forwards' });
+      rule?.animate([{ width: 'min(300px,46vw)' }, { width: 0 }], { duration: reduced ? 80 : 300, fill: 'forwards' });
+      cols.forEach((col, index) => col.animate(
+        [{ transform: 'translateY(0)' }, { transform: 'translateY(-101%)' }],
+        { duration: reduced ? 90 : 520, delay: reduced ? 0 : 80 + index * 45, easing: 'cubic-bezier(.76,0,.24,1)', fill: 'forwards' }
+      ));
+      setTimeout(() => { veil.style.display = 'none'; document.documentElement.classList.remove('history-inbound'); window.__historyInbound = null; }, reduced ? 130 : 850);
+    });
   }
   _showView(name, onSwap) {
     if (name === 'support') name = 'map';
@@ -1165,7 +1208,6 @@ class App {
     candidates.push(...additions);
     return { ...index, candidates };
   }
-
   _candidateLocation(candidate) {
     const parts = [candidate.county, candidate.town, candidate.village].filter((value, index, list) => value && list.indexOf(value) === index);
     if (candidate.district && candidate.district !== '?') {
