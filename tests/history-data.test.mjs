@@ -50,14 +50,19 @@ test('official CEC artifacts cover every presidential township and local executi
     }
   }
 
-  for (const year of ['2014', '2018', '2022']) {
+  const localExpected = { '1994': 2, '1998': 25, '2002': 25, '2006': 25, '2010': 22, '2014': 22, '2018': 22, '2022': 22 };
+  assert.deepEqual(localExecutives.coverage, Object.keys(localExpected).map(Number));
+  for (const [year, expected] of Object.entries(localExpected)) {
     const races = localExecutives.years[year].races;
-    assert.equal(Object.keys(races).length, 22, `${year} local executive coverage`);
+    assert.equal(Object.keys(races).length, expected, `${year} local executive coverage`);
     for (const [county, race] of Object.entries(races)) {
       assert.equal(race.candidates.reduce((sum, candidate) => sum + candidate.votes, 0), race.validVotes, `${year} ${county} valid votes`);
       assert.equal(race.candidates.filter(candidate => candidate.elected).length, 1, `${year} ${county} elected candidate`);
     }
   }
+  assert.equal(localExecutives.years['1994'].complete, false);
+  assert.deepEqual(localExecutives.years['2006'].currentAreas['臺中市'].sort(), ['臺中市', '臺中縣']);
+  assert.deepEqual(localExecutives.years['2010'].dates, ['2009-12-05', '2010-11-27']);
   assert.equal(localExecutives.years['2022'].races['嘉義市'].note, '2022-12-18 重行選舉');
 });
 

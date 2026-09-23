@@ -262,27 +262,35 @@ async function buildLocalExecutives() {
   const themes = [
     ...(c1List.find(x=>x.area_name==='全國')?.theme_items||[]).map(x=>({...x,subject:'C1'})),
     ...(c2List.find(x=>x.area_name==='全國')?.theme_items||[]).map(x=>({...x,subject:'C2'})),
-  ].filter(x=>x.has_data&&[2014,2018,2022].includes(Number(String(x.vote_date).slice(0,4))))
+  ].filter(x=>x.has_data)
+    .map(x=>{
+      const electionYear=Number(String(x.vote_date).slice(0,4));
+      const cycleYear=x.subject==='C2'&&electionYear<2014?electionYear+1:electionYear;
+      return {...x,electionYear,cycleYear};
+    })
     .sort((a,b)=>String(a.vote_date).localeCompare(String(b.vote_date)));
   const output={
-    schemaVersion:1,type:'local-executive',
+    schemaVersion:2,type:'local-executive',coverage:[1994,1998,2002,2006,2010,2014,2018,2022],
     source:{name:'中央選舉委員會選舉資料庫',url:'https://db.cec.gov.tw/ElecTable/Election',listApis:[`${BASE}/list/ELC_C1.json`,`${BASE}/list/ELC_C2.json`],ticketApi:`${BASE}/data/tickets/ELC/{C1|C2}/00/{theme}/C/00_000_00_000_0000.json`,profileApi:`${BASE}/data/profiles/ELC/{C1|C2}/00/{theme}/C/00_000_00_000_0000.json`},
-    note:'將中選會「直轄市長」與「縣市長」合併為現行 22 縣市；2022 嘉義市採 12 月 18 日重行選舉正式結果。',years:{}
+    note:'收錄中選會現有全部直轄市長與縣市長官方資料。1998–2006 保留縣市合併前的 25 場選舉；2009 縣市長與 2010 直轄市長合併為同一地方首長週期；1994 因官方全國清單尚無 1993 縣市長資料，僅有臺北市、高雄市兩場直轄市長選舉。2022 嘉義市採 12 月 18 日重行選舉正式結果。',years:{}
   };
   for(const theme of themes){
-    const year=Number(String(theme.vote_date).slice(0,4));
+    const year=theme.cycleYear;
     const [ticketsPayload,profilesPayload]=await Promise.all([json(apiUrl('tickets',theme.subject,theme.theme_id,'C')),json(apiUrl('profiles',theme.subject,theme.theme_id,'C'))]);
     const profiles=rows(profilesPayload), tickets=rows(ticketsPayload);
-    const yearData=output.years[String(year)]||(output.years[String(year)]={date:theme.vote_date,races:{},themes:[]});
+    const yearData=output.years[String(year)]||(output.years[String(year)]={cycleYear:year,date:theme.vote_date,dates:[],races:{},currentAreas:{},themes:[]});
+    if(!yearData.dates.includes(theme.vote_date))yearData.dates.push(theme.vote_date);
     yearData.themes.push({subject:theme.subject,themeId:theme.theme_id,name:theme.theme_name,date:theme.vote_date});
     if(theme.vote_date>yearData.date)yearData.date=theme.vote_date;
     for(const row of profiles){
-      const area=normalizeCounty(row.area_name),stats=profile(row),existing=yearData.races[area]||{area,candidates:[]};
+      const area=normalizeText(row.area_name),currentArea=normalizeCounty(area),stats=profile(row),existing=yearData.races[area]||{area,currentArea,candidates:[]};
       Object.assign(existing,stats); if(theme.theme_name.includes('重行選舉'))existing.note=`${theme.vote_date} 重行選舉`;
       yearData.races[area]=existing;
+      const mapped=yearData.currentAreas[currentArea]||(yearData.currentAreas[currentArea]=[]);
+      if(!mapped.includes(area))mapped.push(area);
     }
     const grouped=new Map();
-    for(const row of tickets){const area=normalizeCounty(row.area_name);if(!grouped.has(area))grouped.set(area,[]);grouped.get(area).push({area,no:String(row.cand_no),name:row.cand_name,party:row.party_name,partyKey:partyKey(row.party_name),votes:number(row.ticket_num),elected:won(row.is_victor),...(theme.theme_name.includes('重行選舉')?{note:`${theme.vote_date} 重行選舉`}:{})});}
+    for(const row of tickets){const area=normalizeText(row.area_name);if(!grouped.has(area))grouped.set(area,[]);grouped.get(area).push({area,no:String(row.cand_no),name:row.cand_name,party:row.party_name,partyKey:partyKey(row.party_name),votes:number(row.ticket_num),elected:won(row.is_victor),...(theme.theme_name.includes('重行選舉')?{note:`${theme.vote_date} 重行選舉`}:{})});}
     for(const [area,candidates] of grouped){
       const race=yearData.races[area]||{area};race.candidates=candidates.sort((a,b)=>Number(a.no)-Number(b.no));
       race.validVotes=number(race.validVotes)||race.candidates.reduce((sum,c)=>sum+c.votes,0);
@@ -290,14 +298,19 @@ async function buildLocalExecutives() {
       const ranking=[...race.candidates].sort((a,b)=>b.votes-a.votes);race.winner=ranking[0]||null;race.margin=number(ranking[0]?.votes)-number(ranking[1]?.votes);yearData.races[area]=race;
     }
   }
-  for(const year of [2014,2018,2022]){
-    const races=output.years[String(year)]?.races||{};
-    assert(Object.keys(races).length===22,`${year}: expected 22 mayor races, got ${Object.keys(races).length}`);
-    for(const county of CURRENT_COUNTIES){const race=races[county];assert(race,`${year}: missing mayor race ${county}`);assert(race.candidates.reduce((sum,c)=>sum+c.votes,0)===race.validVotes,`${year} ${county}: mayor sum mismatch`);assert(race.candidates.some(c=>c.elected),`${year} ${county}: no elected candidate`);}
-    console.log(`${year}: 22 official local executive races`);
+  const expectedCounts=new Map([[1994,2],[1998,25],[2002,25],[2006,25],[2010,22],[2014,22],[2018,22],[2022,22]]);
+  for(const [year,expected] of expectedCounts){
+    const yearData=output.years[String(year)],races=yearData?.races||{};
+    assert(Object.keys(races).length===expected,`${year}: expected ${expected} mayor races, got ${Object.keys(races).length}`);
+    yearData.raceCount=expected;
+    yearData.complete=year!==1994;
+    yearData.dates.sort();
+    for(const [area,race] of Object.entries(races)){assert(race.candidates.reduce((sum,c)=>sum+c.votes,0)===race.validVotes,`${year} ${area}: mayor sum mismatch`);assert(race.candidates.filter(c=>c.elected).length===1,`${year} ${area}: expected one elected candidate`);}
+    if(year>=2010){for(const county of CURRENT_COUNTIES)assert(yearData.currentAreas[county]?.length===1,`${year}: missing unambiguous current county ${county}`);}
+    console.log(`${year}: ${expected} official local executive races${year===1994?' (partial official coverage)':''}`);
   }
   await fs.writeFile(OUT('local-executive.json'),`${JSON.stringify(output,null,2)}\n`);
 }
 
-await buildPresident();
+if(!process.argv.includes('--local-only'))await buildPresident();
 await buildLocalExecutives();

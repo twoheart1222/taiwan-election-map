@@ -1,6 +1,16 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "type": "local-executive",
+  "coverage": [
+    1994,
+    1998,
+    2002,
+    2006,
+    2010,
+    2014,
+    2018,
+    2022
+  ],
   "source": {
     "name": "中央選舉委員會選舉資料庫",
     "url": "https://db.cec.gov.tw/ElecTable/Election",
@@ -11,13 +21,6167 @@
     "ticketApi": "https://db.cec.gov.tw/static/elections/data/tickets/ELC/{C1|C2}/00/{theme}/C/00_000_00_000_0000.json",
     "profileApi": "https://db.cec.gov.tw/static/elections/data/profiles/ELC/{C1|C2}/00/{theme}/C/00_000_00_000_0000.json"
   },
-  "note": "將中選會「直轄市長」與「縣市長」合併為現行 22 縣市；2022 嘉義市採 12 月 18 日重行選舉正式結果。",
+  "note": "收錄中選會現有全部直轄市長與縣市長官方資料。1998–2006 保留縣市合併前的 25 場選舉；2009 縣市長與 2010 直轄市長合併為同一地方首長週期；1994 因官方全國清單尚無 1993 縣市長資料，僅有臺北市、高雄市兩場直轄市長選舉。2022 嘉義市採 12 月 18 日重行選舉正式結果。",
   "years": {
-    "2014": {
-      "date": "2014-11-29",
+    "1994": {
+      "cycleYear": 1994,
+      "date": "1994-12-03",
+      "dates": [
+        "1994-12-03"
+      ],
       "races": {
         "臺北市": {
           "area": "臺北市",
+          "currentArea": "臺北市",
+          "candidates": [
+            {
+              "area": "臺北市",
+              "no": "1",
+              "name": "紀榮治",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 3941,
+              "elected": false,
+              "share": 0.2798
+            },
+            {
+              "area": "臺北市",
+              "no": "2",
+              "name": "趙少康",
+              "party": "新黨",
+              "partyKey": "NP",
+              "votes": 424905,
+              "elected": false,
+              "share": 30.166
+            },
+            {
+              "area": "臺北市",
+              "no": "3",
+              "name": "陳水扁",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 615090,
+              "elected": true,
+              "share": 43.6682
+            },
+            {
+              "area": "臺北市",
+              "no": "4",
+              "name": "黃大洲",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 364618,
+              "elected": false,
+              "share": 25.886
+            }
+          ],
+          "population": 2651419,
+          "electors": 1816986,
+          "votesCast": 1426852,
+          "validVotes": 1408554,
+          "invalidVotes": 18298,
+          "turnout": 78.53,
+          "winner": {
+            "area": "臺北市",
+            "no": "3",
+            "name": "陳水扁",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 615090,
+            "elected": true,
+            "share": 43.6682
+          },
+          "margin": 190185
+        },
+        "高雄市": {
+          "area": "高雄市",
+          "currentArea": "高雄市",
+          "candidates": [
+            {
+              "area": "高雄市",
+              "no": "1",
+              "name": "吳敦義",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 400766,
+              "elected": true,
+              "share": 54.4603
+            },
+            {
+              "area": "高雄市",
+              "no": "2",
+              "name": "施鐘響",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 13084,
+              "elected": false,
+              "share": 1.778
+            },
+            {
+              "area": "高雄市",
+              "no": "3",
+              "name": "張俊雄",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 289110,
+              "elected": false,
+              "share": 39.2873
+            },
+            {
+              "area": "高雄市",
+              "no": "4",
+              "name": "鄭德耀",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 7513,
+              "elected": false,
+              "share": 1.0209
+            },
+            {
+              "area": "高雄市",
+              "no": "5",
+              "name": "湯阿根",
+              "party": "新黨",
+              "partyKey": "NP",
+              "votes": 25413,
+              "elected": false,
+              "share": 3.4534
+            }
+          ],
+          "population": 1413240,
+          "electors": 926318,
+          "votesCast": 746469,
+          "validVotes": 735886,
+          "invalidVotes": 10583,
+          "turnout": 80.58,
+          "winner": {
+            "area": "高雄市",
+            "no": "1",
+            "name": "吳敦義",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 400766,
+            "elected": true,
+            "share": 54.4603
+          },
+          "margin": 111656
+        }
+      },
+      "currentAreas": {
+        "臺北市": [
+          "臺北市"
+        ],
+        "高雄市": [
+          "高雄市"
+        ]
+      },
+      "themes": [
+        {
+          "subject": "C1",
+          "themeId": "81714e9f8f0072a65451bac5810796fa",
+          "name": "83年直轄市長選舉",
+          "date": "1994-12-03"
+        }
+      ],
+      "raceCount": 2,
+      "complete": false
+    },
+    "1998": {
+      "cycleYear": 1998,
+      "date": "1998-12-05",
+      "dates": [
+        "1997-11-29",
+        "1998-12-05"
+      ],
+      "races": {
+        "臺北縣": {
+          "area": "臺北縣",
+          "currentArea": "新北市",
+          "candidates": [
+            {
+              "area": "臺北縣",
+              "no": "1",
+              "name": "謝深山",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 543516,
+              "elected": false,
+              "share": 38.6663
+            },
+            {
+              "area": "臺北縣",
+              "no": "2",
+              "name": "周荃",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 32373,
+              "elected": false,
+              "share": 2.303
+            },
+            {
+              "area": "臺北縣",
+              "no": "3",
+              "name": "楊泰順",
+              "party": "新黨",
+              "partyKey": "NP",
+              "votes": 32902,
+              "elected": false,
+              "share": 2.3407
+            },
+            {
+              "area": "臺北縣",
+              "no": "4",
+              "name": "林志嘉",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 154590,
+              "elected": false,
+              "share": 10.9977
+            },
+            {
+              "area": "臺北縣",
+              "no": "5",
+              "name": "蘇貞昌",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 571658,
+              "elected": true,
+              "share": 40.6684
+            },
+            {
+              "area": "臺北縣",
+              "no": "6",
+              "name": "廖學廣",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 70619,
+              "elected": false,
+              "share": 5.0239
+            }
+          ],
+          "population": 3388741,
+          "electors": 2242060,
+          "votesCast": 1424010,
+          "validVotes": 1405658,
+          "invalidVotes": 18352,
+          "turnout": 63.51,
+          "winner": {
+            "area": "臺北縣",
+            "no": "5",
+            "name": "蘇貞昌",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 571658,
+            "elected": true,
+            "share": 40.6684
+          },
+          "margin": 28142
+        },
+        "宜蘭縣": {
+          "area": "宜蘭縣",
+          "currentArea": "宜蘭縣",
+          "candidates": [
+            {
+              "area": "宜蘭縣",
+              "no": "1",
+              "name": "廖風德",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 104744,
+              "elected": false,
+              "share": 46.1716
+            },
+            {
+              "area": "宜蘭縣",
+              "no": "2",
+              "name": "劉守成",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 122114,
+              "elected": true,
+              "share": 53.8284
+            }
+          ],
+          "population": 465828,
+          "electors": 317194,
+          "votesCast": 228940,
+          "validVotes": 226858,
+          "invalidVotes": 2082,
+          "turnout": 72.18,
+          "winner": {
+            "area": "宜蘭縣",
+            "no": "2",
+            "name": "劉守成",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 122114,
+            "elected": true,
+            "share": 53.8284
+          },
+          "margin": 17370
+        },
+        "桃園縣": {
+          "area": "桃園縣",
+          "currentArea": "桃園市",
+          "candidates": [
+            {
+              "area": "桃園縣",
+              "no": "1",
+              "name": "呂秀蓮",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 375500,
+              "elected": true,
+              "share": 56.2032
+            },
+            {
+              "area": "桃園縣",
+              "no": "2",
+              "name": "陳根德",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 286993,
+              "elected": false,
+              "share": 42.9558
+            },
+            {
+              "area": "桃園縣",
+              "no": "3",
+              "name": "徐運德",
+              "party": "社會改革黨",
+              "partyKey": "OTHER",
+              "votes": 5619,
+              "elected": false,
+              "share": 0.841
+            }
+          ],
+          "population": 1595481,
+          "electors": 1035387,
+          "votesCast": 678744,
+          "validVotes": 668112,
+          "invalidVotes": 10632,
+          "turnout": 65.55,
+          "winner": {
+            "area": "桃園縣",
+            "no": "1",
+            "name": "呂秀蓮",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 375500,
+            "elected": true,
+            "share": 56.2032
+          },
+          "margin": 88507
+        },
+        "新竹縣": {
+          "area": "新竹縣",
+          "currentArea": "新竹縣",
+          "candidates": [
+            {
+              "area": "新竹縣",
+              "no": "1",
+              "name": "徐能安",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 1424,
+              "elected": false,
+              "share": 0.7256
+            },
+            {
+              "area": "新竹縣",
+              "no": "2",
+              "name": "邱鏡淳",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 59393,
+              "elected": false,
+              "share": 30.2644
+            },
+            {
+              "area": "新竹縣",
+              "no": "3",
+              "name": "鄭永金",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 64551,
+              "elected": false,
+              "share": 32.8927
+            },
+            {
+              "area": "新竹縣",
+              "no": "4",
+              "name": "林光華",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 70879,
+              "elected": true,
+              "share": 36.1172
+            }
+          ],
+          "population": 418140,
+          "electors": 277708,
+          "votesCast": 199417,
+          "validVotes": 196247,
+          "invalidVotes": 3170,
+          "turnout": 71.81,
+          "winner": {
+            "area": "新竹縣",
+            "no": "4",
+            "name": "林光華",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 70879,
+            "elected": true,
+            "share": 36.1172
+          },
+          "margin": 6328
+        },
+        "苗栗縣": {
+          "area": "苗栗縣",
+          "currentArea": "苗栗縣",
+          "candidates": [
+            {
+              "area": "苗栗縣",
+              "no": "1",
+              "name": "傅學鵬",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 153528,
+              "elected": true,
+              "share": 54.795
+            },
+            {
+              "area": "苗栗縣",
+              "no": "2",
+              "name": "何智輝",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 99109,
+              "elected": false,
+              "share": 35.3726
+            },
+            {
+              "area": "苗栗縣",
+              "no": "3",
+              "name": "黃達業",
+              "party": "新黨",
+              "partyKey": "NP",
+              "votes": 15871,
+              "elected": false,
+              "share": 5.6645
+            },
+            {
+              "area": "苗栗縣",
+              "no": "4",
+              "name": "徐進榮",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 11678,
+              "elected": false,
+              "share": 4.1679
+            }
+          ],
+          "population": 558936,
+          "electors": 378882,
+          "votesCast": 284793,
+          "validVotes": 280186,
+          "invalidVotes": 4607,
+          "turnout": 75.17,
+          "winner": {
+            "area": "苗栗縣",
+            "no": "1",
+            "name": "傅學鵬",
+            "party": "無黨籍及未經政黨推薦",
+            "partyKey": "IND",
+            "votes": 153528,
+            "elected": true,
+            "share": 54.795
+          },
+          "margin": 54419
+        },
+        "臺中縣": {
+          "area": "臺中縣",
+          "currentArea": "臺中市",
+          "candidates": [
+            {
+              "area": "臺中縣",
+              "no": "1",
+              "name": "錢文南",
+              "party": "建國黨",
+              "partyKey": "OTHER",
+              "votes": 5950,
+              "elected": false,
+              "share": 1.0024
+            },
+            {
+              "area": "臺中縣",
+              "no": "2",
+              "name": "陳欽隆",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 10804,
+              "elected": false,
+              "share": 1.8201
+            },
+            {
+              "area": "臺中縣",
+              "no": "3",
+              "name": "郭榮振",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 173667,
+              "elected": false,
+              "share": 29.2564
+            },
+            {
+              "area": "臺中縣",
+              "no": "4",
+              "name": "徐中雄",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 144427,
+              "elected": false,
+              "share": 24.3306
+            },
+            {
+              "area": "臺中縣",
+              "no": "5",
+              "name": "劉銓忠",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 35533,
+              "elected": false,
+              "share": 5.986
+            },
+            {
+              "area": "臺中縣",
+              "no": "6",
+              "name": "廖永來",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 223222,
+              "elected": true,
+              "share": 37.6046
+            }
+          ],
+          "population": 1438396,
+          "electors": 927612,
+          "votesCast": 608038,
+          "validVotes": 593603,
+          "invalidVotes": 14435,
+          "turnout": 65.55,
+          "winner": {
+            "area": "臺中縣",
+            "no": "6",
+            "name": "廖永來",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 223222,
+            "elected": true,
+            "share": 37.6046
+          },
+          "margin": 49555
+        },
+        "彰化縣": {
+          "area": "彰化縣",
+          "currentArea": "彰化縣",
+          "candidates": [
+            {
+              "area": "彰化縣",
+              "no": "1",
+              "name": "張榮昌",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 10443,
+              "elected": false,
+              "share": 1.7826
+            },
+            {
+              "area": "彰化縣",
+              "no": "2",
+              "name": "阮剛猛",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 290335,
+              "elected": true,
+              "share": 49.5591
+            },
+            {
+              "area": "彰化縣",
+              "no": "3",
+              "name": "翁金珠",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 285058,
+              "elected": false,
+              "share": 48.6583
+            }
+          ],
+          "population": 1292791,
+          "electors": 858446,
+          "votesCast": 596744,
+          "validVotes": 585836,
+          "invalidVotes": 10908,
+          "turnout": 69.51,
+          "winner": {
+            "area": "彰化縣",
+            "no": "2",
+            "name": "阮剛猛",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 290335,
+            "elected": true,
+            "share": 49.5591
+          },
+          "margin": 5277
+        },
+        "南投縣": {
+          "area": "南投縣",
+          "currentArea": "南投縣",
+          "candidates": [
+            {
+              "area": "南投縣",
+              "no": "1",
+              "name": "林宗男",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 76689,
+              "elected": false,
+              "share": 30.8025
+            },
+            {
+              "area": "南投縣",
+              "no": "2",
+              "name": "許惠祐",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 74966,
+              "elected": false,
+              "share": 30.1105
+            },
+            {
+              "area": "南投縣",
+              "no": "3",
+              "name": "彭百顯",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 78690,
+              "elected": true,
+              "share": 31.6062
+            },
+            {
+              "area": "南投縣",
+              "no": "4",
+              "name": "陳振盛",
+              "party": "新黨",
+              "partyKey": "NP",
+              "votes": 18066,
+              "elected": false,
+              "share": 7.2563
+            },
+            {
+              "area": "南投縣",
+              "no": "5",
+              "name": "吳清江",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 559,
+              "elected": false,
+              "share": 0.2245
+            }
+          ],
+          "population": 545557,
+          "electors": 373740,
+          "votesCast": 251405,
+          "validVotes": 248970,
+          "invalidVotes": 2435,
+          "turnout": 67.27,
+          "winner": {
+            "area": "南投縣",
+            "no": "3",
+            "name": "彭百顯",
+            "party": "無黨籍及未經政黨推薦",
+            "partyKey": "IND",
+            "votes": 78690,
+            "elected": true,
+            "share": 31.6062
+          },
+          "margin": 2001
+        },
+        "雲林縣": {
+          "area": "雲林縣",
+          "currentArea": "雲林縣",
+          "candidates": [
+            {
+              "area": "雲林縣",
+              "no": "1",
+              "name": "蘇文雄",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 125376,
+              "elected": true,
+              "share": 34.9312
+            },
+            {
+              "area": "雲林縣",
+              "no": "2",
+              "name": "歐明憲",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 6882,
+              "elected": false,
+              "share": 1.9174
+            },
+            {
+              "area": "雲林縣",
+              "no": "3",
+              "name": "張榮味",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 122166,
+              "elected": false,
+              "share": 34.0368
+            },
+            {
+              "area": "雲林縣",
+              "no": "4",
+              "name": "廖大林",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 104499,
+              "elected": false,
+              "share": 29.1146
+            }
+          ],
+          "population": 751537,
+          "electors": 524212,
+          "votesCast": 364799,
+          "validVotes": 358923,
+          "invalidVotes": 5876,
+          "turnout": 69.59,
+          "winner": {
+            "area": "雲林縣",
+            "no": "1",
+            "name": "蘇文雄",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 125376,
+            "elected": true,
+            "share": 34.9312
+          },
+          "margin": 3210
+        },
+        "嘉義縣": {
+          "area": "嘉義縣",
+          "currentArea": "嘉義縣",
+          "candidates": [
+            {
+              "area": "嘉義縣",
+              "no": "1",
+              "name": "李雅景",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 136161,
+              "elected": true,
+              "share": 53.2586
+            },
+            {
+              "area": "嘉義縣",
+              "no": "2",
+              "name": "何嘉榮",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 119499,
+              "elected": false,
+              "share": 46.7414
+            }
+          ],
+          "population": 566725,
+          "electors": 401532,
+          "votesCast": 261045,
+          "validVotes": 255660,
+          "invalidVotes": 5385,
+          "turnout": 65.01,
+          "winner": {
+            "area": "嘉義縣",
+            "no": "1",
+            "name": "李雅景",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 136161,
+            "elected": true,
+            "share": 53.2586
+          },
+          "margin": 16662
+        },
+        "臺南縣": {
+          "area": "臺南縣",
+          "currentArea": "臺南市",
+          "candidates": [
+            {
+              "area": "臺南縣",
+              "no": "1",
+              "name": "陳唐山",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 328641,
+              "elected": true,
+              "share": 65.7285
+            },
+            {
+              "area": "臺南縣",
+              "no": "2",
+              "name": "洪玉欽",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 171357,
+              "elected": false,
+              "share": 34.2715
+            }
+          ],
+          "population": 1092344,
+          "electors": 756073,
+          "votesCast": 506798,
+          "validVotes": 499998,
+          "invalidVotes": 6800,
+          "turnout": 67.03,
+          "winner": {
+            "area": "臺南縣",
+            "no": "1",
+            "name": "陳唐山",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 328641,
+            "elected": true,
+            "share": 65.7285
+          },
+          "margin": 157284
+        },
+        "高雄縣": {
+          "area": "高雄縣",
+          "currentArea": "高雄市",
+          "candidates": [
+            {
+              "area": "高雄縣",
+              "no": "1",
+              "name": "鄭德耀",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 10575,
+              "elected": false,
+              "share": 2.0115
+            },
+            {
+              "area": "高雄縣",
+              "no": "2",
+              "name": "余政憲",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 271989,
+              "elected": true,
+              "share": 51.736
+            },
+            {
+              "area": "高雄縣",
+              "no": "3",
+              "name": "黃鴻都",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 234960,
+              "elected": false,
+              "share": 44.6926
+            },
+            {
+              "area": "高雄縣",
+              "no": "4",
+              "name": "林景元",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 8201,
+              "elected": false,
+              "share": 1.5599
+            }
+          ],
+          "population": 1217661,
+          "electors": 832635,
+          "votesCast": 534035,
+          "validVotes": 525725,
+          "invalidVotes": 8310,
+          "turnout": 64.14,
+          "winner": {
+            "area": "高雄縣",
+            "no": "2",
+            "name": "余政憲",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 271989,
+            "elected": true,
+            "share": 51.736
+          },
+          "margin": 37029
+        },
+        "屏東縣": {
+          "area": "屏東縣",
+          "currentArea": "屏東縣",
+          "candidates": [
+            {
+              "area": "屏東縣",
+              "no": "1",
+              "name": "蘇嘉全",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 227506,
+              "elected": true,
+              "share": 55.418
+            },
+            {
+              "area": "屏東縣",
+              "no": "2",
+              "name": "李景雯",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 12867,
+              "elected": false,
+              "share": 3.1343
+            },
+            {
+              "area": "屏東縣",
+              "no": "3",
+              "name": "曾永權",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 170154,
+              "elected": false,
+              "share": 41.4477
+            }
+          ],
+          "population": 912445,
+          "electors": 629530,
+          "votesCast": 414529,
+          "validVotes": 410527,
+          "invalidVotes": 4002,
+          "turnout": 65.85,
+          "winner": {
+            "area": "屏東縣",
+            "no": "1",
+            "name": "蘇嘉全",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 227506,
+            "elected": true,
+            "share": 55.418
+          },
+          "margin": 57352
+        },
+        "臺東縣": {
+          "area": "臺東縣",
+          "currentArea": "臺東縣",
+          "candidates": [
+            {
+              "area": "臺東縣",
+              "no": "1",
+              "name": "徐慶元",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 47340,
+              "elected": false,
+              "share": 46.6298
+            },
+            {
+              "area": "臺東縣",
+              "no": "2",
+              "name": "陳建年",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 48365,
+              "elected": true,
+              "share": 47.6395
+            },
+            {
+              "area": "臺東縣",
+              "no": "3",
+              "name": "黃昭輝",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 5818,
+              "elected": false,
+              "share": 5.7307
+            }
+          ],
+          "population": 252911,
+          "electors": 176329,
+          "votesCast": 102834,
+          "validVotes": 101523,
+          "invalidVotes": 1311,
+          "turnout": 58.32,
+          "winner": {
+            "area": "臺東縣",
+            "no": "2",
+            "name": "陳建年",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 48365,
+            "elected": true,
+            "share": 47.6395
+          },
+          "margin": 1025
+        },
+        "花蓮縣": {
+          "area": "花蓮縣",
+          "currentArea": "花蓮縣",
+          "candidates": [
+            {
+              "area": "花蓮縣",
+              "no": "1",
+              "name": "王慶豐",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 72456,
+              "elected": true,
+              "share": 56.7615
+            },
+            {
+              "area": "花蓮縣",
+              "no": "2",
+              "name": "游盈隆",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 55194,
+              "elected": false,
+              "share": 43.2385
+            }
+          ],
+          "population": 357972,
+          "electors": 246943,
+          "votesCast": 129782,
+          "validVotes": 127650,
+          "invalidVotes": 2132,
+          "turnout": 52.56,
+          "winner": {
+            "area": "花蓮縣",
+            "no": "1",
+            "name": "王慶豐",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 72456,
+            "elected": true,
+            "share": 56.7615
+          },
+          "margin": 17262
+        },
+        "澎湖縣": {
+          "area": "澎湖縣",
+          "currentArea": "澎湖縣",
+          "candidates": [
+            {
+              "area": "澎湖縣",
+              "no": "1",
+              "name": "賴峰偉",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 20946,
+              "elected": true,
+              "share": 57.5329
+            },
+            {
+              "area": "澎湖縣",
+              "no": "2",
+              "name": "許丕龍",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 15461,
+              "elected": false,
+              "share": 42.4671
+            }
+          ],
+          "population": 89731,
+          "electors": 63619,
+          "votesCast": 37084,
+          "validVotes": 36407,
+          "invalidVotes": 677,
+          "turnout": 58.29,
+          "winner": {
+            "area": "澎湖縣",
+            "no": "1",
+            "name": "賴峰偉",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 20946,
+            "elected": true,
+            "share": 57.5329
+          },
+          "margin": 5485
+        },
+        "連江縣": {
+          "area": "連江縣",
+          "currentArea": "連江縣",
+          "candidates": [
+            {
+              "area": "連江縣",
+              "no": "1",
+              "name": "劉立群",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 2246,
+              "elected": true,
+              "share": 60.9995
+            },
+            {
+              "area": "連江縣",
+              "no": "2",
+              "name": "曹原彰",
+              "party": "新黨",
+              "partyKey": "NP",
+              "votes": 1436,
+              "elected": false,
+              "share": 39.0005
+            }
+          ],
+          "population": 6881,
+          "electors": 4896,
+          "votesCast": 3756,
+          "validVotes": 3682,
+          "invalidVotes": 74,
+          "turnout": 76.72,
+          "winner": {
+            "area": "連江縣",
+            "no": "1",
+            "name": "劉立群",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 2246,
+            "elected": true,
+            "share": 60.9995
+          },
+          "margin": 810
+        },
+        "金門縣": {
+          "area": "金門縣",
+          "currentArea": "金門縣",
+          "candidates": [
+            {
+              "area": "金門縣",
+              "no": "1",
+              "name": "陳水在",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 13146,
+              "elected": true,
+              "share": 58.6064
+            },
+            {
+              "area": "金門縣",
+              "no": "2",
+              "name": "李炷烽",
+              "party": "新黨",
+              "partyKey": "NP",
+              "votes": 9285,
+              "elected": false,
+              "share": 41.3936
+            }
+          ],
+          "population": 48700,
+          "electors": 32060,
+          "votesCast": 22802,
+          "validVotes": 22431,
+          "invalidVotes": 371,
+          "turnout": 71.12,
+          "winner": {
+            "area": "金門縣",
+            "no": "1",
+            "name": "陳水在",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 13146,
+            "elected": true,
+            "share": 58.6064
+          },
+          "margin": 3861
+        },
+        "基隆市": {
+          "area": "基隆市",
+          "currentArea": "基隆市",
+          "candidates": [
+            {
+              "area": "基隆市",
+              "no": "1",
+              "name": "李進勇",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 73398,
+              "elected": true,
+              "share": 42.7545
+            },
+            {
+              "area": "基隆市",
+              "no": "2",
+              "name": "劉文雄",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 65176,
+              "elected": false,
+              "share": 37.9652
+            },
+            {
+              "area": "基隆市",
+              "no": "3",
+              "name": "許財利",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 33099,
+              "elected": false,
+              "share": 19.2803
+            }
+          ],
+          "population": 376710,
+          "electors": 259795,
+          "votesCast": 174161,
+          "validVotes": 171673,
+          "invalidVotes": 2488,
+          "turnout": 67.04,
+          "winner": {
+            "area": "基隆市",
+            "no": "1",
+            "name": "李進勇",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 73398,
+            "elected": true,
+            "share": 42.7545
+          },
+          "margin": 8222
+        },
+        "新竹市": {
+          "area": "新竹市",
+          "currentArea": "新竹市",
+          "candidates": [
+            {
+              "area": "新竹市",
+              "no": "1",
+              "name": "林志成",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 62017,
+              "elected": false,
+              "share": 42.7886
+            },
+            {
+              "area": "新竹市",
+              "no": "2",
+              "name": "蔡仁堅",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 81328,
+              "elected": true,
+              "share": 56.1123
+            },
+            {
+              "area": "新竹市",
+              "no": "3",
+              "name": "王少泉",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 1593,
+              "elected": false,
+              "share": 1.0991
+            }
+          ],
+          "population": 349150,
+          "electors": 232607,
+          "votesCast": 147397,
+          "validVotes": 144938,
+          "invalidVotes": 2459,
+          "turnout": 63.37,
+          "winner": {
+            "area": "新竹市",
+            "no": "2",
+            "name": "蔡仁堅",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 81328,
+            "elected": true,
+            "share": 56.1123
+          },
+          "margin": 19311
+        },
+        "臺中市": {
+          "area": "臺中市",
+          "currentArea": "臺中市",
+          "candidates": [
+            {
+              "area": "臺中市",
+              "no": "1",
+              "name": "張溫鷹",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 179461,
+              "elected": true,
+              "share": 49.5699
+            },
+            {
+              "area": "臺中市",
+              "no": "2",
+              "name": "鄭邦鎮",
+              "party": "建國黨",
+              "partyKey": "OTHER",
+              "votes": 6622,
+              "elected": false,
+              "share": 1.8291
+            },
+            {
+              "area": "臺中市",
+              "no": "3",
+              "name": "洪昭男",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 149438,
+              "elected": false,
+              "share": 41.2771
+            },
+            {
+              "area": "臺中市",
+              "no": "4",
+              "name": "宋艾克",
+              "party": "新黨",
+              "partyKey": "NP",
+              "votes": 26515,
+              "elected": false,
+              "share": 7.3239
+            }
+          ],
+          "population": 891981,
+          "electors": 581859,
+          "votesCast": 366870,
+          "validVotes": 362036,
+          "invalidVotes": 4834,
+          "turnout": 63.05,
+          "winner": {
+            "area": "臺中市",
+            "no": "1",
+            "name": "張溫鷹",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 179461,
+            "elected": true,
+            "share": 49.5699
+          },
+          "margin": 30023
+        },
+        "嘉義市": {
+          "area": "嘉義市",
+          "currentArea": "嘉義市",
+          "candidates": [
+            {
+              "area": "嘉義市",
+              "no": "1",
+              "name": "江義雄",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 49551,
+              "elected": false,
+              "share": 42.5155
+            },
+            {
+              "area": "嘉義市",
+              "no": "2",
+              "name": "蔡鴻章",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 6350,
+              "elected": false,
+              "share": 5.4484
+            },
+            {
+              "area": "嘉義市",
+              "no": "3",
+              "name": "張博雅",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 58544,
+              "elected": true,
+              "share": 50.2317
+            },
+            {
+              "area": "嘉義市",
+              "no": "4",
+              "name": "臧汀生",
+              "party": "建國黨",
+              "partyKey": "OTHER",
+              "votes": 2103,
+              "elected": false,
+              "share": 1.8044
+            }
+          ],
+          "population": 263085,
+          "electors": 176181,
+          "votesCast": 117917,
+          "validVotes": 116548,
+          "invalidVotes": 1369,
+          "turnout": 66.93,
+          "winner": {
+            "area": "嘉義市",
+            "no": "3",
+            "name": "張博雅",
+            "party": "無黨籍及未經政黨推薦",
+            "partyKey": "IND",
+            "votes": 58544,
+            "elected": true,
+            "share": 50.2317
+          },
+          "margin": 8993
+        },
+        "臺南市": {
+          "area": "臺南市",
+          "currentArea": "臺南市",
+          "candidates": [
+            {
+              "area": "臺南市",
+              "no": "1",
+              "name": "方金海",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 4699,
+              "elected": false,
+              "share": 1.4464
+            },
+            {
+              "area": "臺南市",
+              "no": "2",
+              "name": "許添財",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 64228,
+              "elected": false,
+              "share": 19.7695
+            },
+            {
+              "area": "臺南市",
+              "no": "3",
+              "name": "高家俊",
+              "party": "新黨",
+              "partyKey": "NP",
+              "votes": 4737,
+              "elected": false,
+              "share": 1.4581
+            },
+            {
+              "area": "臺南市",
+              "no": "4",
+              "name": "林南生",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 68124,
+              "elected": false,
+              "share": 20.9687
+            },
+            {
+              "area": "臺南市",
+              "no": "5",
+              "name": "陳榮盛",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 57854,
+              "elected": false,
+              "share": 17.8076
+            },
+            {
+              "area": "臺南市",
+              "no": "6",
+              "name": "林壽宏",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 9097,
+              "elected": false,
+              "share": 2.8001
+            },
+            {
+              "area": "臺南市",
+              "no": "7",
+              "name": "張燦鍙",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 116145,
+              "elected": true,
+              "share": 35.7497
+            }
+          ],
+          "population": 715033,
+          "electors": 479977,
+          "votesCast": 329008,
+          "validVotes": 324884,
+          "invalidVotes": 4124,
+          "turnout": 68.55,
+          "winner": {
+            "area": "臺南市",
+            "no": "7",
+            "name": "張燦鍙",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 116145,
+            "elected": true,
+            "share": 35.7497
+          },
+          "margin": 48021
+        },
+        "臺北市": {
+          "area": "臺北市",
+          "currentArea": "臺北市",
+          "candidates": [
+            {
+              "area": "臺北市",
+              "no": "1",
+              "name": "馬英九",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 766377,
+              "elected": true,
+              "share": 51.1293
+            },
+            {
+              "area": "臺北市",
+              "no": "2",
+              "name": "陳水扁",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 688072,
+              "elected": false,
+              "share": 45.9051
+            },
+            {
+              "area": "臺北市",
+              "no": "3",
+              "name": "王建煊",
+              "party": "新黨",
+              "partyKey": "NP",
+              "votes": 44452,
+              "elected": false,
+              "share": 2.9656
+            }
+          ],
+          "population": 2622171,
+          "electors": 1868860,
+          "votesCast": 1511635,
+          "validVotes": 1498901,
+          "invalidVotes": 12734,
+          "turnout": 80.89,
+          "winner": {
+            "area": "臺北市",
+            "no": "1",
+            "name": "馬英九",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 766377,
+            "elected": true,
+            "share": 51.1293
+          },
+          "margin": 78305
+        },
+        "高雄市": {
+          "area": "高雄市",
+          "currentArea": "高雄市",
+          "candidates": [
+            {
+              "area": "高雄市",
+              "no": "1",
+              "name": "吳建國",
+              "party": "新黨",
+              "partyKey": "NP",
+              "votes": 6457,
+              "elected": false,
+              "share": 0.811
+            },
+            {
+              "area": "高雄市",
+              "no": "2",
+              "name": "鄭德耀",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 18699,
+              "elected": false,
+              "share": 2.3486
+            },
+            {
+              "area": "高雄市",
+              "no": "3",
+              "name": "謝長廷",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 387797,
+              "elected": true,
+              "share": 48.7069
+            },
+            {
+              "area": "高雄市",
+              "no": "4",
+              "name": "吳敦義",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 383232,
+              "elected": false,
+              "share": 48.1335
+            }
+          ],
+          "population": 1454439,
+          "electors": 1004872,
+          "votesCast": 807996,
+          "validVotes": 796185,
+          "invalidVotes": 11811,
+          "turnout": 80.41,
+          "winner": {
+            "area": "高雄市",
+            "no": "3",
+            "name": "謝長廷",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 387797,
+            "elected": true,
+            "share": 48.7069
+          },
+          "margin": 4565
+        }
+      },
+      "currentAreas": {
+        "新北市": [
+          "臺北縣"
+        ],
+        "宜蘭縣": [
+          "宜蘭縣"
+        ],
+        "桃園市": [
+          "桃園縣"
+        ],
+        "新竹縣": [
+          "新竹縣"
+        ],
+        "苗栗縣": [
+          "苗栗縣"
+        ],
+        "臺中市": [
+          "臺中縣",
+          "臺中市"
+        ],
+        "彰化縣": [
+          "彰化縣"
+        ],
+        "南投縣": [
+          "南投縣"
+        ],
+        "雲林縣": [
+          "雲林縣"
+        ],
+        "嘉義縣": [
+          "嘉義縣"
+        ],
+        "臺南市": [
+          "臺南縣",
+          "臺南市"
+        ],
+        "高雄市": [
+          "高雄縣",
+          "高雄市"
+        ],
+        "屏東縣": [
+          "屏東縣"
+        ],
+        "臺東縣": [
+          "臺東縣"
+        ],
+        "花蓮縣": [
+          "花蓮縣"
+        ],
+        "澎湖縣": [
+          "澎湖縣"
+        ],
+        "連江縣": [
+          "連江縣"
+        ],
+        "金門縣": [
+          "金門縣"
+        ],
+        "基隆市": [
+          "基隆市"
+        ],
+        "新竹市": [
+          "新竹市"
+        ],
+        "嘉義市": [
+          "嘉義市"
+        ],
+        "臺北市": [
+          "臺北市"
+        ]
+      },
+      "themes": [
+        {
+          "subject": "C2",
+          "themeId": "8a062c6eb5089dceb912a02713b136d8",
+          "name": "86年縣市長選舉",
+          "date": "1997-11-29"
+        },
+        {
+          "subject": "C1",
+          "themeId": "1cc537ea416941769d8e715a4c37ee6b",
+          "name": "87年直轄市長選舉",
+          "date": "1998-12-05"
+        }
+      ],
+      "raceCount": 25,
+      "complete": true
+    },
+    "2002": {
+      "cycleYear": 2002,
+      "date": "2002-12-07",
+      "dates": [
+        "2001-12-01",
+        "2002-12-07"
+      ],
+      "races": {
+        "臺北縣": {
+          "area": "臺北縣",
+          "currentArea": "新北市",
+          "candidates": [
+            {
+              "area": "臺北縣",
+              "no": "1",
+              "name": "王建煊",
+              "party": "新黨",
+              "partyKey": "NP",
+              "votes": 820808,
+              "elected": false,
+              "share": 48.1642
+            },
+            {
+              "area": "臺北縣",
+              "no": "2",
+              "name": "邵建興",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 3972,
+              "elected": false,
+              "share": 0.2331
+            },
+            {
+              "area": "臺北縣",
+              "no": "3",
+              "name": "石翊靖",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 4913,
+              "elected": false,
+              "share": 0.2883
+            },
+            {
+              "area": "臺北縣",
+              "no": "4",
+              "name": "蘇貞昌",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 874495,
+              "elected": true,
+              "share": 51.3145
+            }
+          ],
+          "population": 3593315,
+          "electors": 2531827,
+          "votesCast": 1723524,
+          "validVotes": 1704188,
+          "invalidVotes": 19336,
+          "turnout": 68.07,
+          "winner": {
+            "area": "臺北縣",
+            "no": "4",
+            "name": "蘇貞昌",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 874495,
+            "elected": true,
+            "share": 51.3145
+          },
+          "margin": 53687
+        },
+        "宜蘭縣": {
+          "area": "宜蘭縣",
+          "currentArea": "宜蘭縣",
+          "candidates": [
+            {
+              "area": "宜蘭縣",
+              "no": "1",
+              "name": "朱振東",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 1885,
+              "elected": false,
+              "share": 0.9021
+            },
+            {
+              "area": "宜蘭縣",
+              "no": "2",
+              "name": "劉守成",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 106313,
+              "elected": true,
+              "share": 50.8796
+            },
+            {
+              "area": "宜蘭縣",
+              "no": "3",
+              "name": "林錦坤",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 2178,
+              "elected": false,
+              "share": 1.0424
+            },
+            {
+              "area": "宜蘭縣",
+              "no": "4",
+              "name": "呂國華",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 98574,
+              "elected": false,
+              "share": 47.1759
+            }
+          ],
+          "population": 465825,
+          "electors": 330826,
+          "votesCast": 211204,
+          "validVotes": 208950,
+          "invalidVotes": 2254,
+          "turnout": 63.84,
+          "winner": {
+            "area": "宜蘭縣",
+            "no": "2",
+            "name": "劉守成",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 106313,
+            "elected": true,
+            "share": 50.8796
+          },
+          "margin": 7739
+        },
+        "桃園縣": {
+          "area": "桃園縣",
+          "currentArea": "桃園市",
+          "candidates": [
+            {
+              "area": "桃園縣",
+              "no": "1",
+              "name": "彭紹瑾",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 353568,
+              "elected": false,
+              "share": 44.2013
+            },
+            {
+              "area": "桃園縣",
+              "no": "2",
+              "name": "朱立倫",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 441827,
+              "elected": true,
+              "share": 55.235
+            },
+            {
+              "area": "桃園縣",
+              "no": "3",
+              "name": "莊志忠",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 4509,
+              "elected": false,
+              "share": 0.5637
+            }
+          ],
+          "population": 1750731,
+          "electors": 1186731,
+          "votesCast": 810723,
+          "validVotes": 799904,
+          "invalidVotes": 10819,
+          "turnout": 68.32,
+          "winner": {
+            "area": "桃園縣",
+            "no": "2",
+            "name": "朱立倫",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 441827,
+            "elected": true,
+            "share": 55.235
+          },
+          "margin": 88259
+        },
+        "新竹縣": {
+          "area": "新竹縣",
+          "currentArea": "新竹縣",
+          "candidates": [
+            {
+              "area": "新竹縣",
+              "no": "1",
+              "name": "林光華",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 97420,
+              "elected": false,
+              "share": 46.3872
+            },
+            {
+              "area": "新竹縣",
+              "no": "2",
+              "name": "鄭永金",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 112595,
+              "elected": true,
+              "share": 53.6128
+            }
+          ],
+          "population": 443316,
+          "electors": 304018,
+          "votesCast": 213983,
+          "validVotes": 210015,
+          "invalidVotes": 3968,
+          "turnout": 70.38,
+          "winner": {
+            "area": "新竹縣",
+            "no": "2",
+            "name": "鄭永金",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 112595,
+            "elected": true,
+            "share": 53.6128
+          },
+          "margin": 15175
+        },
+        "苗栗縣": {
+          "area": "苗栗縣",
+          "currentArea": "苗栗縣",
+          "candidates": [
+            {
+              "area": "苗栗縣",
+              "no": "1",
+              "name": "魏早炳",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 61742,
+              "elected": false,
+              "share": 23.5515
+            },
+            {
+              "area": "苗栗縣",
+              "no": "2",
+              "name": "傅學鵬",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 135786,
+              "elected": true,
+              "share": 51.7957
+            },
+            {
+              "area": "苗栗縣",
+              "no": "3",
+              "name": "李佳穆",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 2016,
+              "elected": false,
+              "share": 0.769
+            },
+            {
+              "area": "苗栗縣",
+              "no": "4",
+              "name": "徐享崑",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 62613,
+              "elected": false,
+              "share": 23.8838
+            }
+          ],
+          "population": 559579,
+          "electors": 396038,
+          "votesCast": 266338,
+          "validVotes": 262157,
+          "invalidVotes": 4181,
+          "turnout": 67.25,
+          "winner": {
+            "area": "苗栗縣",
+            "no": "2",
+            "name": "傅學鵬",
+            "party": "無黨籍及未經政黨推薦",
+            "partyKey": "IND",
+            "votes": 135786,
+            "elected": true,
+            "share": 51.7957
+          },
+          "margin": 73173
+        },
+        "臺中縣": {
+          "area": "臺中縣",
+          "currentArea": "臺中市",
+          "candidates": [
+            {
+              "area": "臺中縣",
+              "no": "1",
+              "name": "林敏霖",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 62369,
+              "elected": false,
+              "share": 9.4925
+            },
+            {
+              "area": "臺中縣",
+              "no": "2",
+              "name": "黃仲生",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 325117,
+              "elected": true,
+              "share": 49.4825
+            },
+            {
+              "area": "臺中縣",
+              "no": "3",
+              "name": "廖永來",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 269548,
+              "elected": false,
+              "share": 41.025
+            }
+          ],
+          "population": 1498170,
+          "electors": 1020695,
+          "votesCast": 676367,
+          "validVotes": 657034,
+          "invalidVotes": 19333,
+          "turnout": 66.27,
+          "winner": {
+            "area": "臺中縣",
+            "no": "2",
+            "name": "黃仲生",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 325117,
+            "elected": true,
+            "share": 49.4825
+          },
+          "margin": 55569
+        },
+        "彰化縣": {
+          "area": "彰化縣",
+          "currentArea": "彰化縣",
+          "candidates": [
+            {
+              "area": "彰化縣",
+              "no": "1",
+              "name": "鄭秀珠",
+              "party": "親民黨",
+              "partyKey": "PFP",
+              "votes": 39056,
+              "elected": false,
+              "share": 6.3682
+            },
+            {
+              "area": "彰化縣",
+              "no": "2",
+              "name": "葉金鳳",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 257504,
+              "elected": false,
+              "share": 41.9868
+            },
+            {
+              "area": "彰化縣",
+              "no": "3",
+              "name": "翁金珠",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 301584,
+              "elected": true,
+              "share": 49.1742
+            },
+            {
+              "area": "彰化縣",
+              "no": "4",
+              "name": "洪參民",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 8219,
+              "elected": false,
+              "share": 1.3401
+            },
+            {
+              "area": "彰化縣",
+              "no": "5",
+              "name": "陳婉貞",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 6934,
+              "elected": false,
+              "share": 1.1306
+            }
+          ],
+          "population": 1311923,
+          "electors": 916615,
+          "votesCast": 624613,
+          "validVotes": 613297,
+          "invalidVotes": 11316,
+          "turnout": 68.14,
+          "winner": {
+            "area": "彰化縣",
+            "no": "3",
+            "name": "翁金珠",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 301584,
+            "elected": true,
+            "share": 49.1742
+          },
+          "margin": 44080
+        },
+        "南投縣": {
+          "area": "南投縣",
+          "currentArea": "南投縣",
+          "candidates": [
+            {
+              "area": "南投縣",
+              "no": "1",
+              "name": "姜君佩",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 915,
+              "elected": false,
+              "share": 0.3557
+            },
+            {
+              "area": "南投縣",
+              "no": "2",
+              "name": "張明雄",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 7475,
+              "elected": false,
+              "share": 2.9058
+            },
+            {
+              "area": "南投縣",
+              "no": "3",
+              "name": "陳胘富",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 2500,
+              "elected": false,
+              "share": 0.9718
+            },
+            {
+              "area": "南投縣",
+              "no": "4",
+              "name": "林宗男",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 94631,
+              "elected": true,
+              "share": 36.7866
+            },
+            {
+              "area": "南投縣",
+              "no": "5",
+              "name": "林明溱",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 48268,
+              "elected": false,
+              "share": 18.7636
+            },
+            {
+              "area": "南投縣",
+              "no": "6",
+              "name": "陳振盛",
+              "party": "親民黨",
+              "partyKey": "PFP",
+              "votes": 63042,
+              "elected": false,
+              "share": 24.5068
+            },
+            {
+              "area": "南投縣",
+              "no": "7",
+              "name": "彭百顯",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 40412,
+              "elected": false,
+              "share": 15.7097
+            }
+          ],
+          "population": 541242,
+          "electors": 386973,
+          "votesCast": 260502,
+          "validVotes": 257243,
+          "invalidVotes": 3259,
+          "turnout": 67.32,
+          "winner": {
+            "area": "南投縣",
+            "no": "4",
+            "name": "林宗男",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 94631,
+            "elected": true,
+            "share": 36.7866
+          },
+          "margin": 31589
+        },
+        "雲林縣": {
+          "area": "雲林縣",
+          "currentArea": "雲林縣",
+          "candidates": [
+            {
+              "area": "雲林縣",
+              "no": "1",
+              "name": "張榮味",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 205500,
+              "elected": true,
+              "share": 61.5316
+            },
+            {
+              "area": "雲林縣",
+              "no": "2",
+              "name": "林樹山",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 128475,
+              "elected": false,
+              "share": 38.4684
+            }
+          ],
+          "population": 742219,
+          "electors": 541963,
+          "votesCast": 343557,
+          "validVotes": 333975,
+          "invalidVotes": 9582,
+          "turnout": 63.39,
+          "winner": {
+            "area": "雲林縣",
+            "no": "1",
+            "name": "張榮味",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 205500,
+            "elected": true,
+            "share": 61.5316
+          },
+          "margin": 77025
+        },
+        "嘉義縣": {
+          "area": "嘉義縣",
+          "currentArea": "嘉義縣",
+          "candidates": [
+            {
+              "area": "嘉義縣",
+              "no": "1",
+              "name": "陳勝三",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 9454,
+              "elected": false,
+              "share": 3.5787
+            },
+            {
+              "area": "嘉義縣",
+              "no": "2",
+              "name": "陳明文",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 124757,
+              "elected": true,
+              "share": 47.2248
+            },
+            {
+              "area": "嘉義縣",
+              "no": "3",
+              "name": "李明憲",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 11507,
+              "elected": false,
+              "share": 4.3558
+            },
+            {
+              "area": "嘉義縣",
+              "no": "4",
+              "name": "蔡炳欽",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 1551,
+              "elected": false,
+              "share": 0.5871
+            },
+            {
+              "area": "嘉義縣",
+              "no": "5",
+              "name": "翁重鈞",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 116908,
+              "elected": false,
+              "share": 44.2537
+            }
+          ],
+          "population": 562978,
+          "electors": 414289,
+          "votesCast": 268296,
+          "validVotes": 264177,
+          "invalidVotes": 4119,
+          "turnout": 64.76,
+          "winner": {
+            "area": "嘉義縣",
+            "no": "2",
+            "name": "陳明文",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 124757,
+            "elected": true,
+            "share": 47.2248
+          },
+          "margin": 7849
+        },
+        "臺南縣": {
+          "area": "臺南縣",
+          "currentArea": "臺南市",
+          "candidates": [
+            {
+              "area": "臺南縣",
+              "no": "1",
+              "name": "吳清基",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 236670,
+              "elected": false,
+              "share": 44.4672
+            },
+            {
+              "area": "臺南縣",
+              "no": "2",
+              "name": "蘇煥智",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 274086,
+              "elected": true,
+              "share": 51.4972
+            },
+            {
+              "area": "臺南縣",
+              "no": "3",
+              "name": "魏耀乾",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 21479,
+              "elected": false,
+              "share": 4.0356
+            }
+          ],
+          "population": 1106619,
+          "electors": 802135,
+          "votesCast": 539627,
+          "validVotes": 532235,
+          "invalidVotes": 7392,
+          "turnout": 67.27,
+          "winner": {
+            "area": "臺南縣",
+            "no": "2",
+            "name": "蘇煥智",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 274086,
+            "elected": true,
+            "share": 51.4972
+          },
+          "margin": 37416
+        },
+        "高雄縣": {
+          "area": "高雄縣",
+          "currentArea": "高雄市",
+          "candidates": [
+            {
+              "area": "高雄縣",
+              "no": "1",
+              "name": "黃八野",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 91323,
+              "elected": false,
+              "share": 15.7488
+            },
+            {
+              "area": "高雄縣",
+              "no": "2",
+              "name": "楊秋興",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 317763,
+              "elected": true,
+              "share": 54.7987
+            },
+            {
+              "area": "高雄縣",
+              "no": "3",
+              "name": "吳光訓",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 170787,
+              "elected": false,
+              "share": 29.4525
+            }
+          ],
+          "population": 1235089,
+          "electors": 889534,
+          "votesCast": 590486,
+          "validVotes": 579873,
+          "invalidVotes": 10613,
+          "turnout": 66.38,
+          "winner": {
+            "area": "高雄縣",
+            "no": "2",
+            "name": "楊秋興",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 317763,
+            "elected": true,
+            "share": 54.7987
+          },
+          "margin": 146976
+        },
+        "屏東縣": {
+          "area": "屏東縣",
+          "currentArea": "屏東縣",
+          "candidates": [
+            {
+              "area": "屏東縣",
+              "no": "1",
+              "name": "李景雯",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 17525,
+              "elected": false,
+              "share": 4.053
+            },
+            {
+              "area": "屏東縣",
+              "no": "2",
+              "name": "王進士",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 175584,
+              "elected": false,
+              "share": 40.6075
+            },
+            {
+              "area": "屏東縣",
+              "no": "3",
+              "name": "蘇嘉全",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 239284,
+              "elected": true,
+              "share": 55.3395
+            }
+          ],
+          "population": 906799,
+          "electors": 655232,
+          "votesCast": 437779,
+          "validVotes": 432393,
+          "invalidVotes": 5386,
+          "turnout": 66.81,
+          "winner": {
+            "area": "屏東縣",
+            "no": "3",
+            "name": "蘇嘉全",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 239284,
+            "elected": true,
+            "share": 55.3395
+          },
+          "margin": 63700
+        },
+        "臺東縣": {
+          "area": "臺東縣",
+          "currentArea": "臺東縣",
+          "candidates": [
+            {
+              "area": "臺東縣",
+              "no": "1",
+              "name": "彭權國",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 1467,
+              "elected": false,
+              "share": 1.4741
+            },
+            {
+              "area": "臺東縣",
+              "no": "2",
+              "name": "徐慶元",
+              "party": "親民黨",
+              "partyKey": "PFP",
+              "votes": 44084,
+              "elected": true,
+              "share": 44.2988
+            },
+            {
+              "area": "臺東縣",
+              "no": "3",
+              "name": "吳俊立",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 36727,
+              "elected": false,
+              "share": 36.906
+            },
+            {
+              "area": "臺東縣",
+              "no": "4",
+              "name": "賴坤成",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 17237,
+              "elected": false,
+              "share": 17.321
+            }
+          ],
+          "population": 244219,
+          "electors": 176884,
+          "votesCast": 101366,
+          "validVotes": 99515,
+          "invalidVotes": 1851,
+          "turnout": 57.31,
+          "winner": {
+            "area": "臺東縣",
+            "no": "2",
+            "name": "徐慶元",
+            "party": "親民黨",
+            "partyKey": "PFP",
+            "votes": 44084,
+            "elected": true,
+            "share": 44.2988
+          },
+          "margin": 7357
+        },
+        "花蓮縣": {
+          "area": "花蓮縣",
+          "currentArea": "花蓮縣",
+          "candidates": [
+            {
+              "area": "花蓮縣",
+              "no": "1",
+              "name": "游盈隆",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 47596,
+              "elected": false,
+              "share": 31.3712
+            },
+            {
+              "area": "花蓮縣",
+              "no": "2",
+              "name": "賴政雄",
+              "party": "親民黨",
+              "partyKey": "PFP",
+              "votes": 41752,
+              "elected": false,
+              "share": 27.5193
+            },
+            {
+              "area": "花蓮縣",
+              "no": "3",
+              "name": "莊三修",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 1481,
+              "elected": false,
+              "share": 0.9761
+            },
+            {
+              "area": "花蓮縣",
+              "no": "4",
+              "name": "齊淑英",
+              "party": "綠黨",
+              "partyKey": "OTHER",
+              "votes": 1299,
+              "elected": false,
+              "share": 0.8562
+            },
+            {
+              "area": "花蓮縣",
+              "no": "5",
+              "name": "張福興",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 59591,
+              "elected": true,
+              "share": 39.2772
+            }
+          ],
+          "population": 352809,
+          "electors": 254081,
+          "votesCast": 154237,
+          "validVotes": 151719,
+          "invalidVotes": 2518,
+          "turnout": 60.7,
+          "winner": {
+            "area": "花蓮縣",
+            "no": "5",
+            "name": "張福興",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 59591,
+            "elected": true,
+            "share": 39.2772
+          },
+          "margin": 11995
+        },
+        "澎湖縣": {
+          "area": "澎湖縣",
+          "currentArea": "澎湖縣",
+          "candidates": [
+            {
+              "area": "澎湖縣",
+              "no": "1",
+              "name": "賴峰偉",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 22094,
+              "elected": true,
+              "share": 55.3249
+            },
+            {
+              "area": "澎湖縣",
+              "no": "2",
+              "name": "陳光復",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 14477,
+              "elected": false,
+              "share": 36.2514
+            },
+            {
+              "area": "澎湖縣",
+              "no": "3",
+              "name": "許麗音",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 3364,
+              "elected": false,
+              "share": 8.4237
+            }
+          ],
+          "population": 91052,
+          "electors": 67252,
+          "votesCast": 40705,
+          "validVotes": 39935,
+          "invalidVotes": 770,
+          "turnout": 60.53,
+          "winner": {
+            "area": "澎湖縣",
+            "no": "1",
+            "name": "賴峰偉",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 22094,
+            "elected": true,
+            "share": 55.3249
+          },
+          "margin": 7617
+        },
+        "連江縣": {
+          "area": "連江縣",
+          "currentArea": "連江縣",
+          "candidates": [
+            {
+              "area": "連江縣",
+              "no": "1",
+              "name": "陳雪生",
+              "party": "親民黨",
+              "partyKey": "PFP",
+              "votes": 2549,
+              "elected": true,
+              "share": 55.8012
+            },
+            {
+              "area": "連江縣",
+              "no": "2",
+              "name": "劉立群",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 2019,
+              "elected": false,
+              "share": 44.1988
+            }
+          ],
+          "population": 8316,
+          "electors": 6230,
+          "votesCast": 4679,
+          "validVotes": 4568,
+          "invalidVotes": 111,
+          "turnout": 75.1,
+          "winner": {
+            "area": "連江縣",
+            "no": "1",
+            "name": "陳雪生",
+            "party": "親民黨",
+            "partyKey": "PFP",
+            "votes": 2549,
+            "elected": true,
+            "share": 55.8012
+          },
+          "margin": 530
+        },
+        "金門縣": {
+          "area": "金門縣",
+          "currentArea": "金門縣",
+          "candidates": [
+            {
+              "area": "金門縣",
+              "no": "1",
+              "name": "翁天慶",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 300,
+              "elected": false,
+              "share": 1.1909
+            },
+            {
+              "area": "金門縣",
+              "no": "2",
+              "name": "李炷烽",
+              "party": "新黨",
+              "partyKey": "NP",
+              "votes": 14148,
+              "elected": true,
+              "share": 56.1651
+            },
+            {
+              "area": "金門縣",
+              "no": "3",
+              "name": "蔡是民",
+              "party": "親民黨",
+              "partyKey": "PFP",
+              "votes": 7224,
+              "elected": false,
+              "share": 28.678
+            },
+            {
+              "area": "金門縣",
+              "no": "4",
+              "name": "陳川青",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 448,
+              "elected": false,
+              "share": 1.7785
+            },
+            {
+              "area": "金門縣",
+              "no": "5",
+              "name": "陳昭南",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 1562,
+              "elected": false,
+              "share": 6.2009
+            },
+            {
+              "area": "金門縣",
+              "no": "6",
+              "name": "許金象",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 1508,
+              "elected": false,
+              "share": 5.9865
+            }
+          ],
+          "population": 56215,
+          "electors": 39991,
+          "votesCast": 25716,
+          "validVotes": 25190,
+          "invalidVotes": 526,
+          "turnout": 64.3,
+          "winner": {
+            "area": "金門縣",
+            "no": "2",
+            "name": "李炷烽",
+            "party": "新黨",
+            "partyKey": "NP",
+            "votes": 14148,
+            "elected": true,
+            "share": 56.1651
+          },
+          "margin": 6924
+        },
+        "基隆市": {
+          "area": "基隆市",
+          "currentArea": "基隆市",
+          "candidates": [
+            {
+              "area": "基隆市",
+              "no": "1",
+              "name": "許財利",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 100070,
+              "elected": true,
+              "share": 58.085
+            },
+            {
+              "area": "基隆市",
+              "no": "2",
+              "name": "李進勇",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 72212,
+              "elected": false,
+              "share": 41.915
+            }
+          ],
+          "population": 389992,
+          "electors": 280531,
+          "votesCast": 176932,
+          "validVotes": 172282,
+          "invalidVotes": 4650,
+          "turnout": 63.07,
+          "winner": {
+            "area": "基隆市",
+            "no": "1",
+            "name": "許財利",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 100070,
+            "elected": true,
+            "share": 58.085
+          },
+          "margin": 27858
+        },
+        "新竹市": {
+          "area": "新竹市",
+          "currentArea": "新竹市",
+          "candidates": [
+            {
+              "area": "新竹市",
+              "no": "1",
+              "name": "蔡仁堅",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 69165,
+              "elected": false,
+              "share": 42.7692
+            },
+            {
+              "area": "新竹市",
+              "no": "2",
+              "name": "王少泉",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 801,
+              "elected": false,
+              "share": 0.4953
+            },
+            {
+              "area": "新竹市",
+              "no": "3",
+              "name": "林政則",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 90580,
+              "elected": true,
+              "share": 56.0114
+            },
+            {
+              "area": "新竹市",
+              "no": "4",
+              "name": "黃中媄",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 1171,
+              "elected": false,
+              "share": 0.7241
+            }
+          ],
+          "population": 371295,
+          "electors": 257470,
+          "votesCast": 164561,
+          "validVotes": 161717,
+          "invalidVotes": 2844,
+          "turnout": 63.91,
+          "winner": {
+            "area": "新竹市",
+            "no": "3",
+            "name": "林政則",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 90580,
+            "elected": true,
+            "share": 56.0114
+          },
+          "margin": 21415
+        },
+        "臺中市": {
+          "area": "臺中市",
+          "currentArea": "臺中市",
+          "candidates": [
+            {
+              "area": "臺中市",
+              "no": "1",
+              "name": "張溫鷹",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 44341,
+              "elected": false,
+              "share": 10.1764
+            },
+            {
+              "area": "臺中市",
+              "no": "2",
+              "name": "蔡明憲",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 177515,
+              "elected": false,
+              "share": 40.7404
+            },
+            {
+              "area": "臺中市",
+              "no": "3",
+              "name": "胡志強",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 213866,
+              "elected": true,
+              "share": 49.0831
+            }
+          ],
+          "population": 978467,
+          "electors": 666557,
+          "votesCast": 440198,
+          "validVotes": 435722,
+          "invalidVotes": 4476,
+          "turnout": 66.04,
+          "winner": {
+            "area": "臺中市",
+            "no": "3",
+            "name": "胡志強",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 213866,
+            "elected": true,
+            "share": 49.0831
+          },
+          "margin": 36351
+        },
+        "嘉義市": {
+          "area": "嘉義市",
+          "currentArea": "嘉義市",
+          "candidates": [
+            {
+              "area": "嘉義市",
+              "no": "1",
+              "name": "蕭裕珍",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 1601,
+              "elected": false,
+              "share": 1.3353
+            },
+            {
+              "area": "嘉義市",
+              "no": "2",
+              "name": "黃正男",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 14439,
+              "elected": false,
+              "share": 12.0431
+            },
+            {
+              "area": "嘉義市",
+              "no": "3",
+              "name": "張榮藏",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 8476,
+              "elected": false,
+              "share": 7.0696
+            },
+            {
+              "area": "嘉義市",
+              "no": "4",
+              "name": "陳麗貞",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 53764,
+              "elected": true,
+              "share": 44.8429
+            },
+            {
+              "area": "嘉義市",
+              "no": "5",
+              "name": "江清馦",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 41614,
+              "elected": false,
+              "share": 34.709
+            }
+          ],
+          "population": 267821,
+          "electors": 186851,
+          "votesCast": 121596,
+          "validVotes": 119894,
+          "invalidVotes": 1702,
+          "turnout": 65.08,
+          "winner": {
+            "area": "嘉義市",
+            "no": "4",
+            "name": "陳麗貞",
+            "party": "無黨籍及未經政黨推薦",
+            "partyKey": "IND",
+            "votes": 53764,
+            "elected": true,
+            "share": 44.8429
+          },
+          "margin": 12150
+        },
+        "臺南市": {
+          "area": "臺南市",
+          "currentArea": "臺南市",
+          "candidates": [
+            {
+              "area": "臺南市",
+              "no": "1",
+              "name": "林易煌",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 6098,
+              "elected": false,
+              "share": 1.8585
+            },
+            {
+              "area": "臺南市",
+              "no": "2",
+              "name": "張燦鍙",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 9520,
+              "elected": false,
+              "share": 2.9014
+            },
+            {
+              "area": "臺南市",
+              "no": "3",
+              "name": "蘇南成",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 47133,
+              "elected": false,
+              "share": 14.3645
+            },
+            {
+              "area": "臺南市",
+              "no": "4",
+              "name": "陳榮盛",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 122726,
+              "elected": false,
+              "share": 37.4027
+            },
+            {
+              "area": "臺南市",
+              "no": "5",
+              "name": "陳源奇",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 804,
+              "elected": false,
+              "share": 0.245
+            },
+            {
+              "area": "臺南市",
+              "no": "6",
+              "name": "許添財",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 141840,
+              "elected": true,
+              "share": 43.228
+            }
+          ],
+          "population": 738811,
+          "electors": 522744,
+          "votesCast": 332658,
+          "validVotes": 328121,
+          "invalidVotes": 4537,
+          "turnout": 63.64,
+          "winner": {
+            "area": "臺南市",
+            "no": "6",
+            "name": "許添財",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 141840,
+            "elected": true,
+            "share": 43.228
+          },
+          "margin": 19114
+        },
+        "臺北市": {
+          "area": "臺北市",
+          "currentArea": "臺北市",
+          "candidates": [
+            {
+              "area": "臺北市",
+              "no": "1",
+              "name": "李應元",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 488811,
+              "elected": false,
+              "share": 35.8915
+            },
+            {
+              "area": "臺北市",
+              "no": "2",
+              "name": "馬英九",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 873102,
+              "elected": true,
+              "share": 64.1085
+            }
+          ],
+          "population": 2639094,
+          "electors": 1947169,
+          "votesCast": 1374862,
+          "validVotes": 1361913,
+          "invalidVotes": 12949,
+          "turnout": 70.61,
+          "winner": {
+            "area": "臺北市",
+            "no": "2",
+            "name": "馬英九",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 873102,
+            "elected": true,
+            "share": 64.1085
+          },
+          "margin": 384291
+        },
+        "高雄市": {
+          "area": "高雄市",
+          "currentArea": "高雄市",
+          "candidates": [
+            {
+              "area": "高雄市",
+              "no": "1",
+              "name": "施明德",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 8750,
+              "elected": false,
+              "share": 1.1332
+            },
+            {
+              "area": "高雄市",
+              "no": "2",
+              "name": "張博雅",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 13479,
+              "elected": false,
+              "share": 1.7456
+            },
+            {
+              "area": "高雄市",
+              "no": "3",
+              "name": "黃天生",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 1998,
+              "elected": false,
+              "share": 0.2588
+            },
+            {
+              "area": "高雄市",
+              "no": "4",
+              "name": "黃俊英",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 361546,
+              "elected": false,
+              "share": 46.8229
+            },
+            {
+              "area": "高雄市",
+              "no": "5",
+              "name": "謝長廷",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 386384,
+              "elected": true,
+              "share": 50.0396
+            }
+          ],
+          "population": 1508761,
+          "electors": 1092668,
+          "votesCast": 779911,
+          "validVotes": 772157,
+          "invalidVotes": 7754,
+          "turnout": 71.38,
+          "winner": {
+            "area": "高雄市",
+            "no": "5",
+            "name": "謝長廷",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 386384,
+            "elected": true,
+            "share": 50.0396
+          },
+          "margin": 24838
+        }
+      },
+      "currentAreas": {
+        "新北市": [
+          "臺北縣"
+        ],
+        "宜蘭縣": [
+          "宜蘭縣"
+        ],
+        "桃園市": [
+          "桃園縣"
+        ],
+        "新竹縣": [
+          "新竹縣"
+        ],
+        "苗栗縣": [
+          "苗栗縣"
+        ],
+        "臺中市": [
+          "臺中縣",
+          "臺中市"
+        ],
+        "彰化縣": [
+          "彰化縣"
+        ],
+        "南投縣": [
+          "南投縣"
+        ],
+        "雲林縣": [
+          "雲林縣"
+        ],
+        "嘉義縣": [
+          "嘉義縣"
+        ],
+        "臺南市": [
+          "臺南縣",
+          "臺南市"
+        ],
+        "高雄市": [
+          "高雄縣",
+          "高雄市"
+        ],
+        "屏東縣": [
+          "屏東縣"
+        ],
+        "臺東縣": [
+          "臺東縣"
+        ],
+        "花蓮縣": [
+          "花蓮縣"
+        ],
+        "澎湖縣": [
+          "澎湖縣"
+        ],
+        "連江縣": [
+          "連江縣"
+        ],
+        "金門縣": [
+          "金門縣"
+        ],
+        "基隆市": [
+          "基隆市"
+        ],
+        "新竹市": [
+          "新竹市"
+        ],
+        "嘉義市": [
+          "嘉義市"
+        ],
+        "臺北市": [
+          "臺北市"
+        ]
+      },
+      "themes": [
+        {
+          "subject": "C2",
+          "themeId": "333346bf02c9949349a6735cebaddf4f",
+          "name": "90年縣市長選舉",
+          "date": "2001-12-01"
+        },
+        {
+          "subject": "C1",
+          "themeId": "a31daef43bd42a9613254e2d3d18fdbd",
+          "name": "91年直轄市長選舉",
+          "date": "2002-12-07"
+        }
+      ],
+      "raceCount": 25,
+      "complete": true
+    },
+    "2006": {
+      "cycleYear": 2006,
+      "date": "2006-12-09",
+      "dates": [
+        "2005-12-03",
+        "2006-12-09"
+      ],
+      "races": {
+        "臺北縣": {
+          "area": "臺北縣",
+          "currentArea": "新北市",
+          "candidates": [
+            {
+              "area": "臺北縣",
+              "no": "1",
+              "name": "黃福卿",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 5639,
+              "elected": false,
+              "share": 0.3129
+            },
+            {
+              "area": "臺北縣",
+              "no": "2",
+              "name": "周錫瑋",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 988739,
+              "elected": true,
+              "share": 54.8668
+            },
+            {
+              "area": "臺北縣",
+              "no": "3",
+              "name": "陳誠鈞",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 2812,
+              "elected": false,
+              "share": 0.156
+            },
+            {
+              "area": "臺北縣",
+              "no": "4",
+              "name": "陳俊傑",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 4064,
+              "elected": false,
+              "share": 0.2255
+            },
+            {
+              "area": "臺北縣",
+              "no": "5",
+              "name": "羅文嘉",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 798233,
+              "elected": false,
+              "share": 44.2953
+            },
+            {
+              "area": "臺北縣",
+              "no": "6",
+              "name": "黃茂全",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 2585,
+              "elected": false,
+              "share": 0.1434
+            }
+          ],
+          "population": 3726039,
+          "electors": 2750960,
+          "votesCast": 1825261,
+          "validVotes": 1802072,
+          "invalidVotes": 23189,
+          "turnout": 66.35,
+          "winner": {
+            "area": "臺北縣",
+            "no": "2",
+            "name": "周錫瑋",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 988739,
+            "elected": true,
+            "share": 54.8668
+          },
+          "margin": 190506
+        },
+        "宜蘭縣": {
+          "area": "宜蘭縣",
+          "currentArea": "宜蘭縣",
+          "candidates": [
+            {
+              "area": "宜蘭縣",
+              "no": "1",
+              "name": "陳定南",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 112853,
+              "elected": false,
+              "share": 47.7511
+            },
+            {
+              "area": "宜蘭縣",
+              "no": "2",
+              "name": "謝李靜宜",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 2020,
+              "elected": false,
+              "share": 0.8547
+            },
+            {
+              "area": "宜蘭縣",
+              "no": "3",
+              "name": "呂國華",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 121463,
+              "elected": true,
+              "share": 51.3942
+            }
+          ],
+          "population": 461505,
+          "electors": 340550,
+          "votesCast": 239236,
+          "validVotes": 236336,
+          "invalidVotes": 2900,
+          "turnout": 70.25,
+          "winner": {
+            "area": "宜蘭縣",
+            "no": "3",
+            "name": "呂國華",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 121463,
+            "elected": true,
+            "share": 51.3942
+          },
+          "margin": 8610
+        },
+        "桃園縣": {
+          "area": "桃園縣",
+          "currentArea": "桃園市",
+          "candidates": [
+            {
+              "area": "桃園縣",
+              "no": "1",
+              "name": "朱立倫",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 488979,
+              "elected": true,
+              "share": 60.8389
+            },
+            {
+              "area": "桃園縣",
+              "no": "2",
+              "name": "鄭寶清",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 307965,
+              "elected": false,
+              "share": 38.3171
+            },
+            {
+              "area": "桃園縣",
+              "no": "3",
+              "name": "吳家登",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 6784,
+              "elected": false,
+              "share": 0.8441
+            }
+          ],
+          "population": 1871474,
+          "electors": 1319334,
+          "votesCast": 814908,
+          "validVotes": 803728,
+          "invalidVotes": 11180,
+          "turnout": 61.77,
+          "winner": {
+            "area": "桃園縣",
+            "no": "1",
+            "name": "朱立倫",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 488979,
+            "elected": true,
+            "share": 60.8389
+          },
+          "margin": 181014
+        },
+        "新竹縣": {
+          "area": "新竹縣",
+          "currentArea": "新竹縣",
+          "candidates": [
+            {
+              "area": "新竹縣",
+              "no": "1",
+              "name": "林光華",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 77037,
+              "elected": false,
+              "share": 32.9149
+            },
+            {
+              "area": "新竹縣",
+              "no": "2",
+              "name": "鄭永金",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 157012,
+              "elected": true,
+              "share": 67.0851
+            }
+          ],
+          "population": 474265,
+          "electors": 335906,
+          "votesCast": 238887,
+          "validVotes": 234049,
+          "invalidVotes": 4838,
+          "turnout": 71.12,
+          "winner": {
+            "area": "新竹縣",
+            "no": "2",
+            "name": "鄭永金",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 157012,
+            "elected": true,
+            "share": 67.0851
+          },
+          "margin": 79975
+        },
+        "苗栗縣": {
+          "area": "苗栗縣",
+          "currentArea": "苗栗縣",
+          "candidates": [
+            {
+              "area": "苗栗縣",
+              "no": "1",
+              "name": "顏培元",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 3061,
+              "elected": false,
+              "share": 1.0921
+            },
+            {
+              "area": "苗栗縣",
+              "no": "2",
+              "name": "陳秀龍",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 9718,
+              "elected": false,
+              "share": 3.4672
+            },
+            {
+              "area": "苗栗縣",
+              "no": "3",
+              "name": "劉政鴻",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 134277,
+              "elected": true,
+              "share": 47.9075
+            },
+            {
+              "area": "苗栗縣",
+              "no": "4",
+              "name": "邱炳坤",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 83694,
+              "elected": false,
+              "share": 29.8604
+            },
+            {
+              "area": "苗栗縣",
+              "no": "5",
+              "name": "徐耀昌",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 47834,
+              "elected": false,
+              "share": 17.0663
+            },
+            {
+              "area": "苗栗縣",
+              "no": "6",
+              "name": "江炳輝",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 1700,
+              "elected": false,
+              "share": 0.6065
+            }
+          ],
+          "population": 559558,
+          "electors": 411296,
+          "votesCast": 285632,
+          "validVotes": 280284,
+          "invalidVotes": 5348,
+          "turnout": 69.45,
+          "winner": {
+            "area": "苗栗縣",
+            "no": "3",
+            "name": "劉政鴻",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 134277,
+            "elected": true,
+            "share": 47.9075
+          },
+          "margin": 50583
+        },
+        "臺中縣": {
+          "area": "臺中縣",
+          "currentArea": "臺中市",
+          "candidates": [
+            {
+              "area": "臺中縣",
+              "no": "1",
+              "name": "邱太三",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 275153,
+              "elected": false,
+              "share": 39.1175
+            },
+            {
+              "area": "臺中縣",
+              "no": "2",
+              "name": "黃仲生",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 418144,
+              "elected": true,
+              "share": 59.446
+            },
+            {
+              "area": "臺中縣",
+              "no": "3",
+              "name": "林振昌",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 10104,
+              "elected": false,
+              "share": 1.4364
+            }
+          ],
+          "population": 1530298,
+          "electors": 1092962,
+          "votesCast": 719004,
+          "validVotes": 703401,
+          "invalidVotes": 15603,
+          "turnout": 65.78,
+          "winner": {
+            "area": "臺中縣",
+            "no": "2",
+            "name": "黃仲生",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 418144,
+            "elected": true,
+            "share": 59.446
+          },
+          "margin": 142991
+        },
+        "彰化縣": {
+          "area": "彰化縣",
+          "currentArea": "彰化縣",
+          "candidates": [
+            {
+              "area": "彰化縣",
+              "no": "1",
+              "name": "翁金珠",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 270949,
+              "elected": false,
+              "share": 40.5233
+            },
+            {
+              "area": "彰化縣",
+              "no": "2",
+              "name": "卓伯源",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 370790,
+              "elected": true,
+              "share": 55.4555
+            },
+            {
+              "area": "彰化縣",
+              "no": "3",
+              "name": "陳進丁",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 26887,
+              "elected": false,
+              "share": 4.0212
+            }
+          ],
+          "population": 1315020,
+          "electors": 961048,
+          "votesCast": 683919,
+          "validVotes": 668626,
+          "invalidVotes": 15293,
+          "turnout": 71.16,
+          "winner": {
+            "area": "彰化縣",
+            "no": "2",
+            "name": "卓伯源",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 370790,
+            "elected": true,
+            "share": 55.4555
+          },
+          "margin": 99841
+        },
+        "南投縣": {
+          "area": "南投縣",
+          "currentArea": "南投縣",
+          "candidates": [
+            {
+              "area": "南投縣",
+              "no": "1",
+              "name": "林宗男",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 60793,
+              "elected": false,
+              "share": 22.0789
+            },
+            {
+              "area": "南投縣",
+              "no": "2",
+              "name": "林明溱",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 6271,
+              "elected": false,
+              "share": 2.2775
+            },
+            {
+              "area": "南投縣",
+              "no": "3",
+              "name": "李朝卿",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 124777,
+              "elected": true,
+              "share": 45.3168
+            },
+            {
+              "area": "南投縣",
+              "no": "4",
+              "name": "蔡煌瑯",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 83503,
+              "elected": false,
+              "share": 30.3268
+            }
+          ],
+          "population": 537345,
+          "electors": 398903,
+          "votesCast": 281147,
+          "validVotes": 275344,
+          "invalidVotes": 5803,
+          "turnout": 70.48,
+          "winner": {
+            "area": "南投縣",
+            "no": "3",
+            "name": "李朝卿",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 124777,
+            "elected": true,
+            "share": 45.3168
+          },
+          "margin": 41274
+        },
+        "雲林縣": {
+          "area": "雲林縣",
+          "currentArea": "雲林縣",
+          "candidates": [
+            {
+              "area": "雲林縣",
+              "no": "1",
+              "name": "林佳瑜",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 8125,
+              "elected": false,
+              "share": 2.1551
+            },
+            {
+              "area": "雲林縣",
+              "no": "2",
+              "name": "蘇治芬",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 201192,
+              "elected": true,
+              "share": 53.3656
+            },
+            {
+              "area": "雲林縣",
+              "no": "3",
+              "name": "許舒博",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 167690,
+              "elected": false,
+              "share": 44.4793
+            }
+          ],
+          "population": 734052,
+          "electors": 553486,
+          "votesCast": 385924,
+          "validVotes": 377007,
+          "invalidVotes": 8917,
+          "turnout": 69.73,
+          "winner": {
+            "area": "雲林縣",
+            "no": "2",
+            "name": "蘇治芬",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 201192,
+            "elected": true,
+            "share": 53.3656
+          },
+          "margin": 33502
+        },
+        "嘉義縣": {
+          "area": "嘉義縣",
+          "currentArea": "嘉義縣",
+          "candidates": [
+            {
+              "area": "嘉義縣",
+              "no": "1",
+              "name": "陳明文",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 183476,
+              "elected": true,
+              "share": 62.6908
+            },
+            {
+              "area": "嘉義縣",
+              "no": "2",
+              "name": "陳明振",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 109192,
+              "elected": false,
+              "share": 37.3092
+            }
+          ],
+          "population": 556365,
+          "electors": 422387,
+          "votesCast": 302614,
+          "validVotes": 292668,
+          "invalidVotes": 9946,
+          "turnout": 71.64,
+          "winner": {
+            "area": "嘉義縣",
+            "no": "1",
+            "name": "陳明文",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 183476,
+            "elected": true,
+            "share": 62.6908
+          },
+          "margin": 74284
+        },
+        "臺南縣": {
+          "area": "臺南縣",
+          "currentArea": "臺南市",
+          "candidates": [
+            {
+              "area": "臺南縣",
+              "no": "1",
+              "name": "郭添財",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 250887,
+              "elected": false,
+              "share": 47.1581
+            },
+            {
+              "area": "臺南縣",
+              "no": "2",
+              "name": "張博森",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 8232,
+              "elected": false,
+              "share": 1.5473
+            },
+            {
+              "area": "臺南縣",
+              "no": "3",
+              "name": "蘇煥智",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 267583,
+              "elected": true,
+              "share": 50.2964
+            },
+            {
+              "area": "臺南縣",
+              "no": "4",
+              "name": "蔡四結",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 5310,
+              "elected": false,
+              "share": 0.9981
+            }
+          ],
+          "population": 1105050,
+          "electors": 834609,
+          "votesCast": 544013,
+          "validVotes": 532012,
+          "invalidVotes": 12001,
+          "turnout": 65.18,
+          "winner": {
+            "area": "臺南縣",
+            "no": "3",
+            "name": "蘇煥智",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 267583,
+            "elected": true,
+            "share": 50.2964
+          },
+          "margin": 16696
+        },
+        "高雄縣": {
+          "area": "高雄縣",
+          "currentArea": "高雄市",
+          "candidates": [
+            {
+              "area": "高雄縣",
+              "no": "1",
+              "name": "楊秋興",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 353232,
+              "elected": true,
+              "share": 59.1434
+            },
+            {
+              "area": "高雄縣",
+              "no": "2",
+              "name": "林益世",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 244015,
+              "elected": false,
+              "share": 40.8566
+            }
+          ],
+          "population": 1240203,
+          "electors": 928781,
+          "votesCast": 608078,
+          "validVotes": 597247,
+          "invalidVotes": 10831,
+          "turnout": 65.47,
+          "winner": {
+            "area": "高雄縣",
+            "no": "1",
+            "name": "楊秋興",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 353232,
+            "elected": true,
+            "share": 59.1434
+          },
+          "margin": 109217
+        },
+        "屏東縣": {
+          "area": "屏東縣",
+          "currentArea": "屏東縣",
+          "candidates": [
+            {
+              "area": "屏東縣",
+              "no": "1",
+              "name": "曹啟鴻",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 216200,
+              "elected": true,
+              "share": 46.1859
+            },
+            {
+              "area": "屏東縣",
+              "no": "2",
+              "name": "宋麗華",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 45257,
+              "elected": false,
+              "share": 9.6681
+            },
+            {
+              "area": "屏東縣",
+              "no": "3",
+              "name": "王進士",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 195928,
+              "elected": false,
+              "share": 41.8553
+            },
+            {
+              "area": "屏東縣",
+              "no": "4",
+              "name": "李景雯",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 10723,
+              "elected": false,
+              "share": 2.2907
+            }
+          ],
+          "population": 898611,
+          "electors": 672781,
+          "votesCast": 475542,
+          "validVotes": 468108,
+          "invalidVotes": 7434,
+          "turnout": 70.68,
+          "winner": {
+            "area": "屏東縣",
+            "no": "1",
+            "name": "曹啟鴻",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 216200,
+            "elected": true,
+            "share": 46.1859
+          },
+          "margin": 20272
+        },
+        "臺東縣": {
+          "area": "臺東縣",
+          "currentArea": "臺東縣",
+          "candidates": [
+            {
+              "area": "臺東縣",
+              "no": "1",
+              "name": "劉櫂豪",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 40173,
+              "elected": false,
+              "share": 38.2309
+            },
+            {
+              "area": "臺東縣",
+              "no": "2",
+              "name": "吳俊立",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 62189,
+              "elected": true,
+              "share": 59.1825
+            },
+            {
+              "area": "臺東縣",
+              "no": "3",
+              "name": "彭權國",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 2718,
+              "elected": false,
+              "share": 2.5866
+            }
+          ],
+          "population": 239184,
+          "electors": 178785,
+          "votesCast": 108186,
+          "validVotes": 105080,
+          "invalidVotes": 3106,
+          "turnout": 60.51,
+          "winner": {
+            "area": "臺東縣",
+            "no": "2",
+            "name": "吳俊立",
+            "party": "無黨籍及未經政黨推薦",
+            "partyKey": "IND",
+            "votes": 62189,
+            "elected": true,
+            "share": 59.1825
+          },
+          "margin": 22016
+        },
+        "花蓮縣": {
+          "area": "花蓮縣",
+          "currentArea": "花蓮縣",
+          "candidates": [
+            {
+              "area": "花蓮縣",
+              "no": "1",
+              "name": "柯賜海",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 20113,
+              "elected": false,
+              "share": 12.8884
+            },
+            {
+              "area": "花蓮縣",
+              "no": "2",
+              "name": "盧博基",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 30988,
+              "elected": false,
+              "share": 19.8571
+            },
+            {
+              "area": "花蓮縣",
+              "no": "3",
+              "name": "謝深山",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 66575,
+              "elected": true,
+              "share": 42.6612
+            },
+            {
+              "area": "花蓮縣",
+              "no": "4",
+              "name": "傅崐萁",
+              "party": "親民黨",
+              "partyKey": "PFP",
+              "votes": 38379,
+              "elected": false,
+              "share": 24.5933
+            }
+          ],
+          "population": 347641,
+          "electors": 258736,
+          "votesCast": 159377,
+          "validVotes": 156055,
+          "invalidVotes": 3322,
+          "turnout": 61.6,
+          "winner": {
+            "area": "花蓮縣",
+            "no": "3",
+            "name": "謝深山",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 66575,
+            "elected": true,
+            "share": 42.6612
+          },
+          "margin": 28196
+        },
+        "澎湖縣": {
+          "area": "澎湖縣",
+          "currentArea": "澎湖縣",
+          "candidates": [
+            {
+              "area": "澎湖縣",
+              "no": "1",
+              "name": "陳光復",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 23964,
+              "elected": false,
+              "share": 48.1601
+            },
+            {
+              "area": "澎湖縣",
+              "no": "2",
+              "name": "王乾發",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 25223,
+              "elected": true,
+              "share": 50.6903
+            },
+            {
+              "area": "澎湖縣",
+              "no": "3",
+              "name": "許敬民",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 572,
+              "elected": false,
+              "share": 1.1495
+            }
+          ],
+          "population": 92362,
+          "electors": 70427,
+          "votesCast": 50820,
+          "validVotes": 49759,
+          "invalidVotes": 1061,
+          "turnout": 72.16,
+          "winner": {
+            "area": "澎湖縣",
+            "no": "2",
+            "name": "王乾發",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 25223,
+            "elected": true,
+            "share": 50.6903
+          },
+          "margin": 1259
+        },
+        "連江縣": {
+          "area": "連江縣",
+          "currentArea": "連江縣",
+          "candidates": [
+            {
+              "area": "連江縣",
+              "no": "1",
+              "name": "吳軾子",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 127,
+              "elected": false,
+              "share": 2.5918
+            },
+            {
+              "area": "連江縣",
+              "no": "2",
+              "name": "陳雪生",
+              "party": "親民黨",
+              "partyKey": "PFP",
+              "votes": 2592,
+              "elected": true,
+              "share": 52.898
+            },
+            {
+              "area": "連江縣",
+              "no": "3",
+              "name": "楊綏生",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 2181,
+              "elected": false,
+              "share": 44.5102
+            }
+          ],
+          "population": 10527,
+          "electors": 8170,
+          "votesCast": 4983,
+          "validVotes": 4900,
+          "invalidVotes": 83,
+          "turnout": 60.99,
+          "winner": {
+            "area": "連江縣",
+            "no": "2",
+            "name": "陳雪生",
+            "party": "親民黨",
+            "partyKey": "PFP",
+            "votes": 2592,
+            "elected": true,
+            "share": 52.898
+          },
+          "margin": 411
+        },
+        "金門縣": {
+          "area": "金門縣",
+          "currentArea": "金門縣",
+          "candidates": [
+            {
+              "area": "金門縣",
+              "no": "1",
+              "name": "陳福海",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 13941,
+              "elected": false,
+              "share": 43.5915
+            },
+            {
+              "area": "金門縣",
+              "no": "2",
+              "name": "陳平",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 682,
+              "elected": false,
+              "share": 2.1325
+            },
+            {
+              "area": "金門縣",
+              "no": "3",
+              "name": "李炷烽",
+              "party": "新黨",
+              "partyKey": "NP",
+              "votes": 17358,
+              "elected": true,
+              "share": 54.276
+            }
+          ],
+          "population": 68265,
+          "electors": 52039,
+          "votesCast": 32669,
+          "validVotes": 31981,
+          "invalidVotes": 688,
+          "turnout": 62.78,
+          "winner": {
+            "area": "金門縣",
+            "no": "3",
+            "name": "李炷烽",
+            "party": "新黨",
+            "partyKey": "NP",
+            "votes": 17358,
+            "elected": true,
+            "share": 54.276
+          },
+          "margin": 3417
+        },
+        "基隆市": {
+          "area": "基隆市",
+          "currentArea": "基隆市",
+          "candidates": [
+            {
+              "area": "基隆市",
+              "no": "1",
+              "name": "陳建銘",
+              "party": "台灣團結聯盟",
+              "partyKey": "OTHER",
+              "votes": 58243,
+              "elected": false,
+              "share": 31.4643
+            },
+            {
+              "area": "基隆市",
+              "no": "2",
+              "name": "許財利",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 76162,
+              "elected": true,
+              "share": 41.1446
+            },
+            {
+              "area": "基隆市",
+              "no": "3",
+              "name": "劉文雄",
+              "party": "親民黨",
+              "partyKey": "PFP",
+              "votes": 47932,
+              "elected": false,
+              "share": 25.8941
+            },
+            {
+              "area": "基隆市",
+              "no": "4",
+              "name": "王拓",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 2771,
+              "elected": false,
+              "share": 1.497
+            }
+          ],
+          "population": 392084,
+          "electors": 292330,
+          "votesCast": 187248,
+          "validVotes": 185108,
+          "invalidVotes": 2140,
+          "turnout": 64.05,
+          "winner": {
+            "area": "基隆市",
+            "no": "2",
+            "name": "許財利",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 76162,
+            "elected": true,
+            "share": 41.1446
+          },
+          "margin": 17919
+        },
+        "新竹市": {
+          "area": "新竹市",
+          "currentArea": "新竹市",
+          "candidates": [
+            {
+              "area": "新竹市",
+              "no": "1",
+              "name": "鄭貴元",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 49777,
+              "elected": false,
+              "share": 30.7269
+            },
+            {
+              "area": "新竹市",
+              "no": "2",
+              "name": "林政則",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 112221,
+              "elected": true,
+              "share": 69.2731
+            }
+          ],
+          "population": 389488,
+          "electors": 277182,
+          "votesCast": 165189,
+          "validVotes": 161998,
+          "invalidVotes": 3191,
+          "turnout": 59.6,
+          "winner": {
+            "area": "新竹市",
+            "no": "2",
+            "name": "林政則",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 112221,
+            "elected": true,
+            "share": 69.2731
+          },
+          "margin": 62444
+        },
+        "臺中市": {
+          "area": "臺中市",
+          "currentArea": "臺中市",
+          "candidates": [
+            {
+              "area": "臺中市",
+              "no": "1",
+              "name": "李貴富",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 1897,
+              "elected": false,
+              "share": 0.4214
+            },
+            {
+              "area": "臺中市",
+              "no": "2",
+              "name": "沈智慧",
+              "party": "親民黨",
+              "partyKey": "PFP",
+              "votes": 10061,
+              "elected": false,
+              "share": 2.2347
+            },
+            {
+              "area": "臺中市",
+              "no": "3",
+              "name": "林佳龍",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 175592,
+              "elected": false,
+              "share": 39.0016
+            },
+            {
+              "area": "臺中市",
+              "no": "4",
+              "name": "胡志強",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 262667,
+              "elected": true,
+              "share": 58.3423
+            }
+          ],
+          "population": 1029644,
+          "electors": 729990,
+          "votesCast": 454558,
+          "validVotes": 450217,
+          "invalidVotes": 4341,
+          "turnout": 62.27,
+          "winner": {
+            "area": "臺中市",
+            "no": "4",
+            "name": "胡志強",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 262667,
+            "elected": true,
+            "share": 58.3423
+          },
+          "margin": 87075
+        },
+        "嘉義市": {
+          "area": "嘉義市",
+          "currentArea": "嘉義市",
+          "candidates": [
+            {
+              "area": "嘉義市",
+              "no": "1",
+              "name": "陳麗貞",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 62122,
+              "elected": false,
+              "share": 45.375
+            },
+            {
+              "area": "嘉義市",
+              "no": "2",
+              "name": "黃敏惠",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 74786,
+              "elected": true,
+              "share": 54.625
+            }
+          ],
+          "population": 271949,
+          "electors": 196054,
+          "votesCast": 138746,
+          "validVotes": 136908,
+          "invalidVotes": 1838,
+          "turnout": 70.77,
+          "winner": {
+            "area": "嘉義市",
+            "no": "2",
+            "name": "黃敏惠",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 74786,
+            "elected": true,
+            "share": 54.625
+          },
+          "margin": 12664
+        },
+        "臺南市": {
+          "area": "臺南市",
+          "currentArea": "臺南市",
+          "candidates": [
+            {
+              "area": "臺南市",
+              "no": "1",
+              "name": "陳榮盛",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 134248,
+              "elected": false,
+              "share": 41.4021
+            },
+            {
+              "area": "臺南市",
+              "no": "2",
+              "name": "錢林慧君",
+              "party": "台灣團結聯盟",
+              "partyKey": "OTHER",
+              "votes": 42000,
+              "elected": false,
+              "share": 12.9528
+            },
+            {
+              "area": "臺南市",
+              "no": "3",
+              "name": "許添財",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 148006,
+              "elected": true,
+              "share": 45.6451
+            }
+          ],
+          "population": 756751,
+          "electors": 558363,
+          "votesCast": 329203,
+          "validVotes": 324254,
+          "invalidVotes": 4949,
+          "turnout": 58.96,
+          "winner": {
+            "area": "臺南市",
+            "no": "3",
+            "name": "許添財",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 148006,
+            "elected": true,
+            "share": 45.6451
+          },
+          "margin": 13758
+        },
+        "臺北市": {
+          "area": "臺北市",
+          "currentArea": "臺北市",
+          "candidates": [
+            {
+              "area": "臺北市",
+              "no": "1",
+              "name": "李敖",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 7795,
+              "elected": false,
+              "share": 0.6061
+            },
+            {
+              "area": "臺北市",
+              "no": "2",
+              "name": "周玉蔻",
+              "party": "台灣團結聯盟",
+              "partyKey": "OTHER",
+              "votes": 3372,
+              "elected": false,
+              "share": 0.2622
+            },
+            {
+              "area": "臺北市",
+              "no": "3",
+              "name": "謝長廷",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 525869,
+              "elected": false,
+              "share": 40.889
+            },
+            {
+              "area": "臺北市",
+              "no": "4",
+              "name": "宋楚瑜",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 53281,
+              "elected": false,
+              "share": 4.1429
+            },
+            {
+              "area": "臺北市",
+              "no": "5",
+              "name": "郝龍斌",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 692085,
+              "elected": true,
+              "share": 53.8131
+            },
+            {
+              "area": "臺北市",
+              "no": "6",
+              "name": "柯賜海",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 3687,
+              "elected": false,
+              "share": 0.2867
+            }
+          ],
+          "population": 2627474,
+          "electors": 2008434,
+          "votesCast": 1295790,
+          "validVotes": 1286089,
+          "invalidVotes": 9701,
+          "turnout": 64.52,
+          "winner": {
+            "area": "臺北市",
+            "no": "5",
+            "name": "郝龍斌",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 692085,
+            "elected": true,
+            "share": 53.8131
+          },
+          "margin": 166216
+        },
+        "高雄市": {
+          "area": "高雄市",
+          "currentArea": "高雄市",
+          "candidates": [
+            {
+              "area": "高雄市",
+              "no": "1",
+              "name": "黃俊英",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 378303,
+              "elected": false,
+              "share": 49.2667
+            },
+            {
+              "area": "高雄市",
+              "no": "2",
+              "name": "林志昇",
+              "party": "保護台灣大聯盟",
+              "partyKey": "OTHER",
+              "votes": 1746,
+              "elected": false,
+              "share": 0.2274
+            },
+            {
+              "area": "高雄市",
+              "no": "3",
+              "name": "羅志明",
+              "party": "台灣團結聯盟",
+              "partyKey": "OTHER",
+              "votes": 6599,
+              "elected": false,
+              "share": 0.8594
+            },
+            {
+              "area": "高雄市",
+              "no": "4",
+              "name": "林景元",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 1803,
+              "elected": false,
+              "share": 0.2348
+            },
+            {
+              "area": "高雄市",
+              "no": "5",
+              "name": "陳菊",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 379417,
+              "elected": true,
+              "share": 49.4117
+            }
+          ],
+          "population": 1512255,
+          "electors": 1140110,
+          "votesCast": 774490,
+          "validVotes": 767868,
+          "invalidVotes": 6622,
+          "turnout": 67.93,
+          "winner": {
+            "area": "高雄市",
+            "no": "5",
+            "name": "陳菊",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 379417,
+            "elected": true,
+            "share": 49.4117
+          },
+          "margin": 1114
+        }
+      },
+      "currentAreas": {
+        "新北市": [
+          "臺北縣"
+        ],
+        "宜蘭縣": [
+          "宜蘭縣"
+        ],
+        "桃園市": [
+          "桃園縣"
+        ],
+        "新竹縣": [
+          "新竹縣"
+        ],
+        "苗栗縣": [
+          "苗栗縣"
+        ],
+        "臺中市": [
+          "臺中縣",
+          "臺中市"
+        ],
+        "彰化縣": [
+          "彰化縣"
+        ],
+        "南投縣": [
+          "南投縣"
+        ],
+        "雲林縣": [
+          "雲林縣"
+        ],
+        "嘉義縣": [
+          "嘉義縣"
+        ],
+        "臺南市": [
+          "臺南縣",
+          "臺南市"
+        ],
+        "高雄市": [
+          "高雄縣",
+          "高雄市"
+        ],
+        "屏東縣": [
+          "屏東縣"
+        ],
+        "臺東縣": [
+          "臺東縣"
+        ],
+        "花蓮縣": [
+          "花蓮縣"
+        ],
+        "澎湖縣": [
+          "澎湖縣"
+        ],
+        "連江縣": [
+          "連江縣"
+        ],
+        "金門縣": [
+          "金門縣"
+        ],
+        "基隆市": [
+          "基隆市"
+        ],
+        "新竹市": [
+          "新竹市"
+        ],
+        "嘉義市": [
+          "嘉義市"
+        ],
+        "臺北市": [
+          "臺北市"
+        ]
+      },
+      "themes": [
+        {
+          "subject": "C2",
+          "themeId": "0da76d11a1f55dded2bbc358b26cd293",
+          "name": "94年縣市長選舉",
+          "date": "2005-12-03"
+        },
+        {
+          "subject": "C1",
+          "themeId": "d2ce132760640611c410338a3136e810",
+          "name": "95年直轄市長選舉",
+          "date": "2006-12-09"
+        }
+      ],
+      "raceCount": 25,
+      "complete": true
+    },
+    "2010": {
+      "cycleYear": 2010,
+      "date": "2010-11-27",
+      "dates": [
+        "2009-12-05",
+        "2010-11-27"
+      ],
+      "races": {
+        "宜蘭縣": {
+          "area": "宜蘭縣",
+          "currentArea": "宜蘭縣",
+          "candidates": [
+            {
+              "area": "宜蘭縣",
+              "no": "1",
+              "name": "林聰賢",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 133394,
+              "elected": true,
+              "share": 54.2554
+            },
+            {
+              "area": "宜蘭縣",
+              "no": "2",
+              "name": "呂國華",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 112469,
+              "elected": false,
+              "share": 45.7446
+            }
+          ],
+          "population": 461345,
+          "electors": 351858,
+          "votesCast": 248706,
+          "validVotes": 245863,
+          "invalidVotes": 2843,
+          "turnout": 70.68,
+          "winner": {
+            "area": "宜蘭縣",
+            "no": "1",
+            "name": "林聰賢",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 133394,
+            "elected": true,
+            "share": 54.2554
+          },
+          "margin": 20925
+        },
+        "桃園縣": {
+          "area": "桃園縣",
+          "currentArea": "桃園市",
+          "candidates": [
+            {
+              "area": "桃園縣",
+              "no": "1",
+              "name": "吳富彤",
+              "party": "客家黨",
+              "partyKey": "OTHER",
+              "votes": 15807,
+              "elected": false,
+              "share": 2.0834
+            },
+            {
+              "area": "桃園縣",
+              "no": "2",
+              "name": "鄭文燦",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 346678,
+              "elected": false,
+              "share": 45.6924
+            },
+            {
+              "area": "桃園縣",
+              "no": "3",
+              "name": "吳志揚",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 396237,
+              "elected": true,
+              "share": 52.2243
+            }
+          ],
+          "population": 1974758,
+          "electors": 1437190,
+          "votesCast": 772180,
+          "validVotes": 758722,
+          "invalidVotes": 13458,
+          "turnout": 53.73,
+          "winner": {
+            "area": "桃園縣",
+            "no": "3",
+            "name": "吳志揚",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 396237,
+            "elected": true,
+            "share": 52.2243
+          },
+          "margin": 49559
+        },
+        "新竹縣": {
+          "area": "新竹縣",
+          "currentArea": "新竹縣",
+          "candidates": [
+            {
+              "area": "新竹縣",
+              "no": "1",
+              "name": "邱鏡淳",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 97151,
+              "elected": true,
+              "share": 38.4872
+            },
+            {
+              "area": "新竹縣",
+              "no": "2",
+              "name": "張碧琴",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 76254,
+              "elected": false,
+              "share": 30.2087
+            },
+            {
+              "area": "新竹縣",
+              "no": "3",
+              "name": "彭紹瑾",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 77126,
+              "elected": false,
+              "share": 30.5541
+            },
+            {
+              "area": "新竹縣",
+              "no": "4",
+              "name": "曾錦祥",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 1893,
+              "elected": false,
+              "share": 0.7499
+            }
+          ],
+          "population": 509453,
+          "electors": 369480,
+          "votesCast": 256770,
+          "validVotes": 252424,
+          "invalidVotes": 4346,
+          "turnout": 69.49,
+          "winner": {
+            "area": "新竹縣",
+            "no": "1",
+            "name": "邱鏡淳",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 97151,
+            "elected": true,
+            "share": 38.4872
+          },
+          "margin": 20025
+        },
+        "苗栗縣": {
+          "area": "苗栗縣",
+          "currentArea": "苗栗縣",
+          "candidates": [
+            {
+              "area": "苗栗縣",
+              "no": "1",
+              "name": "楊長鎮",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 95469,
+              "elected": false,
+              "share": 33.5995
+            },
+            {
+              "area": "苗栗縣",
+              "no": "2",
+              "name": "劉政鴻",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 181256,
+              "elected": true,
+              "share": 63.7915
+            },
+            {
+              "area": "苗栗縣",
+              "no": "3",
+              "name": "李佳穆",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 7413,
+              "elected": false,
+              "share": 2.6089
+            }
+          ],
+          "population": 561315,
+          "electors": 425837,
+          "votesCast": 290780,
+          "validVotes": 284138,
+          "invalidVotes": 6642,
+          "turnout": 68.28,
+          "winner": {
+            "area": "苗栗縣",
+            "no": "2",
+            "name": "劉政鴻",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 181256,
+            "elected": true,
+            "share": 63.7915
+          },
+          "margin": 85787
+        },
+        "彰化縣": {
+          "area": "彰化縣",
+          "currentArea": "彰化縣",
+          "candidates": [
+            {
+              "area": "彰化縣",
+              "no": "1",
+              "name": "翁金珠",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 276897,
+              "elected": false,
+              "share": 43.6306
+            },
+            {
+              "area": "彰化縣",
+              "no": "2",
+              "name": "卓伯源",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 348341,
+              "elected": true,
+              "share": 54.888
+            },
+            {
+              "area": "彰化縣",
+              "no": "3",
+              "name": "張春男",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 9402,
+              "elected": false,
+              "share": 1.4815
+            }
+          ],
+          "population": 1311971,
+          "electors": 991741,
+          "votesCast": 650169,
+          "validVotes": 634640,
+          "invalidVotes": 15529,
+          "turnout": 65.56,
+          "winner": {
+            "area": "彰化縣",
+            "no": "2",
+            "name": "卓伯源",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 348341,
+            "elected": true,
+            "share": 54.888
+          },
+          "margin": 71444
+        },
+        "南投縣": {
+          "area": "南投縣",
+          "currentArea": "南投縣",
+          "candidates": [
+            {
+              "area": "南投縣",
+              "no": "1",
+              "name": "陳振盛",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 22170,
+              "elected": false,
+              "share": 8.235
+            },
+            {
+              "area": "南投縣",
+              "no": "2",
+              "name": "李文忠",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 107023,
+              "elected": false,
+              "share": 39.7534
+            },
+            {
+              "area": "南投縣",
+              "no": "3",
+              "name": "李朝卿",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 136951,
+              "elected": true,
+              "share": 50.8701
+            },
+            {
+              "area": "南投縣",
+              "no": "4",
+              "name": "張俊宏",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 3073,
+              "elected": false,
+              "share": 1.1415
+            }
+          ],
+          "population": 530769,
+          "electors": 408006,
+          "votesCast": 276424,
+          "validVotes": 269217,
+          "invalidVotes": 7207,
+          "turnout": 67.75,
+          "winner": {
+            "area": "南投縣",
+            "no": "3",
+            "name": "李朝卿",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 136951,
+            "elected": true,
+            "share": 50.8701
+          },
+          "margin": 29928
+        },
+        "雲林縣": {
+          "area": "雲林縣",
+          "currentArea": "雲林縣",
+          "candidates": [
+            {
+              "area": "雲林縣",
+              "no": "1",
+              "name": "蘇治芬",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 229958,
+              "elected": true,
+              "share": 65.368
+            },
+            {
+              "area": "雲林縣",
+              "no": "2",
+              "name": "吳威志",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 121832,
+              "elected": false,
+              "share": 34.632
+            }
+          ],
+          "population": 722831,
+          "electors": 560207,
+          "votesCast": 361941,
+          "validVotes": 351790,
+          "invalidVotes": 10151,
+          "turnout": 64.61,
+          "winner": {
+            "area": "雲林縣",
+            "no": "1",
+            "name": "蘇治芬",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 229958,
+            "elected": true,
+            "share": 65.368
+          },
+          "margin": 108126
+        },
+        "嘉義縣": {
+          "area": "嘉義縣",
+          "currentArea": "嘉義縣",
+          "candidates": [
+            {
+              "area": "嘉義縣",
+              "no": "1",
+              "name": "翁玉隆",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 2874,
+              "elected": false,
+              "share": 0.9062
+            },
+            {
+              "area": "嘉義縣",
+              "no": "2",
+              "name": "翁重鈞",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 128973,
+              "elected": false,
+              "share": 40.6682
+            },
+            {
+              "area": "嘉義縣",
+              "no": "3",
+              "name": "蕭登標",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 7955,
+              "elected": false,
+              "share": 2.5084
+            },
+            {
+              "area": "嘉義縣",
+              "no": "4",
+              "name": "張花冠",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 177333,
+              "elected": true,
+              "share": 55.9172
+            }
+          ],
+          "population": 547267,
+          "electors": 428673,
+          "votesCast": 322764,
+          "validVotes": 317135,
+          "invalidVotes": 5629,
+          "turnout": 75.29,
+          "winner": {
+            "area": "嘉義縣",
+            "no": "4",
+            "name": "張花冠",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 177333,
+            "elected": true,
+            "share": 55.9172
+          },
+          "margin": 48360
+        },
+        "屏東縣": {
+          "area": "屏東縣",
+          "currentArea": "屏東縣",
+          "candidates": [
+            {
+              "area": "屏東縣",
+              "no": "1",
+              "name": "曹啟鴻",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 270402,
+              "elected": true,
+              "share": 59.3265
+            },
+            {
+              "area": "屏東縣",
+              "no": "2",
+              "name": "周典論",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 185384,
+              "elected": false,
+              "share": 40.6735
+            }
+          ],
+          "population": 882575,
+          "electors": 682475,
+          "votesCast": 464677,
+          "validVotes": 455786,
+          "invalidVotes": 8891,
+          "turnout": 68.09,
+          "winner": {
+            "area": "屏東縣",
+            "no": "1",
+            "name": "曹啟鴻",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 270402,
+            "elected": true,
+            "share": 59.3265
+          },
+          "margin": 85018
+        },
+        "臺東縣": {
+          "area": "臺東縣",
+          "currentArea": "臺東縣",
+          "candidates": [
+            {
+              "area": "臺東縣",
+              "no": "1",
+              "name": "劉櫂豪",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 50802,
+              "elected": false,
+              "share": 47.4094
+            },
+            {
+              "area": "臺東縣",
+              "no": "2",
+              "name": "黃健庭",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 56354,
+              "elected": true,
+              "share": 52.5906
+            }
+          ],
+          "population": 232290,
+          "electors": 178139,
+          "votesCast": 110226,
+          "validVotes": 107156,
+          "invalidVotes": 3070,
+          "turnout": 61.88,
+          "winner": {
+            "area": "臺東縣",
+            "no": "2",
+            "name": "黃健庭",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 56354,
+            "elected": true,
+            "share": 52.5906
+          },
+          "margin": 5552
+        },
+        "花蓮縣": {
+          "area": "花蓮縣",
+          "currentArea": "花蓮縣",
+          "candidates": [
+            {
+              "area": "花蓮縣",
+              "no": "1",
+              "name": "傅崐萁",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 85532,
+              "elected": true,
+              "share": 56.3712
+            },
+            {
+              "area": "花蓮縣",
+              "no": "2",
+              "name": "張志明",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 27595,
+              "elected": false,
+              "share": 18.1869
+            },
+            {
+              "area": "花蓮縣",
+              "no": "3",
+              "name": "杜麗華",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 38603,
+              "elected": false,
+              "share": 25.4419
+            }
+          ],
+          "population": 340910,
+          "electors": 261214,
+          "votesCast": 155357,
+          "validVotes": 151730,
+          "invalidVotes": 3627,
+          "turnout": 59.47,
+          "winner": {
+            "area": "花蓮縣",
+            "no": "1",
+            "name": "傅崐萁",
+            "party": "無黨籍及未經政黨推薦",
+            "partyKey": "IND",
+            "votes": 85532,
+            "elected": true,
+            "share": 56.3712
+          },
+          "margin": 46929
+        },
+        "澎湖縣": {
+          "area": "澎湖縣",
+          "currentArea": "澎湖縣",
+          "candidates": [
+            {
+              "area": "澎湖縣",
+              "no": "1",
+              "name": "蔡見興",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 22069,
+              "elected": false,
+              "share": 48.0701
+            },
+            {
+              "area": "澎湖縣",
+              "no": "2",
+              "name": "王乾發",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 22664,
+              "elected": true,
+              "share": 49.3662
+            },
+            {
+              "area": "澎湖縣",
+              "no": "3",
+              "name": "曾坤炳",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 1177,
+              "elected": false,
+              "share": 2.5637
+            }
+          ],
+          "population": 95751,
+          "electors": 75033,
+          "votesCast": 47516,
+          "validVotes": 45910,
+          "invalidVotes": 1606,
+          "turnout": 63.33,
+          "winner": {
+            "area": "澎湖縣",
+            "no": "2",
+            "name": "王乾發",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 22664,
+            "elected": true,
+            "share": 49.3662
+          },
+          "margin": 595
+        },
+        "連江縣": {
+          "area": "連江縣",
+          "currentArea": "連江縣",
+          "candidates": [
+            {
+              "area": "連江縣",
+              "no": "1",
+              "name": "楊綏生",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 3135,
+              "elected": true,
+              "share": 57.1872
+            },
+            {
+              "area": "連江縣",
+              "no": "2",
+              "name": "陳財能",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 78,
+              "elected": false,
+              "share": 1.4228
+            },
+            {
+              "area": "連江縣",
+              "no": "3",
+              "name": "劉增應",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 2269,
+              "elected": false,
+              "share": 41.39
+            }
+          ],
+          "population": 9890,
+          "electors": 7697,
+          "votesCast": 5561,
+          "validVotes": 5482,
+          "invalidVotes": 79,
+          "turnout": 72.25,
+          "winner": {
+            "area": "連江縣",
+            "no": "1",
+            "name": "楊綏生",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 3135,
+            "elected": true,
+            "share": 57.1872
+          },
+          "margin": 866
+        },
+        "金門縣": {
+          "area": "金門縣",
+          "currentArea": "金門縣",
+          "candidates": [
+            {
+              "area": "金門縣",
+              "no": "1",
+              "name": "梁國棟",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 245,
+              "elected": false,
+              "share": 0.64
+            },
+            {
+              "area": "金門縣",
+              "no": "2",
+              "name": "翁天慶",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 231,
+              "elected": false,
+              "share": 0.6034
+            },
+            {
+              "area": "金門縣",
+              "no": "3",
+              "name": "楊榮祥",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 356,
+              "elected": false,
+              "share": 0.93
+            },
+            {
+              "area": "金門縣",
+              "no": "4",
+              "name": "吳成典",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 11501,
+              "elected": false,
+              "share": 30.0444
+            },
+            {
+              "area": "金門縣",
+              "no": "5",
+              "name": "李沃士",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 14269,
+              "elected": true,
+              "share": 37.2753
+            },
+            {
+              "area": "金門縣",
+              "no": "6",
+              "name": "陳水在",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 11442,
+              "elected": false,
+              "share": 29.8903
+            },
+            {
+              "area": "金門縣",
+              "no": "7",
+              "name": "許敬民",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 236,
+              "elected": false,
+              "share": 0.6165
+            }
+          ],
+          "population": 92602,
+          "electors": 72509,
+          "votesCast": 39011,
+          "validVotes": 38280,
+          "invalidVotes": 731,
+          "turnout": 53.8,
+          "winner": {
+            "area": "金門縣",
+            "no": "5",
+            "name": "李沃士",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 14269,
+            "elected": true,
+            "share": 37.2753
+          },
+          "margin": 2768
+        },
+        "基隆市": {
+          "area": "基隆市",
+          "currentArea": "基隆市",
+          "candidates": [
+            {
+              "area": "基隆市",
+              "no": "1",
+              "name": "林右昌",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 65673,
+              "elected": false,
+              "share": 42.0805
+            },
+            {
+              "area": "基隆市",
+              "no": "2",
+              "name": "李步輝",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 4391,
+              "elected": false,
+              "share": 2.8136
+            },
+            {
+              "area": "基隆市",
+              "no": "3",
+              "name": "張通榮",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 86001,
+              "elected": true,
+              "share": 55.1059
+            }
+          ],
+          "population": 388542,
+          "electors": 299960,
+          "votesCast": 159092,
+          "validVotes": 156065,
+          "invalidVotes": 3027,
+          "turnout": 53.04,
+          "winner": {
+            "area": "基隆市",
+            "no": "3",
+            "name": "張通榮",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 86001,
+            "elected": true,
+            "share": 55.1059
+          },
+          "margin": 20328
+        },
+        "新竹市": {
+          "area": "新竹市",
+          "currentArea": "新竹市",
+          "candidates": [
+            {
+              "area": "新竹市",
+              "no": "1",
+              "name": "許明財",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 92667,
+              "elected": true,
+              "share": 55.6348
+            },
+            {
+              "area": "新竹市",
+              "no": "2",
+              "name": "林修二",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 5074,
+              "elected": false,
+              "share": 3.0463
+            },
+            {
+              "area": "新竹市",
+              "no": "3",
+              "name": "劉俊秀",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 68822,
+              "elected": false,
+              "share": 41.3189
+            }
+          ],
+          "population": 410399,
+          "electors": 298439,
+          "votesCast": 169588,
+          "validVotes": 166563,
+          "invalidVotes": 3025,
+          "turnout": 56.83,
+          "winner": {
+            "area": "新竹市",
+            "no": "1",
+            "name": "許明財",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 92667,
+            "elected": true,
+            "share": 55.6348
+          },
+          "margin": 23845
+        },
+        "嘉義市": {
+          "area": "嘉義市",
+          "currentArea": "嘉義市",
+          "candidates": [
+            {
+              "area": "嘉義市",
+              "no": "1",
+              "name": "黃敏惠",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 69962,
+              "elected": true,
+              "share": 52.1984
+            },
+            {
+              "area": "嘉義市",
+              "no": "2",
+              "name": "林聖芬",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 2801,
+              "elected": false,
+              "share": 2.0898
+            },
+            {
+              "area": "嘉義市",
+              "no": "3",
+              "name": "涂醒哲",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 61268,
+              "elected": false,
+              "share": 45.7118
+            }
+          ],
+          "population": 273861,
+          "electors": 202581,
+          "votesCast": 135641,
+          "validVotes": 134031,
+          "invalidVotes": 1610,
+          "turnout": 66.96,
+          "winner": {
+            "area": "嘉義市",
+            "no": "1",
+            "name": "黃敏惠",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 69962,
+            "elected": true,
+            "share": 52.1984
+          },
+          "margin": 8694
+        },
+        "臺北市": {
+          "area": "臺北市",
+          "currentArea": "臺北市",
+          "candidates": [
+            {
+              "area": "臺北市",
+              "no": "1",
+              "name": "吳炎成",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 1832,
+              "elected": false,
+              "share": 0.1278
+            },
+            {
+              "area": "臺北市",
+              "no": "2",
+              "name": "郝龍斌",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 797865,
+              "elected": true,
+              "share": 55.6494
+            },
+            {
+              "area": "臺北市",
+              "no": "3",
+              "name": "蕭淑華",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 2238,
+              "elected": false,
+              "share": 0.1561
+            },
+            {
+              "area": "臺北市",
+              "no": "4",
+              "name": "吳武明",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 3672,
+              "elected": false,
+              "share": 0.2561
+            },
+            {
+              "area": "臺北市",
+              "no": "5",
+              "name": "蘇貞昌",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 628129,
+              "elected": false,
+              "share": 43.8106
+            }
+          ],
+          "population": 2608923,
+          "electors": 2045925,
+          "votesCast": 1445370,
+          "validVotes": 1433736,
+          "invalidVotes": 11634,
+          "turnout": 70.65,
+          "winner": {
+            "area": "臺北市",
+            "no": "2",
+            "name": "郝龍斌",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 797865,
+            "elected": true,
+            "share": 55.6494
+          },
+          "margin": 169736
+        },
+        "新北市": {
+          "area": "新北市",
+          "currentArea": "新北市",
+          "candidates": [
+            {
+              "area": "新北市",
+              "no": "1",
+              "name": "朱立倫",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 1115536,
+              "elected": true,
+              "share": 52.6088
+            },
+            {
+              "area": "新北市",
+              "no": "2",
+              "name": "蔡英文",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 1004900,
+              "elected": false,
+              "share": 47.3912
+            }
+          ],
+          "population": 3892603,
+          "electors": 3006877,
+          "votesCast": 2142410,
+          "validVotes": 2120436,
+          "invalidVotes": 21974,
+          "turnout": 71.25,
+          "winner": {
+            "area": "新北市",
+            "no": "1",
+            "name": "朱立倫",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 1115536,
+            "elected": true,
+            "share": 52.6088
+          },
+          "margin": 110636
+        },
+        "臺中市": {
+          "area": "臺中市",
+          "currentArea": "臺中市",
+          "candidates": [
+            {
+              "area": "臺中市",
+              "no": "1",
+              "name": "蘇嘉全",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 698358,
+              "elected": false,
+              "share": 48.8826
+            },
+            {
+              "area": "臺中市",
+              "no": "2",
+              "name": "胡志強",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 730284,
+              "elected": true,
+              "share": 51.1174
+            }
+          ],
+          "population": 2645194,
+          "electors": 1977368,
+          "votesCast": 1446519,
+          "validVotes": 1428642,
+          "invalidVotes": 17877,
+          "turnout": 73.15,
+          "winner": {
+            "area": "臺中市",
+            "no": "2",
+            "name": "胡志強",
+            "party": "中國國民黨",
+            "partyKey": "KMT",
+            "votes": 730284,
+            "elected": true,
+            "share": 51.1174
+          },
+          "margin": 31926
+        },
+        "臺南市": {
+          "area": "臺南市",
+          "currentArea": "臺南市",
+          "candidates": [
+            {
+              "area": "臺南市",
+              "no": "1",
+              "name": "郭添財",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 406196,
+              "elected": false,
+              "share": 39.5867
+            },
+            {
+              "area": "臺南市",
+              "no": "2",
+              "name": "賴清德",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 619897,
+              "elected": true,
+              "share": 60.4133
+            }
+          ],
+          "population": 1873754,
+          "electors": 1467256,
+          "votesCast": 1041941,
+          "validVotes": 1026093,
+          "invalidVotes": 15848,
+          "turnout": 71.01,
+          "winner": {
+            "area": "臺南市",
+            "no": "2",
+            "name": "賴清德",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 619897,
+            "elected": true,
+            "share": 60.4133
+          },
+          "margin": 213701
+        },
+        "高雄市": {
+          "area": "高雄市",
+          "currentArea": "高雄市",
+          "candidates": [
+            {
+              "area": "高雄市",
+              "no": "1",
+              "name": "楊秋興",
+              "party": "無黨籍及未經政黨推薦",
+              "partyKey": "IND",
+              "votes": 414950,
+              "elected": false,
+              "share": 26.6813
+            },
+            {
+              "area": "高雄市",
+              "no": "2",
+              "name": "黃昭順",
+              "party": "中國國民黨",
+              "partyKey": "KMT",
+              "votes": 319171,
+              "elected": false,
+              "share": 20.5227
+            },
+            {
+              "area": "高雄市",
+              "no": "3",
+              "name": "陳菊",
+              "party": "民主進步黨",
+              "partyKey": "DPP",
+              "votes": 821089,
+              "elected": true,
+              "share": 52.796
+            }
+          ],
+          "population": 2772777,
+          "electors": 2166119,
+          "votesCast": 1570895,
+          "validVotes": 1555210,
+          "invalidVotes": 15685,
+          "turnout": 72.52,
+          "winner": {
+            "area": "高雄市",
+            "no": "3",
+            "name": "陳菊",
+            "party": "民主進步黨",
+            "partyKey": "DPP",
+            "votes": 821089,
+            "elected": true,
+            "share": 52.796
+          },
+          "margin": 406139
+        }
+      },
+      "currentAreas": {
+        "宜蘭縣": [
+          "宜蘭縣"
+        ],
+        "桃園市": [
+          "桃園縣"
+        ],
+        "新竹縣": [
+          "新竹縣"
+        ],
+        "苗栗縣": [
+          "苗栗縣"
+        ],
+        "彰化縣": [
+          "彰化縣"
+        ],
+        "南投縣": [
+          "南投縣"
+        ],
+        "雲林縣": [
+          "雲林縣"
+        ],
+        "嘉義縣": [
+          "嘉義縣"
+        ],
+        "屏東縣": [
+          "屏東縣"
+        ],
+        "臺東縣": [
+          "臺東縣"
+        ],
+        "花蓮縣": [
+          "花蓮縣"
+        ],
+        "澎湖縣": [
+          "澎湖縣"
+        ],
+        "連江縣": [
+          "連江縣"
+        ],
+        "金門縣": [
+          "金門縣"
+        ],
+        "基隆市": [
+          "基隆市"
+        ],
+        "新竹市": [
+          "新竹市"
+        ],
+        "嘉義市": [
+          "嘉義市"
+        ],
+        "臺北市": [
+          "臺北市"
+        ],
+        "新北市": [
+          "新北市"
+        ],
+        "臺中市": [
+          "臺中市"
+        ],
+        "臺南市": [
+          "臺南市"
+        ],
+        "高雄市": [
+          "高雄市"
+        ]
+      },
+      "themes": [
+        {
+          "subject": "C2",
+          "themeId": "ca9356e2d1cdde43ef4f7115f4898bf5",
+          "name": "98年縣市長選舉",
+          "date": "2009-12-05"
+        },
+        {
+          "subject": "C1",
+          "themeId": "e613c42ee1eddb1fc8c7a75a420ef033",
+          "name": "99年直轄市長選舉",
+          "date": "2010-11-27"
+        }
+      ],
+      "raceCount": 22,
+      "complete": true
+    },
+    "2014": {
+      "cycleYear": 2014,
+      "date": "2014-11-29",
+      "dates": [
+        "2014-11-29"
+      ],
+      "races": {
+        "臺北市": {
+          "area": "臺北市",
+          "currentArea": "臺北市",
           "candidates": [
             {
               "area": "臺北市",
@@ -110,6 +6274,7 @@
         },
         "新北市": {
           "area": "新北市",
+          "currentArea": "新北市",
           "candidates": [
             {
               "area": "新北市",
@@ -162,6 +6327,7 @@
         },
         "桃園市": {
           "area": "桃園市",
+          "currentArea": "桃園市",
           "candidates": [
             {
               "area": "桃園市",
@@ -214,6 +6380,7 @@
         },
         "臺中市": {
           "area": "臺中市",
+          "currentArea": "臺中市",
           "candidates": [
             {
               "area": "臺中市",
@@ -256,6 +6423,7 @@
         },
         "臺南市": {
           "area": "臺南市",
+          "currentArea": "臺南市",
           "candidates": [
             {
               "area": "臺南市",
@@ -298,6 +6466,7 @@
         },
         "高雄市": {
           "area": "高雄市",
+          "currentArea": "高雄市",
           "candidates": [
             {
               "area": "高雄市",
@@ -350,6 +6519,7 @@
         },
         "宜蘭縣": {
           "area": "宜蘭縣",
+          "currentArea": "宜蘭縣",
           "candidates": [
             {
               "area": "宜蘭縣",
@@ -392,6 +6562,7 @@
         },
         "新竹縣": {
           "area": "新竹縣",
+          "currentArea": "新竹縣",
           "candidates": [
             {
               "area": "新竹縣",
@@ -454,6 +6625,7 @@
         },
         "苗栗縣": {
           "area": "苗栗縣",
+          "currentArea": "苗栗縣",
           "candidates": [
             {
               "area": "苗栗縣",
@@ -536,6 +6708,7 @@
         },
         "彰化縣": {
           "area": "彰化縣",
+          "currentArea": "彰化縣",
           "candidates": [
             {
               "area": "彰化縣",
@@ -598,6 +6771,7 @@
         },
         "南投縣": {
           "area": "南投縣",
+          "currentArea": "南投縣",
           "candidates": [
             {
               "area": "南投縣",
@@ -640,6 +6814,7 @@
         },
         "雲林縣": {
           "area": "雲林縣",
+          "currentArea": "雲林縣",
           "candidates": [
             {
               "area": "雲林縣",
@@ -682,6 +6857,7 @@
         },
         "嘉義縣": {
           "area": "嘉義縣",
+          "currentArea": "嘉義縣",
           "candidates": [
             {
               "area": "嘉義縣",
@@ -734,6 +6910,7 @@
         },
         "屏東縣": {
           "area": "屏東縣",
+          "currentArea": "屏東縣",
           "candidates": [
             {
               "area": "屏東縣",
@@ -776,6 +6953,7 @@
         },
         "臺東縣": {
           "area": "臺東縣",
+          "currentArea": "臺東縣",
           "candidates": [
             {
               "area": "臺東縣",
@@ -818,6 +6996,7 @@
         },
         "花蓮縣": {
           "area": "花蓮縣",
+          "currentArea": "花蓮縣",
           "candidates": [
             {
               "area": "花蓮縣",
@@ -900,6 +7079,7 @@
         },
         "澎湖縣": {
           "area": "澎湖縣",
+          "currentArea": "澎湖縣",
           "candidates": [
             {
               "area": "澎湖縣",
@@ -942,6 +7122,7 @@
         },
         "連江縣": {
           "area": "連江縣",
+          "currentArea": "連江縣",
           "candidates": [
             {
               "area": "連江縣",
@@ -984,6 +7165,7 @@
         },
         "金門縣": {
           "area": "金門縣",
+          "currentArea": "金門縣",
           "candidates": [
             {
               "area": "金門縣",
@@ -1106,6 +7288,7 @@
         },
         "基隆市": {
           "area": "基隆市",
+          "currentArea": "基隆市",
           "candidates": [
             {
               "area": "基隆市",
@@ -1188,6 +7371,7 @@
         },
         "新竹市": {
           "area": "新竹市",
+          "currentArea": "新竹市",
           "candidates": [
             {
               "area": "新竹市",
@@ -1260,6 +7444,7 @@
         },
         "嘉義市": {
           "area": "嘉義市",
+          "currentArea": "嘉義市",
           "candidates": [
             {
               "area": "嘉義市",
@@ -1341,6 +7526,74 @@
           "margin": 8590
         }
       },
+      "currentAreas": {
+        "臺北市": [
+          "臺北市"
+        ],
+        "新北市": [
+          "新北市"
+        ],
+        "桃園市": [
+          "桃園市"
+        ],
+        "臺中市": [
+          "臺中市"
+        ],
+        "臺南市": [
+          "臺南市"
+        ],
+        "高雄市": [
+          "高雄市"
+        ],
+        "宜蘭縣": [
+          "宜蘭縣"
+        ],
+        "新竹縣": [
+          "新竹縣"
+        ],
+        "苗栗縣": [
+          "苗栗縣"
+        ],
+        "彰化縣": [
+          "彰化縣"
+        ],
+        "南投縣": [
+          "南投縣"
+        ],
+        "雲林縣": [
+          "雲林縣"
+        ],
+        "嘉義縣": [
+          "嘉義縣"
+        ],
+        "屏東縣": [
+          "屏東縣"
+        ],
+        "臺東縣": [
+          "臺東縣"
+        ],
+        "花蓮縣": [
+          "花蓮縣"
+        ],
+        "澎湖縣": [
+          "澎湖縣"
+        ],
+        "連江縣": [
+          "連江縣"
+        ],
+        "金門縣": [
+          "金門縣"
+        ],
+        "基隆市": [
+          "基隆市"
+        ],
+        "新竹市": [
+          "新竹市"
+        ],
+        "嘉義市": [
+          "嘉義市"
+        ]
+      },
       "themes": [
         {
           "subject": "C1",
@@ -1354,13 +7607,20 @@
           "name": "103年縣市長選舉",
           "date": "2014-11-29"
         }
-      ]
+      ],
+      "raceCount": 22,
+      "complete": true
     },
     "2018": {
+      "cycleYear": 2018,
       "date": "2018-11-24",
+      "dates": [
+        "2018-11-24"
+      ],
       "races": {
         "臺北市": {
           "area": "臺北市",
+          "currentArea": "臺北市",
           "candidates": [
             {
               "area": "臺北市",
@@ -1433,6 +7693,7 @@
         },
         "新北市": {
           "area": "新北市",
+          "currentArea": "新北市",
           "candidates": [
             {
               "area": "新北市",
@@ -1475,6 +7736,7 @@
         },
         "桃園市": {
           "area": "桃園市",
+          "currentArea": "桃園市",
           "candidates": [
             {
               "area": "桃園市",
@@ -1547,6 +7809,7 @@
         },
         "臺中市": {
           "area": "臺中市",
+          "currentArea": "臺中市",
           "candidates": [
             {
               "area": "臺中市",
@@ -1599,6 +7862,7 @@
         },
         "臺南市": {
           "area": "臺南市",
+          "currentArea": "臺南市",
           "candidates": [
             {
               "area": "臺南市",
@@ -1681,6 +7945,7 @@
         },
         "高雄市": {
           "area": "高雄市",
+          "currentArea": "高雄市",
           "candidates": [
             {
               "area": "高雄市",
@@ -1743,6 +8008,7 @@
         },
         "宜蘭縣": {
           "area": "宜蘭縣",
+          "currentArea": "宜蘭縣",
           "candidates": [
             {
               "area": "宜蘭縣",
@@ -1815,6 +8081,7 @@
         },
         "新竹縣": {
           "area": "新竹縣",
+          "currentArea": "新竹縣",
           "candidates": [
             {
               "area": "新竹縣",
@@ -1877,6 +8144,7 @@
         },
         "苗栗縣": {
           "area": "苗栗縣",
+          "currentArea": "苗栗縣",
           "candidates": [
             {
               "area": "苗栗縣",
@@ -1939,6 +8207,7 @@
         },
         "彰化縣": {
           "area": "彰化縣",
+          "currentArea": "彰化縣",
           "candidates": [
             {
               "area": "彰化縣",
@@ -2011,6 +8280,7 @@
         },
         "南投縣": {
           "area": "南投縣",
+          "currentArea": "南投縣",
           "candidates": [
             {
               "area": "南投縣",
@@ -2053,6 +8323,7 @@
         },
         "雲林縣": {
           "area": "雲林縣",
+          "currentArea": "雲林縣",
           "candidates": [
             {
               "area": "雲林縣",
@@ -2115,6 +8386,7 @@
         },
         "嘉義縣": {
           "area": "嘉義縣",
+          "currentArea": "嘉義縣",
           "candidates": [
             {
               "area": "嘉義縣",
@@ -2177,6 +8449,7 @@
         },
         "屏東縣": {
           "area": "屏東縣",
+          "currentArea": "屏東縣",
           "candidates": [
             {
               "area": "屏東縣",
@@ -2229,6 +8502,7 @@
         },
         "臺東縣": {
           "area": "臺東縣",
+          "currentArea": "臺東縣",
           "candidates": [
             {
               "area": "臺東縣",
@@ -2301,6 +8575,7 @@
         },
         "花蓮縣": {
           "area": "花蓮縣",
+          "currentArea": "花蓮縣",
           "candidates": [
             {
               "area": "花蓮縣",
@@ -2353,6 +8628,7 @@
         },
         "澎湖縣": {
           "area": "澎湖縣",
+          "currentArea": "澎湖縣",
           "candidates": [
             {
               "area": "澎湖縣",
@@ -2445,6 +8721,7 @@
         },
         "連江縣": {
           "area": "連江縣",
+          "currentArea": "連江縣",
           "candidates": [
             {
               "area": "連江縣",
@@ -2507,6 +8784,7 @@
         },
         "金門縣": {
           "area": "金門縣",
+          "currentArea": "金門縣",
           "candidates": [
             {
               "area": "金門縣",
@@ -2589,6 +8867,7 @@
         },
         "基隆市": {
           "area": "基隆市",
+          "currentArea": "基隆市",
           "candidates": [
             {
               "area": "基隆市",
@@ -2631,6 +8910,7 @@
         },
         "新竹市": {
           "area": "新竹市",
+          "currentArea": "新竹市",
           "candidates": [
             {
               "area": "新竹市",
@@ -2713,6 +8993,7 @@
         },
         "嘉義市": {
           "area": "嘉義市",
+          "currentArea": "嘉義市",
           "candidates": [
             {
               "area": "嘉義市",
@@ -2774,6 +9055,74 @@
           "margin": 2302
         }
       },
+      "currentAreas": {
+        "臺北市": [
+          "臺北市"
+        ],
+        "新北市": [
+          "新北市"
+        ],
+        "桃園市": [
+          "桃園市"
+        ],
+        "臺中市": [
+          "臺中市"
+        ],
+        "臺南市": [
+          "臺南市"
+        ],
+        "高雄市": [
+          "高雄市"
+        ],
+        "宜蘭縣": [
+          "宜蘭縣"
+        ],
+        "新竹縣": [
+          "新竹縣"
+        ],
+        "苗栗縣": [
+          "苗栗縣"
+        ],
+        "彰化縣": [
+          "彰化縣"
+        ],
+        "南投縣": [
+          "南投縣"
+        ],
+        "雲林縣": [
+          "雲林縣"
+        ],
+        "嘉義縣": [
+          "嘉義縣"
+        ],
+        "屏東縣": [
+          "屏東縣"
+        ],
+        "臺東縣": [
+          "臺東縣"
+        ],
+        "花蓮縣": [
+          "花蓮縣"
+        ],
+        "澎湖縣": [
+          "澎湖縣"
+        ],
+        "連江縣": [
+          "連江縣"
+        ],
+        "金門縣": [
+          "金門縣"
+        ],
+        "基隆市": [
+          "基隆市"
+        ],
+        "新竹市": [
+          "新竹市"
+        ],
+        "嘉義市": [
+          "嘉義市"
+        ]
+      },
       "themes": [
         {
           "subject": "C1",
@@ -2787,13 +9136,21 @@
           "name": "107年縣市長選舉",
           "date": "2018-11-24"
         }
-      ]
+      ],
+      "raceCount": 22,
+      "complete": true
     },
     "2022": {
+      "cycleYear": 2022,
       "date": "2022-12-18",
+      "dates": [
+        "2022-11-26",
+        "2022-12-18"
+      ],
       "races": {
         "臺北市": {
           "area": "臺北市",
+          "currentArea": "臺北市",
           "candidates": [
             {
               "area": "臺北市",
@@ -2936,6 +9293,7 @@
         },
         "新北市": {
           "area": "新北市",
+          "currentArea": "新北市",
           "candidates": [
             {
               "area": "新北市",
@@ -2978,6 +9336,7 @@
         },
         "桃園市": {
           "area": "桃園市",
+          "currentArea": "桃園市",
           "candidates": [
             {
               "area": "桃園市",
@@ -3040,6 +9399,7 @@
         },
         "臺中市": {
           "area": "臺中市",
+          "currentArea": "臺中市",
           "candidates": [
             {
               "area": "臺中市",
@@ -3092,6 +9452,7 @@
         },
         "臺南市": {
           "area": "臺南市",
+          "currentArea": "臺南市",
           "candidates": [
             {
               "area": "臺南市",
@@ -3164,6 +9525,7 @@
         },
         "高雄市": {
           "area": "高雄市",
+          "currentArea": "高雄市",
           "candidates": [
             {
               "area": "高雄市",
@@ -3226,6 +9588,7 @@
         },
         "宜蘭縣": {
           "area": "宜蘭縣",
+          "currentArea": "宜蘭縣",
           "candidates": [
             {
               "area": "宜蘭縣",
@@ -3308,6 +9671,7 @@
         },
         "新竹縣": {
           "area": "新竹縣",
+          "currentArea": "新竹縣",
           "candidates": [
             {
               "area": "新竹縣",
@@ -3380,6 +9744,7 @@
         },
         "苗栗縣": {
           "area": "苗栗縣",
+          "currentArea": "苗栗縣",
           "candidates": [
             {
               "area": "苗栗縣",
@@ -3452,6 +9817,7 @@
         },
         "彰化縣": {
           "area": "彰化縣",
+          "currentArea": "彰化縣",
           "candidates": [
             {
               "area": "彰化縣",
@@ -3504,6 +9870,7 @@
         },
         "南投縣": {
           "area": "南投縣",
+          "currentArea": "南投縣",
           "candidates": [
             {
               "area": "南投縣",
@@ -3556,6 +9923,7 @@
         },
         "雲林縣": {
           "area": "雲林縣",
+          "currentArea": "雲林縣",
           "candidates": [
             {
               "area": "雲林縣",
@@ -3608,6 +9976,7 @@
         },
         "嘉義縣": {
           "area": "嘉義縣",
+          "currentArea": "嘉義縣",
           "candidates": [
             {
               "area": "嘉義縣",
@@ -3650,6 +10019,7 @@
         },
         "屏東縣": {
           "area": "屏東縣",
+          "currentArea": "屏東縣",
           "candidates": [
             {
               "area": "屏東縣",
@@ -3702,6 +10072,7 @@
         },
         "臺東縣": {
           "area": "臺東縣",
+          "currentArea": "臺東縣",
           "candidates": [
             {
               "area": "臺東縣",
@@ -3754,6 +10125,7 @@
         },
         "花蓮縣": {
           "area": "花蓮縣",
+          "currentArea": "花蓮縣",
           "candidates": [
             {
               "area": "花蓮縣",
@@ -3806,6 +10178,7 @@
         },
         "澎湖縣": {
           "area": "澎湖縣",
+          "currentArea": "澎湖縣",
           "candidates": [
             {
               "area": "澎湖縣",
@@ -3858,6 +10231,7 @@
         },
         "連江縣": {
           "area": "連江縣",
+          "currentArea": "連江縣",
           "candidates": [
             {
               "area": "連江縣",
@@ -3910,6 +10284,7 @@
         },
         "金門縣": {
           "area": "金門縣",
+          "currentArea": "金門縣",
           "candidates": [
             {
               "area": "金門縣",
@@ -3992,6 +10367,7 @@
         },
         "基隆市": {
           "area": "基隆市",
+          "currentArea": "基隆市",
           "candidates": [
             {
               "area": "基隆市",
@@ -4064,6 +10440,7 @@
         },
         "新竹市": {
           "area": "新竹市",
+          "currentArea": "新竹市",
           "candidates": [
             {
               "area": "新竹市",
@@ -4146,6 +10523,7 @@
         },
         "嘉義市": {
           "area": "嘉義市",
+          "currentArea": "嘉義市",
           "candidates": [
             {
               "area": "嘉義市",
@@ -4224,6 +10602,74 @@
           "margin": 27084
         }
       },
+      "currentAreas": {
+        "臺北市": [
+          "臺北市"
+        ],
+        "新北市": [
+          "新北市"
+        ],
+        "桃園市": [
+          "桃園市"
+        ],
+        "臺中市": [
+          "臺中市"
+        ],
+        "臺南市": [
+          "臺南市"
+        ],
+        "高雄市": [
+          "高雄市"
+        ],
+        "宜蘭縣": [
+          "宜蘭縣"
+        ],
+        "新竹縣": [
+          "新竹縣"
+        ],
+        "苗栗縣": [
+          "苗栗縣"
+        ],
+        "彰化縣": [
+          "彰化縣"
+        ],
+        "南投縣": [
+          "南投縣"
+        ],
+        "雲林縣": [
+          "雲林縣"
+        ],
+        "嘉義縣": [
+          "嘉義縣"
+        ],
+        "屏東縣": [
+          "屏東縣"
+        ],
+        "臺東縣": [
+          "臺東縣"
+        ],
+        "花蓮縣": [
+          "花蓮縣"
+        ],
+        "澎湖縣": [
+          "澎湖縣"
+        ],
+        "連江縣": [
+          "連江縣"
+        ],
+        "金門縣": [
+          "金門縣"
+        ],
+        "基隆市": [
+          "基隆市"
+        ],
+        "新竹市": [
+          "新竹市"
+        ],
+        "嘉義市": [
+          "嘉義市"
+        ]
+      },
       "themes": [
         {
           "subject": "C1",
@@ -4243,7 +10689,9 @@
           "name": "111年嘉義市長重行選舉",
           "date": "2022-12-18"
         }
-      ]
+      ],
+      "raceCount": 22,
+      "complete": true
     }
   }
 }

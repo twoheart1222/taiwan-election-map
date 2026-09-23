@@ -24,6 +24,7 @@ body.local-executive-page{--bg:#0d0d0d;--panel:#151311;--panel2:#1d1a17;--line:#
 
 /* Candidate cards */
 .local-candidates{display:grid;gap:10px}
+.local-historical-race{display:grid;gap:10px}.local-historical-race>h3{margin:8px 0 2px;padding-bottom:8px;border-bottom:1px solid #35302b;color:#f4f1ea;font-size:15px}
 .local-candidate{position:relative;overflow:hidden;border:1px solid #35302b;background:#171411;border-radius:15px;padding:16px}
 
 /* Elected card: same visual language as presidential archive (cream card + red ink stamp) */
@@ -66,6 +67,7 @@ body.local-executive-page{--bg:#0d0d0d;--panel:#151311;--panel2:#1d1a17;--line:#
   .local-empty{border-color:#bdb6aa;color:#6d665e}.local-empty strong{color:#27221e}
   .local-source{border-color:#cbc5ba;color:#756e65}.local-source a{color:#403a34}
   .local-candidate{border-color:#d0c9bd;background:#e6e1d7;color:#171310}.local-name,.local-vote{color:#171310}.local-party,.local-vote small{color:#756e65}.local-bar{background:#d2ccc1}
+  .local-historical-race>h3{border-color:#cbc5ba;color:#171310}
   .local-candidate.elected{border-color:#f4f1ea;background:#f4f1ea;color:#171411;box-shadow:0 12px 32px rgba(0,0,0,.18)}
   .local-candidate.elected .local-name{color:#171411}
   .local-candidate.elected .local-vote{color:#c6002e}
