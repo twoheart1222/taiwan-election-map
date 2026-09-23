@@ -14,7 +14,9 @@ worker.js
 override-store.js
 storage-baseline.json
 tests/
-tmp/
+tmp
+tmp/**
+/tmp/**
 .test-build/
 STORAGE.md
 AGENTS.md
