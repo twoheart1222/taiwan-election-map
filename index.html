@@ -3,7 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5043287080308993" crossorigin="anonymous"></script>
+<script>
+/* 首頁先完成地圖與開場動畫，再於瀏覽器閒置時載入 AdSense，避免第三方腳本搶主執行緒。 */
+window.addEventListener('load',()=>setTimeout(()=>{
+  const loadAds=()=>{
+    if(document.querySelector('script[data-formosa-adsense]'))return;
+    const script=document.createElement('script');
+    script.async=true;
+    script.crossOrigin='anonymous';
+    script.dataset.formosaAdsense='';
+    script.src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5043287080308993';
+    document.head.appendChild(script);
+  };
+  if('requestIdleCallback' in window)requestIdleCallback(loadAds,{timeout:2000});else loadAds();
+},5000),{once:true});
+</script>
 <title>2026 地方選舉候選人查詢地圖｜島民觀察室 Formosa Observatory</title>
 <meta name="description" content="2026 年 11 月 28 日地方選舉互動地圖：輸入地址或姓名，查縣市長、議員、鄉鎮市長、村里長候選人與選區，涵蓋全台 22 縣市。">
 <link rel="canonical" href="https://formosaobservatory.com/">
