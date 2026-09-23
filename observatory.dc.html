@@ -27,6 +27,9 @@
   .obs-arrow{transition:transform .35s ease,color .35s ease}
   .brand-mark-tile{width:42px;height:36px;display:grid;place-items:center;flex:none;padding:4px 5px;background:#f4f1ea;border-radius:8px}
   .brand-mark-tile img{display:block;width:100%;height:100%;object-fit:contain}
+  .brand-lockup-plaque{display:inline-flex;align-items:center;padding:10px 14px;background:#f4f1ea;border-radius:12px;box-shadow:inset 0 0 0 1px rgba(13,13,13,.12)}
+  .brand-lockup-plaque img{display:block;width:clamp(230px,30vw,360px);max-width:100%;height:auto}
+  @media(max-width:640px){.observatory-footer{align-items:flex-start!important}.observatory-footer-note{text-align:left!important}}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -78,11 +81,9 @@
     </a>
   </main>
 
-  <footer style="background:#E4022B;color:#0d0d0d;padding:clamp(40px,7vh,80px) clamp(18px,4vw,54px);display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
-    <div>
-      <div style="font-family:'Noto Sans TC','Archivo';font-weight:900;font-size:clamp(24px,4vw,48px);letter-spacing:-.02em;line-height:1">一起看緊<br>你的選票。</div>
-    </div>
-    <div style="font-family:'Archivo';font-weight:600;font-size:12px;letter-spacing:.08em;text-align:right">Formosa Observatory · 2026<br>連結由維護者統一校閱發布</div>
+  <footer class="observatory-footer" style="background:#0d0d0d;color:#8a857c;padding:clamp(40px,7vh,80px) clamp(18px,4vw,54px);display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;border-top:1px solid #1c1a17">
+    <div><a href="./index.dc.html" class="brand-lockup-plaque" aria-label="返回島民選舉地圖首頁"><img src="/assets/brand/formosa-lockup.png" alt="Formosa Observatory 島民觀察室"></a><div style="font-size:12px;letter-spacing:.1em;margin-top:10px;line-height:1.7">© 2026 Formosa Observatory 島民觀察室<br>Independent Taiwan Election &amp; Civic Data Platform</div></div>
+    <div class="observatory-footer-note" style="max-width:500px;font-family:'Noto Sans TC';font-weight:600;font-size:12px;line-height:1.7;text-align:right">本站為獨立民間資訊平台，非中央選舉委員會或任何政府機關之官方網站。<br><a href="./index.dc.html#contact" style="color:#f4f1ea">資料更正與聯絡</a></div>
   </footer>
 </div>
 </x-dc>

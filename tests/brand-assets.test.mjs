@@ -37,6 +37,20 @@ test('homepage displays both the compact mark and full lockup', () => {
   assert.match(html, /"logo": "https:\/\/formosaobservatory\.com\/favicon\.png"/);
 });
 
+test('history and observatory footers display the full brand lockup', () => {
+  for (const file of ['history/index.html', 'history/local-executive.html', 'history/town.html', 'observatory.dc.html']) {
+    const html = text(file);
+    assert.match(html, /assets\/brand\/formosa-lockup\.png/, file);
+    assert.match(html, /Independent Taiwan Election &amp; Civic Data Platform/, file);
+    assert.match(html, /資料更正與聯絡/, file);
+  }
+
+  const homepage = text('index.html');
+  const observatoryView = homepage.match(/id="view-observatory"[\s\S]*?id="view-support"/)?.[0] ?? '';
+  assert.match(observatoryView, /assets\/brand\/formosa-lockup\.png/);
+  assert.match(observatoryView, /Independent Taiwan Election &amp; Civic Data Platform/);
+});
+
 test('manifest references installable square icons', () => {
   const manifest = JSON.parse(text('site.webmanifest'));
   assert.equal(manifest.name, 'Formosa Observatory｜島民觀察室');
