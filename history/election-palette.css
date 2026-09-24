@@ -1,0 +1,117 @@
+/* Shared archive palette: dark query controls, warm paper maps and results. */
+body.history-archive .layout,
+body.local-executive-page .local-layout{background:#e9e2d6}
+
+body.history-archive .map-panel,
+body.local-executive-page .local-map-panel{align-self:start;background:#e9e2d6;border-color:#c9c0b3}
+body.history-archive .map-title strong,
+body.local-executive-page .local-map-title strong{color:#171310}
+body.history-archive .map-status,
+body.local-executive-page .local-map-status{color:#665f56}
+body.history-archive .map-status b,
+body.local-executive-page .local-map-status b{color:#26211c}
+body.history-archive .county,
+body.local-executive-page .local-county{stroke:#f7f1e8;stroke-width:1.2}
+body.history-archive .county:hover,
+body.history-archive .county.selected,
+body.local-executive-page .local-county:hover,
+body.local-executive-page .local-county.selected{stroke:#E4022B;filter:brightness(1.04)}
+
+body.history-archive .result-panel,
+body.local-executive-page .local-result{background:#eee9df;color:#171310}
+body.history-archive .election-meta,
+body.local-executive-page .local-result-head{border-color:#c9c0b3}
+body.history-archive #election-title,
+body.history-archive .meta-stats strong,
+body.local-executive-page .local-result-head h2,
+body.local-executive-page .local-head-stat strong{color:#171310}
+body.history-archive .meta-stats span,
+body.history-archive .section-label,
+body.local-executive-page .local-head-stat span,
+body.local-executive-page .local-section-label{color:#71695f}
+
+body.history-archive .candidate,
+body.local-executive-page .local-candidate{border-color:#4a4037;background:#1b1612;color:#f4f1ea;box-shadow:0 8px 24px rgba(80,58,39,.08)}
+body.history-archive .candidate .cand-no,
+body.local-executive-page .local-number{border-color:#6b6056;background:#2a241f;color:#f4f1ea}
+body.history-archive .candidate .cand-party,
+body.history-archive .candidate .cand-votes small,
+body.local-executive-page .local-candidate .local-party,
+body.local-executive-page .local-candidate .local-vote small{color:#aaa097}
+body.history-archive .candidate:not(.elected) .cand-name,
+body.history-archive .candidate:not(.elected) .cand-votes,
+body.local-executive-page .local-candidate:not(.elected) .local-name,
+body.local-executive-page .local-candidate:not(.elected) .local-vote{color:#f4f1ea}
+body.history-archive .candidate .bar,
+body.local-executive-page .local-candidate .local-bar{background:#40362e}
+body.history-archive #candidates .candidate.elected.archive-elected-card,
+body.local-executive-page .local-candidate.elected{border-color:#d5ccbf;background:#f4f1ea;color:#171411;box-shadow:0 10px 26px rgba(80,58,39,.12)}
+body.local-executive-page .local-candidate.elected .local-name{color:#171411}
+
+body.history-archive .county-detail,
+body.history-archive .archive-insights,
+body.local-executive-page .local-historical-race>h3{border-color:#c9c0b3}
+body.history-archive .county-card{border-color:#4a4037;background:#1b1612;color:#f4f1ea}
+body.history-archive .county-head{border-color:#40362e}
+body.history-archive .county-head h3,
+body.history-archive .county-row-name,
+body.history-archive .county-row-votes,
+body.history-archive .county-row-share{color:#f4f1ea}
+body.history-archive .county-row{border-color:#40362e}
+body.history-archive .county-row-party{color:#aaa097}
+body.history-archive .county-summary{background:#2a211b;color:#d2c7bb}
+body.history-archive .county-empty,
+body.local-executive-page .local-empty{border-color:#bcb1a2;background:#e6dfd4;color:#655d53}
+body.history-archive .county-empty strong,
+body.local-executive-page .local-empty strong{color:#211c18}
+
+body.history-archive .overview-stat,
+body.history-archive .insight-card,
+body.local-executive-page .local-seat-card{border-color:#c8beaf;background:#ded6ca;color:#171310}
+body.history-archive .overview-stat strong,
+body.history-archive .insight-head h3,
+body.history-archive .party-summary-row>div b,
+body.history-archive .party-summary-row>strong,
+body.local-executive-page .local-seat-card strong{color:#171310}
+body.history-archive .insight-head>span,
+body.history-archive .overview-stat span,
+body.history-archive .party-summary-row>div small,
+body.history-archive .party-summary-row>strong small,
+body.local-executive-page .local-seat-card small{color:#6d655b}
+body.history-archive .party-summary-row>span{background:#c9bfb0}
+body.history-archive .trend-grid{stroke:#cec5b8}
+body.history-archive .trend-axis{stroke:#9d9386}
+body.history-archive .trend-year,
+body.history-archive .trend-y,
+body.history-archive .trend-value{fill:#6d655b}
+body.history-archive .trend-point circle{fill:#f4f1ea}
+
+body.local-executive-page .local-overview-note{border-color:#c3b7a6;background:#e2d9cb;color:#5e564d}
+body.local-executive-page .local-historical-race>h3{color:#171310}
+body.local-executive-page .local-compare-stat{border-color:#c3b8a8;background:#ddd4c7;color:#171310}
+body.local-executive-page .local-compare-stat span,
+body.local-executive-page .local-legend span{color:#71695f}
+body.local-executive-page .local-flip-chip{border-color:#aa9d8b;background:#e3dbcf;color:#3d352e}
+body.local-executive-page .local-compare-detail{border-color:#c3b8a8;background:#ded5c8;color:#5c544b}
+body.local-executive-page .local-compare-detail h3,
+body.local-executive-page .local-compare-detail strong{color:#171310}
+body.history-archive .source,
+body.local-executive-page .local-source{border-color:#c9c0b3;color:#71695f}
+body.history-archive .source a,
+body.local-executive-page .local-source a{color:#312b25}
+
+@media(max-width:660px){
+  body.history-archive .map-panel,
+  body.local-executive-page .local-map-panel{background:#e9e2d6;border-color:#c9c0b3}
+  body.history-archive .result-panel,
+  body.local-executive-page .local-result{background:#eee9df;color:#171310}
+  body.history-archive .candidate,
+  body.local-executive-page .local-candidate{border-color:#4a4037!important;background:#1b1612!important;color:#f4f1ea!important}
+  body.history-archive #candidates .candidate.elected.archive-elected-card,
+  body.local-executive-page .local-candidate.elected{border-color:#d5ccbf!important;background:#f4f1ea!important;color:#171411!important}
+  body.history-archive #candidates .candidate.elected.archive-elected-card .cand-name{color:#171411!important}
+  body.history-archive #candidates .candidate.elected.archive-elected-card .cand-no{background:#e6e1d6!important;color:#171411!important}
+  body.history-archive #candidates .candidate.elected.archive-elected-card .cand-party{color:#655e56!important}
+  body.history-archive #candidates .candidate.elected.archive-elected-card .cand-votes{color:#c6002e!important}
+  body.history-archive #candidates .candidate.elected.archive-elected-card .cand-votes small{color:#655e56!important}
+}

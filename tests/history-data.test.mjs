@@ -106,6 +106,20 @@ test('history pages use a lightweight county-only topology', async () => {
   }
 });
 
+test('presidential and local executive archives share the councilor result palette', async () => {
+  const [presidentHtml, executiveHtml, palette] = await Promise.all([
+    readFile(new URL('../history/index.html', import.meta.url), 'utf8'),
+    readFile(new URL('../history/local-executive.html', import.meta.url), 'utf8'),
+    readFile(new URL('../history/election-palette.css', import.meta.url), 'utf8'),
+  ]);
+  assert.match(presidentHtml, /href="\.\/election-palette\.css"/);
+  assert.match(executiveHtml, /href="\.\/election-palette\.css"/);
+  assert.match(palette, /body\.history-archive \.map-panel[\s\S]*background:#e9e2d6/);
+  assert.match(palette, /body\.history-archive \.result-panel[\s\S]*background:#eee9df/);
+  assert.match(palette, /body\.local-executive-page \.local-result[\s\S]*background:#eee9df/);
+  assert.match(palette, /body\.local-executive-page \.local-candidate:not\(\.elected\)/);
+});
+
 test('official CEC councilor archive covers every published cycle, council and district', async () => {
   const [archive, script, html, css] = await Promise.all([
     readJson('data/history/councilor.json'),
