@@ -43,12 +43,19 @@ test('published incumbent sync records exactly match verified village candidates
   const xinbu = candidates.find(candidate => candidate.areaId === '65000040045' && candidate.name === '紀詠心');
   assert.equal(xinbu?.village, '新廍里');
   assert.equal(xinbu?.isIncumbent, true);
+
+  const yuanchangWayao = candidates.find(candidate => candidate.areaId === '10009170018');
+  assert.equal(yuanchangWayao?.village, '瓦磘村');
 });
 
 test('candidate search and admin KV sync preserve the incumbent marker', () => {
   const search = readJson('data/candidate_search.json');
   const xinbu = search.candidates.find(candidate => candidate.areaId === '65000040045' && candidate.name === '紀詠心');
   assert.equal(xinbu?.isIncumbent, true);
+  assert.equal(search.areas['10009170018']?.areaName, '瓦磘村');
+  assert.ok(search.candidates
+    .filter(candidate => candidate.areaId === '10009170018')
+    .every(candidate => candidate.village === '瓦磘村'));
 
   const adminSync = fs.readFileSync(path.join(root, 'admin-kv-sync.js'), 'utf8');
   assert.doesNotThrow(() => new Function(adminSync));
