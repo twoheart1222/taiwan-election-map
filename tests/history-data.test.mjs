@@ -107,9 +107,11 @@ test('history pages use a lightweight county-only topology', async () => {
 });
 
 test('official CEC councilor archive covers every published cycle, council and district', async () => {
-  const [archive, script] = await Promise.all([
+  const [archive, script, html, css] = await Promise.all([
     readJson('data/history/councilor.json'),
     readFile(new URL('../history/councilor.js', import.meta.url), 'utf8'),
+    readFile(new URL('../history/councilor.html', import.meta.url), 'utf8'),
+    readFile(new URL('../history/councilor.css', import.meta.url), 'utf8'),
   ]);
   assert.deepEqual(archive.coverage, [1994, 1998, 2002, 2006, 2010, 2014, 2018, 2022]);
   assert.match(JSON.stringify(archive.source), /db\.cec\.gov\.tw/);
@@ -136,4 +138,12 @@ test('official CEC councilor archive covers every published cycle, council and d
   assert.equal(archive.years['2022'].stats.candidateCount, 1677);
   assert.deepEqual(archive.years['2006'].currentAreas['臺中市'].sort(), ['臺中市', '臺中縣']);
   new vm.Script(script, { filename: 'history/councilor.js' });
+  assert.match(html, /id="councilor-national-overview"[^>]*open/);
+  assert.match(html, /id="councilor-area-select"/);
+  assert.match(script, /councilorPartyBadgeFallback/);
+  assert.match(script, /function electedStamp\(/);
+  assert.match(script, /<em>展開查看更多<\/em>/);
+  assert.doesNotMatch(script, /class="councilor-district"\$\{i===0\?' open'/);
+  assert.match(css, /\.councilor-page \.party-badge img[^}]*object-fit:contain/);
+  assert.match(css, /\.councilor-status \.local-elected-stamp/);
 });

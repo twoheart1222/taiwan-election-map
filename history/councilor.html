@@ -72,7 +72,16 @@
   </section>
   <aside class="local-result result-panel">
     <div class="local-result-head"><div><div class="term" id="local-term">COUNCILOR / 2022</div><h2 id="local-result-title">2022 縣市議員選舉</h2></div><div class="local-head-stat"><strong id="local-head-number">906</strong><span id="local-head-label">議員當選席次</span></div></div>
-    <section id="local-single-result"><div class="local-section-label">全台概覽 / NATIONWIDE OVERVIEW</div><div id="local-seat-grid" class="local-seat-grid"></div><div id="local-overview-note" class="local-overview-note"></div><div class="local-section-label">地區結果 / AREA RESULT</div><div id="local-county-detail" class="local-empty"><strong>目前顯示全台概覽</strong>選擇縣市或直接點擊地圖，查看該地各選區候選人與當選結果。</div></section>
+    <section id="local-single-result">
+      <details id="councilor-national-overview" class="councilor-result-disclosure" open>
+        <summary><span class="local-section-label">全台概覽 / NATIONWIDE OVERVIEW</span><span class="councilor-disclosure-action" aria-hidden="true"></span></summary>
+        <div class="councilor-overview-content"><div id="local-seat-grid" class="local-seat-grid"></div><div id="local-overview-note" class="local-overview-note"></div></div>
+      </details>
+      <section class="councilor-area-section" aria-labelledby="councilor-area-heading">
+        <div class="councilor-area-toolbar"><div id="councilor-area-heading" class="local-section-label">地區結果 / AREA RESULT</div><label class="councilor-area-picker" for="councilor-area-select"><span>選擇縣市</span><select id="councilor-area-select"><option value="">全台概覽</option></select></label></div>
+        <div id="local-county-detail" class="local-empty"><strong>目前顯示全台概覽</strong>從上方選擇縣市或直接點擊地圖，查看該地各選區候選人與當選結果。</div>
+      </section>
+    </section>
     <section id="local-compare-result" class="local-compare-summary"><div class="local-section-label">跨屆比較 / CROSS-ELECTION COMPARISON</div><div id="local-legend" class="local-legend"></div><div id="local-compare-stats" class="local-compare-stats"></div><div id="local-flips" class="local-flips"></div><div id="local-compare-detail" class="local-compare-detail">點擊地圖查看縣市變化。</div></section>
     <div class="local-source">全數資料取自<a href="https://db.cec.gov.tw/ElecTable/Election" target="_blank" rel="noopener noreferrer">中央選舉委員會選舉資料庫</a>官方公開資料，包含區域、平地原住民與山地原住民選舉。1994 僅有臺北市、高雄市；1998–2006 保留縣市合併前行政區，2009 縣市議員與 2010 直轄市議員合併為同一週期。</div>
   </aside>
