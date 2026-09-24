@@ -41,8 +41,8 @@
 @media(max-width:900px){.archive-title-row{display:block}.archive-intro{margin-top:14px}.layout{grid-template-columns:1fr}.map-panel{min-height:560px;border-right:0;border-bottom:1px solid #1c1a17}.result-panel{padding-bottom:60px}#map{inset:70px 10px 76px}}@media(max-width:520px){.site-nav{height:56px}.archive-head{padding-top:22px}.archive-head h1{font-size:38px}.archive-intro{font-size:12px}.map-panel{min-height:500px}.meta-stats strong{font-size:20px}.candidate{padding:14px}.cand-name{font-size:16px}.cand-votes{font-size:16px}}
 </style>
 <link rel="stylesheet" href="./product-ui.css">
-<link rel="stylesheet" href="./archive-enhancements.css?v=20260924-flips-only">
-<link rel="stylesheet" href="./election-palette.css?v=20260924-flips-only">
+<link rel="stylesheet" href="./archive-enhancements.css?v=20260924-president-logos">
+<link rel="stylesheet" href="./election-palette.css?v=20260924-president-logos">
 </head>
 <body class="history-archive">
 <div id="site-ann" class="site-ann" role="status" aria-live="polite" hidden></div>
@@ -161,7 +161,7 @@ function featureName(f){return normalizeName(f?.properties?.name||f?.properties?
 function nationalCandidate(e,no){return e.candidates.find(c=>String(c.no)===String(no))||null}
 function partyColor(e,no){const c=nationalCandidate(e,no);return PARTY_COLORS[c?.partyKey]||PARTY_COLORS.IND}
 function candidatePercent(e,c){return e.validVotes?c.votes/e.validVotes*100:0}
-function partyVoteBadge(key){const mark=PARTY_MARKS[key]||PARTY_MARKS.IND,color=PARTY_COLORS[key]||PARTY_COLORS.IND;return`<span class="party-vote-badge" style="background:${color}">${mark.logo?`<img src="${mark.logo}" alt="" loading="lazy">`:`<b>${mark.abbr}</b>`}</span>`}
+function partyVoteBadge(key,size=32){const mark=PARTY_MARKS[key]||PARTY_MARKS.IND,color=PARTY_COLORS[key]||PARTY_COLORS.IND;return`<span class="party-vote-badge" style="width:${size}px;height:${size}px;background:${color}">${mark.logo?`<img src="${mark.logo}" alt="" loading="lazy">`:`<b>${mark.abbr}</b>`}</span>`}
 function countyYear(e){return countyArchive?.years?.[String(e.year)]||null}
 function countyResult(e,name){return countyYear(e)?.counties?.[normalizeName(name)]||null}
 function syncPresidentAreaOptions(){const names=Object.keys(countyYear(current)?.counties||{}).sort((a,b)=>a.localeCompare(b,'zh-Hant')),select=$('president-area-select');if(!select)return;select.innerHTML='<option value="">全國結果</option>'+names.map(name=>`<option value="${name}">${name}</option>`).join('');select.value=selectedCounty&&names.includes(selectedCounty)?selectedCounty:''}
@@ -205,7 +205,7 @@ function renderElection(){
   $('turnout').textContent=`${Number(e.turnout).toFixed(2)}%`;
   const select=$('archive-year-select');if(select)select.value=String(e.year);
   const rows=[...e.candidates].sort((a,b)=>b.votes-a.votes);
-  $('candidates').innerHTML=rows.map(c=>{const pct=candidatePercent(e,c),color=PARTY_COLORS[c.partyKey]||PARTY_COLORS.IND;return `<article class="candidate${c.elected?' elected':''}"><div class="cand-head"><div><div class="cand-name"><span class="cand-no">${c.no}</span>${c.president}・${c.vicePresident}</div><div class="cand-party">${c.party}</div></div><div class="cand-votes">${fmt.format(c.votes)}<small>${pct.toFixed(2)}%</small></div></div><div class="bar"><i style="width:${pct}%;background:${color}"></i></div></article>`}).join('');
+  $('candidates').innerHTML=rows.map(c=>{const pct=candidatePercent(e,c),color=PARTY_COLORS[c.partyKey]||PARTY_COLORS.IND;return `<article class="candidate${c.elected?' elected':''}"><div class="cand-head"><div><div class="cand-name"><span class="cand-no">${c.no}</span>${c.president}・${c.vicePresident}</div><div class="cand-party">${partyVoteBadge(c.partyKey,22)}<span>${c.party}</span></div></div><div class="cand-votes">${fmt.format(c.votes)}<small>${pct.toFixed(2)}%</small></div></div><div class="bar"><i style="width:${pct}%;background:${color}"></i></div></article>`}).join('');
   renderInsights(null,null);
   const cy=countyYear(e);
   selectedCounty=null;
@@ -220,7 +220,7 @@ function renderCounty(name,result){
   if(!result){$('county-detail').className='county-empty';$('county-detail').innerHTML=`<strong>${name}</strong>目前沒有這一屆的縣市票數。`;renderInsights(name,null);return}
   renderInsights(name,result);
   const ranked=[...result.candidates].sort((a,b)=>b.votes-a.votes),winner=ranked[0];
-  $('county-detail').className='county-card';$('county-detail').innerHTML=`<div class="county-head"><h3>${name}</h3><span>${fmt.format(result.validVotes)} VALID VOTES</span></div><div class="county-rows">${ranked.map(c=>{const meta=nationalCandidate(current,c.no),color=partyColor(current,c.no),share=Number(c.share ?? (result.validVotes?c.votes/result.validVotes*100:0));return `<div class="county-row"><div class="county-row-name">${String(c.no)===String(winner.no)?`<i class="winner-dot" style="background:${color}"></i>`:''}${meta?`${meta.president}・${meta.vicePresident}`:(c.name||`候選人 ${c.no}`)}<span class="county-row-party">${meta?.party||c.party||''}</span></div><div class="county-row-votes">${fmt.format(c.votes)}</div><div class="county-row-share">${share.toFixed(2)}%</div></div>`}).join('')}</div><div class="county-summary"><span>勝方：${nationalCandidate(current,winner.no)?.president||winner.name}</span><span>勝差 ${fmt.format(result.margin)} 票</span></div>`;
+  $('county-detail').className='county-card';$('county-detail').innerHTML=`<div class="county-head"><h3>${name}</h3><span>${fmt.format(result.validVotes)} VALID VOTES</span></div><div class="county-rows">${ranked.map(c=>{const meta=nationalCandidate(current,c.no),color=partyColor(current,c.no),share=Number(c.share ?? (result.validVotes?c.votes/result.validVotes*100:0));return `<div class="county-row"><div class="county-row-name">${String(c.no)===String(winner.no)?`<i class="winner-dot" style="background:${color}"></i>`:''}${meta?`${meta.president}・${meta.vicePresident}`:(c.name||`候選人 ${c.no}`)}<span class="county-row-party">${partyVoteBadge(meta?.partyKey||c.partyKey||'IND',18)}<span>${meta?.party||c.party||''}</span></span></div><div class="county-row-votes">${fmt.format(c.votes)}</div><div class="county-row-share">${share.toFixed(2)}%</div></div>`}).join('')}</div><div class="county-summary"><span>勝方：${nationalCandidate(current,winner.no)?.president||winner.name}</span><span>勝差 ${fmt.format(result.margin)} 票</span></div>`;
   const link=document.createElement('a');link.dataset.historyTownDrilldown='true';link.href=`./town.html?year=${current.year}&county=${encodeURIComponent(name)}`;link.textContent=`查看 ${name} 鄉鎮市區 →`;link.style.cssText='display:block;margin:12px 18px 16px;padding:12px 14px;border:1px solid #493d38;border-radius:12px;background:#211a18;color:#f4f1ea;font-size:12px;font-weight:900;text-align:center;transition:.15s';$('county-detail').appendChild(link)
   window.dispatchEvent(new CustomEvent('archive:countychange',{detail:{county:name}}));
 }
@@ -240,6 +240,6 @@ loadHistoryAnnouncement();
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
 <script src="./product-ui.js"></script>
-<script src="./archive-enhancements.js?v=20260924-flips-only"></script>
+<script src="./archive-enhancements.js?v=20260924-president-logos"></script>
 </body>
 </html>

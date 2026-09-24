@@ -75,6 +75,7 @@ test('history page script compiles and exposes the overview renderers', async ()
     .filter(match => !/src=|application\/ld\+json/.test(match[1]));
   scripts.forEach((match, index) => new vm.Script(match[2], { filename: `history/index.html#${index}` }));
   assert.match(html, /function renderInsights\(/);
+  assert.match(html, /partyVoteBadge\(c\.partyKey,22\)/);
   assert.match(html, /得票率低於 5% 列為其他/);
   assert.doesNotMatch(html, /fetch\(['"]\.\.\/data\/history\/presidential-towns\.json/,
     'the history landing page must not eagerly fetch the multi-megabyte township archive');
@@ -131,6 +132,7 @@ test('presidential and local executive archives share the councilor result palet
   assert.match(executiveHtml, /id="local-exec-map-b"/);
   assert.match(executiveHtml, /id="local-exec-compare-chart"/);
   assert.match(presidentScript, /function drawComparisonMaps\(/);
+  assert.match(presidentScript, /partyVoteBadge\(wA\?\.partyKey/);
   assert.match(presidentScript, /id="archive-compare-chart"/);
   assert.match(executiveScript, /function renderElectionStats\(/);
   assert.match(executiveScript, /function drawLocalComparisonMaps\(/);
