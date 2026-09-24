@@ -113,8 +113,11 @@
 
   function syncRegionOptions(data){
     const areas=availableAreas(data);if(region&&!areas.includes(region)){region='';level='national'}
-    $('#local-region').innerHTML='<option value="">全台概覽</option>'+areas.map(name=>`<option value="${name}"${name===region?' selected':''}>${name}</option>`).join('');
+    const options='<option value="">全台概覽</option>'+areas.map(name=>`<option value="${name}"${name===region?' selected':''}>${name}</option>`).join('');
+    $('#local-region').innerHTML=options;$('#local-area-select').innerHTML=options;
   }
+  function aggregateStats(data,entries){const races=(entries?.length?entries.map(([,race])=>race):Object.values(data.races)),stats={population:0,electors:0,votesCast:0,validVotes:0,invalidVotes:0};for(const race of races)for(const key of Object.keys(stats))stats[key]+=Number(race[key]||0);stats.turnout=stats.electors?stats.votesCast/stats.electors*100:0;return stats}
+  function renderElectionStats(data,entries){const stats=aggregateStats(data,entries),rows=[['選舉人數','ELECTORS',stats.electors],['投票數','BALLOTS',stats.votesCast],['有效票','VALID',stats.validVotes],['無效票','INVALID',stats.invalidVotes],['投票率','TURNOUT',pct(stats.turnout)]];$('#local-election-stats').innerHTML=rows.map(([label,en,value])=>`<div class="election-overview-stat"><span>${label}<small>${en}</small></span><strong>${typeof value==='number'?fmt.format(value):value}</strong></div>`).join('')}
   function overviewNote(data){const races=Object.values(data.races),total=races.reduce((sum,race)=>sum+race.winner.votes,0),dates=(data.dates||[]).join('、');return `本頁的「全台概覽」是 ${races.length} 場地方首長選舉的席次分布，不把不同地區候選人合併成一場全國選舉。${races.length} 位當選者合計取得 ${fmt.format(total)} 張候選人票。投票日期：${dates}。`}
   function renderSeats(data){
     const counts=seatCounts(data),keys=Object.keys(counts).sort((a,b)=>counts[b]-counts[a]||a.localeCompare(b));
@@ -132,6 +135,7 @@
     try{
       const data=await loadYear(year);if(token!==renderToken||mode!=='single')return;syncRegionOptions(data);
       const entries=level==='county'&&region?areaEntries(data,region):[];
+      renderElectionStats(data,entries);$('#local-national-overview').hidden=Boolean(entries.length);
       $('#local-term').textContent=`LOCAL EXECUTIVE / ${year}`;$('#local-result-title').textContent=entries.length?`${year} ${region}地方首長選舉`:`${year} 地方首長選舉`;$('#local-map-heading').textContent=entries.length?`${year} ${region}`:`${year} 地方首長選舉`;
       if(entries.length){const best=[...entries].sort((a,b)=>b[1].winner.share-a[1].winner.share)[0][1];$('#local-head-number').textContent=entries.length===1?pct(best.winner.share):String(entries.length);$('#local-head-label').textContent=entries.length===1?'當選者有效票得票率':'合併前獨立選舉';renderRace(entries)}else{$('#local-head-number').textContent=String(data.raceCount);$('#local-head-label').textContent='地方首長席次';renderSeats(data);showOverviewEmpty()}
       $('#local-map-status').innerHTML=year===1994?'<b>1994 為中選會現有部分資料：</b>僅收錄臺北市與高雄市兩場直轄市長選舉。':year<2010?`<b>${year} 週期共 ${data.raceCount} 場：</b>保留縣市合併前的行政區；同一現行縣市若含多場舊制選舉，地圖以中性色呈現，點擊後可逐場查看。`:year===2010?'<b>2009–2010 地方首長週期共 22 場：</b>縣市長於 2009 年、直轄市長於 2010 年投票。':'<b>2014、2018、2022 各具完整 22 縣市。</b> 2022 嘉義市採 12 月 18 日重行選舉結果；地圖顏色表示該縣市當選者政黨。';
@@ -187,7 +191,8 @@
     $$('#local-mode-switch [data-mode]').forEach(b=>b.addEventListener('click',()=>{mode=b.dataset.mode;compareSelection='';syncControls();render()}));
     $('#local-year').addEventListener('change',e=>changeYear(Number(e.target.value)));
     $$('#local-level-switch [data-level]').forEach(b=>b.addEventListener('click',()=>{level=b.dataset.level;if(level==='national')region='';else if(!region)region=$('#local-region option:not([value=""])')?.value||'';syncControls();render()}));
-    $('#local-region').addEventListener('change',e=>{region=normalize(e.target.value);level=region?'county':'national';syncControls();render()});
+    const selectArea=e=>{region=normalize(e.target.value);level=region?'county':'national';syncControls();render()};
+    $('#local-region').addEventListener('change',selectArea);$('#local-area-select').addEventListener('change',selectArea);
     $('#local-compare-a').addEventListener('change',e=>{const v=Number(e.target.value);if(v!==compareB)compareA=v;syncControls();render()});
     $('#local-compare-b').addEventListener('change',e=>{const v=Number(e.target.value);if(v!==compareA)compareB=v;year=compareB;syncControls();render()});
     $('#local-swap').addEventListener('click',()=>{[compareA,compareB]=[compareB,compareA];year=compareB;compareSelection='';syncControls();render()});

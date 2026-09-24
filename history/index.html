@@ -109,20 +109,22 @@
     </div>
     <div class="section-label">全國得票 / NATIONAL RESULT</div>
     <div id="candidates" class="candidate-list"></div>
-    <section class="archive-insights" aria-labelledby="archive-insights-title">
-      <div class="section-label" id="archive-insights-title">選舉概況 / ELECTION OVERVIEW</div>
-      <div id="election-overview" class="overview-grid"></div>
-      <div class="insight-card">
-        <div class="insight-head"><div><small>PARTY VOTE</small><h3 id="party-summary-title">政黨得票數／得票率</h3></div><span>得票率低於 5% 列為其他</span></div>
-        <div id="party-summary" class="party-summary"></div>
+    <details id="president-election-overview" class="archive-result-disclosure archive-insights" open>
+      <summary><span class="section-label" id="archive-insights-title">選舉概況 / ELECTION OVERVIEW</span><span class="archive-disclosure-action" aria-hidden="true"></span></summary>
+      <div class="archive-overview-content">
+        <div id="election-overview" class="overview-grid"></div>
+        <div class="insight-card">
+          <div class="insight-head"><div><small>PARTY VOTE</small><h3 id="party-summary-title">政黨得票數／得票率</h3></div><span>得票率低於 5% 列為其他</span></div>
+          <div id="party-summary" class="party-summary"></div>
+        </div>
+        <div class="insight-card">
+          <div class="insight-head"><div><small>TURNOUT TREND</small><h3 id="turnout-trend-title">歷屆投票率變化</h3></div><span>1996–2024</span></div>
+          <div id="turnout-trend" class="turnout-trend"></div>
+        </div>
       </div>
-      <div class="insight-card">
-        <div class="insight-head"><div><small>TURNOUT TREND</small><h3 id="turnout-trend-title">歷屆投票率變化</h3></div><span>1996–2024</span></div>
-        <div id="turnout-trend" class="turnout-trend"></div>
-      </div>
-    </section>
+    </details>
     <div class="county-detail">
-      <div class="section-label">地區結果 / AREA RESULT</div>
+      <div class="result-area-toolbar"><div class="section-label">地區結果 / AREA RESULT</div><label class="result-area-picker" for="president-area-select"><span>選擇縣市</span><select id="president-area-select"><option value="">全國結果</option></select></label></div>
       <div id="county-detail" class="county-empty"></div>
     </div>
     <div class="source">全部選舉結果取自<a href="https://db.cec.gov.tw/ElecTable/Election?type=President" target="_blank" rel="noopener noreferrer">中央選舉委員會選舉資料庫</a>官方公開資料。1996–2024 的全國、22 縣市與 368 鄉鎮市區皆經逐候選人票數加總驗證。本站為非官方整理。</div>
@@ -156,6 +158,7 @@ function partyColor(e,no){const c=nationalCandidate(e,no);return PARTY_COLORS[c?
 function candidatePercent(e,c){return e.validVotes?c.votes/e.validVotes*100:0}
 function countyYear(e){return countyArchive?.years?.[String(e.year)]||null}
 function countyResult(e,name){return countyYear(e)?.counties?.[normalizeName(name)]||null}
+function syncPresidentAreaOptions(){const names=Object.keys(countyYear(current)?.counties||{}).sort((a,b)=>a.localeCompare(b,'zh-Hant')),select=$('president-area-select');if(!select)return;select.innerHTML='<option value="">全國結果</option>'+names.map(name=>`<option value="${name}">${name}</option>`).join('');select.value=selectedCounty&&names.includes(selectedCounty)?selectedCounty:''}
 async function loadHistoryAnnouncement(){
   const box=$('site-ann');
   try{
@@ -198,12 +201,15 @@ function renderElection(){
   $('candidates').innerHTML=rows.map(c=>{const pct=candidatePercent(e,c),color=PARTY_COLORS[c.partyKey]||PARTY_COLORS.IND;return `<article class="candidate${c.elected?' elected':''}"><div class="cand-head"><div><div class="cand-name"><span class="cand-no">${c.no}</span>${c.president}・${c.vicePresident}</div><div class="cand-party">${c.party}</div></div><div class="cand-votes">${fmt.format(c.votes)}<small>${pct.toFixed(2)}%</small></div></div><div class="bar"><i style="width:${pct}%;background:${color}"></i></div></article>`}).join('');
   renderInsights(null,null);
   const cy=countyYear(e);
+  selectedCounty=null;
+  syncPresidentAreaOptions();
   $('map-status').innerHTML=cy?`<b>縣市資料已載入。</b> 點擊地圖或使用上方地區選單查看縣市票數與勝差。${e.year<=2008?' 舊縣市已按現行 22 縣市基準合併。':''}`:'<b>此屆縣市資料尚未接入。</b> 地圖維持中性底圖。';
-  selectedCounty=null;$('county-detail').className='county-empty';$('county-detail').innerHTML=cy?'<strong>目前顯示全國結果</strong>選擇「縣市」層級或直接點擊地圖，即可查看地方結果。':'<strong>縣市資料建置中</strong>這個年份目前只顯示已驗證的全國結果。';paintMap();
+  $('county-detail').className='county-empty';$('county-detail').innerHTML=cy?'<strong>目前顯示全國結果</strong>選擇縣市或直接點擊地圖，即可查看地方結果。':'<strong>縣市資料建置中</strong>這個年份目前只顯示已驗證的全國結果。';paintMap();
   window.dispatchEvent(new CustomEvent('archive:yearchange',{detail:{year:e.year}}));
 }
 function renderCounty(name,result){
   selectedCounty=name;paintMap();
+  if($('president-area-select'))$('president-area-select').value=name;
   if(!result){$('county-detail').className='county-empty';$('county-detail').innerHTML=`<strong>${name}</strong>目前沒有這一屆的縣市票數。`;renderInsights(name,null);return}
   renderInsights(name,result);
   const ranked=[...result.candidates].sort((a,b)=>b.votes-a.votes),winner=ranked[0];
@@ -221,6 +227,7 @@ async function init(){
   try{const {national,topology,counties}=await historyArchiveDataPromise;archive=national;countyArchive=counties;const requested=Number(new URLSearchParams(location.search).get('year'));current=archive.elections.find(e=>e.year===requested)||archive.elections.find(e=>e.year===2024)||archive.elections.at(-1);renderYears();buildMap(topology);renderElection()}catch(error){console.error(error);$('map-status').innerHTML='<b>資料載入失敗。</b> 請重新整理頁面；若持續發生，請回報島民觀察室。'}
 }
 $('archive-year-select')?.addEventListener('change',e=>selectYear(Number(e.target.value)));
+$('president-area-select')?.addEventListener('change',e=>{const name=normalizeName(e.target.value),top=$('archive-region-select');if(top){top.value=name;top.dispatchEvent(new Event('change',{bubbles:true}))}else if(name)renderCounty(name,countyResult(current,name));else renderElection()});
 init();
 loadHistoryAnnouncement();
 </script>

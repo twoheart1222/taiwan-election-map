@@ -107,9 +107,10 @@ test('history pages use a lightweight county-only topology', async () => {
 });
 
 test('presidential and local executive archives share the councilor result palette', async () => {
-  const [presidentHtml, executiveHtml, palette] = await Promise.all([
+  const [presidentHtml, executiveHtml, executiveScript, palette] = await Promise.all([
     readFile(new URL('../history/index.html', import.meta.url), 'utf8'),
     readFile(new URL('../history/local-executive.html', import.meta.url), 'utf8'),
+    readFile(new URL('../history/local-executive.js', import.meta.url), 'utf8'),
     readFile(new URL('../history/election-palette.css', import.meta.url), 'utf8'),
   ]);
   assert.match(presidentHtml, /href="\.\/election-palette\.css"/);
@@ -118,6 +119,13 @@ test('presidential and local executive archives share the councilor result palet
   assert.match(palette, /body\.history-archive \.result-panel[\s\S]*background:#eee9df/);
   assert.match(palette, /body\.local-executive-page \.local-result[\s\S]*background:#eee9df/);
   assert.match(palette, /body\.local-executive-page \.local-candidate:not\(\.elected\)/);
+  assert.match(presidentHtml, /id="president-election-overview"[^>]*open/);
+  assert.match(presidentHtml, /id="president-area-select"/);
+  assert.match(executiveHtml, /id="local-election-overview"[^>]*open/);
+  assert.match(executiveHtml, /id="local-election-stats"/);
+  assert.match(executiveHtml, /id="local-area-select"/);
+  assert.match(executiveScript, /function renderElectionStats\(/);
+  assert.match(palette, /\.archive-result-disclosure:not\(\[open\]\)/);
 });
 
 test('official CEC councilor archive covers every published cycle, council and district', async () => {
@@ -153,12 +161,15 @@ test('official CEC councilor archive covers every published cycle, council and d
   assert.deepEqual(archive.years['2006'].currentAreas['臺中市'].sort(), ['臺中市', '臺中縣']);
   new vm.Script(script, { filename: 'history/councilor.js' });
   assert.match(html, /id="councilor-national-overview"[^>]*open/);
+  assert.match(html, /id="councilor-election-overview"[^>]*open/);
+  assert.match(html, /id="councilor-election-stats"/);
   assert.match(html, /id="councilor-area-select"/);
   assert.match(html, /id="councilor-map-a"/);
   assert.match(html, /id="councilor-map-b"/);
   assert.match(html, /id="councilor-compare-chart"/);
   assert.match(script, /councilorPartyBadgeFallback/);
   assert.match(script, /function electedStamp\(/);
+  assert.match(script, /function renderElectionStats\(/);
   assert.match(script, /function drawComparisonMaps\(/);
   assert.match(script, /classList\.toggle\('compare-map-active',mode==='compare'\)/);
   assert.match(script, /<em>展開查看更多<\/em>/);
