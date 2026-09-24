@@ -20,7 +20,7 @@ const PUBLIC_KEYS = new Set(['overrides', 'observatory_links', 'election_summary
 // 資料內容中會被當成連結/圖片網址渲染的欄位，寫入時強制過濾協定
 const URL_FIELDS = new Set([
   'photoUrl', 'facebook', 'instagram', 'threads', 'youtube',
-  'gazetteUrl', 'taiwanGoGoUrl', 'url', 'website', 'olcPhotoUrl',
+  'gazetteUrl', 'gazettePreviewUrl', 'taiwanGoGoUrl', 'url', 'website', 'olcPhotoUrl',
 ]);
 
 const MAX_ADMIN_BODY = 10 * 1024 * 1024; // 整包 overrides 可能較大

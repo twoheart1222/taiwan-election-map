@@ -1094,7 +1094,7 @@
       
       c = c || { 
         name: '', party: '無', role: currentCountyRole === 'councilor' ? '市議員候選人' : '候選人', 
-        registeredDate: '', gazetteUrl: '', facebook: '', taiwanGoGoUrl: '', instagram: '', threads: '', youtube: '', photoUrl: '',
+        registeredDate: '', gazetteUrl: '', gazettePreviewUrl: '', gazettePage: '', gazetteAlt: '', facebook: '', taiwanGoGoUrl: '', instagram: '', threads: '', youtube: '', photoUrl: '',
         isIncumbent: false, elected: false, votes: '', prevVotes: '', _district: defaultDistrict 
       };
 
@@ -1119,11 +1119,20 @@
           <input placeholder="政黨" class="c-party bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.party)}">
           <input placeholder="職稱（如：市議員）" class="c-role bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.role)}">
           <div class="flex items-center gap-1.5">
-            <input placeholder="選舉公報連結 (URL)" class="c-gazette flex-1 bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.gazetteUrl || '')}">
+            <input placeholder="官方選舉公報 PDF 網址" class="c-gazette flex-1 bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.gazetteUrl || '')}">
             <button type="button" onclick="this.closest('.card-brutal').remove()" class="text-accent-red hover:bg-accent-red/10 rounded-lg p-1.5 shrink-0">
               <i data-lucide="trash-2" class="w-4 h-4"></i>
             </button>
           </div>
+        </div>
+        <div class="rounded-xl border border-ink-300 bg-surface/60 p-3 space-y-2">
+          <div class="flex items-center justify-between gap-3"><span class="text-[10px] font-black uppercase tracking-wider text-ink-500">候選人公報切圖</span><span class="text-[10px] font-bold text-ink-500">留空時前台顯示「待選舉公報公告後更新」</span></div>
+          <div class="grid grid-cols-1 sm:grid-cols-[minmax(0,1fr)_5.5rem] gap-2">
+            <input placeholder="公報橫列圖片網址（https:// 或 /assets/...）" class="c-gazette-preview bg-canvas border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.gazettePreviewUrl || '')}">
+            <input placeholder="PDF 頁碼" inputmode="numeric" class="c-gazette-page bg-canvas border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.gazettePage || '')}">
+          </div>
+          <input placeholder="圖片替代文字（選填，例如：王小明的完整選舉公報橫列）" class="c-gazette-alt w-full bg-canvas border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.gazetteAlt || '')}">
+          <div class="c-gazette-preview-box min-h-12 rounded-lg border border-dashed border-ink-300 bg-canvas overflow-hidden flex items-center justify-center text-[10px] font-bold text-ink-500">${c.gazettePreviewUrl ? `<img src="${escapeAttr(/^\/api\/photo\//.test(c.gazettePreviewUrl) ? apiUrl(c.gazettePreviewUrl) : c.gazettePreviewUrl)}" alt="" referrerpolicy="no-referrer" class="block w-full h-auto" onerror="this.parentElement.textContent='圖片載入失敗，請檢查網址'">` : '尚未設定公報切圖'}</div>
         </div>
         <div class="flex flex-wrap items-center gap-x-5 gap-y-2">
           <label class="flex items-center gap-1.5 text-xs font-bold text-ink-700 cursor-pointer w-fit">
@@ -1210,6 +1219,20 @@
           photoPreview.appendChild(img);
         }
       });
+      const gazettePreviewInput = row.querySelector('.c-gazette-preview');
+      const gazettePreviewBox = row.querySelector('.c-gazette-preview-box');
+      gazettePreviewInput.addEventListener('input', () => {
+        const url = gazettePreviewInput.value.trim();
+        gazettePreviewBox.textContent = url ? '正在預覽…' : '尚未設定公報切圖';
+        if (!url || !/^(https?:\/\/[^\s"'<>]+|\/(?!\/)[^\s"'<>\\]*)$/i.test(url)) return;
+        const img = document.createElement('img');
+        img.src = /^\/api\/photo\//.test(url) ? apiUrl(url) : url;
+        img.alt = '';
+        img.referrerPolicy = 'no-referrer';
+        img.className = 'block w-full h-auto';
+        img.onload = () => gazettePreviewBox.replaceChildren(img);
+        img.onerror = () => { gazettePreviewBox.textContent = '圖片載入失敗，請檢查網址'; };
+      });
       lucide.createIcons();
     };
 
@@ -1225,6 +1248,9 @@
         role: row.querySelector('.c-role').value.trim(),
         district: row.dataset.district || '1',
         gazetteUrl: row.querySelector('.c-gazette').value.trim() || null,
+        gazettePreviewUrl: row.querySelector('.c-gazette-preview').value.trim() || null,
+        gazettePage: row.querySelector('.c-gazette-page').value.trim() || null,
+        gazetteAlt: row.querySelector('.c-gazette-alt').value.trim() || null,
         facebook: row.querySelector('.c-facebook').value.trim() || null,
         taiwanGoGoUrl: row.querySelector('.c-taiwangogo').value.trim() || null,
         instagram: row.querySelector('.c-instagram').value.trim() || null,

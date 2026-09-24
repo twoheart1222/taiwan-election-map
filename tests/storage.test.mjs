@@ -11,16 +11,18 @@ import { pathToFileURL } from 'node:url';
 import '../election-data.js';
 
 test('legacy migration preserves base information; saved snapshots honor clears, zero, false and deletion', () => {
-  const base = { candidates: [{ name: '甲', facebook: 'https://example.org', votes: 99 }, { name: '乙' }],
+  const base = { candidates: [{ name: '甲', facebook: 'https://example.org', votes: 99, gazettePreviewUrl: '/assets/gazettes/a.webp', gazettePage: '1', gazetteAlt: '甲的選舉公報' }, { name: '乙' }],
     councilors: [{ district: '1', candidates: [{ name: '丙', prevVotes: 12 }] }] };
   const legacy = ElectionData.mergeArea(base, { candidates: [{ name: '甲', votes: 0, elected: false }],
     councilors: { blocks: [{ district: '1', candidates: [{ name: '丙' }] }] } });
   assert.equal(legacy.candidates[0].votes, 0);
   assert.equal(legacy.candidates[0].elected, false);
   assert.equal(legacy.candidates[0].facebook, 'https://example.org');
+  assert.equal(legacy.candidates[0].gazettePreviewUrl, '/assets/gazettes/a.webp');
+  assert.equal(legacy.candidates[0].gazettePage, '1');
   assert.equal(legacy.candidates.length, 2);
   assert.equal(legacy.councilors[0].candidates[0].prevVotes, 12);
-  const saved = { schemaVersion: 2, candidates: [{ name: '甲', facebook: null, votes: 0, elected: false }], councilors: [] };
+  const saved = { schemaVersion: 2, candidates: [{ name: '甲', facebook: null, votes: 0, elected: false, gazettePreviewUrl: null, gazettePage: null, gazetteAlt: null }], councilors: [] };
   const result = ElectionData.mergeArea(base, saved);
   assert.deepEqual(result.candidates, saved.candidates);
   assert.deepEqual(result.councilors, []);
@@ -180,15 +182,24 @@ test('API migration, version conflicts, concurrent writes, atomic batches and KV
   assert.equal((await request('/api/admin/overrides/A', 'PUT', { candidates: [] })).status, 428);
   const initial = data;
   const updates = await Promise.all([
-    request('/api/admin/overrides/A', 'PUT', { candidates: [{ name: '甲', votes: 0, elected: false, facebook: null }] }, data.A._revision),
+    request('/api/admin/overrides/A', 'PUT', { candidates: [{ name: '甲', votes: 0, elected: false, facebook: null, gazetteUrl: 'https://example.org/a.pdf', gazettePreviewUrl: '/assets/gazettes/a.webp', gazettePage: '1', gazetteAlt: '甲的完整選舉公報橫列' }] }, data.A._revision),
     request('/api/admin/overrides/B', 'PUT', { candidates: [] }, data.B._revision),
   ]);
   assert.deepEqual(updates.map(r => r.status), [200, 200]);
   data = await parity();
   assert.equal(data.A.candidates[0].votes, 0);
+  assert.equal(data.A.candidates[0].gazettePreviewUrl, '/assets/gazettes/a.webp');
+  assert.equal(data.A.candidates[0].gazettePage, '1');
+  assert.equal(data.A.candidates[0].gazetteAlt, '甲的完整選舉公報橫列');
   assert.equal(data.A.extra, 'keep');
   assert.deepEqual(data.A.representatives, []);
   assert.deepEqual(data.B.candidates, []);
+  const unsafeGazette = await request('/api/admin/overrides/A', 'PUT', {
+    candidates: [{ name: '甲', gazettePreviewUrl: 'javascript:alert(1)' }],
+  }, data.A._revision);
+  assert.equal(unsafeGazette.status, 200);
+  data = await parity();
+  assert.equal(data.A.candidates[0].gazettePreviewUrl, '');
   assert.equal((await request('/api/admin/overrides/A', 'PUT', { candidates: [] }, initial.A._revision)).status, 409);
   const competing = await Promise.all([
     request('/api/admin/overrides/A', 'PUT', { quota: 1 }, data.A._revision),

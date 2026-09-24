@@ -104,6 +104,21 @@ try{
   .candidate-main{display:grid;grid-template-columns:88px minmax(0,1fr);gap:16px;align-items:center}
   .candidate-photo{width:88px;height:88px;overflow:hidden;border-radius:50%;background:#2a2723;display:grid;place-items:center;font-family:'Noto Sans TC';font-weight:900;font-size:28px;color:#f4f1ea}
   .candidate-title-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .gazette-disclosure{border-top:1px solid #332f2a;margin-top:1px}
+  .gazette-disclosure>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;list-style:none;color:inherit;font:900 13px 'Noto Sans TC';padding:2px 0;user-select:none}
+  .gazette-disclosure>summary::-webkit-details-marker{display:none}
+  .gazette-summary-label{display:inline-flex;align-items:center;gap:8px}.gazette-summary-label:before{content:'▤';color:#ff5a74;font:900 16px 'Archivo'}
+  .gazette-summary-state{display:inline-flex;align-items:center;gap:7px;color:#8f897f;font-size:10px;letter-spacing:.04em}.gazette-summary-state:after{content:'＋';width:25px;height:25px;border-radius:50%;display:grid;place-items:center;background:#2a2723;color:#ff5a74;font-size:17px;transition:transform .22s ease,background .22s ease}
+  .gazette-disclosure[open] .gazette-summary-state:after{content:'−';transform:rotate(180deg);background:#E4022B;color:#fff}
+  .gazette-panel{display:grid;gap:9px;padding-top:12px}
+  .gazette-pending{padding:14px;border:1px dashed #49433c;border-radius:12px;background:#171512;color:#a29c92;text-align:center;font-size:12px;font-weight:700;line-height:1.6}
+  .gazette-preview-button{position:relative;width:100%;padding:0;border:1px solid #4a443d;border-radius:10px;overflow:hidden;background:#fff;cursor:zoom-in;text-align:left}
+  .gazette-preview-button img{display:block;width:100%;height:auto}.gazette-preview-button span{position:absolute;right:8px;bottom:8px;padding:7px 10px;border-radius:999px;background:rgba(13,13,13,.86);color:#fff;font-size:10px;font-weight:800;box-shadow:0 4px 18px rgba(0,0,0,.35)}
+  .gazette-source-link{display:flex;align-items:center;justify-content:center;padding:10px 13px;border:1px solid #4a443d;border-radius:999px;color:#ff637b;font-size:11px;font-weight:800}
+  .gazette-lightbox{width:100vw;height:100dvh;max-width:none;max-height:none;margin:0;padding:0;border:0;background:rgba(5,5,5,.96);color:#fff}.gazette-lightbox::backdrop{background:rgba(0,0,0,.82)}
+  .gazette-lightbox-bar{position:fixed;z-index:2;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px max(12px,env(safe-area-inset-right)) 12px max(12px,env(safe-area-inset-left));background:linear-gradient(#090909 70%,transparent)}
+  .gazette-lightbox-title{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px;font-weight:800}.gazette-lightbox-actions{display:flex;gap:7px}.gazette-lightbox-actions button{width:42px;height:42px;border:1px solid #4a4742;border-radius:50%;background:#1b1917;color:#fff;cursor:pointer;font-size:20px;font-weight:800}
+  .gazette-lightbox-stage{width:100%;height:100%;padding:78px 20px 30px;overflow:auto;display:grid;place-items:center}.gazette-lightbox-stage img{display:block;width:min(100%,1600px);height:auto;max-width:none;transform-origin:center;transition:width .18s ease}.gazette-lightbox-stage[data-zoom="2"] img{width:2500px}.gazette-lightbox-stage[data-zoom="3"] img{width:3535px}
   .candidate-card.search-target-ring{position:relative;isolation:isolate}
   .candidate-search-orbit{position:absolute;inset:-4px;width:calc(100% + 8px);height:calc(100% + 8px);z-index:4;overflow:visible;pointer-events:none}
   .candidate-search-orbit .orbit-outline{fill:none;stroke:#f6a06b;stroke-width:2;opacity:.82;filter:drop-shadow(0 0 5px rgba(246,160,107,.32));animation:candidate-outline-once 1.55s ease-out 1 forwards}
@@ -205,6 +220,7 @@ try{
     .candidate-main{grid-template-columns:88px minmax(0,1fr);gap:14px}
     .candidate-photo{width:88px;height:88px}
     .candidate-title-row h4{line-height:1.25 !important;letter-spacing:0 !important}
+    .gazette-preview-button{overflow-x:auto}.gazette-preview-button img{width:920px;max-width:none}.gazette-lightbox-stage{display:block;padding:76px 10px 24px}.gazette-lightbox-stage img{width:1100px}.gazette-lightbox-stage[data-zoom="2"] img{width:2200px}.gazette-lightbox-stage[data-zoom="3"] img{width:3535px}
     #tw3d{touch-action:none !important}
     #crumb{display:none !important}
     .mobile-county-picker{display:block;position:absolute;top:18px;right:16px;z-index:45;font-family:'Noto Sans TC','Archivo',sans-serif;pointer-events:auto}
@@ -595,6 +611,7 @@ class App {
     this._wireDrawerPlacement();
     this._wireNav();
     this._wireCandidateSearch();
+    this._wireGazettePreview();
     this._wireCountyPicker();
     this._renderSites();
     this._loadObservatoryLinks();
@@ -1829,6 +1846,36 @@ class App {
     this._writeReadout(mesh.userData.props.name, `${this._tally(mesh.userData.props, this.active?.level)} · 點擊下探`);
   }
 
+  _wireGazettePreview() {
+    const dialog = document.createElement('dialog');
+    dialog.className = 'gazette-lightbox';
+    dialog.setAttribute('aria-labelledby', 'gazette-lightbox-title');
+    dialog.innerHTML = `<div class="gazette-lightbox-bar"><div class="gazette-lightbox-title" id="gazette-lightbox-title"></div><div class="gazette-lightbox-actions"><button type="button" data-gazette-action="zoom-out" aria-label="縮小">−</button><button type="button" data-gazette-action="zoom-in" aria-label="放大">＋</button><button type="button" data-gazette-action="close" aria-label="關閉預覽">×</button></div></div><div class="gazette-lightbox-stage" data-zoom="1"><img alt=""></div>`;
+    document.body.appendChild(dialog);
+    const stage = dialog.querySelector('.gazette-lightbox-stage');
+    const image = dialog.querySelector('img');
+    const title = dialog.querySelector('.gazette-lightbox-title');
+    let zoom = 1;
+    const setZoom = value => { zoom = Math.max(1, Math.min(3, value)); stage.dataset.zoom = String(zoom); };
+    document.addEventListener('click', event => {
+      const preview = event.target.closest('.gazette-preview-button');
+      if (preview) {
+        image.src = preview.dataset.image;
+        image.alt = preview.dataset.alt || `${preview.dataset.name || '候選人'}選舉公報`;
+        title.textContent = `${preview.dataset.name || '候選人'}｜選舉公報${preview.dataset.page ? `・第 ${preview.dataset.page} 頁` : ''}`;
+        setZoom(1);
+        dialog.showModal();
+        return;
+      }
+      const action = event.target.closest('[data-gazette-action]')?.dataset.gazetteAction;
+      if (action === 'close') dialog.close();
+      if (action === 'zoom-in') setZoom(zoom + 1);
+      if (action === 'zoom-out') setZoom(zoom - 1);
+    });
+    dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
+    image.addEventListener('click', () => setZoom(zoom === 3 ? 1 : zoom + 1));
+  }
+
   _setHovered(next) {
     if (!this.active) return;
     next = next || null;
@@ -2420,9 +2467,19 @@ class App {
       ${voteCell('本期得票', thisVotes, '未開票')}
       ${(c.isIncumbent || prevVotes) ? voteCell('上期得票', prevVotes, '資料待補') : ''}
     </div>`;
-    const gazette = safeUrl(c.gazetteUrl)
-      ? `<a href="${safeUrl(c.gazetteUrl)}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border-radius:999px;background:#E4022B;color:#fff;font:800 13px 'Noto Sans TC'">查閱官方選舉公報 (PDF) →</a>`
-      : '';
+    const gazetteSource = safeUrl(c.gazetteUrl);
+    const gazettePreview = safeUrl(c.gazettePreviewUrl);
+    const gazettePage = String(c.gazettePage || '').replace(/[^0-9０-９-]/g, '').slice(0, 12);
+    const gazetteAlt = esc(c.gazetteAlt || `${c.name || '候選人'}的完整選舉公報橫列`);
+    const gazette = `<details class="gazette-disclosure">
+      <summary><span class="gazette-summary-label">查看選舉公報</span><span class="gazette-summary-state">${gazettePreview ? '已收錄' : '待公告'}</span></summary>
+      <div class="gazette-panel">
+        ${gazettePreview
+          ? `<button type="button" class="gazette-preview-button" data-image="${gazettePreview}" data-name="${esc(c.name)}" data-page="${esc(gazettePage)}" data-alt="${gazetteAlt}" aria-label="放大預覽${esc(c.name)}的選舉公報"><img src="${gazettePreview}" alt="${gazetteAlt}" loading="lazy" referrerpolicy="no-referrer"><span>點擊放大 ⤢</span></button>`
+          : `<div class="gazette-pending">待選舉公報公告後更新</div>`}
+        ${gazetteSource ? `<a class="gazette-source-link" href="${gazetteSource}" target="_blank" rel="noopener noreferrer">查閱官方選舉公報 PDF →</a>` : ''}
+      </div>
+    </details>`;
     const taiwanGoGo = safeUrl(c.taiwanGoGoUrl)
       ? `<a href="${safeUrl(c.taiwanGoGoUrl)}" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border-radius:999px;background:transparent;border:1.5px solid #E4022B;color:${isWin ? '#c40225' : '#ff5a74'};font:800 13px 'Noto Sans TC'">2026 議員參選人刑事紀錄圖鑑 →</a>`
       : '';
