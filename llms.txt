@@ -10,6 +10,7 @@
 - [全台候選人名單索引](https://formosaobservatory.com/election/): 22 縣市入口
 - [歷年總統選舉](https://formosaobservatory.com/history/): 1996–2024 總統副總統選舉結果、地圖與跨屆比較
 - [歷年縣市長選舉](https://formosaobservatory.com/history/local-executive): 1994–2022 縣市長選舉結果與跨屆比較
+- [歷年縣市議員選舉](https://formosaobservatory.com/history/councilor): 1994–2022 直轄市議員與縣市議員選舉，含選區候選人、得票、當選席次與跨屆比較
 
 ## 2026 各縣市首長登記參選人
 - [連江縣](https://formosaobservatory.com/election/09007): 王忠銘（中國國民黨）、曹爾元（無黨籍）；另收錄 14 位議員登記參選人與 4 個鄉鎮市區入口

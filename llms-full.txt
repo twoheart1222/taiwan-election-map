@@ -126,6 +126,7 @@
 - 全台候選人索引：https://formosaobservatory.com/election/
 - 歷年總統選舉：https://formosaobservatory.com/history/
 - 歷年縣市長選舉：https://formosaobservatory.com/history/local-executive
+- 歷年縣市議員選舉：https://formosaobservatory.com/history/councilor
 
 ## 引用與資料限制
 資料來源包含中央選舉委員會、內政部地方公職人員資訊、各縣市議會公開名冊與可核對的公開來源。本站是獨立民間資訊平台，不是政府機關。登記後仍須經資格審查與抽籤；正式候選人名單、號次、選區與投票資訊以中央選舉委員會公告為準。引用本站時，請標示「Formosa Observatory｜島民觀察室」與對應頁面網址。

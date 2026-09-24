@@ -312,5 +312,171 @@ async function buildLocalExecutives() {
   await fs.writeFile(OUT('local-executive.json'),`${JSON.stringify(output,null,2)}\n`);
 }
 
-if(!process.argv.includes('--local-only'))await buildPresident();
-await buildLocalExecutives();
+function councilorCycleYear(subject, electionYear) {
+  if (subject === 'T2' && (electionYear === 2005 || electionYear === 2009)) return electionYear + 1;
+  return electionYear;
+}
+
+function blankCouncilorStats() {
+  return { population:0, electors:0, votesCast:0, validVotes:0, invalidVotes:0, candidateCount:0, electedSeats:0 };
+}
+
+function addCouncilorStats(target, incoming) {
+  target.population += number(incoming.population);
+  target.electors += number(incoming.electors);
+  target.votesCast += number(incoming.votesCast);
+  target.validVotes += number(incoming.validVotes);
+  target.invalidVotes += number(incoming.invalidVotes);
+  target.candidateCount += number(incoming.candidateCount);
+  target.electedSeats += number(incoming.electedSeats);
+  target.turnout = target.electors ? round(target.votesCast / target.electors * 100) : 0;
+  return target;
+}
+
+function councilorProfile(row) {
+  return {
+    ...profile(row),
+    candidateCount:number(row.cand_num),
+    electedSeats:number(row.elected_num),
+  };
+}
+
+async function buildCouncilors() {
+  const [t1List,t2List] = await Promise.all([json(`${BASE}/list/ELC_T1.json`),json(`${BASE}/list/ELC_T2.json`)]);
+  const themes = [
+    ...(t1List.find(x=>x.area_name==='全國')?.theme_items||[]).map(x=>({...x,subject:'T1'})),
+    ...(t2List.find(x=>x.area_name==='全國')?.theme_items||[]).map(x=>({...x,subject:'T2'})),
+  ].filter(x=>x.has_data).map(x=>{
+    const electionYear=Number(String(x.vote_date).slice(0,4));
+    return {...x,electionYear,cycleYear:councilorCycleYear(x.subject,electionYear)};
+  }).sort((a,b)=>String(a.vote_date).localeCompare(String(b.vote_date))||String(a.legislator_type_id).localeCompare(String(b.legislator_type_id)));
+  const output={
+    schemaVersion:1,
+    type:'councilor',
+    coverage:[1994,1998,2002,2006,2010,2014,2018,2022],
+    source:{
+      name:'中央選舉委員會選舉資料庫',
+      url:'https://db.cec.gov.tw/ElecTable/Election',
+      listApis:[`${BASE}/list/ELC_T1.json`,`${BASE}/list/ELC_T2.json`],
+      ticketApi:`${BASE}/data/tickets/ELC/{T1|T2}/{T1|T2|T3}/{theme}/C/00_000_00_000_0000.json`,
+      profileApi:`${BASE}/data/profiles/ELC/{T1|T2}/{T1|T2|T3}/{theme}/C/00_000_00_000_0000.json`,
+    },
+    note:'收錄中選會現有全部直轄市議員與縣市議員官方結果，合併區域、平地原住民及山地原住民選舉。1994 僅有臺北市、高雄市直轄市議員資料；1998–2006 保留縣市合併前行政區；2009 縣市議員與 2010 直轄市議員合併為同一地方選舉週期。',
+    years:{},
+  };
+  for(const theme of themes){
+    const legis=theme.legislator_type_id;
+    const [ticketsPayload,profilesPayload]=await Promise.all([
+      json(`${BASE}/data/tickets/ELC/${theme.subject}/${legis}/${theme.theme_id}/C/00_000_00_000_0000.json`),
+      json(`${BASE}/data/profiles/ELC/${theme.subject}/${legis}/${theme.theme_id}/C/00_000_00_000_0000.json`),
+    ]);
+    const tickets=rows(ticketsPayload),countyProfiles=rows(profilesPayload),year=theme.cycleYear;
+    const yearData=output.years[String(year)]||(output.years[String(year)]={cycleYear:year,dates:[],themes:[],counties:{},currentAreas:{}});
+    if(!yearData.dates.includes(theme.vote_date))yearData.dates.push(theme.vote_date);
+    yearData.themes.push({subject:theme.subject,legislatorType:legis,category:theme.legislator_desc,themeId:theme.theme_id,date:theme.vote_date});
+    const districtProfiles=[];
+    if((theme.data_prof_seq||[]).includes('A')){
+      for(let start=0;start<countyProfiles.length;start+=6){
+        const batch=await Promise.all(countyProfiles.slice(start,start+6).map(async row=>{
+          const key=[row.prv_code,row.city_code,row.area_code||'00','000','0000'].join('_');
+          return {area:normalizeText(row.area_name),rows:rows(await json(`${BASE}/data/profiles/ELC/${theme.subject}/${legis}/${theme.theme_id}/A/${key}.json`))};
+        }));
+        districtProfiles.push(...batch);
+        await new Promise(resolve=>setTimeout(resolve,60));
+      }
+    }else{
+      for(const row of countyProfiles){
+        const area=normalizeText(row.area_name);
+        const codes=[...new Set(tickets.filter(ticket=>normalizeText(ticket.area_name)===area).map(ticket=>String(ticket.ori_area_code||ticket.area_code||'00').padStart(2,'0')))];
+        assert(codes.length===1,`${year} ${area} ${theme.legislator_desc}: no district profiles and ${codes.length} candidate districts`);
+        districtProfiles.push({area,rows:[{...row,area_code:codes[0]}]});
+      }
+    }
+    const profileByArea=new Map(),districtStats=new Map();
+    for(const entry of districtProfiles){
+      const stats=blankCouncilorStats();
+      for(const row of entry.rows){
+        const item=councilorProfile(row),areaCode=String(row.area_code||'00').padStart(2,'0');
+        addCouncilorStats(stats,item);districtStats.set(`${entry.area}|${areaCode}`,item);
+      }
+      profileByArea.set(entry.area,stats);
+    }
+    for(const [area,stats] of profileByArea){
+      const currentArea=normalizeCounty(area);
+      const county=yearData.counties[area]||(yearData.counties[area]={area,currentArea,stats:blankCouncilorStats(),categories:[],districts:[]});
+      county.categories.push({id:legis,label:theme.legislator_desc,...stats});
+      addCouncilorStats(county.stats,stats);
+      const mapped=yearData.currentAreas[currentArea]||(yearData.currentAreas[currentArea]=[]);
+      if(!mapped.includes(area))mapped.push(area);
+    }
+    const grouped=new Map();
+    for(const row of tickets){
+      const area=normalizeText(row.area_name),areaCode=String(row.ori_area_code||row.area_code||'00').padStart(2,'0');
+      const key=`${area}|${legis}|${areaCode}`;
+      if(!grouped.has(key))grouped.set(key,{area,areaCode,category:theme.legislator_desc,legislatorType:legis,candidates:[]});
+      grouped.get(key).candidates.push({
+        no:String(row.cand_no),name:normalizeText(row.cand_name),party:normalizeText(row.party_name),partyKey:partyKey(row.party_name),
+        votes:number(row.ticket_num),elected:won(row.is_victor),incumbent:String(row.is_current||'').trim().toUpperCase()==='Y',
+        sex:String(row.cand_sex||''),birthYear:number(row.cand_birthyear)||null,education:normalizeText(row.cand_edu),
+      });
+    }
+    const ticketSums=new Map();
+    for(const district of grouped.values()){
+      const county=yearData.counties[district.area];
+      assert(county,`${year} ${district.area} ${district.category}: tickets without profile`);
+      district.candidates.sort((a,b)=>Number(a.no)-Number(b.no));
+      const calculatedValidVotes=district.candidates.reduce((sum,c)=>sum+c.votes,0);
+      const officialDistrict=districtStats.get(`${district.area}|${district.areaCode}`);
+      assert(officialDistrict,`${year} ${district.area} ${district.category} ${district.areaCode}: missing district profile`);
+      Object.assign(district,officialDistrict);
+      if(officialDistrict.validVotes!==calculatedValidVotes)district.reportedValidVotes=officialDistrict.validVotes;
+      district.validVotes=calculatedValidVotes;
+      district.votesCast=district.validVotes+district.invalidVotes;
+      district.turnout=district.electors?round(district.votesCast/district.electors*100):0;
+      district.candidateCount=district.candidates.length;
+      district.electedSeats=district.candidates.filter(c=>c.elected).length;
+      district.candidates.forEach(c=>c.share=district.validVotes?round(c.votes/district.validVotes*100,4):0);
+      district.id=`${district.legislatorType}-${district.areaCode}`;
+      district.name=district.category==='區域'?`第${district.areaCode}選舉區`:`${district.category}${district.areaCode==='00'?'':`第${district.areaCode}選舉區`}`;
+      county.districts.push(district);
+      const sumKey=`${district.area}|${legis}`;ticketSums.set(sumKey,number(ticketSums.get(sumKey))+district.validVotes);
+    }
+    await new Promise(resolve=>setTimeout(resolve,80));
+  }
+  for(const [year,yearData] of Object.entries(output.years)){
+    const national=blankCouncilorStats(),partySeats={},partyVotes={};
+    for(const county of Object.values(yearData.counties)){
+      county.districts.sort((a,b)=>a.legislatorType.localeCompare(b.legislatorType)||a.areaCode.localeCompare(b.areaCode));
+      county.stats=blankCouncilorStats();
+      for(const district of county.districts)addCouncilorStats(county.stats,district);
+      county.partySeats={};county.partyVotes={};
+      for(const district of county.districts){
+        for(const candidate of district.candidates){
+          county.partyVotes[candidate.party]=(county.partyVotes[candidate.party]||0)+candidate.votes;
+          partyVotes[candidate.party]=(partyVotes[candidate.party]||0)+candidate.votes;
+          if(candidate.elected){county.partySeats[candidate.party]=(county.partySeats[candidate.party]||0)+1;partySeats[candidate.party]=(partySeats[candidate.party]||0)+1;}
+        }
+      }
+      const leading=[...Object.entries(county.partySeats)].sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0],'zh-Hant'));
+      county.leadingParty=leading.length&&leading[0][1]!==leading[1]?.[1]?leading[0][0]:null;
+      county.leadingPartyKey=county.leadingParty?partyKey(county.leadingParty):'IND';
+      assert(county.districts.reduce((sum,d)=>sum+d.validVotes,0)===county.stats.validVotes,`${year} ${county.area}: district sum mismatch`);
+      assert(county.districts.reduce((sum,d)=>sum+d.electedSeats,0)===county.stats.electedSeats,`${year} ${county.area}: seat sum mismatch`);
+      addCouncilorStats(national,county.stats);
+    }
+    yearData.dates.sort();
+    yearData.countyCount=Object.keys(yearData.counties).length;
+    yearData.districtCount=Object.values(yearData.counties).reduce((sum,c)=>sum+c.districts.length,0);
+    yearData.stats=national;yearData.partySeats=partySeats;yearData.partyVotes=partyVotes;yearData.complete=Number(year)!==1994;
+    console.log(`${year}: ${yearData.countyCount} councils, ${yearData.districtCount} districts, ${national.electedSeats} elected seats`);
+  }
+  assert(JSON.stringify(output).includes('db.cec.gov.tw'),'councilor source metadata missing');
+  await fs.writeFile(OUT('councilor.json'),`${JSON.stringify(output)}\n`);
+}
+
+if(process.argv.includes('--councilor-only')) await buildCouncilors();
+else {
+  if(!process.argv.includes('--local-only'))await buildPresident();
+  await buildLocalExecutives();
+  await buildCouncilors();
+}

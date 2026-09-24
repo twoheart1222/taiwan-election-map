@@ -15,7 +15,7 @@ test('interactive homepage stays free of AdSense runtime work', () => {
 });
 
 test('historical election pages load AdSense for site-managed automatic ads', () => {
-  for (const file of ['history/index.html', 'history/local-executive.html', 'history/town.html']) {
+  for (const file of ['history/index.html', 'history/local-executive.html', 'history/councilor.html', 'history/town.html']) {
     const html = text(file);
     assert.equal(html.match(/pagead2\.googlesyndication\.com\/pagead\/js\/adsbygoogle\.js/g)?.length, 1, file);
     assert.match(html, new RegExp(client));

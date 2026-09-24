@@ -6,8 +6,8 @@
   const ELECTION_TYPES=[
     {id:'president',label:'總統副總統',available:true},
     {id:'legislator',label:'立法委員',available:false},
-    {id:'local-executive',label:'縣市長',available:false},
-    {id:'councilor',label:'縣市議員',available:false}
+    {id:'local-executive',label:'縣市長',available:true},
+    {id:'councilor',label:'縣市議員',available:true}
   ];
   const LAYER_LABELS={winner:'勝方版圖',share:'得票率變化',swing:'藍綠 Swing'};
   const PARTY_LABELS={DPP:'民主進步黨',KMT:'中國國民黨'};
@@ -48,7 +48,10 @@
       select.innerHTML=ELECTION_TYPES.map(type=>`<option value="${type.id}"${type.id===electionType?' selected':''}${type.available?'':' disabled'}>${esc(type.label)}${type.available?'':'｜建置中'}</option>`).join('');
       staticBox.replaceWith(select);
       const label=select.closest('.archive-query-field')?.querySelector('label');if(label)label.htmlFor=select.id;
-      select.addEventListener('change',()=>{if(select.value!=='president'){select.value='president';return}electionType='president';syncUrl();renderQuerySummary()});
+      select.addEventListener('change',()=>{
+        if(select.value==='councilor'){const url='./councilor.html?type=councilor&year=2022&level=national';if(typeof window.historyNavigate==='function')window.historyNavigate(url,'縣市議員');else location.href=url;return}
+        if(select.value!=='president'){select.value='president';return}electionType='president';syncUrl();renderQuerySummary();
+      });
     }
     const shell=$('.archive-query-shell');
     if(shell&&!$('#archive-query-statebar')){

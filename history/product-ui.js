@@ -25,7 +25,7 @@
   function buildNavTitle(){
     const nav=document.querySelector('.site-nav');if(!nav||nav.querySelector('.history-nav-title'))return;
     const context=document.createElement('span');context.className='history-nav-title';
-    context.textContent=body.classList.contains('local-executive-page')?'歷年選舉 · 縣市長':isTown?'歷年選舉 · 鄉鎮結果':'歷年選舉 · 總統';
+    context.textContent=body.classList.contains('councilor-page')?'歷年選舉 · 縣市議員':body.classList.contains('local-executive-page')?'歷年選舉 · 縣市長':isTown?'歷年選舉 · 鄉鎮結果':'歷年選舉 · 總統';
     nav.insertBefore(context,nav.querySelector('.nav-right'));
   }
 
@@ -46,6 +46,7 @@
       if(destination.hash==='#contact')return '聯絡我們';
       return '島民選舉地圖';
     }
+    if(/councilor\.html/.test(url))return '縣市議員';
     if(/local-executive\.html/.test(url))return '縣市長';
     if(/town\.html/.test(url))return document.getElementById('crumb-county')?.textContent||'鄉鎮市區';
     return '歷年選舉';

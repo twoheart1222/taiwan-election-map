@@ -74,3 +74,35 @@ test('history page script compiles and exposes the overview renderers', async ()
   assert.match(html, /function renderInsights\(/);
   assert.match(html, /得票率低於 5% 列為其他/);
 });
+
+test('official CEC councilor archive covers every published cycle, council and district', async () => {
+  const [archive, script] = await Promise.all([
+    readJson('data/history/councilor.json'),
+    readFile(new URL('../history/councilor.js', import.meta.url), 'utf8'),
+  ]);
+  assert.deepEqual(archive.coverage, [1994, 1998, 2002, 2006, 2010, 2014, 2018, 2022]);
+  assert.match(JSON.stringify(archive.source), /db\.cec\.gov\.tw/);
+  assert.doesNotMatch(JSON.stringify(archive), /kiang|MISNUK|everdark/i);
+  assert.doesNotMatch(script, /raw\.githubusercontent\.com|kiang|MISNUK|everdark/i);
+  const expected = {
+    '1994': [2, 14, 96], '1998': [25, 207, 983], '2002': [25, 208, 992], '2006': [25, 208, 1032],
+    '2010': [22, 213, 890], '2014': [22, 217, 898], '2018': [22, 214, 908], '2022': [22, 215, 906],
+  };
+  for (const [year, [councils, districts, seats]] of Object.entries(expected)) {
+    const entry = archive.years[year];
+    assert.equal(entry.countyCount, councils, `${year} council coverage`);
+    assert.equal(entry.districtCount, districts, `${year} district coverage`);
+    assert.equal(entry.stats.electedSeats, seats, `${year} elected seats`);
+    for (const county of Object.values(entry.counties)) {
+      assert.equal(county.districts.reduce((sum, district) => sum + district.electedSeats, 0), county.stats.electedSeats, `${year} ${county.area} seats`);
+      for (const district of county.districts) {
+        assert.equal(district.candidates.reduce((sum, candidate) => sum + candidate.votes, 0), district.validVotes, `${year} ${county.area} ${district.name} votes`);
+        assert.equal(district.candidates.filter(candidate => candidate.elected).length, district.electedSeats, `${year} ${county.area} ${district.name} elected`);
+      }
+    }
+  }
+  assert.equal(archive.years['1994'].complete, false);
+  assert.equal(archive.years['2022'].stats.candidateCount, 1677);
+  assert.deepEqual(archive.years['2006'].currentAreas['臺中市'].sort(), ['臺中市', '臺中縣']);
+  new vm.Script(script, { filename: 'history/councilor.js' });
+});
