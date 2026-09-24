@@ -41,8 +41,8 @@
 @media(max-width:900px){.archive-title-row{display:block}.archive-intro{margin-top:14px}.layout{grid-template-columns:1fr}.map-panel{min-height:560px;border-right:0;border-bottom:1px solid #1c1a17}.result-panel{padding-bottom:60px}#map{inset:70px 10px 76px}}@media(max-width:520px){.site-nav{height:56px}.archive-head{padding-top:22px}.archive-head h1{font-size:38px}.archive-intro{font-size:12px}.map-panel{min-height:500px}.meta-stats strong{font-size:20px}.candidate{padding:14px}.cand-name{font-size:16px}.cand-votes{font-size:16px}}
 </style>
 <link rel="stylesheet" href="./product-ui.css">
-<link rel="stylesheet" href="./archive-enhancements.css">
-<link rel="stylesheet" href="./election-palette.css">
+<link rel="stylesheet" href="./archive-enhancements.css?v=20260924-partyvotes">
+<link rel="stylesheet" href="./election-palette.css?v=20260924-partyvotes">
 </head>
 <body class="history-archive">
 <div id="site-ann" class="site-ann" role="status" aria-live="polite" hidden></div>
@@ -145,6 +145,7 @@
 <script>
 // 顏色改用各黨黨徽本身的品牌色（與 /history/local-executive.js 的 PARTY_META 一致），不再用淡色圖表色。
 const PARTY_COLORS={DPP:'#00A600',KMT:'#000095',TPP:'#28C8C8',PFP:'#FF6600',NP:'#002FA7',IND:'#9D9D9D'};
+const PARTY_MARKS={DPP:{abbr:'民',logo:'/assets/party-logos/dpp.webp'},KMT:{abbr:'國',logo:'/assets/party-logos/kmt.webp'},TPP:{abbr:'眾',logo:'/assets/party-logos/tpp.png'},PFP:{abbr:'親',logo:'/assets/party-logos/pfp.webp'},NP:{abbr:'新',logo:'/assets/party-logos/np.webp'},IND:{abbr:'他'}};
 const fmt=new Intl.NumberFormat('zh-TW');
 const $=id=>document.getElementById(id);
 let archive,current,countyArchive=null,features=[],svg,path,selectedCounty=null;
@@ -160,6 +161,7 @@ function featureName(f){return normalizeName(f?.properties?.name||f?.properties?
 function nationalCandidate(e,no){return e.candidates.find(c=>String(c.no)===String(no))||null}
 function partyColor(e,no){const c=nationalCandidate(e,no);return PARTY_COLORS[c?.partyKey]||PARTY_COLORS.IND}
 function candidatePercent(e,c){return e.validVotes?c.votes/e.validVotes*100:0}
+function partyVoteBadge(key){const mark=PARTY_MARKS[key]||PARTY_MARKS.IND,color=PARTY_COLORS[key]||PARTY_COLORS.IND;return`<span class="party-vote-badge" style="background:${color}">${mark.logo?`<img src="${mark.logo}" alt="" loading="lazy">`:`<b>${mark.abbr}</b>`}</span>`}
 function countyYear(e){return countyArchive?.years?.[String(e.year)]||null}
 function countyResult(e,name){return countyYear(e)?.counties?.[normalizeName(name)]||null}
 function syncPresidentAreaOptions(){const names=Object.keys(countyYear(current)?.counties||{}).sort((a,b)=>a.localeCompare(b,'zh-Hant')),select=$('president-area-select');if(!select)return;select.innerHTML='<option value="">全國結果</option>'+names.map(name=>`<option value="${name}">${name}</option>`).join('');select.value=selectedCounty&&names.includes(selectedCounty)?selectedCounty:''}
@@ -181,7 +183,8 @@ function renderInsights(name,result){
   const parties=new Map();for(const c of scopedCandidates(current,result)){const key=c.party||'無黨籍',p=parties.get(key)||{party:key,partyKey:c.partyKey,votes:0};p.votes+=c.votes;parties.set(key,p)}
   const rows=[...parties.values()].map(p=>({...p,share:validVotes?p.votes/validVotes*100:0})).sort((a,b)=>b.votes-a.votes),minor=rows.filter(p=>p.share<5),major=rows.filter(p=>p.share>=5);if(minor.length)major.push({party:'其他',partyKey:'IND',votes:minor.reduce((s,p)=>s+p.votes,0),share:minor.reduce((s,p)=>s+p.share,0),count:minor.length});
   $('party-summary-title').textContent=`${name||'全國'}政黨得票數／得票率`;
-  $('party-summary').innerHTML=major.map(p=>`<div class="party-summary-row"><i style="background:${PARTY_COLORS[p.partyKey]||PARTY_COLORS.IND}"></i><div><b>${p.party}</b>${p.count?`<small>${p.count} 個政黨／組合</small>`:''}</div><strong>${fmt.format(p.votes)}<small>${p.share.toFixed(2)}%</small></strong><span><em style="width:${Math.max(1,p.share)}%;background:${PARTY_COLORS[p.partyKey]||PARTY_COLORS.IND}"></em></span></div>`).join('');
+  $('party-summary').className='party-summary party-vote-card-grid';
+  $('party-summary').innerHTML=major.map(p=>`<article class="party-vote-card" style="--party-color:${PARTY_COLORS[p.partyKey]||PARTY_COLORS.IND}"><div class="party-vote-card__head">${partyVoteBadge(p.partyKey)}<strong>${p.party}</strong></div><b>${fmt.format(p.votes)}</b><small>${p.share.toFixed(2)}%${p.count?` · ${p.count} 個政黨／組合`:''}</small></article>`).join('');
   const points=archive.elections.slice().sort((a,b)=>a.year-b.year).map(e=>{const r=name?countyResult(e,name):e;return r?{year:e.year,value:Number(r.turnout)}:null}).filter(p=>p&&Number.isFinite(p.value));
   $('turnout-trend-title').textContent=`${name||'全國'}歷屆投票率變化`;
   if(!points.length){$('turnout-trend').innerHTML='<div class="trend-empty">目前沒有歷屆投票率資料</div>';return}
@@ -237,6 +240,6 @@ loadHistoryAnnouncement();
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
 <script src="./product-ui.js"></script>
-<script src="./archive-enhancements.js"></script>
+<script src="./archive-enhancements.js?v=20260924-partyvotes"></script>
 </body>
 </html>

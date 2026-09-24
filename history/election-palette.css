@@ -158,6 +158,21 @@ body.local-compare-active .local-mobile-insets{display:none!important}
 .election-overview-stat span small{font:700 8px Archivo,sans-serif;letter-spacing:.09em}
 .election-overview-stat strong{display:block;margin-top:5px;color:#171310;font:900 18px Archivo,'Noto Sans TC',sans-serif;font-variant-numeric:tabular-nums}
 
+.party-vote-section-title,.candidate-section-title{margin:18px 0 10px;color:#71695f;font:900 10px Archivo,'Noto Sans TC',sans-serif;letter-spacing:.11em}
+.party-vote-card-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.party-vote-card{position:relative;overflow:hidden;min-height:118px;box-sizing:border-box;border:1px solid #c5bbad;border-radius:16px;background:#ded6ca;padding:15px 17px;color:#171310}
+.party-vote-card:before{content:'';position:absolute;inset:0 auto 0 0;width:5px;background:var(--party-color,#999)}
+.party-vote-card__head{display:flex;align-items:center;gap:10px;min-width:0}
+.party-vote-card__head strong{overflow:hidden;color:#171310;font-size:13px;text-overflow:ellipsis;white-space:nowrap}
+.party-vote-badge,.party-vote-card .party-badge{display:grid;place-items:center;flex:0 0 auto;width:32px;height:32px;overflow:hidden;border-radius:8px;background:var(--party-color,#888);color:#fff;font-size:11px;font-weight:900;box-shadow:0 3px 8px rgba(41,31,23,.18)}
+.party-vote-badge img,.party-vote-card .party-badge img{width:100%;height:100%;box-sizing:border-box;object-fit:contain;padding:10%}
+.party-vote-card>b{display:block;margin-top:17px;color:#171310;font:900 26px/1 Archivo,'Noto Sans TC',sans-serif;font-variant-numeric:tabular-nums}
+.party-vote-card>small{display:block;margin-top:6px;color:#6d655b;font-size:10px;font-weight:800}
+.party-vote-card-grid.compact .party-vote-card{min-height:100px;padding:13px 15px}.party-vote-card-grid.compact .party-vote-card>b{margin-top:13px;font-size:21px}
+.compare-region-heading{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-top:12px;color:#71695f;font-size:9px}
+.compare-region-heading strong{color:#312b25;font-size:11px}.compare-region-picker{display:flex;flex-wrap:wrap;gap:6px;max-height:132px;overflow:auto;padding:1px 0 4px}
+.local-flip-chip{display:inline-flex;align-items:center;gap:6px;cursor:pointer}.local-flip-chip i{width:8px;height:8px;border-radius:50%}.local-flip-chip b{color:#aa8420}.local-flip-chip.changed{border-color:#aa8420!important}.local-flip-chip.selected{border-color:#E4022B!important;background:#f1e7da!important;color:#171310!important;box-shadow:0 0 0 1px rgba(228,2,43,.12)}
+
 @media(max-width:660px){
   body.history-archive .map-panel,
   body.local-executive-page .local-map-panel{background:#e9e2d6;border-color:#c9c0b3}
@@ -178,4 +193,5 @@ body.local-compare-active .local-mobile-insets{display:none!important}
   .paired-compare-maps header{padding:8px}.paired-compare-maps header span{font-size:17px}.paired-compare-maps header small{font-size:7px}
   .paired-chart-row{grid-template-columns:76px minmax(0,1fr)}.paired-chart-bar{grid-template-columns:30px minmax(0,1fr) 52px}
   .result-area-toolbar{display:grid;gap:10px}.result-area-picker{grid-template-columns:auto minmax(0,1fr)}.result-area-picker select{height:42px}.election-overview-stat strong{font-size:16px}
+  .party-vote-card-grid{grid-template-columns:1fr}.party-vote-card{min-height:104px}.compare-region-heading{align-items:start;flex-direction:column;gap:3px}.compare-region-picker{max-height:180px}
 }

@@ -172,6 +172,13 @@ test('official CEC councilor archive covers every published cycle, council and d
   }
   assert.equal(archive.years['1994'].complete, false);
   assert.equal(archive.years['2022'].stats.candidateCount, 1677);
+  assert.equal(archive.years['2022'].townCount, 368);
+  assert.equal(Object.keys(archive.years['2022'].townPartyVotes).length, 22);
+  for (const [county, towns] of Object.entries(archive.years['2022'].townPartyVotes)) {
+    for (const [town, result] of Object.entries(towns)) {
+      assert.equal(Object.values(result.parties).reduce((sum, votes) => sum + votes, 0), result.validVotes, `2022 ${county} ${town} party votes`);
+    }
+  }
   assert.deepEqual(archive.years['2006'].currentAreas['臺中市'].sort(), ['臺中市', '臺中縣']);
   new vm.Script(script, { filename: 'history/councilor.js' });
   assert.match(html, /id="councilor-national-overview"[^>]*open/);
@@ -187,6 +194,8 @@ test('official CEC councilor archive covers every published cycle, council and d
   assert.match(script, /function electedStamp\(/);
   assert.match(script, /function renderElectionStats\(/);
   assert.match(script, /function renderCountyOverview\(/);
+  assert.match(script, /function partyVoteCards\(/);
+  assert.match(script, /townPartyVotes/);
   assert.match(script, /function drawComparisonMaps\(/);
   assert.match(script, /classList\.toggle\('compare-map-active',mode==='compare'\)/);
   assert.match(script, /<em>展開查看更多<\/em>/);

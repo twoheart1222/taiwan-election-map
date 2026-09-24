@@ -358,7 +358,7 @@ async function buildCouncilors() {
       name:'中央選舉委員會選舉資料庫',
       url:'https://db.cec.gov.tw/ElecTable/Election',
       listApis:[`${BASE}/list/ELC_T1.json`,`${BASE}/list/ELC_T2.json`],
-      ticketApi:`${BASE}/data/tickets/ELC/{T1|T2}/{T1|T2|T3}/{theme}/C/00_000_00_000_0000.json`,
+      ticketApi:`${BASE}/data/tickets/ELC/{T1|T2}/{T1|T2|T3}/{theme}/{C|D}/{area}.json`,
       profileApi:`${BASE}/data/profiles/ELC/{T1|T2}/{T1|T2|T3}/{theme}/C/00_000_00_000_0000.json`,
     },
     note:'收錄中選會現有全部直轄市議員與縣市議員官方結果，合併區域、平地原住民及山地原住民選舉。1994 僅有臺北市、高雄市直轄市議員資料；1998–2006 保留縣市合併前行政區；2009 縣市議員與 2010 直轄市議員合併為同一地方選舉週期。',
@@ -371,7 +371,7 @@ async function buildCouncilors() {
       json(`${BASE}/data/profiles/ELC/${theme.subject}/${legis}/${theme.theme_id}/C/00_000_00_000_0000.json`),
     ]);
     const tickets=rows(ticketsPayload),countyProfiles=rows(profilesPayload),year=theme.cycleYear;
-    const yearData=output.years[String(year)]||(output.years[String(year)]={cycleYear:year,dates:[],themes:[],counties:{},currentAreas:{}});
+    const yearData=output.years[String(year)]||(output.years[String(year)]={cycleYear:year,dates:[],themes:[],counties:{},currentAreas:{},townPartyVotes:{}});
     if(!yearData.dates.includes(theme.vote_date))yearData.dates.push(theme.vote_date);
     yearData.themes.push({subject:theme.subject,legislatorType:legis,category:theme.legislator_desc,themeId:theme.theme_id,date:theme.vote_date});
     const districtProfiles=[];
@@ -441,6 +441,33 @@ async function buildCouncilors() {
       county.districts.push(district);
       const sumKey=`${district.area}|${legis}`;ticketSums.set(sumKey,number(ticketSums.get(sumKey))+district.validVotes);
     }
+    if((theme.data_tckt_seq||[]).includes('D')){
+      for(let start=0;start<countyProfiles.length;start+=4){
+        const batch=await Promise.all(countyProfiles.slice(start,start+4).map(async row=>{
+          const area=normalizeText(row.area_name),currentArea=normalizeCounty(area);
+          const key=[row.prv_code,row.city_code,row.area_code||'00','000','0000'].join('_');
+          try{
+            const payload=await json(`${BASE}/data/tickets/ELC/${theme.subject}/${legis}/${theme.theme_id}/D/${key}.json`);
+            return {area,currentArea,ticketRows:rows(payload)};
+          }catch(error){
+            console.warn(`${year} ${area} ${theme.legislator_desc}: township tickets unavailable (${error.message})`);
+            return {area,currentArea,ticketRows:[]};
+          }
+        }));
+        for(const entry of batch){
+          const countyBucket=yearData.townPartyVotes[entry.currentArea]||(yearData.townPartyVotes[entry.currentArea]={});
+          for(const row of entry.ticketRows){
+            const town=normalizeTown(entry.currentArea,row.area_name),votes=number(row.ticket_num);
+            if(!town||!votes)continue;
+            const party=normalizeText(row.party_name)||'無黨籍及未經政黨推薦';
+            const townBucket=countyBucket[town]||(countyBucket[town]={validVotes:0,parties:{}});
+            townBucket.validVotes+=votes;
+            townBucket.parties[party]=(townBucket.parties[party]||0)+votes;
+          }
+        }
+        await new Promise(resolve=>setTimeout(resolve,80));
+      }
+    }
     await new Promise(resolve=>setTimeout(resolve,80));
   }
   for(const [year,yearData] of Object.entries(output.years)){
@@ -467,6 +494,7 @@ async function buildCouncilors() {
     yearData.dates.sort();
     yearData.countyCount=Object.keys(yearData.counties).length;
     yearData.districtCount=Object.values(yearData.counties).reduce((sum,c)=>sum+c.districts.length,0);
+    yearData.townCount=Object.values(yearData.townPartyVotes||{}).reduce((sum,towns)=>sum+Object.keys(towns).length,0);
     yearData.stats=national;yearData.partySeats=partySeats;yearData.partyVotes=partyVotes;yearData.complete=Number(year)!==1994;
     console.log(`${year}: ${yearData.countyCount} councils, ${yearData.districtCount} districts, ${national.electedSeats} elected seats`);
   }
