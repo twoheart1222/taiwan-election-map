@@ -140,7 +140,14 @@
 const PARTY_COLORS={DPP:'#00A600',KMT:'#000095',TPP:'#28C8C8',PFP:'#FF6600',NP:'#002FA7',IND:'#9D9D9D'};
 const fmt=new Intl.NumberFormat('zh-TW');
 const $=id=>document.getElementById(id);
-let archive,current,countyArchive=null,townArchive=null,features=[],svg,path,selectedCounty=null;
+let archive,current,countyArchive=null,features=[],svg,path,selectedCounty=null;
+// 首頁只需要全國、縣市結果與縣市邊界。2.8 MB 的鄉鎮歷屆資料留到 town.html
+// 真正進入鄉鎮檢視時再載入，避免手機一進歷年選舉就下載、解析整包資料。
+const historyArchiveDataPromise=window.__historyArchiveDataPromise||(window.__historyArchiveDataPromise=Promise.all([
+  fetch('../data/history/presidential.json').then(r=>{if(!r.ok)throw new Error('presidential.json');return r.json()}),
+  fetch('../data/counties.json').then(r=>{if(!r.ok)throw new Error('counties.json');return r.json()}),
+  fetch('../data/history/presidential-counties.json').then(r=>r.ok?r.json():null).catch(()=>null)
+]).then(([national,topology,counties])=>({national,topology,counties})));
 function normalizeName(v){return String(v||'').replaceAll('台','臺').trim()}
 function featureName(f){return normalizeName(f?.properties?.name||f?.properties?.COUNTYNAME||f?.properties?.COUNTY||'')}
 function nationalCandidate(e,no){return e.candidates.find(c=>String(c.no)===String(no))||null}
@@ -200,7 +207,7 @@ function renderCounty(name,result){
   renderInsights(name,result);
   const ranked=[...result.candidates].sort((a,b)=>b.votes-a.votes),winner=ranked[0];
   $('county-detail').className='county-card';$('county-detail').innerHTML=`<div class="county-head"><h3>${name}</h3><span>${fmt.format(result.validVotes)} VALID VOTES</span></div><div class="county-rows">${ranked.map(c=>{const meta=nationalCandidate(current,c.no),color=partyColor(current,c.no),share=Number(c.share ?? (result.validVotes?c.votes/result.validVotes*100:0));return `<div class="county-row"><div class="county-row-name">${String(c.no)===String(winner.no)?`<i class="winner-dot" style="background:${color}"></i>`:''}${meta?`${meta.president}・${meta.vicePresident}`:(c.name||`候選人 ${c.no}`)}<span class="county-row-party">${meta?.party||c.party||''}</span></div><div class="county-row-votes">${fmt.format(c.votes)}</div><div class="county-row-share">${share.toFixed(2)}%</div></div>`}).join('')}</div><div class="county-summary"><span>勝方：${nationalCandidate(current,winner.no)?.president||winner.name}</span><span>勝差 ${fmt.format(result.margin)} 票</span></div>`;
-  if(townArchive?.years?.[String(current.year)]){const link=document.createElement('a');link.dataset.historyTownDrilldown='true';link.href=`./town.html?year=${current.year}&county=${encodeURIComponent(name)}`;link.textContent=`查看 ${name} 鄉鎮市區 →`;link.style.cssText='display:block;margin:12px 18px 16px;padding:12px 14px;border:1px solid #493d38;border-radius:12px;background:#211a18;color:#f4f1ea;font-size:12px;font-weight:900;text-align:center;transition:.15s';$('county-detail').appendChild(link)}
+  const link=document.createElement('a');link.dataset.historyTownDrilldown='true';link.href=`./town.html?year=${current.year}&county=${encodeURIComponent(name)}`;link.textContent=`查看 ${name} 鄉鎮市區 →`;link.style.cssText='display:block;margin:12px 18px 16px;padding:12px 14px;border:1px solid #493d38;border-radius:12px;background:#211a18;color:#f4f1ea;font-size:12px;font-weight:900;text-align:center;transition:.15s';$('county-detail').appendChild(link)
   window.dispatchEvent(new CustomEvent('archive:countychange',{detail:{county:name}}));
 }
 function paintMap(){if(!svg||!features.length)return;svg.selectAll('path.county').attr('class',d=>`county${countyResult(current,featureName(d))?' has-result':' no-result'}${selectedCounty===featureName(d)?' selected':''}`).style('fill',d=>{const r=countyResult(current,featureName(d));return r?partyColor(current,r.winnerNo):'#201d1a'})}
@@ -210,7 +217,7 @@ function buildMap(topology){
 }
 function selectYear(year){const next=archive.elections.find(e=>Number(e.year)===Number(year));if(!next||Number(current?.year)===Number(year))return;current=next;renderYears();renderElection();const u=new URL(location.href);u.searchParams.set('year',String(year));history.replaceState(null,'',u);window.dispatchEvent(new CustomEvent('history:contentchange',{detail:{label:`${year} 總統選舉`}}))}
 async function init(){
-  try{const [national,topology,counties,towns]=await Promise.all([fetch('../data/history/presidential.json').then(r=>{if(!r.ok)throw new Error('presidential.json');return r.json()}),fetch('../data/counties.json').then(r=>{if(!r.ok)throw new Error('counties.json');return r.json()}),fetch('../data/history/presidential-counties.json').then(r=>r.ok?r.json():null).catch(()=>null),fetch('../data/history/presidential-towns.json').then(r=>r.ok?r.json():null).catch(()=>null)]);archive=national;countyArchive=counties;townArchive=towns;const requested=Number(new URLSearchParams(location.search).get('year'));current=archive.elections.find(e=>e.year===requested)||archive.elections.find(e=>e.year===2024)||archive.elections.at(-1);renderYears();buildMap(topology);renderElection()}catch(error){console.error(error);$('map-status').innerHTML='<b>資料載入失敗。</b> 請重新整理頁面；若持續發生，請回報島民觀察室。'}
+  try{const {national,topology,counties}=await historyArchiveDataPromise;archive=national;countyArchive=counties;const requested=Number(new URLSearchParams(location.search).get('year'));current=archive.elections.find(e=>e.year===requested)||archive.elections.find(e=>e.year===2024)||archive.elections.at(-1);renderYears();buildMap(topology);renderElection()}catch(error){console.error(error);$('map-status').innerHTML='<b>資料載入失敗。</b> 請重新整理頁面；若持續發生，請回報島民觀察室。'}
 }
 $('archive-year-select')?.addEventListener('change',e=>selectYear(Number(e.target.value)));
 init();

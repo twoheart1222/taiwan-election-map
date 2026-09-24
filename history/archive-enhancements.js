@@ -196,8 +196,9 @@
     const initialQuery=new URLSearchParams(location.search);
     loadQueryStyles();buildQueryChrome();buildCompareUI();bindStaticControls();watchElectedCards();mobileSvg();
     try{
-      const[n,c,t]=await Promise.all([fetch('../data/history/presidential.json').then(r=>{if(!r.ok)throw new Error('national');return r.json()}),fetch('../data/history/presidential-counties.json').then(r=>{if(!r.ok)throw new Error('counties');return r.json()}),fetch('../data/counties.json').then(r=>{if(!r.ok)throw new Error('topology');return r.json()})]);
-      national=n;counties=c;topology=t;const object=topology.objects[Object.keys(topology.objects)[0]];features=window.topojson.feature(topology,object).features;availableYears=(national.elections||[]).map(e=>Number(e.year)).filter(Number.isFinite).sort((a,b)=>a-b);
+      // 與首頁共用同一個下載與 JSON 解析 Promise，避免手機把三份資料各解析兩次。
+      const shared=await window.__historyArchiveDataPromise;
+      national=shared.national;counties=shared.counties;topology=shared.topology;const object=topology.objects[Object.keys(topology.objects)[0]];features=window.topojson.feature(topology,object).features;availableYears=(national.elections||[]).map(e=>Number(e.year)).filter(Number.isFinite).sort((a,b)=>a-b);
       restoreFromUrl(initialQuery);
       queryHydrated=true;syncUrl();renderQuerySummary();
       renderMobileMap();applyElectedCards();

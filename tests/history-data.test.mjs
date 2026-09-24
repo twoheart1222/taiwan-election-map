@@ -67,12 +67,22 @@ test('official CEC artifacts cover every presidential township and local executi
 });
 
 test('history page script compiles and exposes the overview renderers', async () => {
-  const html = await readFile(new URL('../history/index.html', import.meta.url), 'utf8');
+  const [html, enhancements] = await Promise.all([
+    readFile(new URL('../history/index.html', import.meta.url), 'utf8'),
+    readFile(new URL('../history/archive-enhancements.js', import.meta.url), 'utf8'),
+  ]);
   const scripts = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)]
     .filter(match => !/src=|application\/ld\+json/.test(match[1]));
   scripts.forEach((match, index) => new vm.Script(match[2], { filename: `history/index.html#${index}` }));
   assert.match(html, /function renderInsights\(/);
   assert.match(html, /得票率低於 5% 列為其他/);
+  assert.doesNotMatch(html, /fetch\(['"]\.\.\/data\/history\/presidential-towns\.json/,
+    'the history landing page must not eagerly fetch the multi-megabyte township archive');
+  assert.match(html, /window\.__historyArchiveDataPromise/);
+  assert.match(enhancements, /await window\.__historyArchiveDataPromise/,
+    'enhancements should reuse the already parsed landing-page data');
+  assert.doesNotMatch(enhancements, /fetch\(['"]\.\.\/data\/history\/presidential(?:-counties)?\.json/,
+    'enhancements must not parse the same presidential data a second time');
 });
 
 test('official CEC councilor archive covers every published cycle, council and district', async () => {
