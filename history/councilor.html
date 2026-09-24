@@ -67,6 +67,10 @@
   <section class="local-map-panel map-panel">
     <div class="local-map-title"><small>VISUAL MAP / 地圖</small><strong id="local-map-heading">2022 縣市議員選舉</strong></div>
     <svg id="local-map" class="local-map" role="img" aria-label="台灣縣市議員選舉地圖"></svg>
+    <div id="councilor-compare-maps" class="councilor-compare-maps" aria-label="跨屆議員選舉地圖比較">
+      <section><header><span id="councilor-map-a-year">2018</span><small>A 年度</small></header><svg id="councilor-map-a" role="img" aria-label="A 年度縣市議員選舉地圖"></svg></section>
+      <section><header><span id="councilor-map-b-year">2022</span><small>B 年度</small></header><svg id="councilor-map-b" role="img" aria-label="B 年度縣市議員選舉地圖"></svg></section>
+    </div>
     <div id="local-mobile-insets" class="local-mobile-insets"></div>
     <div id="local-map-status" class="local-map-status"></div>
   </section>
@@ -82,7 +86,7 @@
         <div id="local-county-detail" class="local-empty"><strong>目前顯示全台概覽</strong>從上方選擇縣市或直接點擊地圖，查看該地各選區候選人與當選結果。</div>
       </section>
     </section>
-    <section id="local-compare-result" class="local-compare-summary"><div class="local-section-label">跨屆比較 / CROSS-ELECTION COMPARISON</div><div id="local-legend" class="local-legend"></div><div id="local-compare-stats" class="local-compare-stats"></div><div id="local-flips" class="local-flips"></div><div id="local-compare-detail" class="local-compare-detail">點擊地圖查看縣市變化。</div></section>
+    <section id="local-compare-result" class="local-compare-summary"><div class="local-section-label">跨屆比較 / CROSS-ELECTION COMPARISON</div><div id="local-legend" class="local-legend"></div><div id="local-compare-stats" class="local-compare-stats"></div><div id="councilor-compare-chart" class="councilor-compare-chart"></div><div id="local-flips" class="local-flips"></div><div id="local-compare-detail" class="local-compare-detail">點擊任一年度地圖查看縣市變化。</div></section>
     <div class="local-source">全數資料取自<a href="https://db.cec.gov.tw/ElecTable/Election" target="_blank" rel="noopener noreferrer">中央選舉委員會選舉資料庫</a>官方公開資料，包含區域、平地原住民與山地原住民選舉。1994 僅有臺北市、高雄市；1998–2006 保留縣市合併前行政區，2009 縣市議員與 2010 直轄市議員合併為同一週期。</div>
   </aside>
 </main>

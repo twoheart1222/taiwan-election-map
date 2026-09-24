@@ -140,10 +140,17 @@ test('official CEC councilor archive covers every published cycle, council and d
   new vm.Script(script, { filename: 'history/councilor.js' });
   assert.match(html, /id="councilor-national-overview"[^>]*open/);
   assert.match(html, /id="councilor-area-select"/);
+  assert.match(html, /id="councilor-map-a"/);
+  assert.match(html, /id="councilor-map-b"/);
+  assert.match(html, /id="councilor-compare-chart"/);
   assert.match(script, /councilorPartyBadgeFallback/);
   assert.match(script, /function electedStamp\(/);
+  assert.match(script, /function drawComparisonMaps\(/);
+  assert.match(script, /classList\.toggle\('compare-map-active',mode==='compare'\)/);
   assert.match(script, /<em>展開查看更多<\/em>/);
   assert.doesNotMatch(script, /class="councilor-district"\$\{i===0\?' open'/);
+  assert.match(css, /\.councilor-page\{[^}]*--red:#E4022B/);
+  assert.match(css, /\.councilor-page\.compare-map-active \.councilor-compare-maps\{display:grid\}/);
   assert.match(css, /\.councilor-page \.party-badge img[^}]*object-fit:contain/);
   assert.match(css, /\.councilor-status \.local-elected-stamp/);
 });
