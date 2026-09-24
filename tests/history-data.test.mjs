@@ -108,9 +108,10 @@ test('history pages use a lightweight county-only topology', async () => {
 });
 
 test('presidential and local executive archives share the councilor result palette', async () => {
-  const [presidentHtml, presidentScript, executiveHtml, executiveScript, palette] = await Promise.all([
+  const [presidentHtml, presidentScript, presidentCss, executiveHtml, executiveScript, palette] = await Promise.all([
     readFile(new URL('../history/index.html', import.meta.url), 'utf8'),
     readFile(new URL('../history/archive-enhancements.js', import.meta.url), 'utf8'),
+    readFile(new URL('../history/archive-enhancements.css', import.meta.url), 'utf8'),
     readFile(new URL('../history/local-executive.html', import.meta.url), 'utf8'),
     readFile(new URL('../history/local-executive.js', import.meta.url), 'utf8'),
     readFile(new URL('../history/election-palette.css', import.meta.url), 'utf8'),
@@ -121,7 +122,8 @@ test('presidential and local executive archives share the councilor result palet
   assert.match(palette, /body\.history-archive \.result-panel[\s\S]*background:#eee9df/);
   assert.match(palette, /body\.local-executive-page \.local-result[\s\S]*background:#eee9df/);
   assert.match(palette, /body\.local-executive-page \.local-candidate:not\(\.elected\)/);
-  assert.match(palette, /archive-compare-detail \.party-vote-badge\{box-sizing:border-box;[^}]*border:1px solid/);
+  assert.match(palette, /body\.councilor-page \.councilor-candidate\.elected\{border-color:#fff/);
+  assert.match(palette, /box-shadow:inset 0 0 0 2px #fff/);
   assert.match(presidentHtml, /id="president-election-overview"[^>]*open/);
   assert.match(presidentHtml, /id="president-area-select"/);
   assert.match(executiveHtml, /id="local-election-overview"[^>]*open/);
@@ -134,6 +136,7 @@ test('presidential and local executive archives share the councilor result palet
   assert.match(executiveHtml, /id="local-exec-compare-chart"/);
   assert.match(presidentScript, /function drawComparisonMaps\(/);
   assert.match(presidentScript, /partyVoteBadge\(wA\?\.partyKey/);
+  assert.match(presidentCss, /candidate\.elected\.archive-elected-card:hover\{[^}]*border-color:#fff!important/);
   assert.match(presidentScript, /id="archive-compare-chart"/);
   assert.match(executiveScript, /function renderElectionStats\(/);
   assert.match(executiveScript, /function drawLocalComparisonMaps\(/);
