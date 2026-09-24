@@ -167,7 +167,7 @@
 
   function featureName(f){return normalize(f?.properties?.name||f?.properties?.COUNTYNAME||f?.properties?.COUNTY||'')}
   async function ensureMap(){
-    if(topology)return;topology=await fetch('../data/counties.json').then(r=>{if(!r.ok)throw new Error('counties.json');return r.json()});const obj=topology.objects[Object.keys(topology.objects)[0]];features=topojson.feature(topology,obj).features;svg=d3.select('#local-map');mapNode=$('#local-map');drawMap();new ResizeObserver(()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{drawMap();lastPainter?.()},80)}).observe(mapNode);
+    if(topology)return;topology=await fetch('../data/history/counties.topo.json').then(r=>{if(!r.ok)throw new Error('counties.topo.json');return r.json()});const obj=topology.objects[Object.keys(topology.objects)[0]];features=topojson.feature(topology,obj).features;svg=d3.select('#local-map');mapNode=$('#local-map');drawMap();new ResizeObserver(()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{drawMap();lastPainter?.()},80)}).observe(mapNode);
   }
   function drawMap(){
     if(!svg||!features.length)return;const w=mapNode.clientWidth||700,h=mapNode.clientHeight||520,shown=mobile()?features.filter(f=>!ISLANDS.includes(featureName(f))):features;svg.attr('viewBox',`0 0 ${w} ${h}`);const projection=d3.geoMercator().fitExtent([[18,10],[w-18,h-10]],{type:'FeatureCollection',features:shown}),geo=d3.geoPath(projection);

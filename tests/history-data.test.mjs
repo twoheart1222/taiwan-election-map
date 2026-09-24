@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { readFile, stat } from 'node:fs/promises';
 import vm from 'node:vm';
 
 const readJson = async file => JSON.parse(await readFile(new URL(`../${file}`, import.meta.url), 'utf8'));
@@ -83,6 +83,27 @@ test('history page script compiles and exposes the overview renderers', async ()
     'enhancements should reuse the already parsed landing-page data');
   assert.doesNotMatch(enhancements, /fetch\(['"]\.\.\/data\/history\/presidential(?:-counties)?\.json/,
     'enhancements must not parse the same presidential data a second time');
+});
+
+test('history pages use a lightweight county-only topology', async () => {
+  const [full, compact, compactStat, fullStat, historyHtml, localScript, councilorScript] = await Promise.all([
+    readJson('data/counties.json'),
+    readJson('data/history/counties.topo.json'),
+    stat(new URL('../data/history/counties.topo.json', import.meta.url)),
+    stat(new URL('../data/counties.json', import.meta.url)),
+    readFile(new URL('../history/index.html', import.meta.url), 'utf8'),
+    readFile(new URL('../history/local-executive.js', import.meta.url), 'utf8'),
+    readFile(new URL('../history/councilor.js', import.meta.url), 'utf8'),
+  ]);
+  const objectOf = topology => topology.objects[Object.keys(topology.objects)[0]];
+  const namesOf = topology => objectOf(topology).geometries.map(item => item.properties.name).sort((a, b) => a.localeCompare(b, 'zh-Hant'));
+  assert.deepEqual(namesOf(compact), namesOf(full));
+  assert.equal(objectOf(compact).geometries.length, 22);
+  assert.ok(compactStat.size < fullStat.size * 0.05, 'history topology should stay below 5% of the candidate-rich source file');
+  assert.doesNotMatch(JSON.stringify(compact), /candidates|councilors|villages/);
+  for (const source of [historyHtml, localScript, councilorScript]) {
+    assert.match(source, /data\/history\/counties\.topo\.json/);
+  }
 });
 
 test('official CEC councilor archive covers every published cycle, council and district', async () => {
