@@ -121,6 +121,7 @@ test('presidential and local executive archives share the councilor result palet
   assert.match(palette, /body\.history-archive \.result-panel[\s\S]*background:#eee9df/);
   assert.match(palette, /body\.local-executive-page \.local-result[\s\S]*background:#eee9df/);
   assert.match(palette, /body\.local-executive-page \.local-candidate:not\(\.elected\)/);
+  assert.match(palette, /archive-compare-detail \.party-vote-badge\{box-sizing:border-box;[^}]*border:1px solid/);
   assert.match(presidentHtml, /id="president-election-overview"[^>]*open/);
   assert.match(presidentHtml, /id="president-area-select"/);
   assert.match(executiveHtml, /id="local-election-overview"[^>]*open/);

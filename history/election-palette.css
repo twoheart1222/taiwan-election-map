@@ -173,7 +173,7 @@ body.local-compare-active .local-mobile-insets{display:none!important}
 .compare-region-heading strong{color:#312b25;font-size:11px}.compare-region-picker{display:flex;flex-wrap:wrap;gap:6px;max-height:132px;overflow:auto;padding:1px 0 4px}
 .local-flip-chip{display:inline-flex;align-items:center;gap:6px;cursor:pointer}.local-flip-chip i{width:8px;height:8px;border-radius:50%}.local-flip-chip b{color:#aa8420}.local-flip-chip.changed{border-color:#aa8420!important}.local-flip-chip.selected{border-color:#E4022B!important;background:#f1e7da!important;color:#171310!important;box-shadow:0 0 0 1px rgba(228,2,43,.12)}
 body.history-archive .cand-party,body.history-archive .county-row-party{display:flex;align-items:center;gap:7px}
-body.history-archive .cand-party .party-vote-badge,body.history-archive .county-row-party .party-vote-badge{flex:0 0 auto;border-radius:5px}
+body.history-archive .cand-party .party-vote-badge,body.history-archive .county-row-party .party-vote-badge,body.history-archive .archive-map-legend .party-vote-badge,body.history-archive .archive-compare-detail .party-vote-badge{box-sizing:border-box;flex:0 0 auto;border:1px solid rgba(255,255,255,.88);border-radius:5px;box-shadow:0 0 0 1px rgba(17,14,12,.68),0 3px 8px rgba(17,14,12,.28)}
 
 @media(max-width:660px){
   body.history-archive .map-panel,
