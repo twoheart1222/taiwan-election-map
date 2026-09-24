@@ -73,6 +73,7 @@ body.history-archive #years::-webkit-scrollbar,.local-year-nav .years::-webkit-s
 
 /* County comparison chooser lives with the right-hand detail panel. */
 .archive-compare-inspector .compare-region-heading{margin-top:0;color:#817a71}.archive-compare-inspector .compare-region-heading strong{color:#f4f1ea}
+.archive-compare-inspector .archive-compare-note{max-width:none;margin:0 0 12px;padding-bottom:10px;border-bottom:1px solid #2c2824;text-align:left}
 .archive-compare-inspector .compare-region-picker{display:flex;flex-wrap:wrap;gap:6px;max-height:174px;overflow:auto;padding:1px 0 4px;scrollbar-width:thin}
 .archive-flip.changed{border-color:#8f7733}.archive-flip.selected{border-color:#f6c945;color:#fff;box-shadow:0 0 0 1px rgba(246,201,69,.18)}
 .archive-compare-inspector .archive-compare-detail{margin-top:11px}
