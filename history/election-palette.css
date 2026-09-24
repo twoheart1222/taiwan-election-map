@@ -100,6 +100,10 @@ body.local-executive-page .local-source{border-color:#c9c0b3;color:#71695f}
 body.history-archive .source a,
 body.local-executive-page .local-source a{color:#312b25}
 
+body.archive-comparing .archive-query-shell,
+body.local-compare-active .local-query-shell,
+body.compare-map-active .local-query-shell{position:relative;top:auto}
+
 .archive-result-disclosure{margin-top:24px;border-top:1px solid #c9c0b3;border-bottom:1px solid #c9c0b3}
 .archive-result-disclosure.archive-insights{padding-top:0}
 .archive-result-disclosure>summary{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:52px;cursor:pointer;list-style:none}

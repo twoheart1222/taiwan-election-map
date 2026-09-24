@@ -98,6 +98,7 @@
     document.title=mode==='compare'?`${compareA}→${compareB} 縣市長選舉比較｜島民觀察室`:`${year} 縣市長選舉${region?`・${region}`:''}｜島民觀察室`;
   }
   function syncControls(){
+    document.body.classList.toggle('local-compare-active',mode==='compare');
     $('#local-year').innerHTML=YEARS.map(y=>`<option value="${y}"${y===year?' selected':''}>${y}</option>`).join('');
     const yearRail=$('#local-years');if(yearRail){yearRail.innerHTML=YEARS.map(y=>`<button class="year-btn${y===year?' on':''}" data-local-year="${y}" aria-current="${y===year?'true':'false'}"><span>${y}</span><small>縣市長</small></button>`).join('');$$('#local-years [data-local-year]').forEach(b=>b.addEventListener('click',()=>changeYear(Number(b.dataset.localYear))))}
     if(!$('#local-region').options.length)$('#local-region').innerHTML='<option value="">全台概覽</option>';

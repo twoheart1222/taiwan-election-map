@@ -125,7 +125,10 @@ test('presidential and local executive archives share the councilor result palet
   assert.match(executiveHtml, /id="local-election-stats"/);
   assert.match(executiveHtml, /id="local-area-select"/);
   assert.match(executiveScript, /function renderElectionStats\(/);
+  assert.match(executiveScript, /classList\.toggle\('local-compare-active',mode==='compare'\)/);
   assert.match(palette, /\.archive-result-disclosure:not\(\[open\]\)/);
+  assert.match(palette, /body\.archive-comparing \.archive-query-shell/);
+  assert.match(palette, /body\.compare-map-active \.local-query-shell/);
 });
 
 test('official CEC councilor archive covers every published cycle, council and district', async () => {
@@ -161,6 +164,8 @@ test('official CEC councilor archive covers every published cycle, council and d
   assert.deepEqual(archive.years['2006'].currentAreas['臺中市'].sort(), ['臺中市', '臺中縣']);
   new vm.Script(script, { filename: 'history/councilor.js' });
   assert.match(html, /id="councilor-national-overview"[^>]*open/);
+  assert.match(html, /id="councilor-county-overview"[^>]*open hidden/);
+  assert.match(html, /id="local-county-seat-grid"/);
   assert.match(html, /id="councilor-election-overview"[^>]*open/);
   assert.match(html, /id="councilor-election-stats"/);
   assert.match(html, /id="councilor-area-select"/);
@@ -170,6 +175,7 @@ test('official CEC councilor archive covers every published cycle, council and d
   assert.match(script, /councilorPartyBadgeFallback/);
   assert.match(script, /function electedStamp\(/);
   assert.match(script, /function renderElectionStats\(/);
+  assert.match(script, /function renderCountyOverview\(/);
   assert.match(script, /function drawComparisonMaps\(/);
   assert.match(script, /classList\.toggle\('compare-map-active',mode==='compare'\)/);
   assert.match(script, /<em>展開查看更多<\/em>/);
