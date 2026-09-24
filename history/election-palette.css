@@ -3,7 +3,7 @@ body.history-archive .layout,
 body.local-executive-page .local-layout{background:#e9e2d6}
 
 body.history-archive .map-panel,
-body.local-executive-page .local-map-panel{align-self:start;background:#e9e2d6;border-color:#c9c0b3}
+body.local-executive-page .local-map-panel{align-self:start;width:100%;box-sizing:border-box;background:#e9e2d6;border-color:#c9c0b3}
 body.history-archive .map-title strong,
 body.local-executive-page .local-map-title strong{color:#171310}
 body.history-archive .map-status,
@@ -104,6 +104,34 @@ body.archive-comparing .archive-query-shell,
 body.local-compare-active .local-query-shell,
 body.compare-map-active .local-query-shell{position:relative;top:auto}
 
+.paired-compare-maps{display:none;position:absolute;inset:76px 24px 84px;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
+body.archive-comparing #map,
+body.archive-comparing #mobile-map,
+body.local-compare-active #local-map{display:none!important}
+body.archive-comparing #archive-compare-maps,
+body.local-compare-active #local-exec-compare-maps{display:grid}
+body.local-compare-active .local-mobile-insets{display:none!important}
+.paired-compare-maps>section{min-width:0;display:grid;grid-template-rows:auto minmax(0,1fr);overflow:hidden;border:1px solid #c8beaf;background:#f3ede3}
+.paired-compare-maps>section+section{box-shadow:-10px 0 24px rgba(92,70,48,.06)}
+.paired-compare-maps header{display:flex;align-items:end;justify-content:space-between;padding:13px 15px 8px;border-bottom:1px solid #d4cbbb}
+.paired-compare-maps header span{padding:4px 8px;background:#dac678;color:#171310;font:900 clamp(20px,2.4vw,34px)/1 Archivo,sans-serif}
+.paired-compare-maps header small{color:#766e63;font-size:9px;font-weight:900;letter-spacing:.12em}
+.paired-compare-maps svg{display:block;width:100%;height:100%;min-height:0}
+.paired-compare-maps path{stroke:#f7f1e8;stroke-width:1.3;vector-effect:non-scaling-stroke;cursor:pointer;transition:fill .18s,stroke .18s,filter .18s}
+.paired-compare-maps path:hover{stroke:#171310;filter:brightness(1.08)}
+.paired-compare-maps path.selected{stroke:#E4022B;stroke-width:2.5}
+
+.paired-compare-chart{display:grid;gap:12px;margin-top:14px;padding:16px;border:1px solid #c4b9aa;background:#e2d9cc;color:#171310}
+.paired-chart-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.paired-chart-head strong{font-size:13px}
+.paired-chart-key{display:flex;gap:10px;color:#6f665c;font-size:9px;font-weight:800}
+.paired-chart-key span{display:flex;align-items:center;gap:5px}.paired-chart-key i{width:9px;height:9px}
+.paired-chart-row{display:grid;grid-template-columns:92px minmax(0,1fr);gap:10px;align-items:center}
+.paired-chart-row>span{font-size:10px;font-weight:900}
+.paired-chart-bars{display:grid;gap:5px}.paired-chart-bar{display:grid;grid-template-columns:36px minmax(0,1fr) 58px;gap:7px;align-items:center;color:#71685e;font:800 9px Archivo,sans-serif}
+.paired-chart-bar em{font-style:normal}.paired-chart-track{height:8px;background:#c9bfb0;overflow:hidden}.paired-chart-track i{display:block;height:100%;min-width:2px}.paired-chart-bar b{text-align:right;color:#28221d;font-size:10px}
+.archive-map-legend span{display:inline-flex;align-items:center;gap:5px}.archive-map-legend span>i:not(.legend-bar){width:8px;height:8px;border-radius:2px}
+
 .archive-result-disclosure{margin-top:24px;border-top:1px solid #c9c0b3;border-bottom:1px solid #c9c0b3}
 .archive-result-disclosure.archive-insights{padding-top:0}
 .archive-result-disclosure>summary{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:52px;cursor:pointer;list-style:none}
@@ -144,5 +172,10 @@ body.compare-map-active .local-query-shell{position:relative;top:auto}
   body.history-archive #candidates .candidate.elected.archive-elected-card .cand-party{color:#655e56!important}
   body.history-archive #candidates .candidate.elected.archive-elected-card .cand-votes{color:#c6002e!important}
   body.history-archive #candidates .candidate.elected.archive-elected-card .cand-votes small{color:#655e56!important}
+  body.archive-comparing .map-panel,body.local-compare-active .local-map-panel{order:1;min-height:520px}
+  body.archive-comparing .result-panel,body.local-compare-active .local-result{order:2}
+  .paired-compare-maps{inset:68px 8px 70px;gap:7px}
+  .paired-compare-maps header{padding:8px}.paired-compare-maps header span{font-size:17px}.paired-compare-maps header small{font-size:7px}
+  .paired-chart-row{grid-template-columns:76px minmax(0,1fr)}.paired-chart-bar{grid-template-columns:30px minmax(0,1fr) 52px}
   .result-area-toolbar{display:grid;gap:10px}.result-area-picker{grid-template-columns:auto minmax(0,1fr)}.result-area-picker select{height:42px}.election-overview-stat strong{font-size:16px}
 }

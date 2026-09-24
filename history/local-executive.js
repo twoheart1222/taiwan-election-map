@@ -147,13 +147,33 @@
   function comparisonColor(rows,key){const vals=rows.map(r=>key==='swing'?r.swing:(party==='DPP'?(r.dA==null||r.dB==null?null:r.dB-r.dA):(r.kA==null||r.kB==null?null:r.kB-r.kA))).filter(Number.isFinite),max=Math.max(1,...vals.map(Math.abs));return{max,scale:key==='swing'?d3.scaleLinear().domain([-max,0,max]).range([COLORS.KMT,'#28231f',COLORS.DPP]):d3.scaleLinear().domain([-max,0,max]).range(['#45515e','#27231f','#eee4d6'])}}
   function seatFor(rows,which,key){return rows.filter(r=>(which==='a'?r.aParty:r.bParty)===key).length}
   function renderLegend(rows){
-    if(layer==='winner'){$('#local-legend').innerHTML=`<span><i style="background:#f6c945"></i>金框＝勝方政黨改變</span><span><i style="background:${COLORS.DPP}"></i>DPP</span><span><i style="background:${COLORS.KMT}"></i>KMT</span><span><i style="background:${COLORS.IND}"></i>其他／無黨籍</span>`;return}
-    const {max}=comparisonColor(rows,layer);$('#local-legend').innerHTML=layer==='share'?`<span><i style="background:#45515e"></i>−${max.toFixed(1)} pp</span><span><i style="background:#27231f"></i>0</span><span><i style="background:#eee4d6"></i>+${max.toFixed(1)} pp</span>`:`<span><i style="background:${COLORS.KMT}"></i>KMT 方向</span><span><i style="background:#27231f"></i>0</span><span><i style="background:${COLORS.DPP}"></i>DPP 方向</span>`;
+    if(layer==='winner'){$('#local-legend').innerHTML=`<span><i style="background:${COLORS.DPP}"></i>DPP</span><span><i style="background:${COLORS.KMT}"></i>KMT</span><span><i style="background:${COLORS.IND}"></i>其他／無黨籍</span><span><i style="background:#E4022B"></i>紅框＝目前選取</span>`;return}
+    $('#local-legend').innerHTML=layer==='share'?`<span><i style="background:${partyColor(party)};opacity:.35"></i>顏色越深＝該年度 ${PARTY_LABEL[party]} 得票率越高</span>`:`<span><i style="background:${COLORS.KMT}"></i>KMT 方向</span><span><i style="background:#e2d9cc"></i>接近</span><span><i style="background:${COLORS.DPP}"></i>DPP 方向</span>`;
   }
   function renderCompareDetail(r){
     const box=$('#local-compare-detail');if(!r){box.innerHTML='點擊地圖查看縣市變化。';return}const dDelta=r.dA==null||r.dB==null?null:r.dB-r.dA,kDelta=r.kA==null||r.kB==null?null:r.kB-r.kA;
     box.innerHTML=`<h3>${esc(r.name)}</h3><div><strong>${compareA}</strong>：${esc(r.a.winner.name)} · ${esc(r.a.winner.party)}（${pct(r.a.winner.share)}）</div><div><strong>${compareB}</strong>：${esc(r.b.winner.name)} · ${esc(r.b.winner.party)}（${pct(r.b.winner.share)}）</div><div style="margin-top:8px">DPP：${pct(r.dA)} → ${pct(r.dB)}　${signed(dDelta)} pp</div><div>KMT：${pct(r.kA)} → ${pct(r.kB)}　${signed(kDelta)} pp</div><div>Swing：${signed(r.swing)} pp</div>${r.b.note?`<div style="margin-top:8px">${esc(r.b.note)}</div>`:''}`;
   }
+  function renderCompareChart(aData,bData,rows){
+    const aStats=aggregateStats(aData),bStats=aggregateStats(bData),metrics=[
+      {label:'民進黨席次',a:seatFor(rows,'a','DPP'),b:seatFor(rows,'b','DPP'),format:v=>`${fmt.format(v)} 席`},
+      {label:'國民黨席次',a:seatFor(rows,'a','KMT'),b:seatFor(rows,'b','KMT'),format:v=>`${fmt.format(v)} 席`},
+      {label:'全台投票率',a:aStats.turnout,b:bStats.turnout,format:pct}
+    ];
+    $('#local-exec-compare-chart').innerHTML=`<div class="paired-chart-head"><strong>全台關鍵指標</strong><span class="paired-chart-key"><span><i style="background:#b89b3f"></i>${compareA}</span><span><i style="background:#E4022B"></i>${compareB}</span></span></div>${metrics.map(m=>{const max=Math.max(m.a,m.b,1);return`<div class="paired-chart-row"><span>${m.label}</span><div class="paired-chart-bars"><div class="paired-chart-bar"><em>${compareA}</em><span class="paired-chart-track"><i style="width:${m.a/max*100}%;background:#b89b3f"></i></span><b>${m.format(m.a)}</b></div><div class="paired-chart-bar"><em>${compareB}</em><span class="paired-chart-track"><i style="width:${m.b/max*100}%;background:#E4022B"></i></span><b>${m.format(m.b)}</b></div></div></div>`}).join('')}`;
+  }
+  function pairedMarginMax(rows){return Math.max(1,...rows.flatMap(r=>[raceMargin(r.a),raceMargin(r.b)]).filter(Number.isFinite).map(Math.abs))}
+  function pairedRaceFill(race,rows){
+    if(!race)return'#c9c0b4';if(layer==='winner')return partyColor(race.winner.partyKey);
+    if(layer==='share'){const value=raceShare(race,party);return Number.isFinite(value)?d3.interpolateRgb('#e5ded2',partyColor(party))(.12+.88*(value/100)):'#c9c0b4'}
+    const margin=raceMargin(race),max=pairedMarginMax(rows);return Number.isFinite(margin)?(margin>=0?d3.interpolateRgb('#e2d9cc',COLORS.DPP)(Math.abs(margin)/max):d3.interpolateRgb('#e2d9cc',COLORS.KMT)(Math.abs(margin)/max)):'#c9c0b4'
+  }
+  function drawLocalComparisonMap(target,rows,side){
+    const node=$(target);if(!node||!features.length)return;const map=d3.select(target),w=node.clientWidth||430,h=node.clientHeight||470,by=new Map(rows.map(r=>[r.name,r])),sideYear=side==='A'?compareA:compareB;
+    map.attr('viewBox',`0 0 ${w} ${h}`);const projection=d3.geoMercator().fitExtent([[12,12],[w-12,h-12]],{type:'FeatureCollection',features}),path=d3.geoPath(projection);
+    map.selectAll('path.local-county').data(features,d=>featureName(d)).join('path').attr('class',d=>`local-county${compareSelection===featureName(d)?' selected':''}`).attr('data-county',d=>featureName(d)).attr('d',path).style('fill',d=>{const r=by.get(featureName(d));return pairedRaceFill(r?(side==='A'?r.a:r.b):null,rows)}).style('opacity',d=>by.has(featureName(d))?1:.42).style('stroke',d=>compareSelection===featureName(d)?'#E4022B':null).style('stroke-width',d=>compareSelection===featureName(d)?2.5:null).on('mousemove',(event,d)=>{const name=featureName(d),r=by.get(name),race=r?(side==='A'?r.a:r.b):null,tip=$('#local-tooltip');tip.style.display='block';tip.style.left=`${event.clientX+14}px`;tip.style.top=`${event.clientY+14}px`;if(!race){tip.innerHTML=`${name}<br>本年度無資料`;return}tip.innerHTML=layer==='winner'?`<b>${name}・${sideYear}</b><br>${esc(race.winner.name)}・${esc(race.winner.party)}`:layer==='share'?`<b>${name}・${sideYear}</b><br>${PARTY_LABEL[party]} ${pct(raceShare(race,party))}`:`<b>${name}・${sideYear}</b><br>藍綠差距 ${signed(raceMargin(race))} pp`}).on('mouseleave',()=>$('#local-tooltip').style.display='none').on('click',(_,d)=>{const name=featureName(d);if(!by.has(name))return;compareSelection=name;renderCompareDetail(by.get(name));drawLocalComparisonMaps(rows)});
+  }
+  function drawLocalComparisonMaps(rows){$('#local-exec-map-a-year').textContent=String(compareA);$('#local-exec-map-b-year').textContent=String(compareB);drawLocalComparisonMap('#local-exec-map-a',rows,'A');drawLocalComparisonMap('#local-exec-map-b',rows,'B')}
   async function renderCompare(){
     const token=++renderToken;setLoading(`正在比較 ${compareA} → ${compareB}…`);
     try{
@@ -162,17 +182,17 @@
       $('#local-term').textContent='CROSS-ELECTION COMPARISON';$('#local-result-title').textContent=`${compareA} → ${compareB} 縣市長比較`;$('#local-map-heading').textContent=`${compareA} → ${compareB} ${LAYER_LABEL[layer]}`;$('#local-head-number').textContent=String(flips.length);$('#local-head-label').textContent='勝方政黨改變縣市';
       $('#local-compare-stats').innerHTML=`<div class="local-compare-stat"><strong>${rows.length}</strong><span>比較縣市</span></div><div class="local-compare-stat"><strong>${seatFor(rows,'a','DPP')}→${seatFor(rows,'b','DPP')}</strong><span>DPP 席次</span></div><div class="local-compare-stat"><strong>${seatFor(rows,'a','KMT')}→${seatFor(rows,'b','KMT')}</strong><span>KMT 席次</span></div>`;
       $('#local-flips').innerHTML=flips.length?flips.map(r=>`<button type="button" class="local-flip-chip" data-county="${esc(r.name)}">${esc(r.name)}</button>`).join(''):'<span class="local-flip-chip">沒有勝方政黨改變</span>';
-      $$('#local-flips [data-county]').forEach(b=>b.addEventListener('click',()=>{compareSelection=b.dataset.county;renderCompareDetail(rows.find(r=>r.name===compareSelection));paintCompare(rows);renderCompareInsets(rows)}));
-      renderLegend(rows);renderCompareDetail(compareSelection?rows.find(r=>r.name===compareSelection):null);paintCompare(rows);renderCompareInsets(rows);lastPainter=()=>paintCompare(rows);
+      $$('#local-flips [data-county]').forEach(b=>b.addEventListener('click',()=>{compareSelection=b.dataset.county;renderCompareDetail(rows.find(r=>r.name===compareSelection));drawLocalComparisonMaps(rows)}));
+      renderLegend(rows);renderCompareChart(aData,bData,rows);renderCompareDetail(compareSelection?rows.find(r=>r.name===compareSelection):null);renderCompareInsets(rows);lastPainter=()=>drawLocalComparisonMaps(rows);requestAnimationFrame(lastPainter);
       const boundaryNote=rows.length<22?` 早期合併前有獨立縣、市選舉，本次僅比較行政區可一對一對應的 ${rows.length} 個地區。`:'';
-      $('#local-map-status').innerHTML=(layer==='winner'?'<b>勝方版圖：</b>B 年份以當選者政黨色填滿；金色外框表示相較 A 年份勝方政黨不同。':layer==='share'?`<b>${PARTY_LABEL[party]}得票率變化：</b>顯示 B − A 百分點；灰階只代表數值方向。`:'<b>藍綠 Swing：</b>顯示（DPP − KMT）得票率差的 B − A；缺少任一主要政黨候選人的縣市不計算。')+boundaryNote;
+      $('#local-map-status').innerHTML=(layer==='winner'?'<b>勝方版圖：</b>左右分別呈現各年度縣市當選者政黨，點擊任一縣市可同步查看兩屆資料。':layer==='share'?`<b>${PARTY_LABEL[party]}得票率：</b>左右地圖顏色越深，代表該年度該黨在縣市的得票率越高。`:'<b>藍綠差距：</b>左右地圖分別呈現各年度 DPP − KMT 得票率差，綠色偏 DPP、藍色偏 KMT。')+boundaryNote;
       renderState();syncUrl();
     }catch(err){showError(err)}
   }
 
   function featureName(f){return normalize(f?.properties?.name||f?.properties?.COUNTYNAME||f?.properties?.COUNTY||'')}
   async function ensureMap(){
-    if(topology)return;topology=await fetch('../data/history/counties.topo.json').then(r=>{if(!r.ok)throw new Error('counties.topo.json');return r.json()});const obj=topology.objects[Object.keys(topology.objects)[0]];features=topojson.feature(topology,obj).features;svg=d3.select('#local-map');mapNode=$('#local-map');drawMap();new ResizeObserver(()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{drawMap();lastPainter?.()},80)}).observe(mapNode);
+    if(topology)return;topology=await fetch('../data/history/counties.topo.json').then(r=>{if(!r.ok)throw new Error('counties.topo.json');return r.json()});const obj=topology.objects[Object.keys(topology.objects)[0]];features=topojson.feature(topology,obj).features;svg=d3.select('#local-map');mapNode=$('#local-map');drawMap();const observer=new ResizeObserver(()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{drawMap();lastPainter?.()},80)});observer.observe(mapNode);observer.observe($('#local-exec-compare-maps'));
   }
   function drawMap(){
     if(!svg||!features.length)return;const w=mapNode.clientWidth||700,h=mapNode.clientHeight||520,shown=mobile()?features.filter(f=>!ISLANDS.includes(featureName(f))):features;svg.attr('viewBox',`0 0 ${w} ${h}`);const projection=d3.geoMercator().fitExtent([[18,10],[w-18,h-10]],{type:'FeatureCollection',features:shown}),geo=d3.geoPath(projection);

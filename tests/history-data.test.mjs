@@ -107,8 +107,9 @@ test('history pages use a lightweight county-only topology', async () => {
 });
 
 test('presidential and local executive archives share the councilor result palette', async () => {
-  const [presidentHtml, executiveHtml, executiveScript, palette] = await Promise.all([
+  const [presidentHtml, presidentScript, executiveHtml, executiveScript, palette] = await Promise.all([
     readFile(new URL('../history/index.html', import.meta.url), 'utf8'),
+    readFile(new URL('../history/archive-enhancements.js', import.meta.url), 'utf8'),
     readFile(new URL('../history/local-executive.html', import.meta.url), 'utf8'),
     readFile(new URL('../history/local-executive.js', import.meta.url), 'utf8'),
     readFile(new URL('../history/election-palette.css', import.meta.url), 'utf8'),
@@ -124,11 +125,21 @@ test('presidential and local executive archives share the councilor result palet
   assert.match(executiveHtml, /id="local-election-overview"[^>]*open/);
   assert.match(executiveHtml, /id="local-election-stats"/);
   assert.match(executiveHtml, /id="local-area-select"/);
+  assert.match(presidentHtml, /id="archive-map-a"/);
+  assert.match(presidentHtml, /id="archive-map-b"/);
+  assert.match(executiveHtml, /id="local-exec-map-a"/);
+  assert.match(executiveHtml, /id="local-exec-map-b"/);
+  assert.match(executiveHtml, /id="local-exec-compare-chart"/);
+  assert.match(presidentScript, /function drawComparisonMaps\(/);
+  assert.match(presidentScript, /id="archive-compare-chart"/);
   assert.match(executiveScript, /function renderElectionStats\(/);
+  assert.match(executiveScript, /function drawLocalComparisonMaps\(/);
   assert.match(executiveScript, /classList\.toggle\('local-compare-active',mode==='compare'\)/);
   assert.match(palette, /\.archive-result-disclosure:not\(\[open\]\)/);
   assert.match(palette, /body\.archive-comparing \.archive-query-shell/);
   assert.match(palette, /body\.compare-map-active \.local-query-shell/);
+  assert.match(palette, /body\.archive-comparing #archive-compare-maps/);
+  assert.match(palette, /body\.local-compare-active #local-exec-compare-maps/);
 });
 
 test('official CEC councilor archive covers every published cycle, council and district', async () => {
