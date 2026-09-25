@@ -170,10 +170,29 @@
     if(layer==='share'){const value=raceShare(race,party);return Number.isFinite(value)?d3.interpolateRgb('#e5ded2',partyColor(party))(.12+.88*(value/100)):'#c9c0b4'}
     const margin=raceMargin(race),max=pairedMarginMax(rows);return Number.isFinite(margin)?(margin>=0?d3.interpolateRgb('#e2d9cc',COLORS.DPP)(Math.abs(margin)/max):d3.interpolateRgb('#e2d9cc',COLORS.KMT)(Math.abs(margin)/max)):'#c9c0b4'
   }
+  // 跨屆並排地圖：以本島＋澎湖決定比例尺，金門、連江移到左上角小圖，本島放大到可閱讀的尺寸。
+  const OFFSHORE=['連江縣','金門縣'];
+  // 高雄市含東沙、太平島，直接 fit 會讓本島縮得很小；改用本島＋澎湖的經緯度框決定比例尺。
+  const PAIRED_FRAME={type:'Feature',geometry:{type:'MultiPoint',coordinates:[[119.3,21.87],[122.02,25.32]]}};
+  const OFFSHORE_FRAME={'連江縣':[[119.86,25.92],[120.52,26.4]],'金門縣':[[118.19,24.37],[118.5,24.53]]};
+  function pairedCore(){return [PAIRED_FRAME]}
+  function placeOffshore(map,path,list,w,h,selector){
+    const bw=Math.round(Math.max(52,Math.min(112,w*.24))),bh=Math.round(bw*.7),x=12,place=[],uid=(map.attr('id')||'paired')+'-offshore';let y=12;
+    OFFSHORE.forEach((name,i)=>{const f=list.find(item=>featureName(item)===name);if(!f)return;place.push({name,f,x,y,clip:`${uid}-${i}`});y+=bh+8});
+    let defs=map.select('defs.paired-offshore-defs');if(defs.empty())defs=map.insert('defs',':first-child').attr('class','paired-offshore-defs');
+    defs.selectAll('clipPath').data(place,d=>d.name).join(enter=>{const c=enter.append('clipPath');c.append('rect');return c}).attr('id',d=>d.clip).select('rect').attr('x',d=>d.x).attr('y',d=>d.y).attr('width',bw).attr('height',bh).attr('rx',10);
+    map.selectAll('rect.paired-offshore-box').data(place,d=>d.name).join(enter=>enter.insert('rect','defs + *').attr('class','paired-offshore-box')).attr('x',d=>d.x).attr('y',d=>d.y).attr('width',bw).attr('height',bh).attr('rx',10);
+    map.selectAll(selector).each(function(d){const hit=place.find(p=>p.name===featureName(d));if(!hit){this.removeAttribute('clip-path');return}const frame={type:'Feature',geometry:{type:'MultiPoint',coordinates:OFFSHORE_FRAME[hit.name]}},projection=d3.geoMercator().fitExtent([[hit.x+10,hit.y+20],[hit.x+bw-10,hit.y+bh-8]],frame);this.setAttribute('d',d3.geoPath(projection)(hit.f));this.setAttribute('clip-path',`url(#${hit.clip})`)});
+    map.selectAll('text.paired-offshore-label').data(place,d=>d.name).join('text').attr('class','paired-offshore-label').attr('x',d=>d.x+9).attr('y',d=>d.y+14).text(d=>d.name.replace(/縣$/,''));
+  }
+
+
+
   function drawLocalComparisonMap(target,rows,side){
     const node=$(target);if(!node||!features.length)return;const map=d3.select(target),w=node.clientWidth||430,h=node.clientHeight||470,by=new Map(rows.map(r=>[r.name,r])),sideYear=side==='A'?compareA:compareB;
-    map.attr('viewBox',`0 0 ${w} ${h}`);const projection=d3.geoMercator().fitExtent([[12,12],[w-12,h-12]],{type:'FeatureCollection',features}),path=d3.geoPath(projection);
+    map.attr('viewBox',`0 0 ${w} ${h}`);const projection=d3.geoMercator().fitExtent([[12,12],[w-12,h-12]],{type:'FeatureCollection',features:pairedCore(features)}),path=d3.geoPath(projection);
     map.selectAll('path.local-county').data(features,d=>featureName(d)).join('path').attr('class',d=>`local-county${compareSelection===featureName(d)?' selected':''}`).attr('data-county',d=>featureName(d)).attr('d',path).style('fill',d=>{const r=by.get(featureName(d));return pairedRaceFill(r?(side==='A'?r.a:r.b):null,rows)}).style('opacity',d=>by.has(featureName(d))?1:.42).style('stroke',d=>compareSelection===featureName(d)?'#E4022B':null).style('stroke-width',d=>compareSelection===featureName(d)?2.5:null).on('mousemove',(event,d)=>{const name=featureName(d),r=by.get(name),race=r?(side==='A'?r.a:r.b):null,tip=$('#local-tooltip');tip.style.display='block';tip.style.left=`${event.clientX+14}px`;tip.style.top=`${event.clientY+14}px`;if(!race){tip.innerHTML=`${name}<br>本年度無資料`;return}tip.innerHTML=layer==='winner'?`<b>${name}・${sideYear}</b><br>${esc(race.winner.name)}・${esc(race.winner.party)}`:layer==='share'?`<b>${name}・${sideYear}</b><br>${PARTY_LABEL[party]} ${pct(raceShare(race,party))}`:`<b>${name}・${sideYear}</b><br>藍綠差距 ${signed(raceMargin(race))} pp`}).on('mouseleave',()=>$('#local-tooltip').style.display='none').on('click',(_,d)=>{const name=featureName(d);if(!by.has(name))return;compareSelection=name;renderCompareDetail(by.get(name));drawLocalComparisonMaps(rows)});
+    placeOffshore(map,path,features,w,h,'path.local-county');
   }
   function drawLocalComparisonMaps(rows){$('#local-exec-map-a-year').textContent=String(compareA);$('#local-exec-map-b-year').textContent=String(compareB);drawLocalComparisonMap('#local-exec-map-a',rows,'A');drawLocalComparisonMap('#local-exec-map-b',rows,'B')}
   async function renderCompare(){
