@@ -14,6 +14,7 @@ worker.js
 override-store.js
 storage-baseline.json
 tests/
+artifacts/
 tmp
 tmp/**
 /tmp/**
