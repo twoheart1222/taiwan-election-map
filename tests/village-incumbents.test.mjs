@@ -46,6 +46,18 @@ test('village names use their official characters instead of bracket placeholder
   const search = readJson('data/candidate_search.json');
   for (const [id, name] of namesById) assert.equal(search.areas[id]?.areaName, name);
   for (const [id, name] of officialSpellings) assert.equal(search.areas[id]?.areaName, name);
+
+  const recoveredRegistrations = new Map([
+    ['66000220004', ['洪正義', '余連銓']],
+    ['67000350003', ['蘇龍池', '林同寳']],
+    ['67000350024', ['林宏男']],
+  ]);
+  const candidates = villageCandidates();
+  for (const [id, names] of recoveredRegistrations) {
+    const expected = names.toSorted();
+    assert.deepEqual(candidates.filter(candidate => candidate.areaId === id).map(candidate => candidate.name).toSorted(), expected);
+    assert.deepEqual(search.candidates.filter(candidate => candidate.areaId === id).map(candidate => candidate.name).toSorted(), expected);
+  }
 });
 
 test('village incumbent data records the CEC roster and MOI cross-check method', () => {
