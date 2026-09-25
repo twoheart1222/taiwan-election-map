@@ -1,6 +1,7 @@
 import { readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { pinyin } from 'pinyin-pro';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dataDir = path.join(root, 'data');
@@ -30,11 +31,20 @@ const townNames = new Map(townProperties.map(area => [String(area.id), area.name
 const areas = {};
 const candidates = [];
 
+function phoneticSyllables(value, surname = 'off') {
+  return pinyin(String(value || ''), {
+    toneType: 'none',
+    type: 'array',
+    surname,
+  }).map(part => String(part).toLowerCase().replace(/[^a-z0-9]/g, '')).filter(Boolean);
+}
+
 function publicCandidate(candidate, context, district = null, source = 'candidates') {
   if (!candidate?.name) return;
 
   candidates.push({
     name: candidate.name,
+    phonetic: phoneticSyllables(candidate.name, 'head'),
     party: candidate.party || '',
     role: candidate.role || '',
     photoUrl: candidate.photoUrl || null,
@@ -112,6 +122,13 @@ const output = {
   generatedAt: new Date().toISOString(),
   areas,
   candidates: unique,
+  // 前端不載入完整拼音函式庫；用這份小型字典把使用者輸入轉成無聲調拼音，
+  // 再與候選人姓名的音節比對。涵蓋 CJK 基本與擴充 A 區，包含常見錯別字。
+  phoneticMap: Object.fromEntries(
+    Array.from({ length: 0x9fff - 0x3400 + 1 }, (_, index) => String.fromCodePoint(0x3400 + index))
+      .map(character => [character, phoneticSyllables(character)[0]])
+      .filter(([, pronunciation]) => pronunciation),
+  ),
 };
 
 await writeFile(

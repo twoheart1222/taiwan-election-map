@@ -119,12 +119,9 @@ try{
   .gazette-lightbox-bar{position:fixed;z-index:2;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px max(12px,env(safe-area-inset-right)) 12px max(12px,env(safe-area-inset-left));background:linear-gradient(#090909 70%,transparent)}
   .gazette-lightbox-title{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px;font-weight:800}.gazette-lightbox-actions{display:flex;gap:7px}.gazette-lightbox-actions button{width:42px;height:42px;border:1px solid #4a4742;border-radius:50%;background:#1b1917;color:#fff;cursor:pointer;font-size:20px;font-weight:800}
   .gazette-lightbox-stage{width:100%;height:100%;padding:78px 20px 30px;overflow:auto;display:grid;place-items:center}.gazette-lightbox-stage img{display:block;width:min(100%,1600px);height:auto;max-width:none;transform-origin:center;transition:width .18s ease}.gazette-lightbox-stage[data-zoom="2"] img{width:2500px}.gazette-lightbox-stage[data-zoom="3"] img{width:3535px}
-  .candidate-card.search-target-ring{position:relative;isolation:isolate;overflow:hidden;contain:paint}
-  .candidate-search-orbit{position:absolute;inset:0;width:100%;height:100%;box-sizing:border-box;border-radius:inherit;z-index:4;overflow:hidden;pointer-events:none}
-  .candidate-search-orbit .orbit-outline{fill:none;stroke:#f6a06b;stroke-width:2;opacity:.82;filter:drop-shadow(0 0 5px rgba(246,160,107,.32));animation:candidate-outline-once 1.55s ease-out 1 forwards}
-  .candidate-search-orbit .orbit-light{fill:none;stroke:#fff;stroke-width:4;stroke-linecap:round;stroke-dasharray:1.2 98.8;filter:drop-shadow(0 0 3px #fff) drop-shadow(0 0 7px #E4022B) drop-shadow(0 0 12px #f6a06b);animation:candidate-border-run 1.45s linear 1 forwards}
-  @keyframes candidate-outline-once{0%{opacity:0}8%,84%{opacity:.82}100%{opacity:0}}
-  @keyframes candidate-border-run{0%{opacity:0;stroke-dashoffset:0}5%{opacity:1}94%{opacity:1}100%{opacity:0;stroke-dashoffset:-100}}
+  #candidates .candidate-card{transition:opacity .32s ease}
+  #candidates.search-focus-active .candidate-card:not(.search-target-ring){opacity:.28!important}
+  .candidate-card.search-target-ring{position:relative;z-index:1;opacity:1!important}
   .drawer{font-family:'Noto Sans TC',system-ui,sans-serif}
   .map-hero{height:calc(100dvh - 60px) !important}
   .candidate-search{position:relative;width:fit-content;max-width:min(360px,calc(100vw - 32px));margin-top:20px;pointer-events:auto}
@@ -913,13 +910,16 @@ class App {
         }
         results.dataset.mode = 'name';
         const rank = name => name === query ? 0 : name.startsWith(query) ? 1 : 2;
-        this._searchMatches = index.candidates
+        const directMatches = index.candidates
           .map(candidate => ({ candidate, key: this._normalizeSearch(candidate.name) }))
           .filter(item => item.key.includes(query))
           .sort((a, b) => rank(a.key) - rank(b.key) || a.candidate.name.localeCompare(b.candidate.name, 'zh-Hant'))
           .map(item => item.candidate);
+        const phoneticMatches = directMatches.length ? [] : this._phoneticCandidateMatches(input.value, index);
+        this._searchMatches = directMatches.length ? directMatches : phoneticMatches;
+        this._searchSuggestionMode = !directMatches.length && phoneticMatches.length > 0;
         this._searchActive = -1;
-        this._renderCandidateSearchResults(results, this._searchMatches);
+        this._renderCandidateSearchResults(results, this._searchMatches, this._searchSuggestionMode);
       } catch (error) {
         console.warn('候選人搜尋資料載入失敗', error);
         results.innerHTML = '<div class="search-message">搜尋資料暫時無法載入，請稍後再試。</div>';
@@ -974,6 +974,32 @@ class App {
 
   _normalizeSearch(value) {
     return String(value || '').normalize('NFKC').toLocaleLowerCase('zh-TW').replace(/[\s\u3000·‧・]/g, '');
+  }
+
+  _phoneticCandidateMatches(raw, index) {
+    const query = [...this._normalizeSearch(raw)]
+      .map(character => index.phoneticMap?.[character] || (/^[a-z0-9]$/i.test(character) ? character.toLowerCase() : ''))
+      .filter(Boolean);
+    if (query.length < 2) return [];
+    const distance = (a, b) => {
+      const row = Array.from({ length: b.length + 1 }, (_, i) => i);
+      for (let i = 1; i <= a.length; i++) {
+        let previous = row[0]; row[0] = i;
+        for (let j = 1; j <= b.length; j++) {
+          const saved = row[j];
+          row[j] = Math.min(row[j] + 1, row[j - 1] + 1, previous + (a[i - 1] === b[j - 1] ? 0 : 1));
+          previous = saved;
+        }
+      }
+      return row[b.length];
+    };
+    const allowance = Math.max(1, Math.floor(query.length * .34));
+    return (index.candidates || [])
+      .map(candidate => ({ candidate, distance: distance(query, candidate.phonetic || []) }))
+      .filter(item => item.distance <= allowance)
+      .sort((a, b) => a.distance - b.distance || Math.abs((a.candidate.phonetic || []).length - query.length) - Math.abs((b.candidate.phonetic || []).length - query.length) || a.candidate.name.localeCompare(b.candidate.name, 'zh-Hant'))
+      .slice(0, 30)
+      .map(item => item.candidate);
   }
 
   // ---------- ADDRESS LOOKUP（輸入地址 → 這個地址可以投票選出的候選人） ----------
@@ -1287,13 +1313,16 @@ class App {
     return parts.join(' › ') || '全台灣';
   }
 
-  _renderCandidateSearchResults(container, matches) {
+  _renderCandidateSearchResults(container, matches, isPhoneticSuggestion = false) {
     container.innerHTML = '';
     if (!matches.length) {
       container.innerHTML = '<div class="search-message">找不到符合的人名，請試著只輸入姓名的一部分。</div>';
       return;
     }
     const limit = 30;
+    if (isPhoneticSuggestion) {
+      const note = document.createElement('div'); note.className = 'search-message'; note.textContent = '找不到完全相同的姓名，以下是讀音相近的候選人：'; container.appendChild(note);
+    }
     matches.slice(0, limit).forEach((candidate, index) => {
       const button = document.createElement('button');
       button.type = 'button'; button.className = 'search-result'; button.setAttribute('role', 'option');
@@ -1359,36 +1388,20 @@ class App {
   }
 
   _flashCandidate(c) {
-    const norm = s => String(s || '').replace(/[A-Za-z・．.·‧@\s]/g, '');
     const started = Date.now();
     const flash = () => {
       const box = document.getElementById('candidates'); if (!box) return;
-      const el = [...box.children].find(n => norm(n.textContent).includes(norm(c.name)));
+      const wantedName = this._normalizeSearch(c.name);
+      const el = [...box.querySelectorAll('.candidate-card')].find(card => card.dataset.searchName === wantedName);
       if (!el) { if (Date.now() - started < 4500) setTimeout(flash, 180); return; }
       el.scrollIntoView({ block: 'center', behavior: 'smooth' });
       clearTimeout(this._searchRingTimer);
-      el.classList.remove('search-target-ring');
-      el.querySelector('.candidate-search-orbit')?.remove();
+      box.querySelectorAll('.candidate-card.search-target-ring').forEach(card => card.classList.remove('search-target-ring'));
+      box.classList.remove('search-focus-active');
       void el.offsetWidth;
+      box.classList.add('search-focus-active');
       el.classList.add('search-target-ring');
-      const width = Math.max(1, el.clientWidth), height = Math.max(1, el.clientHeight);
-      const radius = Math.min(parseFloat(getComputedStyle(el).borderRadius) || 8, height / 2);
-      const ns = 'http://www.w3.org/2000/svg';
-      const orbit = document.createElementNS(ns, 'svg');
-      orbit.classList.add('candidate-search-orbit');
-      orbit.setAttribute('viewBox', `0 0 ${width} ${height}`);
-      orbit.setAttribute('preserveAspectRatio', 'none');
-      orbit.setAttribute('aria-hidden', 'true');
-      ['orbit-outline', 'orbit-light'].forEach(className => {
-        const rect = document.createElementNS(ns, 'rect');
-        rect.setAttribute('x', '3'); rect.setAttribute('y', '3');
-        rect.setAttribute('width', String(Math.max(1, width - 6))); rect.setAttribute('height', String(Math.max(1, height - 6)));
-        rect.setAttribute('rx', String(radius)); rect.setAttribute('pathLength', '100');
-        rect.setAttribute('vector-effect', 'non-scaling-stroke'); rect.classList.add(className);
-        orbit.appendChild(rect);
-      });
-      el.appendChild(orbit);
-      this._searchRingTimer = setTimeout(() => { orbit.remove(); el.classList.remove('search-target-ring'); }, 1600);
+      this._searchRingTimer = setTimeout(() => { el.classList.remove('search-target-ring'); box.classList.remove('search-focus-active'); }, 2200);
     };
     setTimeout(flash, 350);
   }
@@ -2522,7 +2535,7 @@ class App {
     const winRibbon = isWin
       ? `<svg viewBox="0 0 100 100" aria-label="當選" role="img" style="position:absolute;right:12px;top:10px;width:92px;height:92px;transform:rotate(-11deg);filter:drop-shadow(0 4px 8px rgba(228,2,43,.22));pointer-events:none"><defs><filter id="stamp-rough" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.6"/></filter></defs><g filter="url(#stamp-rough)" fill="none" stroke="#E4022B"><circle cx="50" cy="50" r="45" stroke-width="4.5"/><circle cx="50" cy="50" r="38" stroke-width="1.6"/><text x="50" y="66" text-anchor="middle" font-family="'Noto Serif TC','Songti TC',serif" font-weight="900" font-size="44" fill="#E4022B" stroke="none" letter-spacing="-2">當選</text><path d="M22 78 L78 78" stroke-width="1.6"/><text x="50" y="30" text-anchor="middle" font-family="Archivo,sans-serif" font-weight="900" font-size="8.5" fill="#E4022B" stroke="none" letter-spacing="3.4">ELECTED</text></g></svg>`
       : '';
-    return `<article class="candidate-card" style="${cardStyle}">
+    return `<article class="candidate-card" data-search-name="${esc(this._normalizeSearch(c.name))}" style="${cardStyle}">
       ${winRibbon}
       <div class="candidate-main"${isWin ? ' style="padding-right:96px"' : ''}>
         <div class="candidate-photo" data-fb="${ch}"${isWin ? ' style="box-shadow:0 0 0 2px #E4022B;background:#e6e1d6;color:#1a1714"' : ''}>${avatar}</div>
