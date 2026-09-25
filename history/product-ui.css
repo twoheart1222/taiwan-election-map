@@ -94,9 +94,30 @@ body.history-town .town-btn.on{background:#2a1013;box-shadow:inset 3px 0 0 #E402
 body.history-town .candidate{transition:background .2s ease,padding .24s var(--history-ease)}
 body.history-town .candidate:hover{background:#171311;padding-left:8px;padding-right:8px}
 
+/* Shared archive interactions: restrained depth, pointer light and clear click feedback. */
+.history-interactive-card{--history-spot-x:50%;--history-spot-y:50%;position:relative;isolation:isolate;transition:transform .34s var(--history-ease),box-shadow .34s ease,border-color .24s ease}
+.history-interactive-card::after{content:'';position:absolute;inset:0;z-index:2;border-radius:inherit;background:radial-gradient(260px circle at var(--history-spot-x) var(--history-spot-y),rgba(228,2,43,.13),transparent 58%);opacity:0;pointer-events:none;transition:opacity .3s ease}
+.history-interactive-card:hover{transform:translateY(-4px);border-color:rgba(228,2,43,.44)!important;box-shadow:0 18px 38px rgba(70,46,28,.15)}
+.history-interactive-card:hover::after{opacity:1}
+.history-map-atmosphere{--history-map-x:50%;--history-map-y:42%;position:relative}
+.history-map-atmosphere::after{content:'';position:absolute;inset:0;z-index:2;background:radial-gradient(310px circle at var(--history-map-x) var(--history-map-y),rgba(228,2,43,.09),transparent 68%);opacity:0;pointer-events:none;transition:opacity .35s ease}
+.history-map-atmosphere.pointer-active::after{opacity:1}
+.history-ripple-host{position:relative!important;overflow:hidden!important}
+.history-ripple{position:absolute;z-index:8;width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.48);pointer-events:none;transform:translate(-50%,-50%) scale(0);animation:history-ripple .58s ease-out forwards}
+@keyframes history-ripple{to{opacity:0;transform:translate(-50%,-50%) scale(18)}}
+.history-motion-ready .history-reveal-item{opacity:0;transform:translateY(18px)}
+.history-motion-ready .history-reveal-item.history-in-view{opacity:1;transform:none;transition:opacity .62s ease,transform .72s var(--history-ease)}
+body.local-executive-page .local-candidate{transition:transform .32s var(--history-ease),box-shadow .3s ease,border-color .22s ease}
+body.local-executive-page .local-candidate:hover{transform:translateY(-3px);border-color:rgba(228,2,43,.44);box-shadow:0 16px 32px rgba(70,46,28,.16)}
+body.councilor-page .councilor-candidate{transition:background .22s ease,padding .3s var(--history-ease),box-shadow .25s ease}
+body.councilor-page .councilor-candidate:not(.elected):hover{padding-left:23px;background:#281d17;box-shadow:inset 3px 0 0 #E4022B}
+body.councilor-page .councilor-candidate.elected:hover{padding-left:23px;background:#fff9f0;box-shadow:inset 3px 0 0 #E4022B}
+body.history-product details>summary{transition:background .22s ease,color .22s ease}
+body.history-product details>summary:active{background:rgba(228,2,43,.08)}
+
 .history-focus-ring:focus-visible,body.history-product button:focus-visible,body.history-product a:focus-visible{outline:2px solid #f6c945;outline-offset:3px}
-@media (hover:none){body.history-product .county:hover,body.history-product .town:hover{filter:none}body.history-product .candidate:hover,body.history-product .town-btn:hover{transform:none}}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}.history-transition{display:none!important}}
+@media (hover:none){body.history-product .county:hover,body.history-product .town:hover{filter:none}body.history-product .candidate:hover,body.history-product .town-btn:hover,.history-interactive-card:hover,body.local-executive-page .local-candidate:hover{transform:none}.history-map-atmosphere::after{display:none}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}.history-transition,.history-ripple{display:none!important}.history-motion-ready .history-reveal-item{opacity:1;transform:none}}
 
 @media(max-width:900px){
   body.history-archive .map-panel,body.history-town .map-panel{min-height:560px}

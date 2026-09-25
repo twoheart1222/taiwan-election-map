@@ -131,6 +131,7 @@ test('presidential and local executive archives share the councilor result palet
   assert.match(executiveHtml, /id="local-area-select"/);
   assert.match(presidentHtml, /id="archive-map-a"/);
   assert.match(presidentHtml, /id="archive-map-b"/);
+  assert.match(presidentHtml, /class="result-panel"[\s\S]*id="archive-compare-result"[\s\S]*id="archive-single-result"/);
   assert.match(executiveHtml, /id="local-exec-map-a"/);
   assert.match(executiveHtml, /id="local-exec-map-b"/);
   assert.match(executiveHtml, /id="local-exec-compare-chart"/);
@@ -138,6 +139,7 @@ test('presidential and local executive archives share the councilor result palet
   assert.match(presidentScript, /partyVoteBadge\(wA\?\.partyKey/);
   assert.match(presidentCss, /candidate\.elected\.archive-elected-card:hover\{[^}]*border-color:#fff!important/);
   assert.match(presidentScript, /id="archive-compare-chart"/);
+  assert.match(presidentScript, /result\.innerHTML=.*archive-compare-body/);
   assert.match(executiveScript, /function renderElectionStats\(/);
   assert.match(executiveScript, /function drawLocalComparisonMaps\(/);
   assert.match(executiveScript, /classList\.toggle\('local-compare-active',mode==='compare'\)/);
@@ -146,6 +148,66 @@ test('presidential and local executive archives share the councilor result palet
   assert.match(palette, /body\.compare-map-active \.local-query-shell/);
   assert.match(palette, /body\.archive-comparing #archive-compare-maps/);
   assert.match(palette, /body\.local-compare-active #local-exec-compare-maps/);
+});
+
+test('township results keep the production route, initial selection, and paper palette stable', async () => {
+  const [html, productUi, palette, archiveCss, localCss] = await Promise.all([
+    readFile(new URL('../history/town.html', import.meta.url), 'utf8'),
+    readFile(new URL('../history/product-ui.js', import.meta.url), 'utf8'),
+    readFile(new URL('../history/election-palette.css', import.meta.url), 'utf8'),
+    readFile(new URL('../history/archive-enhancements.css', import.meta.url), 'utf8'),
+    readFile(new URL('../history/local-executive.css', import.meta.url), 'utf8'),
+  ]);
+  const scripts = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)]
+    .filter(match => !/src=|application\/ld\+json/.test(match[1]));
+  scripts.forEach((match, index) => new vm.Script(match[2], { filename: `history/town.html#${index}` }));
+  assert.match(productUi, /\/\\\/town\(\?:\\\.html\)\?\\\/\?\$\/i/,
+    'the extensionless production route must still be recognized as the township page');
+  assert.match(html, /<body class="history-product history-town">/);
+  assert.match(html, /href="\.\/election-palette\.css(?:\?[^\"]*)?"/);
+  assert.match(html, /if\(initialTown\)renderTownDetail\(initialTown\)/,
+    'a county should open with a valid township result instead of an empty detail state');
+  assert.match(html, /new ResizeObserver\(scheduleDraw\)/,
+    'the map should redraw after its final responsive panel size is known');
+  assert.match(html, /featureTown\(d\)===normalize\(selected\)\?' selected'/,
+    'responsive redraws must preserve the selected township on the map');
+  assert.match(palette, /body\.history-town \.map-panel\{[^}]*background:#e9e2d6/);
+  assert.match(palette, /body\.history-town \.side\{[^}]*background:#eee9df/);
+  assert.match(archiveCss, /\.archive-query-shell\{position:relative;top:auto/);
+  assert.match(localCss, /\.local-query-shell\{position:relative;top:auto/);
+});
+
+test('history pages share responsive interaction feedback with reduced-motion support', async () => {
+  const [productUi, productCss] = await Promise.all([
+    readFile(new URL('../history/product-ui.js', import.meta.url), 'utf8'),
+    readFile(new URL('../history/product-ui.css', import.meta.url), 'utf8'),
+  ]);
+  new vm.Script(productUi, { filename: 'history/product-ui.js' });
+  assert.match(productUi, /function interactiveFeedback\(\)/);
+  assert.match(productUi, /new IntersectionObserver/);
+  assert.match(productUi, /history-interactive-card/);
+  assert.match(productUi, /history-map-atmosphere/);
+  assert.match(productUi, /history-ripple/);
+  assert.match(productCss, /\.history-interactive-card:hover/);
+  assert.match(productCss, /\.history-map-atmosphere\.pointer-active::after/);
+  assert.match(productCss, /@keyframes history-ripple/);
+  assert.match(productCss, /@media \(prefers-reduced-motion:reduce\)[\s\S]*\.history-ripple\{display:none!important\}/);
+});
+
+test('cross-election comparison keeps the report on the right and both maps inside their cards', async () => {
+  const [css, presidentScript, executiveScript, councilorScript] = await Promise.all([
+    readFile(new URL('../history/archive-enhancements.css', import.meta.url), 'utf8'),
+    readFile(new URL('../history/archive-enhancements.js', import.meta.url), 'utf8'),
+    readFile(new URL('../history/local-executive.js', import.meta.url), 'utf8'),
+    readFile(new URL('../history/councilor.js', import.meta.url), 'utf8'),
+  ]);
+  assert.match(css, /body\.history-archive\.archive-comparing \.layout\{[^}]*grid-template-columns:/);
+  assert.match(css, /body\.history-archive\.archive-comparing \.map-panel\{[^}]*grid-column:1/);
+  assert.match(css, /body\.history-archive\.archive-comparing \.result-panel\{[^}]*grid-column:2/);
+  for (const source of [presidentScript, executiveScript, councilorScript]) {
+    assert.match(source, /preserveAspectRatio','xMidYMid meet'/);
+    assert.match(source, /fitExtent\(\[\[24,26\],\[w-24,h-34\]\]/);
+  }
 });
 
 test('official CEC councilor archive covers every published cycle, council and district', async () => {
@@ -210,4 +272,59 @@ test('official CEC councilor archive covers every published cycle, council and d
   assert.match(css, /\.councilor-page\.compare-map-active \.councilor-compare-maps\{display:grid\}/);
   assert.match(css, /\.councilor-page \.party-badge img[^}]*object-fit:contain/);
   assert.match(css, /\.councilor-status \.local-elected-stamp/);
+});
+
+test('official CEC legislator archive covers every published term without inventing legacy party-list data', async () => {
+  const archive = await readJson('data/history/legislator.json');
+  assert.equal(archive.type, 'legislator');
+  assert.equal(archive.boundaryMode, 'historical-official');
+  assert.deepEqual(archive.coverage, [1995, 1998, 2001, 2004, 2008, 2012, 2016, 2020, 2024]);
+  assert.match(JSON.stringify(archive.source), /db\.cec\.gov\.tw/);
+  assert.doesNotMatch(JSON.stringify(archive), /kiang|MISNUK|everdark/i);
+
+  const expected = {
+    '1995': [3, 29, 332, 128, null, 164],
+    '1998': [4, 31, 397, 176, null, 225],
+    '2001': [5, 31, 455, 176, null, 225],
+    '2004': [6, 31, 386, 176, null, 225],
+    '2008': [7, 75, 295, 79, 34, 113],
+    '2012': [8, 75, 283, 79, 34, 113],
+    '2016': [9, 75, 377, 79, 34, 113],
+    '2020': [10, 75, 431, 79, 34, 113],
+    '2024': [11, 75, 328, 79, 34, 113],
+  };
+  for (const [year, [term, districtCount, candidateCount, directSeats, partyListSeats, totalSeats]] of Object.entries(expected)) {
+    const entry = archive.years[year];
+    assert.equal(entry.term, term, `${year} term`);
+    assert.equal(entry.districtCount, districtCount, `${year} district coverage`);
+    assert.equal(entry.directElectedSeats, directSeats, `${year} direct seats`);
+    assert.equal(entry.partyListElectedSeats, partyListSeats, `${year} party-list seats`);
+    assert.equal(entry.totalLegislatureSeats, totalSeats, `${year} total legislature seats`);
+    const regional = entry.categories.find(category => category.officialCode === 'L1');
+    const candidateCategories = entry.categories.filter(category => ['L2', 'L3'].includes(category.officialCode));
+    const candidates = [
+      ...regional.counties.flatMap(county => county.districts.flatMap(district => district.candidates)),
+      ...candidateCategories.flatMap(category => category.candidates),
+    ];
+    assert.equal(candidates.length, candidateCount, `${year} candidate coverage`);
+    for (const county of regional.counties) {
+      assert.equal(county.districts.reduce((sum, district) => sum + district.validVotes, 0), county.validVotes, `${year} ${county.name} votes`);
+      for (const district of county.districts) {
+        assert.equal(district.candidates.reduce((sum, candidate) => sum + candidate.votes, 0), district.validVotes, `${year} ${district.name} candidate votes`);
+        assert.equal(district.candidates.filter(candidate => candidate.elected).length, district.electedSeats, `${year} ${district.name} elected seats`);
+      }
+    }
+    for (const category of candidateCategories) {
+      assert.equal(category.candidates.reduce((sum, candidate) => sum + candidate.votes, 0), category.validVotes, `${year} ${category.label} votes`);
+      assert.equal(category.candidates.filter(candidate => candidate.elected).length, category.electedSeats, `${year} ${category.label} elected seats`);
+    }
+    const partyList = entry.categories.find(category => category.officialCode === 'L4');
+    if (partyList) {
+      assert.equal(partyList.parties.reduce((sum, party) => sum + party.votes, 0), partyList.validVotes, `${year} party-list votes`);
+      assert.equal(partyList.parties.reduce((sum, party) => sum + party.electedSeats, 0), 34, `${year} party-list seats`);
+    } else {
+      assert.ok(Number(year) <= 2004, `${year} may omit L4 only under the legacy system`);
+      assert.equal(entry.legacyAdditionalSeats.reduce((sum, item) => sum + item.seats, 0), totalSeats - directSeats, `${year} legacy additional seats`);
+    }
+  }
 });

@@ -75,3 +75,21 @@ test('the public security contact points to the repository disclosure policy', a
   const expires = text.match(/^Expires: (.+)$/m)?.[1];
   assert.ok(expires && Number.isFinite(Date.parse(expires)) && Date.parse(expires) > Date.now());
 });
+
+test('admin exposes an authenticated manual whole-site sync without a timer', async () => {
+  const [admin, worker, workflow] = await Promise.all([
+    readFile(new URL('../admin.html', import.meta.url), 'utf8'),
+    readFile(new URL('../worker.js', import.meta.url), 'utf8'),
+    readFile(new URL('../.github/workflows/manual-site-sync.yml', import.meta.url), 'utf8'),
+  ]);
+  assert.match(admin, /id="site-sync-btn"/);
+  assert.match(admin, /\/api\/admin\/site-sync/);
+  assert.match(admin, /GITHUB_SYNC_TOKEN/);
+  assert.match(worker, /path === 'site-sync'/);
+  assert.match(worker, /actions\/workflows\/\$\{workflow\}\/dispatches/);
+  assert.match(workflow, /workflow_dispatch:/);
+  assert.doesNotMatch(workflow, /\bschedule:/);
+  assert.match(workflow, /npm run build:official-history/);
+  assert.match(workflow, /sync-local2026-village-chiefs\.mjs/);
+  assert.match(workflow, /npm test/);
+});

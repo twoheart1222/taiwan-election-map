@@ -62,3 +62,51 @@ test('candidate search and admin KV sync preserve the incumbent marker', () => {
   assert.match(adminSync, /candidate\.isIncumbent = true/);
   assert.doesNotMatch(adminSync, /candidate\.isIncumbent = false/);
 });
+
+test('Zuoying uses the July 2026 village boundaries and official candidate roster', () => {
+  const topology = readJson('data/villages/villages-64000030.json');
+  const villages = topology.objects.map.geometries
+    .map(geometry => geometry.properties)
+    .filter(village => village.name);
+  const byName = new Map(villages.map(village => [village.name, village]));
+  const expectedSplit = {
+    '福山里': ['64000030044', '鄭祺寶', '謝印順', '黃國增'],
+    '福愛里': ['64000030045', '陳榆臻'],
+    '福華里': ['64000030046', '劉品茵', '卜憲威'],
+    '福榮里': ['64000030047', '陳秉義', '黃彥森', '萬春賢'],
+  };
+
+  assert.equal(villages.length, 41);
+  assert.equal(villages.reduce((total, village) => total + village.candidates.length, 0), 81);
+  for (const [name, [id, ...candidateNames]] of Object.entries(expectedSplit)) {
+    const village = byName.get(name);
+    assert.equal(village?.id, id);
+    assert.deepEqual(village?.candidates.map(candidate => candidate.name), candidateNames);
+  }
+
+  for (const name of ['新超里', '菜福里', '高鐵里', '廍後里', '崇聖里']) {
+    assert.ok(byName.has(name), `missing adjusted village ${name}`);
+  }
+
+  const chenBingyi = byName.get('福榮里').candidates.find(candidate => candidate.name === '陳秉義');
+  assert.match(chenBingyi.photoUrl, /^https:\/\/local2026\.taiwangogo\.tw\/assets\/photos\//);
+  assert.equal(chenBingyi.local2026Url, 'https://local2026.taiwangogo.tw/people/person-10251e4aede7c6/');
+});
+
+test('Rende publishes Wenxian Village instead of the pre-2018 Tianjiao and Sanjia villages', () => {
+  const topology = readJson('data/villages/villages-67000270.json');
+  const villages = topology.objects.map.geometries.map(geometry => geometry.properties);
+  const byName = new Map(villages.map(village => [village.name, village]));
+
+  assert.equal(villages.length, 16);
+  assert.equal(byName.has('田厝里'), false);
+  assert.equal(byName.has('三甲里'), false);
+
+  const wenxian = byName.get('文賢里');
+  assert.equal(wenxian?.id, '67000270019');
+  assert.deepEqual(wenxian?.candidates.map(candidate => candidate.name), ['林江溪']);
+  assert.equal(wenxian.candidates[0].registeredDate, '115/08/31');
+  assert.equal(wenxian.candidates[0].isIncumbent, true);
+  assert.match(wenxian.candidates[0].photoUrl, /^https:\/\/local2026\.taiwangogo\.tw\/assets\/photos\//);
+  assert.equal(wenxian.candidates[0].local2026Url, 'https://local2026.taiwangogo.tw/people/person-1fe02491628ce3/');
+});

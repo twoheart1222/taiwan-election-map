@@ -101,6 +101,28 @@ body.local-executive-page .local-source{border-color:#c9c0b3;color:#71695f}
 body.history-archive .source a,
 body.local-executive-page .local-source a{color:#312b25}
 
+body.history-town .layout{background:#e9e2d6}
+body.history-town .map-panel{overflow:hidden;background:#e9e2d6;border-color:#c9c0b3}
+body.history-town #map{display:block;overflow:hidden;filter:drop-shadow(0 20px 40px rgba(80,58,39,.12))}
+body.history-town .map-head strong{color:#171310}
+body.history-town .back{border-color:#aa9e8f;background:#eee9df;color:#3d352e}
+body.history-town .back:hover{border-color:#E4022B;background:#f4eee4;color:#171310}
+body.history-town .town{stroke:#f7f1e8;stroke-width:1.2}
+body.history-town .town:hover,body.history-town .town.selected{stroke:#E4022B;filter:brightness(1.04)}
+body.history-town .side{background:#eee9df;color:#171310}
+body.history-town .eyebrow,body.history-town .section-label{color:#71695f}
+body.history-town .county-summary{border-color:#c8beaf;background:#ded6ca;color:#171310;box-shadow:0 12px 30px rgba(80,58,39,.08)}
+body.history-town .summary-row span,body.history-town .cand-party,body.history-town .cand-votes small{color:#6d655b}
+body.history-town .section{border-color:#c9c0b3}
+body.history-town .candidate{border-color:#c9c0b3}
+body.history-town .cand-name,body.history-town .cand-votes{color:#171310}
+body.history-town .empty{border-color:#bcb1a2;background:#e6dfd4;color:#655d53}
+body.history-town .town-list{scrollbar-color:#b7ad9f transparent}
+body.history-town .town-btn{border-color:#b8ad9e;background:#e3dbcf;color:#3d352e}
+body.history-town .town-btn:hover,body.history-town .town-btn.on{border-color:#E4022B;background:#f1e7da;color:#171310}
+body.history-town .town-btn.on{box-shadow:inset 3px 0 0 #E4022B}
+body.history-town .source{color:#71695f}
+
 body.archive-comparing .archive-query-shell,
 body.local-compare-active .local-query-shell,
 body.compare-map-active .local-query-shell{position:relative;top:auto}

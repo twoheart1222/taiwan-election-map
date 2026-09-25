@@ -168,6 +168,7 @@ html body.history-town .back{border-radius:999px;background:rgba(255,255,255,.05
 html body.history-product .paired-offshore-box{fill:rgba(255,255,255,.5);stroke:rgba(23,19,16,.1);stroke-width:1;vector-effect:non-scaling-stroke;pointer-events:none}
 html body.history-product :is(.paired-compare-maps,.councilor-compare-maps) path[clip-path]:not(:hover):not(.selected){stroke-width:.35!important}
 html body.history-product .paired-offshore-label{fill:#7a7166;font:800 9px 'Noto Sans TC',sans-serif;letter-spacing:.14em;pointer-events:none}
+html body.history-product :is(.paired-compare-maps,.councilor-compare-maps) svg{overflow:hidden;padding:0}
 
 /* Mobile 縣市長／議員 map: stack title → map → island cards → note, so nothing overlaps. */
 @media(max-width:660px){

@@ -31,6 +31,7 @@ async function waitReady(page){
 }
 function params(page){return new URL(page.url()).searchParams}
 async function text(page,sel){return (await page.locator(sel).textContent())?.replace(/\s+/g,' ').trim()||''}
+async function chooseYear(page,year){const button=page.locator(`#years [data-year="${year}"]`);if(await button.isVisible())await button.click();else await page.locator('#archive-year-select').selectOption(String(year))}
 
 await fs.mkdir(OUT,{recursive:true});
 const server=serve();
@@ -107,11 +108,11 @@ try{
 
   const mobile=await browser.newPage({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
   await mobile.goto(compareDeepLink,{waitUntil:'networkidle',timeout:30000});
-  await mobile.locator('#archive-query-statebar').waitFor({state:'visible',timeout:15000});
+  await mobile.locator('#archive-query-statebar').waitFor({state:'attached',timeout:15000});
   const overflow=await mobile.evaluate(()=>({sw:document.documentElement.scrollWidth,cw:document.documentElement.clientWidth}));
   assert(overflow.sw<=overflow.cw+2,`mobile query state overflow ${overflow.sw}-${overflow.cw}`);
-  const resetBox=await mobile.locator('#archive-query-reset').boundingBox();
-  assert(resetBox&&resetBox.height>=40,`mobile reset target too small: ${resetBox?.height}`);
+  const modeBox=await mobile.locator('#archive-mode-single').boundingBox();
+  assert(modeBox&&modeBox.height>=40,`mobile mode target too small: ${modeBox?.height}`);
   await mobile.screenshot({path:path.join(OUT,'history-query-state-mobile-390.png'),fullPage:true});
   await mobile.close();
 

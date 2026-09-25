@@ -119,23 +119,12 @@ try{
   .gazette-lightbox-bar{position:fixed;z-index:2;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px max(12px,env(safe-area-inset-right)) 12px max(12px,env(safe-area-inset-left));background:linear-gradient(#090909 70%,transparent)}
   .gazette-lightbox-title{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px;font-weight:800}.gazette-lightbox-actions{display:flex;gap:7px}.gazette-lightbox-actions button{width:42px;height:42px;border:1px solid #4a4742;border-radius:50%;background:#1b1917;color:#fff;cursor:pointer;font-size:20px;font-weight:800}
   .gazette-lightbox-stage{width:100%;height:100%;padding:78px 20px 30px;overflow:auto;display:grid;place-items:center}.gazette-lightbox-stage img{display:block;width:min(100%,1600px);height:auto;max-width:none;transform-origin:center;transition:width .18s ease}.gazette-lightbox-stage[data-zoom="2"] img{width:2500px}.gazette-lightbox-stage[data-zoom="3"] img{width:3535px}
-  /* 搜尋定位：Apple 風格的內框光環。所有圖層都鎖在卡片圓角內（overflow:hidden + contain:paint），
-     不增加任何尺寸、不向外溢出抽屜或頁面。 */
-  @property --csf-a{syntax:'<angle>';inherits:true;initial-value:0deg}
-  .candidate-card.search-target-ring{position:relative;isolation:isolate}
-  .candidate-search-focus{position:absolute;inset:0;z-index:4;border-radius:inherit;overflow:hidden;contain:paint;pointer-events:none;--csf-a:0deg;--csf-c1:#ff375f;--csf-c2:#ff9f6e;--csf-c3:#fff3e3;--csf-rim:rgba(255,255,255,.16);animation:csf-spin 2.4s cubic-bezier(.33,.08,.22,1) both,csf-life 2.4s cubic-bezier(.4,0,.2,1) both}
-  .candidate-search-focus.is-light{--csf-c1:#e4022b;--csf-c2:#ff7a45;--csf-c3:#ffc9a8;--csf-rim:rgba(228,2,43,.18)}
-  .candidate-search-focus .csf-rim,.candidate-search-focus .csf-ring,.candidate-search-focus .csf-glow i{position:absolute;inset:0;border-radius:inherit;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
-  .candidate-search-focus .csf-rim{padding:1px;background:var(--csf-rim)}
-  .candidate-search-focus .csf-ring{padding:1.5px;background:conic-gradient(from var(--csf-a),transparent 0deg,var(--csf-c1) 70deg,var(--csf-c2) 125deg,var(--csf-c3) 160deg,var(--csf-c2) 195deg,transparent 260deg,transparent 360deg)}
-  .candidate-search-focus .csf-glow{position:absolute;inset:0;border-radius:inherit;filter:blur(14px);opacity:.75}
-  .candidate-search-focus .csf-glow i{padding:9px;background:conic-gradient(from var(--csf-a),transparent 0deg,var(--csf-c1) 70deg,var(--csf-c2) 140deg,transparent 240deg,transparent 360deg)}
-  .candidate-search-focus .csf-sheen{position:absolute;top:0;bottom:0;left:0;width:55%;background:linear-gradient(105deg,transparent 0%,rgba(255,255,255,0) 30%,rgba(255,255,255,.07) 44%,rgba(255,255,255,.16) 50%,rgba(255,255,255,.07) 56%,rgba(255,255,255,0) 70%,transparent 100%);transform:translateX(-110%);animation:csf-sheen 1.25s cubic-bezier(.45,0,.2,1) .28s both}
-  .candidate-search-focus.is-light .csf-sheen{background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.55) 50%,transparent 70%)}
-  @keyframes csf-spin{from{--csf-a:-90deg}to{--csf-a:450deg}}
-  @keyframes csf-life{0%{opacity:0}14%{opacity:1}78%{opacity:1}100%{opacity:0}}
-  @keyframes csf-sheen{from{transform:translateX(-110%)}to{transform:translateX(200%)}}
-  @media (prefers-reduced-motion:reduce){.candidate-search-focus{animation:csf-life 1.6s ease both}.candidate-search-focus .csf-sheen,.candidate-search-focus .csf-glow{display:none}.candidate-search-focus .csf-ring{background:linear-gradient(135deg,var(--csf-c1),var(--csf-c2))}}
+  .candidate-card.search-target-ring{position:relative;isolation:isolate;overflow:hidden;contain:paint}
+  .candidate-search-orbit{position:absolute;inset:0;width:100%;height:100%;box-sizing:border-box;border-radius:inherit;z-index:4;overflow:hidden;pointer-events:none}
+  .candidate-search-orbit .orbit-outline{fill:none;stroke:#f6a06b;stroke-width:2;opacity:.82;filter:drop-shadow(0 0 5px rgba(246,160,107,.32));animation:candidate-outline-once 1.55s ease-out 1 forwards}
+  .candidate-search-orbit .orbit-light{fill:none;stroke:#fff;stroke-width:4;stroke-linecap:round;stroke-dasharray:1.2 98.8;filter:drop-shadow(0 0 3px #fff) drop-shadow(0 0 7px #E4022B) drop-shadow(0 0 12px #f6a06b);animation:candidate-border-run 1.45s linear 1 forwards}
+  @keyframes candidate-outline-once{0%{opacity:0}8%,84%{opacity:.82}100%{opacity:0}}
+  @keyframes candidate-border-run{0%{opacity:0;stroke-dashoffset:0}5%{opacity:1}94%{opacity:1}100%{opacity:0;stroke-dashoffset:-100}}
   .drawer{font-family:'Noto Sans TC',system-ui,sans-serif}
   .map-hero{height:calc(100dvh - 60px) !important}
   .candidate-search{position:relative;width:fit-content;max-width:min(360px,calc(100vw - 32px));margin-top:20px;pointer-events:auto}
@@ -1167,7 +1156,7 @@ class App {
   _getDevicePosition() {
     return new Promise((resolve, reject) => {
       if (!navigator.geolocation) { reject(new Error('unsupported')); return; }
-      navigator.geolocation.getCurrentPosition(pos => resolve([pos.coords.longitude, pos.coords.latitude]), err => reject(err), { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 });
+      navigator.geolocation.getCurrentPosition(pos => resolve([pos.coords.longitude, pos.coords.latitude]), err => reject(err), { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 });
     });
   }
   async _geoFind(point) {
@@ -1208,9 +1197,29 @@ class App {
       setMessage?.('定位中…');
       const found = await this._geoFind();
       if (!found) { setMessage?.('目前位置不在臺灣選舉區範圍內。'); return; }
-      const index = await this._loadCandidateSearch();
+      const county = (this.allCountyFeats || this.countyFeats || [])
+        .find(feature => String(feature.properties.id) === String(found.county.code));
+      if (!county) { setMessage?.('找不到所在縣市的選舉資料。'); return; }
       setMessage?.('');
-      this._openAddressDrawer(found, '', index, undefined, false);
+      this._closeCandidateSearch?.();
+      const waitFor = async (find, tries = 100) => {
+        for (let i = 0; i < tries; i++) {
+          const value = find();
+          if (value) return value;
+          await new Promise(resolve => setTimeout(resolve, 100));
+        }
+        return null;
+      };
+      await this._drillCounty(county.properties);
+      if (!found.town) { this._toast(`已定位到 ${found.county.label}`); return; }
+      const town = await waitFor(() => (this.townFeats || []).find(feature => String(feature.properties.id) === String(found.town.id)));
+      if (!town) { this._toast(`已定位到 ${found.county.label}，但鄉鎮市區圖層尚未載入`); return; }
+      await this._drillTown(town.properties);
+      if (!found.village) { this._toast(`已定位到 ${found.county.label} ${found.town.label}`); return; }
+      const village = await waitFor(() => (this.villageFeats || []).find(feature => String(feature.properties.id) === String(found.village.id)));
+      if (!village) { this._toast(`已定位到 ${found.county.label} ${found.town.label}，但村里圖層尚未載入`); return; }
+      this._drillVillage(village.properties);
+      this._toast(`已定位到 ${found.county.label} ${found.town.label} ${found.village.label}`);
     } catch (err) { setMessage?.(this._geoErrorText(err)); }
   }
 
@@ -1352,39 +1361,34 @@ class App {
   _flashCandidate(c) {
     const norm = s => String(s || '').replace(/[A-Za-z・．.·‧@\s]/g, '');
     const started = Date.now();
-    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-    // 等卡片捲動定位穩定後再播放，光環才不會在移動中閃過。
-    const whenSettled = (el, cb) => {
-      let last = null, still = 0; const t0 = performance.now();
-      const tick = () => {
-        const top = Math.round(el.getBoundingClientRect().top);
-        still = top === last ? still + 1 : 0; last = top;
-        if (still >= 5 || performance.now() - t0 > 1100) cb(); else requestAnimationFrame(tick);
-      };
-      requestAnimationFrame(tick);
-    };
     const flash = () => {
       const box = document.getElementById('candidates'); if (!box) return;
       const el = [...box.children].find(n => norm(n.textContent).includes(norm(c.name)));
       if (!el) { if (Date.now() - started < 4500) setTimeout(flash, 180); return; }
-      el.scrollIntoView({ block: 'center', behavior: reduce ? 'auto' : 'smooth' });
+      el.scrollIntoView({ block: 'center', behavior: 'smooth' });
       clearTimeout(this._searchRingTimer);
       el.classList.remove('search-target-ring');
-      el.querySelectorAll('.candidate-search-focus,.candidate-search-orbit').forEach(n => n.remove());
-      whenSettled(el, () => {
-        if (!el.isConnected) return;
-        const focus = document.createElement('span');
-        focus.className = 'candidate-search-focus';
-        focus.setAttribute('aria-hidden', 'true');
-        // 當選卡片是淺色底，改用較深的暖紅光譜。
-        const bg = getComputedStyle(el).backgroundColor.match(/\d+(\.\d+)?/g)?.map(Number) || [0, 0, 0];
-        if ((bg[0] * 299 + bg[1] * 587 + bg[2] * 114) / 1000 > 160) focus.classList.add('is-light');
-        focus.innerHTML = '<span class="csf-glow"><i></i></span><span class="csf-rim"></span><span class="csf-ring"></span><span class="csf-sheen"></span>';
-        el.classList.add('search-target-ring');
-        el.appendChild(focus);
-        if (!reduce && el.animate) el.animate([{ transform: 'scale(1)' }, { transform: 'scale(.985)', offset: .28 }, { transform: 'scale(1)' }], { duration: 760, easing: 'cubic-bezier(.3,.7,.2,1)' });
-        this._searchRingTimer = setTimeout(() => { focus.remove(); el.classList.remove('search-target-ring'); }, 2500);
+      el.querySelector('.candidate-search-orbit')?.remove();
+      void el.offsetWidth;
+      el.classList.add('search-target-ring');
+      const width = Math.max(1, el.clientWidth), height = Math.max(1, el.clientHeight);
+      const radius = Math.min(parseFloat(getComputedStyle(el).borderRadius) || 8, height / 2);
+      const ns = 'http://www.w3.org/2000/svg';
+      const orbit = document.createElementNS(ns, 'svg');
+      orbit.classList.add('candidate-search-orbit');
+      orbit.setAttribute('viewBox', `0 0 ${width} ${height}`);
+      orbit.setAttribute('preserveAspectRatio', 'none');
+      orbit.setAttribute('aria-hidden', 'true');
+      ['orbit-outline', 'orbit-light'].forEach(className => {
+        const rect = document.createElementNS(ns, 'rect');
+        rect.setAttribute('x', '3'); rect.setAttribute('y', '3');
+        rect.setAttribute('width', String(Math.max(1, width - 6))); rect.setAttribute('height', String(Math.max(1, height - 6)));
+        rect.setAttribute('rx', String(radius)); rect.setAttribute('pathLength', '100');
+        rect.setAttribute('vector-effect', 'non-scaling-stroke'); rect.classList.add(className);
+        orbit.appendChild(rect);
       });
+      el.appendChild(orbit);
+      this._searchRingTimer = setTimeout(() => { orbit.remove(); el.classList.remove('search-target-ring'); }, 1600);
     };
     setTimeout(flash, 350);
   }
@@ -2499,6 +2503,9 @@ class App {
     const taiwanGoGo = safeUrl(c.taiwanGoGoUrl)
       ? `<a href="${safeUrl(c.taiwanGoGoUrl)}" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border-radius:999px;background:transparent;border:1.5px solid #E4022B;color:${isWin ? '#c40225' : '#ff5a74'};font:800 13px 'Noto Sans TC'">2026 議員參選人刑事紀錄圖鑑 →</a>`
       : '';
+    const local2026 = safeUrl(c.local2026Url)
+      ? `<a href="${safeUrl(c.local2026Url)}" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border-radius:999px;background:transparent;border:1.5px solid #E4022B;color:${isWin ? '#c40225' : '#ff5a74'};font:800 13px 'Noto Sans TC'">2026 村里長刑事紀錄圖鑑 →</a>`
+      : '';
     const map = { facebook: 'Facebook', instagram: 'Instagram', threads: 'Threads', youtube: 'YouTube' };
     const socials = ['facebook', 'instagram', 'threads', 'youtube'].filter(k => safeUrl(c[k]));
     const socialBlock = socials.length ? `<div style="display:flex;flex-wrap:wrap;gap:7px">${socials.map(k => `<a href="${safeUrl(c[k])}" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;padding:4px 13px 4px 8px;border-radius:999px;background:${isWin ? '#e6e1d6' : '#26231f'};font-size:11px;font-weight:700;color:${isWin ? '#3a352c' : '#c9c2b6'}">${this._socialIcon(k)}<span>${map[k]}</span></a>`).join('')}</div>` : '';
@@ -2528,7 +2535,7 @@ class App {
           <div style="display:flex;align-items:center;gap:8px;margin-top:5px;flex-wrap:wrap"><span style="color:${isWin ? '#4a443a' : '#c9c2b6'};display:inline-flex;align-items:center;gap:8px">${this._partyChip(c.party)}<span style="font-size:12.5px;font-weight:700">${esc(c.party)}</span></span><span style="width:4px;height:4px;border-radius:50%;background:#4d483f"></span><span style="font-size:12px;font-weight:800;color:${isWin ? '#c40225' : '#ff5a74'}">${esc(c.role)}</span></div>
         </div>
       </div>
-      ${votesBlock}${socialBlock}${taiwanGoGo}${gazette}
+      ${votesBlock}${socialBlock}${taiwanGoGo}${local2026}${gazette}
     </article>`;
   }
   _districtLabel(code, block) {

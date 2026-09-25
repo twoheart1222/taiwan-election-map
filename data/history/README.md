@@ -8,7 +8,7 @@
 - **縣市長**：1994–2022 八個地方選舉週期。
 - **縣市議員**：1994–2022 八個地方選舉週期，包含區域、平地原住民與山地原住民選舉。
 
-「立法委員」仍保留為建置中資料槽，不顯示不存在的結果。
+「立法委員」官方資料已完成第一階段整理，但前台仍保留為建置中資料槽；在版面與互動完成前不開放、不顯示半成品。
 
 ## 總統副總統資料
 
@@ -19,6 +19,7 @@
 - `presidential-towns.json`：八屆鄉鎮市區結果，每屆完整 368 個鄉鎮市區。
 - `local-executive.json`：1994–2022 縣市長結果。
 - `councilor.json`：1994–2022 直轄市議員與縣市議員逐選區結果。
+- `legislator.json`：1995–2024 第 3～11 屆立法委員官方逐選區結果；2008 年起另含不分區政黨票。
 
 ### 資料來源
 
@@ -96,7 +97,19 @@
 - `縣市長`
 - `縣市議員`
 
-之間切換；三頁也可互相切回。`立法委員` 維持 disabled，直到完整資料與 regression guard 建立後才開放。
+之間切換；三頁也可互相切回。`立法委員` 維持 disabled，待新版面與互動完成、通過 browser regression 後才開放。
+
+## 立法委員資料（前台尚未開放）
+
+`legislator.json` 只使用中選會 `ELC_L0` 官方公開 JSON，涵蓋：
+
+- 第 3～6 屆：1995、1998、2001、2004，區域、平地原住民、山地原住民。
+- 第 7～11 屆：2008、2012、2016、2020、2024，另含不分區政黨票與各黨分配席次。
+- 區域選舉保留當屆中選會原始縣市、選區名稱、候選人、票數、當選、現任、性別與出生年資料。
+
+選區採 `historical-official` 模式，不將多席次舊選區或改制前行政區硬轉成今日單一選區。2004 年以前，中選會 `ELC_L0` 主題清單沒有獨立 `L4` 不分區政黨票資料，因此檔案明確以 `partyListElectedSeats: null` 表示，沒有用推算值填補；但保留中選會席次摘要所列的不分區與僑選席次，使當屆國會總席次仍可完整呈現。
+
+重建指令：`npm run build:official-legislators`。建置器會逐選區驗證候選人票數等於有效票、當選人數等於席次，並驗證縣市及全國加總。
 
 ### 可分享查詢狀態
 
@@ -138,6 +151,7 @@
 ## 自動化與 regression
 
 - `scripts/build-official-election-history.mjs`：只從中選會官方端點建置總統、縣市、鄉鎮與縣市長資料，並驗證各層票數加總。
+- `scripts/build-official-legislator-history.mjs`：從中選會 `ELC_L0` 建置第 3～11 屆立委候選人、選區、原住民與不分區政黨票資料。
 - `scripts/validate-history-ui.mjs`：總統歷史頁 desktop/mobile UI regression。
 - `scripts/validate-history-query-state.mjs`：deep-link、reset、選舉類型 selector，以及 `總統副總統 ↔ 縣市長` 雙向 routing regression。
 - `scripts/validate-local-executive-ui.mjs`：2014／2018／2022 縣市長、22 縣市、縣市結果、比較圖層、手機 inset、最終 panel 可見狀態與 screenshot regression。

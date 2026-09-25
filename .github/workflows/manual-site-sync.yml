@@ -1,0 +1,60 @@
+name: Manual full-site data sync
+
+on:
+  workflow_dispatch:
+    inputs:
+      requested_by:
+        description: Admin account that requested the sync
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: manual-full-site-data-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Sync official election history
+        run: |
+          npm run build:official-history
+          npm run build:official-legislators
+      - name: Sync Taiwan GoGo data and village photos
+        run: |
+          node scripts/sync-local2026-village-chiefs.mjs work/manual-site-sync/local2026 --apply-repo
+          npm run sync:taiwangogo
+      - name: Rebuild site indexes
+        run: |
+          npm run build:search
+          npm run build:seo
+      - name: Validate all generated data
+        run: npm test
+      - name: Build change report
+        run: |
+          mkdir -p work/manual-site-sync
+          git diff --name-status -- . ':!data/site-sync-report.json' > work/manual-site-sync/changes.tsv
+          node scripts/write-site-sync-report.mjs work/manual-site-sync/changes.tsv data/site-sync-report.json
+      - name: Commit verified updates
+        run: |
+          if git diff --quiet; then
+            echo 'All checked sources are already up to date.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data election sitemap.xml llms.txt llms-full.txt
+          git commit -m 'Update verified site data [skip ci]'
+          git push

@@ -3,6 +3,9 @@ storage-baseline.json
 .test-build/
 .DS_Store
 .wrangler/
+work/
+tmp/
+artifacts/
 firestore-overrides.json
 data/counties.before-*.json
 data/ntp_source*.html

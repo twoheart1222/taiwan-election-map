@@ -27,3 +27,11 @@ test('admin and shared storage paths preserve editable gazette metadata', async 
   assert.match(worker, /'gazettePreviewUrl'/, 'preview images must pass the API URL validator');
   assert.match(admin, /留空時前台顯示「待選舉公報公告後更新」/);
 });
+
+test('candidate search highlight stays clipped to the selected card', async () => {
+  const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
+  assert.match(html, /\.candidate-card\.search-target-ring\{[^}]*overflow:hidden/);
+  assert.match(html, /\.candidate-search-orbit\{[^}]*inset:0[^}]*width:100%[^}]*height:100%[^}]*overflow:hidden/);
+  assert.match(html, /const width = Math\.max\(1, el\.clientWidth\), height = Math\.max\(1, el\.clientHeight\)/);
+  assert.doesNotMatch(html, /candidate-search-orbit\{[^}]*overflow:visible/);
+});

@@ -32,9 +32,10 @@
 @media(max-width:900px){.layout{grid-template-columns:1fr}.map-panel{min-height:560px;border-right:0;border-bottom:1px solid #1c1a17}.side{padding-bottom:54px}}@media(max-width:520px){.site-nav{height:56px}.nav-right{display:none}.hero h1{font-size:48px}.map-panel{min-height:500px}#map{inset:76px 6px 54px}.town-list{grid-template-columns:repeat(3,minmax(0,1fr))}}
 </style>
 <link rel="stylesheet" href="./product-ui.css">
+<link rel="stylesheet" href="./election-palette.css?v=20260925-town-palette">
 <link rel="stylesheet" href="./premium.css?v=20260925-paired-fit">
 </head>
-<body>
+<body class="history-product history-town">
 <nav class="site-nav"><a class="brand" href="../"><img class="brand-mark" src="/assets/brand/formosa-mark.png" alt=""><span>島民觀察室</span></a><div class="nav-right"><a href="../#map">選舉地圖</a><a class="on" href="./">歷年選舉</a><a href="../#observatory">政治觀察</a><a href="../#about">關於我們</a></div></nav>
 <header class="hero">
   <div class="crumb"><a id="history-link" href="./">歷年選舉</a><span>›</span><b id="crumb-county">縣市</b></div>
@@ -71,7 +72,7 @@ const $=id=>document.getElementById(id);
 const params=new URLSearchParams(location.search);
 const year=Number(params.get('year')||2024);
 const county=normalize(params.get('county')||'臺北市');
-let election,townData,countyData,features=[],path,svg,selected=null;
+let election,townData,countyData,features=[],path,svg,selected=null,resizeFrame=0;
 
 function normalize(v){return String(v||'').replaceAll('台','臺').replace(/\s+/g,'').trim()}
 function nationalCandidate(no){return election?.candidates?.find(c=>String(c.no)===String(no))||null}
@@ -96,6 +97,7 @@ function renderTownDetail(name){
   $('town-detail').innerHTML=`<div class="county-summary" style="margin-top:0"><div class="summary-row"><div><span>領先</span><div style="margin-top:5px;font-weight:900"><i style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${partyColor(r.winnerNo)};margin-right:7px"></i>${winner?.president||'—'}</div></div><div style="text-align:right"><strong>${fmt.format(r.margin)}</strong><span>勝差票數</span></div></div><div style="margin-top:10px;color:#817a72;font-size:10px">有效票 ${fmt.format(r.validVotes)}</div></div><div style="margin-top:10px">${r.candidates.map(c=>{const meta=nationalCandidate(c.no);return `<div class="candidate"><div class="cand-main"><div><div class="cand-name">${meta?.president||c.name}</div><div class="cand-party">${meta?.party||c.party}</div></div><div class="cand-votes">${fmt.format(c.votes)}<small>${c.share.toFixed(2)}%</small></div></div></div>`}).join('')}</div>`;
   document.querySelectorAll('.town-btn').forEach(b=>b.classList.toggle('on',normalize(b.dataset.town)===normalize(name)));
   if(svg)svg.selectAll('.town').classed('selected',d=>featureTown(d)===normalize(name));
+  const url=new URL(location.href);url.searchParams.set('town',normalize(name));history.replaceState(null,'',url);
 }
 
 function draw(){
@@ -106,7 +108,7 @@ function draw(){
   const projection=d3.geoMercator().fitExtent([[20,20],[w-20,h-20]],{type:'FeatureCollection',features});
   path=d3.geoPath(projection);
   const tip=$('tooltip');
-  svg.selectAll('path').data(features).join('path').attr('class','town').attr('d',path).attr('fill',d=>{const r=resultForTown(featureTown(d));return r?partyColor(r.winnerNo):'#27231f'}).on('mousemove',(event,d)=>{const name=featureTown(d),r=resultForTown(name),winner=r?nationalCandidate(r.winnerNo):null;tip.style.display='block';tip.style.left=`${event.clientX+13}px`;tip.style.top=`${event.clientY+13}px`;tip.innerHTML=r?`${name}<br>${winner?.president||'—'}領先 ${fmt.format(r.margin)} 票`:name}).on('mouseleave',()=>tip.style.display='none').on('click',(_,d)=>renderTownDetail(featureTown(d)));
+  svg.selectAll('path').data(features).join('path').attr('class',d=>`town${selected&&featureTown(d)===normalize(selected)?' selected':''}`).attr('d',path).attr('fill',d=>{const r=resultForTown(featureTown(d));return r?partyColor(r.winnerNo):'#27231f'}).on('mousemove',(event,d)=>{const name=featureTown(d),r=resultForTown(name),winner=r?nationalCandidate(r.winnerNo):null;tip.style.display='block';tip.style.left=`${event.clientX+13}px`;tip.style.top=`${event.clientY+13}px`;tip.innerHTML=r?`${name}<br>${winner?.president||'—'}領先 ${fmt.format(r.margin)} 票`:name}).on('mouseleave',()=>tip.style.display='none').on('click',(_,d)=>renderTownDetail(featureTown(d)));
 }
 
 async function init(){
@@ -124,12 +126,18 @@ async function init(){
     features=all.filter(f=>featureCounty(f)===county);
     if(!features.length)throw new Error(`找不到 ${county} 的鄉鎮市區界線`);
     const available=townData.years[String(year)].counties?.[county]||{};
-    $('town-list').innerHTML=Object.keys(available).sort((a,b)=>a.localeCompare(b,'zh-Hant')).map(name=>`<button class="town-btn" data-town="${name}">${name}</button>`).join('');
+    const townNames=Object.keys(available).sort((a,b)=>a.localeCompare(b,'zh-Hant'));
+    $('town-list').innerHTML=townNames.map(name=>`<button type="button" class="town-btn" data-town="${name}">${name}</button>`).join('');
     document.querySelectorAll('.town-btn').forEach(b=>b.addEventListener('click',()=>renderTownDetail(b.dataset.town)));
     renderCountySummary();draw();
+    const requestedTown=normalize(params.get('town'));
+    const initialTown=townNames.includes(requestedTown)?requestedTown:townNames[0];
+    if(initialTown)renderTownDetail(initialTown);
   }catch(err){$('town-detail').className='empty';$('town-detail').innerHTML=`<strong style="color:#ddd">目前無法顯示</strong><br>${err.message}`;$('town-list').innerHTML='';}
 }
-window.addEventListener('resize',()=>features.length&&draw());
+function scheduleDraw(){cancelAnimationFrame(resizeFrame);resizeFrame=requestAnimationFrame(()=>features.length&&draw())}
+window.addEventListener('resize',scheduleDraw);
+new ResizeObserver(scheduleDraw).observe(document.querySelector('.map-panel'));
 init();
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
