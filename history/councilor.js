@@ -115,7 +115,7 @@
   // 跨屆並排地圖：以本島＋澎湖決定比例尺，金門、連江移到左上角小圖，本島放大到可閱讀的尺寸。
   const OFFSHORE=['連江縣','金門縣'];
   // 高雄市含東沙、太平島，直接 fit 會讓本島縮得很小；改用本島＋澎湖的經緯度框決定比例尺。
-  const PAIRED_FRAME={type:'Feature',geometry:{type:'MultiPoint',coordinates:[[119.3,21.87],[122.02,25.32]]}};
+  const PAIRED_FRAME={type:'Feature',geometry:{type:'MultiPoint',coordinates:[[119.18,21.55],[122.12,25.42]]}};
   const OFFSHORE_FRAME={'連江縣':[[119.86,25.92],[120.52,26.4]],'金門縣':[[118.19,24.37],[118.5,24.53]]};
   function pairedCore(){return [PAIRED_FRAME]}
   function placeOffshore(map,path,list,w,h,selector){
@@ -132,7 +132,7 @@
 
   function drawComparisonMap(target,data,rows,side){
     const node=$(target),map=d3.select(target),w=node.clientWidth||430,h=node.clientHeight||470,shown=features,by=new Map(rows.map(r=>[r.name,r]));
-    map.attr('viewBox',`0 0 ${w} ${h}`).attr('preserveAspectRatio','xMidYMid meet');const projection=d3.geoMercator().fitExtent([[24,26],[w-24,h-34]],{type:'FeatureCollection',features:pairedCore(shown)}),path=d3.geoPath(projection);
+    map.attr('viewBox',`0 0 ${w} ${h}`).attr('preserveAspectRatio','xMidYMid meet');const projection=d3.geoMercator().fitExtent([[32,34],[w-32,h-76]],{type:'FeatureCollection',features:pairedCore(shown)}),path=d3.geoPath(projection);
     map.selectAll('path.local-county').data(shown,d=>featureName(d)).join('path').attr('class',d=>`local-county${compareSelection===featureName(d)?' selected':''}`).attr('data-county',d=>featureName(d)).attr('d',path).style('fill',d=>compareFill(groupedCounty(data,featureName(d)))).style('opacity',d=>groupedCounty(data,featureName(d))?1:.42).style('stroke',d=>compareSelection===featureName(d)?'#E4022B':null).style('stroke-width',d=>compareSelection===featureName(d)?2.5:null).on('mousemove',(event,d)=>{const name=featureName(d),group=groupedCounty(data,name),tip=$('#local-tooltip');tip.style.display='block';tip.style.left=`${event.clientX+14}px`;tip.style.top=`${event.clientY+14}px`;tip.innerHTML=group?`<b>${name}・${side==='A'?compareA:compareB}</b><br>${group.leadingParty||'席次並列'}・${group.stats.electedSeats} 席<br>投票率 ${pct(group.stats.turnout)}`:`${name}<br>本年度無資料`}).on('mouseleave',()=>$('#local-tooltip').style.display='none').on('click',(_,d)=>{const name=featureName(d);if(!by.has(name))return;compareSelection=name;compareDetail(by.get(name));drawComparisonMaps(archive.years[String(compareA)],archive.years[String(compareB)],rows)});
     placeOffshore(map,path,shown,w,h,'path.local-county');
   }

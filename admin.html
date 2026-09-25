@@ -107,7 +107,7 @@
       <div class="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h3 class="text-sm font-black flex items-center gap-2"><i data-lucide="refresh-cw" class="w-4 h-4 text-accent-orange"></i>整站資料檢查與更新</h3>
-          <p class="text-xs text-ink-500 mt-1 leading-relaxed">手動檢查中選會歷屆資料、Taiwan GoGo 候選人與村里長資料、照片、搜尋索引及 SEO 頁面。只有資料實際改變時才會提交更新，完成後會列出異動檔案與摘要。</p>
+          <p class="text-xs text-ink-500 mt-1 leading-relaxed">手動檢查中選會歷屆資料、Taiwan GoGo 候選人與村里長資料、照片、搜尋索引及 SEO 頁面。只有資料實際改變時才會提交更新，完成後會用中文列出新增、移除或重建了哪些內容。</p>
         </div>
         <button id="site-sync-btn" type="button" onclick="startSiteSync()" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-accent-orange text-white text-xs font-black hover:bg-ink-900 transition disabled:opacity-50 disabled:cursor-wait"><i data-lucide="play" class="w-3.5 h-3.5"></i>立即檢查並更新</button>
       </div>
@@ -381,9 +381,13 @@
       const unavailable = data?.configured === false;
       button.disabled = unavailable || ['queued','in_progress','requested'].includes(status);
       if (report) {
-        const lines = [report.changed ? `有更新：${report.changedFiles.length} 個檔案` : '檢查完成：沒有資料變更'];
-        for (const group of report.groups || []) lines.push(`• ${group.label}：${group.files.length} 個檔案`);
-        if (report.changedFiles?.length) lines.push('', '異動檔案：', ...report.changedFiles.map(file=>`- ${file.status} ${file.path}`));
+        const lines = [report.changed ? '本次更新內容：' : '檢查完成：資料內容沒有變更'];
+        for (const item of report.contentSummary || []) {
+          lines.push(`• ${item.title}：${item.description}`);
+          if (item.added?.length) lines.push(`  新增 ${item.added.length} 筆：${item.added.join('、')}`);
+          if (item.removed?.length) lines.push(`  移除 ${item.removed.length} 筆：${item.removed.join('、')}`);
+        }
+        if (report.changed && !report.contentSummary?.length) lines.push('• 已完成資料更新與索引重建。');
         summary.textContent = lines.join('\n');summary.classList.remove('hidden');
       } else if (run?.htmlUrl) {
         summary.innerHTML = `<a class="font-black text-accent-blue hover:underline" href="${run.htmlUrl}" target="_blank" rel="noopener noreferrer">查看 GitHub 更新作業</a>`;summary.classList.remove('hidden');

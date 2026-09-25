@@ -139,7 +139,7 @@ body.local-compare-active .local-mobile-insets{display:none!important}
 .paired-compare-maps header{display:flex;align-items:end;justify-content:space-between;padding:13px 15px 8px;border-bottom:1px solid #d4cbbb}
 .paired-compare-maps header span{padding:4px 8px;background:#dac678;color:#171310;font:900 clamp(20px,2.4vw,34px)/1 Archivo,sans-serif}
 .paired-compare-maps header small{color:#766e63;font-size:9px;font-weight:900;letter-spacing:.12em}
-.paired-compare-maps svg{display:block;width:100%;height:100%;min-height:0}
+.paired-compare-maps svg{display:block;width:100%;height:100%;min-height:0;overflow:hidden}
 .paired-compare-maps path{stroke:#f7f1e8;stroke-width:1.3;vector-effect:non-scaling-stroke;cursor:pointer;transition:fill .18s,stroke .18s,filter .18s}
 .paired-compare-maps path:hover{stroke:#171310;filter:brightness(1.08)}
 .paired-compare-maps path.selected{stroke:#E4022B;stroke-width:2.5}

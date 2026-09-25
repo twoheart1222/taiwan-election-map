@@ -206,7 +206,8 @@ test('cross-election comparison keeps the report on the right and both maps insi
   assert.match(css, /body\.history-archive\.archive-comparing \.result-panel\{[^}]*grid-column:2/);
   for (const source of [presidentScript, executiveScript, councilorScript]) {
     assert.match(source, /preserveAspectRatio','xMidYMid meet'/);
-    assert.match(source, /fitExtent\(\[\[24,26\],\[w-24,h-34\]\]/);
+    assert.match(source, /coordinates:\[\[119\.18,21\.55\],\[122\.12,25\.42\]\]/);
+    assert.match(source, /fitExtent\(\[\[32,34\],\[w-32,h-76\]\]/);
   }
 });
 
