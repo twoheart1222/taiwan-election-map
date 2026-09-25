@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-09-16T19:42:37.617Z",
+  "generatedAt": "2026-09-25T07:07:17.496Z",
   "source": "https://council2026.taiwangogo.tw",
-  "count": 183,
+  "count": 187,
   "links": [
     {
       "countyCode": "63000",
@@ -10,14 +10,6 @@
       "name": "李文",
       "personId": "台北市|第1選區|李文",
       "url": "https://council2026.taiwangogo.tw/?city=tpe&district=tpe-1&person=%E5%8F%B0%E5%8C%97%E5%B8%82%7C%E7%AC%AC1%E9%81%B8%E5%8D%80%7C%E6%9D%8E%E6%96%87"
-    },
-    {
-      "countyCode": "63000",
-      "city": "台北市",
-      "district": "第1選區",
-      "name": "林揚庭",
-      "personId": "台北市|第1選區|林揚庭",
-      "url": "https://council2026.taiwangogo.tw/?city=tpe&district=tpe-1&person=%E5%8F%B0%E5%8C%97%E5%B8%82%7C%E7%AC%AC1%E9%81%B8%E5%8D%80%7C%E6%9E%97%E6%8F%9A%E5%BA%AD"
     },
     {
       "countyCode": "63000",
@@ -50,6 +42,14 @@
       "name": "侯漢廷",
       "personId": "台北市|第1選區|侯漢廷",
       "url": "https://council2026.taiwangogo.tw/?city=tpe&district=tpe-1&person=%E5%8F%B0%E5%8C%97%E5%B8%82%7C%E7%AC%AC1%E9%81%B8%E5%8D%80%7C%E4%BE%AF%E6%BC%A2%E5%BB%B7"
+    },
+    {
+      "countyCode": "63000",
+      "city": "台北市",
+      "district": "第3選區",
+      "name": "許原榮",
+      "personId": "台北市|第3選區|許原榮",
+      "url": "https://council2026.taiwangogo.tw/?city=tpe&district=tpe-3&person=%E5%8F%B0%E5%8C%97%E5%B8%82%7C%E7%AC%AC3%E9%81%B8%E5%8D%80%7C%E8%A8%B1%E5%8E%9F%E6%A6%AE"
     },
     {
       "countyCode": "63000",
@@ -308,12 +308,12 @@
       "url": "https://council2026.taiwangogo.tw/?city=tao&district=tao-14&person=%E6%A1%83%E5%9C%92%E5%B8%82%7C%E7%AC%AC14%E9%81%B8%E5%8D%80%7C%E5%BC%B5%E5%80%89%E8%B1%AA"
     },
     {
-      "countyCode": "68000",
-      "city": "桃園市",
-      "district": "第14選區",
-      "name": "蘇偉恩",
-      "personId": "桃園市|第14選區|蘇偉恩",
-      "url": "https://council2026.taiwangogo.tw/?city=tao&district=tao-14&person=%E6%A1%83%E5%9C%92%E5%B8%82%7C%E7%AC%AC14%E9%81%B8%E5%8D%80%7C%E8%98%87%E5%81%89%E6%81%A9"
+      "countyCode": "66000",
+      "city": "台中市",
+      "district": "第3選區",
+      "name": "林汝洲",
+      "personId": "台中市|第3選區|林汝洲",
+      "url": "https://council2026.taiwangogo.tw/?city=txg&district=txg-3&person=%E5%8F%B0%E4%B8%AD%E5%B8%82%7C%E7%AC%AC3%E9%81%B8%E5%8D%80%7C%E6%9E%97%E6%B1%9D%E6%B4%B2"
     },
     {
       "countyCode": "66000",
@@ -342,10 +342,26 @@
     {
       "countyCode": "66000",
       "city": "台中市",
+      "district": "第8選區",
+      "name": "陳諭韋",
+      "personId": "台中市|第8選區|陳諭韋",
+      "url": "https://council2026.taiwangogo.tw/?city=txg&district=txg-8&person=%E5%8F%B0%E4%B8%AD%E5%B8%82%7C%E7%AC%AC8%E9%81%B8%E5%8D%80%7C%E9%99%B3%E8%AB%AD%E9%9F%8B"
+    },
+    {
+      "countyCode": "66000",
+      "city": "台中市",
       "district": "第13選區",
       "name": "鄭伯其",
       "personId": "台中市|第13選區|鄭伯其",
       "url": "https://council2026.taiwangogo.tw/?city=txg&district=txg-13&person=%E5%8F%B0%E4%B8%AD%E5%B8%82%7C%E7%AC%AC13%E9%81%B8%E5%8D%80%7C%E9%84%AD%E4%BC%AF%E5%85%B6"
+    },
+    {
+      "countyCode": "66000",
+      "city": "台中市",
+      "district": "第17選區",
+      "name": "柯靜志",
+      "personId": "台中市|第17選區|柯靜志",
+      "url": "https://council2026.taiwangogo.tw/?city=txg&district=txg-17&person=%E5%8F%B0%E4%B8%AD%E5%B8%82%7C%E7%AC%AC17%E9%81%B8%E5%8D%80%7C%E6%9F%AF%E9%9D%9C%E5%BF%97"
     },
     {
       "countyCode": "66000",
@@ -526,6 +542,14 @@
     {
       "countyCode": "10002",
       "city": "宜蘭縣",
+      "district": "第6選區",
+      "name": "林宜弘",
+      "personId": "宜蘭縣|第6選區|林宜弘",
+      "url": "https://council2026.taiwangogo.tw/?city=ila&district=ila-6&person=%E5%AE%9C%E8%98%AD%E7%B8%A3%7C%E7%AC%AC6%E9%81%B8%E5%8D%80%7C%E6%9E%97%E5%AE%9C%E5%BC%98"
+    },
+    {
+      "countyCode": "10002",
+      "city": "宜蘭縣",
       "district": "第12選區",
       "name": "陳傑麟",
       "personId": "宜蘭縣|第12選區|陳傑麟",
@@ -554,14 +578,6 @@
       "name": "何建樺",
       "personId": "新竹縣|第3選區|何建樺",
       "url": "https://council2026.taiwangogo.tw/?city=hcc&district=hcc-3&person=%E6%96%B0%E7%AB%B9%E7%B8%A3%7C%E7%AC%AC3%E9%81%B8%E5%8D%80%7C%E4%BD%95%E5%BB%BA%E6%A8%BA"
-    },
-    {
-      "countyCode": "10004",
-      "city": "新竹縣",
-      "district": "第9選區",
-      "name": "羅俊傑",
-      "personId": "新竹縣|第9選區|羅俊傑",
-      "url": "https://council2026.taiwangogo.tw/?city=hcc&district=hcc-9&person=%E6%96%B0%E7%AB%B9%E7%B8%A3%7C%E7%AC%AC9%E9%81%B8%E5%8D%80%7C%E7%BE%85%E4%BF%8A%E5%82%91"
     },
     {
       "countyCode": "10004",
@@ -663,6 +679,14 @@
       "countyCode": "10007",
       "city": "彰化縣",
       "district": "第1選區",
+      "name": "白玉如",
+      "personId": "彰化縣|第1選區|白玉如",
+      "url": "https://council2026.taiwangogo.tw/?city=cha&district=cha-1&person=%E5%BD%B0%E5%8C%96%E7%B8%A3%7C%E7%AC%AC1%E9%81%B8%E5%8D%80%7C%E7%99%BD%E7%8E%89%E5%A6%82"
+    },
+    {
+      "countyCode": "10007",
+      "city": "彰化縣",
+      "district": "第1選區",
       "name": "李成濟",
       "personId": "彰化縣|第1選區|李成濟",
       "url": "https://council2026.taiwangogo.tw/?city=cha&district=cha-1&person=%E5%BD%B0%E5%8C%96%E7%B8%A3%7C%E7%AC%AC1%E9%81%B8%E5%8D%80%7C%E6%9D%8E%E6%88%90%E6%BF%9F"
@@ -719,6 +743,14 @@
       "countyCode": "10007",
       "city": "彰化縣",
       "district": "第4選區",
+      "name": "黃正盛",
+      "personId": "彰化縣|第4選區|黃正盛",
+      "url": "https://council2026.taiwangogo.tw/?city=cha&district=cha-4&person=%E5%BD%B0%E5%8C%96%E7%B8%A3%7C%E7%AC%AC4%E9%81%B8%E5%8D%80%7C%E9%BB%83%E6%AD%A3%E7%9B%9B"
+    },
+    {
+      "countyCode": "10007",
+      "city": "彰化縣",
+      "district": "第4選區",
       "name": "曹嘉豪",
       "personId": "彰化縣|第4選區|曹嘉豪",
       "url": "https://council2026.taiwangogo.tw/?city=cha&district=cha-4&person=%E5%BD%B0%E5%8C%96%E7%B8%A3%7C%E7%AC%AC4%E9%81%B8%E5%8D%80%7C%E6%9B%B9%E5%98%89%E8%B1%AA"
@@ -730,22 +762,6 @@
       "name": "黃佳惠",
       "personId": "彰化縣|第5選區|黃佳惠",
       "url": "https://council2026.taiwangogo.tw/?city=cha&district=cha-5&person=%E5%BD%B0%E5%8C%96%E7%B8%A3%7C%E7%AC%AC5%E9%81%B8%E5%8D%80%7C%E9%BB%83%E4%BD%B3%E6%83%A0"
-    },
-    {
-      "countyCode": "10007",
-      "city": "彰化縣",
-      "district": "第6選區",
-      "name": "蕭岳倫",
-      "personId": "彰化縣|第6選區|蕭岳倫",
-      "url": "https://council2026.taiwangogo.tw/?city=cha&district=cha-6&person=%E5%BD%B0%E5%8C%96%E7%B8%A3%7C%E7%AC%AC6%E9%81%B8%E5%8D%80%7C%E8%95%AD%E5%B2%B3%E5%80%AB"
-    },
-    {
-      "countyCode": "10007",
-      "city": "彰化縣",
-      "district": "第6選區",
-      "name": "鄭俊雄",
-      "personId": "彰化縣|第6選區|鄭俊雄",
-      "url": "https://council2026.taiwangogo.tw/?city=cha&district=cha-6&person=%E5%BD%B0%E5%8C%96%E7%B8%A3%7C%E7%AC%AC6%E9%81%B8%E5%8D%80%7C%E9%84%AD%E4%BF%8A%E9%9B%84"
     },
     {
       "countyCode": "10007",
@@ -762,6 +778,14 @@
       "name": "劉淑芳",
       "personId": "彰化縣|第7選區|劉淑芳",
       "url": "https://council2026.taiwangogo.tw/?city=cha&district=cha-7&person=%E5%BD%B0%E5%8C%96%E7%B8%A3%7C%E7%AC%AC7%E9%81%B8%E5%8D%80%7C%E5%8A%89%E6%B7%91%E8%8A%B3"
+    },
+    {
+      "countyCode": "10008",
+      "city": "南投縣",
+      "district": "第1選區",
+      "name": "賴燕雪",
+      "personId": "南投縣|第1選區|賴燕雪",
+      "url": "https://council2026.taiwangogo.tw/?city=nan&district=nan-1&person=%E5%8D%97%E6%8A%95%E7%B8%A3%7C%E7%AC%AC1%E9%81%B8%E5%8D%80%7C%E8%B3%B4%E7%87%95%E9%9B%AA"
     },
     {
       "countyCode": "10008",
@@ -1367,9 +1391,25 @@
       "countyCode": "09020",
       "city": "金門縣",
       "district": "第1選區",
+      "name": "石永城",
+      "personId": "金門縣|第1選區|石永城",
+      "url": "https://council2026.taiwangogo.tw/?city=kin&district=kin-1&person=%E9%87%91%E9%96%80%E7%B8%A3%7C%E7%AC%AC1%E9%81%B8%E5%8D%80%7C%E7%9F%B3%E6%B0%B8%E5%9F%8E"
+    },
+    {
+      "countyCode": "09020",
+      "city": "金門縣",
+      "district": "第1選區",
       "name": "楊霈璿",
       "personId": "金門縣|第1選區|楊霈璿",
       "url": "https://council2026.taiwangogo.tw/?city=kin&district=kin-1&person=%E9%87%91%E9%96%80%E7%B8%A3%7C%E7%AC%AC1%E9%81%B8%E5%8D%80%7C%E6%A5%8A%E9%9C%88%E7%92%BF"
+    },
+    {
+      "countyCode": "09020",
+      "city": "金門縣",
+      "district": "第1選區",
+      "name": "洪允典",
+      "personId": "金門縣|第1選區|洪允典",
+      "url": "https://council2026.taiwangogo.tw/?city=kin&district=kin-1&person=%E9%87%91%E9%96%80%E7%B8%A3%7C%E7%AC%AC1%E9%81%B8%E5%8D%80%7C%E6%B4%AA%E5%85%81%E5%85%B8"
     },
     {
       "countyCode": "09020",
@@ -1378,14 +1418,6 @@
       "name": "王國代",
       "personId": "金門縣|第2選區|王國代",
       "url": "https://council2026.taiwangogo.tw/?city=kin&district=kin-2&person=%E9%87%91%E9%96%80%E7%B8%A3%7C%E7%AC%AC2%E9%81%B8%E5%8D%80%7C%E7%8E%8B%E5%9C%8B%E4%BB%A3"
-    },
-    {
-      "countyCode": "09020",
-      "city": "金門縣",
-      "district": "第2選區",
-      "name": "陳麒翔",
-      "personId": "金門縣|第2選區|陳麒翔",
-      "url": "https://council2026.taiwangogo.tw/?city=kin&district=kin-2&person=%E9%87%91%E9%96%80%E7%B8%A3%7C%E7%AC%AC2%E9%81%B8%E5%8D%80%7C%E9%99%B3%E9%BA%92%E7%BF%94"
     },
     {
       "countyCode": "09020",
