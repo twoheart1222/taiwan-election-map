@@ -149,14 +149,24 @@
         </button>
       </div>
 
-      <!-- 議員選舉區選擇列 -->
+      <!-- 鄉鎮市區層級專用切換：首長 VS 代表 -->
+      <div id="town-type-tabs" class="hidden flex items-center space-x-2 border-b border-ink-100 pb-3">
+        <button type="button" id="tab-btn-town-mayor" onclick="switchTownRole('townMayor')" class="px-3.5 py-1.5 rounded-xl text-xs font-black bg-ink-900 text-surface transition">
+          鄉鎮市長選舉
+        </button>
+        <button type="button" id="tab-btn-representative" onclick="switchTownRole('representative')" class="px-3.5 py-1.5 rounded-xl text-xs font-black bg-canvas border editorial-border text-ink-700 hover:bg-ink-100 transition">
+          鄉鎮市民代表選舉（依選舉區）
+        </button>
+      </div>
+
+      <!-- 議員／代表選舉區選擇列 -->
       <div id="council-district-box" class="hidden p-4 rounded-xl bg-canvas border editorial-border space-y-3">
         <div class="flex flex-wrap items-center justify-between gap-2">
           <div class="flex items-center space-x-2">
-            <span class="text-xs font-black text-ink-700">選擇議員選舉區：</span>
+            <span id="district-picker-label" class="text-xs font-black text-ink-700">選擇議員選舉區：</span>
             <select id="select-council-district" onchange="onCouncilDistrictChange()" class="select-editorial bg-surface border editorial-border rounded-xl px-3 py-1.5 pr-8 text-xs font-bold cursor-pointer"></select>
           </div>
-          <button type="button" onclick="autoInit14Districts()" class="text-xs font-bold text-accent-blue hover:underline">
+          <button id="district-reset-btn" type="button" onclick="autoInitDistricts()" class="text-xs font-bold text-accent-blue hover:underline">
             + 重設 / 建立 1～14 選舉區
           </button>
         </div>
@@ -331,11 +341,13 @@
     let villagesCache = {};
     let currentScope = null;
     let currentCountyRole = 'mayor';
+    let currentTownRole = 'townMayor';
     let currentCode = null;
     let currentBase = null;
 
     let workingCandidates = [];
     let workingCouncilors = [];
+    let workingRepresentatives = [];
     let currentDistrictMode = 'all';
     let observatoryLinks = [];
 
@@ -1031,12 +1043,19 @@
       const baseCouncilors = currentBase.councilors ? (currentBase.councilors.blocks || currentBase.councilors) : [];
       const overrideCouncilors = override.councilors ? (override.councilors.blocks || override.councilors) : null;
       workingCouncilors = JSON.parse(JSON.stringify(overrideCouncilors !== null ? overrideCouncilors : baseCouncilors));
+      const baseRepresentatives = currentBase.representatives ? (currentBase.representatives.blocks || currentBase.representatives) : [];
+      const overrideRepresentatives = override.representatives ? (override.representatives.blocks || override.representatives) : null;
+      workingRepresentatives = JSON.parse(JSON.stringify(overrideRepresentatives !== null ? overrideRepresentatives : baseRepresentatives));
 
       const isCounty = scope === 'county';
+      const isTown = scope === 'town';
       document.getElementById('county-type-tabs').classList.toggle('hidden', !isCounty);
+      document.getElementById('town-type-tabs').classList.toggle('hidden', !isTown);
 
       if (isCounty) {
         switchCountyRole(currentCountyRole);
+      } else if (isTown) {
+        switchTownRole(currentTownRole);
       } else {
         document.getElementById('council-district-box').classList.add('hidden');
         renderCandidateRows(workingCandidates);
@@ -1063,9 +1082,11 @@
         btnCouncilor.className = 'px-3.5 py-1.5 rounded-xl text-xs font-black bg-ink-900 text-surface transition';
         districtBox.classList.remove('hidden');
         document.getElementById('candidates-heading').textContent = '議員候選人名冊';
+        document.getElementById('district-picker-label').textContent = '選擇議員選舉區：';
+        document.getElementById('district-reset-btn').textContent = '+ 重設 / 建立 1～14 選舉區';
 
         if (!workingCouncilors || workingCouncilors.length === 0) {
-          autoInit14Districts();
+          autoInitDistricts();
         } else {
           renderDistrictPicker();
         }
@@ -1073,28 +1094,75 @@
       lucide.createIcons();
     };
 
-    window.autoInit14Districts = function() {
-      if (!workingCouncilors || workingCouncilors.length === 0) {
-        workingCouncilors = [];
-        for (let i = 1; i <= 14; i++) {
-          workingCouncilors.push({
+    // ---------- 鄉鎮市區切換：首長 VS 代表 ----------
+    window.switchTownRole = function(role) {
+      if (formReady) captureCurrentForm();
+      currentTownRole = role;
+      formReady = false;
+      const btnMayor = document.getElementById('tab-btn-town-mayor');
+      const btnRepresentative = document.getElementById('tab-btn-representative');
+      const districtBox = document.getElementById('council-district-box');
+
+      if (role === 'townMayor') {
+        btnMayor.className = 'px-3.5 py-1.5 rounded-xl text-xs font-black bg-ink-900 text-surface transition';
+        btnRepresentative.className = 'px-3.5 py-1.5 rounded-xl text-xs font-black bg-canvas border editorial-border text-ink-700 hover:bg-ink-100 transition';
+        districtBox.classList.add('hidden');
+        document.getElementById('candidates-heading').textContent = '鄉鎮市長候選人名冊';
+        renderCandidateRows(workingCandidates);
+      } else {
+        btnMayor.className = 'px-3.5 py-1.5 rounded-xl text-xs font-black bg-canvas border editorial-border text-ink-700 hover:bg-ink-100 transition';
+        btnRepresentative.className = 'px-3.5 py-1.5 rounded-xl text-xs font-black bg-ink-900 text-surface transition';
+        districtBox.classList.remove('hidden');
+        document.getElementById('candidates-heading').textContent = '鄉鎮市民代表候選人名冊';
+        document.getElementById('district-picker-label').textContent = '選擇代表選舉區：';
+        document.getElementById('district-reset-btn').textContent = '+ 重設 / 建立 1～4 選舉區';
+        if (!workingRepresentatives.length) autoInitDistricts();
+        else renderDistrictPicker();
+      }
+      lucide.createIcons();
+    };
+
+    function isDistrictRole() {
+      return (currentScope === 'county' && currentCountyRole === 'councilor') ||
+        (currentScope === 'town' && currentTownRole === 'representative');
+    }
+
+    function activeDistrictBlocks() {
+      return currentScope === 'town' ? workingRepresentatives : workingCouncilors;
+    }
+
+    window.autoInitDistricts = function() {
+      let blocks = activeDistrictBlocks();
+      const count = currentScope === 'town' ? 4 : 14;
+      if (!blocks || blocks.length === 0) {
+        blocks = [];
+        for (let i = 1; i <= count; i++) {
+          blocks.push({
             district: String(i),
-            quota: i === 1 ? '12 席' : (i === 7 ? '11 席' : '約 3~5 席'),
+            quota: currentScope === 'town' ? '' : (i === 1 ? '12 席' : (i === 7 ? '11 席' : '約 3~5 席')),
             candidates: []
           });
         }
+        if (currentScope === 'town') workingRepresentatives = blocks;
+        else workingCouncilors = blocks;
       }
       currentDistrictMode = 'all';
       renderDistrictPicker();
     };
 
+    window.autoInit14Districts = window.autoInitDistricts;
+
     function renderDistrictPicker() {
       const picker = document.getElementById('select-council-district');
-      const totalCount = workingCouncilors.reduce((sum, b) => sum + (b.candidates ? b.candidates.length : 0), 0);
+      const blocks = activeDistrictBlocks();
+      const totalCount = blocks.reduce((sum, b) => sum + (b.candidates ? b.candidates.length : 0), 0);
+      const roleName = currentScope === 'town' ? '代表' : '議員';
+      document.getElementById('district-picker-label').textContent = `選擇${roleName}選舉區：`;
+      document.getElementById('district-reset-btn').textContent = currentScope === 'town' ? '+ 重設 / 建立 1～4 選舉區' : '+ 重設 / 建立 1～14 選舉區';
       
-      let html = `<option value="all">🌟 全部選舉區（全覽共 ${totalCount} 位議員）</option>`;
-      workingCouncilors.forEach((b, idx) => {
-        html += `<option value="${idx}">${escapeHTML(councilDistrictLabel(b))}（已登記 ${b.candidates ? b.candidates.length : 0} 人）</option>`;
+      let html = `<option value="all">全部選舉區（全覽共 ${totalCount} 位${roleName}）</option>`;
+      blocks.forEach((b, idx) => {
+        html += `<option value="${idx}">${escapeHTML(districtLabel(b))}（已登記 ${b.candidates ? b.candidates.length : 0} 人）</option>`;
       });
       picker.innerHTML = html;
       picker.value = currentDistrictMode;
@@ -1106,13 +1174,15 @@
       const picker = document.getElementById('select-council-district');
       currentDistrictMode = picker.value;
       const quotaBox = document.getElementById('single-district-quota-box');
+      const blocks = activeDistrictBlocks();
+      const roleName = currentScope === 'town' ? '代表' : '議員';
 
       if (currentDistrictMode === 'all') {
         quotaBox.classList.add('hidden');
-        document.getElementById('candidates-heading').textContent = `議員候選人名冊（全選區一覽）`;
+        document.getElementById('candidates-heading').textContent = `${roleName}候選人名冊（全選區一覽）`;
         
         const allList = [];
-        workingCouncilors.forEach(b => {
+        blocks.forEach(b => {
           (b.candidates || []).forEach(c => {
             allList.push({ ...c, _district: b.district });
           });
@@ -1121,13 +1191,17 @@
       } else {
         const idx = parseInt(currentDistrictMode, 10) || 0;
         quotaBox.classList.remove('hidden');
-        const block = workingCouncilors[idx];
+        const block = blocks[idx];
         if (!block) return;
-        document.getElementById('candidates-heading').textContent = `${councilDistrictLabel(block)}議員名冊`;
+        document.getElementById('candidates-heading').textContent = `${districtLabel(block)}${roleName}名冊`;
         document.getElementById('f-district-quota').value = block.quota ?? '';
         renderCandidateRows(block.candidates || [], false);
       }
     };
+
+    function districtLabel(block) {
+      return currentScope === 'town' ? `第 ${block?.district || '?'} 選舉區` : councilDistrictLabel(block);
+    }
 
     function councilDistrictLabel(block) {
       const info = districtTownMap?.[currentCode]?.districts?.[String(block?.district || '')];
@@ -1137,8 +1211,9 @@
     }
 
     window.updateDistrictQuota = function() {
-      if (currentDistrictMode !== 'all' && workingCouncilors[currentDistrictMode]) {
-        workingCouncilors[currentDistrictMode].quota = document.getElementById('f-district-quota').value.trim();
+      const blocks = activeDistrictBlocks();
+      if (currentDistrictMode !== 'all' && blocks[currentDistrictMode]) {
+        blocks[currentDistrictMode].quota = document.getElementById('f-district-quota').value.trim();
       }
     };
 
@@ -1152,11 +1227,15 @@
     }
 
     window.addCandidateRow = function(c, isAllView = false) {
-      const defaultDistrict = (currentDistrictMode !== 'all' && workingCouncilors[currentDistrictMode]) 
-        ? workingCouncilors[currentDistrictMode].district : '1';
+      const districtBlocks = activeDistrictBlocks();
+      const defaultDistrict = (currentDistrictMode !== 'all' && districtBlocks[currentDistrictMode])
+        ? districtBlocks[currentDistrictMode].district : '1';
+      const defaultRole = currentScope === 'town' && currentTownRole === 'representative'
+        ? '鄉鎮市民代表候選人'
+        : currentCountyRole === 'councilor' ? '市議員候選人' : '候選人';
       
       c = c || { 
-        name: '', party: '無', role: currentCountyRole === 'councilor' ? '市議員候選人' : '候選人', 
+        name: '', party: '無', role: defaultRole,
         registeredDate: '', gazetteUrl: '', gazettePreviewUrl: '', gazettePage: '', gazetteAlt: '', facebook: '', taiwanGoGoUrl: '', instagram: '', threads: '', youtube: '', photoUrl: '',
         isIncumbent: false, elected: false, votes: '', prevVotes: '', _district: defaultDistrict 
       };
@@ -1169,9 +1248,9 @@
       row._candidate = { ...c };
       delete row._candidate._district;
 
-      const districtBadge = (currentCountyRole === 'councilor') ? `
+      const districtBadge = isDistrictRole() ? `
         <div class="flex items-center space-x-1.5 mb-1">
-          <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded bg-ink-900 text-surface">${escapeHTML(councilDistrictLabel({ district: dist }))}</span>
+          <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded bg-ink-900 text-surface">${escapeHTML(districtLabel({ district: dist }))}</span>
         </div>
       ` : '';
 
@@ -1344,6 +1423,20 @@
             }
           }
         }
+      } else if (currentScope === 'town') {
+        if (currentTownRole === 'townMayor') {
+          workingCandidates = collectCandidatesFromForm();
+        } else {
+          const formCandidates = collectCandidatesFromForm();
+          if (currentDistrictMode === 'all') {
+            workingRepresentatives.forEach(b => {
+              b.candidates = formCandidates.filter(c => String(c.district) === String(b.district));
+            });
+          } else {
+            const idx = parseInt(currentDistrictMode, 10);
+            if (workingRepresentatives[idx]) workingRepresentatives[idx].candidates = formCandidates;
+          }
+        }
       } else {
         workingCandidates = collectCandidatesFromForm();
       }
@@ -1354,7 +1447,9 @@
       captureCurrentForm();
       const payload = {
         ...allOverrides[currentCode],
-        representatives: ElectionData.mergeArea(currentBase, allOverrides[currentCode]).representatives,
+        representatives: currentScope === 'town'
+          ? workingRepresentatives
+          : ElectionData.mergeArea(currentBase, allOverrides[currentCode]).representatives,
         schemaVersion: 2,
         candidates: workingCandidates || [],
         updatedAt: new Date().toISOString(),

@@ -274,9 +274,11 @@ test('editor preserves edits across role/district switches and keeps unedited me
   const elements = new Map();
   const element = id => { if (!elements.has(id)) elements.set(id, { value: '', classList: { add() {}, remove() {} } }); return elements.get(id); };
   const context = vm.createContext({ document: { getElementById: element }, lucide: { createIcons() {} },
-    currentScope: 'county', currentCountyRole: 'mayor', currentDistrictMode: 'all', formReady: true,
+    currentScope: 'county', currentCountyRole: 'mayor', currentTownRole: 'townMayor', currentDistrictMode: 'all', formReady: true,
     workingCandidates: [{ name: '舊首長' }], workingCouncilors: [
       { district: '1', candidates: [{ name: '甲' }] }, { district: '2', candidates: [{ name: '乙' }] }],
+    workingRepresentatives: [
+      { district: '1', candidates: [{ name: '代表甲' }] }, { district: '2', candidates: [{ name: '代表乙' }] }],
     rows: [{ name: '修改首長' }], escapeHTML: x => x, councilDistrictLabel: b => b.district });
   vm.runInContext(`window = globalThis; collectCandidatesFromForm = () => rows;
     renderCandidateRows = (list, all) => { rows = structuredClone(list); formReady = true; };
@@ -291,6 +293,21 @@ test('editor preserves edits across role/district switches and keeps unedited me
   context.switchCountyRole('mayor');
   assert.equal(context.workingCouncilors[1].candidates[0].name, '修改乙');
   assert.equal(context.rows[0].name, '修改首長');
+  context.currentScope = 'town';
+  context.currentTownRole = 'townMayor';
+  context.currentDistrictMode = 'all';
+  context.workingCandidates = [{ name: '舊鄉長' }];
+  context.rows = [{ name: '修改鄉長' }];
+  context.switchTownRole('representative');
+  assert.equal(context.workingCandidates[0].name, '修改鄉長');
+  context.rows = [{ name: '修改代表甲', district: '1' }, { name: '代表乙', district: '2' }];
+  element('select-council-district').value = '1';
+  context.onCouncilDistrictChange();
+  assert.equal(context.workingRepresentatives[0].candidates[0].name, '修改代表甲');
+  context.rows = [{ name: '修改代表乙', district: '2' }];
+  context.switchTownRole('townMayor');
+  assert.equal(context.workingRepresentatives[1].candidates[0].name, '修改代表乙');
+  assert.equal(context.rows[0].name, '修改鄉長');
   const collect = html.slice(html.indexOf('    function collectCandidatesFromForm()'), html.indexOf('    function captureCurrentForm()'));
   context.document.querySelectorAll = () => [{ _candidate: { name: '甲', registeredDate: '115/09/01', olcId: 'keep' },
     dataset: { district: '1' }, querySelector: selector => ({ value: selector === '.c-name' ? '甲' : '', checked: false }) }];
