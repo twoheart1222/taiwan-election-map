@@ -461,7 +461,11 @@ async function handleAdmin(request, env, url) {
       }
       let report = null;
       try {
-        const raw = await fetch(`https://raw.githubusercontent.com/${owner}/${repo}/main/data/site-sync-report.json`, { cache: 'no-store' });
+        // The report is committed at the end of the workflow, after the run's
+        // original head SHA. Include the completion timestamp to avoid serving
+        // a stale raw.githubusercontent.com edge-cache entry after a new run.
+        const reportVersion = encodeURIComponent(run?.updatedAt || String(Date.now()));
+        const raw = await fetch(`https://raw.githubusercontent.com/${owner}/${repo}/main/data/site-sync-report.json?v=${reportVersion}`, { cache: 'no-store' });
         if (raw.ok) report = await raw.json();
       } catch (_) { /* 首次執行前沒有報告 */ }
       return jsonResponse(request, env, { request: requestState, run, report, configured: Boolean(token) });
