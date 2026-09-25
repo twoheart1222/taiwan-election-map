@@ -20,6 +20,34 @@ function villageCandidates() {
   return rows;
 }
 
+test('village names use their official characters instead of bracket placeholders', () => {
+  const namesById = new Map();
+  for (const file of fs.readdirSync(villageDirectory).filter(name => name.endsWith('.json'))) {
+    const topology = readJson(`data/villages/${file}`);
+    for (const village of topology.objects.map.geometries) {
+      const id = String(village.properties.id);
+      const name = village.properties.name;
+      namesById.set(id, name);
+      assert.doesNotMatch(name, /[\[\]【】]/, `${id} still contains a bracket placeholder: ${name}`);
+    }
+  }
+
+  const officialSpellings = new Map([
+    ['09007020005', '坂里村'],
+    ['10008040005', '硘磘里'],
+    ['10009180021', '萡東村'],
+    ['10009200021', '瓊埔村'],
+    ['65000070007', '獇寮里'],
+    ['65000200004', `石${String.fromCodePoint(0x25562)}里`],
+    ['67000180018', `${String.fromCodePoint(0x26c21)}拔里`],
+  ]);
+  for (const [id, name] of officialSpellings) assert.equal(namesById.get(id), name);
+
+  const search = readJson('data/candidate_search.json');
+  for (const [id, name] of namesById) assert.equal(search.areas[id]?.areaName, name);
+  for (const [id, name] of officialSpellings) assert.equal(search.areas[id]?.areaName, name);
+});
+
 test('village incumbent data records the CEC roster and MOI cross-check method', () => {
   const metadata = readJson('data/moi_village_chiefs.json');
   assert.equal(metadata.candidateRosterSource.title, '9-(115年村里長選舉候選人登記彙總表)');
