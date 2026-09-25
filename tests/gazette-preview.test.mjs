@@ -28,12 +28,13 @@ test('admin and shared storage paths preserve editable gazette metadata', async 
   assert.match(admin, /留空時前台顯示「待選舉公報公告後更新」/);
 });
 
-test('candidate search focus targets only the exact candidate card without a colored orbit', async () => {
+test('candidate search focus targets only the exact candidate card with a neutral orbit', async () => {
   const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
   assert.match(html, /data-search-name=/);
   assert.match(html, /querySelectorAll\('\.candidate-card'\)/);
-  assert.match(html, /#candidates\.search-focus-active \.candidate-card:not\(\.search-target-ring\)\{opacity:/);
-  assert.doesNotMatch(html, /candidate-search-orbit/);
+  assert.match(html, /\.candidate-search-orbit\{[^}]*inset:0[^}]*overflow:hidden/);
+  assert.match(html, /\.orbit-outline\{[^}]*stroke:#cbc7bf/);
+  assert.doesNotMatch(html, /candidate-search-orbit[^\n]*(?:#E4022B|#f6a06b)/);
 });
 
 test('candidate search supports phonetic suggestions for mistyped Chinese names', async () => {

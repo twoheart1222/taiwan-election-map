@@ -119,9 +119,12 @@ try{
   .gazette-lightbox-bar{position:fixed;z-index:2;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px max(12px,env(safe-area-inset-right)) 12px max(12px,env(safe-area-inset-left));background:linear-gradient(#090909 70%,transparent)}
   .gazette-lightbox-title{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px;font-weight:800}.gazette-lightbox-actions{display:flex;gap:7px}.gazette-lightbox-actions button{width:42px;height:42px;border:1px solid #4a4742;border-radius:50%;background:#1b1917;color:#fff;cursor:pointer;font-size:20px;font-weight:800}
   .gazette-lightbox-stage{width:100%;height:100%;padding:78px 20px 30px;overflow:auto;display:grid;place-items:center}.gazette-lightbox-stage img{display:block;width:min(100%,1600px);height:auto;max-width:none;transform-origin:center;transition:width .18s ease}.gazette-lightbox-stage[data-zoom="2"] img{width:2500px}.gazette-lightbox-stage[data-zoom="3"] img{width:3535px}
-  #candidates .candidate-card{transition:opacity .32s ease}
-  #candidates.search-focus-active .candidate-card:not(.search-target-ring){opacity:.28!important}
-  .candidate-card.search-target-ring{position:relative;z-index:1;opacity:1!important}
+  .candidate-card.search-target-ring{position:relative;isolation:isolate;overflow:hidden;contain:paint}
+  .candidate-search-orbit{position:absolute;inset:0;width:100%;height:100%;box-sizing:border-box;border-radius:inherit;z-index:4;overflow:hidden;pointer-events:none}
+  .candidate-search-orbit .orbit-outline{fill:none;stroke:#cbc7bf;stroke-width:2;opacity:.78;filter:drop-shadow(0 0 5px rgba(244,241,234,.2));animation:candidate-outline-once 1.55s ease-out 1 forwards}
+  .candidate-search-orbit .orbit-light{fill:none;stroke:#fff;stroke-width:4;stroke-linecap:round;stroke-dasharray:1.2 98.8;filter:drop-shadow(0 0 3px rgba(255,255,255,.9)) drop-shadow(0 0 9px rgba(244,241,234,.45));animation:candidate-border-run 1.45s linear 1 forwards}
+  @keyframes candidate-outline-once{0%{opacity:0}8%,84%{opacity:.78}100%{opacity:0}}
+  @keyframes candidate-border-run{0%{opacity:0;stroke-dashoffset:0}5%{opacity:1}94%{opacity:1}100%{opacity:0;stroke-dashoffset:-100}}
   .drawer{font-family:'Noto Sans TC',system-ui,sans-serif}
   .map-hero{height:calc(100dvh - 60px) !important}
   .candidate-search{position:relative;width:fit-content;max-width:min(360px,calc(100vw - 32px));margin-top:20px;pointer-events:auto}
@@ -1397,11 +1400,27 @@ class App {
       el.scrollIntoView({ block: 'center', behavior: 'smooth' });
       clearTimeout(this._searchRingTimer);
       box.querySelectorAll('.candidate-card.search-target-ring').forEach(card => card.classList.remove('search-target-ring'));
-      box.classList.remove('search-focus-active');
+      box.querySelectorAll('.candidate-search-orbit').forEach(orbit => orbit.remove());
       void el.offsetWidth;
-      box.classList.add('search-focus-active');
       el.classList.add('search-target-ring');
-      this._searchRingTimer = setTimeout(() => { el.classList.remove('search-target-ring'); box.classList.remove('search-focus-active'); }, 2200);
+      const width = Math.max(1, el.clientWidth), height = Math.max(1, el.clientHeight);
+      const radius = Math.min(parseFloat(getComputedStyle(el).borderRadius) || 8, height / 2);
+      const ns = 'http://www.w3.org/2000/svg';
+      const orbit = document.createElementNS(ns, 'svg');
+      orbit.classList.add('candidate-search-orbit');
+      orbit.setAttribute('viewBox', `0 0 ${width} ${height}`);
+      orbit.setAttribute('preserveAspectRatio', 'none');
+      orbit.setAttribute('aria-hidden', 'true');
+      ['orbit-outline', 'orbit-light'].forEach(className => {
+        const rect = document.createElementNS(ns, 'rect');
+        rect.setAttribute('x', '3'); rect.setAttribute('y', '3');
+        rect.setAttribute('width', String(Math.max(1, width - 6))); rect.setAttribute('height', String(Math.max(1, height - 6)));
+        rect.setAttribute('rx', String(radius)); rect.setAttribute('pathLength', '100');
+        rect.setAttribute('vector-effect', 'non-scaling-stroke'); rect.classList.add(className);
+        orbit.appendChild(rect);
+      });
+      el.appendChild(orbit);
+      this._searchRingTimer = setTimeout(() => { orbit.remove(); el.classList.remove('search-target-ring'); }, 1600);
     };
     setTimeout(flash, 350);
   }
@@ -2498,7 +2517,7 @@ class App {
     </div>`;
     const votesBlock = `<div style="display:flex;gap:8px">
       ${voteCell('本期得票', thisVotes, '未開票')}
-      ${(c.isIncumbent || prevVotes) ? voteCell('上期得票', prevVotes, '資料待補') : ''}
+      ${(c.isIncumbent || prevVotes) ? voteCell('上屆參選得票', prevVotes, '資料待補') : ''}
     </div>`;
     const gazetteSource = safeUrl(c.gazetteUrl);
     const gazettePreview = safeUrl(c.gazettePreviewUrl);
