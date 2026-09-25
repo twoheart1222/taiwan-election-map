@@ -41,6 +41,17 @@ test('official registration spellings replace known import typos', () => {
   for (const typo of ['楊士龍', '柯貴腾', '吳昱勳', '范玉崎', '張嘉豐']) {
     assert.equal(rows.some(row => row.candidate.name === typo), false, `${typo} must not remain in the map data`);
   }
+  const correctedDates = new Map([
+    ['10004120|楊仕龍', '115/08/31'],
+    ['10015060009|柯貴騰', '115/09/02'],
+    ['64000050066|吳昱勲', '115/09/01'],
+    ['65000020110|范玉琦', '115/09/02'],
+    ['66000290004|張家豐', '115/09/02'],
+  ]);
+  for (const [key, date] of correctedDates) {
+    const [areaId, name] = key.split('|');
+    assert.equal(rows.find(row => row.areaId === areaId && row.candidate.name === name)?.candidate.registeredDate, date);
+  }
 });
 
 test('registration reconciliation never treats prior votes as proof of incumbency', () => {

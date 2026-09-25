@@ -91,8 +91,8 @@ function reconcileDocument(document, code, target) {
     if (near.length === 1) {
       const before = row.candidate.name;
       row.candidate.name = near[0].name;
-      row.candidate.registeredDate = near[0].registeredDate;
-      row.candidate.party = near[0].party;
+      if (near[0].registeredDate) row.candidate.registeredDate = near[0].registeredDate;
+      if (near[0].party) row.candidate.party = near[0].party;
       corrections.push({ target, areaCode: code, category: row.category, before, after: row.candidate.name });
     } else {
       row.list.splice(row.list.indexOf(row.candidate), 1);
