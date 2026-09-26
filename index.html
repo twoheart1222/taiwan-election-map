@@ -268,6 +268,8 @@ try{
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","url":"https://formosaobservatory.com/","name":"2026 地方選舉候選人查詢地圖｜島民觀察室","description":"2026 年臺灣地方選舉互動地圖與全台候選人查詢入口。","dateModified":"2026-09-23","inLanguage":"zh-TW","isAccessibleForFree":true,"mainEntity":{"@type":"WebApplication","name":"島民選舉地圖","url":"https://formosaobservatory.com/"},"primaryImageOfPage":{"@type":"ImageObject","url":"https://formosaobservatory.com/social-preview.png","width":1200,"height":630}}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "島民選舉地圖", "url": "https://formosaobservatory.com/", "applicationCategory": "ReferenceApplication", "operatingSystem": "Any", "inLanguage": "zh-TW", "description": "2026 年 11 月 28 日臺灣地方選舉互動地圖，可依縣市、鄉鎮市區、村里、候選人姓名或地址查詢候選人。", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "TWD"}}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "2026 年地方選舉是哪一天？", "acceptedAnswer": {"@type": "Answer", "text": "2026 年（民國 115 年）地方公職人員選舉訂於 2026 年 11 月 28 日舉行，全國共選出 11,051 名地方公職人員。"}}, {"@type": "Question", "name": "這次地方選舉要投哪些選票？", "acceptedAnswer": {"@type": "Answer", "text": "依居住地不同而異，可能包含直轄市長或縣市長、直轄市議員或縣市議員、鄉鎮市長、鄉鎮市民代表、村里長。直轄市一般行政區沒有鄉鎮市長與鄉鎮市民代表選舉（山地原住民區除外），實際選票以選舉委員會公告為準。"}}, {"@type": "Question", "name": "怎麼查詢我住的地方有哪些候選人？", "acceptedAnswer": {"@type": "Answer", "text": "在本站地圖上方的搜尋框輸入地址，或按「使用我目前的位置」，就能直接列出該地址可投的縣市長、議員、鄉鎮市長、鄉鎮市民代表與村里長候選人。定位只在你的裝置上比對，不會上傳位置。"}}, {"@type": "Question", "name": "島民選舉地圖的資料從哪裡來？", "acceptedAnswer": {"@type": "Answer", "text": "資料彙整自中央選舉委員會、內政部地方公職人員資訊與各縣市議會公開名冊，並由維護團隊校閱；候選人名單、選區與票數仍以中央選舉委員會公告為準。"}}, {"@type": "Question", "name": "Formosa Observatory（島民觀察室）是官方網站嗎？", "acceptedAnswer": {"@type": "Answer", "text": "不是。本站為獨立民間資訊平台，非中央選舉委員會或任何政黨、候選人之官方網站。資料如有錯誤，歡迎來信 contact@formosaobservatory.com 更正。"}}]}</script>
+<link rel="stylesheet" href="/assets/ui/fo-ui.css?v=20260926-fo-ui">
+<script src="/assets/ui/fo-motion.js?v=20260926-fo-ui" defer></script>
 </head>
 <body>
 <noscript><div style="padding:20px;background:#0d0d0d;color:#e9e5dc"><h1>2026 地方選舉候選人查詢地圖｜島民觀察室</h1><p>2026 年 11 月 28 日地方選舉候選人名單，請前往 <a href="/election/">全台縣市候選人名單</a>，或啟用 JavaScript 使用互動地圖。</p></div></noscript>
@@ -314,7 +316,7 @@ try{
           <span id="nav-days-unit" style="font-family:'Archivo';font-weight:700;font-size:12px;color:#8a857c">DAYS</span>
         </div>
       </div>
-      <div class="nav-actions" style="display:flex;align-items:center;gap:clamp(10px,2vw,26px);font-family:'Archivo';font-weight:600;font-size:13px;letter-spacing:.04em;flex:none">
+      <div class="nav-actions fo-navlinks" style="display:flex;align-items:center;gap:clamp(10px,2vw,26px);font-family:'Archivo';font-weight:600;font-size:13px;letter-spacing:.04em;flex:none">
         <a href="#" data-view="map" class="navlink on">選舉地圖</a>
         <a href="./history/" class="navlink">歷年選舉</a>
         <a href="#" data-view="observatory" class="navlink">政治觀察</a>
@@ -355,7 +357,7 @@ try{
           <h1 style="font-family:'Noto Sans TC','Archivo',sans-serif;font-weight:900;font-size:clamp(24px,4.2vw,58px);line-height:1;letter-spacing:-.03em;margin:0">島民<br>選舉地圖</h1>
           <div class="candidate-search" id="candidate-search">
             <div class="candidate-search-row">
-              <span class="candidate-search-icon" aria-hidden="true">⌕</span>
+              <span class="candidate-search-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" width="17" height="17"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="2"></circle><path d="m16 16 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg></span>
               <span class="candidate-search-label">搜尋候選人／地址</span>
               <input id="candidate-search-input" type="search" inputmode="search" autocomplete="off" placeholder="輸入候選人姓名或地址" aria-label="搜尋候選人姓名或地址" aria-controls="candidate-search-results" aria-expanded="false">
             </div>
@@ -501,7 +503,7 @@ try{
       <main style="flex:1;padding:0 clamp(18px,4vw,54px) clamp(56px,9vh,110px)">
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:clamp(20px,3vw,44px);align-items:start;max-width:1200px">
           <div id="don-card" style="position:relative;background:#f4f1ea;color:#0d0d0d;border-radius:20px;padding:clamp(24px,3vw,40px)">
-            <div style="display:flex;gap:8px;padding:5px;background:#e6e1d6;border-radius:999px;margin-bottom:26px">
+            <div class="fo-freq" style="display:flex;gap:8px;padding:5px;background:#e6e1d6;border-radius:999px;margin-bottom:26px">
               <button class="freq-btn" data-freq="once" style="flex:1;padding:11px;border:none;border-radius:999px;font:800 14px 'Noto Sans TC';cursor:pointer;background:#E4022B;color:#fff">單次支持</button>
               <button class="freq-btn" data-freq="monthly" style="flex:1;padding:11px;border:none;border-radius:999px;font:800 14px 'Noto Sans TC';cursor:pointer;background:transparent;color:#0d0d0d">每月支持</button>
             </div>
@@ -1398,7 +1400,7 @@ class App {
       const wantedName = this._normalizeSearch(c.name);
       const el = [...box.querySelectorAll('.candidate-card')].find(card => card.dataset.searchName === wantedName);
       if (!el) { if (Date.now() - started < 4500) setTimeout(flash, 180); return; }
-      el.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      if (!window.FOMotion?.revealInContainer(el, 'center')) el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
       clearTimeout(this._searchRingTimer);
       box.querySelectorAll('.candidate-card.search-target-ring').forEach(card => card.classList.remove('search-target-ring'));
       void el.offsetWidth;
@@ -2083,9 +2085,14 @@ class App {
     if (f) this._miniCue(() => this._focusFeature(f, 'hot'), p.name, '村里選情 / VILLAGE');
   }
 
+  _setDrawerOpen(open) {
+    const drawer = document.getElementById('drawer'); if (!drawer) return;
+    if (window.FOMotion) window.FOMotion.drawer(drawer, open);
+    else drawer.style.transform = open ? 'translateX(0)' : 'translateX(103%)';
+  }
   _closeDrawer() {
     this._navigationRevision += 1;
-    document.getElementById('drawer').style.transform = 'translateX(103%)';
+    this._setDrawerOpen(false);
     this._setDrawerLock(false); this._drawerOpen = false; this._applyViewOffset();
   }
   _back() { this._closeDrawer(); }
@@ -2096,7 +2103,7 @@ class App {
       const showTaiwan = () => { this._buildLevel('county', this.countyFeats); this._frame(this.countyFeats, { pol: 0.62, dur: 0 }); };
       if (animate) this._transitionMap(showTaiwan, '全台灣', '返回首頁 / HOME');
       else showTaiwan();
-      this._auto = true; document.getElementById('drawer').style.transform = 'translateX(103%)';
+      this._auto = true; this._setDrawerOpen(false);
       this._setDrawerLock(false); this._drawerOpen = false; this._applyViewOffset();
       this._setReadoutContext();
       return;
@@ -2597,7 +2604,7 @@ class App {
     this._countUp(document.getElementById('stat-voters'), voters);
     this._countUp(document.getElementById('stat-quota'), quota);
     this._countUp(document.getElementById('stat-registered'), '--');
-    document.getElementById('drawer').style.transform = 'translateX(0)';
+    this._setDrawerOpen(true);
     this._setDrawerLock(true);
     this._drawerOpen = true; this._applyViewOffset();
   }
@@ -2658,7 +2665,7 @@ class App {
       const w = share == null ? 0 : Math.max(1, Math.min(100, share));
       const badge = win ? `<span style="display:inline-flex;align-items:center;gap:4px;margin-left:8px;padding:2px 9px 2px 7px;border-radius:999px;background:#E4022B;color:#fff;font-size:11px;font-weight:800;vertical-align:1px"><svg width="10" height="10" viewBox="0 0 12 12"><path d="M2 6.4l2.6 2.6L10 3.4" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>當選</span>` : '';
       const tagEl = tag ? `<span style="margin-left:6px;padding:2px 8px;border-radius:999px;border:1px solid #4a453f;color:#c9c3b8;font-size:10px;font-weight:700;vertical-align:1px">${tag}</span>` : '';
-      const wrap = win ? 'padding:10px 12px;margin:2px 0;border-radius:14px;background:linear-gradient(90deg,rgba(228,2,43,.20),rgba(228,2,43,.05));box-shadow:inset 0 0 0 1px rgba(228,2,43,.45)' : 'padding:9px 12px;border-top:1px solid #2a2723';
+      const wrap = win ? 'padding:10px 12px;margin:2px 0;border-radius:14px;background:rgba(228,2,43,.12);box-shadow:inset 0 0 0 1px rgba(228,2,43,.45)' : 'padding:9px 12px;border-top:1px solid #2a2723';
       return `<div style="${wrap}"><div style="display:flex;justify-content:space-between;gap:10px;align-items:baseline"><div style="min-width:0;font-weight:800;font-size:14px;color:#f4f1ea">${esc(name)}${badge}${tagEl}<span style="display:block;font-size:11px;font-weight:600;color:#8a857c">${esc(party || '')}</span></div><div style="text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums"><div style="font-family:'Archivo',sans-serif;font-weight:900;font-size:15px;color:#f4f1ea">${votes == null ? '—' : fmt(votes)}<span style="font-size:11px;font-weight:700;color:#8a857c"> 票</span></div><div style="font-size:12px;font-weight:700;color:${win ? '#ff8fa0' : '#a29c92'}">${pctT(share)}</div></div></div><div style="height:5px;border-radius:99px;background:${win ? 'rgba(0,0,0,.35)' : '#26231f'};margin-top:6px;overflow:hidden"><div style="height:100%;width:${w}%;background:${win ? '#E4022B' : '#6b655c'};border-radius:99px"></div></div></div>`;
     };
     const head = (t, sub, cls = '') => `<div class="results-period-head ${cls}" style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin:0 0 10px;min-height:22px;line-height:1.35;overflow:visible"><div style="font-family:'Noto Sans TC',sans-serif;font-weight:900;font-size:15px;line-height:1.35;color:#f4f1ea">${t}</div><div style="font-size:11px;font-weight:700;line-height:1.35;color:#8a857c">${sub}</div></div>`;
