@@ -469,15 +469,19 @@
     const list = document.getElementById('career-move-review-list');
     const status = document.getElementById('career-move-review-status');
     if (!list || !careerMoveReview) return;
-    status.textContent = `共 ${careerMoveReview.count} 位；其中 ${careerMoveReview.photoSuggestions} 位可補回既有照片。`;
+    status.innerHTML = `
+      <span class="block text-xs font-black text-ink-900">共 ${careerMoveReview.count} 位候選人</span>
+      <span class="block mt-1 text-emerald-700">其中 ${careerMoveReview.photoSuggestions} 位可恢復舊照片；每一列右側都有照片狀態。</span>
+    `;
     list.innerHTML = careerMoveReview.records.map((record, index) => `
-      <label class="grid grid-cols-[auto_minmax(0,1fr)_auto] gap-2.5 items-start rounded-xl border border-ink-200 bg-canvas p-3 cursor-pointer hover:border-accent-blue transition">
+      <label class="grid grid-cols-[auto_minmax(0,1fr)] sm:grid-cols-[auto_minmax(0,1fr)_auto] gap-2.5 items-start rounded-xl border ${record.suggestions?.photoUrl ? 'border-emerald-300 bg-emerald-50/60' : 'border-ink-200 bg-canvas'} p-3 cursor-pointer hover:border-accent-blue transition">
         <input type="checkbox" class="career-move-review-check mt-1 w-4 h-4 accent-accent-blue" data-index="${index}">
         <span class="min-w-0">
           <span class="block text-xs font-black text-ink-900">${escapeHTML(record.name)} · ${escapeHTML(record.county)}${record.area ? ` ${escapeHTML(record.area)}` : ''}</span>
           <span class="block text-[11px] font-bold text-ink-500 mt-1">${escapeHTML(record.priorRace)} → ${escapeHTML(record.currentRole)}${record.previousDistrict ? ` · 上屆${escapeHTML(record.previousDistrict)}` : ''}</span>
+          <span class="block sm:hidden mt-2 text-[11px] font-black ${record.suggestions?.photoUrl ? 'text-emerald-800' : 'text-ink-500'}">${record.suggestions?.photoUrl ? '✓ 可恢復舊照片' : '— 沒有找到舊照片'}</span>
         </span>
-        <span class="text-[10px] font-black rounded-full px-2 py-1 ${record.suggestions?.photoUrl ? 'bg-emerald-100 text-emerald-800' : 'bg-ink-100 text-ink-500'}">${record.suggestions?.photoUrl ? '可補照片' : '無舊照片'}</span>
+        <span class="hidden sm:inline-flex items-center whitespace-nowrap text-[11px] font-black rounded-full px-3 py-1.5 ${record.suggestions?.photoUrl ? 'bg-emerald-600 text-white' : 'bg-ink-100 text-ink-600'}">${record.suggestions?.photoUrl ? '✓ 可恢復舊照片' : '— 沒有找到舊照片'}</span>
       </label>
     `).join('');
   }
@@ -641,6 +645,9 @@
           <span class="text-[10px] font-black text-accent-blue">展開清單</span>
         </summary>
         <div class="mt-3 space-y-3">
+          <div class="rounded-xl border border-emerald-300 bg-emerald-50 px-3 py-2 text-[11px] font-bold text-emerald-900">
+            照片狀態會顯示在每位候選人右側。標示「可恢復舊照片」者，套用時會在目前照片欄位為空白的情況下補回舊照片。
+          </div>
           <div class="flex flex-wrap items-center justify-between gap-2">
             <div id="career-move-review-status" class="text-[11px] font-bold text-ink-500" role="status">正在載入比對清單…</div>
             <div class="flex flex-wrap gap-2">
