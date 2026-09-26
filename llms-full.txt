@@ -125,6 +125,7 @@
 - 全台互動地圖：https://formosaobservatory.com/
 - 全台候選人索引：https://formosaobservatory.com/election/
 - 歷年總統選舉：https://formosaobservatory.com/history/
+- 歷年立法委員選舉：https://formosaobservatory.com/history/legislator
 - 歷年縣市長選舉：https://formosaobservatory.com/history/local-executive
 
 ## 引用與資料限制

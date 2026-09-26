@@ -9,6 +9,7 @@
 - [互動選舉地圖](https://formosaobservatory.com/): 從全台逐層下探到縣市、鄉鎮市區、村里，支援候選人姓名與地址搜尋
 - [全台候選人名單索引](https://formosaobservatory.com/election/): 22 縣市入口
 - [歷年總統選舉](https://formosaobservatory.com/history/): 1996–2024 總統副總統選舉結果、地圖與跨屆比較
+- [歷年立法委員選舉](https://formosaobservatory.com/history/legislator): 1995–2024 第 3～11 屆區域、原住民與不分區結果
 - [歷年縣市長選舉](https://formosaobservatory.com/history/local-executive): 1994–2022 縣市長選舉結果與跨屆比較
 
 ## 2026 各縣市首長登記參選人
