@@ -29,7 +29,11 @@ test('generated election pages restrict scripts and cannot be framed', async () 
   const rest = headers.slice(start + '\n/election/*\n'.length);
   const block = rest.split(/\n(?=\/)/, 1)[0];
   assert.match(block, /Content-Security-Policy: default-src 'self'/);
-  assert.match(block, /script-src 'self' 'unsafe-inline' https:\/\/pagead2\.googlesyndication\.com/);
+  const scripts = block.match(/script-src ([^;]+)/)?.[1].split(/\s+/) || [];
+  for (const source of ["'self'", "'unsafe-inline'", 'https://pagead2.googlesyndication.com', 'https://pl31521852.profitableratecpmnetwork.com']) {
+    assert.ok(scripts.includes(source), `missing approved script source: ${source}`);
+  }
+  assert.ok(!scripts.includes('https:') && !scripts.includes('*'), 'scripts must remain origin-restricted');
   assert.match(block, /frame-ancestors 'none'/);
   assert.match(block, /object-src 'none'/);
   assert.match(block, /base-uri 'self'/);
