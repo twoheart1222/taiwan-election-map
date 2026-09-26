@@ -177,21 +177,25 @@ test('township results keep the production route, initial selection, and paper p
   assert.match(localCss, /\.local-query-shell\{position:relative;top:auto/);
 });
 
-test('history pages share responsive interaction feedback with reduced-motion support', async () => {
-  const [productUi, productCss] = await Promise.all([
+test('history pages share spring-driven interaction feedback with reduced-motion support', async () => {
+  const [productUi, productCss, motion, premium, archivePage] = await Promise.all([
     readFile(new URL('../history/product-ui.js', import.meta.url), 'utf8'),
     readFile(new URL('../history/product-ui.css', import.meta.url), 'utf8'),
+    readFile(new URL('../assets/ui/fo-motion.js', import.meta.url), 'utf8'),
+    readFile(new URL('../history/premium.js', import.meta.url), 'utf8'),
+    readFile(new URL('../history/index.html', import.meta.url), 'utf8'),
   ]);
   new vm.Script(productUi, { filename: 'history/product-ui.js' });
-  assert.match(productUi, /function interactiveFeedback\(\)/);
-  assert.match(productUi, /new IntersectionObserver/);
-  assert.match(productUi, /history-interactive-card/);
-  assert.match(productUi, /history-map-atmosphere/);
-  assert.match(productUi, /history-ripple/);
-  assert.match(productCss, /\.history-interactive-card:hover/);
-  assert.match(productCss, /\.history-map-atmosphere\.pointer-active::after/);
-  assert.match(productCss, /@keyframes history-ripple/);
-  assert.match(productCss, /@media \(prefers-reduced-motion:reduce\)[\s\S]*\.history-ripple\{display:none!important\}/);
+  new vm.Script(motion, { filename: 'assets/ui/fo-motion.js' });
+  new vm.Script(premium, { filename: 'history/premium.js' });
+  // No cursor light on maps or cards, no ripples.
+  assert.doesNotMatch(productUi + productCss, /history-map-atmosphere|history-ripple|--history-spot-x/);
+  // Closed-form spring step response, liquid indicators, reduced-motion fallback.
+  assert.match(motion, /Math\.exp\(-z \* w \* tau\)|const wd = w \* Math\.sqrt\(1 - z \* z\)/);
+  assert.match(motion, /function liquid\(/);
+  assert.match(motion, /prefers-reduced-motion: reduce/);
+  assert.match(premium, /window\.FOMotion/);
+  assert.ok(archivePage.indexOf('/assets/ui/fo-motion.js') < archivePage.indexOf('./premium.js'), 'fo-motion must load before premium.js');
 });
 
 test('cross-election comparison keeps the report on the right and both maps inside their cards', async () => {
