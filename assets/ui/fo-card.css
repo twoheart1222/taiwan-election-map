@@ -169,3 +169,56 @@
   .bn-row>.bn-social-tile{padding:5px}
   .bn-row>.bn-tile~.bn-disclosure:not([open]) .bn-state{display:none}
 }
+
+/* ==========================================================================
+   Classic layout, bento skin
+   Original reading order — photo | name + status + party · role,
+   two vote cells, social pills, external link, gazette — rendered with the
+   bento look (dark tiles, red accent cell, tinted chips, round arrow buttons).
+   ========================================================================== */
+.bn-card.bn-classic{display:flex;flex-direction:column;gap:6px;padding:6px;border-radius:24px}
+.bn-classic .bn-tile{border-radius:17px}
+/* header tile */
+.bn-classic .bn-headtile{position:relative;display:grid;grid-template-columns:72px minmax(0,1fr);gap:14px;align-items:center;padding:12px 14px}
+.bn-classic.is-win .bn-headtile{padding-right:78px}
+.bn-classic .bn-photo.bn-avatar{grid-row:auto;position:relative;width:72px;height:72px;min-height:0!important;border-radius:50%;padding:0;overflow:hidden;background:linear-gradient(160deg,#3a342e,#26221f);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+.bn-classic .bn-photo.bn-avatar>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 22%}
+.bn-classic .bn-avatar .bn-initial{top:50%;font-size:28px;color:rgba(255,255,255,.55)}
+.bn-classic.is-win .bn-photo.bn-avatar{box-shadow:0 0 0 2px #E4022B}
+.bn-classic .bn-id{min-width:0}
+.bn-classic .bn-title-row{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px}
+.bn-classic .bn-name{margin:0}
+.bn-classic .bn-name>span:first-child{font-size:21px;font-weight:800;letter-spacing:-.02em;color:var(--bn-text)}
+.bn-classic .bn-chip{padding:4px 9px 4px 7px;border-radius:9px;font-size:12px}
+.bn-classic .bn-meta{display:flex;align-items:center;gap:8px;margin-top:7px;min-width:0;flex-wrap:wrap}
+.bn-classic .bn-party{padding:2px 9px 2px 2px;background:var(--bn-tile-2);-webkit-backdrop-filter:none;backdrop-filter:none}
+.bn-classic .bn-party em{color:var(--bn-text);font-size:12px}
+.bn-classic .bn-dot{width:4px;height:4px;border-radius:50%;background:var(--bn-faint)}
+.bn-classic .bn-role{font-size:12.5px;font-weight:700;letter-spacing:0;color:#ff8093}
+.bn-classic.is-win .bn-role{color:#c40225}
+.bn-classic .bn-stamp{width:64px;height:64px;right:8px;top:50%;margin-top:-32px}
+/* vote cells side by side */
+.bn-classic .bn-metrics{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.bn-classic .bn-metrics.is-single{grid-template-columns:1fr}
+.bn-classic .bn-metric{min-height:0;gap:5px;padding:11px 14px}
+.bn-classic .bn-tall{grid-row:auto}
+.bn-classic .bn-value{font-size:22px}
+.bn-classic .bn-pending{font-size:14px}
+/* social pills */
+.bn-classic .bn-social-row{display:flex;flex-wrap:wrap;gap:6px;padding:2px 2px}
+.bn-classic .bn-social{display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 13px 0 8px;border-radius:11px;background:var(--bn-tile);color:var(--bn-text);font-size:12.5px;font-weight:700;text-decoration:none;transition:transform .3s cubic-bezier(.3,1.5,.6,1),background-color .2s ease}
+.bn-classic .bn-social svg{width:18px;height:18px}
+@media (hover:hover){.bn-classic .bn-social:hover{transform:translateY(-2px);background:var(--bn-tile-2)}}
+/* link + gazette rows */
+.bn-classic .bn-link,.bn-classic .bn-disclosure>summary{min-height:46px;padding:6px 6px 6px 14px}
+.bn-classic .bn-go{width:32px;height:32px}
+@media(max-width:660px){
+  .bn-card.bn-classic{padding:5px;gap:5px;border-radius:20px}
+  .bn-classic .bn-headtile{grid-template-columns:62px minmax(0,1fr);gap:12px;padding:11px 12px}
+  .bn-classic .bn-photo.bn-avatar{width:62px;height:62px}
+  .bn-classic .bn-name>span:first-child{font-size:19px}
+  .bn-classic .bn-value{font-size:19px}
+  .bn-classic.is-win .bn-headtile{padding-right:12px}
+  .bn-classic .bn-stamp{width:54px;height:54px;top:8px;margin-top:0;opacity:.95}
+  .bn-classic.is-win .bn-title-row{padding-right:52px}
+}
