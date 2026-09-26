@@ -26,7 +26,7 @@
 <link rel="stylesheet" href="./archive-enhancements.css?v=20260924-elected-frames">
 <link rel="stylesheet" href="./local-executive.css">
 <link rel="stylesheet" href="./councilor.css?v=20260924-flips-only">
-<link rel="stylesheet" href="./legislator.css?v=20260926">
+<link rel="stylesheet" href="./legislator.css?v=20260926-overview1">
 <link rel="stylesheet" href="./election-palette.css?v=20260925-no-crop2">
 <link rel="stylesheet" href="./premium.css?v=20260925-paired-fit">
 </head>
@@ -61,7 +61,7 @@
   <aside class="local-result result-panel">
     <div class="local-result-head"><div><div class="term" id="local-term">LEGISLATOR / 2024</div><h2 id="local-result-title">第 11 屆立法委員選舉</h2></div><div class="local-head-stat"><strong id="local-head-number">113</strong><span id="local-head-label">立法院總席次</span></div></div>
     <section id="local-single-result">
-      <details class="councilor-result-disclosure" open><summary><span class="local-section-label">選舉概況 / ELECTION OVERVIEW</span><span class="councilor-disclosure-action"></span></summary><div class="councilor-overview-content"><div id="legislator-election-stats" class="election-overview-grid"></div></div></details>
+      <details id="legislator-election-overview" class="councilor-result-disclosure" open><summary><span class="local-section-label">選舉概況 / ELECTION OVERVIEW</span><span class="councilor-disclosure-action" aria-hidden="true"></span></summary><div class="councilor-overview-content"><div id="legislator-election-stats" class="election-overview-grid"></div></div></details>
       <details class="councilor-result-disclosure" open><summary><span class="local-section-label">席次概覽 / SEAT OVERVIEW</span><span class="councilor-disclosure-action"></span></summary><div class="councilor-overview-content"><div id="local-seat-grid" class="local-seat-grid"></div><div id="local-overview-note" class="local-overview-note"></div></div></details>
       <details id="legislator-special" class="councilor-result-disclosure"><summary><span class="local-section-label">原住民與不分區 / SPECIAL CONSTITUENCIES</span><span class="councilor-disclosure-action"></span></summary><div id="legislator-special-content" class="legislator-special-content"></div></details>
       <section class="councilor-area-section"><div class="councilor-area-toolbar"><div class="local-section-label">區域結果 / DISTRICT RESULT</div><label class="councilor-area-picker" for="legislator-area-select"><span>選擇縣市</span><select id="legislator-area-select"><option value="">全台概覽</option></select></label></div><div id="local-county-detail" class="local-empty"><strong>目前顯示全台概覽</strong>選擇縣市或點擊地圖，查看該屆原始選區候選人與當選結果。</div></section>
@@ -72,6 +72,6 @@
 </main>
 <footer class="brand-site-footer"><div><a href="../#map" class="brand-site-footer__lockup" aria-label="返回島民選舉地圖首頁"><img src="/assets/brand/formosa-lockup.png" alt="Formosa Observatory 島民觀察室"></a><div class="brand-site-footer__meta">© 2026 Formosa Observatory 島民觀察室<br>Independent Taiwan Election &amp; Civic Data Platform</div></div><div class="brand-site-footer__note">本站為獨立民間資訊平台，非中央選舉委員會或任何政府機關之官方網站。<br><a href="../#contact">資料更正與聯絡</a></div></footer>
 <div id="local-tooltip" class="local-tooltip"></div>
-<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script><script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script><script src="./legislator.js?v=20260926"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script><script src="./product-ui.js"></script><script src="./premium.js?v=20260925-paired-fit"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script><script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script><script src="./legislator.js?v=20260926-overview1"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script><script src="./product-ui.js"></script><script src="./premium.js?v=20260925-paired-fit"></script>
 </body>
 </html>
