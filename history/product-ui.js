@@ -194,6 +194,35 @@
     requestAnimationFrame(check);addEventListener('resize',check,{passive:true});setTimeout(check,800);
   }
 
+  function buildMobileRegionPicker(){
+    const title=document.querySelector('.map-title,.local-map-title');
+    const panel=title?.closest('.map-panel,.local-map-panel');
+    const source=document.querySelector('#president-area-select,#local-area-select,#councilor-area-select,#legislator-area-select');
+    if(!title||!panel||!source||title.querySelector('.history-mobile-region-picker'))return;
+
+    const copy=document.createElement('span');copy.className='history-map-title-copy';
+    [...title.children].filter(child=>child.matches('small,strong')).forEach(child=>copy.appendChild(child));
+    title.prepend(copy);
+    const label=document.createElement('label');label.className='history-mobile-region-picker';
+    label.innerHTML='<span>快速選擇縣市</span><select aria-label="快速選擇縣市"><option value="">選擇縣市</option></select>';
+    title.appendChild(label);
+    const select=label.querySelector('select');
+
+    const optionMarkup=option=>`<option value="${option.value.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;')}">${option.textContent}</option>`;
+    const syncOptions=()=>{const keep=select.value,options=[...source.options].filter(option=>option.value);select.innerHTML='<option value="">選擇縣市</option>'+options.map(optionMarkup).join('');select.value=options.some(option=>option.value===keep)?keep:''};
+    syncOptions();
+    new MutationObserver(syncOptions).observe(source,{childList:true,subtree:true});
+    source.addEventListener('change',()=>{select.value=source.value||''});
+
+    const compareActive=()=>body.classList.contains('archive-comparing')||body.classList.contains('local-compare-active')||body.classList.contains('compare-map-active');
+    const resultTarget=()=>compareActive()?document.querySelector('#archive-compare-detail,#local-compare-detail'):document.querySelector('.archive-area-section,.councilor-area-section,#county-detail,#local-county-detail');
+    const scrollToResult=()=>requestAnimationFrame(()=>requestAnimationFrame(()=>{const target=resultTarget();if(target)target.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'})}));
+
+    select.addEventListener('change',()=>{const name=select.value;if(!name)return;dispatchEvent(new CustomEvent('history:regionselect',{detail:{name,mode:compareActive()?'compare':'single'}}));scrollToResult()});
+    document.addEventListener('click',event=>{const region=event.target.closest?.('[data-county]')?.dataset?.county;if(region&&[...select.options].some(option=>option.value===region))select.value=region},true);
+    document.querySelectorAll('#archive-mode-single,#archive-mode-compare,#local-mode-switch [data-mode]').forEach(button=>button.addEventListener('click',()=>{select.value=''}));
+  }
+
   function interactiveFeedback(){
     if(reduce)return;
     const cardSelector='.overview-stat,.insight-card,.local-seat-card,.county-card,.county-summary,.archive-compare-stat,.local-compare-stat,.local-compare-detail,.paired-compare-chart,.councilor-district,.councilor-town-votes';
@@ -249,7 +278,7 @@
 
   window.historyNavigate=navigate;
   addEventListener('history:contentchange',animateContentChange);
-  buildNavTitle();buildMobileNav();buildTransition();watchDynamic();enhanceYearSwitch();enableElectionTypeRouting();interceptNavigation();navScroll();mobileSafety();interactiveFeedback();
+  buildNavTitle();buildMobileNav();buildTransition();watchDynamic();enhanceYearSwitch();enableElectionTypeRouting();interceptNavigation();navScroll();mobileSafety();buildMobileRegionPicker();interactiveFeedback();
   const fromTransition=inboundTransition();
   if(document.readyState==='complete')initialReveal(fromTransition);else addEventListener('load',()=>initialReveal(fromTransition),{once:true});
 })();

@@ -204,7 +204,7 @@
       $('#local-compare-stats').innerHTML=`<div class="local-compare-stat"><strong>${rows.length}</strong><span>比較縣市</span></div><div class="local-compare-stat"><strong>${seatFor(rows,'a','DPP')}→${seatFor(rows,'b','DPP')}</strong><span>DPP 席次</span></div><div class="local-compare-stat"><strong>${seatFor(rows,'a','KMT')}→${seatFor(rows,'b','KMT')}</strong><span>KMT 席次</span></div>`;
       $('#local-flips').innerHTML=flips.length?flips.map(r=>`<button type="button" class="local-flip-chip changed" data-county="${esc(r.name)}"><i style="background:${partyColor(r.aParty)}"></i><span>${esc(r.name)}</span><b>→</b><i style="background:${partyColor(r.bParty)}"></i></button>`).join(''):'<span class="local-flip-chip">這兩屆沒有勝方政黨翻轉</span>';
       $$('#local-flips [data-county]').forEach(b=>b.addEventListener('click',()=>{compareSelection=b.dataset.county;renderCompareDetail(rows.find(r=>r.name===compareSelection));drawLocalComparisonMaps(rows)}));
-      if(!flips.some(r=>r.name===compareSelection))compareSelection=(flips[0]||rows[0])?.name||'';
+      if(!rows.some(r=>r.name===compareSelection))compareSelection=(flips[0]||rows[0])?.name||'';
       renderLegend(rows);renderCompareChart(aData,bData,rows);renderCompareDetail(rows.find(r=>r.name===compareSelection));renderCompareInsets(rows);lastPainter=()=>drawLocalComparisonMaps(rows);requestAnimationFrame(lastPainter);
       const boundaryNote=rows.length<22?` 早期合併前有獨立縣、市選舉，本次僅比較行政區可一對一對應的 ${rows.length} 個地區。`:'';
       $('#local-map-status').innerHTML=(layer==='winner'?'<b>勝方版圖：</b>左右分別呈現各年度縣市當選者政黨，點擊任一縣市可同步查看兩屆資料。':layer==='share'?`<b>${PARTY_LABEL[party]}得票率：</b>左右地圖顏色越深，代表該年度該黨在縣市的得票率越高。`:'<b>藍綠差距：</b>左右地圖分別呈現各年度 DPP − KMT 得票率差，綠色偏 DPP、藍色偏 KMT。')+boundaryNote;
@@ -230,6 +230,7 @@
   async function changeYear(next){if(!YEARS.includes(next)||next===year)return;year=next;await render();window.dispatchEvent(new CustomEvent('history:contentchange',{detail:{label:`${year} 縣市長選舉`}}))}
   function showError(err){console.error(err);$('#local-map-status').innerHTML='<b>資料載入失敗。</b> 請重新整理；若持續發生，請回報島民觀察室。';const d=$('#local-county-detail');d.className='local-empty';d.innerHTML=`<strong>無法載入選舉資料</strong>${esc(err?.message||err)}`}
   function bind(){
+    addEventListener('history:regionselect',e=>{if(e.detail?.name)selectCounty(e.detail.name)});
     $('#local-election-type').addEventListener('change',e=>{if(e.target.value==='president'){const url='./?type=president&year=2024&level=national';if(typeof window.historyNavigate==='function')window.historyNavigate(url,'總統副總統');else location.href=url}else if(e.target.value==='legislator'){const url='./legislator.html?type=legislator&year=2024&level=national';if(typeof window.historyNavigate==='function')window.historyNavigate(url,'立法委員');else location.href=url}else if(e.target.value==='councilor'){const url='./councilor.html?type=councilor&year=2022&level=national';if(typeof window.historyNavigate==='function')window.historyNavigate(url,'縣市議員');else location.href=url}else e.target.value='local-executive'});
     $$('#local-mode-switch [data-mode]').forEach(b=>b.addEventListener('click',()=>{mode=b.dataset.mode;compareSelection='';syncControls();render()}));
     $('#local-year').addEventListener('change',e=>changeYear(Number(e.target.value)));

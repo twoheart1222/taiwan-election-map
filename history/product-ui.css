@@ -24,7 +24,7 @@ body.history-product .nav-right a:hover,body.history-product .nav-right .on{colo
 body.history-product .nav-right .history-support-link{display:inline-flex;align-items:center;padding:8px 16px;border-radius:999px;background:#E4022B;color:#fff;font-weight:800}
 body.history-product .nav-right .history-support-link:hover{color:#fff;background:#ff173f}
 
-.history-mobile-toggle,.history-mobile-menu{display:none}
+.history-mobile-toggle,.history-mobile-menu,.history-mobile-region-picker{display:none}
 .history-nav-title{display:none;color:#8f8880;font:800 11px 'Archivo','Noto Sans TC',sans-serif;letter-spacing:.04em;white-space:nowrap}
 .history-mobile-toggle{width:40px;height:40px;place-items:center;flex:none;border:1px solid #33302b;border-radius:6px;background:#171512;color:#f4f1ea;cursor:pointer;transition:background .28s ease,border-color .28s ease,color .28s ease}
 .history-mobile-toggle:focus-visible{outline:2px solid #E4022B;outline-offset:2px}
@@ -158,6 +158,12 @@ body.history-product details>summary:active{background:rgba(228,2,43,.08)}
   body.history-archive .county-row-share{grid-column:2;min-width:0}.county-row-votes{grid-column:2}
   body.history-archive [data-history-town-drilldown]{min-height:48px;margin:12px 12px 14px!important}
   body.history-product .tooltip{display:none!important}
+  body.history-product :is(.map-title,.local-map-title){right:16px;display:grid;grid-template-columns:minmax(0,1fr) minmax(128px,40%);align-items:end;gap:10px}
+  .history-map-title-copy{display:block;min-width:0}
+  .history-mobile-region-picker{display:grid;gap:4px;min-width:0;color:#71695f;font:800 8px 'Archivo','Noto Sans TC',sans-serif;letter-spacing:.08em}
+  .history-mobile-region-picker select{width:100%;height:40px;appearance:none;border:1px solid #b5aa9b;border-radius:9px;background:#f4f1ea url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23171310' stroke-width='2.4'%3e%3cpath d='M6 9l6 6 6-6'/%3e%3c/svg%3e") no-repeat right 9px center/14px;padding:0 29px 0 9px;color:#171310;font:900 12px 'Noto Sans TC',sans-serif;letter-spacing:0}
+  .history-mobile-region-picker select:focus-visible{outline:2px solid #E4022B;outline-offset:2px}
+  body.history-product :is(.archive-area-section,.councilor-area-section,#archive-compare-detail,#local-compare-detail){scroll-margin-top:calc(var(--history-nav-h) + 14px)}
 
   body.history-town .hero{padding:26px 16px 24px}
   body.history-town .crumb{overflow:auto;white-space:nowrap;scrollbar-width:none}

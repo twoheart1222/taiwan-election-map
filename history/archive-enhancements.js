@@ -235,6 +235,7 @@
     $('#map')?.addEventListener('mousemove',comparePointer,true);$('#map')?.addEventListener('click',compareClick,true);$('#map')?.addEventListener('mouseleave',()=>{const t=$('#tooltip');if(t)t.style.display='none'},true);
     addEventListener('archive:yearchange',()=>{syncRegionControls();renderMobileMap();applyElectedCards();if(mode==='compare'){styleComparisonMaps();updateMapStatus()}else{const region=normalize($('#archive-region-select')?.value);if(level==='county'&&region)requestAnimationFrame(()=>{if(mode==='single'&&level==='county'&&normalize($('#archive-region-select')?.value)===region)chooseRegion(region,{sync:false})})}syncUrl();renderQuerySummary()});
     addEventListener('archive:countychange',e=>{if(mode!=='single')return;level='county';syncLevelButtons();const s=$('#archive-region-select');if(s)s.value=normalize(e.detail?.county);syncUrl();renderQuerySummary()});
+    addEventListener('history:regionselect',e=>{const name=normalize(e.detail?.name);if(!name)return;if(mode==='compare')showCompareDetail(name);else chooseRegion(name)});
   }
 
   async function init(){
