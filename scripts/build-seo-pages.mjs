@@ -72,7 +72,7 @@ ${ldAll}
 ${body}
 <footer>資料整理：${esc(NAME)}（<a href="/">${SITE.replace('https://', '')}</a>），最後更新 <time datetime="${today}">${today}</time>。資料來源包含<a href="https://web.cec.gov.tw/" rel="nofollow">中央選舉委員會</a>、內政部與各縣市議會公開資料。本站為獨立民間資訊平台；資格審查、正式候選人名單、選區與票數以中選會公告為準。聯絡：<a href="mailto:contact@formosaobservatory.com">contact@formosaobservatory.com</a></footer>
 </main>
-<script defer src="/ads/footer-placement.js?v=20260926-1"></script>
+<script defer src="/ads/footer-placement.js?v=20260926-native2"></script>
 </body>
 </html>
 `;
