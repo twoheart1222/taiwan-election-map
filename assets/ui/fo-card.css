@@ -113,3 +113,59 @@
 @media (prefers-reduced-motion:reduce){.bn-tile,.bn-soc,.bn-go{transition:none}}
 .bn-card.is-win .bn-accent{background:#1a1714}
 .bn-card.is-win .bn-accent .bn-label{color:rgba(255,255,255,.7)}
+
+/* ==========================================================================
+   Compact density — the list shows ~2 cards per screen instead of ~1.
+   Same bento structure, tighter rhythm: 6px grid, shorter photo, one-line rows.
+   ========================================================================== */
+.bn-card{gap:6px;padding:6px;border-radius:22px}
+.bn-tile{border-radius:15px;padding:11px 13px}
+.bn-photo{min-height:176px;padding:0}
+.bn-card:has(.bn-tall) .bn-photo{min-height:150px}
+.bn-initial{font-size:52px}
+.bn-cap{padding:30px 12px 10px}
+.bn-role{font-size:11px}
+.bn-name{gap:4px 7px;margin-top:3px}
+.bn-name>span:first-child{font-size:20px}
+.bn-party{padding:2px 8px 2px 2px}
+.bn-party .party-chip{width:18px!important;height:18px!important}
+.bn-party em{font-size:11.5px}
+.bn-stamp{width:52px;height:52px;right:6px;top:6px}
+.bn-metric{min-height:0;gap:4px;justify-content:center}
+.bn-label{font-size:11.5px}
+.bn-value{font-size:21px}
+.bn-pending{font-size:14px}
+.bn-status{padding:7px 7px 7px 10px;gap:8px}
+.bn-chip{padding:4px 9px 4px 7px;border-radius:9px;font-size:12px}
+.bn-soc{width:32px;height:32px;border-radius:10px}
+.bn-soc svg{width:18px;height:18px}
+.bn-link,.bn-disclosure>summary{min-height:42px;font-size:13.5px!important;gap:9px}
+.bn-link,.bn-disclosure>summary{padding:5px 5px 5px 13px}
+.bn-lead{width:15px;height:15px}
+.bn-go{width:30px;height:30px}
+.bn-go .bn-i{width:14px;height:14px}
+.bn-state{font-size:12px}
+/* bottom action row: [socials] [刑事紀錄] [選舉公報] share one line; an opened gazette takes the full width */
+.bn-row{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px;min-width:0}
+.bn-row>.bn-tile{flex:1 1 0;min-width:0}
+.bn-row>.bn-social-tile{flex:none;display:flex;align-items:center;padding:5px}
+.bn-row>.bn-disclosure[open]{flex-basis:100%}
+.bn-row>.bn-link{flex:0 1 auto}
+.bn-win-bar{padding:7px 12px;border-radius:13px}
+.bn-win-bar strong{font-size:13px;gap:6px}
+.bn-win-bar strong svg{width:15px;height:15px}
+.bn-win-bar span{font-size:10px}
+#candidates{gap:10px!important}
+@media(max-width:660px){
+  .bn-card{gap:5px;padding:5px;border-radius:20px}
+  .bn-tile{border-radius:14px;padding:10px 11px}
+  .bn-photo{min-height:160px;padding:0}
+  .bn-name>span:first-child{font-size:18px}
+  .bn-value{font-size:19px}
+  .bn-metric{min-height:0}
+  .bn-status{flex-wrap:nowrap}
+  .bn-chips{flex-wrap:wrap}
+  .bn-soc{width:30px;height:30px}
+  .bn-row>.bn-social-tile{padding:5px}
+  .bn-row>.bn-tile~.bn-disclosure:not([open]) .bn-state{display:none}
+}
