@@ -153,8 +153,11 @@
     $('#local-legend').innerHTML=layer==='share'?`<span><i style="background:${partyColor(party)};opacity:.35"></i>顏色越深＝該年度 ${PARTY_LABEL[party]} 得票率越高</span>`:`<span><i style="background:${COLORS.KMT}"></i>KMT 方向</span><span><i style="background:#e2d9cc"></i>接近</span><span><i style="background:${COLORS.DPP}"></i>DPP 方向</span>`;
   }
   function renderCompareDetail(r){
-    const box=$('#local-compare-detail');if(!r){box.innerHTML='點擊地圖查看縣市變化。';return}const dDelta=r.dA==null||r.dB==null?null:r.dB-r.dA,kDelta=r.kA==null||r.kB==null?null:r.kB-r.kA;
-    box.innerHTML=`<h3>${esc(r.name)}</h3><div><strong>${compareA}</strong>：${esc(r.a.winner.name)} · ${esc(r.a.winner.party)}（${pct(r.a.winner.share)}）</div><div><strong>${compareB}</strong>：${esc(r.b.winner.name)} · ${esc(r.b.winner.party)}（${pct(r.b.winner.share)}）</div><div style="margin-top:8px">DPP：${pct(r.dA)} → ${pct(r.dB)}　${signed(dDelta)} pp</div><div>KMT：${pct(r.kA)} → ${pct(r.kB)}　${signed(kDelta)} pp</div><div>Swing：${signed(r.swing)} pp</div>${r.b.note?`<div style="margin-top:8px">${esc(r.b.note)}</div>`:''}`;$$('#local-flips [data-county]').forEach(button=>button.classList.toggle('selected',button.dataset.county===r.name));
+    const box=$('#local-compare-detail');box.classList.add('archive-compare-detail');if(!r){box.innerHTML='點擊地圖查看縣市變化。';return}
+    const dDelta=r.dA==null||r.dB==null?null:r.dB-r.dA,kDelta=r.kA==null||r.kB==null?null:r.kB-r.kA,share=v=>v==null?'—':pct(v);
+    const winner=(y,w)=>`<div class="archive-compare-detail-cell"><span>${y} 勝方</span><b>${partyBadge(w.partyKey||'IND',20)}<span>${esc(w.name)} · ${esc(w.party)}</span></b></div>`;
+    box.innerHTML=`<strong>${esc(r.name)}</strong>${r.flip?'　·　勝方政黨翻轉':''}<div class="archive-compare-detail-grid">${winner(compareA,r.a.winner)}${winner(compareB,r.b.winner)}<div class="archive-compare-detail-cell"><span>DPP 得票率</span><b>${share(r.dA)} → ${share(r.dB)}${dDelta==null?'':` (${signed(dDelta)}pp)`}</b></div><div class="archive-compare-detail-cell"><span>KMT 得票率</span><b>${share(r.kA)} → ${share(r.kB)}${kDelta==null?'':` (${signed(kDelta)}pp)`}</b></div></div><div class="archive-compare-na">藍綠差距 Swing：${r.swing==null?'—':`${signed(r.swing)}pp`}${r.b.note?`；${esc(r.b.note)}`:''}</div>`;
+    $$('#local-flips [data-county]').forEach(button=>button.classList.toggle('selected',button.dataset.county===r.name));
   }
   function renderCompareChart(aData,bData,rows){
     const aStats=aggregateStats(aData),bStats=aggregateStats(bData),metrics=[

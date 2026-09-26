@@ -99,6 +99,14 @@
   }).observe(body,{childList:true,subtree:true});
   // Map entrance: one rise per page load, spring-driven.
   function mapIn(){document.querySelectorAll('#map,#local-map').forEach(m=>animate(m,{w:11,z:.95},.12,p=>{m.style.opacity=p>=1?'':String(Math.min(1,p*1.25).toFixed(3));m.style.translate=p>=1?'':`0 ${((1-p)*10).toFixed(2)}px`}))}
-  const boot=()=>{mapIn();process(body)};
+  // Pin compare-map svgs under their card header (see premium.css).
+  function pinCompareHeaders(){
+    document.querySelectorAll(':is(.paired-compare-maps,.councilor-compare-maps)>section').forEach(sec=>{
+      if(sec._pmPinned)return;sec._pmPinned=true;const head=sec.querySelector(':scope>header');if(!head)return;
+      const set=()=>{if(head.offsetHeight)sec.style.setProperty("--pm-hdr",`${head.offsetHeight}px`)};set();
+      if('ResizeObserver' in window)new ResizeObserver(set).observe(head);
+    });
+  }
+  const boot=()=>{pinCompareHeaders();mapIn();process(body)};
   if(document.readyState==='loading')addEventListener('DOMContentLoaded',boot,{once:true});else boot();
 })();
