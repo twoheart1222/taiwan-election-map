@@ -38,7 +38,7 @@ test('homepage displays both the compact mark and full lockup', () => {
 });
 
 test('history and observatory footers display the full brand lockup', () => {
-  for (const file of ['history/index.html', 'history/local-executive.html', 'history/councilor.html', 'history/town.html', 'observatory.dc.html']) {
+  for (const file of ['history/index.html', 'history/legislator.html', 'history/local-executive.html', 'history/councilor.html', 'history/town.html', 'observatory.dc.html']) {
     const html = text(file);
     assert.match(html, /assets\/brand\/formosa-lockup\.png/, file);
     assert.match(html, /Independent Taiwan Election &amp; Civic Data Platform/, file);

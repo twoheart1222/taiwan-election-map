@@ -329,3 +329,27 @@ test('official CEC legislator archive covers every published term without invent
     }
   }
 });
+
+test('legislator archive is exposed as a complete interactive history page', async () => {
+  const [html, script, css, indexEnhancements, localHtml, councilorHtml] = await Promise.all([
+    readFile(new URL('../history/legislator.html', import.meta.url), 'utf8'),
+    readFile(new URL('../history/legislator.js', import.meta.url), 'utf8'),
+    readFile(new URL('../history/legislator.css', import.meta.url), 'utf8'),
+    readFile(new URL('../history/archive-enhancements.js', import.meta.url), 'utf8'),
+    readFile(new URL('../history/local-executive.html', import.meta.url), 'utf8'),
+    readFile(new URL('../history/councilor.html', import.meta.url), 'utf8'),
+  ]);
+  new vm.Script(script, { filename: 'history/legislator.js' });
+  assert.match(html, /1995–2024/);
+  assert.match(html, /id="legislator-special"/);
+  assert.match(html, /id="legislator-compare-maps"/);
+  assert.match(script, /legislator\.json/);
+  assert.match(script, /歷史選區|複數選區/);
+  assert.match(script, /legacyAdditionalSeats/);
+  assert.match(script, /officialCode==='L4'/);
+  assert.match(script, /function renderCompare\(/);
+  assert.match(css, /\.legislator-special-card/);
+  assert.match(indexEnhancements, /id:'legislator',label:'立法委員',available:true/);
+  assert.doesNotMatch(localHtml, /value="legislator" disabled/);
+  assert.doesNotMatch(councilorHtml, /value="legislator" disabled/);
+});
