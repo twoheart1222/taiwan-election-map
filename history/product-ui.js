@@ -25,7 +25,7 @@
   function buildNavTitle(){
     const nav=document.querySelector('.site-nav');if(!nav||nav.querySelector('.history-nav-title'))return;
     const context=document.createElement('span');context.className='history-nav-title';
-    context.textContent=body.classList.contains('councilor-page')?'歷年選舉 · 縣市議員':body.classList.contains('local-executive-page')?'歷年選舉 · 縣市長':isTown?'歷年選舉 · 鄉鎮結果':'歷年選舉 · 總統';
+    context.textContent=body.classList.contains('legislator-page')?'歷年選舉 · 立法委員':body.classList.contains('councilor-page')?'歷年選舉 · 縣市議員':body.classList.contains('local-executive-page')?'歷年選舉 · 縣市長':isTown?'歷年選舉 · 鄉鎮結果':'歷年選舉 · 總統';
     nav.insertBefore(context,nav.querySelector('.nav-right'));
   }
 
@@ -46,6 +46,7 @@
       if(destination.hash==='#contact')return '聯絡我們';
       return '島民選舉地圖';
     }
+    if(/legislator\.html/.test(url))return '立法委員';
     if(/councilor\.html/.test(url))return '縣市議員';
     if(/local-executive\.html/.test(url))return '縣市長';
     if(/town\.html/.test(url))return document.getElementById('crumb-county')?.textContent||'鄉鎮市區';
@@ -141,13 +142,16 @@
   }
 
   function enableElectionTypeRouting(){
-    if(isTown||body.classList.contains('local-executive-page'))return;
+    if(isTown||body.classList.contains('local-executive-page')||body.classList.contains('councilor-page'))return;
     const enable=()=>{
       const select=document.getElementById('archive-election-type');
       const option=select?.querySelector('option[value="local-executive"]');
-      if(!option)return false;
+      const legislator=select?.querySelector('option[value="legislator"]');
+      if(!option||!legislator)return false;
       if(option.disabled)option.disabled=false;
       if(option.textContent!=='縣市長')option.textContent='縣市長';
+      if(legislator.disabled)legislator.disabled=false;
+      if(legislator.textContent!=='立法委員')legislator.textContent='立法委員';
       return true;
     };
     enable();
@@ -155,10 +159,11 @@
     observer.observe(document.documentElement,{childList:true,subtree:true});
     document.addEventListener('change',e=>{
       const select=e.target;
-      if(!(select instanceof HTMLSelectElement)||select.id!=='archive-election-type'||select.value!=='local-executive')return;
+      if(!(select instanceof HTMLSelectElement)||select.id!=='archive-election-type'||!['local-executive','legislator'].includes(select.value))return;
       e.preventDefault();e.stopImmediatePropagation();
-      const url=new URL('./local-executive.html',location.href);url.search='?type=local-executive&year=2022&level=national';
-      navigate(url.href,'縣市長');
+      const isLegislator=select.value==='legislator';
+      const url=new URL(isLegislator?'./legislator.html':'./local-executive.html',location.href);url.search=isLegislator?'?type=legislator&year=2024&level=national':'?type=local-executive&year=2022&level=national';
+      navigate(url.href,isLegislator?'立法委員':'縣市長');
     },true);
   }
 

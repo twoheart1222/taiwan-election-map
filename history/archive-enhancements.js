@@ -5,7 +5,7 @@
   const ISLANDS=['澎湖縣','金門縣','連江縣'];
   const ELECTION_TYPES=[
     {id:'president',label:'總統副總統',available:true},
-    {id:'legislator',label:'立法委員',available:false},
+    {id:'legislator',label:'立法委員',available:true},
     {id:'local-executive',label:'縣市長',available:true},
     {id:'councilor',label:'縣市議員',available:true}
   ];
@@ -49,6 +49,7 @@
       staticBox.replaceWith(select);
       const label=select.closest('.archive-query-field')?.querySelector('label');if(label)label.htmlFor=select.id;
       select.addEventListener('change',()=>{
+        if(select.value==='legislator'){const url='./legislator.html?type=legislator&year=2024&level=national';if(typeof window.historyNavigate==='function')window.historyNavigate(url,'立法委員');else location.href=url;return}
         if(select.value==='councilor'){const url='./councilor.html?type=councilor&year=2022&level=national';if(typeof window.historyNavigate==='function')window.historyNavigate(url,'縣市議員');else location.href=url;return}
         if(select.value!=='president'){select.value='president';return}electionType='president';syncUrl();renderQuerySummary();
       });

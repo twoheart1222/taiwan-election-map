@@ -1,0 +1,12 @@
+.legislator-page{--legislator-paper:#eee9df}
+.legislator-special-content{display:grid;gap:12px;padding:14px 0 2px}
+.legislator-special-card{border:1px solid #302c27;border-radius:14px;background:#171512;overflow:hidden}
+.legislator-special-card>header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 15px;border-bottom:1px solid #302c27}
+.legislator-special-card h3{margin:0;font-size:16px}.legislator-special-card header span{color:#989187;font-size:12px;font-weight:700}
+.legislator-party-list,.legislator-candidate-list{display:grid;gap:7px;padding:10px}
+.legislator-party-row,.legislator-candidate-row{display:grid;grid-template-columns:minmax(0,1.5fr) auto auto;align-items:center;gap:12px;padding:11px 12px;border-radius:10px;background:#201d19;color:#eee9df}
+.legislator-candidate-row{grid-template-columns:minmax(0,1.5fr) minmax(100px,1fr) auto}.legislator-candidate-row.elected{background:#eee9df;color:#171411}
+.legislator-party-row span,.legislator-candidate-row span{min-width:0;font-size:12px;font-weight:700}.legislator-party-row strong,.legislator-candidate-row strong{text-align:right;font-size:14px}.legislator-party-row small,.legislator-candidate-row small{color:#9d958b;text-align:right}.legislator-candidate-row.elected small{color:#6e675f}
+.legislator-district-note{margin:10px 0 0;color:#8f887e;font-size:12px;line-height:1.7}
+.legislator-page .councilor-compare-maps{min-height:640px}
+@media(max-width:760px){.legislator-party-row,.legislator-candidate-row{grid-template-columns:minmax(0,1fr) auto}.legislator-party-row small,.legislator-candidate-row small{grid-column:1/-1;text-align:left}.legislator-page .councilor-compare-maps{min-height:520px}}
