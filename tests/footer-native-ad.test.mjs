@@ -13,7 +13,7 @@ test('footer ads use the vendor native container without the cookie-blocking san
   assert.doesNotMatch(home, /src=["']\/ads\/footer\.html/);
 });
 
-test('public election and history pages load the current footer ad once', async () => {
+test('required pages load the current footer ad once; election pages may omit ads', async () => {
   const paths = ['index.html', 'observatory.dc.html'];
   async function walk(dir) {
     for (const entry of await readdir(new URL(`../${dir}/`, import.meta.url), { withFileTypes: true })) {
@@ -26,6 +26,11 @@ test('public election and history pages load the current footer ad once', async 
   await walk('history');
   for (const path of paths) {
     const html = await readFile(new URL(`../${path}`, import.meta.url), 'utf8');
-    assert.equal((html.match(/\/ads\/footer-placement\.js\?v=20260926-native2/g) || []).length, 1, path);
+    const loaders = [...html.matchAll(/<script\b[^>]*\bsrc=["'](\/ads\/footer-placement\.js[^"']*)["'][^>]*>/gi)];
+    // Candidate pages can be uploaded independently and remain ad-free.
+    // Once opted in, they must use exactly one current loader too.
+    if (path.startsWith('election/') && loaders.length === 0) continue;
+    assert.equal(loaders.length, 1, `${path}: expected one footer ad loader`);
+    assert.equal(loaders[0][1], '/ads/footer-placement.js?v=20260926-native2', `${path}: outdated footer ad loader`);
   }
 });
