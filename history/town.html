@@ -31,9 +31,10 @@
 .side{padding:clamp(24px,4vw,42px);background:#12100e}.eyebrow{font:800 10px 'Archivo';letter-spacing:.2em;color:#918b82}.side h2{margin:8px 0 0;font-size:30px;letter-spacing:-.03em}.county-summary{margin-top:18px;padding:16px;border:1px solid #37322d;border-radius:14px;background:#181512}.summary-row{display:flex;justify-content:space-between;gap:14px;align-items:flex-end}.summary-row strong{font:900 22px 'Archivo'}.summary-row span{font-size:11px;color:#8f8981}.section{margin-top:26px;border-top:1px solid var(--line);padding-top:22px}.section-label{font:800 10px 'Archivo';letter-spacing:.18em;color:#918b82;margin-bottom:10px}.candidate{border-bottom:1px solid #292521;padding:11px 0}.candidate:last-child{border-bottom:0}.cand-main{display:flex;justify-content:space-between;gap:12px}.cand-name{font-weight:900;font-size:14px}.cand-party{font-size:10px;color:#817a72;margin-top:2px}.cand-votes{text-align:right;font:900 14px 'Archivo'}.cand-votes small{display:block;font-size:10px;color:#817a72;margin-top:2px}.empty{border:1px dashed #3c3732;border-radius:14px;padding:18px;color:#918b82;font-size:12px;line-height:1.8}.town-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;max-height:340px;overflow:auto}.town-btn{border:1px solid #302c27;border-radius:10px;background:#171411;color:#bdb5ac;padding:9px 10px;text-align:left;cursor:pointer;font-size:11px;font-weight:800}.town-btn:hover,.town-btn.on{border-color:var(--red);color:#fff}.source{margin-top:24px;color:#6f6962;font-size:10px;line-height:1.7}.source a{text-decoration:underline;text-underline-offset:3px}
 @media(max-width:900px){.layout{grid-template-columns:1fr}.map-panel{min-height:560px;border-right:0;border-bottom:1px solid #1c1a17}.side{padding-bottom:54px}}@media(max-width:520px){.site-nav{height:56px}.nav-right{display:none}.hero h1{font-size:48px}.map-panel{min-height:500px}#map{inset:76px 6px 54px}.town-list{grid-template-columns:repeat(3,minmax(0,1fr))}}
 </style>
-<link rel="stylesheet" href="./product-ui.css">
+<link rel="stylesheet" href="./product-ui.css?v=20260926-fo-ui">
 <link rel="stylesheet" href="./election-palette.css?v=20260925-no-crop2">
-<link rel="stylesheet" href="./premium.css?v=20260925-paired-fit">
+<link rel="stylesheet" href="/assets/ui/fo-ui.css?v=20260926-fo-ui">
+<link rel="stylesheet" href="./premium.css?v=20260926-fo-ui">
 </head>
 <body class="history-product history-town">
 <nav class="site-nav"><a class="brand" href="../"><img class="brand-mark" src="/assets/brand/formosa-mark.png" alt=""><span>島民觀察室</span></a><div class="nav-right"><a href="../#map">選舉地圖</a><a class="on" href="./">歷年選舉</a><a href="../#observatory">政治觀察</a><a href="../#about">關於我們</a></div></nav>
@@ -141,7 +142,7 @@ new ResizeObserver(scheduleDraw).observe(document.querySelector('.map-panel'));
 init();
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="./product-ui.js"></script>
-<script src="./premium.js?v=20260925-paired-fit"></script>
+<script src="./product-ui.js?v=20260926-fo-ui"></script>
+<script src="/assets/ui/fo-motion.js?v=20260926-fo-ui"></script><script src="./premium.js?v=20260926-fo-ui"></script>
 </body>
 </html>

@@ -223,62 +223,9 @@
     document.querySelectorAll('#archive-mode-single,#archive-mode-compare,#local-mode-switch [data-mode]').forEach(button=>button.addEventListener('click',()=>{select.value=''}));
   }
 
-  function interactiveFeedback(){
-    if(reduce)return;
-    const cardSelector='.overview-stat,.insight-card,.local-seat-card,.county-card,.county-summary,.archive-compare-stat,.local-compare-stat,.local-compare-detail,.paired-compare-chart,.councilor-district,.councilor-town-votes';
-    const revealSelector='.archive-result-disclosure,.overview-stat,.insight-card,.local-seat-card,.councilor-area,.paired-compare-chart';
-    const revealObserver='IntersectionObserver' in window?new IntersectionObserver(entries=>entries.forEach(entry=>{
-      if(!entry.isIntersecting)return;
-      entry.target.classList.add('history-in-view');
-      revealObserver.unobserve(entry.target);
-    }),{threshold:.08,rootMargin:'0px 0px -28px'}):null;
-    body.classList.add('history-motion-ready');
-    const enhance=root=>{
-      const scope=root instanceof Element?root:document;
-      const cards=[...(scope.matches?.(cardSelector)?[scope]:[]),...scope.querySelectorAll(cardSelector)];
-      cards.forEach(card=>{
-        if(card.classList.contains('history-interactive-card'))return;
-        card.classList.add('history-interactive-card');
-        card.addEventListener('pointermove',event=>{
-          if(event.pointerType==='touch')return;
-          const rect=card.getBoundingClientRect();
-          card.style.setProperty('--history-spot-x',`${event.clientX-rect.left}px`);
-          card.style.setProperty('--history-spot-y',`${event.clientY-rect.top}px`);
-        },{passive:true});
-      });
-      const reveals=[...(scope.matches?.(revealSelector)?[scope]:[]),...scope.querySelectorAll(revealSelector)];
-      reveals.forEach(item=>{
-        if(item.classList.contains('history-reveal-item'))return;
-        item.classList.add('history-reveal-item');
-        if(revealObserver)revealObserver.observe(item);else item.classList.add('history-in-view');
-      });
-    };
-    enhance(document);
-    new MutationObserver(records=>records.forEach(record=>record.addedNodes.forEach(node=>{if(node instanceof Element)enhance(node)}))).observe(body,{childList:true,subtree:true});
-    document.querySelectorAll('.map-panel,.local-map-panel').forEach(panel=>{
-      panel.classList.add('history-map-atmosphere');
-      panel.addEventListener('pointermove',event=>{
-        if(event.pointerType==='touch')return;
-        const rect=panel.getBoundingClientRect();
-        panel.style.setProperty('--history-map-x',`${event.clientX-rect.left}px`);
-        panel.style.setProperty('--history-map-y',`${event.clientY-rect.top}px`);
-        panel.classList.add('pointer-active');
-      },{passive:true});
-      panel.addEventListener('pointerleave',()=>panel.classList.remove('pointer-active'));
-    });
-    document.addEventListener('pointerdown',event=>{
-      const button=event.target.closest('.year-btn,.town-btn,.archive-segment button,.local-segment button,.local-layer-switch button,.archive-flip,.local-reset,.archive-query-reset,.local-inset');
-      if(!button||event.pointerType==='touch'&&button.disabled)return;
-      button.classList.add('history-ripple-host');
-      const rect=button.getBoundingClientRect(),ripple=document.createElement('span');
-      ripple.className='history-ripple';ripple.style.left=`${event.clientX-rect.left}px`;ripple.style.top=`${event.clientY-rect.top}px`;
-      button.appendChild(ripple);setTimeout(()=>ripple.remove(),650);
-    },{passive:true});
-  }
-
   window.historyNavigate=navigate;
   addEventListener('history:contentchange',animateContentChange);
-  buildNavTitle();buildMobileNav();buildTransition();watchDynamic();enhanceYearSwitch();enableElectionTypeRouting();interceptNavigation();navScroll();mobileSafety();buildMobileRegionPicker();interactiveFeedback();
+  buildNavTitle();buildMobileNav();buildTransition();watchDynamic();enhanceYearSwitch();enableElectionTypeRouting();interceptNavigation();navScroll();mobileSafety();buildMobileRegionPicker();
   const fromTransition=inboundTransition();
   if(document.readyState==='complete')initialReveal(fromTransition);else addEventListener('load',()=>initialReveal(fromTransition),{once:true});
 })();
