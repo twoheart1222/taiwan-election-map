@@ -911,15 +911,12 @@ class App {
           return;
         }
         results.dataset.mode = 'name';
-        const rank = name => name === query ? 0 : name.startsWith(query) ? 1 : 2;
-        const directMatches = index.candidates
-          .map(candidate => ({ candidate, key: this._normalizeSearch(candidate.name) }))
-          .filter(item => item.key.includes(query))
-          .sort((a, b) => rank(a.key) - rank(b.key) || a.candidate.name.localeCompare(b.candidate.name, 'zh-Hant'))
-          .map(item => item.candidate);
-        const phoneticMatches = directMatches.length ? [] : this._phoneticCandidateMatches(input.value, index);
-        this._searchMatches = directMatches.length ? directMatches : phoneticMatches;
-        this._searchSuggestionMode = !directMatches.length && phoneticMatches.length > 0;
+        const directMatches = this._directCandidateMatches(input.value, index);
+        const suggestedMatches = this._phoneticCandidateMatches(input.value, index)
+          .filter(candidate => !directMatches.includes(candidate));
+        this._searchMatches = [...directMatches, ...suggestedMatches].slice(0, 60);
+        const hasOfficialNameMatch = directMatches.some(candidate => this._normalizeSearch(candidate.name).includes(query));
+        this._searchSuggestionMode = !hasOfficialNameMatch && this._searchMatches.length > 0;
         this._searchActive = -1;
         this._renderCandidateSearchResults(results, this._searchMatches, this._searchSuggestionMode);
       } catch (error) {
@@ -978,12 +975,34 @@ class App {
     return String(value || '').normalize('NFKC').toLocaleLowerCase('zh-TW').replace(/[\s\u3000·‧・]/g, '');
   }
 
+  _candidateNames(candidate) {
+    return [candidate.name, ...(candidate.aliases || [])]
+      .map(value => this._normalizeSearch(value))
+      .filter(Boolean);
+  }
+
+  _directCandidateMatches(raw, index) {
+    const query = this._normalizeSearch(raw);
+    if (!query) return [];
+    const rank = key => key === query ? 0 : key.startsWith(query) ? 1 : key.includes(query) ? 2 : 3;
+    return (index.candidates || [])
+      .map(candidate => {
+        const scores = this._candidateNames(candidate)
+          .filter(key => key.includes(query))
+          .map(rank);
+        return { candidate, score: scores.length ? Math.min(...scores) : Infinity };
+      })
+      .filter(item => Number.isFinite(item.score))
+      .sort((a, b) => a.score - b.score || a.candidate.name.length - b.candidate.name.length || a.candidate.name.localeCompare(b.candidate.name, 'zh-Hant'))
+      .map(item => item.candidate);
+  }
+
   _phoneticCandidateMatches(raw, index) {
     const query = [...this._normalizeSearch(raw)]
       .map(character => index.phoneticMap?.[character] || (/^[a-z0-9]$/i.test(character) ? character.toLowerCase() : ''))
       .filter(Boolean);
     if (query.length < 2) return [];
-    const distance = (a, b) => {
+    const stringDistance = (a, b) => {
       const row = Array.from({ length: b.length + 1 }, (_, i) => i);
       for (let i = 1; i <= a.length; i++) {
         let previous = row[0]; row[0] = i;
@@ -995,11 +1014,26 @@ class App {
       }
       return row[b.length];
     };
-    const allowance = Math.max(1, Math.floor(query.length * .34));
+    const syllableCost = (a, b) => a === b ? 0 : stringDistance(a, b) / Math.max(a.length, b.length, 1);
+    const scorePronunciation = pronunciation => {
+      if (!pronunciation?.length) return Infinity;
+      const compared = pronunciation.slice(0, query.length);
+      let score = 0;
+      for (let i = 0; i < query.length; i++) score += compared[i] ? syllableCost(query[i], compared[i]) : 1;
+      score /= query.length;
+      if (pronunciation.length < query.length) score += (query.length - pronunciation.length) * .4;
+      return score;
+    };
     return (index.candidates || [])
-      .map(candidate => ({ candidate, distance: distance(query, candidate.phonetic || []) }))
-      .filter(item => item.distance <= allowance)
-      .sort((a, b) => a.distance - b.distance || Math.abs((a.candidate.phonetic || []).length - query.length) - Math.abs((b.candidate.phonetic || []).length - query.length) || a.candidate.name.localeCompare(b.candidate.name, 'zh-Hant'))
+      .map(candidate => {
+        const runtimePhonetic = [...this._normalizeSearch(candidate.name)]
+          .map(character => index.phoneticMap?.[character] || '')
+          .filter(Boolean);
+        const pronunciations = [candidate.phonetic, ...(candidate.phoneticAliases || []), runtimePhonetic];
+        return { candidate, score: Math.min(...pronunciations.map(scorePronunciation)) };
+      })
+      .filter(item => item.score <= .56)
+      .sort((a, b) => a.score - b.score || Math.abs((a.candidate.phonetic || []).length - query.length) - Math.abs((b.candidate.phonetic || []).length - query.length) || a.candidate.name.localeCompare(b.candidate.name, 'zh-Hant'))
       .slice(0, 30)
       .map(item => item.candidate);
   }
@@ -1254,7 +1288,7 @@ class App {
   async _loadCandidateSearch() {
     if (this._candidateSearch) return this._candidateSearch;
     this._candidateSearch = (async () => {
-      const response = await fetch('./data/candidate_search.json');
+      const response = await fetch('./data/candidate_search.json?v=20260926-search2');
       if (!response.ok) throw new Error(`candidate search ${response.status}`);
       const index = await response.json();
       const overrides = await this._ensureFullOverrides();
@@ -1265,6 +1299,7 @@ class App {
 
   _mergeSearchOverrides(index, overrides) {
     const original = index.candidates || [];
+    const searchNameKey = value => String(value || '').normalize('NFKC').toLocaleLowerCase('zh-TW').replace(/[\s\u3000·‧・]/g, '');
     const priorByAreaSource = new Map();
     original.forEach(candidate => {
       const key = `${candidate.areaId}|${candidate.source}`;
@@ -1288,7 +1323,16 @@ class App {
           return groups;
         }, new Map())].map(([district, rows]) => ({ district, candidates: rows }));
         const merged = ElectionData.mergeArea({ [source]: local }, { schemaVersion: patch.schemaVersion, [source]: patch[source] });
-        const add = (c, district = null) => { if (c.name) additions.push({ ...c, ...context, areaId, source, district }); };
+        const add = (c, district = null) => {
+          if (!c.name) return;
+          const indexed = prior.find(item => searchNameKey(item.name) === searchNameKey(c.name)
+            && String(item.district ?? '') === String(district ?? ''));
+          const searchMetadata = indexed ? {
+            phonetic: indexed.phonetic,
+            ...(indexed.aliases?.length ? { aliases: indexed.aliases, phoneticAliases: indexed.phoneticAliases || [] } : {}),
+          } : {};
+          additions.push({ ...searchMetadata, ...c, ...context, areaId, source, district });
+        };
         if (source === 'candidates') (merged[source] || []).forEach(c => add(c));
         else ElectionData.blocksOf(merged[source]).forEach(b => (b.candidates || []).forEach(c => add(c, b.district)));
       }
@@ -1323,7 +1367,7 @@ class App {
     }
     const limit = 30;
     if (isPhoneticSuggestion) {
-      const note = document.createElement('div'); note.className = 'search-message'; note.textContent = '找不到完全相同的姓名，以下是讀音相近的候選人：'; container.appendChild(note);
+      const note = document.createElement('div'); note.className = 'search-message'; note.textContent = '找不到完全相同的姓名，以下是別名、常見字或讀音相近的候選人：'; container.appendChild(note);
     }
     matches.slice(0, limit).forEach((candidate, index) => {
       const button = document.createElement('button');
