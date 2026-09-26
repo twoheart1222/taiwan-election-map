@@ -51,7 +51,8 @@ try{
   assert((await type.locator('option[value="local-executive"]').textContent())?.trim()==='縣市長','local-executive label should no longer say building');
   assert(await type.locator('option[value="councilor"]').evaluate(el=>el.disabled===false),'councilor should be enabled after data integration');
   assert((await type.locator('option[value="councilor"]').textContent())?.trim()==='縣市議員','councilor label should no longer say building');
-  assert(await type.locator('option[value="legislator"]').evaluate(el=>el.disabled===true),'legislator should remain disabled until data exists');
+  assert(await type.locator('option[value="legislator"]').evaluate(el=>el.disabled===false),'legislator should be enabled after data integration');
+  assert((await type.locator('option[value="legislator"]').textContent())?.trim()==='立法委員','legislator label should no longer say building');
   let summary=await text(page,'#archive-query-path');
   assert(summary.includes('總統副總統')&&summary.includes('2024')&&summary.includes('全國'),'default query summary is incomplete');
   assert(params(page).get('type')==='president','type query state missing');
@@ -131,9 +132,13 @@ try{
   await routePage.waitForURL(/\/history\/councilor\.html\?type=councilor&year=2022&level=national/,{timeout:10000});
   await routePage.locator('#local-seat-grid .local-seat-card').first().waitFor({state:'visible',timeout:30000});
   assert(await routePage.locator('#local-election-type').inputValue()==='councilor','archive type router did not land on councilor page');
+  await routePage.locator('#local-election-type').selectOption('legislator');
+  await routePage.waitForURL(/\/history\/legislator\.html\?type=legislator&year=2024&level=national/,{timeout:10000});
+  await routePage.locator('#legislator-special-content .legislator-special-card').first().waitFor({state:'visible',timeout:30000});
+  assert(await routePage.locator('#local-election-type').inputValue()==='legislator','archive type router did not land on legislator page');
   await routePage.close();
 
-  console.log('History query-state validation passed:',{singleDeepLink,compareDeepLink,typeRouting:'president ↔ local-executive / councilor'});
+  console.log('History query-state validation passed:',{singleDeepLink,compareDeepLink,typeRouting:'president ↔ legislator / local-executive / councilor'});
   await page.close();
 }finally{
   await browser.close();
