@@ -1,0 +1,1442 @@
+{
+  "generatedAt": "2026-09-26T05:23:39.518Z",
+  "source": "正式站 OverrideStore 公開快照 × 中選會 2022 縣市議員當選結果 × 舊後台候選人資料與議會公開資料",
+  "rule": "列出正式站已有 priorRace 標記者，以及可由中選會 2022 當選結果確認、但本屆改選非議員職位者；不把轉換職位誤標為同職位爭取連任。",
+  "count": 63,
+  "photoSuggestions": 46,
+  "records": [
+    {
+      "areaId": "10002090",
+      "countyCode": "10002",
+      "county": "宜蘭縣",
+      "area": "五結鄉",
+      "district": "",
+      "source": "candidates",
+      "name": "簡松樹",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第07選舉區",
+      "previousVotes": 6004,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/96b1934a0d647e0e0327b6a64ab5d0bd",
+        "prevVotes": 6004
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10002080",
+      "countyCode": "10002",
+      "county": "宜蘭縣",
+      "area": "冬山鄉",
+      "district": "",
+      "source": "candidates",
+      "name": "謝燦輝",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第08選舉區",
+      "previousVotes": 4959,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "prevVotes": 4959
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果"
+      ]
+    },
+    {
+      "areaId": "10002120",
+      "countyCode": "10002",
+      "county": "宜蘭縣",
+      "area": "南澳鄉",
+      "district": "",
+      "source": "candidates",
+      "name": "游吉祥",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "山地原住民第13選舉區",
+      "previousVotes": 3587,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/ecf5f73c275daf8d75126830bce2d2b8",
+        "prevVotes": 3587
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10002070",
+      "countyCode": "10002",
+      "county": "宜蘭縣",
+      "area": "員山鄉",
+      "district": "",
+      "source": "candidates",
+      "name": "黃雯如",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "",
+      "previousVotes": null,
+      "verifiedPreviousOffice": "",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/c0572b2adc44039cbf9bd3a94ae159db"
+      },
+      "evidence": [
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10002020",
+      "countyCode": "10002",
+      "county": "宜蘭縣",
+      "area": "羅東鎮",
+      "district": "",
+      "source": "candidates",
+      "name": "陳鴻禧",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第06選舉區",
+      "previousVotes": 4584,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/f37a41315ab697524d9a3bee9e386089",
+        "prevVotes": 4584
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10002030",
+      "countyCode": "10002",
+      "county": "宜蘭縣",
+      "area": "蘇澳鎮",
+      "district": "",
+      "source": "candidates",
+      "name": "謝正信",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第10選舉區",
+      "previousVotes": 6590,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/debc508eebe35d8613bb5d3ac2920b59",
+        "prevVotes": 6590
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10015050",
+      "countyCode": "10015",
+      "county": "花蓮縣",
+      "area": "吉安鄉",
+      "district": "",
+      "source": "candidates",
+      "name": "林源富",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第03選舉區",
+      "previousVotes": 3662,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/f7f4c93a94a319c48ddcd7ee3700594b",
+        "facebook": "https://www.facebook.com/lin0935752392",
+        "prevVotes": 3662
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl",
+        "舊後台紀錄:facebook"
+      ]
+    },
+    {
+      "areaId": "10015050",
+      "countyCode": "10015",
+      "county": "花蓮縣",
+      "area": "吉安鄉",
+      "district": "",
+      "source": "candidates",
+      "name": "黃馨",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第03選舉區",
+      "previousVotes": 3652,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/17d1bb6176a1f75417c03cd8c608f49a",
+        "facebook": "https://www.facebook.com/%E9%BB%83%E9%A6%A8-467590956980758",
+        "prevVotes": 3652
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl",
+        "舊後台紀錄:facebook"
+      ]
+    },
+    {
+      "areaId": "10015110",
+      "countyCode": "10015",
+      "county": "花蓮縣",
+      "area": "秀林鄉",
+      "district": "",
+      "source": "candidates",
+      "name": "程美蓮",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "山地原住民第08選舉區",
+      "previousVotes": 3974,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/99a7155c0ec3148fd1324eb672a223fa",
+        "prevVotes": 3974
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10015",
+      "countyCode": "10015",
+      "county": "花蓮縣",
+      "area": "花蓮縣",
+      "district": "",
+      "source": "candidates",
+      "name": "張峻",
+      "currentRole": "縣市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第03選舉區",
+      "previousVotes": 5761,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "prevVotes": 5761
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果"
+      ]
+    },
+    {
+      "areaId": "10015",
+      "countyCode": "10015",
+      "county": "花蓮縣",
+      "area": "花蓮縣",
+      "district": "",
+      "source": "candidates",
+      "name": "魏嘉賢",
+      "currentRole": "縣市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第01選舉區",
+      "previousVotes": 7263,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "prevVotes": 7263
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果"
+      ]
+    },
+    {
+      "areaId": "10015060",
+      "countyCode": "10015",
+      "county": "花蓮縣",
+      "area": "壽豐鄉",
+      "district": "",
+      "source": "candidates",
+      "name": "林品仰",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第03選舉區",
+      "previousVotes": 5046,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/96fc6e843fefc10b6a5d63c8a0687e9b",
+        "prevVotes": 5046
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "09020050",
+      "countyCode": "09020",
+      "county": "金門縣",
+      "area": "烈嶼鄉",
+      "district": "",
+      "source": "candidates",
+      "name": "洪鴻斌",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第03選舉區",
+      "previousVotes": 1619,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/b3899a91814472f6a90b11f2b9f6587c",
+        "prevVotes": 1619
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10008060",
+      "countyCode": "10008",
+      "county": "南投縣",
+      "area": "名間鄉",
+      "district": "",
+      "source": "candidates",
+      "name": "蔡宗智",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第01選舉區",
+      "previousVotes": 5098,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/39eb51847e003d7f3a71f64936159dd4",
+        "prevVotes": 5098
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10008040",
+      "countyCode": "10008",
+      "county": "南投縣",
+      "area": "竹山鎮",
+      "district": "",
+      "source": "candidates",
+      "name": "蔡孟娥",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第04選舉區",
+      "previousVotes": 5716,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/fb33e10fdf74d04b1798b0e2a9173a08",
+        "prevVotes": 5716
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10008010",
+      "countyCode": "10008",
+      "county": "南投縣",
+      "area": "南投市",
+      "district": "",
+      "source": "candidates",
+      "name": "沈夙崢",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第01選舉區",
+      "previousVotes": 3794,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "prevVotes": 3794
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果"
+      ]
+    },
+    {
+      "areaId": "10008020",
+      "countyCode": "10008",
+      "county": "南投縣",
+      "area": "埔里鎮",
+      "district": "",
+      "source": "candidates",
+      "name": "黃世芳",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第05選舉區",
+      "previousVotes": 7541,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/c6ab26555d898da779b66a9ddaf40e2b",
+        "prevVotes": 7541
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10008030",
+      "countyCode": "10008",
+      "county": "南投縣",
+      "area": "草屯鎮",
+      "district": "",
+      "source": "candidates",
+      "name": "簡賜勝",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第02選舉區",
+      "previousVotes": 8996,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "prevVotes": 8996
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果"
+      ]
+    },
+    {
+      "areaId": "10013330",
+      "countyCode": "10013",
+      "county": "屏東縣",
+      "area": "牡丹鄉",
+      "district": "",
+      "source": "candidates",
+      "name": "林采穎",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "山地原住民第15選舉區",
+      "previousVotes": 3272,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/643d238ae6a0946c68449118cd9d90fe",
+        "prevVotes": 3272
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10013090",
+      "countyCode": "10013",
+      "county": "屏東縣",
+      "area": "里港鄉",
+      "district": "",
+      "source": "candidates",
+      "name": "陳明達",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第02選舉區",
+      "previousVotes": 7820,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/4d67a7b0099f96b651a693c561ec42b6",
+        "prevVotes": 7820
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10013060",
+      "countyCode": "10013",
+      "county": "屏東縣",
+      "area": "長治鄉",
+      "district": "",
+      "source": "candidates",
+      "name": "吳亮慶",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第02選舉區",
+      "previousVotes": 8843,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "prevVotes": 8843
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果"
+      ]
+    },
+    {
+      "areaId": "10013010",
+      "countyCode": "10013",
+      "county": "屏東縣",
+      "area": "屏東市",
+      "district": "",
+      "source": "candidates",
+      "name": "梁育慈",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第01選舉區",
+      "previousVotes": 7559,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "prevVotes": 7559
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果"
+      ]
+    },
+    {
+      "areaId": "10013040",
+      "countyCode": "10013",
+      "county": "屏東縣",
+      "area": "恆春鎮",
+      "district": "",
+      "source": "candidates",
+      "name": "盧玟欣",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第06選舉區",
+      "previousVotes": 4976,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/5b8dc3b7f0fd2cd76b51d3cd575323bf",
+        "prevVotes": 4976
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10013020",
+      "countyCode": "10013",
+      "county": "屏東縣",
+      "area": "潮州鎮",
+      "district": "",
+      "source": "candidates",
+      "name": "洪明江",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第03選舉區",
+      "previousVotes": 6608,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/10f09a5a53bbd3495ac2d4f0297ab75c",
+        "prevVotes": 6608
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10005040",
+      "countyCode": "10005",
+      "county": "苗栗縣",
+      "area": "竹南鎮",
+      "district": "",
+      "source": "candidates",
+      "name": "葉忠倫",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第04選舉區",
+      "previousVotes": 5677,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/3abd76b0df7a6522469d574d22a2c594",
+        "prevVotes": 5677
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10005140",
+      "countyCode": "10005",
+      "county": "苗栗縣",
+      "area": "西湖鄉",
+      "district": "1",
+      "source": "representatives",
+      "name": "陳碧華",
+      "currentRole": "鄉鎮市民代表候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第04選舉區",
+      "previousVotes": 4565,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/87ee71504cd08cb2f6599670716122ef",
+        "facebook": "https://www.facebook.com/profile.php?id=61577371616759",
+        "taiwanGoGoUrl": "https://council2026.taiwangogo.tw/?city=mia&district=mia-4&person=%E8%8B%97%E6%A0%97%E7%B8%A3%7C%E7%AC%AC4%E9%81%B8%E5%8D%80%7C%E9%99%B3%E7%A2%A7%E8%8F%AF"
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl",
+        "舊後台紀錄:facebook",
+        "舊後台紀錄:taiwanGoGoUrl"
+      ]
+    },
+    {
+      "areaId": "10005070",
+      "countyCode": "10005",
+      "county": "苗栗縣",
+      "area": "卓蘭鎮",
+      "district": "",
+      "source": "candidates",
+      "name": "陳春暖",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第06選舉區",
+      "previousVotes": 5604,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "prevVotes": 5604
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果"
+      ]
+    },
+    {
+      "areaId": "10005020",
+      "countyCode": "10005",
+      "county": "苗栗縣",
+      "area": "苑裡鎮",
+      "district": "",
+      "source": "candidates",
+      "name": "張顧礫",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第03選舉區",
+      "previousVotes": 7952,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/040aa3b28edfb44b623bb29a71af875e",
+        "prevVotes": 7952
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10005010",
+      "countyCode": "10005",
+      "county": "苗栗縣",
+      "area": "苗栗市",
+      "district": "",
+      "source": "candidates",
+      "name": "余文忠",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第01選舉區",
+      "previousVotes": 6468,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/d8cb2045a2a647c8b06f7495949404d9",
+        "prevVotes": 6468
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10005010",
+      "countyCode": "10005",
+      "county": "苗栗縣",
+      "area": "苗栗市",
+      "district": "",
+      "source": "candidates",
+      "name": "禹耀東",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第01選舉區",
+      "previousVotes": 5140,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/6d2d0840faea2a9b457f1607d6304adc",
+        "prevVotes": 5140
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10005",
+      "countyCode": "10005",
+      "county": "苗栗縣",
+      "area": "苗栗縣",
+      "district": "",
+      "source": "candidates",
+      "name": "陳品安",
+      "currentRole": "縣市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第03選舉區",
+      "previousVotes": 9119,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "prevVotes": 9119
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果"
+      ]
+    },
+    {
+      "areaId": "10005100",
+      "countyCode": "10005",
+      "county": "苗栗縣",
+      "area": "銅鑼鄉",
+      "district": "",
+      "source": "candidates",
+      "name": "黃芳椿",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第02選舉區",
+      "previousVotes": 4657,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/fb090a7b7e07feffb28f81b2587ca281",
+        "prevVotes": 4657
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10005050",
+      "countyCode": "10005",
+      "county": "苗栗縣",
+      "area": "頭份市",
+      "district": "",
+      "source": "candidates",
+      "name": "徐功凡",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第05選舉區",
+      "previousVotes": 4370,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/0967c76cb0ebafc01d74fe9c3fe7db49",
+        "prevVotes": 4370
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10005050",
+      "countyCode": "10005",
+      "county": "苗栗縣",
+      "area": "頭份市",
+      "district": "",
+      "source": "candidates",
+      "name": "曾玟學",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第05選舉區",
+      "previousVotes": 11149,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/64c4d0fdf6244960474d81c7c840c8b7",
+        "prevVotes": 11149
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10017",
+      "countyCode": "10017",
+      "county": "基隆市",
+      "area": "基隆市",
+      "district": "",
+      "source": "candidates",
+      "name": "童子瑋",
+      "currentRole": "縣市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第03選舉區",
+      "previousVotes": 5099,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "prevVotes": 5099
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果"
+      ]
+    },
+    {
+      "areaId": "10009010",
+      "countyCode": "10009",
+      "county": "雲林縣",
+      "area": "斗六市",
+      "district": "",
+      "source": "candidates",
+      "name": "賴淑娞",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第01選舉區",
+      "previousVotes": 5805,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/fde03e78101ba0589ccfcb1b293f9900",
+        "facebook": "https://www.facebook.com/p/%E8%B3%B4%E6%B7%91%E5%A8%9E-100082398396441/",
+        "prevVotes": 5805
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl",
+        "舊後台紀錄:facebook"
+      ]
+    },
+    {
+      "areaId": "10009020",
+      "countyCode": "10009",
+      "county": "雲林縣",
+      "area": "斗南鎮",
+      "district": "",
+      "source": "candidates",
+      "name": "簡慈坊",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第02選舉區",
+      "previousVotes": 6424,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/7d67ab56bd4afa6fbb88872913e8f9b0",
+        "prevVotes": 6424
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10009020",
+      "countyCode": "10009",
+      "county": "雲林縣",
+      "area": "斗南鎮",
+      "district": "",
+      "source": "candidates",
+      "name": "顏忠義",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第02選舉區",
+      "previousVotes": 6816,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/67c4bfd351af898c63df672e950f8acc",
+        "prevVotes": 6816
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10009200",
+      "countyCode": "10009",
+      "county": "雲林縣",
+      "area": "水林鄉",
+      "district": "4",
+      "source": "representatives",
+      "name": "蔡東富",
+      "currentRole": "鄉鎮市民代表候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第02選舉區",
+      "previousVotes": 5990,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/c667ec9dfb41dd84662c3dae090396cb"
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10009060",
+      "countyCode": "10009",
+      "county": "雲林縣",
+      "area": "北港鎮",
+      "district": "1",
+      "source": "representatives",
+      "name": "蔡咏鍀",
+      "currentRole": "鄉鎮市民代表候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第06選舉區",
+      "previousVotes": 7008,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/b2ef83cdec95de0213f8e53a70a71b60",
+        "prevVotes": 7008
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10009100",
+      "countyCode": "10009",
+      "county": "雲林縣",
+      "area": "林內鄉",
+      "district": "",
+      "source": "candidates",
+      "name": "張維崢",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第01選舉區",
+      "previousVotes": 7938,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/d0f74aa6044b26c4ebe9d85c0ae2c5e7",
+        "facebook": "https://www.facebook.com/zhang.wei.zheng.533347",
+        "prevVotes": 7938
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl",
+        "舊後台紀錄:facebook"
+      ]
+    },
+    {
+      "areaId": "10009160",
+      "countyCode": "10009",
+      "county": "雲林縣",
+      "area": "臺西鄉",
+      "district": "2",
+      "source": "representatives",
+      "name": "顏嘉葦",
+      "currentRole": "鄉鎮市民代表候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第05選舉區",
+      "previousVotes": 7544,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/42c8919e0afdf59636c681c426e65d7b",
+        "prevVotes": 7544
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10004120",
+      "countyCode": "10004",
+      "county": "新竹縣",
+      "area": "尖石鄉",
+      "district": "",
+      "source": "candidates",
+      "name": "劉建民",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "山地原住民第12選舉區",
+      "previousVotes": 3543,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/efaded55ebb30a514961affb9d554813",
+        "prevVotes": 3543
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10004010",
+      "countyCode": "10004",
+      "county": "新竹縣",
+      "area": "竹北市",
+      "district": "",
+      "source": "candidates",
+      "name": "吳旭智",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第01選舉區",
+      "previousVotes": 6912,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "prevVotes": 6912
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果"
+      ]
+    },
+    {
+      "areaId": "10004070",
+      "countyCode": "10004",
+      "county": "新竹縣",
+      "area": "芎林鄉",
+      "district": "",
+      "source": "candidates",
+      "name": "陳星宏",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "",
+      "previousVotes": null,
+      "verifiedPreviousOffice": "",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/ddd8bf279f9b1fca38b078ffa6f696ba"
+      },
+      "evidence": [
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10004060",
+      "countyCode": "10004",
+      "county": "新竹縣",
+      "area": "新豐鄉",
+      "district": "",
+      "source": "candidates",
+      "name": "何智達",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第03選舉區",
+      "previousVotes": 5674,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/03d18912f789f4da4830766cf4aa4e7c",
+        "prevVotes": 5674
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10010020",
+      "countyCode": "10010",
+      "county": "嘉義縣",
+      "area": "朴子市",
+      "district": "",
+      "source": "candidates",
+      "name": "黃嫈珺",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第04選舉區",
+      "previousVotes": 5866,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/c3265599f1276a028e3037e20b4def88",
+        "prevVotes": 5866
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10010140",
+      "countyCode": "10010",
+      "county": "嘉義縣",
+      "area": "竹崎鄉",
+      "district": "",
+      "source": "candidates",
+      "name": "何子凡",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第06選舉區",
+      "previousVotes": 4479,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "prevVotes": 4479
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果"
+      ]
+    },
+    {
+      "areaId": "10010150",
+      "countyCode": "10010",
+      "county": "嘉義縣",
+      "area": "梅山鄉",
+      "district": "",
+      "source": "candidates",
+      "name": "陳信文",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第03選舉區",
+      "previousVotes": 6326,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/0a322df811eb85311fb1d98606e28387",
+        "prevVotes": 6326
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10010060",
+      "countyCode": "10010",
+      "county": "嘉義縣",
+      "area": "溪口鄉",
+      "district": "",
+      "source": "candidates",
+      "name": "劉雅文",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第03選舉區",
+      "previousVotes": 6384,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/791e87615531e5936e20a72fc8b8fdcd",
+        "prevVotes": 6384
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10007200",
+      "countyCode": "10007",
+      "county": "彰化縣",
+      "area": "二林鎮",
+      "district": "",
+      "source": "candidates",
+      "name": "陳一惇",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第08選舉區",
+      "previousVotes": 8215,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/914f6ac28c5bf79f67711a8636dc5eec",
+        "facebook": "https://www.facebook.com/people/%E9%99%B3%E4%B8%80%E6%83%87/100000364294377",
+        "prevVotes": 8215
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl",
+        "chcc_councilors.json:facebook"
+      ]
+    },
+    {
+      "areaId": "10007100",
+      "countyCode": "10007",
+      "county": "彰化縣",
+      "area": "員林市",
+      "district": "",
+      "source": "candidates",
+      "name": "凃俊任",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第04選舉區",
+      "previousVotes": 13485,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/802163a241324373ad6f590447b6d428",
+        "facebook": "https://www.facebook.com/profile.php?id=100063676194490",
+        "prevVotes": 13485
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl",
+        "chcc_councilors.json:facebook"
+      ]
+    },
+    {
+      "areaId": "10007020",
+      "countyCode": "10007",
+      "county": "彰化縣",
+      "area": "鹿港鎮",
+      "district": "",
+      "source": "candidates",
+      "name": "施佩妤",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第02選舉區",
+      "previousVotes": 16328,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/152b8bcf6569061c189da4a2b1927187",
+        "facebook": "https://www.facebook.com/abingteam",
+        "prevVotes": 16328
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl",
+        "chcc_councilors.json:facebook"
+      ]
+    },
+    {
+      "areaId": "10007020",
+      "countyCode": "10007",
+      "county": "彰化縣",
+      "area": "鹿港鎮",
+      "district": "",
+      "source": "candidates",
+      "name": "楊妙月",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第02選舉區",
+      "previousVotes": 9006,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/b78182ef98d1437885012bf0c0c5fe62",
+        "facebook": "https://www.facebook.com/%E5%BD%B0%E5%8C%96%E7%B8%A3%E8%AD%B0%E5%93%A1-%E6%A5%8A%E5%A6%99%E6%9C%88-157079708346148",
+        "prevVotes": 9006
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl",
+        "chcc_councilors.json:facebook"
+      ]
+    },
+    {
+      "areaId": "10007010",
+      "countyCode": "10007",
+      "county": "彰化縣",
+      "area": "彰化市",
+      "district": "",
+      "source": "candidates",
+      "name": "黃柏瑜",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第01選舉區",
+      "previousVotes": 8637,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "facebook": "https://www.facebook.com/poyuhuang2022",
+        "prevVotes": 8637
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "chcc_councilors.json:facebook"
+      ]
+    },
+    {
+      "areaId": "10007",
+      "countyCode": "10007",
+      "county": "彰化縣",
+      "area": "彰化縣",
+      "district": "",
+      "source": "candidates",
+      "name": "陳重嘉",
+      "currentRole": "縣市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第05選舉區",
+      "previousVotes": 7531,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "prevVotes": 7531
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果"
+      ]
+    },
+    {
+      "areaId": "10007060",
+      "countyCode": "10007",
+      "county": "彰化縣",
+      "area": "福興鄉",
+      "district": "",
+      "source": "candidates",
+      "name": "黃俊源",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第02選舉區",
+      "previousVotes": 8563,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/fdd11f8b6d2a91b9107b8e2227668d8b",
+        "facebook": "https://www.facebook.com/%E5%BD%B0%E5%8C%96%E7%B8%A3%E8%AD%B0%E5%93%A1-%E9%BB%83%E4%BF%8A%E6%BA%90-185426568749070",
+        "prevVotes": 8563
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl",
+        "chcc_councilors.json:facebook"
+      ]
+    },
+    {
+      "areaId": "66000120024",
+      "countyCode": "66000",
+      "county": "臺中市",
+      "area": "菁埔里",
+      "district": "",
+      "source": "candidates",
+      "name": "陳清龍",
+      "currentRole": "里長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第04選舉區",
+      "previousVotes": 15363,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "prevVotes": 15363
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果"
+      ]
+    },
+    {
+      "areaId": "10014080",
+      "countyCode": "10014",
+      "county": "臺東縣",
+      "area": "長濱鄉",
+      "district": "",
+      "source": "candidates",
+      "name": "嚴惠美Simoy．Sapod",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "平地原住民第11選舉區",
+      "previousVotes": 2054,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "prevVotes": 2054
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果"
+      ]
+    },
+    {
+      "areaId": "10014120",
+      "countyCode": "10014",
+      "county": "臺東縣",
+      "area": "海端鄉",
+      "district": "",
+      "source": "candidates",
+      "name": "張全馨嵐",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "山地原住民第13選舉區",
+      "previousVotes": 1696,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/3421c31d3ce1d80acde7cacb991e7ae8",
+        "prevVotes": 1696
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10014150",
+      "countyCode": "10014",
+      "county": "臺東縣",
+      "area": "達仁鄉",
+      "district": "",
+      "source": "candidates",
+      "name": "蔡玉玲",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "山地原住民第15選舉區",
+      "previousVotes": 1604,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/b80d4c606d814c620a4d4bf3f6d9338b",
+        "prevVotes": 1604
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10014110",
+      "countyCode": "10014",
+      "county": "臺東縣",
+      "area": "綠島鄉",
+      "district": "",
+      "source": "candidates",
+      "name": "王姷力",
+      "currentRole": "鄉鎮市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第06選舉區",
+      "previousVotes": 677,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "photoUrl": "/api/photo/4ae9b6c4cff59a4b1c67012d835c1feb",
+        "prevVotes": 677
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果",
+        "舊後台紀錄:photoUrl"
+      ]
+    },
+    {
+      "areaId": "10014",
+      "countyCode": "10014",
+      "county": "臺東縣",
+      "area": "臺東縣",
+      "district": "",
+      "source": "candidates",
+      "name": "吳秀華",
+      "currentRole": "縣市長候選人",
+      "priorRace": "現任縣市議員",
+      "previousDistrict": "第01選舉區",
+      "previousVotes": 5575,
+      "verifiedPreviousOffice": "縣市議員",
+      "currentlyMarked": false,
+      "suggestions": {
+        "prevVotes": 5575
+      },
+      "evidence": [
+        "中選會 2022 縣市議員當選結果"
+      ]
+    }
+  ]
+}
