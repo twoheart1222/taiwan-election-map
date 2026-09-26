@@ -1,0 +1,115 @@
+/* ==========================================================================
+   Candidate card — Bento
+   A 2-column tile grid inside one rounded shell:
+     [ photo · name + party ] [ 本期得票 ]
+     [                      ] [ 上屆得票 (accent) ]
+     [ status chips ········· socials ]
+     [ external link ····················· → ]
+     [ 查看選舉公報 ········· 待公告   → ]
+   ========================================================================== */
+.bn-card{
+  --bn-shell:#1a1715;--bn-tile:#221e1b;--bn-tile-2:#2b2622;--bn-line:rgba(255,255,255,.06);
+  --bn-text:#f5f3ef;--bn-muted:#a8a29e;--bn-faint:#78716c;--bn-red:#E4022B;
+  position:relative;flex:none;display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);gap:8px;
+  padding:8px;border-radius:26px;background:var(--bn-shell);border:1px solid var(--bn-line);color:var(--bn-text);
+  font-family:'Noto Sans TC',-apple-system,BlinkMacSystemFont,'PingFang TC',system-ui,sans-serif;-webkit-font-smoothing:antialiased;
+}
+.bn-card.is-win{
+  /* elected: warm paper shell, white tiles, dark type — reads instantly against the dark list */
+  --bn-shell:#f4f1ea;--bn-tile:#ffffff;--bn-tile-2:#efe9df;--bn-line:rgba(26,23,20,.08);
+  --bn-text:#1a1714;--bn-muted:#6f685e;--bn-faint:#9a9186;
+  border-color:#f4f1ea;box-shadow:0 0 0 2px #E4022B,0 18px 44px -18px rgba(228,2,43,.45);
+}
+.bn-card.is-win .bn-photo{box-shadow:inset 0 0 0 1px rgba(0,0,0,.04)}
+.bn-card.is-win .bn-go{background:#1a1714;color:#fff}
+.bn-card.is-win .bn-lead{color:#c40225}
+.bn-card.is-win .bn-chip--green{color:#15803d}
+.bn-card.is-win .bn-chip--amber{color:#a16207}
+.bn-card.is-win .bn-soc:hover{background:#e6ded1}
+.bn-card.is-win .gazette-source-link{color:#c40225!important}
+.bn-card.is-win .gazette-pending{color:var(--bn-muted)!important}
+/* 當選 ribbon across the top of the card */
+.bn-win-bar{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border-radius:16px;background:#E4022B;color:#fff}
+.bn-win-bar strong{display:flex;align-items:center;gap:8px;font:800 15px/1 'Noto Sans TC',sans-serif;letter-spacing:.08em}
+.bn-win-bar strong svg{width:18px;height:18px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.bn-win-bar span{font:700 11px/1 'Archivo','Noto Sans TC',sans-serif;letter-spacing:.2em;opacity:.85}
+.bn-card *{box-sizing:border-box}
+
+.bn-tile{position:relative;min-width:0;border-radius:18px;background:var(--bn-tile);padding:14px 15px;overflow:hidden;
+  transition:transform .35s cubic-bezier(.2,.9,.3,1.25),background-color .2s ease}
+@media (hover:hover){.bn-tile:is(a,.bn-disclosure):hover,.bn-photo:hover{transform:scale(.985)}}
+.bn-wide{grid-column:1/-1}
+
+/* photo tile: spans the two metric rows */
+.bn-photo{grid-row:span 2;min-height:210px;padding:0;background:linear-gradient(160deg,#3a342e 0%,#221e1b 70%)}
+.bn-card:has(.bn-tall) .bn-photo{min-height:170px}
+.bn-photo>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 22%}
+.bn-initial{position:absolute;left:50%;top:40%;transform:translate(-50%,-50%);font:700 64px/1 'Noto Sans TC',sans-serif;color:rgba(255,255,255,.14);pointer-events:none}
+.bn-photo.has-photo .bn-initial{display:none}
+.bn-cap{position:absolute;left:0;right:0;bottom:0;padding:48px 14px 13px;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.82) 62%)}
+.bn-role{display:block;font-size:11.5px;font-weight:700;letter-spacing:.06em;color:#ff8093}
+.bn-name{display:flex;flex-wrap:wrap;align-items:center;gap:6px 9px;margin:4px 0 0;line-height:1.15}
+.bn-name>span:first-child{font-size:24px;font-weight:800;letter-spacing:-.02em;color:#fff;overflow-wrap:anywhere}
+.bn-party{display:inline-flex;align-items:center;gap:6px;max-width:100%;padding:3px 9px 3px 3px;border-radius:999px;background:rgba(255,255,255,.14);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.bn-party .party-chip{width:20px!important;height:20px!important}
+.bn-party em{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-style:normal;font-size:12px;font-weight:700;color:#fff}
+.bn-stamp{position:absolute;right:8px;top:8px;width:64px;height:64px;transform:rotate(-11deg);pointer-events:none;filter:drop-shadow(0 2px 6px rgba(0,0,0,.35))}
+.bn-stamp circle,.bn-stamp path{stroke:#ff3355}
+.bn-stamp text{fill:#ff3355}
+
+/* metrics */
+.bn-metric{display:flex;flex-direction:column;justify-content:space-between;gap:8px;min-height:100px}
+.bn-tall{grid-row:span 2}
+.bn-label{font-size:12px;font-weight:600;color:var(--bn-muted)}
+.bn-value{font:800 26px/1.05 'Archivo','Noto Sans TC',sans-serif;letter-spacing:-.03em;font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--bn-text)}
+.bn-pending{display:inline-flex;align-items:center;gap:7px;font-size:17px;font-weight:700;color:var(--bn-faint)}
+.bn-pending i{width:7px;height:7px;border-radius:50%;background:currentColor}
+.bn-accent{background:var(--bn-red)}
+.bn-accent .bn-label{color:rgba(255,255,255,.82)}
+.bn-accent .bn-value,.bn-accent .bn-pending{color:#fff}
+
+/* status + socials */
+.bn-status{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 10px 10px 12px}
+.bn-chips{display:flex;flex-wrap:wrap;gap:6px;min-width:0}
+.bn-chip{display:inline-flex;align-items:center;gap:5px;padding:6px 11px 6px 9px;border-radius:11px;background:var(--bn-tile-2);font-size:12.5px;font-weight:700;line-height:1.25}
+.bn-chip b{font-weight:700;color:var(--bn-text)}
+.bn-chip--green{color:#6ee7a0}
+.bn-chip--amber{color:#fcd34d}
+.bn-i{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.bn-socials{display:flex;gap:6px;flex:none}
+.bn-soc{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:var(--bn-tile-2);transition:transform .3s cubic-bezier(.3,1.5,.6,1),background-color .2s ease}
+.bn-soc svg{width:20px;height:20px}
+@media (hover:hover){.bn-soc:hover{transform:translateY(-3px);background:#35302b}}
+
+/* link + gazette tiles */
+.bn-link,.bn-disclosure>summary{display:flex;align-items:center;gap:10px;min-height:52px;color:var(--bn-text);text-decoration:none;font-size:14px;font-weight:700}
+.bn-link{padding:8px 8px 8px 15px}
+.bn-lead{width:17px;height:17px;color:#ff8093}
+.bn-link-title{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bn-state{flex:none;font-size:12.5px;font-weight:600;color:var(--bn-muted)}
+.bn-go{display:grid;place-items:center;flex:none;width:34px;height:34px;border-radius:50%;background:var(--bn-text);color:#0d0d0d;transition:transform .35s cubic-bezier(.3,1.5,.6,1)}
+.bn-go .bn-i{width:15px;height:15px;stroke-width:2.2}
+@media (hover:hover){.bn-link:hover .bn-go,.bn-disclosure>summary:hover .bn-go{transform:rotate(-45deg)}}
+.bn-disclosure{padding:0!important;margin:0!important;border:0!important}
+.bn-disclosure>summary{padding:8px 8px 8px 15px;cursor:pointer;list-style:none;user-select:none;justify-content:flex-start!important;font:700 14px 'Noto Sans TC',sans-serif!important}
+.bn-disclosure>summary::-webkit-details-marker{display:none}
+.bn-disclosure>summary::before,.bn-disclosure>summary::after{content:none!important}
+.bn-disclosure[open] .bn-go{transform:rotate(90deg)!important}
+.bn-disclosure .gazette-panel{padding:0 10px 10px;display:grid;gap:8px}
+.bn-card .gazette-pending{padding:12px 14px;border:0!important;border-radius:12px!important;background:var(--bn-tile-2)!important;color:var(--bn-muted)!important;font-size:13px;font-weight:600;text-align:left}
+.bn-card .gazette-preview-button{border:0!important;border-radius:12px!important}
+.bn-card .gazette-source-link{border:0!important;border-radius:12px!important;background:var(--bn-tile-2);color:#ff8093!important;font-weight:700!important}
+
+@media(max-width:660px){
+  .bn-card{padding:6px;gap:6px;border-radius:22px}
+  .bn-tile{border-radius:16px;padding:12px 13px}
+  .bn-photo{min-height:188px;padding:0}
+  .bn-name>span:first-child{font-size:21px}
+  .bn-value{font-size:22px}
+  .bn-metric{min-height:88px}
+  .bn-status{flex-wrap:wrap}
+  .bn-soc{width:36px;height:36px}
+}
+@media (prefers-reduced-motion:reduce){.bn-tile,.bn-soc,.bn-go{transition:none}}
+.bn-card.is-win .bn-accent{background:#1a1714}
+.bn-card.is-win .bn-accent .bn-label{color:rgba(255,255,255,.7)}
