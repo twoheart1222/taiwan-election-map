@@ -250,7 +250,7 @@ try{
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/topojson-client@3.1.0/dist/topojson-client.min.js" integrity="sha384-Ukv1p/xTma6P4/2bY5KzWBw+ydSpXmhCMtyciIQVDJ1RmOxtCYNMF1uXT9T63H67" crossorigin="anonymous"></script>
 <script src="/site-config.js"></script>
-<script src="/election-data.js"></script>
+<script src="/election-data.js?v=20260926-career-move1"></script>
 <script>
   /* =====================================================================
      後台校閱資料（候選人照片、社群連結、席次等）由 Cloudflare Worker + KV 供應。
@@ -2545,7 +2545,7 @@ class App {
           <div class="candidate-title-row">
             <h4 style="font-family:'Noto Sans TC','Archivo';font-weight:900;font-size:20px;line-height:1.25;margin:0;letter-spacing:0;color:${isWin ? '#1a1714' : '#f4f1ea'}">${esc(c.name)}</h4>
             ${c.isIncumbent ? `<span style="flex:none;padding:4px 11px;border-radius:999px;background:${isWin ? '#dcf3e2' : '#16301c'};color:${isWin ? '#1d6b35' : '#7fd598'};font-size:11px;font-weight:800">爭取連任</span>` : ''}
-            ${c.priorRace ? `<span style="flex:none;padding:4px 11px;border-radius:999px;background:${isWin ? '#e6e1d6' : '#26231f'};color:${isWin ? '#4a443a' : '#c9c2b6'};font-size:11px;font-weight:800">${esc(c.priorRace)}</span>` : ''}
+            ${(c.isCareerMove || c.priorRace) ? `<span style="flex:none;padding:4px 11px;border-radius:999px;background:${isWin ? '#e6e1d6' : '#26231f'};color:${isWin ? '#4a443a' : '#c9c2b6'};font-size:11px;font-weight:800">轉換職位 · ${esc(c.priorRace || '上一屆職務待補')}</span>` : ''}
           </div>
           <div style="display:flex;align-items:center;gap:8px;margin-top:5px;flex-wrap:wrap"><span style="color:${isWin ? '#4a443a' : '#c9c2b6'};display:inline-flex;align-items:center;gap:8px">${this._partyChip(c.party)}<span style="font-size:12.5px;font-weight:700">${esc(c.party)}</span></span><span style="width:4px;height:4px;border-radius:50%;background:#4d483f"></span><span style="font-size:12px;font-weight:800;color:${isWin ? '#c40225' : '#ff5a74'}">${esc(c.role)}</span></div>
         </div>

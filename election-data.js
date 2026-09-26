@@ -5,7 +5,7 @@
   const nameKey = value => String(value || '').normalize('NFKC').replace(/[・．·‧\s\u3000]/g, '');
   const blocksOf = value => Array.isArray(value) ? value : (value?.blocks || []);
   const blank = value => value == null || value === '';
-  const fallbackFields = ['facebook', 'instagram', 'threads', 'youtube', 'photoUrl', 'gazetteUrl', 'gazettePreviewUrl', 'gazettePage', 'gazetteAlt', 'taiwanGoGoUrl', 'local2026Url', 'votes', 'prevVotes', 'elected'];
+  const fallbackFields = ['facebook', 'instagram', 'threads', 'youtube', 'photoUrl', 'gazetteUrl', 'gazettePreviewUrl', 'gazettePage', 'gazetteAlt', 'taiwanGoGoUrl', 'local2026Url', 'votes', 'prevVotes', 'elected', 'priorRace', 'isCareerMove'];
   function uniqueNames(list) {
     const result = new Map();
     for (const item of list) {
