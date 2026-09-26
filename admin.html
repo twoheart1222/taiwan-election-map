@@ -325,7 +325,7 @@
   </main>
 
   <script src="/site-config.js"></script>
-  <script src="/election-data.js"></script>
+  <script src="/election-data.js?v=20260926-career-move1"></script>
   <script>
     const API_BASE = window.ELECTION_API_BASE ?? '';
 
@@ -1237,7 +1237,7 @@
       c = c || { 
         name: '', party: '無', role: defaultRole,
         registeredDate: '', gazetteUrl: '', gazettePreviewUrl: '', gazettePage: '', gazetteAlt: '', facebook: '', taiwanGoGoUrl: '', instagram: '', threads: '', youtube: '', photoUrl: '',
-        isIncumbent: false, elected: false, votes: '', prevVotes: '', _district: defaultDistrict 
+        isIncumbent: false, isCareerMove: false, priorRace: '', elected: false, votes: '', prevVotes: '', _district: defaultDistrict
       };
 
       const dist = c._district || c.district || defaultDistrict;
@@ -1281,11 +1281,19 @@
             <input type="checkbox" class="c-incumbent w-4 h-4 accent-accent-orange cursor-pointer" ${c.isIncumbent ? 'checked' : ''}>
             <span>現任爭取連任</span>
           </label>
+          <label class="flex items-center gap-1.5 text-xs font-bold text-ink-700 cursor-pointer w-fit">
+            <input type="checkbox" class="c-career-move w-4 h-4 accent-accent-blue cursor-pointer" ${(c.isCareerMove || c.priorRace) ? 'checked' : ''}>
+            <span>轉換職位／選區</span>
+          </label>
           <label class="flex items-center gap-1.5 text-xs font-black text-ink-900 cursor-pointer w-fit">
             <input type="checkbox" class="c-elected w-4 h-4 accent-accent-yellow cursor-pointer" ${c.elected ? 'checked' : ''}>
             <span class="inline-flex items-center gap-1"><i data-lucide="trophy" class="w-3.5 h-3.5 text-accent-yellow"></i>當選（前台顯示金框）</span>
           </label>
         </div>
+        <label class="c-priorrace-wrap block">
+          <span class="text-[10px] font-black uppercase tracking-wider text-ink-500 block mb-1">上一屆職位或選區（勾選轉換職位時填寫）</span>
+          <input placeholder="例：現任雲林縣議員／上屆第 1 選舉區議員" class="c-priorrace w-full bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.priorRace || '')}">
+        </label>
         <div class="grid grid-cols-2 gap-2">
           <label class="block">
             <span class="text-[10px] font-black uppercase tracking-wider text-ink-500 block mb-1">本期得票（開票後填）</span>
@@ -1314,10 +1322,14 @@
       document.getElementById('candidate-rows').appendChild(row);
 
       const incChk = row.querySelector('.c-incumbent');
+      const careerMoveChk = row.querySelector('.c-career-move');
+      const priorRaceWrap = row.querySelector('.c-priorrace-wrap');
       const prevWrap = row.querySelector('.c-prevvotes-wrap');
       const prevInput = row.querySelector('.c-prevvotes');
       const syncPrev = () => { prevWrap.style.opacity = '1'; prevInput.disabled = false; };
       incChk.addEventListener('change', syncPrev); syncPrev();
+      const syncCareerMove = () => { priorRaceWrap.style.opacity = careerMoveChk.checked ? '1' : '.55'; };
+      careerMoveChk.addEventListener('change', syncCareerMove); syncCareerMove();
 
       const photoInput = row.querySelector('.c-photourl');
       const photoPreview = row.querySelector('.c-photopreview');
@@ -1400,6 +1412,8 @@
         youtube: row.querySelector('.c-youtube').value.trim() || null,
         photoUrl: row.querySelector('.c-photourl').value.trim() || null,
         isIncumbent: row.querySelector('.c-incumbent').checked,
+        isCareerMove: row.querySelector('.c-career-move').checked,
+        priorRace: row.querySelector('.c-priorrace').value.trim() || null,
         elected: row.querySelector('.c-elected').checked,
         votes: row.querySelector('.c-votes').value.trim() || null,
         prevVotes: row.querySelector('.c-prevvotes').value.trim() || null,
@@ -1630,6 +1644,6 @@
       initializeSession();
     }
   </script>
-  <script src="./admin-kv-sync.js"></script>
+  <script src="./admin-kv-sync.js?v=20260926-career-move1"></script>
 </body>
 </html>
