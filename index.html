@@ -428,9 +428,7 @@ try{
         <h2 id="election-guide-title" style="font-size:clamp(22px,3vw,32px);margin:0 0 14px">2026 選舉地圖與候選人查詢</h2>
         <p style="max-width:850px;line-height:1.8;color:#c9c3ba">使用上方地圖選擇縣市、鄉鎮市區與村里，或輸入候選人姓名、地址，查詢縣市長、議員、鄉鎮市長、鄉鎮市民代表及村里長參選資料。不方便操作地圖時，也可以直接瀏覽全台候選人名單。</p>
         <nav aria-label="選舉查詢入口" style="display:flex;flex-wrap:wrap;gap:12px 24px;line-height:1.8;text-decoration:underline;text-underline-offset:4px">
-          <a href="/election/">2026 全台候選人查詢</a>
-          <a href="/election/#county-list">依縣市查候選人名單</a>
-          <a href="/election/#county-heads">縣市長候選人名單</a>
+          <a href="#candidate-search" data-open-candidate-search aria-controls="candidate-search">2026 全台候選人查詢</a>
           <a href="/history/">歷年選舉結果與跨屆比較</a>
         </nav>
         <p style="font-size:13px;color:#a29c92;line-height:1.7;margin-bottom:0">本站為獨立民間資料整理平台。登記資料不等於資格審查通過；正式候選人名單、號次與選區以中央選舉委員會公告為準。</p>
@@ -712,7 +710,7 @@ class App {
       if (this._currentView !== 'map') this._showView('map', () => setTimeout(reveal, 80));
       else reveal();
     }));
-    document.querySelectorAll('a[href^="./history/"]').forEach(a => a.addEventListener('click', e => {
+    document.querySelectorAll('a[href^="./history/"], a[href^="/history/"]').forEach(a => a.addEventListener('click', e => {
       if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
       e.preventDefault();
       closeMenu();
@@ -992,6 +990,21 @@ class App {
       } else if (event.key === 'Escape') setMobileOpen(false);
     });
     row?.addEventListener('click', () => { if (isDesktop() && !search.classList.contains('open')) setDeskOpen(true); });
+    document.querySelectorAll('[data-open-candidate-search]').forEach(link => link.addEventListener('click', event => {
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      event.stopPropagation();
+      this._closeCountyPicker?.();
+      // Keep focus in the user gesture so iOS can open the software keyboard.
+      if (isDesktop()) {
+        setDeskOpen(true);
+        search.scrollIntoView({ behavior: 'instant', block: 'center' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        setMobileOpen(true);
+      }
+      input.focus({ preventScroll: true });
+    }));
     toggle?.addEventListener('click', event => {
       event.stopPropagation();
       setMobileOpen(!search.classList.contains('mobile-open'));
