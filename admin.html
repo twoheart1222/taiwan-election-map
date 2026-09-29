@@ -104,19 +104,30 @@
   <main id="editor" class="hidden max-w-5xl mx-auto p-6 sm:p-10 space-y-6">
 
     <section id="site-sync-manager" class="bg-surface p-5 rounded-2xl border editorial-border shadow-[4px_4px_0px_#141517] space-y-4">
-      <div class="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h3 class="text-sm font-black flex items-center gap-2"><i data-lucide="refresh-cw" class="w-4 h-4 text-accent-orange"></i>整站資料檢查與更新</h3>
-          <p class="text-xs text-ink-500 mt-1 leading-relaxed">手動檢查中選會歷屆資料、Taiwan GoGo 候選人與村里長資料、照片、搜尋索引及 SEO 頁面。只有資料實際改變時才會提交更新，完成後會用中文列出新增、移除或重建了哪些內容。</p>
-        </div>
-        <button id="site-sync-btn" type="button" onclick="startSiteSync()" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-accent-orange text-white text-xs font-black hover:bg-ink-900 transition disabled:opacity-50 disabled:cursor-wait"><i data-lucide="play" class="w-3.5 h-3.5"></i>立即檢查並更新</button>
+      <div>
+        <h3 class="text-sm font-black flex items-center gap-2"><i data-lucide="refresh-cw" class="w-4 h-4 text-accent-orange"></i>資料檢查與更新</h3>
+        <p class="text-xs text-ink-500 mt-1 leading-relaxed">更新工作已分開執行。候選人資料完成後，再執行「搜尋與公開頁面」，即可把最新名單重建到搜尋索引、SEO 頁面與網站地圖。</p>
       </div>
-      <div class="flex flex-wrap items-center gap-2 text-[11px] font-bold">
-        <span id="site-sync-state" class="px-2.5 py-1 rounded-full bg-canvas border border-ink-200 text-ink-500">尚未執行</span>
-        <span id="site-sync-time" class="text-ink-500"></span>
-        <button type="button" onclick="refreshSiteSyncStatus()" class="text-accent-blue hover:underline">重新整理狀態</button>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-3">
+        <article data-site-sync-target="candidates" class="rounded-2xl border border-ink-200 bg-canvas p-4 space-y-3">
+          <div><span class="text-[10px] font-black tracking-widest text-accent-orange">CANDIDATES</span><h4 class="mt-1 text-sm font-black">Taiwan GoGo 候選人名單</h4><p class="mt-1 text-[11px] leading-relaxed text-ink-500">同步 2026 候選人、村里長資料、照片與 Taiwan GoGo 連結。</p></div>
+          <button data-sync-role="button" type="button" onclick="startSiteSync('candidates')" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-accent-orange text-white text-[11px] font-black hover:bg-ink-900 transition disabled:opacity-50 disabled:cursor-wait"><i data-lucide="play" class="w-3.5 h-3.5"></i>更新候選人名單</button>
+          <div class="flex flex-wrap items-center gap-2 text-[10px] font-bold"><span data-sync-role="state" class="px-2.5 py-1 rounded-full bg-surface border border-ink-200 text-ink-500">尚未執行</span><span data-sync-role="time" class="text-ink-500"></span><button type="button" onclick="refreshSiteSyncStatus('candidates')" class="text-accent-blue hover:underline">重新整理</button></div>
+          <div data-sync-role="summary" class="hidden rounded-xl border border-ink-200 bg-surface p-3 text-[11px] leading-relaxed whitespace-pre-wrap"></div>
+        </article>
+        <article data-site-sync-target="public" class="rounded-2xl border border-ink-200 bg-canvas p-4 space-y-3">
+          <div><span class="text-[10px] font-black tracking-widest text-accent-blue">PUBLIC PAGES</span><h4 class="mt-1 text-sm font-black">搜尋與公開頁面</h4><p class="mt-1 text-[11px] leading-relaxed text-ink-500">依目前資料重建候選人搜尋、公開選舉頁面、Sitemap 與 AI 導覽資料。</p></div>
+          <button data-sync-role="button" type="button" onclick="startSiteSync('public')" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-accent-blue text-white text-[11px] font-black hover:bg-ink-900 transition disabled:opacity-50 disabled:cursor-wait"><i data-lucide="play" class="w-3.5 h-3.5"></i>重建搜尋與公開頁面</button>
+          <div class="flex flex-wrap items-center gap-2 text-[10px] font-bold"><span data-sync-role="state" class="px-2.5 py-1 rounded-full bg-surface border border-ink-200 text-ink-500">尚未執行</span><span data-sync-role="time" class="text-ink-500"></span><button type="button" onclick="refreshSiteSyncStatus('public')" class="text-accent-blue hover:underline">重新整理</button></div>
+          <div data-sync-role="summary" class="hidden rounded-xl border border-ink-200 bg-surface p-3 text-[11px] leading-relaxed whitespace-pre-wrap"></div>
+        </article>
+        <article data-site-sync-target="history" class="rounded-2xl border border-ink-200 bg-canvas p-4 space-y-3">
+          <div><span class="text-[10px] font-black tracking-widest text-ink-500">HISTORY</span><h4 class="mt-1 text-sm font-black">中選會歷屆選舉資料</h4><p class="mt-1 text-[11px] leading-relaxed text-ink-500">獨立核對並重建總統、地方首長、議員與立法委員歷屆資料。</p></div>
+          <button data-sync-role="button" type="button" onclick="startSiteSync('history')" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-ink-900 text-white text-[11px] font-black hover:bg-accent-orange transition disabled:opacity-50 disabled:cursor-wait"><i data-lucide="play" class="w-3.5 h-3.5"></i>更新歷屆選舉資料</button>
+          <div class="flex flex-wrap items-center gap-2 text-[10px] font-bold"><span data-sync-role="state" class="px-2.5 py-1 rounded-full bg-surface border border-ink-200 text-ink-500">尚未執行</span><span data-sync-role="time" class="text-ink-500"></span><button type="button" onclick="refreshSiteSyncStatus('history')" class="text-accent-blue hover:underline">重新整理</button></div>
+          <div data-sync-role="summary" class="hidden rounded-xl border border-ink-200 bg-surface p-3 text-[11px] leading-relaxed whitespace-pre-wrap"></div>
+        </article>
       </div>
-      <div id="site-sync-summary" class="hidden rounded-xl border border-ink-200 bg-canvas p-4 text-xs leading-relaxed whitespace-pre-wrap"></div>
     </section>
 
     <div class="bg-surface p-5 rounded-2xl border editorial-border shadow-[4px_4px_0px_#141517]">
@@ -378,13 +389,17 @@
       return body;
     }
 
-    let siteSyncPoll = 0;
-    function renderSiteSync(data) {
+    const siteSyncPolls = new Map();
+    const siteSyncLabels = { candidates:'Taiwan GoGo 候選人名單', public:'搜尋與公開頁面', history:'中選會歷屆選舉資料' };
+    function siteSyncCard(target) { return document.querySelector(`[data-site-sync-target="${target}"]`); }
+    function renderSiteSync(target, data) {
       const run = data?.run || null, report = data?.report || null;
-      const state = document.getElementById('site-sync-state');
-      const time = document.getElementById('site-sync-time');
-      const summary = document.getElementById('site-sync-summary');
-      const button = document.getElementById('site-sync-btn');
+      const card = siteSyncCard(target);
+      if (!card) return;
+      const state = card.querySelector('[data-sync-role="state"]');
+      const time = card.querySelector('[data-sync-role="time"]');
+      const summary = card.querySelector('[data-sync-role="summary"]');
+      const button = card.querySelector('[data-sync-role="button"]');
       const status = run?.status || data?.request?.status || 'idle';
       const labels = { queued:'排隊中', in_progress:'更新中', completed:run?.conclusion==='success'?'更新完成':'更新失敗', requested:'已送出', idle:'尚未執行' };
       state.textContent = labels[status] || status;
@@ -409,19 +424,26 @@
         summary.textContent = '功能已就緒；請先在 API Worker 設定專用 GITHUB_SYNC_TOKEN，才可從這裡啟動更新。';
         summary.classList.remove('hidden');
       }
-      clearTimeout(siteSyncPoll);
-      if (['queued','in_progress','requested'].includes(status)) siteSyncPoll = setTimeout(refreshSiteSyncStatus, 8000);
+      clearTimeout(siteSyncPolls.get(target));
+      if (['queued','in_progress','requested'].includes(status)) siteSyncPolls.set(target, setTimeout(() => refreshSiteSyncStatus(target), 8000));
     }
-    window.refreshSiteSyncStatus = async function() {
-      try { renderSiteSync(await apiFetch('/api/admin/site-sync')); }
-      catch (err) { document.getElementById('site-sync-state').textContent = `狀態讀取失敗：${err.message}`; }
+    window.refreshSiteSyncStatus = async function(target) {
+      const card = siteSyncCard(target);
+      try { renderSiteSync(target, await apiFetch(`/api/admin/site-sync?target=${encodeURIComponent(target)}`)); }
+      catch (err) { if (card) card.querySelector('[data-sync-role="state"]').textContent = `狀態讀取失敗：${err.message}`; }
     };
-    window.startSiteSync = async function() {
-      if (!confirm('確定要立即檢查整站資料來源嗎？作業會在 GitHub 執行、驗證並列出所有異動。')) return;
-      const button=document.getElementById('site-sync-btn');button.disabled=true;
-      document.getElementById('site-sync-state').textContent='正在送出…';
-      try { renderSiteSync(await apiFetch('/api/admin/site-sync',{method:'POST',body:'{}'})); }
-      catch (err) { button.disabled=false;document.getElementById('site-sync-state').textContent=`啟動失敗：${err.message}`; }
+    window.refreshAllSiteSyncStatuses = function() {
+      return Promise.allSettled(Object.keys(siteSyncLabels).map(refreshSiteSyncStatus));
+    };
+    window.startSiteSync = async function(target) {
+      const label = siteSyncLabels[target];
+      const card = siteSyncCard(target);
+      if (!label || !card) return;
+      if (!confirm(`確定要更新「${label}」嗎？這次只會執行這一組工作。`)) return;
+      const button=card.querySelector('[data-sync-role="button"]');button.disabled=true;
+      card.querySelector('[data-sync-role="state"]').textContent='正在送出…';
+      try { renderSiteSync(target, await apiFetch(`/api/admin/site-sync?target=${encodeURIComponent(target)}`,{method:'POST',body:'{}'})); }
+      catch (err) { button.disabled=false;card.querySelector('[data-sync-role="state"]').textContent=`啟動失敗：${err.message}`; }
     };
 
     async function persistOverride(code, payload, revision = allOverrides[code]?._revision || '0') {
@@ -571,7 +593,7 @@
         unauthorized.classList.add('hidden');
         await bootEditor();
         editor.classList.remove('hidden');
-        refreshSiteSyncStatus();
+        refreshAllSiteSyncStatuses();
       } catch (err) {
         currentUser = null;
         document.getElementById('gate').classList.remove('hidden');

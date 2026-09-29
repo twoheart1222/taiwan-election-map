@@ -431,6 +431,9 @@ async function handleAdmin(request, env, url) {
     const owner = 'twoheart1222';
     const repo = 'taiwan-election-map';
     const workflow = 'manual-site-sync.yml';
+    const targets = new Set(['history', 'candidates', 'public']);
+    const target = new URL(request.url).searchParams.get('target') || 'candidates';
+    if (!targets.has(target)) throw new HttpError(400, '未知的資料更新項目。');
     const token = String(env.GITHUB_SYNC_TOKEN || '').trim();
     const github = async (endpoint, options = {}) => {
       const headers = new Headers(options.headers || {});
@@ -443,32 +446,40 @@ async function handleAdmin(request, env, url) {
     if (request.method === 'POST') {
       if (!token) throw new HttpError(503, '尚未設定 GitHub 同步憑證，請先設定 GITHUB_SYNC_TOKEN。');
       const response = await github(`/repos/${owner}/${repo}/actions/workflows/${workflow}/dispatches`, {
-        method: 'POST', body: JSON.stringify({ ref: 'main', inputs: { requested_by: session.email } }),
+        method: 'POST', body: JSON.stringify({ ref: 'main', inputs: { requested_by: session.email, target } }),
       });
       if (!response.ok) throw new HttpError(502, `GitHub 無法啟動更新作業（${response.status}）`);
-      const requestState = { status: 'requested', requestedAt: new Date().toISOString(), requestedBy: session.email };
-      await writeJsonKV(env, 'site_sync_request', requestState);
+      const requestState = { status: 'requested', target, requestedAt: new Date().toISOString(), requestedBy: session.email };
+      await writeJsonKV(env, `site_sync_request:${target}`, requestState);
       return jsonResponse(request, env, { ok: true, request: requestState });
     }
     if (request.method === 'GET') {
-      const requestState = await readJsonKV(env, 'site_sync_request', null);
-      const response = await github(`/repos/${owner}/${repo}/actions/workflows/${workflow}/runs?branch=main&per_page=5`);
+      const requestState = await readJsonKV(env, `site_sync_request:${target}`, null);
+      const response = await github(`/repos/${owner}/${repo}/actions/workflows/${workflow}/runs?branch=main&per_page=30`);
       let run = null;
       if (response.ok) {
         const payload = await response.json();
-        const latest = (payload.workflow_runs || [])[0];
-        if (latest) run = { id: latest.id, status: latest.status, conclusion: latest.conclusion, createdAt: latest.created_at, updatedAt: latest.updated_at, htmlUrl: latest.html_url, headSha: latest.head_sha };
+        const latest = (payload.workflow_runs || []).find(item => String(item.display_title || '').startsWith(`SYNC:${target}`));
+        const requestedAt = Date.parse(requestState?.requestedAt || '') || 0;
+        if (latest && Date.parse(latest.created_at) + 5000 >= requestedAt) {
+          run = { id: latest.id, target, status: latest.status, conclusion: latest.conclusion, createdAt: latest.created_at, updatedAt: latest.updated_at, htmlUrl: latest.html_url, headSha: latest.head_sha };
+        }
       }
       let report = null;
-      try {
-        // The report is committed at the end of the workflow, after the run's
-        // original head SHA. Include the completion timestamp to avoid serving
-        // a stale raw.githubusercontent.com edge-cache entry after a new run.
-        const reportVersion = encodeURIComponent(run?.updatedAt || String(Date.now()));
-        const raw = await fetch(`https://raw.githubusercontent.com/${owner}/${repo}/main/data/site-sync-report.json?v=${reportVersion}`, { cache: 'no-store' });
-        if (raw.ok) report = await raw.json();
-      } catch (_) { /* 首次執行前沒有報告 */ }
-      return jsonResponse(request, env, { request: requestState, run, report, configured: Boolean(token) });
+      if (run?.status === 'completed' && run?.conclusion === 'success') {
+        try {
+          // The report is committed at the end of the workflow, after the run's
+          // original head SHA. Include the completion timestamp to avoid serving
+          // a stale raw.githubusercontent.com edge-cache entry after a new run.
+          const reportVersion = encodeURIComponent(run.updatedAt || String(Date.now()));
+          const raw = await fetch(`https://raw.githubusercontent.com/${owner}/${repo}/main/data/site-sync-report-${target}.json?v=${reportVersion}`, { cache: 'no-store' });
+          if (raw.ok) {
+            const parsed = await raw.json();
+            if (parsed?.target === target) report = parsed;
+          }
+        } catch (_) { /* 該項目首次成功前沒有報告 */ }
+      }
+      return jsonResponse(request, env, { target, request: requestState, run, report, configured: Boolean(token) });
     }
   }
 

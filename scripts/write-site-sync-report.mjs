@@ -4,6 +4,7 @@ import { execFileSync } from 'node:child_process';
 const input = process.argv[2] || 'work/manual-site-sync/changes.tsv';
 const output = process.argv[3] || 'data/site-sync-report.json';
 const base = process.argv[4] || process.env.SITE_SYNC_BASE || 'HEAD';
+const target = process.argv[5] || process.env.SITE_SYNC_TARGET || 'all';
 let text = '';
 if (input === '--git-diff') {
   try { text = execFileSync('git', ['diff', '--name-status', `${base}..HEAD`], { encoding: 'utf8' }); } catch (_) {}
@@ -93,6 +94,7 @@ if (changedFiles.length && !contentSummary.length) {
   contentSummary.push({ title: '網站資料', description: '已完成資料核對與內容更新。' });
 }
 const report = {
+  target,
   checkedAt: new Date().toISOString(),
   changed: changedFiles.length > 0,
   changedFiles,

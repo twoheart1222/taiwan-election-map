@@ -4,7 +4,7 @@ import { readFile, readdir } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 
 test('every public admin URL receives the hardened no-store header policy', async () => {
-  const headers = await readFile(new URL('../_headers', import.meta.url), 'utf8');
+  const headers = (await readFile(new URL('../_headers', import.meta.url), 'utf8')).replace(/\r\n/g, '\n');
   for (const route of ['/admin.html', '/admin', '/admin/']) {
     const start = headers.indexOf(`\n${route}\n`);
     assert.notEqual(start, -1, `${route} is missing from _headers`);
@@ -23,7 +23,7 @@ test('every public admin URL receives the hardened no-store header policy', asyn
 });
 
 test('generated election pages restrict scripts and cannot be framed', async () => {
-  const headers = await readFile(new URL('../_headers', import.meta.url), 'utf8');
+  const headers = (await readFile(new URL('../_headers', import.meta.url), 'utf8')).replace(/\r\n/g, '\n');
   const start = headers.indexOf('\n/election/*\n');
   assert.notEqual(start, -1, '/election/* is missing from _headers');
   const rest = headers.slice(start + '\n/election/*\n'.length);
@@ -80,24 +80,34 @@ test('the public security contact points to the repository disclosure policy', a
   assert.ok(expires && Number.isFinite(Date.parse(expires)) && Date.parse(expires) > Date.now());
 });
 
-test('admin exposes an authenticated manual whole-site sync with content summaries and no timer', async () => {
+test('admin exposes separate authenticated data sync jobs with content summaries and no timer', async () => {
   const [admin, worker, workflow, reportWriter] = await Promise.all([
     readFile(new URL('../admin.html', import.meta.url), 'utf8'),
     readFile(new URL('../worker.js', import.meta.url), 'utf8'),
     readFile(new URL('../.github/workflows/manual-site-sync.yml', import.meta.url), 'utf8'),
     readFile(new URL('../scripts/write-site-sync-report.mjs', import.meta.url), 'utf8'),
   ]);
-  assert.match(admin, /id="site-sync-btn"/);
-  assert.match(admin, /\/api\/admin\/site-sync/);
+  assert.match(admin, /data-site-sync-target="candidates"/);
+  assert.match(admin, /data-site-sync-target="public"/);
+  assert.match(admin, /data-site-sync-target="history"/);
+  assert.match(admin, /\/api\/admin\/site-sync\?target=/);
   assert.match(admin, /GITHUB_SYNC_TOKEN/);
   assert.match(admin, /report\.contentSummary/);
   assert.doesNotMatch(admin, /異動檔案：/);
   assert.match(reportWriter, /Taiwan GoGo 候選人名單/);
   assert.match(reportWriter, /added,/);
   assert.match(reportWriter, /removed,/);
+  assert.match(reportWriter, /target,/);
   assert.match(worker, /path === 'site-sync'/);
+  assert.match(worker, /new Set\(\['history', 'candidates', 'public'\]\)/);
+  assert.match(worker, /site_sync_request:\$\{target\}/);
   assert.match(worker, /actions\/workflows\/\$\{workflow\}\/dispatches/);
   assert.match(workflow, /workflow_dispatch:/);
+  assert.match(workflow, /target:/);
+  assert.match(workflow, /inputs\.target == 'history'/);
+  assert.match(workflow, /inputs\.target == 'candidates'/);
+  assert.match(workflow, /inputs\.target == 'public'/);
+  assert.match(workflow, /site-sync-report-\$\{\{ inputs\.target \}\}\.json/);
   assert.doesNotMatch(workflow, /\bschedule:/);
   assert.match(workflow, /npm run build:official-history/);
   assert.match(workflow, /sync-local2026-village-chiefs\.mjs/);

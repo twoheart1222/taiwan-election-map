@@ -4,7 +4,7 @@ import path from 'node:path';
 import test from 'node:test';
 
 const root = path.resolve(import.meta.dirname, '..');
-const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8').replace(/\r\n/g, '\n');
 
 test('device location drills through county and town to the matched village', () => {
   const method = html.match(/async _openMyLocation\(setMessage\) \{([\s\S]*?)\n  \}\n\n  async _loadCandidateSearch/);

@@ -1,4 +1,6 @@
-name: Manual full-site data sync
+name: Manual site data sync
+
+run-name: "SYNC:${{ inputs.target }} · ${{ inputs.requested_by || 'admin' }}"
 
 on:
   workflow_dispatch:
@@ -7,6 +9,15 @@ on:
         description: Admin account that requested the sync
         required: false
         type: string
+      target:
+        description: Data group to update
+        required: true
+        default: candidates
+        type: choice
+        options:
+          - history
+          - candidates
+          - public
 
 permissions:
   contents: write
@@ -29,14 +40,17 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Sync official election history
+        if: ${{ inputs.target == 'history' }}
         run: |
           npm run build:official-history
           npm run build:official-legislators
       - name: Sync Taiwan GoGo data and village photos
+        if: ${{ inputs.target == 'candidates' }}
         run: |
           node scripts/sync-local2026-village-chiefs.mjs work/manual-site-sync/local2026 --apply-repo
           npm run sync:taiwangogo
       - name: Rebuild site indexes
+        if: ${{ inputs.target == 'public' }}
         run: |
           npm run build:search
           npm run build:seo
@@ -45,8 +59,8 @@ jobs:
       - name: Build change report
         run: |
           mkdir -p work/manual-site-sync
-          git diff --name-status -- . ':!data/site-sync-report.json' > work/manual-site-sync/changes.tsv
-          node scripts/write-site-sync-report.mjs work/manual-site-sync/changes.tsv data/site-sync-report.json
+          git diff --name-status -- . ':!data/site-sync-report*.json' > work/manual-site-sync/changes.tsv
+          node scripts/write-site-sync-report.mjs work/manual-site-sync/changes.tsv "data/site-sync-report-${{ inputs.target }}.json" HEAD "${{ inputs.target }}"
       - name: Commit verified updates
         run: |
           if git diff --quiet; then
@@ -56,5 +70,5 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add data election sitemap.xml llms.txt llms-full.txt
-          git commit -m 'Update verified site data [skip ci]'
+          git commit -m "Update ${{ inputs.target }} site data [skip ci]"
           git push
