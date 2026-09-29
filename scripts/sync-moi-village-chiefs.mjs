@@ -136,6 +136,9 @@ for (const county of geometries(countiesTopology)) {
 }
 
 const scraped = await scrapeOfficials();
+if (scraped.records.length < 7000) {
+  throw new Error(`MOI village-chief source returned only ${scraped.records.length} records; aborting to preserve the last verified incumbent snapshot.`);
+}
 const officials = new Map();
 for (const record of scraped.records) {
   const key = `${normalizeText(record.place)}|${normalizeText(record.name)}`;

@@ -88,6 +88,18 @@ test('published incumbent sync records exactly match verified village candidates
   assert.equal(yuanchangWayao?.village, '瓦磘村');
 });
 
+test('Luzhu publishes the 2026 Zhengxing Village boundary and candidate', () => {
+  const topology = readJson('data/villages/villages-68000050.json');
+  const villages = Object.values(topology.objects)[0].geometries;
+  const zhengxing = villages.find(item => item.properties.id === '68000050039');
+  assert.equal(zhengxing?.properties.name, '正興里');
+  assert.deepEqual(zhengxing?.properties.candidates.map(candidate => candidate.name), ['梁坤寶']);
+
+  const search = readJson('data/candidate_search.json');
+  assert.equal(search.areas['68000050039']?.areaName, '正興里');
+  assert.ok(search.candidates.some(candidate => candidate.areaId === '68000050039' && candidate.name === '梁坤寶'));
+});
+
 test('candidate search and admin KV sync preserve the incumbent marker', () => {
   const search = readJson('data/candidate_search.json');
   const xinbu = search.candidates.find(candidate => candidate.areaId === '65000040045' && candidate.name === '紀詠心');

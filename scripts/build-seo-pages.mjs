@@ -87,6 +87,7 @@ const urls = [
   { loc: '/', pri: '1.0', freq: 'daily' },
   { loc: '/election/', pri: '0.9', freq: 'daily' },
   { loc: '/history/', pri: '0.8', freq: 'monthly' },
+  { loc: '/history/legislator', pri: '0.8', freq: 'monthly' },
   { loc: '/history/local-executive', pri: '0.7', freq: 'monthly' },
   { loc: '/history/councilor', pri: '0.7', freq: 'monthly' },
   { loc: '/history/town', pri: '0.6', freq: 'monthly' },

@@ -59,14 +59,16 @@ const areaKeyFor = (code, category, district) => {
   if (category === 'representative') return normalize(`${county}${town || area}第${district}選舉區`);
   return normalize(`${county}${town}${area}`);
 };
-const candidatesOf = (document, code) => {
-  const rows = [];
-  for (const candidate of document.candidates || []) rows.push({ candidate, list: document.candidates, category: categoryFor(code, 'candidates'), district: null });
+const candidateGroupsOf = (document, code) => {
+  const groups = [];
+  if (Array.isArray(document.candidates)) groups.push({ list: document.candidates, category: categoryFor(code, 'candidates'), district: null });
   for (const field of ['councilors', 'representatives']) for (const block of document[field] || []) {
-    for (const candidate of block.candidates || []) rows.push({ candidate, list: block.candidates, category: categoryFor(code, field), district: String(block.district) });
+    if (Array.isArray(block.candidates)) groups.push({ list: block.candidates, category: categoryFor(code, field), district: String(block.district) });
   }
-  return rows;
+  return groups;
 };
+const candidatesOf = (document, code) => candidateGroupsOf(document, code)
+  .flatMap(group => group.list.map(candidate => ({ ...group, candidate })));
 const officialByCounty = new Map();
 const officialByArea = new Map();
 for (const record of roster) {
@@ -79,7 +81,26 @@ for (const record of roster) {
   officialByArea.get(areaKey).push(record);
 }
 
-const corrections = [], removals = [], changedBaseFiles = new Set(), changedOverrideCodes = new Set();
+const roleFor = (category, code) => {
+  if (category === 'mayor') return '縣市長候選人';
+  if (category === 'councilor') return '議員候選人';
+  if (category === 'townMayor') return '鄉鎮市長候選人';
+  if (category === 'representative') return '鄉鎮市民代表候選人';
+  return baseAreas.get(code)?.properties?.name?.endsWith('村') ? '村長候選人' : '里長候選人';
+};
+const newCandidate = (record, category, code) => ({
+  name: record.name,
+  party: record.party,
+  role: roleFor(category, code),
+  registeredDate: record.registeredDate,
+  gazetteUrl: null,
+  facebook: null,
+  instagram: null,
+  threads: null,
+  youtube: null,
+  photoUrl: null,
+});
+const corrections = [], removals = [], additions = [], changedBaseFiles = new Set(), changedOverrideCodes = new Set();
 function reconcileDocument(document, code, target) {
   const county = countyNames.get(code.slice(0, 5)) || '';
   for (const row of candidatesOf(document, code)) {
@@ -97,6 +118,14 @@ function reconcileDocument(document, code, target) {
     } else {
       row.list.splice(row.list.indexOf(row.candidate), 1);
       removals.push({ target, areaCode: code, county, category: row.category, name, reason: name ? '未出現在同職務、同縣市登記名冊' : '空白姓名候選人' });
+    }
+  }
+  for (const group of candidateGroupsOf(document, code)) {
+    const exactArea = officialByArea.get(`${group.category}|${areaKeyFor(code, group.category, group.district)}`) || [];
+    for (const record of exactArea) {
+      if (group.list.some(candidate => intersects(aliases(candidate.name), new Set(record.nameAliases)))) continue;
+      group.list.push(newCandidate(record, group.category, code));
+      additions.push({ target, areaCode: code, category: group.category, district: group.district, name: record.name });
     }
   }
 }
@@ -123,6 +152,7 @@ const report = {
   changedOverrideCodes: [...changedOverrideCodes].sort(),
   corrections,
   removals,
+  additions,
   note: '上屆票數只表示曾參選，不作為現任判斷依據；登記彙總表備註欄未提供現任身分。',
 };
 fs.writeFileSync(path.join(outputDir, 'registration-reconciliation-report.json'), `${JSON.stringify(report, null, 2)}\n`);
@@ -132,4 +162,5 @@ console.log(JSON.stringify({
   changedOverrideCodes: report.changedOverrideCodes.length,
   corrections: corrections.length,
   removals: removals.length,
+  additions: additions.length,
 }, null, 2));
