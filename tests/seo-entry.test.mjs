@@ -14,6 +14,8 @@ test('entry pages have distinct titles and crawlable query navigation', () => {
   assert.doesNotMatch(home, /<div id="mobile-menu"[\s\S]*?>候選人查詢 <span/);
   assert.match(home, /href="#candidate-search" data-open-candidate-search[^>]*>2026 全台候選人名單<\/a>/);
   assert.doesNotMatch(motion, /DETAILS\s*=\s*['"][^'"]*#faq details/);
+  assert.match(motion, /#faq details > summary/);
+  assert.match(motion, /duration: 280, easing: 'cubic-bezier\(\.22,\.8,\.26,1\)'/);
   assert.match(ui, /#faq details\[open\]>p\{animation:fo-faq-reveal/);
   assert.match(home, /id="election-guide"/);
   assert.match(entry, /id="county-list"/);

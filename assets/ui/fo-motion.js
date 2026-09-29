@@ -170,7 +170,7 @@
   }
 
   // ---- Press feedback (uses the independent `scale` property) ----------------
-  const PRESS = '.role-tab,.freq-btn,.crumb-btn,.search-result,.fo-btn,.mobile-county-option,.mobile-county-picker-toggle,.mobile-search-toggle,.mobile-menu-toggle,.history-mobile-toggle,.year-btn,.town-btn,.archive-segment>button,.local-segment>button,.local-flip-chip,.archive-flip,#drawer-close,#btn-back,.gazette-disclosure>summary,.map-label,#about a[href],.don-amt,[data-fo-press]';
+  const PRESS = '.role-tab,.freq-btn,.crumb-btn,.search-result,.fo-btn,.mobile-county-option,.mobile-county-picker-toggle,.mobile-search-toggle,.mobile-menu-toggle,.history-mobile-toggle,.year-btn,.town-btn,.archive-segment>button,.local-segment>button,.local-flip-chip,.archive-flip,#drawer-close,#btn-back,.gazette-disclosure>summary,#faq details>summary,.map-label,#about a[href],.don-amt,[data-fo-press]';
   const pressed = new Map();
   function pressTo(el, v) {
     let st = pressed.get(el);
@@ -190,7 +190,48 @@
     }, { passive: true });
   }
 
-  // ---- Disclosures: <details> height spring -----------------------------------
+  // FAQ disclosures start immediately and use one short, deterministic height
+  // animation. This keeps the ease-in/out without making the map compete with a
+  // long-running spring on every frame.
+  document.addEventListener('click', e => {
+    const summary = e.target.closest?.('#faq details > summary'); if (!summary || reduce) return;
+    const d = summary.parentElement;
+    e.preventDefault();
+    const priorTarget = d.dataset.foFaqTarget;
+    const opening = priorTarget == null ? !d.open : priorTarget !== '1';
+    const from = d.getBoundingClientRect().height;
+    d._foFaqAnimation?.cancel();
+    d.open = true;
+    d.style.height = 'auto';
+    d.style.overflow = 'hidden';
+    const border = parseFloat(getComputedStyle(d).borderTopWidth) || 0;
+    const target = opening ? d.getBoundingClientRect().height : summary.getBoundingClientRect().height + border;
+    d.style.height = `${from}px`;
+    d.dataset.foFaqTarget = opening ? '1' : '0';
+    if (typeof d.animate !== 'function') {
+      d.open = opening;
+      d.style.height = '';
+      d.style.overflow = '';
+      delete d.dataset.foFaqTarget;
+      return;
+    }
+    const animation = d.animate(
+      [{ height: `${from}px` }, { height: `${target}px` }],
+      { duration: 280, easing: 'cubic-bezier(.22,.8,.26,1)', fill: 'forwards' }
+    );
+    d._foFaqAnimation = animation;
+    animation.onfinish = () => {
+      if (d._foFaqAnimation !== animation) return;
+      if (!opening) d.open = false;
+      d.style.height = '';
+      d.style.overflow = '';
+      delete d.dataset.foFaqTarget;
+      d._foFaqAnimation = null;
+    };
+    animation.oncancel = () => { if (d._foFaqAnimation === animation) d._foFaqAnimation = null; };
+  });
+
+  // ---- Other disclosures: <details> height spring -----------------------------
   const DETAILS = '.gazette-disclosure,.archive-result-disclosure,.councilor-result-disclosure,.fo-details';
   document.addEventListener('click', e => {
     const summary = e.target.closest?.('summary'); if (!summary) return;
