@@ -148,6 +148,8 @@ body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-r
 #faq details>summary::after{content:'';flex:none;width:28px;height:28px;border-radius:50%;border:1px solid var(--fo-line-2);background:linear-gradient(var(--fo-text),var(--fo-text)) center/10px 1.8px no-repeat,linear-gradient(var(--fo-text),var(--fo-text)) center/1.8px 10px no-repeat;transition:transform .3s ease,background-color .2s ease}
 #faq details[open]>summary::after{transform:rotate(45deg);background-color:var(--fo-surface-3)}
 #faq details>p{margin:0 0 20px!important}
+#faq details[open]>p{animation:fo-faq-reveal .2s cubic-bezier(.2,.75,.3,1) both}
+@keyframes fo-faq-reveal{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 #faq>div:last-child,#faq>div[style*="max-width:860px"]{border-bottom-color:var(--fo-line)!important}
 
 /* ---------- Observatory list ---------- */
@@ -169,7 +171,7 @@ input.don{border-radius:12px!important;border-width:1px!important}
 footer{border-top-color:var(--fo-line)!important}
 .brand-lockup-plaque{border-radius:14px!important}
 
-@media (prefers-reduced-motion:reduce){.candidate-search:not(.open) .candidate-search-label{animation:none}}
+@media (prefers-reduced-motion:reduce){.candidate-search:not(.open) .candidate-search-label,#faq details[open]>p{animation:none}}
 #candidate-search-input::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none;width:14px;height:14px;cursor:pointer;background:var(--fo-muted);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M2 2l10 10M12 2 2 12' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M2 2l10 10M12 2 2 12' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") center/contain no-repeat}
 /* iOS zooms (and visually softens) any input under 16px; keep the search field at 16px on phones.
    The mobile search sheet is already near-opaque, so drop its backdrop blur (it can soften

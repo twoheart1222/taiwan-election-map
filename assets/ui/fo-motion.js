@@ -191,7 +191,7 @@
   }
 
   // ---- Disclosures: <details> height spring -----------------------------------
-  const DETAILS = '#faq details,.gazette-disclosure,.archive-result-disclosure,.councilor-result-disclosure,.fo-details';
+  const DETAILS = '.gazette-disclosure,.archive-result-disclosure,.councilor-result-disclosure,.fo-details';
   document.addEventListener('click', e => {
     const summary = e.target.closest?.('summary'); if (!summary) return;
     const d = summary.parentElement; if (!d || d.tagName !== 'DETAILS' || !d.matches(DETAILS) || reduce) return;
