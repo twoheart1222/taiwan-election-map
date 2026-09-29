@@ -1,0 +1,32 @@
+{
+  "target": "candidates",
+  "checkedAt": "2026-09-29T12:09:56.298Z",
+  "changed": true,
+  "changedFiles": [
+    {
+      "status": "M",
+      "path": "data/taiwangogo_links.json"
+    }
+  ],
+  "groups": [
+    {
+      "label": "村里與候選人",
+      "files": [
+        "data/taiwangogo_links.json"
+      ]
+    }
+  ],
+  "contentSummary": [
+    {
+      "title": "Taiwan GoGo 候選人名單",
+      "description": "候選人資料由 187 筆更新為 187 筆。",
+      "added": [],
+      "removed": []
+    }
+  ],
+  "sources": [
+    "中央選舉委員會選舉資料庫",
+    "local2026.taiwangogo.tw",
+    "council2026.taiwangogo.tw"
+  ]
+}
