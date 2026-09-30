@@ -96,7 +96,7 @@ const DEFAULT_OBSERVATORY_LINKS = [
   { n: '立法院議事轉播 IVOD', cat: '政見與法案監督', url: 'https://ivod.ly.gov.tw/', d: '國會院會與各委員會即時視訊轉播與歷史隨選隨播系統。' },
   { n: '監察院政治獻金公開平臺', cat: '陽光法案開放', url: 'https://ardata.cy.gov.tw/', d: '檢驗各政黨與候選人合法申報之收支帳冊與競選資金流向。' },
   { n: '沃草 Watchout 國會觀測', cat: '公民科技媒體', url: 'https://watchout.tw/', d: '以圖文與資訊設計降低公民政治參與門檻的獨立媒體平台。' },
-  { n: '政治開箱 Politics Design', cat: '政治視覺研究', url: 'https://politicsdesign.tw/', d: '台灣當代政治競選美學與民主視覺溝通研究平台。' },
+  { n: '政治開箱 Politics Design', cat: '政治視覺研究', url: 'https://politicsdesign.tw/', d: '臺灣當代政治競選美學與民主視覺溝通研究平台。' },
 ];
 
 /* ------------------------------ helpers ------------------------------ */

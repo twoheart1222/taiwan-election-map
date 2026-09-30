@@ -343,7 +343,7 @@ try{
           <div class="pt-cols" style="position:absolute;inset:0;display:flex"><span></span><span></span><span></span><span></span><span></span></div>
           <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:clamp(24px,5vw,64px)">
             <div id="map-transition-meta" style="font:800 clamp(10px,1.1vw,13px)/1 'Archivo','Noto Sans TC';letter-spacing:.26em;margin-bottom:14px;color:#E4022B">縣市選情 / LOCAL ELECTION</div>
-            <div style="overflow:hidden;padding-bottom:.12em"><div id="map-transition-label" style="font:900 clamp(38px,8vw,110px)/.92 'Noto Sans TC','Archivo';letter-spacing:-.02em;text-wrap:balance;color:#E4022B;will-change:transform,opacity">全台灣</div></div>
+            <div style="overflow:hidden;padding-bottom:.12em"><div id="map-transition-label" style="font:900 clamp(38px,8vw,110px)/.92 'Noto Sans TC','Archivo';letter-spacing:-.02em;text-wrap:balance;color:#E4022B;will-change:transform,opacity">全臺灣</div></div>
             <div id="map-transition-rule" style="height:3px;width:0;background:#E4022B;margin-top:clamp(16px,2.4vw,26px);will-change:width"></div>
           </div>
         </div>
@@ -367,16 +367,16 @@ try{
         </div>
 
         <div id="crumb" style="position:absolute;top:clamp(16px,3vh,32px);right:clamp(16px,4vw,44px);display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;max-width:60%">
-          <button class="crumb-btn" data-level="all" style="pointer-events:auto;border:none;cursor:pointer;background:#E4022B;color:#fff;font-family:'Archivo';font-weight:800;font-size:12px;letter-spacing:.02em;padding:7px 14px;border-radius:999px">全台灣</button>
+          <button class="crumb-btn" data-level="all" style="pointer-events:auto;border:none;cursor:pointer;background:#E4022B;color:#fff;font-family:'Archivo';font-weight:800;font-size:12px;letter-spacing:.02em;padding:7px 14px;border-radius:999px">全臺灣</button>
         </div>
         <div id="mobile-county-picker" class="mobile-county-picker">
-          <button id="mobile-county-picker-toggle" class="mobile-county-picker-toggle" type="button" aria-expanded="false" aria-controls="mobile-county-picker-menu">全台灣 <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 7.5 5 5 5-5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+          <button id="mobile-county-picker-toggle" class="mobile-county-picker-toggle" type="button" aria-expanded="false" aria-controls="mobile-county-picker-menu">全臺灣 <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 7.5 5 5 5-5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
           <div id="mobile-county-picker-menu" class="mobile-county-picker-menu" aria-label="選擇縣市"></div>
         </div>
 
         <div id="tw3d-label" style="position:absolute;left:clamp(16px,4vw,44px);bottom:clamp(18px,3vh,34px);pointer-events:none;font-family:'Archivo','Noto Sans TC',sans-serif">
           <div style="font-weight:700;font-size:11px;letter-spacing:.24em;color:#E4022B;margin-bottom:6px">SELECTED · 目前檢視</div>
-          <div id="tw3d-name" style="font-family:'Noto Sans TC';font-weight:900;font-size:clamp(22px,3.4vw,42px);line-height:1;letter-spacing:-.02em;color:#f4f1ea"><span id="tw3d-prefix"></span><span class="readout-leaf-mask"><span id="tw3d-leaf" class="readout-leaf">台灣全境</span></span></div>
+          <div id="tw3d-name" style="font-family:'Noto Sans TC';font-weight:900;font-size:clamp(22px,3.4vw,42px);line-height:1;letter-spacing:-.02em;color:#f4f1ea"><span id="tw3d-prefix"></span><span class="readout-leaf-mask"><span id="tw3d-leaf" class="readout-leaf">臺灣全境</span></span></div>
           <div id="tw3d-meta" style="font-weight:600;font-size:13px;letter-spacing:.04em;color:#8a857c;margin-top:8px">拖曳旋轉 · 點擊縣市查看候選人</div>
         </div>
 
@@ -389,7 +389,7 @@ try{
             <div style="min-width:0">
               <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
                 <span id="drawer-tag" style="display:inline-flex;padding:4px 12px;border-radius:999px;background:#2a1013;color:#ff5a74;font-size:11px;font-weight:800;letter-spacing:.04em">直轄市</span>
-                <span id="drawer-path" style="font-size:12px;font-weight:600;color:#8a857c">全台灣視角</span>
+                <span id="drawer-path" style="font-size:12px;font-weight:600;color:#8a857c">全臺灣視角</span>
               </div>
               <h2 id="drawer-title" style="font-family:'Noto Sans TC','Archivo',sans-serif;font-weight:900;font-size:clamp(24px,3.6vw,34px);margin:12px 0 0;line-height:1.15;letter-spacing:-.02em">縣市首長選舉</h2>
             </div>
@@ -590,7 +590,7 @@ try{
 <script>
 /* =======================================================================
    Formosa Observatory — 前端主程式（單一檔，無框架）
-   - 3D 立體台灣：縣市 → 鄉鎮市區 → 村里 逐層下探（three.js）
+   - 3D 立體臺灣：縣市 → 鄉鎮市區 → 村里 逐層下探（three.js）
    - 倒數天數（GSAP 滾輪）、Preloader 模糊放大進場
    - 候選人抽屜：照片 / 政黨標記 / 社群圖標 / 選舉公報 / 選舉區
    - 後台校閱資料由 Cloudflare Worker + KV 供應（window.OVERRIDES_URL）
@@ -777,7 +777,7 @@ class App {
     const source = this.allCountyFeats || this.countyFeats;
     if (!menu || !source?.length) return;
     const counties = [...source].sort((a, b) => a.properties.name.localeCompare(b.properties.name, 'zh-Hant'));
-    menu.innerHTML = '<button type="button" class="mobile-county-option" data-county-code="">全台灣</button>' + counties.map(feature => `<button type="button" class="mobile-county-option" data-county-code="${feature.properties.id}">${feature.properties.name}</button>`).join('');
+    menu.innerHTML = '<button type="button" class="mobile-county-option" data-county-code="">全臺灣</button>' + counties.map(feature => `<button type="button" class="mobile-county-option" data-county-code="${feature.properties.id}">${feature.properties.name}</button>`).join('');
   }
   _playVeil(veil, title, kicker, rule, change, key = '_veilToken', onDone = null) {
     if (!veil || !veil.animate) { change(); onDone?.(); return; }
@@ -1403,7 +1403,7 @@ class App {
       if (!areas.length) areas = [candidate.village || candidate.town || candidate.county].filter(Boolean);
       parts.push(`第 ${candidate.district} 選舉區${areas.length ? `（${areas.join('、')}）` : ''}`);
     }
-    return parts.join(' › ') || '全台灣';
+    return parts.join(' › ') || '全臺灣';
   }
 
   _renderCandidateSearchResults(container, matches, isPhoneticSuggestion = false) {
@@ -1623,8 +1623,8 @@ class App {
     const counties = await this._loadTopo('./data/counties.json');
     this.allCountyFeats = this._feats(counties);
     const insetTargets = {
-      '09020': { center: [119.48, 22.72], scale: 1.35 }, // 金門：置於台灣西南側小框位置
-      '09007': { center: [119.52, 24.55], scale: 1.05 }, // 連江：置於台灣西北側小框位置
+      '09020': { center: [119.48, 22.72], scale: 1.35 }, // 金門：置於臺灣西南側小框位置
+      '09007': { center: [119.52, 24.55], scale: 1.05 }, // 連江：置於臺灣西北側小框位置
     };
     let feats = this.allCountyFeats
       .filter(f => {
@@ -1655,7 +1655,7 @@ class App {
     this.baseCol = new THREE.Color(0x4d483f); this.hotCol = new THREE.Color(0xE4022B); this.districtCol = new THREE.Color(0xf6a06b); this.dimCol = new THREE.Color(0x2a2723);
 
     this.camState = { az: 0, pol: 0.62, r: 150, tx: 0, ty: 0, tz: 0 };
-    this.nav = [{ level: 'county', label: '全台灣' }];
+    this.nav = [{ level: 'county', label: '全臺灣' }];
     this._buildLevel('county', feats);
     this._frame(feats, { pol: 0.62, dur: 0 });
 
@@ -1799,7 +1799,7 @@ class App {
       .to(this.camState, { tx, tz, r: targetR, pol: 0.16, duration: 0.82, ease: 'expo.inOut' });
   }
 
-  _transitionMap(change, label = '全台灣', meta = 'FORMOSA OBSERVATORY / ELECTION MAP') {
+  _transitionMap(change, label = '全臺灣', meta = 'FORMOSA OBSERVATORY / ELECTION MAP') {
     // 地圖與頁面共用 body 最上層的遮罩，避免手機抽屜建立 stacking context 後蓋住轉場。
     const veil = document.getElementById('page-transition');
     if (!veil) { change(); return; }
@@ -1833,7 +1833,7 @@ class App {
     const THREE = this.THREE;
     while (this.flat.children.length) { const m = this.flat.children.pop(); if (m.geometry) m.geometry.dispose(); if (m.material) m.material.dispose(); }
     this.active = { level, meshes: [], byName: {} };
-    if (level === 'county') this._setCue('全台灣', '縣市選情 / COUNTY');
+    if (level === 'county') this._setCue('全臺灣', '縣市選情 / COUNTY');
     this._hovered = null; this._selected = null;
     const is3D = level === 'county';
     const depth = is3D ? 1.4 : 0.06;
@@ -1929,8 +1929,8 @@ class App {
       leaf = document.createElement('span'); leaf.id = 'tw3d-leaf'; leaf.className = 'readout-leaf';
       mask.appendChild(leaf); name.append(prefix, mask);
     }
-    const parts = String(label || '台灣全境').split(/\s*›\s*/).filter(Boolean);
-    const nextLeaf = parts.pop() || '台灣全境';
+    const parts = String(label || '臺灣全境').split(/\s*›\s*/).filter(Boolean);
+    const nextLeaf = parts.pop() || '臺灣全境';
     const nextPrefix = parts.length ? `${parts.join(' › ')} › ` : '';
     const samePath = prefix.textContent === nextPrefix && leaf.textContent === nextLeaf;
     const onlyLeafChanged = prefix.textContent === nextPrefix && leaf.textContent !== nextLeaf;
@@ -1964,8 +1964,8 @@ class App {
   }
   _restoreReadout(roll = false) {
     const context = this._readoutContext;
-    if (!context) { this._writeReadout('台灣全境', '拖曳旋轉 · 點擊縣市查看候選人'); return; }
-    const label = context.label || context.props?.name || '台灣全境';
+    if (!context) { this._writeReadout('臺灣全境', '拖曳旋轉 · 點擊縣市查看候選人'); return; }
+    const label = context.label || context.props?.name || '臺灣全境';
     const meta = context.meta || (context.props ? `${this._tally(context.props, context.level)} · 目前檢視` : '目前檢視');
     this._writeReadout(label, meta, roll);
   }
@@ -2135,7 +2135,7 @@ class App {
       topoP.then(topo => {
         if (revision !== this._navigationRevision || this.county?.code !== p.id) return;
         const feats = this._feats(topo); this.townFeats = feats;
-        this.nav = [{ level: 'county', label: '全台灣' }, { level: 'town', label: p.name, code: p.id }];
+        this.nav = [{ level: 'county', label: '全臺灣' }, { level: 'town', label: p.name, code: p.id }];
         this._renderCrumb();
         this._buildLevel('town', feats); this._frame(feats, { pol: 0.2, dur: 0 });
         this._openCountyDrawer(p);
@@ -2190,9 +2190,9 @@ class App {
   _goLevel(idx, animate = true) {
     this._navigationRevision += 1;
     if (idx <= 0) {
-      this.nav = [{ level: 'county', label: '全台灣' }]; this._renderCrumb();
+      this.nav = [{ level: 'county', label: '全臺灣' }]; this._renderCrumb();
       const showTaiwan = () => { this._buildLevel('county', this.countyFeats); this._frame(this.countyFeats, { pol: 0.62, dur: 0 }); };
-      if (animate) this._transitionMap(showTaiwan, '全台灣', '返回首頁 / HOME');
+      if (animate) this._transitionMap(showTaiwan, '全臺灣', '返回首頁 / HOME');
       else showTaiwan();
       this._auto = true; this._setDrawerOpen(false);
       this._setDrawerLock(false); this._drawerOpen = false; this._applyViewOffset();
@@ -2716,7 +2716,7 @@ class App {
       { n: '立法院議事轉播 IVOD', cat: '政見與法案監督', url: 'https://ivod.ly.gov.tw/', host: 'ivod.ly.gov.tw', d: '國會院會與各委員會即時視訊轉播與歷史隨選隨播系統。' },
       { n: '監察院政治獻金公開平臺', cat: '陽光法案開放', url: 'https://ardata.cy.gov.tw/', host: 'ardata.cy.gov.tw', d: '檢驗各政黨與候選人合法申報之收支帳冊與競選資金流向。' },
       { n: '沃草 Watchout 國會觀測', cat: '公民科技媒體', url: 'https://watchout.tw/', host: 'watchout.tw', d: '以圖文與資訊設計降低公民政治參與門檻的獨立媒體平台。' },
-      { n: '政治開箱 Politics Design', cat: '政治視覺研究', url: 'https://politicsdesign.tw/', host: 'politicsdesign.tw', d: '台灣當代政治競選美學與民主視覺溝通研究平台。' },
+      { n: '政治開箱 Politics Design', cat: '政治視覺研究', url: 'https://politicsdesign.tw/', host: 'politicsdesign.tw', d: '臺灣當代政治競選美學與民主視覺溝通研究平台。' },
     ];
   }
   // ---------- 選情數據：上期（2022）與本期（2026）得票，分層級（目前：縣市首長） ----------

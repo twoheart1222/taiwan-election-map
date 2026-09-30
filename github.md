@@ -6,7 +6,7 @@ path:
 date: 2026-09-15T16:48:00Z
 
 ### Updated in this project
-- index.dc.html：Preloader 顯示倒數天數 + 模糊放大進場動畫；進場後直接為 3D 立體台灣地圖
+- index.dc.html：Preloader 顯示倒數天數 + 模糊放大進場動畫；進場後直接為 3D 立體臺灣地圖
 - 3D 地圖點選縣市開啟候選人抽屜（沿用原 index.html 的 card/drawer/party/選舉區選單功能，改為紅黑白主題）
 - 導覽列小型「距投票 XX 天」滾動倒數；刪除關鍵數字與時程區塊
 - 新增 observatory.dc.html（政治觀測站，獨立頁）與 support.dc.html（支持我們・小額捐款）

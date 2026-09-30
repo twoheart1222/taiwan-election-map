@@ -107,12 +107,12 @@
         </div>
 
         <div id="crumb" style="position:absolute;top:clamp(16px,3vh,32px);right:clamp(16px,4vw,44px);display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;max-width:60%">
-          <button class="crumb-btn" data-level="all" style="pointer-events:auto;border:none;cursor:pointer;background:#E4022B;color:#fff;font-family:'Archivo';font-weight:800;font-size:12px;letter-spacing:.02em;padding:7px 14px;border-radius:999px">全台灣</button>
+          <button class="crumb-btn" data-level="all" style="pointer-events:auto;border:none;cursor:pointer;background:#E4022B;color:#fff;font-family:'Archivo';font-weight:800;font-size:12px;letter-spacing:.02em;padding:7px 14px;border-radius:999px">全臺灣</button>
         </div>
 
         <div id="tw3d-label" style="position:absolute;left:clamp(16px,4vw,44px);bottom:clamp(18px,3vh,34px);pointer-events:none;font-family:'Archivo','Noto Sans TC',sans-serif">
           <div style="font-weight:700;font-size:11px;letter-spacing:.24em;color:#E4022B;margin-bottom:6px">SELECTED · 目前檢視</div>
-          <div id="tw3d-name" style="font-family:'Noto Sans TC';font-weight:900;font-size:clamp(22px,3.4vw,42px);line-height:1;letter-spacing:-.02em;color:#f4f1ea">台灣全境</div>
+          <div id="tw3d-name" style="font-family:'Noto Sans TC';font-weight:900;font-size:clamp(22px,3.4vw,42px);line-height:1;letter-spacing:-.02em;color:#f4f1ea">臺灣全境</div>
           <div id="tw3d-meta" style="font-weight:600;font-size:13px;letter-spacing:.04em;color:#8a857c;margin-top:8px">拖曳旋轉 · 點擊縣市查看候選人</div>
         </div>
 
@@ -124,7 +124,7 @@
             <div style="min-width:0">
               <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
                 <span id="drawer-tag" style="display:inline-flex;padding:4px 12px;border-radius:999px;background:#2a1013;color:#ff5a74;font-size:11px;font-weight:800;letter-spacing:.04em">直轄市</span>
-                <span id="drawer-path" style="font-size:12px;font-weight:600;color:#8a857c">全台灣視角</span>
+                <span id="drawer-path" style="font-size:12px;font-weight:600;color:#8a857c">全臺灣視角</span>
               </div>
               <h2 id="drawer-title" style="font-family:'Noto Sans TC','Archivo',sans-serif;font-weight:900;font-size:clamp(24px,3.6vw,34px);margin:12px 0 0;line-height:1.15;letter-spacing:-.02em">縣市首長選舉</h2>
             </div>
@@ -232,7 +232,7 @@
 <script>
 /* =======================================================================
    2026 全台選舉開箱圖鑑 — 前端主程式（單一檔，無框架）
-   - 3D 立體台灣：縣市 → 鄉鎮市區 → 村里 逐層下探（three.js）
+   - 3D 立體臺灣：縣市 → 鄉鎮市區 → 村里 逐層下探（three.js）
    - 倒數天數（GSAP 滾輪）、Preloader 模糊放大進場
    - 候選人抽屜：照片 / 政黨標記 / 社群圖標 / 選舉公報 / 選舉區
    - 後台校閱資料由 Cloudflare Worker + KV 供應（window.OVERRIDES_URL）
@@ -374,7 +374,7 @@ class App {
     this.baseCol = new THREE.Color(0x4d483f); this.hotCol = new THREE.Color(0xE4022B); this.districtCol = new THREE.Color(0xf6a06b); this.dimCol = new THREE.Color(0x2a2723);
 
     this.camState = { az: 0, pol: 0.62, r: 150, tx: 0, ty: 0, tz: 0 };
-    this.nav = [{ level: 'county', label: '全台灣' }];
+    this.nav = [{ level: 'county', label: '全臺灣' }];
     this._buildLevel('county', feats);
     this._frame(feats, { pol: 0.62, dur: 0 });
 
@@ -519,7 +519,7 @@ class App {
     try {
       const topo = await this._loadTopo(`./data/towns/towns-${p.id}.json`);
       const feats = this._feats(topo); this.townFeats = feats;
-      this.nav = [{ level: 'county', label: '全台灣' }, { level: 'town', label: p.name, code: p.id }];
+      this.nav = [{ level: 'county', label: '全臺灣' }, { level: 'town', label: p.name, code: p.id }];
       this._renderCrumb();
       this._buildLevel('town', feats); this._frame(feats, { pol: 0.7 });
     } catch (e) { console.warn('drillCounty', e); this._frame([this.countyFeats.find(f => f.properties.id === p.id)], { pol: 0.7 }); this._toast('此縣市尚無鄉鎮圖層資料'); }
@@ -546,11 +546,11 @@ class App {
   }
   _goLevel(idx) {
     if (idx <= 0) {
-      this.nav = [{ level: 'county', label: '全台灣' }]; this._renderCrumb();
+      this.nav = [{ level: 'county', label: '全臺灣' }]; this._renderCrumb();
       this._buildLevel('county', this.countyFeats); this._frame(this.countyFeats, { pol: 0.62 });
       this._auto = true; document.getElementById('drawer').style.transform = 'translateX(103%)';
       this._drawerOpen = false; this._applyViewOffset();
-      document.getElementById('tw3d-name').textContent = '台灣全境'; document.getElementById('tw3d-meta').textContent = '拖曳旋轉 · 點擊縣市查看候選人';
+      document.getElementById('tw3d-name').textContent = '臺灣全境'; document.getElementById('tw3d-meta').textContent = '拖曳旋轉 · 點擊縣市查看候選人';
       return;
     }
     const node = this.nav[idx]; this.nav = this.nav.slice(0, idx + 1); this._renderCrumb();
@@ -685,7 +685,7 @@ class App {
       { n: '立法院議事轉播 IVOD', cat: '政見與法案監督', url: 'https://ivod.ly.gov.tw/', host: 'ivod.ly.gov.tw', d: '國會院會與各委員會即時視訊轉播與歷史隨選隨播系統。' },
       { n: '監察院政治獻金公開平臺', cat: '陽光法案開放', url: 'https://ardata.cy.gov.tw/', host: 'ardata.cy.gov.tw', d: '檢驗各政黨與候選人合法申報之收支帳冊與競選資金流向。' },
       { n: '沃草 Watchout 國會觀測', cat: '公民科技媒體', url: 'https://watchout.tw/', host: 'watchout.tw', d: '以圖文與資訊設計降低公民政治參與門檻的獨立媒體平台。' },
-      { n: '政治開箱 Politics Design', cat: '政治視覺研究', url: 'https://politicsdesign.tw/', host: 'politicsdesign.tw', d: '台灣當代政治競選美學與民主視覺溝通研究平台。' },
+      { n: '政治開箱 Politics Design', cat: '政治視覺研究', url: 'https://politicsdesign.tw/', host: 'politicsdesign.tw', d: '臺灣當代政治競選美學與民主視覺溝通研究平台。' },
     ];
   }
   _renderSites() {
