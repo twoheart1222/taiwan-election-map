@@ -1,27 +1,86 @@
 {
   "target": "candidates",
-  "checkedAt": "2026-09-29T12:09:56.298Z",
+  "checkedAt": "2026-09-30T14:49:24.146Z",
   "changed": true,
   "changedFiles": [
     {
       "status": "M",
       "path": "data/taiwangogo_links.json"
+    },
+    {
+      "status": "M",
+      "path": "data/villages/villages-10004020.json"
+    },
+    {
+      "status": "M",
+      "path": "data/villages/villages-10009010.json"
+    },
+    {
+      "status": "M",
+      "path": "data/villages/villages-10010100.json"
+    },
+    {
+      "status": "M",
+      "path": "data/villages/villages-64000030.json"
+    },
+    {
+      "status": "M",
+      "path": "data/villages/villages-64000090.json"
+    },
+    {
+      "status": "M",
+      "path": "data/villages/villages-65000070.json"
+    },
+    {
+      "status": "M",
+      "path": "data/villages/villages-66000130.json"
+    },
+    {
+      "status": "M",
+      "path": "data/villages/villages-66000170.json"
+    },
+    {
+      "status": "M",
+      "path": "data/villages/villages-67000350.json"
+    },
+    {
+      "status": "M",
+      "path": "data/villages/villages-68000110.json"
     }
   ],
   "groups": [
     {
       "label": "村里與候選人",
       "files": [
-        "data/taiwangogo_links.json"
+        "data/taiwangogo_links.json",
+        "data/villages/villages-10004020.json",
+        "data/villages/villages-10009010.json",
+        "data/villages/villages-10010100.json",
+        "data/villages/villages-64000030.json",
+        "data/villages/villages-64000090.json",
+        "data/villages/villages-65000070.json",
+        "data/villages/villages-66000130.json",
+        "data/villages/villages-66000170.json",
+        "data/villages/villages-67000350.json",
+        "data/villages/villages-68000110.json"
       ]
     }
   ],
   "contentSummary": [
     {
       "title": "Taiwan GoGo 候選人名單",
-      "description": "候選人資料由 187 筆更新為 187 筆。",
-      "added": [],
+      "description": "候選人資料由 187 筆更新為 191 筆。",
+      "added": [
+        "新竹縣・第13選區・林世偉",
+        "台南市・第8選區・謝秉舟",
+        "金門縣・第3選區・洪毓壕",
+        "雲林縣・縣市長候選人・劉建國"
+      ],
       "removed": []
+    },
+    {
+      "title": "村里與候選人資料",
+      "description": "重新核對候選人、村里長、照片與在任／轉任標記，共有 10 組資料內容更新。"
     }
   ],
   "sources": [
