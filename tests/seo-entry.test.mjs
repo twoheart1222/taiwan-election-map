@@ -13,6 +13,8 @@ test('entry pages have distinct titles and crawlable query navigation', () => {
   assert.doesNotMatch(home, /class="navlink">候選人查詢/);
   assert.doesNotMatch(home, /<div id="mobile-menu"[\s\S]*?>候選人查詢 <span/);
   assert.match(home, /href="#candidate-search" data-open-candidate-search[^>]*>2026 全台候選人名單<\/a>/);
+  assert.match(home, /#tw3d\{touch-action:pan-y !important\}/);
+  assert.doesNotMatch(home, /@media\(max-width:660px\)[\s\S]*?#tw3d\{touch-action:none !important\}/);
   assert.doesNotMatch(motion, /DETAILS\s*=\s*['"][^'"]*#faq details/);
   assert.match(motion, /#faq details > summary/);
   assert.match(motion, /duration: 280, easing: 'cubic-bezier\(\.22,\.8,\.26,1\)'/);
