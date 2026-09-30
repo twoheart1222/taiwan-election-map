@@ -2,6 +2,7 @@ import { existsSync } from 'node:fs';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { overridesUrl } from './_api-url.mjs';
+import { fillFromAutomatedSource } from './automated-source-merge.mjs';
 
 const SOURCE_URL = 'https://local2026.taiwangogo.tw/export/records.json';
 const SITE_ORIGIN = 'https://local2026.taiwangogo.tw';
@@ -97,20 +98,23 @@ const report = {
   matched: [],
 };
 
-function supplement(person, target, photoCounter, preservedCounter) {
+function supplement(person, target, photoCounter, preservedCounter, explicitSnapshot = false) {
   const profileUrl = `${SITE_ORIGIN}/people/${encodeURIComponent(person.personId)}/`;
-  let changed = false;
-  if (target.local2026Url !== profileUrl) {
-    target.local2026Url = profileUrl;
-    changed = true;
-  }
-  if (String(target.photoUrl || '').trim()) report[preservedCounter] += 1;
-  else if (person.photoUrl) {
-    target.photoUrl = new URL(person.photoUrl, SITE_ORIGIN).href;
+  const incoming = {
+    local2026Url: profileUrl,
+    photoUrl: person.photoUrl ? new URL(person.photoUrl, SITE_ORIGIN).href : '',
+  };
+  const merge = fillFromAutomatedSource(
+    target,
+    incoming,
+    ['local2026Url', 'photoUrl'],
+    { explicitSnapshot },
+  );
+  if (merge.preserved.includes('photoUrl')) report[preservedCounter] += 1;
+  if (merge.filled.includes('photoUrl')) {
     report[photoCounter] += 1;
-    changed = true;
   }
-  return { profileUrl, changed };
+  return { profileUrl, changed: merge.filled.length > 0 };
 }
 
 for (const person of source.people || []) {
@@ -138,7 +142,13 @@ for (const person of source.people || []) {
   if (overrideMatches.length === 1) {
     const match = overrideMatches[0];
     villageId ||= match.meta.villageId;
-    const supplemented = supplement(person, match.candidate, 'overridePhotosAdded', 'existingOverridePhotosPreserved');
+    const supplemented = supplement(
+      person,
+      match.candidate,
+      'overridePhotosAdded',
+      'existingOverridePhotosPreserved',
+      overrides[villageId]?.schemaVersion === 2,
+    );
     profileUrl ||= supplemented.profileUrl;
   }
   report.matchedPeople += 1;

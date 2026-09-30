@@ -1,5 +1,6 @@
 (() => {
-  // GitHub → Cloudflare KV 可同步欄位。
+  // GitHub → Cloudflare KV 可同步欄位。這些欄位一律只補缺漏；
+  // schemaVersion 2 已明確儲存的值（包括 null、空字串與 false）永遠優先。
   // votes / prevVotes / elected 加入後，111 年歷史得票才會進入後台的 KV。
   const SYNC_FIELDS = [
     'facebook',
@@ -7,6 +8,9 @@
     'threads',
     'youtube',
     'photoUrl',
+    'website',
+    'taiwanGoGoUrl',
+    'local2026Url',
     'gazetteUrl',
     'gazettePreviewUrl',
     'gazettePage',
@@ -64,7 +68,7 @@
 
           if (field === 'photoUrl') {
             stats.photosFilled += 1;
-          } else if (['facebook', 'instagram', 'threads', 'youtube'].includes(field)) {
+          } else if (['facebook', 'instagram', 'threads', 'youtube', 'website', 'taiwanGoGoUrl', 'local2026Url'].includes(field)) {
             stats.socialFieldsFilled += 1;
           } else {
             stats.electionFieldsFilled += 1;
@@ -128,7 +132,7 @@
 
         if (field === 'photoUrl') {
           result.photos += 1;
-        } else if (['facebook', 'instagram', 'threads', 'youtube'].includes(field)) {
+        } else if (['facebook', 'instagram', 'threads', 'youtube', 'website', 'taiwanGoGoUrl', 'local2026Url'].includes(field)) {
           result.social += 1;
         } else {
           result.election += 1;

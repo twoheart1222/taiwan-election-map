@@ -2,6 +2,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { overridesUrl } from './_api-url.mjs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { fillFromAutomatedSource } from './automated-source-merge.mjs';
 
 const SOURCE_BASE = 'https://council2026.taiwangogo.tw';
 const API_URL = overridesUrl();
@@ -73,14 +74,11 @@ for (const city of districts.cities || []) {
   }
 }
 
-for (const document of Object.values(overrides)) {
-  for (const group of candidateGroups(document)) {
-    for (const candidate of group.candidates) delete candidate.taiwanGoGoUrl;
-  }
-}
-
 const rows = [];
 const errors = [];
+let added = 0;
+let preserved = 0;
+let conflicts = 0;
 for (const person of people) {
   const countyCode = countyCodeByName.get(normalize(person.city));
   const document = overrides[countyCode];
@@ -101,7 +99,15 @@ for (const person of people) {
   }
 
   const url = personUrl(person, sourceDistrict.cityId, sourceDistrict.districtId);
-  matches[0].taiwanGoGoUrl = url;
+  const merge = fillFromAutomatedSource(
+    matches[0],
+    { taiwanGoGoUrl: url },
+    ['taiwanGoGoUrl'],
+    { explicitSnapshot: document.schemaVersion === 2 },
+  );
+  added += merge.filled.length;
+  preserved += merge.preserved.length;
+  conflicts += merge.conflicts.length;
   rows.push({
     countyCode,
     city: person.city,
@@ -109,6 +115,7 @@ for (const person of people) {
     name: person.name,
     personId: person.id,
     url,
+    action: merge.filled.length ? 'added' : 'preserved-manual',
   });
 }
 
@@ -130,4 +137,11 @@ await Promise.all([
   ),
 ]);
 
-console.log(JSON.stringify({ sourcePeople: people.length, matched: rows.length, errors: 0 }, null, 2));
+console.log(JSON.stringify({
+  sourcePeople: people.length,
+  matched: rows.length,
+  linksAdded: added,
+  manualLinksPreserved: preserved,
+  conflictsPreserved: conflicts,
+  errors: 0,
+}, null, 2));

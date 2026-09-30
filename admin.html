@@ -204,7 +204,7 @@
         <div class="flex items-center justify-between mb-2">
           <h3 class="text-xs font-black uppercase tracking-wider text-ink-500" id="candidates-heading">候選人名冊</h3>
           <div class="flex items-center space-x-3">
-            <button type="button" onclick="batchUpdateFromOfficial()" class="text-xs font-bold text-accent-orange hover:underline flex items-center space-x-1" title="點選 tycc_councilors.json 立即強制覆蓋更新官方照片與資料">
+            <button type="button" onclick="batchUpdateFromOfficial()" class="text-xs font-bold text-accent-orange hover:underline flex items-center space-x-1" title="點選 tycc_councilors.json，只補入尚未儲存的官方照片與資料">
               <i data-lucide="file-up" class="w-3.5 h-3.5"></i><span>選擇檔案更新照片、FB 並設為連任</span>
             </button>
             <button type="button" onclick="addCandidateRow()" class="text-xs font-bold text-accent-blue hover:underline flex items-center space-x-1">
@@ -1619,13 +1619,13 @@
           const target = map.get(cleanName);
           if (target) {
             handledNames.add(cleanName);
-            c.isIncumbent = true;
-            incumbentCount++;
-            if (target.photoUrl) {
+            if (!Object.hasOwn(c, 'isIncumbent')) c.isIncumbent = true;
+            if (c.isIncumbent === true) incumbentCount++;
+            if (!Object.hasOwn(c, 'photoUrl') && target.photoUrl) {
               c.photoUrl = target.photoUrl;
               photoCount++;
             }
-            c.facebook = target.facebook || '';
+            if (!Object.hasOwn(c, 'facebook') && target.facebook) c.facebook = target.facebook;
           }
         });
       });
@@ -1666,6 +1666,6 @@
       initializeSession();
     }
   </script>
-  <script src="./admin-kv-sync.js?v=20260926-career-move2"></script>
+  <script src="./admin-kv-sync.js?v=20260930-manual-priority"></script>
 </body>
 </html>
