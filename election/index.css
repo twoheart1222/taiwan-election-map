@@ -1,0 +1,139 @@
+/* National directory only. County/town pages retain their existing styles. */
+.election-index{--paper:#f4f1ea;--muted:#a29c92;--line:rgba(244,241,234,.13);--accent:#E4022B;background:#0d0d0d;color:var(--paper);font-family:'Noto Sans TC',system-ui,sans-serif}
+.election-index ::selection{background:var(--accent);color:#fff}
+.election-index main{max-width:1320px;padding:0 clamp(20px,4vw,54px) 40px}
+.election-index a{transition:color .18s,background .18s,border-color .18s}
+.election-index h2:before{display:none}
+.election-index h2{font-size:clamp(23px,2.7vw,36px);font-weight:900;line-height:1.4;margin:0;letter-spacing:-.035em;text-wrap:balance}
+.election-index h3{margin:0}
+.election-index [id]{scroll-margin-top:100px}
+.election-index :focus-visible{outline:2px solid #ff5a72;outline-offset:5px}
+.skip-link{position:absolute;left:20px;top:-80px;padding:10px 18px;z-index:20;background:var(--paper);color:#0d0d0d!important}
+.skip-link:focus{top:12px}
+.eyebrow{display:block;margin:0 0 22px;font:700 11px/1.7 'Archivo','Noto Sans TC',sans-serif;letter-spacing:.2em;color:#ff526a}
+.index-hero{display:grid;grid-template-columns:1fr 310px;gap:60px;align-items:center;padding:76px 0 60px}
+.index-hero h1{font-size:clamp(44px,6vw,78px);font-weight:900;line-height:1.08;margin:0;letter-spacing:-.05em}
+.index-hero h1>span{display:block;margin-top:22px;font-size:clamp(25px,3.2vw,42px);line-height:1.4;letter-spacing:-.035em}
+.hero-description{color:var(--muted);font-size:15px;line-height:1.9;margin:24px 0}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px}
+.election-index .cta{height:auto;min-height:48px;margin:0;padding:12px 23px;gap:22px;font-size:14px}
+.election-index .cta:hover{background:#bd0023}
+.election-index .cta.secondary{background:transparent;border:1px solid var(--line)}
+.election-index .cta.secondary:hover{background:#24211e;border-color:#615c54}
+.election-date{align-self:stretch;display:flex;flex-direction:column;justify-content:center;border-left:1px solid var(--line);padding-left:42px}
+.election-date .eyebrow{color:var(--muted);font-size:11px;margin-bottom:24px}
+.election-date time{display:flex;flex-direction:column;font-family:'Archivo',sans-serif;font-weight:900;letter-spacing:-.065em;line-height:.95}
+.date-year{font-size:70px;color:var(--paper)}
+.date-day{font-size:84px;color:var(--accent);margin-top:8px}
+.date-caption{font-size:12px;margin-top:24px;color:var(--paper)}
+.date-note{font-size:12px;margin-top:8px;color:var(--muted)}
+.coverage{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:22px 0 28px}
+.coverage-label{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.coverage-label .eyebrow{margin:0;color:var(--muted)}
+.coverage-label .updated{font-size:12px}
+.election-index .stats{grid-template-columns:1.4fr 1fr 1fr 1fr;gap:0;margin:24px 0 0}
+.election-index .stat{padding:0 28px;background:none;border:0;border-left:1px solid var(--line);border-radius:0}
+.election-index .stat:first-child{border:0;padding-left:0}
+.election-index .stat strong{color:var(--paper);font:800 clamp(27px,3.2vw,42px)/1.1 'Archivo',sans-serif;letter-spacing:-.04em}
+.election-index .stat span{margin-top:10px;font-size:12px}
+.directory-section,.heads-section,.index-faq{padding-top:70px}
+.section-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:24px}
+.section-heading .eyebrow,.index-faq>.eyebrow{margin-bottom:12px}
+.text-link{font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap;color:var(--paper)!important;padding:8px 0;border-bottom:1px solid var(--line)}
+.text-link:hover{border-color:var(--accent);color:#ff5a72!important}
+.section-intro{color:var(--muted);font-size:14px;margin:16px 0 28px;line-height:1.9}
+.county-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.county-card{display:block;padding:24px;text-decoration:none;background:#151412;border:1px solid var(--line);border-radius:14px;color:var(--paper)!important}
+.county-card:hover{border-color:#E4022B;background:#201517}
+.county-card-title{display:flex;align-items:center;gap:12px}
+.county-card h3{font-size:23px;font-weight:900;letter-spacing:-.035em}
+.county-number{font:600 11px 'Archivo',sans-serif;color:var(--muted)}
+.card-arrow{margin-left:auto;color:#ff526a;font-size:22px}
+.county-card dl{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:24px 0 0;padding-top:16px;border-top:1px solid var(--line)}
+.county-card dt{font-size:11px;color:var(--muted)}
+.county-card dd{font:700 23px/1.5 'Archivo',sans-serif;margin:5px 0 0;font-variant-numeric:tabular-nums}
+.county-card dd span{font:400 10px 'Noto Sans TC',sans-serif;color:var(--muted)}
+.lookup-section{margin-top:64px;padding:36px 40px;border-radius:16px;background:var(--paper);color:#0d0d0d;position:relative}
+.lookup-section .eyebrow{color:#a50021;margin-bottom:14px}
+.lookup-section h2{max-width:800px}
+.lookup-section p:not(.eyebrow){max-width:800px;font-size:14px;color:#504b45}
+.lookup-section p a{color:#a50021}
+.lookup-section .cta{margin-top:8px;background:#0d0d0d}
+.heads-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:start}
+.head-card{padding:24px;border:1px solid var(--line);border-radius:14px;background:#151412}
+.head-card-title{display:flex;align-items:center;justify-content:space-between;gap:14px;padding-bottom:16px}
+.head-card h3{font-size:21px;font-weight:900}
+.head-card h3 a{color:var(--paper);text-decoration:none}
+.head-card h3 a:hover{color:#ff5a72}
+.head-card h3 span{font-size:15px;color:var(--muted);margin-left:8px}
+.count-tag{font-size:11px;color:var(--muted);white-space:nowrap}
+.candidate-list{list-style:none;padding:0;margin:0}
+.candidate-list li{display:flex;align-items:baseline;justify-content:space-between;gap:16px;border-top:1px solid var(--line);padding:12px 0;font-size:15px;line-height:1.7}
+.candidate-list li:last-child{padding-bottom:0}
+.candidate-list li>span:first-child{overflow-wrap:anywhere}
+.party-label{color:var(--muted);font-size:11px;text-align:right;flex:0 0 112px}
+.index-faq{max-width:900px;margin:0 auto}
+.index-faq h2{margin-bottom:24px}
+.index-faq details{border-bottom:1px solid var(--line)}
+.index-faq summary{padding:22px 30px 22px 0;font-size:16px;font-weight:700;cursor:pointer;position:relative;list-style:none}
+.index-faq summary::-webkit-details-marker{display:none}
+.index-faq summary:after{content:'+';position:absolute;right:0;color:#ff526a;font-size:22px;line-height:1}
+.index-faq details[open] summary:after{content:'−'}
+.index-faq details p{font-size:14px;color:var(--muted);margin:0 0 22px;line-height:1.9}
+.election-index footer{margin-top:70px;padding-top:24px;line-height:1.9;overflow-wrap:anywhere}
+@media(min-width:1500px){.index-hero{padding-top:90px;padding-bottom:80px}}
+@media(max-width:960px){.index-hero{grid-template-columns:1fr 235px;gap:28px}.election-date{padding-left:26px}.date-year{font-size:56px}.date-day{font-size:64px}.county-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.section-heading{align-items:flex-start;flex-direction:column;gap:8px}}
+@media(max-width:600px){.index-hero{grid-template-columns:1fr;padding:40px 0 30px;gap:32px}.index-hero h1{font-size:44px}.index-hero h1>span{font-size:28px;margin-top:16px}.eyebrow{font-size:10px;letter-spacing:.12em}.election-date{border-left:0;border-top:1px solid var(--line);padding:24px 0 0;display:grid;grid-template-columns:1fr auto;gap:6px 16px;align-items:center}.election-date .eyebrow{grid-column:1;grid-row:1;margin:0;font-size:10px}.election-date time{grid-column:2;grid-row:1/4;flex-direction:column;text-align:right;gap:4px}.date-year{font-size:24px}.date-day{font-size:38px;margin:0}.date-caption{grid-column:1;margin:0;font-size:11px}.date-note{grid-column:1;margin:0;font-size:10px}.coverage-label{align-items:flex-start;flex-direction:column;gap:4px}.election-index .stats{grid-template-columns:repeat(2,1fr);gap:24px 0}.election-index .stat{padding:0 20px}.election-index .stat:nth-child(odd){padding-left:0;border-left:0}.election-index .stat strong{font-size:34px}.directory-section,.heads-section,.index-faq{padding-top:44px}.county-card{padding:18px 14px}.county-card-title{gap:7px}.county-card h3{font-size:21px}.county-number{font-size:10px}.card-arrow{font-size:18px}.county-card dl{gap:4px;margin-top:16px;padding-top:12px}.county-card dt{font-size:10px}.county-card dd{font-size:20px}.county-card dd span{display:none}.heads-grid{grid-template-columns:1fr}.head-card{padding:22px}.lookup-section{margin-top:40px;padding:28px 24px}.hero-actions{gap:10px}.election-index .cta{padding:12px 18px;gap:12px;font-size:13px}.index-faq summary{font-size:15px}.election-index footer{margin-top:44px}}
+@media(max-width:360px){.county-grid{grid-template-columns:1fr}.index-hero h1{font-size:39px}.party-label{flex-basis:96px}}
+@media(prefers-reduced-motion:reduce){.election-index a{transition:none}}
+
+/* Match the homepage navigation without loading its map or global styles. */
+.directory-header{position:sticky;top:0;z-index:60;background:rgba(12,11,10,.94);-webkit-backdrop-filter:saturate(140%) blur(8px);backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid rgba(255,255,255,.075)}
+.directory-nav{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:58px;padding:12px clamp(14px,3.5vw,44px);position:relative}
+.directory-brand-group{display:flex;align-items:center;gap:clamp(14px,3vw,34px);min-width:0}
+.directory-brand{display:flex;align-items:center;gap:10px;flex:none;font:900 15px 'Archivo','Noto Sans TC',sans-serif;letter-spacing:-.01em;color:#f4f1ea;text-decoration:none;white-space:nowrap}
+.directory-brand-mark{display:grid;place-items:center;flex:none;width:36px;height:32px;padding:4px 5px;background:#f4f1ea;border-radius:9px;box-shadow:inset 0 0 0 1px rgba(13,13,13,.12)}
+.directory-brand-mark img{display:block;width:100%;height:100%;object-fit:contain}
+.directory-countdown{display:flex;align-items:center;gap:8px;flex:none;white-space:nowrap;border-left:1px solid rgba(255,255,255,.075);padding-left:clamp(14px,3vw,34px)}
+.directory-countdown-label{font-size:12px;font-weight:600;color:#a09a90}
+#directory-days{font:900 20px/1 'Archivo',sans-serif;letter-spacing:-.02em;color:#E4022B;font-variant-numeric:tabular-nums}
+.directory-days-unit{font:700 10.5px 'Archivo',sans-serif;letter-spacing:.14em;color:#6f6961}
+.directory-links{display:flex;align-items:center;gap:4px;flex:none;font-size:13.5px;font-weight:600;letter-spacing:.01em}
+.directory-links a{padding:9px 12px 11px;color:#a09a90;text-decoration:none;white-space:nowrap}
+.directory-links a:hover{color:#f4f1ea}
+.directory-menu-toggle,.directory-mobile-menu{display:none}
+.directory-menu-toggle{width:40px;height:40px;place-items:center;flex:none;border:1px solid rgba(255,255,255,.13);border-radius:10px;background:#1a1816;color:#f4f1ea;cursor:pointer;transition:background .28s ease,border-color .28s ease,color .28s ease}
+.directory-menu-toggle.open{background:#E4022B;border-color:#E4022B;color:#fff}
+.directory-ham{position:relative;display:block;width:20px;height:14px}
+.directory-ham i{position:absolute;left:0;right:0;height:2px;border-radius:2px;background:currentColor;transition:transform .36s cubic-bezier(.65,0,.35,1),opacity .2s ease}
+.directory-ham i:nth-child(1){top:0}.directory-ham i:nth-child(2){top:50%;transform:translateY(-50%)}.directory-ham i:nth-child(3){bottom:0}
+.directory-menu-toggle.open .directory-ham i:nth-child(1){top:50%;transform:translateY(-50%) rotate(45deg)}
+.directory-menu-toggle.open .directory-ham i:nth-child(2){opacity:0;transform:translateY(-50%) scaleX(.1)}
+.directory-menu-toggle.open .directory-ham i:nth-child(3){bottom:auto;top:50%;transform:translateY(-50%) rotate(-45deg)}
+.directory-mobile-menu{position:absolute;top:calc(100% + 8px);right:12px;width:min(280px,calc(100vw - 24px));padding:8px;background:#1a1816;border:1px solid rgba(255,255,255,.13);border-radius:16px;box-shadow:0 24px 60px -20px rgba(0,0,0,.8);flex-direction:column;gap:2px;opacity:0;visibility:hidden;transform:translateY(-10px) scale(.97);transform-origin:top right;transition:opacity .26s ease,transform .36s cubic-bezier(.16,1,.3,1),visibility .36s}
+.directory-mobile-menu.open{opacity:1;visibility:visible;transform:translateY(0) scale(1)}
+.directory-mobile-menu a{display:flex;align-items:center;justify-content:space-between;min-height:48px;padding:11px 13px;border-radius:10px;font-size:14px;font-weight:800;color:#f4f1ea;text-decoration:none;opacity:0;transform:translateY(7px);transition:background .2s ease,color .2s ease,opacity .42s ease,transform .42s cubic-bezier(.16,1,.3,1)}
+.directory-mobile-menu a span{transition:transform .3s cubic-bezier(.16,1,.3,1)}
+.directory-mobile-menu a:hover span{transform:translateX(4px)}
+.directory-mobile-menu.open a{opacity:1;transform:translateY(0)}
+.directory-mobile-menu.open a:nth-child(1){transition-delay:.05s,.05s,.06s,.06s}
+.directory-mobile-menu.open a:nth-child(2){transition-delay:.05s,.05s,.11s,.11s}
+.directory-mobile-menu.open a:nth-child(3){transition-delay:.05s,.05s,.16s,.16s}
+.directory-mobile-menu.open a:nth-child(4){transition-delay:.05s,.05s,.21s,.21s}
+.directory-mobile-menu a:hover{background:#221f1c;color:#f4f1ea;box-shadow:inset 2px 0 0 #E4022B}
+.directory-nav :focus-visible{outline:2px solid #E4022B;outline-offset:2px}
+@media(min-width:661px) and (max-width:900px){.directory-countdown-label{display:none}}
+@media(max-width:660px){
+  .directory-nav{padding:10px 12px;gap:8px}
+  .directory-brand-group{flex:1;gap:clamp(14px,3vw,34px)}
+  .directory-brand{gap:8px;line-height:1.2;letter-spacing:0}
+  .directory-brand-mark{padding:4px}
+  .directory-countdown{gap:4px;border-left:0;padding-left:0}
+  .directory-countdown-label{display:none}
+  .directory-links{display:none}
+  .directory-menu-toggle:not([hidden]){display:grid}
+  .directory-mobile-menu{display:flex}
+  .directory-nav:not(.is-enhanced){flex-wrap:wrap}
+  .directory-nav:not(.is-enhanced) .directory-links{display:flex;flex-wrap:wrap;width:100%}
+}
+@media(prefers-reduced-motion:reduce){.directory-nav *{transition:none!important}}
