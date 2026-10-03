@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-09-30T14:49:12.116Z",
+  "generatedAt": "2026-10-03T14:26:10.338Z",
   "source": "https://council2026.taiwangogo.tw",
-  "count": 191,
+  "count": 193,
   "links": [
     {
       "countyCode": "63000",
@@ -672,6 +672,15 @@
     {
       "countyCode": "10004",
       "city": "新竹縣",
+      "district": "第9選區",
+      "name": "彭余美玲",
+      "personId": "新竹縣|第9選區|彭余美玲",
+      "url": "https://council2026.taiwangogo.tw/?city=hcc&district=hcc-9&person=%E6%96%B0%E7%AB%B9%E7%B8%A3%7C%E7%AC%AC9%E9%81%B8%E5%8D%80%7C%E5%BD%AD%E4%BD%99%E7%BE%8E%E7%8E%B2",
+      "action": "added"
+    },
+    {
+      "countyCode": "10004",
+      "city": "新竹縣",
       "district": "第13選區",
       "name": "林世偉",
       "personId": "新竹縣|第13選區|林世偉",
@@ -1163,6 +1172,15 @@
       "personId": "屏東縣|第1選區|林明順",
       "url": "https://council2026.taiwangogo.tw/?city=pif&district=pif-1&person=%E5%B1%8F%E6%9D%B1%E7%B8%A3%7C%E7%AC%AC1%E9%81%B8%E5%8D%80%7C%E6%9E%97%E6%98%8E%E9%A0%86",
       "action": "preserved-manual"
+    },
+    {
+      "countyCode": "10013",
+      "city": "屏東縣",
+      "district": "第2選區",
+      "name": "葉明博",
+      "personId": "屏東縣|第2選區|葉明博",
+      "url": "https://council2026.taiwangogo.tw/?city=pif&district=pif-2&person=%E5%B1%8F%E6%9D%B1%E7%B8%A3%7C%E7%AC%AC2%E9%81%B8%E5%8D%80%7C%E8%91%89%E6%98%8E%E5%8D%9A",
+      "action": "added"
     },
     {
       "countyCode": "10013",
