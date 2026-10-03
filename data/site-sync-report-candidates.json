@@ -1,44 +1,27 @@
 {
   "target": "candidates",
-  "checkedAt": "2026-10-03T14:26:22.320Z",
+  "checkedAt": "2026-10-03T14:31:04.432Z",
   "changed": true,
   "changedFiles": [
     {
       "status": "M",
       "path": "data/taiwangogo_links.json"
-    },
-    {
-      "status": "M",
-      "path": "data/villages/villages-63000040.json"
-    },
-    {
-      "status": "M",
-      "path": "data/villages/villages-65000110.json"
     }
   ],
   "groups": [
     {
       "label": "村里與候選人",
       "files": [
-        "data/taiwangogo_links.json",
-        "data/villages/villages-63000040.json",
-        "data/villages/villages-65000110.json"
+        "data/taiwangogo_links.json"
       ]
     }
   ],
   "contentSummary": [
     {
       "title": "Taiwan GoGo 候選人名單",
-      "description": "候選人資料由 191 筆更新為 193 筆。",
-      "added": [
-        "新竹縣・第9選區・彭余美玲",
-        "屏東縣・第2選區・葉明博"
-      ],
+      "description": "候選人資料由 193 筆更新為 193 筆。",
+      "added": [],
       "removed": []
-    },
-    {
-      "title": "村里與候選人資料",
-      "description": "重新核對候選人、村里長、照片與在任／轉任標記，共有 2 組資料內容更新。"
     }
   ],
   "sources": [
