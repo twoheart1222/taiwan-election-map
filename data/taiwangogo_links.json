@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-03T14:32:31.450Z",
+  "generatedAt": "2026-10-04T17:15:00.758Z",
   "source": "https://council2026.taiwangogo.tw",
   "count": 193,
   "links": [
@@ -613,7 +613,7 @@
       "name": "林宜弘",
       "personId": "宜蘭縣|第6選區|林宜弘",
       "url": "https://council2026.taiwangogo.tw/?city=ila&district=ila-6&person=%E5%AE%9C%E8%98%AD%E7%B8%A3%7C%E7%AC%AC6%E9%81%B8%E5%8D%80%7C%E6%9E%97%E5%AE%9C%E5%BC%98",
-      "action": "added"
+      "action": "preserved-manual"
     },
     {
       "countyCode": "10002",
@@ -676,7 +676,7 @@
       "name": "彭余美玲",
       "personId": "新竹縣|第9選區|彭余美玲",
       "url": "https://council2026.taiwangogo.tw/?city=hcc&district=hcc-9&person=%E6%96%B0%E7%AB%B9%E7%B8%A3%7C%E7%AC%AC9%E9%81%B8%E5%8D%80%7C%E5%BD%AD%E4%BD%99%E7%BE%8E%E7%8E%B2",
-      "action": "added"
+      "action": "preserved-manual"
     },
     {
       "countyCode": "10004",
@@ -685,7 +685,7 @@
       "name": "林世偉",
       "personId": "新竹縣|第13選區|林世偉",
       "url": "https://council2026.taiwangogo.tw/?city=hcc&district=hcc-13&person=%E6%96%B0%E7%AB%B9%E7%B8%A3%7C%E7%AC%AC13%E9%81%B8%E5%8D%80%7C%E6%9E%97%E4%B8%96%E5%81%89",
-      "action": "added"
+      "action": "preserved-manual"
     },
     {
       "countyCode": "10004",
@@ -784,7 +784,7 @@
       "name": "白玉如",
       "personId": "彰化縣|第1選區|白玉如",
       "url": "https://council2026.taiwangogo.tw/?city=cha&district=cha-1&person=%E5%BD%B0%E5%8C%96%E7%B8%A3%7C%E7%AC%AC1%E9%81%B8%E5%8D%80%7C%E7%99%BD%E7%8E%89%E5%A6%82",
-      "action": "added"
+      "action": "preserved-manual"
     },
     {
       "countyCode": "10007",
@@ -856,7 +856,7 @@
       "name": "黃正盛",
       "personId": "彰化縣|第4選區|黃正盛",
       "url": "https://council2026.taiwangogo.tw/?city=cha&district=cha-4&person=%E5%BD%B0%E5%8C%96%E7%B8%A3%7C%E7%AC%AC4%E9%81%B8%E5%8D%80%7C%E9%BB%83%E6%AD%A3%E7%9B%9B",
-      "action": "added"
+      "action": "preserved-manual"
     },
     {
       "countyCode": "10007",
@@ -1180,7 +1180,7 @@
       "name": "葉明博",
       "personId": "屏東縣|第2選區|葉明博",
       "url": "https://council2026.taiwangogo.tw/?city=pif&district=pif-2&person=%E5%B1%8F%E6%9D%B1%E7%B8%A3%7C%E7%AC%AC2%E9%81%B8%E5%8D%80%7C%E8%91%89%E6%98%8E%E5%8D%9A",
-      "action": "added"
+      "action": "preserved-manual"
     },
     {
       "countyCode": "10013",
@@ -1333,7 +1333,7 @@
       "name": "吳軾子",
       "personId": "連江縣|第1選區|吳軾子",
       "url": "https://council2026.taiwangogo.tw/?city=lie&district=lie-1&person=%E9%80%A3%E6%B1%9F%E7%B8%A3%7C%E7%AC%AC1%E9%81%B8%E5%8D%80%7C%E5%90%B3%E8%BB%BE%E5%AD%90",
-      "action": "added"
+      "action": "preserved-manual"
     },
     {
       "countyCode": "09007",
@@ -1342,7 +1342,7 @@
       "name": "曹以標",
       "personId": "連江縣|第1選區|曹以標",
       "url": "https://council2026.taiwangogo.tw/?city=lie&district=lie-1&person=%E9%80%A3%E6%B1%9F%E7%B8%A3%7C%E7%AC%AC1%E9%81%B8%E5%8D%80%7C%E6%9B%B9%E4%BB%A5%E6%A8%99",
-      "action": "added"
+      "action": "preserved-manual"
     },
     {
       "countyCode": "09007",
@@ -1351,7 +1351,7 @@
       "name": "王孝榛",
       "personId": "連江縣|第3選區|王孝榛",
       "url": "https://council2026.taiwangogo.tw/?city=lie&district=lie-3&person=%E9%80%A3%E6%B1%9F%E7%B8%A3%7C%E7%AC%AC3%E9%81%B8%E5%8D%80%7C%E7%8E%8B%E5%AD%9D%E6%A6%9B",
-      "action": "added"
+      "action": "preserved-manual"
     },
     {
       "countyCode": "10017",
@@ -1603,7 +1603,7 @@
       "name": "石永城",
       "personId": "金門縣|第1選區|石永城",
       "url": "https://council2026.taiwangogo.tw/?city=kin&district=kin-1&person=%E9%87%91%E9%96%80%E7%B8%A3%7C%E7%AC%AC1%E9%81%B8%E5%8D%80%7C%E7%9F%B3%E6%B0%B8%E5%9F%8E",
-      "action": "added"
+      "action": "preserved-manual"
     },
     {
       "countyCode": "09020",
@@ -1621,7 +1621,7 @@
       "name": "洪允典",
       "personId": "金門縣|第1選區|洪允典",
       "url": "https://council2026.taiwangogo.tw/?city=kin&district=kin-1&person=%E9%87%91%E9%96%80%E7%B8%A3%7C%E7%AC%AC1%E9%81%B8%E5%8D%80%7C%E6%B4%AA%E5%85%81%E5%85%B8",
-      "action": "added"
+      "action": "preserved-manual"
     },
     {
       "countyCode": "09020",
@@ -1648,7 +1648,7 @@
       "name": "洪毓壕",
       "personId": "金門縣|第3選區|洪毓壕",
       "url": "https://council2026.taiwangogo.tw/?city=kin&district=kin-3&person=%E9%87%91%E9%96%80%E7%B8%A3%7C%E7%AC%AC3%E9%81%B8%E5%8D%80%7C%E6%B4%AA%E6%AF%93%E5%A3%95",
-      "action": "added"
+      "action": "preserved-manual"
     },
     {
       "countyCode": "10018",
