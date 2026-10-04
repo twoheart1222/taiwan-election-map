@@ -61,6 +61,8 @@ html body.history-product .site-nav{background:rgba(12,11,10,.96)!important;-web
 html body.history-product :is(.archive-head,.local-hero) h1{letter-spacing:-.045em}
 html body.history-product :is(.archive-query-shell,.local-query-shell){background:rgba(14,13,12,.97)!important;-webkit-backdrop-filter:none;backdrop-filter:none;border-bottom-color:rgba(255,255,255,.075)!important}
 html body.history-product :is(.archive-query-field select,.archive-query-static,.local-field select){border-color:rgba(255,255,255,.1)!important;background-color:rgba(255,255,255,.045)!important;border-radius:12px!important;transition:border-color .2s ease,background-color .2s ease,box-shadow .25s ease}
+html body.history-product :is(#archive-election-type,#local-election-type){color-scheme:dark;color:#f4f1ea}
+html body.history-product :is(#archive-election-type,#local-election-type) option{background:#171411;color:#f4f1ea}
 html body.history-product :is(.archive-query-field select,.local-field select):hover{border-color:rgba(255,255,255,.2)!important;background-color:rgba(255,255,255,.07)!important}
 html body.history-product .archive-year-nav .year-btn{border-radius:14px}
 html body.history-product .archive-year-nav .year-btn:not(.on){border-color:rgba(255,255,255,.09);background:rgba(255,255,255,.035)}
