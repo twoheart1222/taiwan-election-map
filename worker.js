@@ -1,5 +1,6 @@
 import { EmailMessage } from 'cloudflare:email';
 import { validateMap } from './override-store.js';
+import { planTaiwanGoGoSync } from './taiwangogo-kv-sync.js';
 export { OverrideStore } from './override-store.js';
 
 const JSON_HEADERS = {
@@ -360,6 +361,16 @@ function checkOverrides(value) {
   try { validateMap(value); } catch (_) { throw new HttpError(400, '無效的候選人覆寫資料格式'); }
 }
 
+// Shared implementation of the versioned /api/admin/overrides write path.
+async function saveVersionedOverrides(env, overrides, expectedRevisions, actor) {
+  if (!overrides || typeof overrides !== 'object' || Array.isArray(overrides)) {
+    throw new HttpError(400, '請提供有效的 overrides 物件');
+  }
+  const cleaned = sanitizeData(overrides);
+  checkOverrides(cleaned);
+  return overrideStore(env, { changes: cleaned, expected: expectedRevisions, actor });
+}
+
 async function handlePublicGet(request, env, url) {
   const key = normalizeKey(url.searchParams.get('key'));
   if (!key) {
@@ -444,17 +455,46 @@ async function handleAdmin(request, env, url) {
       return fetch(`https://api.github.com${endpoint}`, { ...options, headers });
     };
     if (request.method === 'POST') {
-      if (!token) throw new HttpError(503, '尚未設定 GitHub 同步憑證，請先設定 GITHUB_SYNC_TOKEN。');
-      const response = await github(`/repos/${owner}/${repo}/actions/workflows/${workflow}/dispatches`, {
-        method: 'POST', body: JSON.stringify({ ref: 'main', inputs: { requested_by: session.email, target } }),
-      });
-      if (!response.ok) throw new HttpError(502, `GitHub 無法啟動更新作業（${response.status}）`);
-      const requestState = { status: 'requested', target, requestedAt: new Date().toISOString(), requestedBy: session.email };
+      let kvSync = null;
+      if (target === 'candidates') {
+        const source = 'https://council2026.taiwangogo.tw/export/';
+        const [peopleResponse, districtsResponse] = await Promise.all([
+          fetch(`${source}people.json`, { signal: AbortSignal.timeout(20000), cache: 'no-store' }),
+          fetch(`${source}districts.json`, { signal: AbortSignal.timeout(20000), cache: 'no-store' }),
+        ]);
+        if (!peopleResponse.ok || !districtsResponse.ok) throw new HttpError(502, 'Taiwan GoGo 資料讀取失敗，尚未修改 KV。');
+        const [people, districts] = await Promise.all([peopleResponse.json(), districtsResponse.json()]);
+        // Re-read on a concurrent admin edit. Never replace a newer manual value.
+        for (let attempt = 0; attempt < 2; attempt++) {
+          const snapshot = await overrideStore(env);
+          const plan = planTaiwanGoGoSync(snapshot, people, districts);
+          kvSync = { ...plan.summary, updatedAt: new Date().toISOString() };
+          if (!Object.keys(plan.changes).length) break;
+          try {
+            await saveVersionedOverrides(env, plan.changes, plan.expected, `${session.email} (Taiwan GoGo sync)`);
+            break;
+          } catch (err) {
+            if (err.status !== 409 || attempt) throw err;
+          }
+        }
+        await writeJsonKV(env, 'site_sync_kv:candidates', kvSync);
+      }
+      if (!token && target !== 'candidates') throw new HttpError(503, '尚未設定 GitHub 同步憑證，請先設定 GITHUB_SYNC_TOKEN。');
+      let dispatched = false;
+      if (token) {
+        const response = await github(`/repos/${owner}/${repo}/actions/workflows/${workflow}/dispatches`, {
+          method: 'POST', body: JSON.stringify({ ref: 'main', inputs: { requested_by: session.email, target } }),
+        });
+        if (!response.ok && target !== 'candidates') throw new HttpError(502, `GitHub 無法啟動更新作業（${response.status}）`);
+        dispatched = response.ok;
+      }
+      const requestState = { status: dispatched ? 'requested' : 'completed', target, requestedAt: new Date().toISOString(), requestedBy: session.email };
       await writeJsonKV(env, `site_sync_request:${target}`, requestState);
-      return jsonResponse(request, env, { ok: true, request: requestState });
+      return jsonResponse(request, env, { ok: true, request: requestState, kvSync, configured: Boolean(token) || target === 'candidates' });
     }
     if (request.method === 'GET') {
       const requestState = await readJsonKV(env, `site_sync_request:${target}`, null);
+      const kvSync = target === 'candidates' ? await readJsonKV(env, 'site_sync_kv:candidates', null) : null;
       const response = await github(`/repos/${owner}/${repo}/actions/workflows/${workflow}/runs?branch=main&per_page=30`);
       let run = null;
       if (response.ok) {
@@ -479,7 +519,7 @@ async function handleAdmin(request, env, url) {
           }
         } catch (_) { /* 該項目首次成功前沒有報告 */ }
       }
-      return jsonResponse(request, env, { target, request: requestState, run, report, configured: Boolean(token) });
+      return jsonResponse(request, env, { target, request: requestState, run, report, kvSync, configured: Boolean(token) || target === 'candidates' });
     }
   }
 
@@ -489,15 +529,7 @@ async function handleAdmin(request, env, url) {
     }
     if (request.method === 'PUT') {
       const payload = await readJsonBody(request, MAX_ADMIN_BODY);
-      const overrides = payload?.overrides;
-      if (!overrides || typeof overrides !== 'object' || Array.isArray(overrides)) {
-        return jsonResponse(request, env, { error: '請提供有效的 overrides 物件' }, { status: 400 });
-      }
-      const cleaned = sanitizeData(overrides);
-      checkOverrides(cleaned);
-      return jsonResponse(request, env, await overrideStore(env, {
-        changes: cleaned, expected: payload.expectedRevisions, actor: session.email,
-      }));
+      return jsonResponse(request, env, await saveVersionedOverrides(env, payload?.overrides, payload?.expectedRevisions, session.email));
     }
   }
 

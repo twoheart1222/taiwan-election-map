@@ -106,11 +106,11 @@
     <section id="site-sync-manager" class="bg-surface p-5 rounded-2xl border editorial-border shadow-[4px_4px_0px_#141517] space-y-4">
       <div>
         <h3 class="text-sm font-black flex items-center gap-2"><i data-lucide="refresh-cw" class="w-4 h-4 text-accent-orange"></i>資料檢查與更新</h3>
-        <p class="text-xs text-ink-500 mt-1 leading-relaxed">更新工作已分開執行。候選人資料完成後，再執行「搜尋與公開頁面」，即可把最新名單重建到搜尋索引、SEO 頁面與網站地圖。</p>
+        <p class="text-xs text-ink-500 mt-1 leading-relaxed">更新工作已分開執行。Taiwan GoGo 連結會直接寫入後台與前台共用的候選人紀錄；「搜尋與公開頁面」另負責重建搜尋索引、SEO 頁面與網站地圖。</p>
       </div>
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-3">
         <article data-site-sync-target="candidates" class="rounded-2xl border border-ink-200 bg-canvas p-4 space-y-3">
-          <div><span class="text-[10px] font-black tracking-widest text-accent-orange">CANDIDATES</span><h4 class="mt-1 text-sm font-black">Taiwan GoGo 候選人名單</h4><p class="mt-1 text-[11px] leading-relaxed text-ink-500">同步 2026 候選人、村里長資料、照片與 Taiwan GoGo 連結。</p></div>
+          <div><span class="text-[10px] font-black tracking-widest text-accent-orange">CANDIDATES</span><h4 class="mt-1 text-sm font-black">Taiwan GoGo 候選人名單</h4><p class="mt-1 text-[11px] leading-relaxed text-ink-500">比對現有候選人並將缺少的 Taiwan GoGo 連結寫入 KV；已有的手動連結與照片不會被覆蓋。村里資料仍由 GitHub 更新。</p></div>
           <button data-sync-role="button" type="button" onclick="startSiteSync('candidates')" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-accent-orange text-white text-[11px] font-black hover:bg-ink-900 transition disabled:opacity-50 disabled:cursor-wait"><i data-lucide="play" class="w-3.5 h-3.5"></i>更新候選人名單</button>
           <div class="flex flex-wrap items-center gap-2 text-[10px] font-bold"><span data-sync-role="state" class="px-2.5 py-1 rounded-full bg-surface border border-ink-200 text-ink-500">尚未執行</span><span data-sync-role="time" class="text-ink-500"></span><button type="button" onclick="refreshSiteSyncStatus('candidates')" class="text-accent-blue hover:underline">重新整理</button></div>
           <div data-sync-role="summary" class="hidden rounded-xl border border-ink-200 bg-surface p-3 text-[11px] leading-relaxed whitespace-pre-wrap"></div>
@@ -345,6 +345,7 @@
     let overridesLoaded = false;
     let mutationBusy = false;
     let formReady = false;
+    let editorTouched = false;
 
     let countiesTopo = null;
     let districtTownMap = {};
@@ -401,20 +402,27 @@
       const summary = card.querySelector('[data-sync-role="summary"]');
       const button = card.querySelector('[data-sync-role="button"]');
       const status = run?.status || data?.request?.status || 'idle';
-      const labels = { queued:'排隊中', in_progress:'更新中', completed:run?.conclusion==='success'?'更新完成':'更新失敗', requested:'已送出', idle:'尚未執行' };
+      const completedSuccessfully = status === 'completed' && (!run || run.conclusion === 'success');
+      const labels = { queued:'排隊中', in_progress:'更新中', completed:completedSuccessfully?'更新完成':'更新失敗', requested:'已送出', idle:'尚未執行' };
       state.textContent = labels[status] || status;
-      state.className = `px-2.5 py-1 rounded-full border font-black ${status==='completed'&&run?.conclusion==='success'?'bg-green-50 border-green-300 text-green-700':status==='completed'?'bg-red-50 border-red-300 text-red-700':status==='queued'||status==='in_progress'||status==='requested'?'bg-amber-50 border-amber-300 text-amber-700':'bg-canvas border-ink-200 text-ink-500'}`;
+      state.className = `px-2.5 py-1 rounded-full border font-black ${completedSuccessfully?'bg-green-50 border-green-300 text-green-700':status==='completed'?'bg-red-50 border-red-300 text-red-700':status==='queued'||status==='in_progress'||status==='requested'?'bg-amber-50 border-amber-300 text-amber-700':'bg-canvas border-ink-200 text-ink-500'}`;
       time.textContent = run?.updatedAt ? `最後更新：${new Date(run.updatedAt).toLocaleString('zh-TW')}` : '';
       const unavailable = data?.configured === false;
       button.disabled = unavailable || ['queued','in_progress','requested'].includes(status);
-      if (report) {
-        const lines = [report.changed ? '本次更新內容：' : '檢查完成：資料內容沒有變更'];
-        for (const item of report.contentSummary || []) {
+      if (report || data?.kvSync) {
+        const lines = [];
+        if (data?.kvSync) {
+          const sync = data.kvSync;
+          lines.push(`Taiwan GoGo → KV：比對 ${sync.matched}/${sync.sourcePeople} 筆，新增 ${sync.filled} 筆連結，保留 ${sync.preserved} 筆既有／手動連結。`);
+          if (sync.unmatched?.length) lines.push(`未能唯一對應 ${sync.unmatched.length} 筆，未加入候選人名單：${sync.unmatched.join('、')}`);
+        }
+        if (report) lines.push(report.changed ? 'GitHub 資料更新內容：' : 'GitHub 資料檢查完成：內容沒有變更');
+        for (const item of report?.contentSummary || []) {
           lines.push(`• ${item.title}：${item.description}`);
           if (item.added?.length) lines.push(`  新增 ${item.added.length} 筆：${item.added.join('、')}`);
           if (item.removed?.length) lines.push(`  移除 ${item.removed.length} 筆：${item.removed.join('、')}`);
         }
-        if (report.changed && !report.contentSummary?.length) lines.push('• 已完成資料更新與索引重建。');
+        if (report?.changed && !report.contentSummary?.length) lines.push('• 已完成資料更新與索引重建。');
         summary.textContent = lines.join('\n');summary.classList.remove('hidden');
       } else if (run?.htmlUrl) {
         summary.innerHTML = `<a class="font-black text-accent-blue hover:underline" href="${run.htmlUrl}" target="_blank" rel="noopener noreferrer">查看 GitHub 更新作業</a>`;summary.classList.remove('hidden');
@@ -442,9 +450,42 @@
       if (!confirm(`確定要更新「${label}」嗎？這次只會執行這一組工作。`)) return;
       const button=card.querySelector('[data-sync-role="button"]');button.disabled=true;
       card.querySelector('[data-sync-role="state"]').textContent='正在送出…';
-      try { renderSiteSync(target, await apiFetch(`/api/admin/site-sync?target=${encodeURIComponent(target)}`,{method:'POST',body:'{}'})); }
+      try {
+        const result = await apiFetch(`/api/admin/site-sync?target=${encodeURIComponent(target)}`, { method:'POST', body:'{}' });
+        renderSiteSync(target, result);
+        if (result.kvSync) {
+          try { await refreshCandidateEditorAfterSync(); }
+          catch (err) {
+            const summary = card.querySelector('[data-sync-role="summary"]');
+            summary.textContent += `\nKV 已更新；後台編輯器讀取失敗，請重新整理頁面：${err.message}`;
+          }
+        }
+      }
       catch (err) { button.disabled=false;card.querySelector('[data-sync-role="state"]').textContent=`啟動失敗：${err.message}`; }
     };
+
+    async function refreshCandidateEditorAfterSync() {
+      const fresh = await apiFetch('/api/admin/overrides');
+      const previous = currentCode ? allOverrides[currentCode] : null;
+      const currentChanged = currentCode && fresh[currentCode]?._revision !== previous?._revision;
+      allOverrides = fresh;
+      if (currentChanged && editorTouched) {
+        // Keep the stale revision so a later save receives 409 instead of
+        // silently replacing changes made by the synchronization.
+        allOverrides[currentCode] = previous;
+        const summary = siteSyncCard('candidates').querySelector('[data-sync-role="summary"]');
+        summary.textContent += '\n目前編輯表單有未儲存內容，請先下載備份，再重新整理後台查看同步資料。';
+      } else if (currentChanged && currentBase) {
+        const county = topoToFeatures(countiesTopo).features.find(f => f.properties.id === document.getElementById('a-select-city').value);
+        const town = currentScope === 'county' ? null : topoToFeatures(townsCache[county.properties.id]).features
+          .find(f => f.properties.id === document.getElementById('a-select-district').value);
+        const village = currentScope !== 'village' ? null : topoToFeatures(villagesCache[town.properties.id]).features
+          .find(f => f.properties.id === document.getElementById('a-select-village').value);
+        loadNode(currentScope, county, town, village);
+      }
+      renderOverrideList();
+      refreshPhotoCacheStatus();
+    }
 
     async function persistOverride(code, payload, revision = allOverrides[code]?._revision || '0') {
       if (!overridesLoaded) throw new Error('尚未成功載入資料，請重新整理後再試。');
@@ -985,6 +1026,16 @@
     const selCity = document.getElementById('a-select-city');
     const selDistrict = document.getElementById('a-select-district');
     const selVillage = document.getElementById('a-select-village');
+    const editPanel = document.getElementById('edit-panel');
+    for (const eventName of ['input', 'change']) {
+      editPanel.addEventListener(eventName, event => {
+        if (event.isTrusted && event.target.id !== 'select-council-district') editorTouched = true;
+      });
+    }
+    editPanel.addEventListener('click', event => {
+      const button = event.target.closest('button');
+      if (event.isTrusted && button && !['tab-btn-mayor', 'tab-btn-councilor', 'tab-btn-town-mayor', 'tab-btn-town-representative'].includes(button.id)) editorTouched = true;
+    });
 
     selCity.addEventListener('change', async () => {
       selDistrict.innerHTML = '<option value="">選擇鄉鎮市區</option>';
@@ -1040,6 +1091,7 @@
     // ---------- 載入節點資料 ----------
     function loadNode(scope, countyFeature, townFeature, villFeature) {
       formReady = false;
+      editorTouched = false;
       currentScope = scope;
       currentDistrictMode = 'all';
       const feature = scope === 'county' ? countyFeature : (scope === 'town' ? townFeature : villFeature);
@@ -1429,6 +1481,8 @@
         gazetteAlt: row.querySelector('.c-gazette-alt').value.trim() || null,
         facebook: row.querySelector('.c-facebook').value.trim() || null,
         taiwanGoGoUrl: row.querySelector('.c-taiwangogo').value.trim() || null,
+        ...(row.querySelector('.c-taiwangogo').value.trim() !== String(row._candidate.taiwanGoGoUrl || '').trim()
+          ? { manualFieldLocks: { ...(row._candidate.manualFieldLocks || {}), taiwanGoGoUrl: true } } : {}),
         instagram: row.querySelector('.c-instagram').value.trim() || null,
         threads: row.querySelector('.c-threads').value.trim() || null,
         youtube: row.querySelector('.c-youtube').value.trim() || null,
@@ -1522,6 +1576,7 @@
 
       try {
         const saved = await persistOverride(code, payload);
+        editorTouched = false;
         if (currentCode === code) status.textContent = '已儲存，KV 已同步 ✓';
         renderOverrideList();
         alert(`🎉 儲存成功！資料已成功寫入 Cloudflare KV。\n\n更新時間：${saved.updatedAt || payload.updatedAt}`);
