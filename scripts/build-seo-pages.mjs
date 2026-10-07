@@ -9,7 +9,10 @@ const SITE = 'https://formosaobservatory.com';
 const NAME = 'Formosa Observatory｜島民觀察室';
 const ELECTION_DATE = '2026-11-28';
 const ADSENSE_CLIENT = 'ca-pub-5043287080308993';
-const today = new Date().toISOString().slice(0, 10);
+const taipeiDate = Object.fromEntries(new Intl.DateTimeFormat('en-US', {
+  timeZone: 'Asia/Taipei', year: 'numeric', month: '2-digit', day: '2-digit',
+}).formatToParts(new Date()).map((part) => [part.type, part.value]));
+const today = `${taipeiDate.year}-${taipeiDate.month}-${taipeiDate.day}`;
 const readJson = (p) => JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8'));
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const feats = (topo) => topo.objects.map.geometries.map((g) => g.properties);
@@ -19,6 +22,11 @@ const flatCouncil = (c) => (c.councilors || []).flatMap((b) => b.candidates || [
 const counties = feats(readJson('data/counties.json'));
 const dmap = readJson('data/district_town_map.json');
 const quota = readJson('data/district_quota.json');
+const councilCoverage = (district) => {
+  if (!district) return '';
+  if (district.villages?.length) return `${district.towns.join('、')}：${district.villages.join('、')}`;
+  return (district.towns || []).join('、') || district.note || '';
+};
 
 const CSS = `*{box-sizing:border-box}body{margin:0;background:#0d0d0d;color:#e9e5dc;font:16px/1.75 "Noto Sans TC",system-ui,sans-serif}a{color:#ff5a72}main{max-width:960px;margin:0 auto;padding:28px 18px 64px}nav.top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:14px;margin-bottom:22px}.brand{display:inline-flex;align-items:center;gap:9px;color:#f4f1ea;text-decoration:none;font-weight:800}.brand img{width:40px;height:34px;object-fit:contain;padding:4px 5px;background:#f4f1ea;border-radius:7px}h1{font-size:clamp(26px,5vw,42px);line-height:1.2;margin:.2em 0 .4em}h2{font-size:22px;margin:2em 0 .5em;border-left:4px solid #E4022B;padding-left:10px}h3{font-size:17px;margin:1.4em 0 .4em}table{border-collapse:collapse;width:100%;font-size:15px}th,td{border-bottom:1px solid #2b2b2b;padding:6px 8px;text-align:left;vertical-align:top}th{color:#a29c92;font-weight:600}.note{color:#a29c92;font-size:14px}.answer{margin:22px 0;padding:20px 22px;background:#171411;border:1px solid #302c27;border-left:5px solid #E4022B;border-radius:14px}.answer h2{border:0;padding:0;margin:0 0 8px}.answer p{margin:8px 0}.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:18px 0}.stat{padding:14px;background:#171411;border:1px solid #302c27;border-radius:12px}.stat strong{display:block;color:#fff;font-size:24px;line-height:1.1}.stat span{display:block;color:#a29c92;font-size:13px;margin-top:5px}.updated{color:#a29c92;font-size:14px}.cta{display:inline-block;margin:10px 8px 10px 0;padding:10px 20px;background:#E4022B;color:#fff;border-radius:999px;text-decoration:none;font-weight:700}.cta.secondary{background:#25211d}ul.links{columns:3 150px;padding-left:18px}.county-candidates{margin:.45em 0 1.2em}.faq-answer{margin:.4em 0 1.2em;color:#c9c3ba}footer{margin-top:48px;color:#8a857c;font-size:13px;border-top:1px solid #2b2b2b;padding-top:16px}h2{border-left:0;padding-left:0;letter-spacing:-.01em}h2:before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#E4022B;margin-right:10px;vertical-align:middle}body{background:#0c0b0a;-webkit-font-smoothing:antialiased}a{color:#ff5a72;text-underline-offset:3px}h1{letter-spacing:-.03em}table{font-size:14.5px;font-variant-numeric:tabular-nums}th,td{border-bottom-color:rgba(255,255,255,.075);padding:9px 10px}th{font-size:12.5px;letter-spacing:.04em}.answer{background:#131210;border:1px solid rgba(255,255,255,.075);border-left:1px solid rgba(255,255,255,.075);box-shadow:inset 3px 0 0 #E4022B;border-radius:16px}.stat{background:#131210;border-color:rgba(255,255,255,.075);border-radius:14px}.stat strong{font-variant-numeric:tabular-nums;letter-spacing:-.01em}.cta{height:44px;display:inline-flex;align-items:center;padding:0 20px;font-size:14.5px}.cta.secondary{background:#1a1816;border:1px solid rgba(255,255,255,.13)}footer{border-top-color:rgba(255,255,255,.075)}:focus-visible{outline:2px solid #E4022B;outline-offset:2px}`;
 
@@ -126,7 +134,7 @@ for (const c of counties) {
   body += `<h2>${esc(c.name)}議員候選人（依選舉區）</h2>`;
   if (!blocks.length) body += '<p class="note">目前尚無議員候選人資料。</p>';
   for (const b of blocks) {
-    const cover = (dmap[c.id]?.districts?.[b.district]?.towns || []).join('、');
+    const cover = councilCoverage(dmap[c.id]?.districts?.[b.district]);
     const q = cq[b.district];
     body += `<h3>第 ${esc(b.district)} 選舉區${cover ? `（${esc(cover)}）` : ''}${q ? `｜應選 ${q} 席` : ''}</h3>${candTable(b.candidates || [])}`;
   }
@@ -160,7 +168,7 @@ for (const c of counties) {
     let tb = `<p>${esc(c.name)}${esc(t.name)}於 <time datetime="${ELECTION_DATE}">2026 年 11 月 28 日</time>舉行地方選舉。${villages.length ? `轄內共 ${villages.length} 個村里，村里長候選人 ${vCands} 人。` : ''}</p><a class="cta" href="/?town=${t.id}">在互動地圖中查看${esc(t.name)}</a>`;
     if (tMayors.length) tb += `<h2>${esc(t.name)}${tHead}候選人</h2>${candTable(tMayors)}`;
     for (const b of distBlocks) {
-      tb += `<h2>${esc(c.name)}議員第 ${esc(b.district)} 選舉區候選人</h2><p class="note">${esc(t.name)}屬${esc(c.name)}議員第 ${esc(b.district)} 選舉區（涵蓋：${esc((dmap[c.id].districts[b.district].towns || []).join('、'))}）。</p>${candTable(b.candidates || [])}`;
+      tb += `<h2>${esc(c.name)}議員第 ${esc(b.district)} 選舉區候選人</h2><p class="note">${esc(t.name)}屬${esc(c.name)}議員第 ${esc(b.district)} 選舉區（涵蓋：${esc(councilCoverage(dmap[c.id].districts[b.district]))}）。</p>${candTable(b.candidates || [])}`;
     }
     for (const r of reps) if ((r.candidates || []).length) tb += `<h2>${esc(t.name)}民代候選人（第 ${esc(r.district)} 選舉區）</h2>${candTable(r.candidates)}`;
     if (villages.length) {

@@ -1279,7 +1279,9 @@
 
     function councilDistrictLabel(block) {
       const info = districtTownMap?.[currentCode]?.districts?.[String(block?.district || '')];
-      const towns = info?.towns?.length ? info.towns.join('、') : '';
+      const towns = info?.villages?.length
+        ? `${info.towns.join('、')}：${info.villages[0]}等 ${info.villages.length} 里`
+        : (info?.towns || []).join('、') || info?.note || '';
       const base = `第 ${block?.district || '?'} 選舉區`;
       return towns ? `${base}（${towns}）` : base;
     }
