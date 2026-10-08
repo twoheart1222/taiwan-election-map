@@ -776,14 +776,14 @@
             <label class="flex items-center gap-2 text-xs font-black"><input type="checkbox" class="ann-enabled w-4 h-4 accent-[#E4022B]" ${a.enabled ? 'checked' : ''}>啟用公告 ${i + 1}</label>
             <button type="button" onclick="removeAnnouncement(${i})" class="text-accent-red hover:bg-accent-red/10 rounded-lg p-1" title="刪除這則公告"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
           </div>
-          <input class="ann-title bg-surface border border-ink-300 rounded-lg px-2.5 py-2 text-xs font-bold" maxlength="80" placeholder="公告標題，例如：金流審核中" value="${escapeHTML(a.title)}">
+          <input class="ann-title bg-surface border border-ink-300 rounded-lg px-2.5 py-2 text-xs font-bold" maxlength="80" placeholder="公告標題，例如：網站維護通知" value="${escapeHTML(a.title)}">
           <textarea class="ann-message bg-surface border border-ink-300 rounded-lg px-2.5 py-2 text-xs font-medium" maxlength="600" rows="3" placeholder="公告內容（可換行）">${escapeHTML(a.message)}</textarea>
           <label class="grid gap-1.5 text-xs font-bold"><span class="text-[10px] font-black tracking-wider text-ink-500">公告呈現大小</span><select class="ann-display select-editorial bg-surface border border-ink-300 rounded-lg px-2.5 py-2 pr-8 text-xs font-bold"><option value="compact" ${(a.display||'compact')==='compact'?'selected':''}>精簡浮層（原本大小）</option><option value="wide" ${a.display==='wide'?'selected':''}>全寬橫幅</option><option value="fullscreen" ${a.display==='fullscreen'?'selected':''}>全頁大型公告</option></select></label>
           <div>
             <div class="text-[10px] font-black tracking-wider text-ink-500 mb-1.5">顯示在哪些頁面</div>
             <div class="flex flex-wrap gap-x-5 gap-y-2 text-xs font-bold">${ANN_PAGES.map(([k, label]) => `<label class="flex items-center gap-1.5"><input type="checkbox" class="ann-page w-4 h-4 accent-[#E4022B]" value="${k}" ${a.pages?.[k] ? 'checked' : ''}>${label}</label>`).join('')}</div>
           </div>
-          <label class="flex items-start gap-2 text-xs font-bold"><input type="checkbox" class="ann-lock w-4 h-4 mt-0.5 accent-[#E4022B]" ${a.supportLock ? 'checked' : ''}><span>支持頁：用半透明遮罩蓋住捐款表單，並把這則公告顯示在遮罩上（表單暫時無法操作）</span></label>
+          <label class="flex items-start gap-2 text-xs font-bold"><input type="checkbox" class="ann-lock w-4 h-4 mt-0.5 accent-[#E4022B]" ${a.supportLock ? 'checked' : ''}><span>支持頁：用半透明遮罩蓋住綠界付款入口，並把這則公告顯示在遮罩上（暫時無法前往付款）</span></label>
         </div>`).join('');
       lucide.createIcons();
     }

@@ -33,23 +33,13 @@ const MAX_DEPTH = 12;
 const ANNOUNCEMENT_PAGES = ['map', 'history', 'observatory', 'support', 'contact'];
 const ANNOUNCEMENT_DISPLAYS = new Set(['compact', 'wide', 'fullscreen']);
 const MAX_ANNOUNCEMENTS = 20;
-const DEFAULT_ANNOUNCEMENT = {
-  id: 'support-review',
-  enabled: true,
-  title: '金流審核中',
-  message: '「支持島民觀察室」的金流服務正在審核中，暫時無法使用。開放後會在這裡公告，感謝你的關心與支持。',
-  pages: { map: false, observatory: false, support: true, contact: false },
-  display: 'compact',
-  supportLock: true,
-};
-
 // 舊版是單一公告物件；新版是 { items: [公告, ...] }，每則公告可各自勾選要出現的頁面。
 function normalizeAnnouncements(saved) {
   if (saved && Array.isArray(saved.items)) return { ...saved, items: saved.items.map(cleanAnnouncement).filter(Boolean) };
   if (saved && typeof saved === 'object' && (saved.title || saved.message || saved.enabled !== undefined)) {
     return { items: [cleanAnnouncement({ id: 'legacy', ...saved })].filter(Boolean), updatedAt: saved.updatedAt, updatedBy: saved.updatedBy };
   }
-  return { items: [DEFAULT_ANNOUNCEMENT] };
+  return { items: [] };
 }
 function cleanAnnouncement(a, index = 0) {
   if (!a || typeof a !== 'object') return null;
