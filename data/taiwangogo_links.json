@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-04T17:15:00.758Z",
+  "generatedAt": "2026-10-10T14:58:33.881Z",
   "source": "https://council2026.taiwangogo.tw",
-  "count": 193,
+  "count": 194,
   "links": [
     {
       "countyCode": "63000",
@@ -649,6 +649,15 @@
       "name": "何建樺",
       "personId": "新竹縣|第3選區|何建樺",
       "url": "https://council2026.taiwangogo.tw/?city=hcc&district=hcc-3&person=%E6%96%B0%E7%AB%B9%E7%B8%A3%7C%E7%AC%AC3%E9%81%B8%E5%8D%80%7C%E4%BD%95%E5%BB%BA%E6%A8%BA",
+      "action": "preserved-manual"
+    },
+    {
+      "countyCode": "10004",
+      "city": "新竹縣",
+      "district": "第3選區",
+      "name": "賴寶鈺",
+      "personId": "新竹縣|第3選區|賴寶鈺",
+      "url": "https://council2026.taiwangogo.tw/?city=hcc&district=hcc-3&person=%E6%96%B0%E7%AB%B9%E7%B8%A3%7C%E7%AC%AC3%E9%81%B8%E5%8D%80%7C%E8%B3%B4%E5%AF%B6%E9%88%BA",
       "action": "preserved-manual"
     },
     {

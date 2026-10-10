@@ -1,27 +1,43 @@
 {
   "target": "candidates",
-  "checkedAt": "2026-10-04T17:15:12.663Z",
+  "checkedAt": "2026-10-10T14:58:45.957Z",
   "changed": true,
   "changedFiles": [
     {
       "status": "M",
       "path": "data/taiwangogo_links.json"
+    },
+    {
+      "status": "M",
+      "path": "data/villages/villages-10014010.json"
+    },
+    {
+      "status": "M",
+      "path": "data/villages/villages-66000270.json"
     }
   ],
   "groups": [
     {
       "label": "村里與候選人",
       "files": [
-        "data/taiwangogo_links.json"
+        "data/taiwangogo_links.json",
+        "data/villages/villages-10014010.json",
+        "data/villages/villages-66000270.json"
       ]
     }
   ],
   "contentSummary": [
     {
       "title": "Taiwan GoGo 候選人名單",
-      "description": "候選人資料由 193 筆更新為 193 筆。",
-      "added": [],
+      "description": "候選人資料由 193 筆更新為 194 筆。",
+      "added": [
+        "新竹縣・第3選區・賴寶鈺"
+      ],
       "removed": []
+    },
+    {
+      "title": "村里與候選人資料",
+      "description": "重新核對候選人、村里長、照片與在任／轉任標記，共有 2 組資料內容更新。"
     }
   ],
   "sources": [
