@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-10T14:58:33.881Z",
+  "generatedAt": "2026-10-16T15:52:13.985Z",
   "source": "https://council2026.taiwangogo.tw",
-  "count": 194,
+  "count": 200,
   "links": [
     {
       "countyCode": "63000",
@@ -132,6 +132,15 @@
     {
       "countyCode": "65000",
       "city": "新北市",
+      "district": "第2選區",
+      "name": "張昭隆",
+      "personId": "新北市|第2選區|張昭隆",
+      "url": "https://council2026.taiwangogo.tw/?city=ntp&district=ntp-2&person=%E6%96%B0%E5%8C%97%E5%B8%82%7C%E7%AC%AC2%E9%81%B8%E5%8D%80%7C%E5%BC%B5%E6%98%AD%E9%9A%86",
+      "action": "preserved-manual"
+    },
+    {
+      "countyCode": "65000",
+      "city": "新北市",
       "district": "第4選區",
       "name": "王威元",
       "personId": "新北市|第4選區|王威元",
@@ -181,6 +190,15 @@
       "name": "黃永昌",
       "personId": "新北市|第8選區|黃永昌",
       "url": "https://council2026.taiwangogo.tw/?city=ntp&district=ntp-8&person=%E6%96%B0%E5%8C%97%E5%B8%82%7C%E7%AC%AC8%E9%81%B8%E5%8D%80%7C%E9%BB%83%E6%B0%B8%E6%98%8C",
+      "action": "preserved-manual"
+    },
+    {
+      "countyCode": "65000",
+      "city": "新北市",
+      "district": "第11選區",
+      "name": "劉財鑫",
+      "personId": "新北市|第11選區|劉財鑫",
+      "url": "https://council2026.taiwangogo.tw/?city=ntp&district=ntp-11&person=%E6%96%B0%E5%8C%97%E5%B8%82%7C%E7%AC%AC11%E9%81%B8%E5%8D%80%7C%E5%8A%89%E8%B2%A1%E9%91%AB",
       "action": "preserved-manual"
     },
     {
@@ -735,6 +753,15 @@
     {
       "countyCode": "10005",
       "city": "苗栗縣",
+      "district": "第3選區",
+      "name": "徐瑞轅",
+      "personId": "苗栗縣|第3選區|徐瑞轅",
+      "url": "https://council2026.taiwangogo.tw/?city=mia&district=mia-3&person=%E8%8B%97%E6%A0%97%E7%B8%A3%7C%E7%AC%AC3%E9%81%B8%E5%8D%80%7C%E5%BE%90%E7%91%9E%E8%BD%85",
+      "action": "preserved-manual"
+    },
+    {
+      "countyCode": "10005",
+      "city": "苗栗縣",
       "district": "第4選區",
       "name": "陳碧華",
       "personId": "苗栗縣|第4選區|陳碧華",
@@ -793,6 +820,15 @@
       "name": "白玉如",
       "personId": "彰化縣|第1選區|白玉如",
       "url": "https://council2026.taiwangogo.tw/?city=cha&district=cha-1&person=%E5%BD%B0%E5%8C%96%E7%B8%A3%7C%E7%AC%AC1%E9%81%B8%E5%8D%80%7C%E7%99%BD%E7%8E%89%E5%A6%82",
+      "action": "preserved-manual"
+    },
+    {
+      "countyCode": "10007",
+      "city": "彰化縣",
+      "district": "第1選區",
+      "name": "林世賢",
+      "personId": "彰化縣|第1選區|林世賢",
+      "url": "https://council2026.taiwangogo.tw/?city=cha&district=cha-1&person=%E5%BD%B0%E5%8C%96%E7%B8%A3%7C%E7%AC%AC1%E9%81%B8%E5%8D%80%7C%E6%9E%97%E4%B8%96%E8%B3%A2",
       "action": "preserved-manual"
     },
     {
@@ -1249,6 +1285,15 @@
       "countyCode": "10015",
       "city": "花蓮縣",
       "district": "第1選區",
+      "name": "黃達祥",
+      "personId": "花蓮縣|第1選區|黃達祥",
+      "url": "https://council2026.taiwangogo.tw/?city=hua&district=hua-1&person=%E8%8A%B1%E8%93%AE%E7%B8%A3%7C%E7%AC%AC1%E9%81%B8%E5%8D%80%7C%E9%BB%83%E9%81%94%E7%A5%A5",
+      "action": "preserved-manual"
+    },
+    {
+      "countyCode": "10015",
+      "city": "花蓮縣",
+      "district": "第1選區",
       "name": "傅國淵",
       "personId": "花蓮縣|第1選區|傅國淵",
       "url": "https://council2026.taiwangogo.tw/?city=hua&district=hua-1&person=%E8%8A%B1%E8%93%AE%E7%B8%A3%7C%E7%AC%AC1%E9%81%B8%E5%8D%80%7C%E5%82%85%E5%9C%8B%E6%B7%B5",
@@ -1378,6 +1423,15 @@
       "name": "李昀靜",
       "personId": "基隆市|第4選區|李昀靜",
       "url": "https://council2026.taiwangogo.tw/?city=kel&district=kel-4&person=%E5%9F%BA%E9%9A%86%E5%B8%82%7C%E7%AC%AC4%E9%81%B8%E5%8D%80%7C%E6%9D%8E%E6%98%80%E9%9D%9C",
+      "action": "preserved-manual"
+    },
+    {
+      "countyCode": "10017",
+      "city": "基隆市",
+      "district": "第5選區",
+      "name": "黃永翔",
+      "personId": "基隆市|第5選區|黃永翔",
+      "url": "https://council2026.taiwangogo.tw/?city=kel&district=kel-5&person=%E5%9F%BA%E9%9A%86%E5%B8%82%7C%E7%AC%AC5%E9%81%B8%E5%8D%80%7C%E9%BB%83%E6%B0%B8%E7%BF%94",
       "action": "preserved-manual"
     },
     {
