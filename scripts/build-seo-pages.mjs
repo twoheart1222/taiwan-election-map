@@ -3,6 +3,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import '../election-data.js';
+import { publicBuildOverrides } from './public-build-overrides.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://formosaobservatory.com';
@@ -15,7 +17,8 @@ const taipeiDate = Object.fromEntries(new Intl.DateTimeFormat('en-US', {
 const today = `${taipeiDate.year}-${taipeiDate.month}-${taipeiDate.day}`;
 const readJson = (p) => JSON.parse(fs.readFileSync(path.join(ROOT, p), 'utf8'));
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-const feats = (topo) => topo.objects.map.geometries.map((g) => g.properties);
+const overrides = await publicBuildOverrides();
+const feats = (topo) => topo.objects.map.geometries.map((g) => ElectionData.mergeArea(g.properties, overrides[g.properties.id]));
 const party = (p) => (p && p !== '無' ? p : '無黨籍');
 const flatCouncil = (c) => (c.councilors || []).flatMap((b) => b.candidates || []);
 
@@ -81,15 +84,15 @@ ${ldAll}
 <a class="skip-link" href="#county-list">跳至縣市名單</a>
 <header class="directory-header"><nav class="directory-nav" aria-label="主導覽">
 <div class="directory-brand-group"><a class="directory-brand" href="/" aria-label="返回島民選舉地圖首頁"><span class="directory-brand-mark" aria-hidden="true"><img src="/assets/brand/formosa-mark.png" alt=""></span><span>島民觀察室</span></a><div class="directory-countdown"><span class="directory-countdown-label">距離島民下一次選擇</span><span id="directory-days">—</span><span class="directory-days-unit">DAYS</span></div></div>
-<div class="directory-links"><a href="/">選舉地圖</a><a href="/history/">歷年選舉</a><a href="/#observatory">政治觀察</a><a href="/#about">關於我們</a></div>
+<div class="directory-links"><a href="/">選舉地圖</a><a href="/history/">歷年選舉</a><a href="/#observatory">政治觀察</a><a href="/#about">關於我們</a><a href="/#support" style="color:#ff5a72">支持我們</a></div>
 <button class="directory-menu-toggle" type="button" aria-expanded="false" aria-controls="directory-mobile-menu" aria-label="開啟頁面選單" hidden><span class="directory-ham" aria-hidden="true"><i></i><i></i><i></i></span></button>
-<div id="directory-mobile-menu" class="directory-mobile-menu" aria-label="手機頁面選單" inert><a href="/">選舉地圖 <span aria-hidden="true">→</span></a><a href="/history/">歷年選舉 <span aria-hidden="true">→</span></a><a href="/#observatory">政治觀察 <span aria-hidden="true">→</span></a><a href="/#about">關於我們 <span aria-hidden="true">→</span></a></div>
+<div id="directory-mobile-menu" class="directory-mobile-menu" aria-label="手機頁面選單" inert><a href="/">選舉地圖 <span aria-hidden="true">→</span></a><a href="/history/">歷年選舉 <span aria-hidden="true">→</span></a><a href="/#observatory">政治觀察 <span aria-hidden="true">→</span></a><a href="/#about">關於我們 <span aria-hidden="true">→</span></a><a href="/#support">支持我們 <span aria-hidden="true">→</span></a></div>
 </nav></header>` : ''}
 <main>
 ${isIndex ? '' : `<nav class="top" aria-label="導覽"><a class="brand" href="/"><img src="/assets/brand/formosa-mark.png" alt=""><span>島民觀察室</span></a><a href="/election/">全台縣市</a>${crumbs.slice(2).map((c) => `<a href="${c[1]}">${esc(c[0])}</a>`).join('')}</nav>
 <h1>${esc(h1)}</h1>`}
 ${body}
-<footer>資料整理：${esc(NAME)}（<a href="/">${SITE.replace('https://', '')}</a>），最後更新 <time datetime="${today}">${today}</time>。資料來源包含<a href="https://web.cec.gov.tw/" rel="nofollow">中央選舉委員會</a>、內政部與各縣市議會公開資料。本站為獨立民間資訊平台；資格審查、正式候選人名單、選區與票數以中選會公告為準。聯絡：<a href="mailto:contact@formosaobservatory.com">contact@formosaobservatory.com</a></footer>
+<footer>資料整理：${esc(NAME)}（<a href="/">${SITE.replace('https://', '')}</a>），最後更新 <time datetime="${today}">${today}</time>。資料來源包含<a href="https://web.cec.gov.tw/" rel="nofollow">中央選舉委員會</a>、內政部與各縣市議會公開資料。本站為獨立民間資訊平台；資格審查、正式候選人名單、選區與票數以中選會公告為準。聯絡：<a href="mailto:contact@formosaobservatory.com">contact@formosaobservatory.com</a><span style="display:inline-block;margin:8px 12px"><a href="/privacy/" style="color:inherit;text-decoration:underline;text-underline-offset:3px">隱私權政策</a></span></footer>
 </main>
 ${isIndex ? '<script defer src="/election/navigation.js"></script>' : ''}
 </body>
@@ -98,13 +101,14 @@ ${isIndex ? '<script defer src="/election/navigation.js"></script>' : ''}
 }
 
 const candTable = (list, cols = ['姓名', '政黨', '備註']) => list.length
-  ? `<table><thead><tr>${cols.map((c) => `<th>${c}</th>`).join('')}</tr></thead><tbody>${list.map((c) => `<tr><td>${esc(c.name)}</td><td>${esc(party(c.party))}</td><td>${[c.registeredDate ? `登記 ${esc(c.registeredDate)}` : '', c.isIncumbent ? '現任' : '', c.elected ? '當選' : '', c.prevVotes ? `2022 得票 ${esc(c.prevVotes)}` : ''].filter(Boolean).join('、')}</td></tr>`).join('')}</tbody></table>`
+  ? `<table><thead><tr>${cols.map((c) => `<th>${c}</th>`).join('')}</tr></thead><tbody>${ElectionData.ineligibleLast(list).map((c) => `<tr><td>${esc(c.name)}${c.qualificationStatus === 'ineligible' ? ' <strong style="color:#ff9ca9">資格不符規定</strong>' : ''}</td><td>${esc(party(c.party))}</td><td>${[c.registeredDate ? `登記 ${esc(c.registeredDate)}` : '', c.isIncumbent ? '現任' : '', c.elected ? '當選' : '', c.prevVotes ? `2022 得票 ${esc(c.prevVotes)}` : '', c.qualificationStatus === 'ineligible' ? `<p>${esc(c.qualificationReason)}</p><p>審定日期：${esc(c.qualificationDate)}</p>${/^https:\/\/[^\s"'<>]+$/i.test(c.qualificationSourceUrl || '') ? `<a href="${esc(c.qualificationSourceUrl)}" target="_blank" rel="noopener noreferrer">資格審定官方公告</a>` : ''}` : ''].filter(Boolean).join('、')}</td></tr>`).join('')}</tbody></table>`
   : '<p class="note">目前尚無登記資料。</p>';
 
 fs.mkdirSync(path.join(ROOT, 'election'), { recursive: true });
 const urls = [
   { loc: '/', pri: '1.0', freq: 'daily' },
   { loc: '/election/', pri: '0.9', freq: 'daily' },
+  { loc: '/privacy/', pri: '0.3', freq: 'yearly' },
   { loc: '/history/', pri: '0.8', freq: 'monthly' },
   { loc: '/history/legislator', pri: '0.8', freq: 'monthly' },
   { loc: '/history/local-executive', pri: '0.7', freq: 'monthly' },
@@ -157,7 +161,7 @@ for (const c of counties) {
     coverage.representatives += repList.length;
     let villages = [];
     const vf = path.join(ROOT, `data/villages/villages-${t.id}.json`);
-    if (fs.existsSync(vf)) villages = feats(JSON.parse(fs.readFileSync(vf, "utf8")));
+    if (fs.existsSync(vf)) villages = feats(JSON.parse(fs.readFileSync(vf, "utf8"))).filter(ElectionData.isAdministrativeVillage);
     const vCands = villages.reduce((n, v) => n + (v.candidates || []).length, 0);
     coverage.villages += villages.length;
     coverage.villageHeads += vCands;
@@ -172,7 +176,7 @@ for (const c of counties) {
     }
     for (const r of reps) if ((r.candidates || []).length) tb += `<h2>${esc(t.name)}民代候選人（第 ${esc(r.district)} 選舉區）</h2>${candTable(r.candidates)}`;
     if (villages.length) {
-      tb += `<h2>${esc(t.name)}村里長候選人</h2><table><thead><tr><th>村里</th><th>候選人（政黨）</th></tr></thead><tbody>${villages.map((v) => `<tr><td>${esc(v.name)}</td><td>${(v.candidates || []).map((x) => `${esc(x.name)}（${esc(party(x.party))}）${x.isIncumbent ? '現任' : ''}`).join('、') || '<span class="note">尚無登記</span>'}</td></tr>`).join('')}</tbody></table>`;
+      tb += `<h2>${esc(t.name)}村里長候選人</h2><table><thead><tr><th>村里</th><th>候選人（政黨）</th></tr></thead><tbody>${villages.map((v) => `<tr><td>${esc(v.name)}</td><td>${(v.candidates || []).map((x) => `${esc(x.name)}（${esc(party(x.party))}）${x.isIncumbent ? '現任' : ''}`).join('、') || '<span class="note">目前未收錄登記資料</span>'}</td></tr>`).join('')}</tbody></table>`;
     }
     tb += `<p class="note">回到 <a href="${cPath}">${esc(c.name)}候選人名單</a></p>`;
     fs.writeFileSync(path.join(ROOT, `election/${t.id}.html`), shell({ title: tt, desc: td, canon: tPath, h1: `${c.name}${t.name} 2026 地方選舉候選人名單`, body: tb, crumbs: [['首頁', '/'], ['全台縣市', '/election/'], [c.name, cPath], [t.name, tPath]] }));

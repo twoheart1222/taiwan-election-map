@@ -14,7 +14,11 @@
     toggle.type='button';toggle.className='history-mobile-toggle';toggle.setAttribute('aria-expanded','false');toggle.setAttribute('aria-controls','history-mobile-menu');toggle.setAttribute('aria-label','開啟頁面選單');
     toggle.innerHTML='<span class="history-ham" aria-hidden="true"><i></i><i></i><i></i></span>';
     const menu=document.createElement('div');menu.id='history-mobile-menu';menu.className='history-mobile-menu';menu.setAttribute('aria-label','手機頁面選單');
-    menu.innerHTML=`<a href="../#map">選舉地圖 <span aria-hidden="true">→</span></a><a class="on" href="./">歷年選舉 <span aria-hidden="true">→</span></a><a href="../#observatory">政治觀察 <span aria-hidden="true">→</span></a><a href="../#about">關於我們 <span aria-hidden="true">→</span></a>`;
+    nav.querySelectorAll('.nav-right a').forEach(link=>{
+      const item=link.cloneNode(true);
+      const arrow=document.createElement('span');arrow.setAttribute('aria-hidden','true');arrow.textContent='→';
+      item.append(arrow);menu.append(item);
+    });
     nav.append(toggle,menu);
     const setOpen=open=>{toggle.classList.toggle('open',open);menu.classList.toggle('open',open);toggle.setAttribute('aria-expanded',String(open));toggle.setAttribute('aria-label',open?'關閉頁面選單':'開啟頁面選單');};
     toggle.addEventListener('click',()=>setOpen(!menu.classList.contains('open')));
@@ -44,6 +48,7 @@
       if(destination.hash==='#observatory')return '政治觀察';
       if(destination.hash==='#about')return '關於我們';
       if(destination.hash==='#contact')return '聯絡我們';
+      if(destination.hash==='#support')return '支持島民觀察室';
       return '島民選舉地圖';
     }
     if(/legislator\.html/.test(url))return '立法委員';

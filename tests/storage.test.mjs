@@ -200,6 +200,17 @@ test('API migration, version conflicts, concurrent writes, atomic batches and KV
   assert.equal(unsafeGazette.status, 200);
   data = await parity();
   assert.equal(data.A.candidates[0].gazettePreviewUrl, '');
+  const invalidQualification = await request('/api/admin/overrides/A', 'PUT', {
+    candidates: [{ name: '甲', qualificationStatus: 'ineligible', qualificationReason: '' }],
+  }, data.A._revision);
+  assert.equal(invalidQualification.status, 400);
+  const qualification = { qualificationStatus: 'ineligible', qualificationReason: '依官方審定，資格不符。', qualificationDate: '2026-10-16', qualificationSourceUrl: 'https://web.cec.gov.tw/central/article/65213' };
+  const savedQualification = await request('/api/admin/overrides/A', 'PUT', {
+    candidates: [{ ...data.A.candidates[0], ...qualification }],
+  }, data.A._revision);
+  assert.equal(savedQualification.status, 200);
+  data = await parity();
+  for (const [field, value] of Object.entries(qualification)) assert.equal(data.A.candidates[0][field], value);
   assert.equal((await request('/api/admin/overrides/A', 'PUT', { candidates: [] }, initial.A._revision)).status, 409);
   const competing = await Promise.all([
     request('/api/admin/overrides/A', 'PUT', { quota: 1 }, data.A._revision),

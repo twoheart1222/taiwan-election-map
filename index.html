@@ -250,7 +250,7 @@ try{
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/topojson-client@3.1.0/dist/topojson-client.min.js" integrity="sha384-Ukv1p/xTma6P4/2bY5KzWBw+ydSpXmhCMtyciIQVDJ1RmOxtCYNMF1uXT9T63H67" crossorigin="anonymous"></script>
 <script src="/site-config.js"></script>
-<script src="/election-data.js?v=20260926-career-move1"></script>
+<script src="/election-data.js?v=20261016-qualifications"></script>
 <script>
   /* =====================================================================
      後台校閱資料（候選人照片、社群連結、席次等）由 Cloudflare Worker + KV 供應。
@@ -484,7 +484,7 @@ try{
             <footer style="background:#0d0d0d;color:#8a857c;padding:clamp(40px,7vh,80px) clamp(18px,4vw,54px);display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;border-top:1px solid #1c1a17">
         <div><a href="#" data-view="map" data-home class="brand-lockup-plaque" aria-label="返回島民選舉地圖首頁"><img src="/assets/brand/formosa-lockup.png" alt="Formosa Observatory 島民觀察室"></a><div style="font-size:12px;letter-spacing:.1em;margin-top:10px">© 2026 Formosa Observatory 島民觀察室<br>Independent Taiwan Election &amp; Civic Data Platform</div></div>
         <div style="max-width:500px;font-family:'Noto Sans TC';font-weight:600;font-size:12px;line-height:1.7;text-align:right">本站為獨立民間資訊平台，非中央選舉委員會或任何政府機關之官方網站。<br><a href="#" data-view="contact" style="color:#f4f1ea">資料更正與聯絡</a></div>
-      </footer>
+      <span style="display:inline-block;margin:8px 12px"><a href="/privacy/" style="color:inherit;text-decoration:underline;text-underline-offset:3px">隱私權政策</a></span></footer>
     </div>
 
     <!-- ========== VIEW: OBSERVATORY ========== -->
@@ -498,7 +498,7 @@ try{
       <footer class="brand-page-footer" style="background:#0d0d0d;color:#8a857c;padding:clamp(40px,7vh,80px) clamp(18px,4vw,54px);display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;border-top:1px solid #1c1a17">
         <div><a href="#" data-view="map" data-home class="brand-lockup-plaque" aria-label="返回島民選舉地圖首頁"><img src="/assets/brand/formosa-lockup.png" alt="Formosa Observatory 島民觀察室"></a><div style="font-size:12px;letter-spacing:.1em;margin-top:10px">© 2026 Formosa Observatory 島民觀察室<br>Independent Taiwan Election &amp; Civic Data Platform</div></div>
         <div class="brand-page-footer-note" style="max-width:500px;font-family:'Noto Sans TC';font-weight:600;font-size:12px;line-height:1.7;text-align:right">本站為獨立民間資訊平台，非中央選舉委員會或任何政府機關之官方網站。<br><a href="#" data-view="contact" style="color:#f4f1ea">資料更正與聯絡</a></div>
-      </footer>
+      <span style="display:inline-block;margin:8px 12px"><a href="/privacy/" style="color:inherit;text-decoration:underline;text-underline-offset:3px">隱私權政策</a></span></footer>
     </div>
 
     <!-- ========== VIEW: SUPPORT ========== -->
@@ -533,7 +533,7 @@ try{
       <footer style="background:#0d0d0d;color:#8a857c;padding:clamp(30px,5vh,60px) clamp(18px,4vw,54px);display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;border-top:1px solid #1c1a17">
         <a href="#" data-view="map" data-home class="brand-lockup-plaque" aria-label="返回島民選舉地圖首頁"><img src="/assets/brand/formosa-lockup.png" alt="Formosa Observatory 島民觀察室"></a>
         <div style="font-family:'Archivo';font-weight:600;font-size:12px;letter-spacing:.08em;text-align:right">© 2026 Formosa Observatory 島民觀察室<br>Independent Taiwan Election &amp; Civic Data Platform</div>
-      </footer>
+      <span style="display:inline-block;margin:8px 12px"><a href="/privacy/" style="color:inherit;text-decoration:underline;text-underline-offset:3px">隱私權政策</a></span></footer>
     </div>
 
     <!-- ========== VIEW: CONTACT ========== -->
@@ -557,6 +557,7 @@ try{
             <label style="display:grid;gap:7px"><span style="font-size:12px;font-weight:800;color:#c9c2b6">聯絡類型</span><select name="category" required style="padding:12px;border:1px solid #3a3630;border-radius:6px;background:#141210;color:#f4f1ea;font:600 15px 'Noto Sans TC'"><option value="資料更正">資料更正</option><option value="照片或社群連結">照片或社群連結</option><option value="選區或地圖問題">選區或地圖問題</option><option value="其他建議">其他建議</option></select></label>
             <label style="display:grid;gap:7px"><span style="font-size:12px;font-weight:800;color:#c9c2b6">涉及地區或候選人</span><input name="location" maxlength="160" placeholder="例如：高雄市第 9 選區／王小明" style="padding:12px;border:1px solid #3a3630;border-radius:6px;background:#141210;color:#f4f1ea;font:600 15px 'Noto Sans TC'"></label>
             <label style="display:grid;gap:7px"><span style="font-size:12px;font-weight:800;color:#c9c2b6">說明</span><textarea name="message" required minlength="10" maxlength="4000" rows="6" placeholder="請提供需要更正的內容與可供核對的資料來源。" style="resize:vertical;padding:12px;border:1px solid #3a3630;border-radius:6px;background:#141210;color:#f4f1ea;font:600 15px/1.6 'Noto Sans TC'"></textarea></label>
+            <p style="margin:0;color:#c9c2b6;font-size:13px;line-height:1.7">我們將使用您提供的資料處理聯絡與更正請求，並於後台保存及通知維護人員。詳見<a href="/privacy/" style="color:#ff7890">隱私權政策</a>。</p>
             <button type="submit" style="padding:14px;border:0;border-radius:6px;background:#E4022B;color:#fff;font:900 15px 'Noto Sans TC';cursor:pointer">送出資料</button>
             <p id="contact-status" role="status" style="min-height:20px;margin:0;font-size:13px;font-weight:700;color:#a29c92"></p>
           </form>
@@ -1267,7 +1268,7 @@ class App {
         found.town = { id: String(town.properties.id), code: countyId, county: county.properties.name, name: this._addrNorm(town.properties.name), label: town.properties.name };
         try {
           const villageTopo = await this._loadTopo(`./data/villages/villages-${found.town.id}.json`);
-          const village = inside(this._feats(villageTopo));
+          const village = inside(this._feats(villageTopo).filter(f => ElectionData.isAdministrativeVillage(f.properties)));
           if (village) found.village = { id: String(village.properties.id), label: village.properties.name };
         } catch (_) { /* 沒有村里圖層時只到鄉鎮 */ }
       }
@@ -1400,10 +1401,10 @@ class App {
     if (isPhoneticSuggestion) {
       const note = document.createElement('div'); note.className = 'search-message'; note.textContent = '找不到完全相同的姓名，以下是別名、常見字或讀音相近的候選人：'; container.appendChild(note);
     }
-    matches.slice(0, limit).forEach((candidate, index) => {
+    ElectionData.ineligibleLast(matches).slice(0, limit).forEach((candidate, index) => {
       const button = document.createElement('button');
       button.type = 'button'; button.className = 'search-result'; button.setAttribute('role', 'option');
-      const name = document.createElement('span'); name.className = 'search-result-name'; name.textContent = candidate.name;
+      const name = document.createElement('span'); name.className = 'search-result-name'; name.textContent = candidate.name + (candidate.qualificationStatus === 'ineligible' ? '｜資格不符規定' : '');
       const meta = document.createElement('span'); meta.className = 'search-result-meta';
       meta.textContent = [candidate.party, candidate.role, this._candidateLocation(candidate)].filter(Boolean).join(' · ');
       button.append(name, meta);
@@ -2337,10 +2338,11 @@ class App {
     const tabs = [{ key: 'mayor', label: p.isIndigenousDistrict ? '區長' : '鄉鎮市區長', count: mayors.length }];
     if (cBlocks.length) tabs.push({ key: 'council', label: '議員', count: cCount });
     if (blocks.length) tabs.push({ key: 'rep', label: repLabel, count: repCount });
-    tabs.push({ key: 'village', label: '村里長', count: (this.villageFeats || []).length || '' });
+    tabs.push({ key: 'village', label: '村里長', count: (this.villageFeats || []).filter(f => ElectionData.isAdministrativeVillage(f.properties)).length || '' });
 
     // 村里長下拉（需先確保 villageFeats 已載入）
-    const setupVillageSel = (feats) => {
+    const setupVillageSel = (features) => {
+      const feats = features.filter(f => ElectionData.isAdministrativeVillage(f.properties));
       const sel3 = document.getElementById('sel-village');
       sel3.innerHTML = `<option value="">── 選擇村里（村里長）──</option>` +
         feats.map(f => {
@@ -2509,7 +2511,7 @@ class App {
       if (window.gsap) window.gsap.fromTo(box.firstElementChild, { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 0.45, ease: 'power3.out' });
       return;
     }
-    box.innerHTML = cands.map(c => this._card(c)).join('');
+    box.innerHTML = ElectionData.ineligibleLast(cands).map(c => this._card(c)).join('');
     box.scrollTop = 0; if (scrollShell) scrollShell.scrollTop = 0;
     if (statReg) this._countUp(statReg, `${cands.length} 人`);
     if (window.gsap) {
@@ -2573,7 +2575,8 @@ class App {
     };
     const thisVotes = fmtVotes(c.votes);
     const prevVotes = fmtVotes(c.prevVotes);
-    const isWin = !!c.elected;
+    const ineligible = c.qualificationStatus === 'ineligible';
+    const isWin = !!c.elected && !ineligible;
     // Bento 卡片：照片大格（姓名＋政黨）｜得票小格｜狀態＋社群｜外部資料｜選舉公報
     const I = {
       check: '<path d="m3.5 8.5 3 3 6-7"/>',
@@ -2585,13 +2588,21 @@ class App {
     const icon = (name, cls = '') => `<svg class="bn-i ${cls}" viewBox="0 0 16 16" aria-hidden="true">${I[name]}</svg>`;
     const hasPrev = !!(c.isIncumbent || prevVotes);
     const metric = (label, val, pending, cls = '') => `<div class="bn-tile bn-metric ${cls}"><span class="bn-label">${label}</span>${val ? `<strong class="bn-value">${val}</strong>` : `<span class="bn-pending"><i></i>${pending}</span>`}</div>`;
-    const metrics = metric('本期得票', thisVotes, '未開票', isWin ? 'bn-accent' : (hasPrev ? '' : 'bn-tall'))
+    const metrics = metric('本期得票', ineligible ? null : thisVotes, ineligible ? '資格不符' : '未開票', isWin ? 'bn-accent' : (hasPrev ? '' : 'bn-tall'))
       + (hasPrev ? metric('上屆參選得票', prevVotes, '資料待補', isWin ? '' : (prevVotes ? 'bn-accent' : '')) : '');
     const gazetteSource = safeUrl(c.gazetteUrl);
     const gazettePreview = safeUrl(c.gazettePreviewUrl);
     const gazettePage = String(c.gazettePage || '').replace(/[^0-9０-９-]/g, '').slice(0, 12);
     const gazetteAlt = esc(c.gazetteAlt || `${c.name || '候選人'}的完整選舉公報橫列`);
-    const gazette = `<details class="gazette-disclosure bn-tile bn-wide bn-disclosure">
+    const qualificationSource = safeUrl(c.qualificationSourceUrl);
+    const gazette = ineligible ? `<details class="bn-tile bn-wide bn-disclosure qualification-notice" style="background:#261719;overflow-wrap:anywhere">
+      <summary>${icon('shield', 'bn-lead')}<span class="bn-link-title" style="color:#ff9ca9">資格不符規定</span><span class="bn-state">查看原因</span><span class="bn-go">${icon('arrow')}</span></summary>
+      <div class="qualification-panel" style="padding:0 18px 18px">
+      <p style="margin:8px 0;color:#e9d8da;font-size:13px;line-height:1.85;white-space:pre-wrap">${esc(c.qualificationReason || '請查閱主管選舉委員會的資格審定公告。')}</p>
+      ${c.qualificationDate ? `<p style="margin:6px 0;color:#c6aeb2;font-size:12px">審定日期：${esc(c.qualificationDate)}</p>` : ''}
+      ${qualificationSource ? `<a href="${qualificationSource}" target="_blank" rel="noopener noreferrer" style="color:#ffb3be;text-decoration:underline">查閱資格審定官方公告 →</a>` : ''}
+      </div>
+    </details>` : `<details class="gazette-disclosure bn-tile bn-wide bn-disclosure">
       <summary>${icon('doc', 'bn-lead')}<span class="bn-link-title">查看選舉公報</span><span class="bn-state">${gazettePreview ? '已收錄' : '待公告'}</span><span class="bn-go">${icon('arrow')}</span></summary>
       <div class="gazette-panel">
         ${gazettePreview
@@ -2611,6 +2622,8 @@ class App {
     const socialBlock = socials.length ? `<nav class="bn-social-row" aria-label="社群連結">${socials.map(k => `<a class="bn-social" href="${safeUrl(c[k])}" target="_blank" rel="noopener noreferrer">${this._socialIcon(k)}<span>${map[k]}</span></a>`).join('')}</nav>` : '';
     // 狀態：爭取連任、轉換職位 · 上一屆職務，放在姓名旁，可同時出現
     const chips = [
+      ineligible ? `<span class="bn-chip" style="background:#692b36;color:#ffe0e5">資格不符規定</span>` : '',
+      c.qualificationStatus === 'eligible' ? `<span class="bn-chip bn-chip--green">資格審查通過</span>` : '',
       c.isIncumbent ? `<span class="bn-chip bn-chip--green">${icon('check')}爭取連任</span>` : '',
       (c.isCareerMove || c.priorRace) ? `<span class="bn-chip bn-chip--amber">${icon('swap')}轉換職位<b>· ${esc(c.priorRace || '上一屆職務待補')}</b></span>` : ''
     ].join('');
@@ -2625,7 +2638,7 @@ class App {
     const winRibbon = isWin
       ? `<svg class="bn-stamp" viewBox="0 0 100 100" aria-label="當選" role="img"><defs><filter id="stamp-rough" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.6"/></filter></defs><g filter="url(#stamp-rough)" fill="none" stroke="#E4022B"><circle cx="50" cy="50" r="45" stroke-width="4.5"/><circle cx="50" cy="50" r="38" stroke-width="1.6"/><text x="50" y="66" text-anchor="middle" font-family="'Noto Serif TC','Songti TC',serif" font-weight="900" font-size="44" fill="#E4022B" stroke="none" letter-spacing="-2">當選</text><path d="M22 78 L78 78" stroke-width="1.6"/><text x="50" y="30" text-anchor="middle" font-family="Archivo,sans-serif" font-weight="900" font-size="8.5" fill="#E4022B" stroke="none" letter-spacing="3.4">ELECTED</text></g></svg>`
       : '';
-    return `<article class="candidate-card bn-card bn-classic${isWin ? ' is-win' : ''}" data-search-name="${esc(this._normalizeSearch(c.name))}">
+    return `<article class="candidate-card bn-card bn-classic${isWin ? ' is-win' : ''}${ineligible ? ' is-ineligible' : ''}" data-search-name="${esc(this._normalizeSearch(c.name))}">
       ${isWin ? '<div class="bn-win-bar" role="note"><strong><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M9 1.8 11 3.3l2.5-.2.7 2.4 2.1 1.3-.9 2.2.9 2.2-2.1 1.3-.7 2.4-2.5-.2L9 16.2 7 14.7l-2.5.2-.7-2.4-2.1-1.3.9-2.2-.9-2.2 2.1-1.3.7-2.4 2.5.2z"/><path d="m6.3 9.2 1.8 1.8 3.7-3.9"/></svg>當選</strong><span>ELECTED</span></div>' : ''}
       <div class="bn-tile bn-headtile">
         ${winRibbon}

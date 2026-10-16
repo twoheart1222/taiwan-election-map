@@ -45,7 +45,7 @@ test('all generated pages contain valid JSON-LD and canonical metadata', () => {
 
 test('sitemap and AI summaries expose current election and history entry points', () => {
   const sitemap = text('sitemap.xml');
-  assert.equal((sitemap.match(/<url>/g) || []).length, 397);
+  assert.equal((sitemap.match(/<url>/g) || []).length, 398);
   assert.match(sitemap, /https:\/\/formosaobservatory\.com\/history\/legislator/);
   assert.match(sitemap, /https:\/\/formosaobservatory\.com\/history\/local-executive</);
   assert.match(sitemap, /https:\/\/formosaobservatory\.com\/history\/councilor/);

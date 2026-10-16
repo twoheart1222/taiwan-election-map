@@ -124,6 +124,16 @@ export function validateMap(data, allowDelete = false) {
       const list = field === 'candidates' ? value[field] : (Array.isArray(value[field]) ? value[field] : value[field]?.blocks);
       if (!Array.isArray(list) || list.some(item => !item || typeof item !== 'object' || Array.isArray(item))) throw new Error('Invalid roster');
       if (field !== 'candidates' && list.some(block => !Array.isArray(block.candidates))) throw new Error('Invalid district candidates');
+      const candidates = field === 'candidates' ? list : list.flatMap(block => block.candidates);
+      for (const candidate of candidates) {
+        if (!candidate || typeof candidate !== 'object' || Array.isArray(candidate)) throw new Error('Invalid candidate');
+        const status = candidate.qualificationStatus;
+        if (status != null && !['unreviewed', 'eligible', 'ineligible'].includes(status)) throw new Error('資格狀態不正確');
+        if (candidate.qualificationReason != null && (typeof candidate.qualificationReason !== 'string' || candidate.qualificationReason.length > 2400)) throw new Error('資格原因不得超過 2400 字');
+        if (status === 'ineligible' && !String(candidate.qualificationReason || '').trim()) throw new Error('資格不符時必須填寫原因');
+        if (candidate.qualificationDate && (!/^\d{4}-\d{2}-\d{2}$/.test(candidate.qualificationDate) || !Number.isFinite(Date.parse(candidate.qualificationDate)) || new Date(candidate.qualificationDate).toISOString().slice(0, 10) !== candidate.qualificationDate)) throw new Error('審定日期不正確');
+        if (candidate.qualificationSourceUrl && !/^https:\/\/[^\s"'<>\\]+$/i.test(candidate.qualificationSourceUrl)) throw new Error('資格審定來源必須為 HTTPS 網址');
+      }
     }
   }
 }

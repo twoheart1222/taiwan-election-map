@@ -2,6 +2,9 @@ import { readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { pinyin } from 'pinyin-pro';
+import '../election-data.js';
+import { publicBuildOverrides } from './public-build-overrides.mjs';
+const overrides = await publicBuildOverrides();
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dataDir = path.join(root, 'data');
@@ -9,7 +12,7 @@ const dataDir = path.join(root, 'data');
 async function readTopo(file) {
   const document = JSON.parse(await readFile(file, 'utf8'));
   const object = Object.values(document.objects || {})[0];
-  return object?.geometries?.map(item => item.properties || {}) || [];
+  return object?.geometries?.map(item => ElectionData.mergeArea(item.properties || {}, overrides[item.properties?.id])) || [];
 }
 
 async function jsonFiles(directory) {
@@ -61,6 +64,7 @@ function publicCandidate(candidate, context, district = null, source = 'candidat
     prevVotes: candidate.prevVotes ?? null,
     elected: Boolean(candidate.elected),
 
+    ...Object.fromEntries(ElectionData.qualificationFields.filter(field => Object.hasOwn(candidate, field)).map(field => [field, candidate[field]])),
     isIncumbent: Boolean(candidate.isIncumbent),
     district,
     source,

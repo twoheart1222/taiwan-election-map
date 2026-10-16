@@ -37,7 +37,7 @@
 <link rel="stylesheet" href="./premium.css?v=20260927-compare">
 </head>
 <body class="history-product history-town">
-<nav class="site-nav"><a class="brand" href="../"><img class="brand-mark" src="/assets/brand/formosa-mark.png" alt=""><span>島民觀察室</span></a><div class="nav-right"><a href="../#map">選舉地圖</a><a class="on" href="./">歷年選舉</a><a href="../#observatory">政治觀察</a><a href="../#about">關於我們</a></div></nav>
+<nav class="site-nav"><a class="brand" href="../"><img class="brand-mark" src="/assets/brand/formosa-mark.png" alt=""><span>島民觀察室</span></a><div class="nav-right"><a href="../#map">選舉地圖</a><a class="on" href="./">歷年選舉</a><a href="../#observatory">政治觀察</a><a href="../#about">關於我們</a><a href="/#support" style="color:#ff5a72">支持我們</a></div></nav>
 <header class="hero">
   <div class="crumb"><a id="history-link" href="./">歷年選舉</a><span>›</span><b id="crumb-county">縣市</b></div>
   <div class="kicker">COUNTY → TOWNSHIP / DISTRICT</div>
@@ -61,7 +61,7 @@
 <footer class="brand-site-footer">
   <div><a href="../#map" class="brand-site-footer__lockup" aria-label="返回島民選舉地圖首頁"><img src="/assets/brand/formosa-lockup.png" alt="Formosa Observatory 島民觀察室"></a><div class="brand-site-footer__meta">© 2026 Formosa Observatory 島民觀察室<br>Independent Taiwan Election &amp; Civic Data Platform</div></div>
   <div class="brand-site-footer__note">本站為獨立民間資訊平台，非中央選舉委員會或任何政府機關之官方網站。<br><a href="../#contact">資料更正與聯絡</a></div>
-</footer>
+<span style="display:inline-block;margin:8px 12px"><a href="/privacy/" style="color:inherit;text-decoration:underline;text-underline-offset:3px">隱私權政策</a></span></footer>
 <div id="tooltip" class="tooltip"></div>
 <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
@@ -142,7 +142,7 @@ new ResizeObserver(scheduleDraw).observe(document.querySelector('.map-panel'));
 init();
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="./product-ui.js?v=20260926-fo-ui"></script>
+<script src="./product-ui.js?v=20261016-support-menu"></script>
 <script src="/assets/ui/fo-motion.js?v=20260926-fo-ui"></script><script src="./premium.js?v=20260927-compare"></script>
 
 </body>
