@@ -1,0 +1,3013 @@
+{
+  "source": "https://lawmaker.twreporter.org",
+  "checkedAt": "2026-10-17",
+  "coverage": "立法院第10、11屆及六都本屆議會；僅連結已比對的人物個人頁。",
+  "profiles": [
+    {
+      "countyCode": "10002",
+      "source": "candidates",
+      "name": "吳宗憲",
+      "district": null,
+      "sourceName": "吳宗憲",
+      "kind": "congress",
+      "url": "https://lawmaker.twreporter.org/congress/lawmaker/wu-tsung-hsien"
+    },
+    {
+      "countyCode": "10004",
+      "source": "candidates",
+      "name": "徐欣瑩",
+      "district": null,
+      "sourceName": "徐欣瑩",
+      "kind": "congress",
+      "url": "https://lawmaker.twreporter.org/congress/lawmaker/hsu-hsin-ying"
+    },
+    {
+      "countyCode": "10007",
+      "source": "candidates",
+      "name": "陳素月",
+      "district": null,
+      "sourceName": "陳素月",
+      "kind": "congress",
+      "url": "https://lawmaker.twreporter.org/congress/lawmaker/chen-su-yueh"
+    },
+    {
+      "countyCode": "10008",
+      "source": "candidates",
+      "name": "許淑華",
+      "district": null,
+      "sourceName": "許淑華",
+      "kind": "congress",
+      "url": "https://lawmaker.twreporter.org/congress/lawmaker/hsu-shu-hua"
+    },
+    {
+      "countyCode": "10009",
+      "source": "candidates",
+      "name": "張嘉郡",
+      "district": null,
+      "sourceName": "張嘉郡",
+      "kind": "congress",
+      "url": "https://lawmaker.twreporter.org/congress/lawmaker/chang-chia-chun"
+    },
+    {
+      "countyCode": "10009",
+      "source": "candidates",
+      "name": "劉建國",
+      "district": null,
+      "sourceName": "劉建國",
+      "kind": "congress",
+      "url": "https://lawmaker.twreporter.org/congress/lawmaker/liu-chien-kuo"
+    },
+    {
+      "countyCode": "10010",
+      "source": "candidates",
+      "name": "蔡易餘",
+      "district": null,
+      "sourceName": "蔡易餘",
+      "kind": "congress",
+      "url": "https://lawmaker.twreporter.org/congress/lawmaker/tsai-yi-yu"
+    },
+    {
+      "countyCode": "10013",
+      "source": "candidates",
+      "name": "蘇清泉",
+      "district": null,
+      "sourceName": "蘇清泉",
+      "kind": "congress",
+      "url": "https://lawmaker.twreporter.org/congress/lawmaker/su-ching-chuan"
+    },
+    {
+      "countyCode": "10013",
+      "source": "candidates",
+      "name": "周春米",
+      "district": null,
+      "sourceName": "周春米",
+      "kind": "congress",
+      "url": "https://lawmaker.twreporter.org/congress/lawmaker/chou-chun-mi"
+    },
+    {
+      "countyCode": "10014",
+      "source": "candidates",
+      "name": "陳瑩",
+      "district": null,
+      "sourceName": "陳瑩",
+      "kind": "congress",
+      "url": "https://lawmaker.twreporter.org/congress/lawmaker/chen-ying"
+    },
+    {
+      "countyCode": "10018",
+      "source": "candidates",
+      "name": "高虹安",
+      "district": null,
+      "sourceName": "高虹安",
+      "kind": "congress",
+      "url": "https://lawmaker.twreporter.org/congress/lawmaker/kao-hung-an"
+    },
+    {
+      "countyCode": "10018",
+      "source": "candidates",
+      "name": "莊競程",
+      "district": null,
+      "sourceName": "莊競程",
+      "kind": "congress",
+      "url": "https://lawmaker.twreporter.org/congress/lawmaker/chuang-ching-cheng"
+    },
+    {
+      "countyCode": "10020",
+      "source": "candidates",
+      "name": "張啓楷",
+      "district": null,
+      "sourceName": "張啓楷",
+      "kind": "congress",
+      "url": "https://lawmaker.twreporter.org/congress/lawmaker/chang-chi-kai"
+    },
+    {
+      "countyCode": "10020",
+      "source": "candidates",
+      "name": "王美惠",
+      "district": null,
+      "sourceName": "王美惠",
+      "kind": "congress",
+      "url": "https://lawmaker.twreporter.org/congress/lawmaker/wang-mei-hui"
+    },
+    {
+      "countyCode": "63000",
+      "source": "candidates",
+      "name": "沈伯洋",
+      "district": null,
+      "sourceName": "沈伯洋",
+      "kind": "congress",
+      "url": "https://lawmaker.twreporter.org/congress/lawmaker/shen-pao-yang"
+    },
+    {
+      "countyCode": "63000",
+      "source": "candidates",
+      "name": "蔣萬安",
+      "district": null,
+      "sourceName": "蔣萬安",
+      "kind": "congress",
+      "url": "https://lawmaker.twreporter.org/congress/lawmaker/chiang-wan-an"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "鍾佩玲",
+      "district": "1",
+      "sourceName": "鍾佩玲",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/chung-pei-ling-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "陳賢蔚",
+      "district": "1",
+      "sourceName": "陳賢蔚",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/chen-hsien-wei-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "林世宗",
+      "district": "1",
+      "sourceName": "林世宗",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/lin-shih-tsung-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "黃瀞瑩",
+      "district": "1",
+      "sourceName": "黃瀞瑩",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/huang-ching-yin-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "陳慈慧",
+      "district": "1",
+      "sourceName": "陳慈慧",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/chen-tzu-hui-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "陳重文",
+      "district": "1",
+      "sourceName": "陳重文",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/chen-chung-wen-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "林杏兒",
+      "district": "1",
+      "sourceName": "林杏兒",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/lin-hsing-erh-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "張斯綱",
+      "district": "1",
+      "sourceName": "張斯綱",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/chang-ssu-kang-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "汪志冰",
+      "district": "1",
+      "sourceName": "汪志冰",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/wang-chih-ping-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "林延鳳",
+      "district": "1",
+      "sourceName": "林延鳳",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/lin-yen-feng-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "侯漢廷",
+      "district": "1",
+      "sourceName": "侯漢廷",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/hou-han-ting-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "李明賢",
+      "district": "2",
+      "sourceName": "李明賢",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/li-ming-hsien-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "王孝維",
+      "district": "2",
+      "sourceName": "王孝維",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/wang-hsiao-wei-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "游淑慧",
+      "district": "2",
+      "sourceName": "游淑慧",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/yu-shu-hui-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "何孟樺",
+      "district": "2",
+      "sourceName": "何孟樺",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/ho-meng-hua-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "陳宥丞",
+      "district": "2",
+      "sourceName": "陳宥丞",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/chen-yu-cheng-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "闕枚莎",
+      "district": "2",
+      "sourceName": "闕枚莎",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/chueh-mei-sha-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "吳世正",
+      "district": "2",
+      "sourceName": "吳世正",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/wu-shih-cheng-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "詹為元",
+      "district": "3",
+      "sourceName": "詹為元",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/chan-wei-yuan-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "張文潔",
+      "district": "3",
+      "sourceName": "張文潔",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/chang-wen-chieh-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "秦慧珠",
+      "district": "3",
+      "sourceName": "秦慧珠",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/chin-hui-chu-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "洪健益",
+      "district": "3",
+      "sourceName": "洪健益",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/hung-chien-yi-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "戴錫欽",
+      "district": "3",
+      "sourceName": "戴錫欽",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/tai-hsi-chin-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "許淑華",
+      "district": "3",
+      "sourceName": "許淑華",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/hsu-shu-hua-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "顏若芳",
+      "district": "4",
+      "sourceName": "顏若芳",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/yen-jo-fang-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "陳炳甫",
+      "district": "4",
+      "sourceName": "陳炳甫",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/chen-ping-fu-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "柳采葳",
+      "district": "4",
+      "sourceName": "柳采葳",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/liu-tsai-wei-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "林亮君",
+      "district": "4",
+      "sourceName": "林亮君",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/lin-liang-chun-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "葉林傳",
+      "district": "4",
+      "sourceName": "葉林傳",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/yeh-lin-chuan-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "林珍羽",
+      "district": "4",
+      "sourceName": "林珍羽",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/lin-chen-yu-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "陳怡君",
+      "district": "4",
+      "sourceName": "陳怡君",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/chen-yi-chun-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "吳志剛",
+      "district": "5",
+      "sourceName": "吳志剛",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/wu-chih-kang-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "鍾小平",
+      "district": "5",
+      "sourceName": "鍾小平",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/chung-hsiao-ping-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "洪婉臻",
+      "district": "5",
+      "sourceName": "洪婉臻",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/hung-wan-chen-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "劉耀仁",
+      "district": "5",
+      "sourceName": "劉耀仁",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/liu-yao-jen-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "徐立信",
+      "district": "5",
+      "sourceName": "徐立信",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/hsu-li-hsin-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "郭昭巖",
+      "district": "5",
+      "sourceName": "郭昭巖",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/kuo-chao-yen-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "簡舒培",
+      "district": "6",
+      "sourceName": "簡舒培",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/chien-shu-pei-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "楊植斗",
+      "district": "6",
+      "sourceName": "楊植斗",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/yang-chih-tou-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "耿葳",
+      "district": "6",
+      "sourceName": "耿葳",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/keng-wei-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "徐弘庭",
+      "district": "6",
+      "sourceName": "徐弘庭",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/hsu-hung-ting-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "苗博雅",
+      "district": "6",
+      "sourceName": "苗博雅",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/miao-po-ya-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "陳錦祥",
+      "district": "6",
+      "sourceName": "陳錦祥",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/chen-chin-hsiang-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "李柏毅",
+      "district": "6",
+      "sourceName": "李柏毅",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/li-po-yi-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "鍾沛君",
+      "district": "6",
+      "sourceName": "鍾沛君",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/chung-pei-chun-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "張志豪",
+      "district": "6",
+      "sourceName": "張志豪",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/chang-chih-hao-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "曾獻瑩",
+      "district": "6",
+      "sourceName": "曾獻瑩",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/tseng-hsien-ying-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "王欣儀",
+      "district": "6",
+      "sourceName": "王欣儀",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/wang-hsin-yi-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "王閔生",
+      "district": "6",
+      "sourceName": "王閔生",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/wang-min-sheng-taipei"
+    },
+    {
+      "countyCode": "63000",
+      "source": "councilors",
+      "name": "李芳儒",
+      "district": "7",
+      "sourceName": "李芳儒",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taipei/lawmaker/li-fang-ju-taipei"
+    },
+    {
+      "countyCode": "64000",
+      "source": "candidates",
+      "name": "賴瑞隆",
+      "district": null,
+      "sourceName": "賴瑞隆",
+      "kind": "congress",
+      "url": "https://lawmaker.twreporter.org/congress/lawmaker/lai-jui-lung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "candidates",
+      "name": "柯志恩",
+      "district": null,
+      "sourceName": "柯志恩",
+      "kind": "congress",
+      "url": "https://lawmaker.twreporter.org/congress/lawmaker/ko-chih-en"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "林富寶",
+      "district": "1",
+      "sourceName": "林富寶",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/lin-fu-pao-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "林義迪",
+      "district": "1",
+      "sourceName": "林義迪",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/lin-yi-ti-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "黃明太",
+      "district": "2",
+      "sourceName": "黃明太",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/huang-ming-tai-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "李亞築",
+      "district": "2",
+      "sourceName": "李亞築",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/li-ya-chu-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "林志誠",
+      "district": "3",
+      "sourceName": "林志誠",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/lin-chih-cheng-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "方信淵",
+      "district": "3",
+      "sourceName": "方信淵",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/fang-hsin-yuan-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "宋立彬",
+      "district": "3",
+      "sourceName": "宋立彬",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/sung-li-pin-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "黃秋媖",
+      "district": "3",
+      "sourceName": "黃秋媖",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/huang-chiu-ying-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "陳麗珍",
+      "district": "4",
+      "sourceName": "陳麗珍",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/chen-li-chen-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "李雅慧",
+      "district": "4",
+      "sourceName": "李雅慧",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/li-ya-hui-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "黃文志",
+      "district": "4",
+      "sourceName": "黃文志",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/huang-wen-chih-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "李雅芬",
+      "district": "4",
+      "sourceName": "李雅芬",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/li-ya-fen-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "陳玫娟",
+      "district": "4",
+      "sourceName": "陳玫娟",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/chen-mei-chuan-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "李眉蓁",
+      "district": "4",
+      "sourceName": "李眉蓁",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/li-mei-chen-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "白喬茵",
+      "district": "4",
+      "sourceName": "白喬茵",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/pai-chiao-yin-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "邱俊憲",
+      "district": "5",
+      "sourceName": "邱俊憲",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/chiu-chun-hsien-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "黃飛鳳",
+      "district": "5",
+      "sourceName": "黃飛鳳",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/huang-fei-feng-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "張勝富",
+      "district": "5",
+      "sourceName": "張勝富",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/chang-sheng-fu-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "江瑞鴻",
+      "district": "5",
+      "sourceName": "江瑞鴻",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/chiang-jui-hung-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "吳利成",
+      "district": "5",
+      "sourceName": "吳利成",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/wu-li-cheng-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "簡煥宗",
+      "district": "6",
+      "sourceName": "簡煥宗",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/chien-huan-tsung-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "陳美雅",
+      "district": "6",
+      "sourceName": "陳美雅",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/chen-mei-ya-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "李喬如",
+      "district": "6",
+      "sourceName": "李喬如",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/li-chiao-ju-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "蔡金晏",
+      "district": "6",
+      "sourceName": "蔡金晏",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/tsai-chin-yen-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "鄭孟洳",
+      "district": "7",
+      "sourceName": "鄭孟洳",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/cheng-meng-ju-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "黃柏霖",
+      "district": "7",
+      "sourceName": "黃柏霖",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/huang-po-lin-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "曾俊傑",
+      "district": "7",
+      "sourceName": "曾俊傑",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/tseng-chun-chieh-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "何權峰",
+      "district": "7",
+      "sourceName": "何權峰",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/ho-chuan-feng-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "張博洋",
+      "district": "7",
+      "sourceName": "張博洋",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/chang-po-yang-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "康裕成",
+      "district": "7",
+      "sourceName": "康裕成",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/kang-yu-cheng-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "黃香菽",
+      "district": "7",
+      "sourceName": "黃香菽",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/huang-hsiang-shu-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "黃文益",
+      "district": "8",
+      "sourceName": "黃文益",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/huang-wen-yi-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "郭建盟",
+      "district": "8",
+      "sourceName": "郭建盟",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/kuo-chien-meng-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "湯詠瑜",
+      "district": "8",
+      "sourceName": "湯詠瑜",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/tang-yung-yu-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "許采蓁",
+      "district": "8",
+      "sourceName": "許采蓁",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/hsu-tsai-chen-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "林智鴻",
+      "district": "9",
+      "sourceName": "林智鴻",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/lin-chih-hung-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "鄭安秝",
+      "district": "9",
+      "sourceName": "鄭安秝",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/cheng-an-li-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "李雅靜",
+      "district": "9",
+      "sourceName": "李雅靜",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/li-ya-ching-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "劉德林",
+      "district": "9",
+      "sourceName": "劉德林",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/liu-te-lin-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "陳慧文",
+      "district": "9",
+      "sourceName": "陳慧文",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/chen-hui-wen-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "張漢忠",
+      "district": "9",
+      "sourceName": "張漢忠",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/chang-han-chung-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "鍾易仲",
+      "district": "9",
+      "sourceName": "鍾易仲",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/chung-yi-chung-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "鄭光峰",
+      "district": "10",
+      "sourceName": "鄭光峰",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/cheng-kuang-feng-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "陳麗娜",
+      "district": "10",
+      "sourceName": "陳麗娜",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/chen-li-na-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "吳銘賜",
+      "district": "10",
+      "sourceName": "吳銘賜",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/wu-ming-tzu-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "李順進",
+      "district": "10",
+      "sourceName": "李順進",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/li-shun-chin-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "蔡武宏",
+      "district": "10",
+      "sourceName": "蔡武宏",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/tsai-wu-hung-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "李雨庭",
+      "district": "11",
+      "sourceName": "李雨庭",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/li-yu-ting-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "王耀裕",
+      "district": "11",
+      "sourceName": "王耀裕",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/wang-yao-yu-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "黃天煌",
+      "district": "11",
+      "sourceName": "黃天煌",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/huang-tien-huang-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "邱于軒",
+      "district": "11",
+      "sourceName": "邱于軒",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/chiu-yu-hsuan-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "王義雄",
+      "district": "12",
+      "sourceName": "王義雄",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/wang-yi-hsiung-kaohsiung"
+    },
+    {
+      "countyCode": "64000",
+      "source": "councilors",
+      "name": "陳幸富",
+      "district": "13",
+      "sourceName": "陳幸富",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/kaohsiung/lawmaker/chen-hsing-fu-kaohsiung"
+    },
+    {
+      "countyCode": "65000",
+      "source": "candidates",
+      "name": "蘇巧慧",
+      "district": null,
+      "sourceName": "蘇巧慧",
+      "kind": "congress",
+      "url": "https://lawmaker.twreporter.org/congress/lawmaker/su-chiao-hui"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "鄭宇恩",
+      "district": "1",
+      "sourceName": "鄭宇恩",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/cheng-yu-en-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "陳偉杰",
+      "district": "1",
+      "sourceName": "陳偉杰",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/chen-wei-chieh-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "陳家琪",
+      "district": "1",
+      "sourceName": "陳家琪",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/chen-chia-chi-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "蔡淑君",
+      "district": "2",
+      "sourceName": "蔡淑君",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/tsai-shu-chun-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "陳明義",
+      "district": "2",
+      "sourceName": "陳明義",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/chen-ming-yi-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "李宇翔",
+      "district": "2",
+      "sourceName": "李宇翔",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/li-yu-hsiang-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "翁震州",
+      "district": "3",
+      "sourceName": "翁震州",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/weng-chen-chou-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "林秉宥",
+      "district": "3",
+      "sourceName": "林秉宥",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/lin-ping-yu-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "蔣根煌",
+      "district": "3",
+      "sourceName": "蔣根煌",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/chiang-ken-huang-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "蔡健棠",
+      "district": "3",
+      "sourceName": "蔡健棠",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/tsai-chien-tang-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "陳世軒",
+      "district": "3",
+      "sourceName": "陳世軒",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/chen-shih-hsuan-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "李翁月娥",
+      "district": "4",
+      "sourceName": "李翁月娥",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/li-weng-yueh-o-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "黃桂蘭",
+      "district": "4",
+      "sourceName": "黃桂蘭",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/huang-kuei-lan-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "彭佳芸",
+      "district": "4",
+      "sourceName": "彭佳芸",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/peng-chia-yun-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "王威元",
+      "district": "4",
+      "sourceName": "王威元",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/wang-wei-yuan-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "李余典",
+      "district": "4",
+      "sourceName": "李余典",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/li-yu-tien-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "李倩萍",
+      "district": "4",
+      "sourceName": "李倩萍",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/li-chien-ping-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "顏蔚慈",
+      "district": "4",
+      "sourceName": "顏蔚慈",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/yen-wei-tzu-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "邱婷蔚",
+      "district": "4",
+      "sourceName": "邱婷蔚",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/chiu-ting-wei-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "劉美芳",
+      "district": "5",
+      "sourceName": "劉美芳",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/liu-mei-fang-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "黃淑君",
+      "district": "5",
+      "sourceName": "黃淑君",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/huang-shu-chun-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "山田摩衣",
+      "district": "5",
+      "sourceName": "山田摩衣",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/yamada-mai-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "林國春",
+      "district": "5",
+      "sourceName": "林國春",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/lin-kuo-chun-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "曾煥嘉",
+      "district": "5",
+      "sourceName": "曾煥嘉",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/tseng-huan-chia-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "張維倩",
+      "district": "6",
+      "sourceName": "張維倩",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/chang-wei-chien-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "金瑞龍",
+      "district": "6",
+      "sourceName": "金瑞龍",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/chin-jui-lung-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "張嘉玲",
+      "district": "6",
+      "sourceName": "張嘉玲",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/chang-chia-ling-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "邱烽堯",
+      "district": "6",
+      "sourceName": "邱烽堯",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/chiu-feng-yao-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "游輝宂",
+      "district": "6",
+      "sourceName": "游輝宂",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/yu-hui-lung-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "陳錦錠",
+      "district": "6",
+      "sourceName": "陳錦錠",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/chen-chin-ting-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "許昭興",
+      "district": "7",
+      "sourceName": "許昭興",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/hsu-chao-hsing-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "陳鴻源",
+      "district": "7",
+      "sourceName": "陳鴻源",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/chen-hung-yuan-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "廖宜琨",
+      "district": "8",
+      "sourceName": "廖宜琨",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/liao-yi-kun-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "卓冠廷",
+      "district": "8",
+      "sourceName": "卓冠廷",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/cho-kuan-ting-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "彭一書",
+      "district": "8",
+      "sourceName": "彭一書",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/peng-yi-shu-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "呂家愷",
+      "district": "8",
+      "sourceName": "呂家愷",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/lu-chia-kai-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "蘇泓欽",
+      "district": "8",
+      "sourceName": "蘇泓欽",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/su-hung-chin-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "黃永昌",
+      "district": "8",
+      "sourceName": "黃永昌",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/huang-yung-chang-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "林金結",
+      "district": "8",
+      "sourceName": "林金結",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/lin-chin-chieh-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "洪佳君",
+      "district": "8",
+      "sourceName": "洪佳君",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/hung-chia-chun-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "陳乃瑜",
+      "district": "9",
+      "sourceName": "陳乃瑜",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/chen-nai-yu-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "黃心華",
+      "district": "9",
+      "sourceName": "黃心華",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/huang-hsin-hua-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "劉哲彰",
+      "district": "9",
+      "sourceName": "劉哲彰",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/liu-che-chang-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "陳儀君",
+      "district": "9",
+      "sourceName": "陳儀君",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/chen-yi-chun-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "林裔綺",
+      "district": "10",
+      "sourceName": "林裔綺",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/lin-yi-chi-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "張錦豪",
+      "district": "11",
+      "sourceName": "張錦豪",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/chang-chin-hao-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "白珮茹",
+      "district": "11",
+      "sourceName": "白珮茹",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/pai-pei-ju-new-taipei"
+    },
+    {
+      "countyCode": "65000",
+      "source": "councilors",
+      "name": "楊春妹",
+      "district": "12",
+      "sourceName": "楊春妹",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/new-taipei/lawmaker/yang-chun-mei-new-taipei"
+    },
+    {
+      "countyCode": "66000",
+      "source": "candidates",
+      "name": "何欣純",
+      "district": null,
+      "sourceName": "何欣純",
+      "kind": "congress",
+      "url": "https://lawmaker.twreporter.org/congress/lawmaker/ho-hsin-chun"
+    },
+    {
+      "countyCode": "66000",
+      "source": "candidates",
+      "name": "江啟臣",
+      "district": null,
+      "sourceName": "江啟臣",
+      "kind": "congress",
+      "url": "https://lawmaker.twreporter.org/congress/lawmaker/chiang-chi-chen"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "楊啓邦",
+      "district": "1",
+      "sourceName": "楊啓邦",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/yang-chi-pang-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "施志昌",
+      "district": "1",
+      "sourceName": "施志昌",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/shih-chih-chang-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "李文傑",
+      "district": "1",
+      "sourceName": "李文傑",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/li-wen-chieh-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "王立任",
+      "district": "2",
+      "sourceName": "王立任",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/wang-li-jen-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "顏莉敏",
+      "district": "2",
+      "sourceName": "顏莉敏",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/yen-li-min-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "楊典忠",
+      "district": "2",
+      "sourceName": "楊典忠",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/yang-tien-chung-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "張清照",
+      "district": "2",
+      "sourceName": "張清照",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/chang-ching-chao-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "陳廷秀",
+      "district": "2",
+      "sourceName": "陳廷秀",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/chen-ting-hsiu-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "曾威",
+      "district": "3",
+      "sourceName": "曾威",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/tseng-wei-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "張家銨",
+      "district": "3",
+      "sourceName": "張家銨",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/chang-chia-an-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "林孟令",
+      "district": "3",
+      "sourceName": "林孟令",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/lin-meng-ling-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "吳瓊華",
+      "district": "3",
+      "sourceName": "吳瓊華",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/wu-chiung-hua-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "邱愛珊",
+      "district": "4",
+      "sourceName": "邱愛珊",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/chiu-ai-shan-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "謝志忠",
+      "district": "4",
+      "sourceName": "謝志忠",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/hsieh-chih-chung-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "陳本添",
+      "district": "4",
+      "sourceName": "陳本添",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/chen-pen-tien-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "蕭隆澤",
+      "district": "5",
+      "sourceName": "蕭隆澤",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/hsiao-lung-tse-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "吳呈賢",
+      "district": "5",
+      "sourceName": "吳呈賢",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/wu-cheng-hsien-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "賴朝國",
+      "district": "5",
+      "sourceName": "賴朝國",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/lai-chao-kuo-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "周永鴻",
+      "district": "5",
+      "sourceName": "周永鴻",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/chou-yung-hung-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "徐瑄灃",
+      "district": "5",
+      "sourceName": "徐瑄灃",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/hsu-hsuan-feng-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "陳淑華",
+      "district": "6",
+      "sourceName": "陳淑華",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/chen-shu-hua-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "楊大鋐",
+      "district": "6",
+      "sourceName": "楊大鋐",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/yang-ta-hung-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "林祈烽",
+      "district": "6",
+      "sourceName": "林祈烽",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/lin-chi-feng-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "黃馨慧",
+      "district": "6",
+      "sourceName": "黃馨慧",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/huang-hsing-hui-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "張廖乃綸",
+      "district": "6",
+      "sourceName": "張廖乃綸",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/chang-liao-nai-lun-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "劉士州",
+      "district": "7",
+      "sourceName": "劉士州",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/liu-shih-chou-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "朱暖英",
+      "district": "7",
+      "sourceName": "朱暖英",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/chu-nuan-ying-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "何文海",
+      "district": "7",
+      "sourceName": "何文海",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/ho-wen-hai-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "吳佩芸",
+      "district": "7",
+      "sourceName": "吳佩芸",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/wu-pei-yun-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "賴順仁",
+      "district": "8",
+      "sourceName": "賴順仁",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/lai-shun-jen-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "謝家宜",
+      "district": "8",
+      "sourceName": "謝家宜",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/hsieh-chia-yi-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "沈佑蓮",
+      "district": "8",
+      "sourceName": "沈佑蓮",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/shen-yu-lien-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "陳文政",
+      "district": "9",
+      "sourceName": "陳文政",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/chen-wen-cheng-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "陳政顯",
+      "district": "9",
+      "sourceName": "陳政顯",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/chen-cheng-hsien-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "陳俞融",
+      "district": "9",
+      "sourceName": "陳俞融",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/chen-yu-jung-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "張彥彤",
+      "district": "10",
+      "sourceName": "張彥彤",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/chang-yen-tung-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "黃守達",
+      "district": "10",
+      "sourceName": "黃守達",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/huang-shou-ta-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "江肇國",
+      "district": "10",
+      "sourceName": "江肇國",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/chiang-chao-kuo-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "陳雅惠",
+      "district": "11",
+      "sourceName": "陳雅惠",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/chen-ya-hui-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "鄭功進",
+      "district": "11",
+      "sourceName": "鄭功進",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/cheng-kung-chin-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "林霈涵",
+      "district": "11",
+      "sourceName": "林霈涵",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/lin-pei-han-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "李中",
+      "district": "11",
+      "sourceName": "李中",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/li-chung-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "張玉嬿",
+      "district": "12",
+      "sourceName": "張玉嬿",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/chang-yu-yen-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "黃佳恬",
+      "district": "12",
+      "sourceName": "黃佳恬",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/huang-chia-tien-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "賴義鍠",
+      "district": "12",
+      "sourceName": "賴義鍠",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/lai-yi-huang-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "蔡耀頡",
+      "district": "12",
+      "sourceName": "蔡耀頡",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/tsai-yao-chieh-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "江和樹",
+      "district": "13",
+      "sourceName": "江和樹",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/chiang-he-shu-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "張芬郁",
+      "district": "13",
+      "sourceName": "張芬郁",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/chang-fen-yu-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "林德宇",
+      "district": "13",
+      "sourceName": "林德宇",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/lin-te-yu-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "蘇柏興",
+      "district": "13",
+      "sourceName": "蘇柏興",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/su-po-hsing-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "林碧秀",
+      "district": "13",
+      "sourceName": "林碧秀",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/lin-pi-hsiu-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "李天生",
+      "district": "13",
+      "sourceName": "李天生",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/li-tien-sheng-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "吳振嘉",
+      "district": "14",
+      "sourceName": "吳振嘉",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/wu-chen-chia-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "吳建德",
+      "district": "15",
+      "sourceName": "吳建德",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/wu-chien-te-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "古秀英",
+      "district": "16",
+      "sourceName": "古秀英",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/ku-hsiu-ying-taichung"
+    },
+    {
+      "countyCode": "66000",
+      "source": "councilors",
+      "name": "朱元宏",
+      "district": "17",
+      "sourceName": "朱元宏",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taichung/lawmaker/chu-yuan-hung-taichung"
+    },
+    {
+      "countyCode": "67000",
+      "source": "candidates",
+      "name": "謝龍介",
+      "district": null,
+      "sourceName": "謝龍介",
+      "kind": "congress",
+      "url": "https://lawmaker.twreporter.org/congress/lawmaker/hsieh-lung-chieh"
+    },
+    {
+      "countyCode": "67000",
+      "source": "candidates",
+      "name": "陳亭妃",
+      "district": null,
+      "sourceName": "陳亭妃",
+      "kind": "congress",
+      "url": "https://lawmaker.twreporter.org/congress/lawmaker/chen-ting-fei"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "李宗翰",
+      "district": "1",
+      "sourceName": "李宗翰",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/li-tsung-han-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "蔡育輝",
+      "district": "1",
+      "sourceName": "蔡育輝",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/tsai-yu-hui-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "沈家鳳",
+      "district": "1",
+      "sourceName": "沈家鳳",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/shen-chia-feng-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "趙昆原",
+      "district": "1",
+      "sourceName": "趙昆原",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/chao-kun-yuan-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "王宣貿",
+      "district": "1",
+      "sourceName": "王宣貿",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/wang-hsuan-mao-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "謝舒凡",
+      "district": "2",
+      "sourceName": "謝舒凡",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/hsieh-shu-fan-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "蔡蘇秋金",
+      "district": "2",
+      "sourceName": "蔡蘇秋金",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/tsai-su-chiu-chin-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "蔡秋蘭",
+      "district": "2",
+      "sourceName": "蔡秋蘭",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/tsai-chiu-lan-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "方一峰",
+      "district": "2",
+      "sourceName": "方一峰",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/fang-yi-feng-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "陳昆和",
+      "district": "2",
+      "sourceName": "陳昆和",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/chen-kun-he-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "吳通龍",
+      "district": "3",
+      "sourceName": "吳通龍",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/wu-tung-lung-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "陳秋宏",
+      "district": "3",
+      "sourceName": "陳秋宏",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/chen-chiu-hung-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "周奕齊",
+      "district": "4",
+      "sourceName": "周奕齊",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/chou-yi-chi-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "陳碧玉",
+      "district": "5",
+      "sourceName": "陳碧玉",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/chen-pi-yu-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "余柷青",
+      "district": "5",
+      "sourceName": "余柷青",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/yu-chu-ching-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "李偉智",
+      "district": "5",
+      "sourceName": "李偉智",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/li-wei-chih-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "林志展",
+      "district": "5",
+      "sourceName": "林志展",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/lin-chih-chan-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "李文俊",
+      "district": "5",
+      "sourceName": "李文俊",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/li-wen-chun-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "邱昭勝",
+      "district": "6",
+      "sourceName": "邱昭勝",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/chiu-chao-sheng-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "郭信良",
+      "district": "6",
+      "sourceName": "郭信良",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/kuo-hsin-liang-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "李中岑",
+      "district": "6",
+      "sourceName": "李中岑",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/li-chung-tsen-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "蔡麗青",
+      "district": "6",
+      "sourceName": "蔡麗青",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/tsai-li-ching-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "黃麗招",
+      "district": "6",
+      "sourceName": "黃麗招",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/huang-li-chiao-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "黄肇輝",
+      "district": "7",
+      "sourceName": "黄肇輝",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/huang-chao-hui-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "楊中成",
+      "district": "7",
+      "sourceName": "楊中成",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/yang-chung-cheng-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "林燕祝",
+      "district": "7",
+      "sourceName": "林燕祝",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/lin-yen-chu-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "陳秋萍",
+      "district": "7",
+      "sourceName": "陳秋萍",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/chen-chiu-ping-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "朱正軒",
+      "district": "7",
+      "sourceName": "朱正軒",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/chu-cheng-hsuan-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "林冠維",
+      "district": "7",
+      "sourceName": "林冠維",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/lin-kuan-wei-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "許至椿",
+      "district": "8",
+      "sourceName": "許至椿",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/hsu-chih-chun-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "邱莉莉",
+      "district": "8",
+      "sourceName": "邱莉莉",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/chiu-li-li-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "周嘉韋",
+      "district": "8",
+      "sourceName": "周嘉韋",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/chou-chia-wei-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "蔡宗豪",
+      "district": "8",
+      "sourceName": "蔡宗豪",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/tsai-tsung-hao-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "林依婷",
+      "district": "9",
+      "sourceName": "林依婷",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/lin-yi-ting-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "盧崑福",
+      "district": "9",
+      "sourceName": "盧崑福",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/lu-kun-fu-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "周麗津",
+      "district": "9",
+      "sourceName": "周麗津",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/chou-li-chin-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "李啓維",
+      "district": "9",
+      "sourceName": "李啓維",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/li-chi-wei-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "蔡筱薇",
+      "district": "10",
+      "sourceName": "蔡筱薇",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/tsai-hsiao-wei-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "王家貞",
+      "district": "10",
+      "sourceName": "王家貞",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/wang-chia-chen-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "李宗霖",
+      "district": "10",
+      "sourceName": "李宗霖",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/li-tsung-lin-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "曾之婕",
+      "district": "10",
+      "sourceName": "曾之婕",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/tseng-chih-chieh-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "吳禹寰",
+      "district": "11",
+      "sourceName": "吳禹寰",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/wu-yu-huan-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "鄭佳欣",
+      "district": "11",
+      "sourceName": "鄭佳欣",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/cheng-chia-hsin-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "陳皇宇",
+      "district": "11",
+      "sourceName": "陳皇宇",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/chen-huang-yu-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "郭鴻儀",
+      "district": "11",
+      "sourceName": "郭鴻儀",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/kuo-hung-yi-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "杜素吟",
+      "district": "11",
+      "sourceName": "杜素吟",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/tu-su-yin-tainan"
+    },
+    {
+      "countyCode": "67000",
+      "source": "councilors",
+      "name": "施余興望TjakumayTagaw",
+      "district": "13",
+      "sourceName": "施余興望 Tjakumay Tagaw",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/tainan/lawmaker/tjakumay-tagaw-tainan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "candidates",
+      "name": "黃世杰",
+      "district": null,
+      "sourceName": "黃世杰",
+      "kind": "congress",
+      "url": "https://lawmaker.twreporter.org/congress/lawmaker/huang-shih-chieh"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "黃婉如",
+      "district": "1",
+      "sourceName": "黃婉如",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/huang-wan-ju-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "詹江村",
+      "district": "1",
+      "sourceName": "詹江村",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/chan-chiang-tsun-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "凌濤",
+      "district": "1",
+      "sourceName": "凌濤",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/ling-tao-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "李光達",
+      "district": "1",
+      "sourceName": "李光達",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/li-kuang-ta-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "陳美梅",
+      "district": "1",
+      "sourceName": "陳美梅",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/chen-mei-mei-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "于北辰",
+      "district": "1",
+      "sourceName": "于北辰",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/yu-pei-chen-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "余信憲",
+      "district": "1",
+      "sourceName": "余信憲",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/yu-hsin-hsien-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "林政賢",
+      "district": "1",
+      "sourceName": "林政賢",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/lin-cheng-hsien-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "黃瓊慧",
+      "district": "1",
+      "sourceName": "黃瓊慧",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/huang-chiung-hui-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "張碩芳",
+      "district": "1",
+      "sourceName": "張碩芳",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/chang-shuo-fang-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "黃家齊",
+      "district": "1",
+      "sourceName": "黃家齊",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/huang-chia-chi-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "陳雅倫",
+      "district": "2",
+      "sourceName": "陳雅倫",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/chen-ya-lun-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "李宗豪",
+      "district": "2",
+      "sourceName": "李宗豪",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/li-tsung-hao-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "孫韻璇",
+      "district": "2",
+      "sourceName": "孫韻璇",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/sun-yun-hsuan-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "許家睿",
+      "district": "3",
+      "sourceName": "許家睿",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/hsu-chia-jui-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "朱珍瑤",
+      "district": "3",
+      "sourceName": "朱珍瑤",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/chu-chen-yao-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "楊朝偉",
+      "district": "3",
+      "sourceName": "楊朝偉",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/yang-chao-wei-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "呂林小鳳",
+      "district": "3",
+      "sourceName": "呂林小鳳",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/lu-lin-hsiao-feng-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "許清順",
+      "district": "4",
+      "sourceName": "許清順",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/hsu-ching-shun-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "錢龍",
+      "district": "4",
+      "sourceName": "錢龍",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/chien-lung-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "劉勝全",
+      "district": "4",
+      "sourceName": "劉勝全",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/liu-sheng-chuan-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "張桂綿",
+      "district": "4",
+      "sourceName": "張桂綿",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/chang-kuei-mien-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "游吾和",
+      "district": "5",
+      "sourceName": "游吾和",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/yu-wu-he-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "徐其萬",
+      "district": "5",
+      "sourceName": "徐其萬",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/hsu-chi-wan-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "陳治文",
+      "district": "6",
+      "sourceName": "陳治文",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/chen-chih-wen-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "李柏坊",
+      "district": "6",
+      "sourceName": "李柏坊",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/li-po-fang-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "張曉昀",
+      "district": "7",
+      "sourceName": "張曉昀",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/chang-hsiao-yun-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "葉明月",
+      "district": "7",
+      "sourceName": "葉明月",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/yeh-ming-yueh-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "劉曾玉春",
+      "district": "7",
+      "sourceName": "劉曾玉春",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/liu-tseng-yu-chun-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "黃崇真",
+      "district": "7",
+      "sourceName": "黃崇真",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/huang-chung-chen-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "彭俊豪",
+      "district": "7",
+      "sourceName": "彭俊豪",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/peng-chun-hao-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "梁為超",
+      "district": "7",
+      "sourceName": "梁為超",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/liang-wei-chao-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "邱奕勝",
+      "district": "7",
+      "sourceName": "邱奕勝",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/chiu-yi-sheng-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "魏筠",
+      "district": "7",
+      "sourceName": "魏筠",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/wei-yun-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "謝美英",
+      "district": "7",
+      "sourceName": "謝美英",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/hsieh-mei-ying-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "王珮毓",
+      "district": "8",
+      "sourceName": "王珮毓",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/wang-pei-yu-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "劉仁照",
+      "district": "8",
+      "sourceName": "劉仁照",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/liu-jen-chao-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "舒翠玲",
+      "district": "8",
+      "sourceName": "舒翠玲",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/shu-tsui-ling-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "陳韋曄",
+      "district": "8",
+      "sourceName": "陳韋曄",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/chen-wei-yeh-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "黃敬平",
+      "district": "8",
+      "sourceName": "黃敬平",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/huang-ching-ping-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "鄭淑方",
+      "district": "9",
+      "sourceName": "鄭淑方",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/cheng-shu-fang-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "李家興",
+      "district": "9",
+      "sourceName": "李家興",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/li-chia-hsing-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "周玉琴",
+      "district": "9",
+      "sourceName": "周玉琴",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/chou-yu-chin-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "劉熒隆",
+      "district": "10",
+      "sourceName": "劉熒隆",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/liu-ying-lung-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "徐玉樹",
+      "district": "10",
+      "sourceName": "徐玉樹",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/hsu-yu-shu-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "陳睿生",
+      "district": "11",
+      "sourceName": "陳睿生",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/chen-jui-sheng-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "許更生",
+      "district": "12",
+      "sourceName": "許更生",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/hsu-keng-sheng-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "吳進昌",
+      "district": "12",
+      "sourceName": "吳進昌",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/wu-chin-chang-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "王仙蓮",
+      "district": "13",
+      "sourceName": "王仙蓮",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/wang-hsien-lien-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "林志強",
+      "district": "13",
+      "sourceName": "林志強",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/lin-chih-chiang-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "張秀菊",
+      "district": "13",
+      "sourceName": "張秀菊",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/chang-hsiu-chu-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "楊進福",
+      "district": "13",
+      "sourceName": "楊進福",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/yang-chin-fu-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "陳瑛",
+      "district": "14",
+      "sourceName": "陳瑛",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/chen-ying-ying-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "簡志偉",
+      "district": "14",
+      "sourceName": "簡志偉",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/chien-chih-wei-taoyuan"
+    },
+    {
+      "countyCode": "68000",
+      "source": "councilors",
+      "name": "蘇偉恩",
+      "district": "14",
+      "sourceName": "蘇偉恩",
+      "kind": "council",
+      "url": "https://lawmaker.twreporter.org/council/taoyuan/lawmaker/su-wei-en-taoyuan"
+    },
+    {
+      "countyCode": "09020",
+      "source": "candidates",
+      "name": "陳玉珍",
+      "district": null,
+      "sourceName": "陳玉珍",
+      "kind": "congress",
+      "url": "https://lawmaker.twreporter.org/congress/lawmaker/chen-yu-jen"
+    }
+  ]
+}

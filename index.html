@@ -251,6 +251,7 @@ try{
 <script src="https://unpkg.com/topojson-client@3.1.0/dist/topojson-client.min.js" integrity="sha384-Ukv1p/xTma6P4/2bY5KzWBw+ydSpXmhCMtyciIQVDJ1RmOxtCYNMF1uXT9T63H67" crossorigin="anonymous"></script>
 <script src="/site-config.js"></script>
 <script src="/election-data.js?v=20261016-qualifications"></script>
+<script src="/reporter-links.js?v=20261017"></script>
 <script>
   /* =====================================================================
      後台校閱資料（候選人照片、社群連結、席次等）由 Cloudflare Worker + KV 供應。
@@ -1600,11 +1601,12 @@ class App {
     this.THREE = THREE;
     const countyOverrides = await this._fetchOverrides('county');
     if (!this._fullOverridesLoaded) this._overrides = countyOverrides;
-    const [dmap, quota] = await Promise.all([
+    const [dmap, quota, reporterLinks] = await Promise.all([
       fetch('./data/district_town_map.json').then(r => r.json()).catch(() => ({})),
       fetch('./data/district_quota.json').then(r => r.json()).catch(() => ({})),
+      fetch('./data/twreporter-links.json?v=20261017').then(r => { if (!r.ok) throw new Error('Reporter links unavailable'); return r.json(); }).catch(error => { console.warn(error); return { profiles: [] }; }),
     ]);
-    this.districtMap = dmap; this.quotaMap = quota;
+    this.districtMap = dmap; this.quotaMap = quota; this.reporterLinks = reporterLinks;
     const counties = await this._loadTopo('./data/counties.json');
     this.allCountyFeats = this._feats(counties);
     const insetTargets = {
@@ -2617,6 +2619,8 @@ class App {
       safeUrl(c.taiwanGoGoUrl) ? linkTile(safeUrl(c.taiwanGoGoUrl), '2026 議員參選人刑事紀錄圖鑑') : '',
       safeUrl(c.local2026Url) ? linkTile(safeUrl(c.local2026Url), '2026 村里長刑事紀錄圖鑑') : ''
     ].join('');
+    const reporterProfile = window.ReporterLinks?.find(c, c.countyCode || String(c.areaId || '').slice(0, 5) || this.county?.code, this.reporterLinks);
+    const reporterLink = reporterProfile ? `<a class="bn-tile bn-link bn-wide" href="${esc(reporterProfile.url)}" target="_blank" rel="noopener noreferrer">${icon('doc', 'bn-lead')}<span class="bn-link-title">報導者觀測站・${reporterProfile.kind === 'congress' ? '立委問政紀錄' : '議員提案紀錄'}</span><span class="bn-go">${icon('arrow')}</span></a>` : '';
     const map = { facebook: 'Facebook', instagram: 'Instagram', threads: 'Threads', youtube: 'YouTube' };
     const socials = ['facebook', 'instagram', 'threads', 'youtube'].filter(k => safeUrl(c[k]));
     const socialBlock = socials.length ? `<nav class="bn-social-row" aria-label="社群連結">${socials.map(k => `<a class="bn-social" href="${safeUrl(c[k])}" target="_blank" rel="noopener noreferrer">${this._socialIcon(k)}<span>${map[k]}</span></a>`).join('')}</nav>` : '';
@@ -2649,7 +2653,7 @@ class App {
         </div>
       </div>
       <div class="bn-metrics${hasPrev ? '' : ' is-single'}">${metrics}</div>
-      ${socialBlock}${links}${gazette}
+      ${socialBlock}${links}${gazette}${reporterLink}
     </article>`;
   }
   _districtCoverage(code, number) {
