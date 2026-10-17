@@ -55,10 +55,41 @@ test('ambiguous matches and conflicting saved qualifications stop the import', (
   assert.throws(() => ElectionData.applyQualificationReview(original, review), /比對不唯一/);
 });
 
-test('ineligible-last ordering is stable and does not delete or alter candidate records', () => {
+test('all ten ineligible names remain exact search matches ahead of over thirty suggestions', () => {
+  const html = read('index.html');
+  const children = [];
+  const container = { innerHTML: '', appendChild: child => children.push(child) };
+  const document = { createElement: () => ({ children: [], setAttribute() {}, append(...items) { this.children.push(...items); }, addEventListener(event, handler) { this[event] = handler; } }) };
+  const methods = html.slice(html.indexOf('  _normalizeSearch(value)'), html.indexOf('  _phoneticCandidateMatches(raw, index)'));
+  const renderer = html.slice(html.indexOf('  _renderCandidateSearchResults(container,'), html.indexOf('\n  }', html.indexOf('  _renderCandidateSearchResults(container,')) + 4);
+  const app = vm.runInNewContext(`new class {${methods}${renderer}}`, { document });
+  Object.assign(app, { _candidateLocation: () => '', _openSearchResult: candidate => { app.opened = candidate; } });
+  const search = JSON.parse(read('data/candidate_search.json'));
+  for (const entry of review.ineligible) {
+    const direct = app._directCandidateMatches(entry.name, search);
+    assert.equal(direct[0]?.name, entry.name);
+    assert.equal(direct[0].qualificationStatus, 'ineligible');
+    const matches = [...direct, ...Array.from({ length: 35 }, (_, i) => ({ name: `讀音建議${i}` }))];
+    const before = structuredClone(matches);
+    children.length = 0;
+    app._renderCandidateSearchResults(container, matches);
+    assert.equal(children[0].children[0].textContent, entry.name + '｜資格不符規定');
+    assert.equal(children.filter(child => child.className === 'search-result').length, 30);
+    children[0].click();
+    assert.equal(app.opened, direct[0]);
+    assert.deepEqual(matches, before);
+  }
+});
+
+test('candidate cards retain roster order regardless of qualification', () => {
+  const html = read('index.html');
+  const method = html.slice(html.indexOf('  _showCands(cands)'), html.indexOf('  _partyChip(name)'));
+  const box = {};
+  const app = vm.runInNewContext(`({${method}})`, { window: {}, document: { getElementById: id => id === 'candidates' ? box : null, querySelector: () => null } });
+  app._card = candidate => `<p>${candidate.name}</p>`;
   const candidates = [{ name: '甲', qualificationStatus: 'ineligible' }, { name: '乙' }, { name: '丙', qualificationStatus: 'eligible' }, { name: '丁', qualificationStatus: 'ineligible' }];
-  assert.deepEqual(ElectionData.ineligibleLast(candidates).map(c => c.name), ['乙', '丙', '甲', '丁']);
-  assert.equal(candidates[0].name, '甲');
+  app._showCands(candidates);
+  assert.equal(box.innerHTML, '<p>甲</p><p>乙</p><p>丙</p><p>丁</p>');
 });
 
 test('ineligible cards replace the gazette with an escaped official note; ordinary cards retain gazettes', () => {

@@ -1401,7 +1401,7 @@ class App {
     if (isPhoneticSuggestion) {
       const note = document.createElement('div'); note.className = 'search-message'; note.textContent = '找不到完全相同的姓名，以下是別名、常見字或讀音相近的候選人：'; container.appendChild(note);
     }
-    ElectionData.ineligibleLast(matches).slice(0, limit).forEach((candidate, index) => {
+    matches.slice(0, limit).forEach((candidate, index) => {
       const button = document.createElement('button');
       button.type = 'button'; button.className = 'search-result'; button.setAttribute('role', 'option');
       const name = document.createElement('span'); name.className = 'search-result-name'; name.textContent = candidate.name + (candidate.qualificationStatus === 'ineligible' ? '｜資格不符規定' : '');
@@ -2511,7 +2511,7 @@ class App {
       if (window.gsap) window.gsap.fromTo(box.firstElementChild, { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 0.45, ease: 'power3.out' });
       return;
     }
-    box.innerHTML = ElectionData.ineligibleLast(cands).map(c => this._card(c)).join('');
+    box.innerHTML = cands.map(c => this._card(c)).join('');
     box.scrollTop = 0; if (scrollShell) scrollShell.scrollTop = 0;
     if (statReg) this._countUp(statReg, `${cands.length} 人`);
     if (window.gsap) {
