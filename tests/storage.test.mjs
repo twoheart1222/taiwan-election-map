@@ -266,6 +266,16 @@ test('API migration, version conflicts, concurrent writes, atomic batches and KV
   assert.deepEqual(adminSources.body.items, orderedSources);
   const publicSources = await mf.dispatchFetch('https://test/?key=site_sources');
   assert.deepEqual((await publicSources.json()).items, orderedSources);
+  const orderedObservatory = [
+    { n: '觀察丙', cat: '公民科技', url: 'https://example.org/c', d: '第一行\n第二行' },
+    { n: '觀察甲', cat: '官方資料', url: 'https://example.org/a', d: '未儲存修改' },
+    { n: '觀察乙', cat: '問政紀錄', url: 'https://example.org/b', d: '保留說明' },
+  ];
+  const observationSave = await request('/api/admin/observatory-links', 'PUT', { links: orderedObservatory });
+  assert.equal(observationSave.status, 200);
+  assert.deepEqual(observationSave.body.links, orderedObservatory);
+  assert.deepEqual((await request('/api/admin/observatory-links')).body.links, orderedObservatory);
+  assert.deepEqual((await request('/?key=observatory_links')).body.links, orderedObservatory);
   assert.equal((await mf.dispatchFetch('https://test/api/admin/overrides')).status, 401);
   const recreated = await request('/api/admin/overrides/A', 'PUT', { schemaVersion: 2, candidates: [] }, '0');
   assert.equal(recreated.status, 200);
