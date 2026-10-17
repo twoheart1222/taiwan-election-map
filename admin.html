@@ -34,6 +34,10 @@
   <script src="https://unpkg.com/topojson-client@3.1.0/dist/topojson-client.min.js" integrity="sha384-Ukv1p/xTma6P4/2bY5KzWBw+ydSpXmhCMtyciIQVDJ1RmOxtCYNMF1uXT9T63H67" crossorigin="anonymous"></script>
 
   <style>
+    #sources-manager>summary::-webkit-details-marker,.src-row>summary::-webkit-details-marker{display:none}
+    .src-row.src-dragging{opacity:.65;border-color:#E4022B;box-shadow:0 0 0 2px #E4022B33}
+    [data-source-drag]{touch-action:none;cursor:grab;user-select:none}
+    [data-source-drag]:active{cursor:grabbing}
     .editorial-border { border: 1.5px solid #141517; }
     .card-brutal { border: 1.5px solid #141517; box-shadow: 4px 4px 0px #141517; }
     .select-editorial {
@@ -290,20 +294,23 @@
       </div>
     </section>
 
-    <section id="sources-manager" class="bg-surface p-5 rounded-2xl border editorial-border shadow-[4px_4px_0px_#141517] space-y-4">
-      <div class="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h3 class="text-sm font-black flex items-center gap-2"><i data-lucide="library" class="w-4 h-4 text-accent-orange"></i>資料來源與核對</h3>
-          <p class="text-xs text-ink-500 mt-1">前台首頁「資料來源與核對」區塊的連結清單。可新增、修改、刪除，儲存後立即更新。</p>
+    <details id="sources-manager" class="group bg-surface p-5 rounded-2xl border editorial-border shadow-[4px_4px_0px_#141517]">
+      <summary class="cursor-pointer list-none flex items-center justify-between gap-3 select-none">
+        <span class="text-sm font-black flex items-center gap-2"><i data-lucide="library" class="w-4 h-4 text-accent-orange"></i>資料來源與核對</span>
+        <span class="flex items-center gap-2 text-xs font-bold text-ink-500">點開編輯與排序<i data-lucide="chevron-down" class="w-4 h-4 transition group-open:rotate-180"></i></span>
+      </summary>
+      <div class="space-y-4 mt-4 border-t border-ink-200 pt-4">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <p id="sources-sort-help" class="text-xs text-ink-500">點開個別來源編輯；拖曳左側把手調整前台順序，也可按上下移動按鈕，或在把手上使用方向鍵。調整後請儲存。</p>
+          <button type="button" onclick="addSource()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-ink-900 text-surface text-xs font-bold hover:bg-accent-orange transition"><i data-lucide="plus" class="w-3.5 h-3.5"></i>新增來源</button>
         </div>
-        <button type="button" onclick="addSource()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-ink-900 text-surface text-xs font-bold hover:bg-accent-orange transition"><i data-lucide="plus" class="w-3.5 h-3.5"></i>新增來源</button>
+        <div id="sources-editor" class="space-y-2"></div>
+        <div class="flex flex-wrap items-center gap-3">
+          <button type="button" onclick="saveSources()" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-accent-orange text-white text-xs font-black hover:bg-ink-900 transition"><i data-lucide="save" class="w-3.5 h-3.5"></i>儲存資料來源</button>
+          <span id="sources-status" class="text-xs font-bold text-ink-500" role="status" aria-live="polite"></span>
+        </div>
       </div>
-      <div id="sources-editor" class="space-y-2"></div>
-      <div class="flex flex-wrap items-center gap-3">
-        <button type="button" onclick="saveSources()" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-accent-orange text-white text-xs font-black hover:bg-ink-900 transition"><i data-lucide="save" class="w-3.5 h-3.5"></i>儲存資料來源</button>
-        <span id="sources-status" class="text-xs font-bold text-ink-500" role="status"></span>
-      </div>
-    </section>
+    </details>
 
     <section id="results-manager" class="bg-surface p-5 rounded-2xl border editorial-border shadow-[4px_4px_0px_#141517] space-y-4">
       <div>
@@ -349,6 +356,8 @@
 
   <script src="/site-config.js"></script>
   <script src="/election-data.js?v=20261016-qualifications"></script>
+  <script src="/reporter-links.js?v=20261017-manual"></script>
+  <script src="/admin-source-order.js?v=20261017"></script>
   <script>
     const API_BASE = window.ELECTION_API_BASE ?? '';
 
@@ -361,6 +370,7 @@
 
     let countiesTopo = null;
     let districtTownMap = {};
+    let reporterLinkCatalog = { profiles: [] };
     let townsCache = {};
     let villagesCache = {};
     let currentScope = null;
@@ -750,9 +760,10 @@
     }
 
     async function bootEditor() {
-      [countiesTopo, districtTownMap] = await Promise.all([
+      [countiesTopo, districtTownMap, reporterLinkCatalog] = await Promise.all([
         fetchJSON('./data/counties.json'),
         fetchJSON('./data/district_town_map.json').catch(() => ({})),
+        fetchJSON('./data/twreporter-links.json?v=20261017').catch(() => ({ profiles: [] })),
       ]);
 
       overridesLoaded = false;
@@ -929,29 +940,58 @@
 
     // ---- 資料來源與核對 ----
     let sourceItems = [];
+    function updateSourceOrder(dirty = false) {
+      const rows = [...document.querySelectorAll('#sources-editor .src-row')];
+      rows.forEach((row, i) => {
+        row.querySelector('[data-source-number]').textContent = String(i + 1);
+        row.querySelector('[data-source-title]').textContent = row.querySelector('[data-f="n"]').value.trim() || '未命名來源';
+        row.querySelector('[data-source-move="-1"]').disabled = i === 0;
+        row.querySelector('[data-source-move="1"]').disabled = i === rows.length - 1;
+      });
+      if (dirty) document.getElementById('sources-status').textContent = '順序已調整，請按「儲存資料來源」。';
+    }
     function renderSources() {
       const box = document.getElementById('sources-editor');
       if (!sourceItems.length) { box.innerHTML = '<p class="text-xs text-ink-500 py-3">尚未設定來源，請新增一筆。</p>'; return; }
       box.innerHTML = sourceItems.map((it, i) => `
-        <div class="src-row grid gap-2 p-3 rounded-xl border border-ink-200 bg-canvas">
-          <div class="grid grid-cols-1 sm:grid-cols-[1fr_1.4fr_auto] gap-2 items-center">
-            <input data-f="n" value="${escapeHTML(it.n)}" maxlength="100" placeholder="來源名稱" class="bg-surface border border-ink-300 rounded-lg px-2.5 py-2 text-xs font-bold">
-            <input data-f="url" value="${escapeHTML(it.url)}" maxlength="1000" placeholder="https://..." class="bg-surface border border-ink-300 rounded-lg px-2.5 py-2 text-xs font-bold">
-            <button type="button" onclick="removeSource(${i})" class="text-accent-red hover:bg-accent-red/10 rounded-lg p-1 justify-self-end" title="刪除這筆來源"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+        <details class="src-row rounded-xl border border-ink-200 bg-canvas">
+          <summary class="list-none cursor-pointer flex items-center gap-2 p-3 select-none">
+            <button type="button" data-source-drag aria-label="拖曳調整順序，可用上下方向鍵" aria-describedby="sources-sort-help" class="shrink-0 rounded-lg p-2 hover:bg-ink-100"><i data-lucide="grip-vertical" class="w-4 h-4"></i></button>
+            <span data-source-number class="text-xs font-bold text-ink-500">${i + 1}</span>
+            <span data-source-title class="min-w-0 flex-1 truncate text-xs font-black">${escapeHTML(it.n || '未命名來源')}</span>
+            <button type="button" data-source-move="-1" aria-label="上移來源" class="shrink-0 rounded-lg p-2 hover:bg-ink-100 disabled:opacity-30"><i data-lucide="arrow-up" class="w-3.5 h-3.5"></i></button>
+            <button type="button" data-source-move="1" aria-label="下移來源" class="shrink-0 rounded-lg p-2 hover:bg-ink-100 disabled:opacity-30"><i data-lucide="arrow-down" class="w-3.5 h-3.5"></i></button>
+            <span class="text-[10px] text-ink-500">編輯</span><i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
+          </summary>
+          <div class="grid gap-2 border-t border-ink-200 p-3">
+            <label class="grid gap-1 text-[10px] font-bold text-ink-500">來源名稱<input data-f="n" value="${escapeHTML(it.n)}" maxlength="100" placeholder="來源名稱" class="bg-surface border border-ink-300 rounded-lg px-2.5 py-2 text-xs font-bold"></label>
+            <label class="grid gap-1 text-[10px] font-bold text-ink-500">網址<input data-f="url" value="${escapeHTML(it.url)}" maxlength="1000" placeholder="https://..." class="bg-surface border border-ink-300 rounded-lg px-2.5 py-2 text-xs font-bold"></label>
+            <label class="grid gap-1 text-[10px] font-bold text-ink-500">說明<input data-f="note" value="${escapeHTML(it.note)}" maxlength="300" placeholder="說明（選填，滑過連結時顯示）" class="bg-surface border border-ink-300 rounded-lg px-2.5 py-2 text-xs font-medium"></label>
+            <button type="button" onclick="removeSourceRow(this)" class="text-accent-red hover:bg-accent-red/10 rounded-lg p-2 justify-self-end text-xs font-bold">刪除此來源</button>
           </div>
-          <input data-f="note" value="${escapeHTML(it.note)}" maxlength="300" placeholder="說明（選填，滑過連結時顯示）" class="bg-surface border border-ink-300 rounded-lg px-2.5 py-2 text-xs font-medium">
-        </div>`).join('');
+        </details>`).join('');
+      box.oninput = () => updateSourceOrder(false);
+      window.SourceOrder.attach(box, updateSourceOrder);
+      updateSourceOrder();
       lucide.createIcons();
     }
     function collectSources() {
-      return [...document.querySelectorAll('.src-row')].map(row => ({
+      return [...document.querySelectorAll('#sources-editor .src-row')].map(row => ({
         n: row.querySelector('[data-f="n"]').value.trim(),
         url: row.querySelector('[data-f="url"]').value.trim(),
         note: row.querySelector('[data-f="note"]').value.trim(),
       }));
     }
-    window.addSource = function() { sourceItems = collectSources(); sourceItems.push({ n: '', url: '', note: '' }); renderSources(); };
-    window.removeSource = function(i) { sourceItems = collectSources(); sourceItems.splice(i, 1); renderSources(); };
+    window.addSource = function() {
+      sourceItems = collectSources(); sourceItems.push({ n: '', url: '', note: '' }); renderSources();
+      document.getElementById('sources-manager').open = true;
+      const row = document.querySelector('#sources-editor .src-row:last-child'); row.open = true; row.querySelector('[data-f="n"]').focus();
+    };
+    window.removeSourceRow = function(button) {
+      button.closest('.src-row').remove(); sourceItems = collectSources();
+      if (!sourceItems.length) renderSources(); else updateSourceOrder(false);
+      document.getElementById('sources-status').textContent = '來源已移除，請儲存。';
+    };
     async function loadSources() {
       const status = document.getElementById('sources-status');
       try { const r = await apiFetch('/api/admin/sources'); sourceItems = Array.isArray(r.items) ? r.items : []; renderSources(); }
@@ -1409,6 +1449,8 @@
       row.dataset.district = dist;
       row._candidate = { ...c };
       delete row._candidate._district;
+      row._reporterInitial = Object.hasOwn(c, 'reporterUrl') ? String(c.reporterUrl || '')
+        : (window.ReporterLinks?.find(c, String(currentCode || '').slice(0, 5), reporterLinkCatalog)?.url || '');
 
       const districtBadge = isDistrictRole() ? `
         <div class="flex items-center space-x-1.5 mb-1">
@@ -1481,6 +1523,11 @@
           <input placeholder="Threads 連結" class="c-threads bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.threads || '')}">
           <input placeholder="YouTube 連結" class="c-youtube bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.youtube || '')}">
         </div>
+        <label class="block">
+          <span class="text-[10px] font-black tracking-wider text-ink-500 block mb-1">報導者觀測站人物頁</span>
+          <input type="url" placeholder="https://lawmaker.twreporter.org/…/lawmaker/…" class="c-reporter w-full bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(row._reporterInitial)}">
+          <span class="block text-[10px] text-ink-500 mt-1">可手動補上或修改人物頁；已比對的連結會預先顯示。清空後儲存可隱藏連結。</span>
+        </label>
         <div class="flex items-center gap-1.5">
           <input placeholder="照片網址（右鍵複製圖片網址貼在此）" class="c-photourl flex-1 bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.photoUrl || '')}">
           <button type="button" class="c-cachephoto shrink-0 px-2 py-1.5 rounded-lg border border-ink-300 bg-surface text-[10px] font-bold text-ink-700 hover:bg-ink-900 hover:text-surface" title="把外部照片抓下來存到自己的網域，避免每個訪客的瀏覽器直接連到來源網站">快取</button>
@@ -1565,6 +1612,15 @@
     }
 
     function collectCandidatesFromForm() {
+      const reporterValues = row => {
+        const input = row.querySelector('.c-reporter');
+        const value = input?.value.trim() || '';
+        if (!input || value === String(row._reporterInitial || '')) return {};
+        if (value && !window.ReporterLinks?.validUrl(value)) throw new Error('報導者觀測站請填寫該網站的 HTTPS 人物頁網址。');
+        const taiwanGoGoChanged = row.querySelector('.c-taiwangogo').value.trim() !== String(row._candidate.taiwanGoGoUrl || '').trim();
+        return { reporterUrl: value || null, manualFieldLocks: { ...(row._candidate.manualFieldLocks || {}),
+          ...(taiwanGoGoChanged ? { taiwanGoGoUrl: true } : {}), reporterUrl: true } };
+      };
       const qualificationValues = row => {
         const original = row._candidate || {};
         const values = {
@@ -1595,6 +1651,7 @@
         taiwanGoGoUrl: row.querySelector('.c-taiwangogo').value.trim() || null,
         ...(row.querySelector('.c-taiwangogo').value.trim() !== String(row._candidate.taiwanGoGoUrl || '').trim()
           ? { manualFieldLocks: { ...(row._candidate.manualFieldLocks || {}), taiwanGoGoUrl: true } } : {}),
+        ...reporterValues(row),
         instagram: row.querySelector('.c-instagram').value.trim() || null,
         threads: row.querySelector('.c-threads').value.trim() || null,
         youtube: row.querySelector('.c-youtube').value.trim() || null,

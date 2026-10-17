@@ -211,6 +211,25 @@ test('API migration, version conflicts, concurrent writes, atomic batches and KV
   assert.equal(savedQualification.status, 200);
   data = await parity();
   for (const [field, value] of Object.entries(qualification)) assert.equal(data.A.candidates[0][field], value);
+  const reporterUrl = 'https://lawmaker.twreporter.org/congress/lawmaker/shen-pao-yang';
+  const reporterSaved = await request('/api/admin/overrides/A', 'PUT', {
+    candidates: [{ ...data.A.candidates[0], reporterUrl }],
+  }, data.A._revision);
+  assert.equal(reporterSaved.status, 200);
+  data = await parity();
+  assert.equal(data.A.candidates[0].reporterUrl, reporterUrl);
+  const invalidReporter = await request('/api/admin/overrides/A', 'PUT', {
+    candidates: [{ ...data.A.candidates[0], reporterUrl: 'https://example.com/person' }],
+  }, data.A._revision);
+  assert.equal(invalidReporter.status, 400);
+  data = await parity();
+  assert.equal(data.A.candidates[0].reporterUrl, reporterUrl);
+  const reporterCleared = await request('/api/admin/overrides/A', 'PUT', {
+    candidates: [{ ...data.A.candidates[0], reporterUrl: null }],
+  }, data.A._revision);
+  assert.equal(reporterCleared.status, 200);
+  data = await parity();
+  assert.equal(data.A.candidates[0].reporterUrl, null);
   assert.equal((await request('/api/admin/overrides/A', 'PUT', { candidates: [] }, initial.A._revision)).status, 409);
   const competing = await Promise.all([
     request('/api/admin/overrides/A', 'PUT', { quota: 1 }, data.A._revision),
@@ -235,6 +254,18 @@ test('API migration, version conflicts, concurrent writes, atomic batches and KV
   assert.equal((await request('/api/admin/overrides/A', 'DELETE', undefined, data.A._revision)).status, 200);
   assert.equal((await parity()).A, undefined);
   assert.equal((await request('/?key=override:A')).status, 404);
+  const orderedSources = [
+    { n: '來源丙', url: 'https://example.org/c', note: '說明丙' },
+    { n: '來源甲', url: 'https://example.org/a', note: '未儲存修改也保留' },
+    { n: '來源乙', url: 'https://example.org/b', note: '說明乙' },
+  ];
+  const sourceSave = await request('/api/admin/sources', 'PUT', { items: orderedSources });
+  assert.equal(sourceSave.status, 200);
+  assert.deepEqual(sourceSave.body.items, orderedSources);
+  const adminSources = await request('/api/admin/sources');
+  assert.deepEqual(adminSources.body.items, orderedSources);
+  const publicSources = await mf.dispatchFetch('https://test/?key=site_sources');
+  assert.deepEqual((await publicSources.json()).items, orderedSources);
   assert.equal((await mf.dispatchFetch('https://test/api/admin/overrides')).status, 401);
   const recreated = await request('/api/admin/overrides/A', 'PUT', { schemaVersion: 2, candidates: [] }, '0');
   assert.equal(recreated.status, 200);

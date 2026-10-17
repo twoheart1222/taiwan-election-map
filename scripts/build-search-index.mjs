@@ -54,6 +54,7 @@ function publicCandidate(candidate, context, district = null, source = 'candidat
     gazetteUrl: candidate.gazetteUrl || null,
     taiwanGoGoUrl: candidate.taiwanGoGoUrl || null,
     local2026Url: candidate.local2026Url || null,
+    ...(Object.hasOwn(candidate, 'reporterUrl') ? { reporterUrl: candidate.reporterUrl } : {}),
     facebook: candidate.facebook || null,
     instagram: candidate.instagram || null,
     threads: candidate.threads || null,

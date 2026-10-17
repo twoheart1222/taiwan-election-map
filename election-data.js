@@ -37,7 +37,7 @@
     }
     return { overrides, expectedRevisions, matched };
   }
-  const fallbackFields = ['facebook', 'instagram', 'threads', 'youtube', 'photoUrl', 'gazetteUrl', 'gazettePreviewUrl', 'gazettePage', 'gazetteAlt', 'taiwanGoGoUrl', 'local2026Url', 'votes', 'prevVotes', 'elected', 'priorRace', 'isCareerMove'];
+  const fallbackFields = ['facebook', 'instagram', 'threads', 'youtube', 'photoUrl', 'gazetteUrl', 'gazettePreviewUrl', 'gazettePage', 'gazetteAlt', 'taiwanGoGoUrl', 'local2026Url', 'reporterUrl', 'votes', 'prevVotes', 'elected', 'priorRace', 'isCareerMove'];
   function uniqueNames(list) {
     const result = new Map();
     for (const item of list) {

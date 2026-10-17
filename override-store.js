@@ -127,6 +127,7 @@ export function validateMap(data, allowDelete = false) {
       const candidates = field === 'candidates' ? list : list.flatMap(block => block.candidates);
       for (const candidate of candidates) {
         if (!candidate || typeof candidate !== 'object' || Array.isArray(candidate)) throw new Error('Invalid candidate');
+        if (candidate.reporterUrl != null && candidate.reporterUrl !== '' && (typeof candidate.reporterUrl !== 'string' || !/^https:\/\/lawmaker\.twreporter\.org\/(?:congress\/lawmaker\/|council\/[a-z0-9-]+\/lawmaker\/)[a-z0-9-]+\/?(?:[?#][^\s"'<>\\]*)?$/.test(candidate.reporterUrl))) throw new Error('報導者觀測站必須填寫 HTTPS 人物頁網址');
         const status = candidate.qualificationStatus;
         if (status != null && !['unreviewed', 'eligible', 'ineligible'].includes(status)) throw new Error('資格狀態不正確');
         if (candidate.qualificationReason != null && (typeof candidate.qualificationReason !== 'string' || candidate.qualificationReason.length > 2400)) throw new Error('資格原因不得超過 2400 字');
