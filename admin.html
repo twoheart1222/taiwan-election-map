@@ -103,6 +103,18 @@
   <!-- 主編輯畫面 -->
   <main id="editor" class="hidden max-w-5xl mx-auto p-6 sm:p-10 space-y-6">
 
+    <section id="qualification-review-manager" class="bg-surface p-5 rounded-2xl border editorial-border space-y-3">
+      <h3 class="text-sm font-black">中選會 10/16 候選人資格審查註記</h3>
+      <p class="text-xs text-ink-500 leading-relaxed">先核對公告中的 10 人，再一次儲存資格不符註記。保留候選人及其他手動資料；儲存後地圖與搜尋讀取同一份後台資料。</p>
+      <a href="https://web.cec.gov.tw/central/article/65213" target="_blank" rel="noopener noreferrer" class="text-xs font-bold text-accent-blue underline">查看中選會官方公告</a>
+      <div class="flex flex-wrap gap-3">
+        <button id="qualification-review-preview" type="button" onclick="previewQualificationReview()" class="px-4 py-2 rounded-xl bg-ink-900 text-white text-xs font-black disabled:opacity-50">核對 10 人資格註記</button>
+        <button id="qualification-review-apply" type="button" onclick="saveQualificationReview()" class="hidden px-4 py-2 rounded-xl bg-accent-orange text-white text-xs font-black disabled:opacity-50">套用並儲存資格註記</button>
+      </div>
+      <ul id="qualification-review-list" class="hidden text-xs leading-relaxed space-y-2"></ul>
+      <p id="qualification-review-status" role="status" aria-live="polite" class="text-xs font-bold leading-relaxed">尚未核對；上傳 GitHub 不會自動將資格資料寫入後台。</p>
+    </section>
+
     <section id="site-sync-manager" class="bg-surface p-5 rounded-2xl border editorial-border shadow-[4px_4px_0px_#141517] space-y-4">
       <div>
         <h3 class="text-sm font-black flex items-center gap-2"><i data-lucide="refresh-cw" class="w-4 h-4 text-accent-orange"></i>資料檢查與更新</h3>
@@ -336,7 +348,7 @@
   </main>
 
   <script src="/site-config.js"></script>
-  <script src="/election-data.js?v=20260926-career-move1"></script>
+  <script src="/election-data.js?v=20261016-qualifications"></script>
   <script>
     const API_BASE = window.ELECTION_API_BASE ?? '';
 
@@ -486,6 +498,80 @@
       renderOverrideList();
       refreshPhotoCacheStatus();
     }
+
+    // Qualification review uses the existing authenticated, versioned write API.
+    let pendingQualificationReview = null;
+    const qualificationElement = id => document.getElementById(`qualification-review-${id}`);
+    const qualificationBusy = busy => {
+      qualificationElement('preview').disabled = busy;
+      qualificationElement('apply').disabled = busy;
+    };
+    window.previewQualificationReview = async function() {
+      const status = qualificationElement('status');
+      if (!currentUser || !overridesLoaded) { status.textContent = '請先以管理者身分登入並載入後台資料。'; return; }
+      if (mutationBusy) return;
+      if (editorTouched) { status.textContent = '目前表單有未儲存修改，請先儲存或下載備份，完成後再核對。'; return; }
+      pendingQualificationReview = null;
+      qualificationElement('apply').classList.add('hidden');
+      mutationBusy = true; qualificationBusy(true); status.textContent = '正在讀取最新後台版本並逐名核對…';
+      try {
+        const [snapshot, review] = await Promise.all([
+          apiFetch('/api/admin/overrides'), fetchJSON('/data/qualification-review-20261016.json'),
+        ]);
+        const plan = ElectionData.applyQualificationReview(snapshot, review);
+        const changedCodes = Object.keys(plan.overrides).filter(code => JSON.stringify(plan.overrides[code]) !== JSON.stringify(snapshot[code]));
+        const box = qualificationElement('list'); box.replaceChildren();
+        for (const entry of plan.matched) {
+          const row = document.createElement('li');
+          row.textContent = `${entry.county}第 ${entry.district} 選舉區｜${entry.name}｜${entry.reason}`;
+          box.appendChild(row);
+        }
+        box.classList.remove('hidden');
+        if (!changedCodes.length) {
+          status.textContent = '已確認 10 人的後台資格註記皆已儲存。地圖與搜尋會讀取這份資料；靜態頁面可另按「重建搜尋與公開頁面」。';
+          return;
+        }
+        pendingQualificationReview = {
+          overrides: Object.fromEntries(changedCodes.map(code => [code, plan.overrides[code]])),
+          expectedRevisions: Object.fromEntries(changedCodes.map(code => [code, plan.expectedRevisions[code]])),
+          matched: plan.matched, review,
+        };
+        qualificationElement('apply').classList.remove('hidden');
+        status.textContent = `已核對 10 人，${changedCodes.length} 個縣市的後台紀錄需要更新。核對上方名單後，按「套用並儲存資格註記」。目前尚未寫入。`;
+      } catch (err) { status.textContent = '核對失敗：' + err.message; }
+      finally { mutationBusy = false; qualificationBusy(false); }
+    };
+    window.saveQualificationReview = async function() {
+      const status = qualificationElement('status');
+      if (!currentUser || !overridesLoaded || !pendingQualificationReview || mutationBusy) return;
+      if (editorTouched) { status.textContent = '表單有未儲存修改，請先儲存並重新核對資格名單。'; return; }
+      mutationBusy = true; qualificationBusy(true); status.textContent = '正在儲存資格註記並確認後台資料…';
+      const plan = pendingQualificationReview;
+      try {
+        await apiFetch('/api/admin/overrides', {
+          method: 'PUT', body: JSON.stringify({ overrides: plan.overrides, expectedRevisions: plan.expectedRevisions }),
+        });
+        const fresh = await apiFetch('/api/admin/overrides');
+        for (const entry of plan.matched) {
+          const candidates = ElectionData.blocksOf(fresh[entry.countyCode]?.councilors)
+            .filter(block => String(block.district) === String(entry.district))
+            .flatMap(block => block.candidates || []).filter(candidate => candidate.name === entry.name);
+          if (candidates.length !== 1 || candidates[0].qualificationStatus !== 'ineligible'
+            || candidates[0].qualificationDate !== plan.review.reviewedAt
+            || candidates[0].qualificationSourceUrl !== plan.review.sourceUrl
+            || !candidates[0].qualificationReason) throw new Error(`${entry.name} 的儲存結果尚未確認，請重新核對。`);
+        }
+        pendingQualificationReview = null;
+        qualificationElement('apply').classList.add('hidden');
+        await refreshCandidateEditorAfterSync();
+        status.textContent = '已儲存並確認 10 人的資格不符註記。請重新整理地圖或搜尋查看；靜態候選人頁面請另按「重建搜尋與公開頁面」。';
+      } catch (err) {
+        pendingQualificationReview = null;
+        qualificationElement('apply').classList.add('hidden');
+        status.textContent = '儲存未完成或需再次確認：' + err.message + ' 請重新按「核對 10 人資格註記」，勿直接覆蓋舊版本。';
+      } finally { mutationBusy = false; qualificationBusy(false); }
+    };
+    // End qualification review.
 
     async function persistOverride(code, payload, revision = allOverrides[code]?._revision || '0') {
       if (!overridesLoaded) throw new Error('尚未成功載入資料，請重新整理後再試。');
@@ -1343,6 +1429,14 @@
             </button>
           </div>
         </div>
+        <fieldset class="rounded-xl border border-ink-300 bg-canvas p-3 space-y-2">
+          <legend class="text-xs font-black">候選人資格審查</legend>
+          <label class="block text-xs font-bold">資格狀態<select class="c-qualification-status w-full bg-surface border border-ink-300 rounded-lg px-2 py-1.5">${[['unreviewed','未標示／尚待審查'],['eligible','符合規定'],['ineligible','資格不符規定']].map(([value,label]) => `<option value="${value}" ${(c.qualificationStatus || 'unreviewed') === value ? 'selected' : ''}>${label}</option>`).join('')}</select></label>
+          <label class="block text-xs font-bold">原因與法令依據<textarea class="c-qualification-reason w-full bg-surface border border-ink-300 rounded-lg px-2 py-1.5" rows="4" maxlength="2400">${escapeHTML(c.qualificationReason || '')}</textarea></label>
+          <label class="block text-xs font-bold">審定日期<input type="date" class="c-qualification-date w-full bg-surface border border-ink-300 rounded-lg px-2 py-1.5" value="${escapeAttr(c.qualificationDate || '')}"></label>
+          <label class="block text-xs font-bold">官方來源網址<input type="url" class="c-qualification-source w-full bg-surface border border-ink-300 rounded-lg px-2 py-1.5" value="${escapeAttr(c.qualificationSourceUrl || '')}" placeholder="https://web.cec.gov.tw/..."></label>
+          <p class="text-[11px] text-ink-500">資格不符的原因會以可展開區塊顯示於前台選舉公報位置。</p>
+        </fieldset>
         <div class="rounded-xl border border-ink-300 bg-surface/60 p-3 space-y-2">
           <div class="flex items-center justify-between gap-3"><span class="text-[10px] font-black uppercase tracking-wider text-ink-500">候選人公報切圖</span><span class="text-[10px] font-bold text-ink-500">留空時前台顯示「待選舉公報公告後更新」</span></div>
           <div class="grid grid-cols-1 sm:grid-cols-[minmax(0,1fr)_5.5rem] gap-2">
@@ -1471,8 +1565,24 @@
     }
 
     function collectCandidatesFromForm() {
+      const qualificationValues = row => {
+        const original = row._candidate || {};
+        const values = {
+          qualificationStatus: row.querySelector('.c-qualification-status').value || 'unreviewed',
+          qualificationReason: row.querySelector('.c-qualification-reason').value.trim() || null,
+          qualificationDate: row.querySelector('.c-qualification-date').value || null,
+          qualificationSourceUrl: row.querySelector('.c-qualification-source').value.trim() || null,
+        };
+        const unchanged = values.qualificationStatus === (original.qualificationStatus || 'unreviewed')
+          && values.qualificationReason === (original.qualificationReason || null)
+          && values.qualificationDate === (original.qualificationDate || null)
+          && values.qualificationSourceUrl === (original.qualificationSourceUrl || null);
+        // Merely viewing the default select must not manufacture a manual status.
+        return unchanged ? {} : values;
+      };
       return [...document.querySelectorAll('#candidate-rows > div')].map(row => ({
         ...row._candidate,
+        ...qualificationValues(row),
         name: row.querySelector('.c-name').value.trim(),
         party: row.querySelector('.c-party').value.trim() || '無',
         role: row.querySelector('.c-role').value.trim(),
@@ -1574,9 +1684,10 @@
       const code = currentCode;
       const status = document.getElementById('save-status');
       status.textContent = '儲存中…';
-      const payload = buildCurrentPayload();
+      let payload;
 
       try {
+        payload = buildCurrentPayload();
         const saved = await persistOverride(code, payload);
         editorTouched = false;
         if (currentCode === code) status.textContent = '已儲存，KV 已同步 ✓';
