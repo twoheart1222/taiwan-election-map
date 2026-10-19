@@ -19,10 +19,59 @@ function districtNumber(value) {
   return String(value || '').match(/\d+/)?.[0] || '';
 }
 
-export function planTaiwanGoGoSync(snapshot, people, districts) {
+function sourcePerson(person) {
+  return {
+    id: String(person.id || ''),
+    name: String(person.name || ''),
+    city: String(person.city || ''),
+    district: String(person.district || ''),
+    level: String(person.level || ''),
+  };
+}
+
+export function taiwanGoGoSourceSnapshot(people) {
+  return { people: people.map(sourcePerson) };
+}
+
+function linkedPeopleMissingFromSource(snapshot, sourceIds) {
+  const missing = [];
+  for (const [code, document] of Object.entries(snapshot || {})) {
+    const groups = [
+      { district: '', candidates: document?.candidates },
+      ...(document?.councilors || []).map(block => ({ district: String(block.district || ''), candidates: block.candidates })),
+    ];
+    for (const group of groups) {
+      for (const candidate of group.candidates || []) {
+        const link = String(candidate.taiwanGoGoUrl || '').trim();
+        if (!link) continue;
+        let url;
+        try { url = new URL(link); } catch { continue; }
+        if (url.hostname !== 'council2026.taiwangogo.tw') continue;
+        const id = url.searchParams.get('person');
+        if (!id || sourceIds.has(id)) continue;
+        const [sourceCity, sourceDistrict] = id.split('|');
+        missing.push({
+          id, name: String(candidate.name || ''),
+          city: sourceCity || code,
+          district: sourceDistrict || group.district, url: link,
+          manual: candidate.manualFieldLocks?.taiwanGoGoUrl === true,
+        });
+      }
+    }
+  }
+  return missing;
+}
+
+export function planTaiwanGoGoSync(snapshot, people, districts, previousSource = null) {
   if (!Array.isArray(people) || !people.length || !Array.isArray(districts?.cities)) {
     throw new Error('Taiwan GoGo 來源資料不完整，沒有修改候選人紀錄。');
   }
+  const sourceIds = new Set(people.map(person => String(person.id || '')).filter(Boolean));
+  const previousPeople = Array.isArray(previousSource?.people) ? previousSource.people : null;
+  const sourceRemoved = (previousPeople || [])
+    .filter(person => person?.id && !sourceIds.has(String(person.id)))
+    .map(sourcePerson);
+  const linkedMissing = linkedPeopleMissingFromSource(snapshot, sourceIds);
   const locationByPerson = new Map();
   for (const city of districts.cities) {
     for (const id of city.mayorPeopleIds || []) locationByPerson.set(id, { city: city.id });
@@ -70,5 +119,13 @@ export function planTaiwanGoGoSync(snapshot, people, districts) {
     target.find(candidate => normalize(candidate.name) === normalize(person.name)).taiwanGoGoUrl = url.href;
     filled++;
   }
-  return { changes, expected, summary: { sourcePeople: people.length, matched, filled, preserved, unmatched } };
+  return {
+    changes, expected,
+    summary: {
+      sourcePeople: people.length, matched, filled, preserved, unmatched,
+      comparedWithPrevious: previousPeople !== null,
+      previousSourcePeople: previousPeople?.length ?? null,
+      sourceRemoved, linkedMissing,
+    },
+  };
 }

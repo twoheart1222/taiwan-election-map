@@ -1,6 +1,6 @@
 import { EmailMessage } from 'cloudflare:email';
 import { validateMap } from './override-store.js';
-import { planTaiwanGoGoSync } from './taiwangogo-kv-sync.js';
+import { planTaiwanGoGoSync, taiwanGoGoSourceSnapshot } from './taiwangogo-kv-sync.js';
 export { OverrideStore } from './override-store.js';
 
 const JSON_HEADERS = {
@@ -454,10 +454,11 @@ async function handleAdmin(request, env, url) {
         ]);
         if (!peopleResponse.ok || !districtsResponse.ok) throw new HttpError(502, 'Taiwan GoGo 資料讀取失敗，尚未修改 KV。');
         const [people, districts] = await Promise.all([peopleResponse.json(), districtsResponse.json()]);
+        const previousSync = await readJsonKV(env, 'site_sync_kv:candidates', null);
         // Re-read on a concurrent admin edit. Never replace a newer manual value.
         for (let attempt = 0; attempt < 2; attempt++) {
           const snapshot = await overrideStore(env);
-          const plan = planTaiwanGoGoSync(snapshot, people, districts);
+          const plan = planTaiwanGoGoSync(snapshot, people, districts, previousSync?.sourceSnapshot);
           kvSync = { ...plan.summary, updatedAt: new Date().toISOString() };
           if (!Object.keys(plan.changes).length) break;
           try {
@@ -467,7 +468,11 @@ async function handleAdmin(request, env, url) {
             if (err.status !== 409 || attempt) throw err;
           }
         }
-        await writeJsonKV(env, 'site_sync_kv:candidates', kvSync);
+        // Keep the previous source and the review report in one KV value, so a
+        // failed write cannot advance the comparison baseline without its report.
+        await writeJsonKV(env, 'site_sync_kv:candidates', {
+          ...kvSync, sourceSnapshot: taiwanGoGoSourceSnapshot(people),
+        });
       }
       if (!token && target !== 'candidates') throw new HttpError(503, '尚未設定 GitHub 同步憑證，請先設定 GITHUB_SYNC_TOKEN。');
       let dispatched = false;
@@ -484,7 +489,8 @@ async function handleAdmin(request, env, url) {
     }
     if (request.method === 'GET') {
       const requestState = await readJsonKV(env, `site_sync_request:${target}`, null);
-      const kvSync = target === 'candidates' ? await readJsonKV(env, 'site_sync_kv:candidates', null) : null;
+      const savedSync = target === 'candidates' ? await readJsonKV(env, 'site_sync_kv:candidates', null) : null;
+      const { sourceSnapshot: _sourceSnapshot, ...kvSync } = savedSync || {};
       const response = await github(`/repos/${owner}/${repo}/actions/workflows/${workflow}/runs?branch=main&per_page=30`);
       let run = null;
       if (response.ok) {
@@ -509,7 +515,7 @@ async function handleAdmin(request, env, url) {
           }
         } catch (_) { /* 該項目首次成功前沒有報告 */ }
       }
-      return jsonResponse(request, env, { target, request: requestState, run, report, kvSync, configured: Boolean(token) || target === 'candidates' });
+      return jsonResponse(request, env, { target, request: requestState, run, report, kvSync: savedSync ? kvSync : null, configured: Boolean(token) || target === 'candidates' });
     }
   }
 

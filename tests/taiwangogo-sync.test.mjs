@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { planTaiwanGoGoSync } from '../taiwangogo-kv-sync.js';
+import { planTaiwanGoGoSync, taiwanGoGoSourceSnapshot } from '../taiwangogo-kv-sync.js';
 
 test('Taiwan GoGo sync fills only missing links and preserves every manual field', () => {
   const snapshot = { '63000': {
@@ -36,4 +36,31 @@ test('Taiwan GoGo sync fills only missing links and preserves every manual field
   const repeat = planTaiwanGoGoSync(plan.changes, people, districts);
   assert.equal(repeat.summary.filled, 0);
   assert.deepEqual(repeat.changes, {});
+});
+
+test('Taiwan GoGo sync reports disappeared source people and stale KV links without deleting manual data', () => {
+  const oldPerson = { id: '台北市|第1選區|議員甲', name: '議員甲', city: '台北市', district: '第1選區', level: '議員' };
+  const currentPerson = { id: '台北市|第1選區|議員乙', name: '議員乙', city: '台北市', district: '第1選區', level: '議員' };
+  const oldUrl = `https://council2026.taiwangogo.tw/?person=${encodeURIComponent(oldPerson.id)}`;
+  const snapshot = { '63000': {
+    _revision: 'r1', schemaVersion: 2, candidates: [],
+    councilors: [{ district: '1', candidates: [
+      { name: '議員甲', taiwanGoGoUrl: oldUrl, photoUrl: 'https://example.org/manual.jpg', manualFieldLocks: { taiwanGoGoUrl: true } },
+      { name: '議員乙', taiwanGoGoUrl: null },
+    ] }],
+  } };
+  const districts = { cities: [{ id: 'tpe', districts: [{ id: 'tpe-1', peopleIds: [currentPerson.id] }] }] };
+  const plan = planTaiwanGoGoSync(snapshot, [currentPerson], districts, taiwanGoGoSourceSnapshot([oldPerson, currentPerson]));
+
+  assert.equal(plan.summary.comparedWithPrevious, true);
+  assert.equal(plan.summary.previousSourcePeople, 2);
+  assert.deepEqual(plan.summary.sourceRemoved, [oldPerson]);
+  assert.deepEqual(plan.summary.linkedMissing, [{
+    id: oldPerson.id, name: '議員甲', city: '台北市', district: '第1選區', url: oldUrl, manual: true,
+  }]);
+  assert.equal(plan.summary.filled, 1);
+  assert.equal(plan.changes['63000'].councilors[0].candidates[0].taiwanGoGoUrl, oldUrl);
+  assert.equal(plan.changes['63000'].councilors[0].candidates[0].photoUrl, 'https://example.org/manual.jpg');
+  assert.equal(snapshot['63000'].councilors[0].candidates[1].taiwanGoGoUrl, null);
+  assert.equal(planTaiwanGoGoSync(snapshot, [currentPerson], districts).summary.comparedWithPrevious, false);
 });

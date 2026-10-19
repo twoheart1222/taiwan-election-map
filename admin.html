@@ -126,10 +126,11 @@
       </div>
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-3">
         <article data-site-sync-target="candidates" class="rounded-2xl border border-ink-200 bg-canvas p-4 space-y-3">
-          <div><span class="text-[10px] font-black tracking-widest text-accent-orange">CANDIDATES</span><h4 class="mt-1 text-sm font-black">Taiwan GoGo 候選人名單</h4><p class="mt-1 text-[11px] leading-relaxed text-ink-500">比對現有候選人並將缺少的 Taiwan GoGo 連結寫入 KV；已有的手動連結與照片不會被覆蓋。村里資料仍由 GitHub 更新。</p></div>
+          <div><span class="text-[10px] font-black tracking-widest text-accent-orange">CANDIDATES</span><h4 class="mt-1 text-sm font-black">Taiwan GoGo 候選人名單</h4><p class="mt-1 text-[11px] leading-relaxed text-ink-500">只補入缺少的 Taiwan GoGo 連結；來源比上次減少、或既有連結在來源中找不到的人會列出供核對，不會自動刪除候選人、照片與手動連結。村里資料仍由 GitHub 更新。</p></div>
           <button data-sync-role="button" type="button" onclick="startSiteSync('candidates')" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-accent-orange text-white text-[11px] font-black hover:bg-ink-900 transition disabled:opacity-50 disabled:cursor-wait"><i data-lucide="play" class="w-3.5 h-3.5"></i>更新候選人名單</button>
           <div class="flex flex-wrap items-center gap-2 text-[10px] font-bold"><span data-sync-role="state" class="px-2.5 py-1 rounded-full bg-surface border border-ink-200 text-ink-500">尚未執行</span><span data-sync-role="time" class="text-ink-500"></span><button type="button" onclick="refreshSiteSyncStatus('candidates')" class="text-accent-blue hover:underline">重新整理</button></div>
           <div data-sync-role="summary" class="hidden rounded-xl border border-ink-200 bg-surface p-3 text-[11px] leading-relaxed whitespace-pre-wrap"></div>
+          <div data-sync-role="review" class="hidden rounded-xl border border-amber-300 bg-amber-50 p-3 text-[11px] leading-relaxed"></div>
         </article>
         <article data-site-sync-target="public" class="rounded-2xl border border-ink-200 bg-canvas p-4 space-y-3">
           <div><span class="text-[10px] font-black tracking-widest text-accent-blue">PUBLIC PAGES</span><h4 class="mt-1 text-sm font-black">搜尋與公開頁面</h4><p class="mt-1 text-[11px] leading-relaxed text-ink-500">依目前資料重建候選人搜尋、公開選舉頁面、Sitemap 與 AI 導覽資料。</p></div>
@@ -418,6 +419,48 @@
     const siteSyncPolls = new Map();
     const siteSyncLabels = { candidates:'Taiwan GoGo 候選人名單', public:'搜尋與公開頁面', history:'中選會歷屆選舉資料' };
     function siteSyncCard(target) { return document.querySelector(`[data-site-sync-target="${target}"]`); }
+    function renderTaiwanGoGoReview(card, sync) {
+      const box = card.querySelector('[data-sync-role="review"]');
+      if (!box) return;
+      box.replaceChildren();
+      const groups = [
+        { title: '相較上次來源已減少', rows: sync?.sourceRemoved || [] },
+        { title: '既有連結在本次來源找不到', rows: sync?.linkedMissing || [] },
+      ];
+      for (const group of groups) {
+        if (!group.rows.length) continue;
+        const details = document.createElement('details');
+        details.className = 'mb-2 last:mb-0';
+        const title = document.createElement('summary');
+        title.className = 'cursor-pointer font-black text-amber-900';
+        title.textContent = `${group.title} ${group.rows.length} 筆（點擊展開核對）`;
+        details.appendChild(title);
+        const list = document.createElement('ul');
+        list.className = 'mt-2 max-h-72 overflow-y-auto space-y-2 border-t border-amber-200 pt-2';
+        for (const person of group.rows) {
+          const row = document.createElement('li');
+          row.textContent = `${person.city || ''} ${person.district || ''}｜${person.name || person.id}${person.manual ? '（手動鎖定）' : ''}`;
+          if (person.url) {
+            try {
+              const link = new URL(person.url);
+              if (link.protocol === 'https:' && link.hostname === 'council2026.taiwangogo.tw') {
+                const a = document.createElement('a');
+                a.href = link.href;
+                a.target = '_blank';
+                a.rel = 'noopener noreferrer';
+                a.className = 'block text-accent-blue underline break-all';
+                a.textContent = '檢查既有連結 ↗';
+                row.appendChild(a);
+              }
+            } catch (_) { /* 無效網址仍保留文字供核對 */ }
+          }
+          list.appendChild(row);
+        }
+        details.appendChild(list);
+        box.appendChild(details);
+      }
+      box.classList.toggle('hidden', !box.childElementCount);
+    }
     function renderSiteSync(target, data) {
       const run = data?.run || null, report = data?.report || null;
       const card = siteSyncCard(target);
@@ -425,6 +468,7 @@
       const state = card.querySelector('[data-sync-role="state"]');
       const time = card.querySelector('[data-sync-role="time"]');
       const summary = card.querySelector('[data-sync-role="summary"]');
+      if (target === 'candidates') renderTaiwanGoGoReview(card, data?.kvSync);
       const button = card.querySelector('[data-sync-role="button"]');
       const status = run?.status || data?.request?.status || 'idle';
       const completedSuccessfully = status === 'completed' && (!run || run.conclusion === 'success');
@@ -440,6 +484,8 @@
           const sync = data.kvSync;
           lines.push(`Taiwan GoGo → KV：比對 ${sync.matched}/${sync.sourcePeople} 筆，新增 ${sync.filled} 筆連結，保留 ${sync.preserved} 筆既有／手動連結。`);
           if (sync.unmatched?.length) lines.push(`未能唯一對應 ${sync.unmatched.length} 筆，未加入候選人名單：${sync.unmatched.join('、')}`);
+          if (sync.comparedWithPrevious === false) lines.push('首次記錄來源名單；下次更新起可比對來源減少的人。');
+          if (sync.sourceRemoved?.length || sync.linkedMissing?.length) lines.push('下方有來源減少或既有連結缺席的核對清單；這次沒有自動刪除資料。');
         }
         if (report) lines.push(report.changed ? 'GitHub 資料更新內容：' : 'GitHub 資料檢查完成：內容沒有變更');
         for (const item of report?.contentSummary || []) {
