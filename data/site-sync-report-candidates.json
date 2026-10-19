@@ -1,23 +1,18 @@
 {
   "target": "candidates",
-  "checkedAt": "2026-10-19T14:36:03.144Z",
+  "checkedAt": "2026-10-19T14:42:55.814Z",
   "changed": true,
   "changedFiles": [
     {
       "status": "M",
       "path": "data/taiwangogo_links.json"
-    },
-    {
-      "status": "M",
-      "path": "data/villages/villages-65000070.json"
     }
   ],
   "groups": [
     {
       "label": "村里與候選人",
       "files": [
-        "data/taiwangogo_links.json",
-        "data/villages/villages-65000070.json"
+        "data/taiwangogo_links.json"
       ]
     }
   ],
@@ -27,10 +22,6 @@
       "description": "候選人資料由 200 筆更新為 200 筆。",
       "added": [],
       "removed": []
-    },
-    {
-      "title": "村里與候選人資料",
-      "description": "重新核對候選人、村里長、照片與在任／轉任標記，共有 1 組資料內容更新。"
     }
   ],
   "sources": [
