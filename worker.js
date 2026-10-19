@@ -1,6 +1,6 @@
 import { EmailMessage } from 'cloudflare:email';
 import { validateMap } from './override-store.js';
-import { planTaiwanGoGoSync, taiwanGoGoSourceSnapshot } from './taiwangogo-kv-sync.js';
+import { planTaiwanGoGoSync, taiwanGoGoSourceSnapshot, taiwanGoGoSourceSnapshotFromLinks } from './taiwangogo-kv-sync.js';
 export { OverrideStore } from './override-store.js';
 
 const JSON_HEADERS = {
@@ -455,10 +455,22 @@ async function handleAdmin(request, env, url) {
         if (!peopleResponse.ok || !districtsResponse.ok) throw new HttpError(502, 'Taiwan GoGo 資料讀取失敗，尚未修改 KV。');
         const [people, districts] = await Promise.all([peopleResponse.json(), districtsResponse.json()]);
         const previousSync = await readJsonKV(env, 'site_sync_kv:candidates', null);
+        let previousSource = previousSync?.sourceSnapshot || null;
+        if (!previousSource) {
+          // Existing installations already keep the last export in GitHub.
+          // Use it once, before the new KV baseline has been established.
+          try {
+            const previousResponse = await fetch(
+              `https://raw.githubusercontent.com/${owner}/${repo}/main/data/taiwangogo_links.json?v=${Date.now()}`,
+              { signal: AbortSignal.timeout(10000), cache: 'no-store' },
+            );
+            if (previousResponse.ok) previousSource = taiwanGoGoSourceSnapshotFromLinks(await previousResponse.json());
+          } catch (_) { /* 沒有舊版清單時從本次來源建立基準 */ }
+        }
         // Re-read on a concurrent admin edit. Never replace a newer manual value.
         for (let attempt = 0; attempt < 2; attempt++) {
           const snapshot = await overrideStore(env);
-          const plan = planTaiwanGoGoSync(snapshot, people, districts, previousSync?.sourceSnapshot);
+          const plan = planTaiwanGoGoSync(snapshot, people, districts, previousSource);
           kvSync = { ...plan.summary, updatedAt: new Date().toISOString() };
           if (!Object.keys(plan.changes).length) break;
           try {
@@ -471,7 +483,7 @@ async function handleAdmin(request, env, url) {
         // Keep the previous source and the review report in one KV value, so a
         // failed write cannot advance the comparison baseline without its report.
         await writeJsonKV(env, 'site_sync_kv:candidates', {
-          ...kvSync, sourceSnapshot: taiwanGoGoSourceSnapshot(people),
+          ...kvSync, sourceSnapshot: { ...taiwanGoGoSourceSnapshot(people), capturedAt: kvSync.updatedAt },
         });
       }
       if (!token && target !== 'candidates') throw new HttpError(503, '尚未設定 GitHub 同步憑證，請先設定 GITHUB_SYNC_TOKEN。');

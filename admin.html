@@ -485,6 +485,10 @@
           lines.push(`Taiwan GoGo → KV：比對 ${sync.matched}/${sync.sourcePeople} 筆，新增 ${sync.filled} 筆連結，保留 ${sync.preserved} 筆既有／手動連結。`);
           if (sync.unmatched?.length) lines.push(`未能唯一對應 ${sync.unmatched.length} 筆，未加入候選人名單：${sync.unmatched.join('、')}`);
           if (sync.comparedWithPrevious === false) lines.push('首次記錄來源名單；下次更新起可比對來源減少的人。');
+          else if (sync.comparedWithPrevious === true) {
+            const when = sync.previousSourceAt ? `（前次：${new Date(sync.previousSourceAt).toLocaleString('zh-TW')}）` : '';
+            lines.push(`來源名單比較：上次 ${sync.previousSourcePeople} 筆${when}，這次 ${sync.sourcePeople} 筆；減少 ${sync.sourceRemoved?.length || 0} 筆。`);
+          }
           if (sync.sourceRemoved?.length || sync.linkedMissing?.length) lines.push('下方有來源減少或既有連結缺席的核對清單；這次沒有自動刪除資料。');
         }
         if (report) lines.push(report.changed ? 'GitHub 資料更新內容：' : 'GitHub 資料檢查完成：內容沒有變更');

@@ -33,6 +33,17 @@ export function taiwanGoGoSourceSnapshot(people) {
   return { people: people.map(sourcePerson) };
 }
 
+export function taiwanGoGoSourceSnapshotFromLinks(report) {
+  if (!Array.isArray(report?.links) || !report.links.length) return null;
+  return {
+    capturedAt: String(report.generatedAt || ''),
+    people: report.links.filter(link => link?.personId).map(link => sourcePerson({
+      id: link.personId, name: link.name, city: link.city, district: link.district,
+      level: String(link.personId).includes('|縣市首長|') ? '縣市長' : '議員',
+    })),
+  };
+}
+
 function linkedPeopleMissingFromSource(snapshot, sourceIds) {
   const missing = [];
   for (const [code, document] of Object.entries(snapshot || {})) {
@@ -125,6 +136,7 @@ export function planTaiwanGoGoSync(snapshot, people, districts, previousSource =
       sourcePeople: people.length, matched, filled, preserved, unmatched,
       comparedWithPrevious: previousPeople !== null,
       previousSourcePeople: previousPeople?.length ?? null,
+      previousSourceAt: previousSource?.capturedAt || null,
       sourceRemoved, linkedMissing,
     },
   };

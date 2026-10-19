@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { planTaiwanGoGoSync, taiwanGoGoSourceSnapshot } from '../taiwangogo-kv-sync.js';
+import { planTaiwanGoGoSync, taiwanGoGoSourceSnapshot, taiwanGoGoSourceSnapshotFromLinks } from '../taiwangogo-kv-sync.js';
 
 test('Taiwan GoGo sync fills only missing links and preserves every manual field', () => {
   const snapshot = { '63000': {
@@ -63,4 +63,17 @@ test('Taiwan GoGo sync reports disappeared source people and stale KV links with
   assert.equal(plan.changes['63000'].councilors[0].candidates[0].photoUrl, 'https://example.org/manual.jpg');
   assert.equal(snapshot['63000'].councilors[0].candidates[1].taiwanGoGoUrl, null);
   assert.equal(planTaiwanGoGoSync(snapshot, [currentPerson], districts).summary.comparedWithPrevious, false);
+});
+
+test('first sync can compare against the previous GitHub source export', () => {
+  const previous = taiwanGoGoSourceSnapshotFromLinks({
+    generatedAt: '2026-10-16T00:00:00.000Z',
+    links: [{ personId: '台北市|第1選區|議員甲', name: '議員甲', city: '台北市', district: '第1選區' }],
+  });
+  const current = [{ id: '台北市|第1選區|議員乙', name: '議員乙', city: '台北市', district: '第1選區', level: '議員' }];
+  const districts = { cities: [{ id: 'tpe', districts: [{ id: 'tpe-1', peopleIds: [current[0].id] }] }] };
+  const plan = planTaiwanGoGoSync({ '63000': { candidates: [], councilors: [] } }, current, districts, previous);
+  assert.equal(plan.summary.previousSourceAt, '2026-10-16T00:00:00.000Z');
+  assert.deepEqual(plan.summary.sourceRemoved.map(person => person.name), ['議員甲']);
+  assert.equal(taiwanGoGoSourceSnapshotFromLinks({ links: [] }), null);
 });
