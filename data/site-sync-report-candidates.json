@@ -1,6 +1,6 @@
 {
   "target": "candidates",
-  "checkedAt": "2026-10-16T15:52:27.918Z",
+  "checkedAt": "2026-10-19T14:36:03.144Z",
   "changed": true,
   "changedFiles": [
     {
@@ -9,55 +9,7 @@
     },
     {
       "status": "M",
-      "path": "data/villages/villages-10004020.json"
-    },
-    {
-      "status": "M",
-      "path": "data/villages/villages-10010100.json"
-    },
-    {
-      "status": "M",
-      "path": "data/villages/villages-64000030.json"
-    },
-    {
-      "status": "M",
-      "path": "data/villages/villages-64000040.json"
-    },
-    {
-      "status": "M",
-      "path": "data/villages/villages-64000050.json"
-    },
-    {
-      "status": "M",
-      "path": "data/villages/villages-64000060.json"
-    },
-    {
-      "status": "M",
-      "path": "data/villages/villages-64000080.json"
-    },
-    {
-      "status": "M",
-      "path": "data/villages/villages-64000090.json"
-    },
-    {
-      "status": "M",
-      "path": "data/villages/villages-65000010.json"
-    },
-    {
-      "status": "M",
-      "path": "data/villages/villages-65000020.json"
-    },
-    {
-      "status": "M",
-      "path": "data/villages/villages-65000110.json"
-    },
-    {
-      "status": "M",
-      "path": "data/villages/villages-66000130.json"
-    },
-    {
-      "status": "M",
-      "path": "data/villages/villages-68000010.json"
+      "path": "data/villages/villages-65000070.json"
     }
   ],
   "groups": [
@@ -65,39 +17,20 @@
       "label": "村里與候選人",
       "files": [
         "data/taiwangogo_links.json",
-        "data/villages/villages-10004020.json",
-        "data/villages/villages-10010100.json",
-        "data/villages/villages-64000030.json",
-        "data/villages/villages-64000040.json",
-        "data/villages/villages-64000050.json",
-        "data/villages/villages-64000060.json",
-        "data/villages/villages-64000080.json",
-        "data/villages/villages-64000090.json",
-        "data/villages/villages-65000010.json",
-        "data/villages/villages-65000020.json",
-        "data/villages/villages-65000110.json",
-        "data/villages/villages-66000130.json",
-        "data/villages/villages-68000010.json"
+        "data/villages/villages-65000070.json"
       ]
     }
   ],
   "contentSummary": [
     {
       "title": "Taiwan GoGo 候選人名單",
-      "description": "候選人資料由 194 筆更新為 200 筆。",
-      "added": [
-        "新北市・第2選區・張昭隆",
-        "新北市・第11選區・劉財鑫",
-        "苗栗縣・第3選區・徐瑞轅",
-        "彰化縣・第1選區・林世賢",
-        "花蓮縣・第1選區・黃達祥",
-        "基隆市・第5選區・黃永翔"
-      ],
+      "description": "候選人資料由 200 筆更新為 200 筆。",
+      "added": [],
       "removed": []
     },
     {
       "title": "村里與候選人資料",
-      "description": "重新核對候選人、村里長、照片與在任／轉任標記，共有 13 組資料內容更新。"
+      "description": "重新核對候選人、村里長、照片與在任／轉任標記，共有 1 組資料內容更新。"
     }
   ],
   "sources": [
