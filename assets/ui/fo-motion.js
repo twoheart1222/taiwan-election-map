@@ -223,10 +223,13 @@
     animation.onfinish = () => {
       if (d._foFaqAnimation !== animation) return;
       if (!opening) d.open = false;
+      d._foFaqAnimation = null;
+      // A finished fill-forwards animation keeps overriding the next toggle's
+      // height unless its effect is removed before restoring natural layout.
+      animation.cancel();
       d.style.height = '';
       d.style.overflow = '';
       delete d.dataset.foFaqTarget;
-      d._foFaqAnimation = null;
     };
     animation.oncancel = () => { if (d._foFaqAnimation === animation) d._foFaqAnimation = null; };
   });
