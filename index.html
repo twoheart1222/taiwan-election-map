@@ -250,7 +250,7 @@ try{
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/topojson-client@3.1.0/dist/topojson-client.min.js" integrity="sha384-Ukv1p/xTma6P4/2bY5KzWBw+ydSpXmhCMtyciIQVDJ1RmOxtCYNMF1uXT9T63H67" crossorigin="anonymous"></script>
 <script src="/site-config.js"></script>
-<script src="/data/ballot-numbers-2026.js?v=20261029-council"></script>
+<script src="/data/ballot-numbers-2026.js?v=20261029-kaohsiung"></script>
 <script src="/election-data.js?v=20261016-qualifications"></script>
 <script src="/reporter-links.js?v=20261017-manual"></script>
 <script>
@@ -2518,8 +2518,9 @@ class App {
     const candidateNo = Object.prototype.hasOwnProperty.call(c, 'ballotNo') ? c.ballotNo : undefined;
     const countyCode = String(c.countyCode || c.areaId || this.county?.code || '').slice(0, 5);
     const countyBallots = window.FOBallotNumbers?.[countyCode];
-    const fallback = c.role === '縣市長候選人' ? countyBallots?.numbers?.[c.name]
-      : c.role === '議員候選人' ? countyBallots?.councilors?.[String(district ?? c.district ?? '')]?.[c.name]
+    const findNumber = numbers => window.FOBallotNumberForName?.(numbers, c.name) ?? numbers?.[c.name];
+    const fallback = ['縣市長候選人', '直轄市長候選人'].includes(c.role) ? findNumber(countyBallots?.numbers)
+      : c.role === '議員候選人' ? findNumber(countyBallots?.councilors?.[String(district ?? c.district ?? '')])
       : undefined;
     const raw = candidateNo === undefined ? fallback : candidateNo;
     const no = Number(raw);

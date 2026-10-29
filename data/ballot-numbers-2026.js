@@ -1,5 +1,13 @@
-// 雲林縣選舉委員會，115 年 10 月 27 日縣長及縣議員候選人姓名號次抽籤結果。
+// 115 年地方選舉候選人號次：雲林縣抽籤結果與高雄市抽定一覽表。
 // Keep ballot numbers separate from candidate overrides so manually edited photos and links retain priority.
+const ballotOrder = names => Object.freeze(Object.fromEntries(names.map((name, index) => [name, index + 1])));
+const ballotNameKey = name => String(name ?? '').normalize('NFKC').replace(/[·‧．・]/g, '.').replace(/\s+/g, '').toLowerCase();
+globalThis.FOBallotNumberForName = (numbers, name) => {
+  if (!numbers || !name) return undefined;
+  if (Object.prototype.hasOwnProperty.call(numbers, name)) return numbers[name];
+  const matches = Object.entries(numbers).filter(([listedName]) => ballotNameKey(listedName) === ballotNameKey(name));
+  return matches.length === 1 ? matches[0][1] : undefined;
+};
 globalThis.FOBallotNumbers = Object.freeze({
   '10009': Object.freeze({
     election: '縣長',
@@ -17,6 +25,28 @@ globalThis.FOBallotNumbers = Object.freeze({
       // 抽籤表將呂佶娜另附族語姓名；網站候選人名單目前以中文姓名索引。
       '7': Object.freeze({ '周志祥Kacaw．Kaco': 1, '呂佶娜': 2, '鄭玫惠': 3 }),
       '8': Object.freeze({ '張忠豪': 1, '蔡嘉峻PisawHakaw': 2, '李丘威達': 3, '高瑛翠': 4 }),
+    }),
+  }),
+  '64000': Object.freeze({
+    election: '市長、市議員',
+    source: '高雄市第5屆市長、市議員選舉候選人姓名號次抽定一覽表',
+    numbers: ballotOrder(['張靜', '王肇民', '柯志恩', '洪方隆', '賴瑞隆']),
+    councilors: Object.freeze({
+      '1': ballotOrder(['李振豪', '林義迪', '林慧欣', '鍾炳光', '林富寶']),
+      '2': ballotOrder(['李柏融', '李亞築', '黃明太', '陳琳潔', '鄭東元']),
+      '3': ballotOrder(['方信淵', '張騏晟', '宋立彬', '蔣黃女', '黃秋媖', '林志誠', '黃韻涵', '蔡秉璁']),
+      '4': ballotOrder(['黃文志', '李雅芬', '白喬茵', '柳淑芳', '李眉蓁', '李雅慧', '陳玫娟', '張以理', '陳冠宇', '陳麗珍', '薛兆基', '尹立']),
+      '5': ballotOrder(['黃飛鳳', '陳惠君', '張勝富', '江瑞鴻', '邱俊憲', '陳若翠', '吳利成']),
+      '6': ballotOrder(['簡煥宗', '李喬如', '蔡金晏', '陳美雅']),
+      '7': ballotOrder(['何權峰', '童燕珍', '林彥', '黃香菽', '曾俊傑', '張博洋', '林于凱', '康裕成', '鄭孟洳', '黃柏霖', '余聖明', '黃淑美']),
+      '8': ballotOrder(['黃舜杰', '黃裕庭', '許采蓁', '湯詠瑜', '黃文益', '黃鈺婷', '陳雅敏', '鄒約翰', '郭建盟']),
+      '9': ballotOrder(['林智鴻', '張漢忠', '鄭安秝', '蘇致榮', '陳慧文', '劉德林', '李雅靜', '徐尚賢', '鍾易仲', '鄧巧佩']),
+      '10': ballotOrder(['李政憲', '湯茹婷', '劉仙娥', '蔡武宏', '張藝璉', '于仙玲', '鄭光峰', '陳麗娜', '李順進', '李紘毅', '吳銘賜', '吳昱鋒', '黃敬雅']),
+      '11': ballotOrder(['洪村銘', '黃天煌', '邱于軒', '王耀裕', '李雨庭', '張耀中']),
+      '12': ballotOrder(['巫振興', '宋紹銘', '王義雄']),
+      '13': ballotOrder(['陳幸富', '葛姵瑩']),
+      '14': ballotOrder(['洪英雄Salizan．binkinuan', '林錫閔', '高忠德Takiludun．Anu']),
+      '15': ballotOrder(['金禾雅', '陳奕蓁']),
     }),
   }),
 });

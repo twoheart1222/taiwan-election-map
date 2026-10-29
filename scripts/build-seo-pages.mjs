@@ -127,20 +127,22 @@ const coverage = { countyHeads: 0, councilors: 0, townHeads: 0, representatives:
 
 for (const c of counties) {
   const officialNumbers = globalThis.FOBallotNumbers?.[c.id]?.numbers;
+  const officialCouncilNumbers = globalThis.FOBallotNumbers?.[c.id]?.councilors;
+  const ballotSource = globalThis.FOBallotNumbers?.[c.id]?.source;
+  const ballotDate = globalThis.FOBallotNumbers?.[c.id]?.date;
   const mayors = (c.candidates || []).map((candidate) => ({
     ...candidate,
-    ballotNo: Object.prototype.hasOwnProperty.call(candidate, 'ballotNo') ? candidate.ballotNo : officialNumbers?.[candidate.name],
+    ballotNo: Object.prototype.hasOwnProperty.call(candidate, 'ballotNo') ? candidate.ballotNo : globalThis.FOBallotNumberForName(officialNumbers, candidate.name),
   }));
   if (officialNumbers && mayors.every((candidate) => Number.isInteger(candidate.ballotNo))) {
     mayors.sort((a, b) => a.ballotNo - b.ballotNo);
   }
-  const officialCouncilNumbers = globalThis.FOBallotNumbers?.[c.id]?.councilors;
   const blocks = (c.councilors || []).map((block) => {
     const districtNumbers = officialCouncilNumbers?.[String(block.district)];
     if (!districtNumbers) return block;
     const candidates = (block.candidates || []).map((candidate) => ({
       ...candidate,
-      ballotNo: Object.prototype.hasOwnProperty.call(candidate, 'ballotNo') ? candidate.ballotNo : districtNumbers[candidate.name],
+      ballotNo: Object.prototype.hasOwnProperty.call(candidate, 'ballotNo') ? candidate.ballotNo : globalThis.FOBallotNumberForName(districtNumbers, candidate.name),
     }));
     if (candidates.some((candidate) => Number.isInteger(candidate.ballotNo))) {
       candidates.sort((a, b) => (a.ballotNo ?? Infinity) - (b.ballotNo ?? Infinity));
@@ -157,7 +159,7 @@ for (const c of counties) {
   const cPath = `/election/${c.id}`;
   const title = `${c.name} 2026 地方選舉候選人名單：${head}、議員、村里長｜島民觀察室`;
   const desc = `${c.name} 2026 年 11 月 28 日地方選舉：${head}候選人 ${mayors.length} 人、議員候選人 ${allC.length} 人，含各選區涵蓋地區、政黨與 2022 得票，並可查詢${towns.length} 個${isCity ? '行政區' : '鄉鎮市區'}的村里長候選人。`;
-  let body = `<section class="answer" aria-labelledby="quick-${c.id}"><h2 id="quick-${c.id}">${esc(c.name)} 2026 候選人快速答案</h2><p>截至 <time datetime="${today}">${today}</time>，本站收錄${esc(c.name)}${head}登記參選人 <strong>${mayors.length} 人</strong>、議員登記參選人 <strong>${allC.length} 人</strong>（${blocks.length} 個選舉區），並整理轄內 ${towns.length} 個${isCity ? '行政區' : '鄉鎮市區'}的地方候選人。</p><p class="updated">${officialNumbers ? '縣長與議員號次依雲林縣選舉委員會 115 年 10 月 27 日抽籤結果；正式候選人名單以中選會公告為準。' : '登記後仍須經資格審查與抽籤；正式候選人名單與號次以中央選舉委員會公告為準。'}</p></section>
+  let body = `<section class="answer" aria-labelledby="quick-${c.id}"><h2 id="quick-${c.id}">${esc(c.name)} 2026 候選人快速答案</h2><p>截至 <time datetime="${today}">${today}</time>，本站收錄${esc(c.name)}${head}登記參選人 <strong>${mayors.length} 人</strong>、議員登記參選人 <strong>${allC.length} 人</strong>（${blocks.length} 個選舉區），並整理轄內 ${towns.length} 個${isCity ? '行政區' : '鄉鎮市區'}的地方候選人。</p><p class="updated">${ballotSource ? `${esc(isCity ? '市長與議員' : '縣長與議員')}號次依${esc(ballotSource)}${ballotDate ? `（${esc(ballotDate)}）` : ''}；正式候選人名單以中選會公告為準。` : '登記後仍須經資格審查與抽籤；正式候選人名單與號次以中央選舉委員會公告為準。'}</p></section>
 <a class="cta" href="/?county=${c.id}">在互動地圖中查看${esc(c.name)}</a><a class="cta secondary" href="/election/">查看全台候選人</a>`;
   body += `<h2>${esc(c.name)}${head}候選人</h2>${candTable(mayors, !!officialNumbers)}`;
   body += `<h2>${esc(c.name)}議員候選人（依選舉區）</h2>`;
