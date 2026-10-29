@@ -83,7 +83,7 @@ test('all ten ineligible names remain exact search matches ahead of over thirty 
 
 test('candidate cards retain roster order regardless of qualification', () => {
   const html = read('index.html');
-  const method = html.slice(html.indexOf('  _ballotNo(c)'), html.indexOf('  _partyChip(name)'));
+  const method = html.slice(html.indexOf('  _ballotNo('), html.indexOf('  _partyChip(name)'));
   const box = {};
   const app = vm.runInNewContext(`new class {${method}}`, { window: {}, document: { getElementById: id => id === 'candidates' ? box : null, querySelector: () => null } });
   app._card = candidate => `<p>${candidate.name}</p>`;
@@ -94,7 +94,7 @@ test('candidate cards retain roster order regardless of qualification', () => {
 
 test('ineligible cards replace the gazette with an escaped official note; ordinary cards retain gazettes', () => {
   const html = read('index.html');
-  const method = html.slice(html.indexOf('  _ballotNo(c)'), html.indexOf('  _showCands(cands)')) + html.slice(html.indexOf('  _card(c) {'), html.indexOf('  _districtCoverage(code, number)'));
+  const method = html.slice(html.indexOf('  _ballotNo('), html.indexOf('  _showCands(')) + html.slice(html.indexOf('  _card('), html.indexOf('  _districtCoverage(code, number)'));
   const app = vm.runInNewContext(`new class {${method}}`, { window: {} });
   Object.assign(app, { _partyChip: () => '', _normalizeSearch: value => value, _socialIcon: () => '' });
   const card = app._card({ name: '測試', qualificationStatus: 'ineligible', qualificationReason: '<script>alert(1)</script>', qualificationDate: '2026-10-16', qualificationSourceUrl: 'javascript:alert(1)', elected: true });
@@ -112,7 +112,7 @@ test('public county pages and search retain all ten notices with official source
   const index = JSON.parse(read('data/candidate_search.json'));
   for (const entry of review.ineligible) {
     const $ = cheerio.load(read(`election/${entry.countyCode}.html`));
-    const row = $('tr').filter((_, el) => $(el).find('td').first().text().startsWith(entry.name));
+    const row = $('tr').filter((_, el) => $(el).find('td').slice(0, 2).toArray().some(cell => $(cell).text().startsWith(entry.name)));
     assert.equal(row.length, 1, entry.name);
     assert.match(row.text(), /資格不符規定/);
     assert.match(row.text(), /2026-10-16/);

@@ -30,7 +30,7 @@ test('missing, ambiguous and unsafe profile links are hidden', () => {
 
 test('verified profiles appear below gazettes as direct links, including former legislators running for mayor', () => {
   const html = read('index.html');
-  const method = html.slice(html.indexOf('  _ballotNo(c)'), html.indexOf('  _showCands(cands)')) + html.slice(html.indexOf('  _card(c) {'), html.indexOf('  _districtCoverage(code, number)'));
+  const method = html.slice(html.indexOf('  _ballotNo('), html.indexOf('  _showCands(')) + html.slice(html.indexOf('  _card('), html.indexOf('  _districtCoverage(code, number)'));
   const app = vm.runInNewContext(`new class {${method}}`, { window: { ReporterLinks } });
   Object.assign(app, { reporterLinks: catalog, _partyChip: () => '', _normalizeSearch: value => value, _socialIcon: () => '' });
   for (const name of ['沈伯洋', '蔣萬安', catalog.profiles.find(p => p.source === 'councilors').name]) {
@@ -53,7 +53,7 @@ test('verified profiles appear below gazettes as direct links, including former 
 
 test('search fallback uses candidate county instead of stale selected county', () => {
   const html = read('index.html');
-  const method = html.slice(html.indexOf('  _ballotNo(c)'), html.indexOf('  _showCands(cands)')) + html.slice(html.indexOf('  _card(c) {'), html.indexOf('  _districtCoverage(code, number)'));
+  const method = html.slice(html.indexOf('  _ballotNo('), html.indexOf('  _showCands(')) + html.slice(html.indexOf('  _card('), html.indexOf('  _districtCoverage(code, number)'));
   const app = vm.runInNewContext(`new class {${method}}`, { window: { ReporterLinks } });
   Object.assign(app, { reporterLinks: catalog, county: { code: '00000' }, _partyChip: () => '', _normalizeSearch: value => value, _socialIcon: () => '' });
   const p = catalog.profiles.find(p => p.source === 'councilors');
