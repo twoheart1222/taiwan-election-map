@@ -30,8 +30,8 @@ test('missing, ambiguous and unsafe profile links are hidden', () => {
 
 test('verified profiles appear below gazettes as direct links, including former legislators running for mayor', () => {
   const html = read('index.html');
-  const method = html.slice(html.indexOf('  _card(c) {'), html.indexOf('  _districtCoverage(code, number)'));
-  const app = vm.runInNewContext(`({${method}})`, { window: { ReporterLinks } });
+  const method = html.slice(html.indexOf('  _ballotNo(c)'), html.indexOf('  _showCands(cands)')) + html.slice(html.indexOf('  _card(c) {'), html.indexOf('  _districtCoverage(code, number)'));
+  const app = vm.runInNewContext(`new class {${method}}`, { window: { ReporterLinks } });
   Object.assign(app, { reporterLinks: catalog, _partyChip: () => '', _normalizeSearch: value => value, _socialIcon: () => '' });
   for (const name of ['沈伯洋', '蔣萬安', catalog.profiles.find(p => p.source === 'councilors').name]) {
     const profile = catalog.profiles.find(p => p.name === name);
@@ -53,8 +53,8 @@ test('verified profiles appear below gazettes as direct links, including former 
 
 test('search fallback uses candidate county instead of stale selected county', () => {
   const html = read('index.html');
-  const method = html.slice(html.indexOf('  _card(c) {'), html.indexOf('  _districtCoverage(code, number)'));
-  const app = vm.runInNewContext(`({${method}})`, { window: { ReporterLinks } });
+  const method = html.slice(html.indexOf('  _ballotNo(c)'), html.indexOf('  _showCands(cands)')) + html.slice(html.indexOf('  _card(c) {'), html.indexOf('  _districtCoverage(code, number)'));
+  const app = vm.runInNewContext(`new class {${method}}`, { window: { ReporterLinks } });
   Object.assign(app, { reporterLinks: catalog, county: { code: '00000' }, _partyChip: () => '', _normalizeSearch: value => value, _socialIcon: () => '' });
   const p = catalog.profiles.find(p => p.source === 'councilors');
   const $ = cheerio.load(app._card({ name: p.name, role: '議員候選人', countyCode: p.countyCode, qualificationStatus: 'ineligible', qualificationReason: '審查註記' }));

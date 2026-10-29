@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import '../election-data.js';
+import '../data/ballot-numbers-2026.js';
 import { publicBuildOverrides } from './public-build-overrides.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -100,8 +101,8 @@ ${isIndex ? '<script defer src="/election/navigation.js"></script>' : ''}
 `;
 }
 
-const candTable = (list, cols = ['姓名', '政黨', '備註']) => list.length
-  ? `<table><thead><tr>${cols.map((c) => `<th>${c}</th>`).join('')}</tr></thead><tbody>${list.map((c) => `<tr><td>${esc(c.name)}${c.qualificationStatus === 'ineligible' ? ' <strong style="color:#ff9ca9">資格不符規定</strong>' : ''}</td><td>${esc(party(c.party))}</td><td>${[c.registeredDate ? `登記 ${esc(c.registeredDate)}` : '', c.isIncumbent ? '現任' : '', c.elected ? '當選' : '', c.prevVotes ? `2022 得票 ${esc(c.prevVotes)}` : '', c.qualificationStatus === 'ineligible' ? `<p>${esc(c.qualificationReason)}</p><p>審定日期：${esc(c.qualificationDate)}</p>${/^https:\/\/[^\s"'<>]+$/i.test(c.qualificationSourceUrl || '') ? `<a href="${esc(c.qualificationSourceUrl)}" target="_blank" rel="noopener noreferrer">資格審定官方公告</a>` : ''}` : ''].filter(Boolean).join('、')}</td></tr>`).join('')}</tbody></table>`
+const candTable = (list, showBallot = false) => list.length
+  ? `<table><thead><tr>${(showBallot ? ['號次', '姓名', '政黨', '備註'] : ['姓名', '政黨', '備註']).map((c) => `<th>${c}</th>`).join('')}</tr></thead><tbody>${list.map((c) => `<tr>${showBallot ? `<td>${esc(c.ballotNo ?? '')}</td>` : ''}<td>${esc(c.name)}${c.qualificationStatus === 'ineligible' ? ' <strong style="color:#ff9ca9">資格不符規定</strong>' : ''}</td><td>${esc(party(c.party))}</td><td>${[c.registeredDate ? `登記 ${esc(c.registeredDate)}` : '', c.isIncumbent ? '現任' : '', c.elected ? '當選' : '', c.prevVotes ? `2022 得票 ${esc(c.prevVotes)}` : '', c.qualificationStatus === 'ineligible' ? `<p>${esc(c.qualificationReason)}</p><p>審定日期：${esc(c.qualificationDate)}</p>${/^https:\/\/[^\s"'<>]+$/i.test(c.qualificationSourceUrl || '') ? `<a href="${esc(c.qualificationSourceUrl)}" target="_blank" rel="noopener noreferrer">資格審定官方公告</a>` : ''}` : ''].filter(Boolean).join('、')}</td></tr>`).join('')}</tbody></table>`
   : '<p class="note">目前尚無登記資料。</p>';
 
 fs.mkdirSync(path.join(ROOT, 'election'), { recursive: true });
@@ -125,7 +126,14 @@ let townTotal = 0;
 const coverage = { countyHeads: 0, councilors: 0, townHeads: 0, representatives: 0, villageHeads: 0, villages: 0 };
 
 for (const c of counties) {
-  const mayors = c.candidates || [];
+  const officialNumbers = globalThis.FOBallotNumbers?.[c.id]?.numbers;
+  const mayors = (c.candidates || []).map((candidate) => ({
+    ...candidate,
+    ballotNo: Object.prototype.hasOwnProperty.call(candidate, 'ballotNo') ? candidate.ballotNo : officialNumbers?.[candidate.name],
+  }));
+  if (officialNumbers && mayors.every((candidate) => Number.isInteger(candidate.ballotNo))) {
+    mayors.sort((a, b) => a.ballotNo - b.ballotNo);
+  }
   const blocks = c.councilors || [];
   const allC = flatCouncil(c);
   coverage.countyHeads += mayors.length;
@@ -137,9 +145,9 @@ for (const c of counties) {
   const cPath = `/election/${c.id}`;
   const title = `${c.name} 2026 地方選舉候選人名單：${head}、議員、村里長｜島民觀察室`;
   const desc = `${c.name} 2026 年 11 月 28 日地方選舉：${head}候選人 ${mayors.length} 人、議員候選人 ${allC.length} 人，含各選區涵蓋地區、政黨與 2022 得票，並可查詢${towns.length} 個${isCity ? '行政區' : '鄉鎮市區'}的村里長候選人。`;
-  let body = `<section class="answer" aria-labelledby="quick-${c.id}"><h2 id="quick-${c.id}">${esc(c.name)} 2026 候選人快速答案</h2><p>截至 <time datetime="${today}">${today}</time>，本站收錄${esc(c.name)}${head}登記參選人 <strong>${mayors.length} 人</strong>、議員登記參選人 <strong>${allC.length} 人</strong>（${blocks.length} 個選舉區），並整理轄內 ${towns.length} 個${isCity ? '行政區' : '鄉鎮市區'}的地方候選人。</p><p class="updated">登記後仍須經資格審查與抽籤；正式候選人名單與號次以中央選舉委員會公告為準。</p></section>
+  let body = `<section class="answer" aria-labelledby="quick-${c.id}"><h2 id="quick-${c.id}">${esc(c.name)} 2026 候選人快速答案</h2><p>截至 <time datetime="${today}">${today}</time>，本站收錄${esc(c.name)}${head}登記參選人 <strong>${mayors.length} 人</strong>、議員登記參選人 <strong>${allC.length} 人</strong>（${blocks.length} 個選舉區），並整理轄內 ${towns.length} 個${isCity ? '行政區' : '鄉鎮市區'}的地方候選人。</p><p class="updated">${officialNumbers ? '縣長號次依雲林縣選舉委員會 115 年 10 月 27 日抽籤結果；正式候選人名單以中選會公告為準。' : '登記後仍須經資格審查與抽籤；正式候選人名單與號次以中央選舉委員會公告為準。'}</p></section>
 <a class="cta" href="/?county=${c.id}">在互動地圖中查看${esc(c.name)}</a><a class="cta secondary" href="/election/">查看全台候選人</a>`;
-  body += `<h2>${esc(c.name)}${head}候選人</h2>${candTable(mayors)}`;
+  body += `<h2>${esc(c.name)}${head}候選人</h2>${candTable(mayors, !!officialNumbers)}`;
   body += `<h2>${esc(c.name)}議員候選人（依選舉區）</h2>`;
   if (!blocks.length) body += '<p class="note">目前尚無議員候選人資料。</p>';
   for (const b of blocks) {

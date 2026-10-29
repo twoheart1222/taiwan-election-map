@@ -180,6 +180,8 @@
 .bn-classic .bn-tile{border-radius:17px}
 /* header tile */
 .bn-classic .bn-headtile{position:relative;display:grid;grid-template-columns:72px minmax(0,1fr);gap:14px;align-items:center;padding:12px 14px}
+.bn-classic.has-ballot .bn-headtile{grid-template-columns:72px 72px minmax(0,1fr)}
+.bn-classic .bn-ballot-no{width:72px;height:72px;display:grid;place-items:center;border:3px solid #E4022B;border-radius:50%;background:#211b19;color:#fff;font-size:32px;font-weight:900;line-height:1;font-variant-numeric:tabular-nums;box-shadow:0 0 0 1px rgba(228,2,43,.18) inset}
 .bn-classic.is-win .bn-headtile{padding-right:78px}
 .bn-classic .bn-photo.bn-avatar{grid-row:auto;position:relative;width:72px;height:72px;min-height:0!important;border-radius:50%;padding:0;overflow:hidden;background:linear-gradient(160deg,#3a342e,#26221f);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
 .bn-classic .bn-photo.bn-avatar>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 22%}
@@ -215,6 +217,8 @@
 @media(max-width:660px){
   .bn-card.bn-classic{padding:5px;gap:5px;border-radius:20px}
   .bn-classic .bn-headtile{grid-template-columns:62px minmax(0,1fr);gap:12px;padding:11px 12px}
+  .bn-classic.has-ballot .bn-headtile{grid-template-columns:62px 62px minmax(0,1fr)}
+  .bn-classic .bn-ballot-no{width:62px;height:62px;font-size:28px}
   .bn-classic .bn-photo.bn-avatar{width:62px;height:62px}
   .bn-classic .bn-name>span:first-child{font-size:19px}
   .bn-classic .bn-value{font-size:19px}

@@ -83,9 +83,9 @@ test('all ten ineligible names remain exact search matches ahead of over thirty 
 
 test('candidate cards retain roster order regardless of qualification', () => {
   const html = read('index.html');
-  const method = html.slice(html.indexOf('  _showCands(cands)'), html.indexOf('  _partyChip(name)'));
+  const method = html.slice(html.indexOf('  _ballotNo(c)'), html.indexOf('  _partyChip(name)'));
   const box = {};
-  const app = vm.runInNewContext(`({${method}})`, { window: {}, document: { getElementById: id => id === 'candidates' ? box : null, querySelector: () => null } });
+  const app = vm.runInNewContext(`new class {${method}}`, { window: {}, document: { getElementById: id => id === 'candidates' ? box : null, querySelector: () => null } });
   app._card = candidate => `<p>${candidate.name}</p>`;
   const candidates = [{ name: '甲', qualificationStatus: 'ineligible' }, { name: '乙' }, { name: '丙', qualificationStatus: 'eligible' }, { name: '丁', qualificationStatus: 'ineligible' }];
   app._showCands(candidates);
@@ -94,8 +94,8 @@ test('candidate cards retain roster order regardless of qualification', () => {
 
 test('ineligible cards replace the gazette with an escaped official note; ordinary cards retain gazettes', () => {
   const html = read('index.html');
-  const method = html.slice(html.indexOf('  _card(c) {'), html.indexOf('  _districtCoverage(code, number)'));
-  const app = vm.runInNewContext(`({${method}})`, { window: {} });
+  const method = html.slice(html.indexOf('  _ballotNo(c)'), html.indexOf('  _showCands(cands)')) + html.slice(html.indexOf('  _card(c) {'), html.indexOf('  _districtCoverage(code, number)'));
+  const app = vm.runInNewContext(`new class {${method}}`, { window: {} });
   Object.assign(app, { _partyChip: () => '', _normalizeSearch: value => value, _socialIcon: () => '' });
   const card = app._card({ name: '測試', qualificationStatus: 'ineligible', qualificationReason: '<script>alert(1)</script>', qualificationDate: '2026-10-16', qualificationSourceUrl: 'javascript:alert(1)', elected: true });
   assert.match(card, /資格不符規定/);
