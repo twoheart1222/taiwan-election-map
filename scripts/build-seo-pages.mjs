@@ -7,6 +7,7 @@ import '../election-data.js';
 import '../data/ballot-numbers-2026.js';
 import '../data/ballot-numbers-taipei-villages-2026.js';
 import '../data/ballot-numbers-new-taipei-villages-2026.js';
+import '../data/ballot-numbers-keelung-villages-2026.js';
 import { publicBuildOverrides } from './public-build-overrides.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -25,7 +26,11 @@ const feats = (topo) => topo.objects.map.geometries.map((g) => ElectionData.merg
 const party = (p) => (p && p !== '無' ? p : '無黨籍');
 const flatCouncil = (c) => (c.councilors || []).flatMap((b) => b.candidates || []);
 const numberedVillageCandidates = (village) => {
-  const numbers = (String(village.id).startsWith('63000') ? globalThis.FOTaipeiVillageBallots : globalThis.FONewTaipeiVillageBallots)?.[village.id];
+  const countyCode = String(village.id).slice(0, 5);
+  const ballots = countyCode === '63000' ? globalThis.FOTaipeiVillageBallots
+    : countyCode === '65000' ? globalThis.FONewTaipeiVillageBallots
+    : countyCode === '10017' ? globalThis.FOKeelungVillageBallots : null;
+  const numbers = ballots?.[village.id];
   if (!numbers) return village.candidates || [];
   const candidates = (village.candidates || []).map((candidate) => ({
     ...candidate,

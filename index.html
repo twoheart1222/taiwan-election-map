@@ -250,9 +250,10 @@ try{
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/topojson-client@3.1.0/dist/topojson-client.min.js" integrity="sha384-Ukv1p/xTma6P4/2bY5KzWBw+ydSpXmhCMtyciIQVDJ1RmOxtCYNMF1uXT9T63H67" crossorigin="anonymous"></script>
 <script src="/site-config.js"></script>
-<script src="/data/ballot-numbers-2026.js?v=20261030-new-taipei"></script>
+<script src="/data/ballot-numbers-2026.js?v=20261030-keelung"></script>
 <script src="/data/ballot-numbers-taipei-villages-2026.js?v=20261030"></script>
 <script src="/data/ballot-numbers-new-taipei-villages-2026.js?v=20261030"></script>
+<script src="/data/ballot-numbers-keelung-villages-2026.js?v=20261030"></script>
 <script src="/election-data.js?v=20261016-qualifications"></script>
 <script src="/reporter-links.js?v=20261017-manual"></script>
 <script>
@@ -1335,7 +1336,7 @@ class App {
   async _loadCandidateSearch() {
     if (this._candidateSearch) return this._candidateSearch;
     this._candidateSearch = (async () => {
-      const response = await fetch('./data/candidate_search.json?v=20261030-new-taipei');
+      const response = await fetch('./data/candidate_search.json?v=20261030-keelung');
       if (!response.ok) throw new Error(`candidate search ${response.status}`);
       const index = await response.json();
       const overrides = await this._ensureFullOverrides();
@@ -2524,7 +2525,7 @@ class App {
     const locationId = String(areaId || c.areaId || '');
     const fallback = ['縣市長候選人', '直轄市長候選人'].includes(c.role) ? findNumber(countyBallots?.numbers)
       : ['議員候選人', '市議員候選人', '縣議員候選人'].includes(c.role) ? findNumber(countyBallots?.councilors?.[String(district ?? c.district ?? '')])
-      : /[村里]長候選人/.test(c.role || '') ? findNumber((countyCode === '63000' ? window.FOTaipeiVillageBallots : countyCode === '65000' ? window.FONewTaipeiVillageBallots : null)?.[locationId])
+      : /[村里]長候選人/.test(c.role || '') ? findNumber((countyCode === '63000' ? window.FOTaipeiVillageBallots : countyCode === '65000' ? window.FONewTaipeiVillageBallots : countyCode === '10017' ? window.FOKeelungVillageBallots : null)?.[locationId])
       : countyCode === '65000' && /區長候選人/.test(c.role || '') ? findNumber(countyBallots?.townHeads?.[locationId])
       : countyCode === '65000' && /代表候選人/.test(c.role || '') ? findNumber(countyBallots?.representatives?.[locationId]?.[String(district ?? c.district ?? '')])
       : undefined;

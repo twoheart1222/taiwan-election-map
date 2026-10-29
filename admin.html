@@ -146,15 +146,16 @@
         </article>
       </div>
       <details class="rounded-xl border border-amber-300 bg-amber-50 p-3 text-xs leading-relaxed">
-        <summary class="cursor-pointer font-black text-amber-900">2026/10/30 抽籤名冊核對紀錄：網站既有資料未對應 21 位</summary>
+        <summary class="cursor-pointer font-black text-amber-900">2026/10/30 抽籤名冊核對紀錄：網站既有資料未對應 23 位</summary>
         <p class="mt-2 text-amber-900">依 10/27 臺北市、新北市抽籤名冊比對。未對應不等於退選；下方選擇地區後，候選人編輯卡會顯示逐筆提醒。號次可以手動指定或隱藏，候選人與既有照片、連結不會因比對被刪除。</p>
         <ul class="mt-2 list-disc pl-5 space-y-1 text-ink-700">
           <li>臺北市議員第 6 選舉區：游智彬。</li>
           <li>臺北市里長：萬華區柳鄉里蔡和益；松山區復建里胡歡、莊敬里陳宏義；大同區建功里盧綠綢；士林區承德里賴士淵、陳韋光。</li>
           <li>新北市議員第 10 選舉區：林正峰（中選會資格審定不符規定）。烏來區民代表第 3 選舉區：游再發。</li>
           <li>新北市里長：新店區長春里陳泳學；土城區頂新里張中良、員信里杜萬來、清水里江純文、延壽里滕月蘭；烏來區信賢里鄭相勇；瑞芳區瑞濱里胡長安；林口區頭湖里洪嘉興；中和區秀景里李淙河、明穗里何韋翰；新莊區立泰里許文章；泰山區貴賢里陳岳宏。</li>
+          <li>基隆市議員第 3 選舉區：張芳麗（中選會資格審定不符規定）；仁愛區水錦里里長：林國星。兩筆均保留原資料，未配號次。</li>
         </ul>
-        <p class="mt-2 text-ink-500">新北市提供的抽籤表沒有政黨欄。另對照新北市選委會登記情形表（含中和秀景里、土城員信里第二次登記），可對應的候選人未發現政黨不一致；姓名有異字或登記後異動的紀錄仍以最新公告人工核對。</p>
+        <p class="mt-2 text-ink-500">基隆市抽籤表有政黨欄：議員第 4 選舉區郭美秀原後台政黨為親民黨，已依名冊修正為中國國民黨；其餘可對應人員未發現差異。新北市抽籤表沒有政黨欄，另以選委會登記情形表核對，可對應的候選人未發現政黨不一致。</p>
       </details>
     </section>
 
@@ -372,9 +373,10 @@
 
   <script src="/site-config.js"></script>
   <script src="/election-data.js?v=20261016-qualifications"></script>
-  <script src="/data/ballot-numbers-2026.js?v=20261030-new-taipei"></script>
+  <script src="/data/ballot-numbers-2026.js?v=20261030-keelung"></script>
   <script src="/data/ballot-numbers-taipei-villages-2026.js?v=20261030"></script>
   <script src="/data/ballot-numbers-new-taipei-villages-2026.js?v=20261030"></script>
+  <script src="/data/ballot-numbers-keelung-villages-2026.js?v=20261030"></script>
   <script src="/reporter-links.js?v=20261017-manual"></script>
   <script src="/admin-source-order.js?v=20261017"></script>
   <script>
@@ -1515,7 +1517,8 @@
         ? source?.townHeads?.[currentCode] : source?.representatives?.[currentCode]?.[String(district)];
       if (currentScope === 'village') {
         const villages = countyCode === '63000' ? window.FOTaipeiVillageBallots
-          : countyCode === '65000' ? window.FONewTaipeiVillageBallots : null;
+          : countyCode === '65000' ? window.FONewTaipeiVillageBallots
+          : countyCode === '10017' ? window.FOKeelungVillageBallots : null;
         return villages ? (villages[currentCode] || {}) : undefined;
       }
       return undefined;
@@ -1526,10 +1529,30 @@
       return reference === undefined ? undefined : window.FOBallotNumberForName?.(reference, candidate.name);
     }
 
+    function officialPartyReference(district) {
+      if (String(currentCode || '').slice(0, 5) !== '10017') return undefined;
+      if (currentScope === 'county') return currentCountyRole === 'mayor'
+        ? window.FOBallotNumbers?.['10017']?.parties
+        : window.FOBallotNumbers?.['10017']?.councilorParties?.[String(district)];
+      if (currentScope === 'village') return window.FOKeelungVillageParties?.[currentCode];
+      return undefined;
+    }
+
     function ballotReviewNote(candidate, district) {
       const reference = officialBallotReference(district);
-      if (reference === undefined || !candidate.name || officialBallotNumber(candidate, district) !== undefined) return '';
-      return `10/27 抽籤名冊未對應：${candidate.name}。保留原有資料，請核對姓名與候選資格；未確認前不推定退選。`;
+      if (!candidate.name) return '';
+      if (reference !== undefined && officialBallotNumber(candidate, district) === undefined) {
+        return `10/27 抽籤名冊未對應：${candidate.name}。保留原有資料，請核對姓名與候選資格；未確認前不推定退選。`;
+      }
+      const parties = officialPartyReference(district);
+      const listedParty = window.FOBallotNumberForName && parties
+        ? Object.entries(parties).find(([name]) => window.FOBallotNumberForName({ [name]: 1 }, candidate.name) === 1)?.[1]
+        : undefined;
+      const normalizeParty = value => ['無', '無黨籍'].includes(String(value || '').trim()) ? '無'
+        : String(value || '').trim().replace(/臺/g, '台');
+      return listedParty && normalizeParty(listedParty) !== normalizeParty(candidate.party)
+        ? `10/27 抽籤名冊政黨不一致：${candidate.name}，名冊為「${listedParty}」，後台為「${candidate.party || '未填'}」。請核對並修正。`
+        : '';
     }
 
     function renderCandidateRows(candidates, isAllView = false) {
@@ -1541,7 +1564,7 @@
       const summary = document.getElementById('ballot-review-summary');
       summary.classList.toggle('hidden', unmatched.length === 0);
       summary.textContent = unmatched.length
-        ? `10/27 抽籤名冊未對應 ${unmatched.length} 位：${unmatched.map(candidate => candidate.name).join('、')}。僅供後台核對，不會自動刪除。`
+        ? `10/27 抽籤名冊核對提醒 ${unmatched.length} 位：${unmatched.map(candidate => candidate.name).join('、')}。僅供後台核對，不會自動刪除。`
         : '';
       candidates.forEach(c => addCandidateRow(c, isAllView));
       if (candidates.length === 0) addCandidateRow(null, isAllView);
