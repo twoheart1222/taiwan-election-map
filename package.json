@@ -13,6 +13,8 @@
     "dev:api": "wrangler dev --config wrangler.api.toml",
     "build:search": "node scripts/build-search-index.mjs",
     "build:seo": "node scripts/build-seo-pages.mjs",
+    "build:frontend": "node scripts/build-public-assets.mjs",
+    "predeploy:frontend": "npm run build:frontend",
     "sync:councilors": "node scripts/sync-incumbent-councilors.mjs",
     "reconcile:incumbents": "node scripts/reconcile-registered-incumbents.mjs",
     "sync:kcc": "node scripts/scrape-kcc-councilors.mjs",
@@ -40,6 +42,7 @@
     "cheerio": "^1.2.0",
     "esbuild": "0.28.1",
     "miniflare": "5.20260915.0-alpha",
+    "parse5": "7.3.0",
     "pinyin-pro": "3.29.4",
     "wrangler": "^4.0.0"
   }

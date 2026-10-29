@@ -1,6 +1,7 @@
 node_modules/
 storage-baseline.json
 .test-build/
+.public-deploy/
 .DS_Store
 .wrangler/
 work/

@@ -348,7 +348,7 @@
       alert(
         'GitHub → Cloudflare KV 同步失敗。\n\n' +
         err.message +
-        '\n\n請確認 API Worker、Cloudflare Access 與 ADMIN_TOKEN 設定。'
+        '\n\n請檢查後台登入與 API 連線設定。'
       );
     } finally {
       mutationBusy = false;
