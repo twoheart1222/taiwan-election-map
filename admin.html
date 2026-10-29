@@ -145,6 +145,17 @@
           <div data-sync-role="summary" class="hidden rounded-xl border border-ink-200 bg-surface p-3 text-[11px] leading-relaxed whitespace-pre-wrap"></div>
         </article>
       </div>
+      <details class="rounded-xl border border-amber-300 bg-amber-50 p-3 text-xs leading-relaxed">
+        <summary class="cursor-pointer font-black text-amber-900">2026/10/30 抽籤名冊核對紀錄：網站既有資料未對應 21 位</summary>
+        <p class="mt-2 text-amber-900">依 10/27 臺北市、新北市抽籤名冊比對。未對應不等於退選；下方選擇地區後，候選人編輯卡會顯示逐筆提醒。號次可以手動指定或隱藏，候選人與既有照片、連結不會因比對被刪除。</p>
+        <ul class="mt-2 list-disc pl-5 space-y-1 text-ink-700">
+          <li>臺北市議員第 6 選舉區：游智彬。</li>
+          <li>臺北市里長：萬華區柳鄉里蔡和益；松山區復建里胡歡、莊敬里陳宏義；大同區建功里盧綠綢；士林區承德里賴士淵、陳韋光。</li>
+          <li>新北市議員第 10 選舉區：林正峰（中選會資格審定不符規定）。烏來區民代表第 3 選舉區：游再發。</li>
+          <li>新北市里長：新店區長春里陳泳學；土城區頂新里張中良、員信里杜萬來、清水里江純文、延壽里滕月蘭；烏來區信賢里鄭相勇；瑞芳區瑞濱里胡長安；林口區頭湖里洪嘉興；中和區秀景里李淙河、明穗里何韋翰；新莊區立泰里許文章；泰山區貴賢里陳岳宏。</li>
+        </ul>
+        <p class="mt-2 text-ink-500">新北市提供的抽籤表沒有政黨欄。另對照新北市選委會登記情形表（含中和秀景里、土城員信里第二次登記），可對應的候選人未發現政黨不一致；姓名有異字或登記後異動的紀錄仍以最新公告人工核對。</p>
+      </details>
     </section>
 
     <div class="bg-surface p-5 rounded-2xl border editorial-border shadow-[4px_4px_0px_#141517]">
@@ -229,6 +240,7 @@
             </button>
           </div>
         </div>
+        <p id="ballot-review-summary" class="hidden mb-3 rounded-xl border border-amber-300 bg-amber-50 px-3 py-2 text-xs font-bold leading-relaxed text-amber-900" role="status"></p>
         <div id="candidate-rows" class="space-y-3"></div>
       </div>
 
@@ -360,6 +372,9 @@
 
   <script src="/site-config.js"></script>
   <script src="/election-data.js?v=20261016-qualifications"></script>
+  <script src="/data/ballot-numbers-2026.js?v=20261030-new-taipei"></script>
+  <script src="/data/ballot-numbers-taipei-villages-2026.js?v=20261030"></script>
+  <script src="/data/ballot-numbers-new-taipei-villages-2026.js?v=20261030"></script>
   <script src="/reporter-links.js?v=20261017-manual"></script>
   <script src="/admin-source-order.js?v=20261017"></script>
   <script>
@@ -1491,9 +1506,43 @@
       }
     };
 
+    function officialBallotReference(district) {
+      const countyCode = String(currentCode || '').slice(0, 5);
+      const source = window.FOBallotNumbers?.[countyCode];
+      if (currentScope === 'county') return currentCountyRole === 'mayor'
+        ? source?.numbers : source?.councilors?.[String(district)];
+      if (currentScope === 'town') return currentTownRole === 'townMayor'
+        ? source?.townHeads?.[currentCode] : source?.representatives?.[currentCode]?.[String(district)];
+      if (currentScope === 'village') {
+        const villages = countyCode === '63000' ? window.FOTaipeiVillageBallots
+          : countyCode === '65000' ? window.FONewTaipeiVillageBallots : null;
+        return villages ? (villages[currentCode] || {}) : undefined;
+      }
+      return undefined;
+    }
+
+    function officialBallotNumber(candidate, district) {
+      const reference = officialBallotReference(district);
+      return reference === undefined ? undefined : window.FOBallotNumberForName?.(reference, candidate.name);
+    }
+
+    function ballotReviewNote(candidate, district) {
+      const reference = officialBallotReference(district);
+      if (reference === undefined || !candidate.name || officialBallotNumber(candidate, district) !== undefined) return '';
+      return `10/27 抽籤名冊未對應：${candidate.name}。保留原有資料，請核對姓名與候選資格；未確認前不推定退選。`;
+    }
+
     function renderCandidateRows(candidates, isAllView = false) {
       const wrap = document.getElementById('candidate-rows');
       wrap.innerHTML = '';
+      const district = candidate => candidate._district || candidate.district ||
+        (currentDistrictMode !== 'all' ? activeDistrictBlocks()[Number(currentDistrictMode)]?.district : '1');
+      const unmatched = candidates.filter(candidate => ballotReviewNote(candidate, district(candidate)));
+      const summary = document.getElementById('ballot-review-summary');
+      summary.classList.toggle('hidden', unmatched.length === 0);
+      summary.textContent = unmatched.length
+        ? `10/27 抽籤名冊未對應 ${unmatched.length} 位：${unmatched.map(candidate => candidate.name).join('、')}。僅供後台核對，不會自動刪除。`
+        : '';
       candidates.forEach(c => addCandidateRow(c, isAllView));
       if (candidates.length === 0) addCandidateRow(null, isAllView);
       formReady = true;
@@ -1515,6 +1564,9 @@
       };
 
       const dist = c._district || c.district || defaultDistrict;
+      const officialNo = officialBallotNumber(c, dist);
+      const reviewNote = ballotReviewNote(c, dist);
+      const ballotMode = Object.hasOwn(c, 'ballotNo') ? (c.ballotNo == null || c.ballotNo === '' ? 'hidden' : 'manual') : 'official';
 
       const row = document.createElement('div');
       row.className = 'card-brutal bg-canvas rounded-xl p-3.5 space-y-2.5 relative';
@@ -1532,6 +1584,7 @@
 
       row.innerHTML = `
         ${districtBadge}
+        ${reviewNote ? `<p class="rounded-lg border border-amber-300 bg-amber-50 px-2.5 py-2 text-[11px] font-bold text-amber-900">${escapeHTML(reviewNote)}</p>` : ''}
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 items-center">
           <input placeholder="姓名" class="c-name bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.name)}">
           <input placeholder="政黨" class="c-party bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${escapeAttr(c.party)}">
@@ -1542,6 +1595,19 @@
               <i data-lucide="trash-2" class="w-4 h-4"></i>
             </button>
           </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-[minmax(0,1fr)_8rem] gap-2 rounded-xl border border-ink-300 bg-surface/60 p-3">
+          <label class="text-[11px] font-bold text-ink-700">候選人號次
+            <select class="c-ballot-mode block w-full mt-1 bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold">
+              <option value="official" ${ballotMode === 'official' ? 'selected' : ''}>依抽籤名冊${officialNo ? `（${officialNo} 號）` : '（未對應）'}</option>
+              <option value="manual" ${ballotMode === 'manual' ? 'selected' : ''}>手動指定號次</option>
+              <option value="hidden" ${ballotMode === 'hidden' ? 'selected' : ''}>隱藏號次</option>
+            </select>
+          </label>
+          <label class="text-[11px] font-bold text-ink-700">手動號次
+            <input type="number" min="1" max="999" step="1" inputmode="numeric" class="c-ballot-no block w-full mt-1 bg-surface border border-ink-300 rounded-lg px-2 py-1.5 text-xs font-bold" value="${ballotMode === 'manual' ? escapeAttr(c.ballotNo) : ''}" placeholder="1～999">
+          </label>
+          <p class="sm:col-span-2 text-[10px] text-ink-500">手動號次存入後台資料，前台與搜尋會優先使用；選「依抽籤名冊」可恢復官方號次。</p>
         </div>
         <fieldset class="rounded-xl border border-ink-300 bg-canvas p-3 space-y-2">
           <legend class="text-xs font-black">候選人資格審查</legend>
@@ -1708,9 +1774,18 @@
         // Merely viewing the default select must not manufacture a manual status.
         return unchanged ? {} : values;
       };
+      const ballotValue = row => {
+        const mode = row.querySelector('.c-ballot-mode')?.value || 'official';
+        if (mode === 'official') return undefined;
+        if (mode === 'hidden') return null;
+        const raw = row.querySelector('.c-ballot-no').value.trim();
+        if (!/^[1-9]\d{0,2}$/.test(raw)) throw new Error(`${row.querySelector('.c-name').value.trim() || '候選人'} 的手動號次須為 1～999 的整數。`);
+        return Number(raw);
+      };
       return [...document.querySelectorAll('#candidate-rows > div')].map(row => ({
         ...row._candidate,
         ...qualificationValues(row),
+        ballotNo: ballotValue(row),
         name: row.querySelector('.c-name').value.trim(),
         party: row.querySelector('.c-party').value.trim() || '無',
         role: row.querySelector('.c-role').value.trim(),

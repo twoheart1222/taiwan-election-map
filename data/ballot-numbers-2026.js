@@ -1,7 +1,7 @@
-// 115 年地方選舉候選人號次：雲林縣、臺北市與高雄市抽籤結果。
+// 115 年地方選舉候選人號次：雲林縣、臺北市、新北市與高雄市抽籤結果。
 // Keep ballot numbers separate from candidate overrides so manually edited photos and links retain priority.
 const ballotOrder = names => Object.freeze(Object.fromEntries(names.map((name, index) => [name, index + 1])));
-const ballotNameKey = name => String(name ?? '').normalize('NFKC').replace(/[·‧．・]/g, '.').replace(/\s+/g, '').toLowerCase();
+const ballotNameKey = name => String(name ?? '').normalize('NFKC').replace(/[·‧．・]/g, '.').replace(/爲/g, '為').replace(/啓/g, '啟').replace(/\s+/g, '').toLowerCase();
 globalThis.FOBallotNumberForName = (numbers, name) => {
   if (!numbers || !name) return undefined;
   if (Object.prototype.hasOwnProperty.call(numbers, name)) return numbers[name];
@@ -42,6 +42,36 @@ globalThis.FOBallotNumbers = Object.freeze({
       '6': ballotOrder(['曾獻瑩', '王閔生', '耿葳', '李柏毅', '王欣儀', '張維學', '陳聖文', '陳錦祥', '陳峙穎', '簡舒培', '李道翔', '楊植斗', '張志豪', '李奇峯', '苗博雅', '徐弘庭', '鍾沛君', '劉品妡']),
       '7': ballotOrder(['林筱薇 Icyang Tamana', '李芳儒']),
       '8': ballotOrder(['孔垂崢 Haisul Islituan', '林家豪', '李傅鈺婷']),
+    }),
+  }),
+  '65000': Object.freeze({
+    election: '市長、市議員、烏來區長、烏來區民代表、里長',
+    source: '新北市選舉委員會候選人姓名號次抽籤結果一覽表',
+    date: '2026-10-27',
+    numbers: ballotOrder(["蘇巧慧","蘇輝湟","李四川"]),
+    councilors: Object.freeze({
+      '1': ballotOrder(["呂鈞鴻","游明諺","鄭宇恩","陳偉杰","陳家琪"]),
+      '2': ballotOrder(["陳明義","戴翎育","鄭丞宏","李宇翔","蔡佩呈","蔡淑君","張昭隆"]),
+      '3': ballotOrder(["甘崇緯","林秉宥","蕭夙玲","簡麗花","蔣根煌","吳奕萱","蔡健棠","陳世軒","陳岱吟","王珮宇","陳茂嘉","翁震州"]),
+      '4': ballotOrder(["黃桂蘭","彭佳芸","蔡政呈","李余典","陳彥廷","陳俊維","李倩萍","劉成謙","董俊良","李翁月娥","陳東雲","許宏平","邱婷蔚","王威元","顏蔚慈","陳宛毓","蕭告"]),
+      '5': ballotOrder(["周韋翰","山田摩衣","黃淑君","戴瑋姗","曾煥嘉","林子宇","劉美芳","林國春","陳俊諺","黃淑珍","鄧凱勛","李昆穎"]),
+      '6': ballotOrder(["邱烽堯","林達","陳錦錠","張志豪","金瑞龍","陳怡君","游輝宂","張嘉玲","張維倩"]),
+      '7': ballotOrder(["許昭興","陳以樂","蘇昭龍","羅文崇","陳鴻源"]),
+      '8': ballotOrder(["彭一書","呂家愷","吳昇翰","林金結","黃永昌","高乃芸","廖宜琨","洪佳君","卓冠廷","蘇泓欽","陳膺涵","吳亞倫"]),
+      '9': ballotOrder(["黃心華","張柏詠","游皓麟","劉哲彰","陳韋任","陳儀君","陳乃瑜","張佑輔","邸聖德"]),
+      '10': ballotOrder(["林裔綺"]),
+      '11': ballotOrder(["郭書成","何元楷","張錦豪","黃瑞傳","白珮茹","蔡美華","陳語倢","陳竹音","劉財鑫"]),
+      '12': ballotOrder(["忠仁‧達祿斯","吳建智咖啡哥","楊春妹","連祐崧","宋雨蓁Nikar‧Falong","吳國譽La‧Is‧Amid","蘇錦雄Paylang‧Caya"]),
+      '13': ballotOrder(["羅美菁","布落‧馬信","王珍珍","馬見Lahuy‧Ipin","林啟明","何應明"]),
+    }),
+    townHeads: Object.freeze({ '65000290': ballotOrder(["周志國","施俊雄","周至剛"]) }),
+    representatives: Object.freeze({
+      '65000290': Object.freeze({
+        '1': ballotOrder(["李秉華","高建章","王家宏","王月裡 Amuy‧Losing"]),
+        '2': ballotOrder(["洪葉麗芳","呂永豐","沈常福","溫辰輝","王文炳","吳承翰","陳冠志"]),
+        '3': ballotOrder(["黃清波"]),
+        '4': ballotOrder(["蔡成雄","陳春櫻"]),
+      }),
     }),
   }),
   '64000': Object.freeze({

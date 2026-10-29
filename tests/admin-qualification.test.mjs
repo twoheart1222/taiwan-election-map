@@ -107,4 +107,15 @@ test('opening default form fields does not fabricate a manual status; edits and 
   candidate = context.collectCandidatesFromForm()[0];
   assert.equal(candidate.qualificationStatus, 'ineligible');
   assert.equal(candidate.qualificationReason, '官方原因');
+  values['.c-ballot-mode'] = 'manual'; values['.c-ballot-no'] = '7';
+  candidate = context.collectCandidatesFromForm()[0];
+  assert.equal(candidate.ballotNo, 7);
+  values['.c-ballot-mode'] = 'hidden';
+  candidate = context.collectCandidatesFromForm()[0];
+  assert.equal(candidate.ballotNo, null);
+  values['.c-ballot-mode'] = 'official';
+  candidate = context.collectCandidatesFromForm()[0];
+  assert.equal(candidate.ballotNo, undefined);
+  values['.c-ballot-mode'] = 'manual'; values['.c-ballot-no'] = '0';
+  assert.throws(() => context.collectCandidatesFromForm(), /1～999/);
 });

@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import '../election-data.js';
 import '../data/ballot-numbers-2026.js';
 import '../data/ballot-numbers-taipei-villages-2026.js';
+import '../data/ballot-numbers-new-taipei-villages-2026.js';
 import { publicBuildOverrides } from './public-build-overrides.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -24,7 +25,7 @@ const feats = (topo) => topo.objects.map.geometries.map((g) => ElectionData.merg
 const party = (p) => (p && p !== '無' ? p : '無黨籍');
 const flatCouncil = (c) => (c.councilors || []).flatMap((b) => b.candidates || []);
 const numberedVillageCandidates = (village) => {
-  const numbers = globalThis.FOTaipeiVillageBallots?.[village.id];
+  const numbers = (String(village.id).startsWith('63000') ? globalThis.FOTaipeiVillageBallots : globalThis.FONewTaipeiVillageBallots)?.[village.id];
   if (!numbers) return village.candidates || [];
   const candidates = (village.candidates || []).map((candidate) => ({
     ...candidate,
@@ -194,8 +195,14 @@ for (const c of counties) {
   for (const t of towns) {
     townTotal++;
     const tPath = `/election/${t.id}`;
-    const tMayors = t.candidates || [];
-    const reps = t.representatives || [];
+    const townBallots = globalThis.FOBallotNumbers?.[c.id];
+    const withNumbers = (list, numbers) => {
+      if (!numbers) return list;
+      return list.map(candidate => ({ ...candidate, ballotNo: Object.hasOwn(candidate, 'ballotNo') ? candidate.ballotNo : globalThis.FOBallotNumberForName(numbers, candidate.name) }))
+        .sort((a, b) => (a.ballotNo ?? Infinity) - (b.ballotNo ?? Infinity));
+    };
+    const tMayors = withNumbers(t.candidates || [], townBallots?.townHeads?.[t.id]);
+    const reps = (t.representatives || []).map(block => ({ ...block, candidates: withNumbers(block.candidates || [], townBallots?.representatives?.[t.id]?.[String(block.district)]) }));
     const repList = reps.flatMap((r) => r.candidates || []);
     coverage.townHeads += tMayors.length;
     coverage.representatives += repList.length;
@@ -210,11 +217,11 @@ for (const c of counties) {
     const tt = `${c.name}${t.name} 2026 地方選舉候選人：${[tHead && `${tHead}、`, '議員、', repList.length ? '民代、' : '', '村里長'].join('').replace(/、$/, '')}｜島民觀察室`;
     const td = `${c.name}${t.name} 2026 年 11 月 28 日地方選舉：${villages.length ? `${villages.length} 個村里、村里長候選人 ${vCands} 人` : '候選人名單'}${tMayors.length ? `、${tHead}候選人 ${tMayors.length} 人` : ''}${distBlocks.length ? `，議員選舉區：第 ${distBlocks.map((b) => b.district).join('、')} 選舉區` : ''}。`;
     let tb = `<p>${esc(c.name)}${esc(t.name)}於 <time datetime="${ELECTION_DATE}">2026 年 11 月 28 日</time>舉行地方選舉。${villages.length ? `轄內共 ${villages.length} 個村里，村里長候選人 ${vCands} 人。` : ''}</p><a class="cta" href="/?town=${t.id}">在互動地圖中查看${esc(t.name)}</a>`;
-    if (tMayors.length) tb += `<h2>${esc(t.name)}${tHead}候選人</h2>${candTable(tMayors)}`;
+    if (tMayors.length) tb += `<h2>${esc(t.name)}${tHead}候選人</h2>${candTable(tMayors, !!townBallots?.townHeads?.[t.id])}`;
     for (const b of distBlocks) {
       tb += `<h2>${esc(c.name)}議員第 ${esc(b.district)} 選舉區候選人</h2><p class="note">${esc(t.name)}屬${esc(c.name)}議員第 ${esc(b.district)} 選舉區（涵蓋：${esc(councilCoverage(dmap[c.id].districts[b.district]))}）。</p>${candTable(b.candidates || [], !!officialCouncilNumbers?.[String(b.district)])}`;
     }
-    for (const r of reps) if ((r.candidates || []).length) tb += `<h2>${esc(t.name)}民代候選人（第 ${esc(r.district)} 選舉區）</h2>${candTable(r.candidates)}`;
+    for (const r of reps) if ((r.candidates || []).length) tb += `<h2>${esc(t.name)}民代候選人（第 ${esc(r.district)} 選舉區）</h2>${candTable(r.candidates, !!townBallots?.representatives?.[t.id]?.[String(r.district)])}`;
     if (villages.length) {
       tb += `<h2>${esc(t.name)}村里長候選人</h2><table><thead><tr><th>村里</th><th>候選人（政黨）</th></tr></thead><tbody>${villages.map((v) => `<tr><td>${esc(v.name)}</td><td>${numberedVillageCandidates(v).map((x) => `${Number.isInteger(x.ballotNo) ? `<strong style="color:#ff5a72">${x.ballotNo} 號</strong> ` : ''}${esc(x.name)}（${esc(party(x.party))}）${x.isIncumbent ? '現任' : ''}`).join('、') || '<span class="note">目前未收錄登記資料</span>'}</td></tr>`).join('')}</tbody></table>`;
     }
