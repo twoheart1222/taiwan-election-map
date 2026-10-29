@@ -2520,7 +2520,7 @@ class App {
     const countyBallots = window.FOBallotNumbers?.[countyCode];
     const findNumber = numbers => window.FOBallotNumberForName?.(numbers, c.name) ?? numbers?.[c.name];
     const fallback = ['縣市長候選人', '直轄市長候選人'].includes(c.role) ? findNumber(countyBallots?.numbers)
-      : c.role === '議員候選人' ? findNumber(countyBallots?.councilors?.[String(district ?? c.district ?? '')])
+      : ['議員候選人', '市議員候選人', '縣議員候選人'].includes(c.role) ? findNumber(countyBallots?.councilors?.[String(district ?? c.district ?? '')])
       : undefined;
     const raw = candidateNo === undefined ? fallback : candidateNo;
     const no = Number(raw);

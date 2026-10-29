@@ -49,7 +49,7 @@ test('district fourteen handles the saved Indigenous name variant without changi
   app.county = { code: '64000' };
   app._card = (c, district) => `<p>${app._ballotNo(c, district)} ${c.name}</p>`;
   const candidates = county.councilors.find(b => b.district === '14').candidates.map(c => c.name.startsWith('高忠德')
-    ? { ...c, name: '高忠德Taki ludun‧Anu' } : c);
+    ? { ...c, name: '高忠德Taki ludun‧Anu', role: '市議員候選人' } : c);
   app._showCands(candidates, '14');
   assert.equal(box.innerHTML, '<p>1 洪英雄Salizan．binkinuan</p><p>2 林錫閔</p><p>3 高忠德Taki ludun‧Anu</p>');
   assert.equal(candidates.find(c => c.name.startsWith('高忠德')).name, '高忠德Taki ludun‧Anu');
