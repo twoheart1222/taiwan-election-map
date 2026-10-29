@@ -373,7 +373,7 @@
 
   <script src="/site-config.js"></script>
   <script src="/election-data.js?v=20261016-qualifications"></script>
-  <script src="/data/ballot-numbers-2026.js?v=20261030-keelung"></script>
+  <script src="/data/ballot-numbers-2026.js?v=20261030-taoyuan"></script>
   <script src="/data/ballot-numbers-taipei-villages-2026.js?v=20261030"></script>
   <script src="/data/ballot-numbers-new-taipei-villages-2026.js?v=20261030"></script>
   <script src="/data/ballot-numbers-keelung-villages-2026.js?v=20261030"></script>
@@ -1530,11 +1530,12 @@
     }
 
     function officialPartyReference(district) {
-      if (String(currentCode || '').slice(0, 5) !== '10017') return undefined;
+      const countyCode = String(currentCode || '').slice(0, 5);
+      const source = window.FOBallotNumbers?.[countyCode];
       if (currentScope === 'county') return currentCountyRole === 'mayor'
-        ? window.FOBallotNumbers?.['10017']?.parties
-        : window.FOBallotNumbers?.['10017']?.councilorParties?.[String(district)];
-      if (currentScope === 'village') return window.FOKeelungVillageParties?.[currentCode];
+        ? source?.parties
+        : source?.councilorParties?.[String(district)];
+      if (currentScope === 'village' && countyCode === '10017') return window.FOKeelungVillageParties?.[currentCode];
       return undefined;
     }
 
