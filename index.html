@@ -1335,7 +1335,7 @@ class App {
   async _loadCandidateSearch() {
     if (this._candidateSearch) return this._candidateSearch;
     this._candidateSearch = (async () => {
-      const response = await fetch('./data/candidate_search.json?v=20260926-search2');
+      const response = await fetch('./data/candidate_search.json?v=20261030-new-taipei');
       if (!response.ok) throw new Error(`candidate search ${response.status}`);
       const index = await response.json();
       const overrides = await this._ensureFullOverrides();
