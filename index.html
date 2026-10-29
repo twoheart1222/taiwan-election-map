@@ -322,6 +322,7 @@ try{
         <a href="#" data-view="map" class="navlink on">選舉地圖</a>
         <a href="./history/" class="navlink">歷年選舉</a>
         <a href="#" data-view="observatory" class="navlink">政治觀察</a>
+        <a href="/related/" class="navlink">相關網站</a>
         <a href="#about" data-section="about" class="navlink">關於我們</a>
         <a href="#support" data-view="support" class="navlink" style="color:#ff5a72">支持我們</a>
       </div>
@@ -333,6 +334,7 @@ try{
         <a href="#" data-view="map">選舉地圖 <span aria-hidden="true">→</span></a>
         <a href="./history/">歷年選舉 <span aria-hidden="true">→</span></a>
         <a href="#" data-view="observatory">政治觀察 <span aria-hidden="true">→</span></a>
+        <a href="/related/">相關網站 <span aria-hidden="true">→</span></a>
         <a href="#about" data-section="about">關於我們 <span aria-hidden="true">→</span></a>
         <a href="#support" data-view="support">支持我們 <span aria-hidden="true">→</span></a>
       </div>
@@ -492,10 +494,15 @@ try{
     <div id="view-observatory" style="display:none;min-height:calc(100dvh - 58px);flex-direction:column">
       <header style="padding:clamp(52px,10vh,120px) clamp(18px,4vw,54px) clamp(28px,5vh,52px)">
         <div style="font-family:'Archivo';font-weight:700;font-size:13px;letter-spacing:.28em;color:#E4022B;margin-bottom:20px">政治觀察 / OBSERVATORY</div>
-        <h1 style="font-family:'Noto Sans TC','Archivo',sans-serif;font-weight:900;font-size:clamp(38px,7.5vw,116px);line-height:.96;letter-spacing:-.03em;margin:0 0 24px;max-width:1200px;text-wrap:balance">看得更清楚，<br>才能<span style="color:#E4022B">監督</span>得更好。</h1>
-        <p style="margin:0;max-width:640px;color:#a29c92;font-size:clamp(15px,1.6vw,18px);line-height:1.8;text-wrap:pretty">精選中央選舉委員會公開資料庫、國會議事轉播、政治獻金平台與優質公民科技專案。所有連結由維護者統一校閱發布，確保資訊真實可信。</p>
+        <h1 style="font-family:'Noto Sans TC','Archivo',sans-serif;font-weight:900;font-size:clamp(38px,7.5vw,116px);line-height:.96;letter-spacing:-.03em;margin:0 0 24px;max-width:1200px;text-wrap:balance">從數字出發，<br><span style="color:#E4022B">看見</span>選舉變化。</h1>
+        <p style="margin:0;max-width:740px;color:#a29c92;font-size:clamp(15px,1.6vw,18px);line-height:1.8;text-wrap:pretty">比較同一類型選舉的參選人數與投票率。每篇附上縣市明細、統計口徑及中選會來源；2026 登記資料與歷史正式結果不混算。</p>
       </header>
-      <main id="obs-list" style="flex:1"></main>
+      <main id="obs-list" style="flex:1;padding:0 clamp(18px,4vw,54px) 80px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px;align-content:start">
+        <a href="/observatory/mayor-candidates-2018-2022/" class="obs-row" style="padding:32px;border:1px solid #302c27;border-radius:16px;min-height:280px"><span style="display:block;color:#E4022B;font-size:12px;font-weight:800;letter-spacing:.14em">01 / 參選人數</span><strong style="display:block;font-size:clamp(22px,2.5vw,31px);line-height:1.35;margin:34px 0 12px">2018 到 2022：縣市長選舉參選人數如何變化？</strong><span style="color:#a29c92;line-height:1.7">全國 93 人變 94 人；各縣市增減不同。</span><span style="display:block;color:#ff5a72;margin-top:24px;font-weight:800">閱讀資料觀察 →</span></a>
+        <a href="/observatory/councilor-candidates-2018-2022/" class="obs-row" style="padding:32px;border:1px solid #302c27;border-radius:16px;min-height:280px"><span style="display:block;color:#E4022B;font-size:12px;font-weight:800;letter-spacing:.14em">02 / 議員選舉</span><strong style="display:block;font-size:clamp(22px,2.5vw,31px);line-height:1.35;margin:34px 0 12px">議員參選人數：2022 年比 2018 年少了多少？</strong><span style="color:#a29c92;line-height:1.7">全國減少 74 人；完整列出 22 縣市。</span><span style="display:block;color:#ff5a72;margin-top:24px;font-weight:800">閱讀資料觀察 →</span></a>
+        <a href="/observatory/councilor-turnout-2018-2022/" class="obs-row" style="padding:32px;border:1px solid #302c27;border-radius:16px;min-height:280px"><span style="display:block;color:#E4022B;font-size:12px;font-weight:800;letter-spacing:.14em">03 / 投票率</span><strong style="display:block;font-size:clamp(22px,2.5vw,31px);line-height:1.35;margin:34px 0 12px">2018 與 2022 年議員選舉：各縣市投票率變化</strong><span style="color:#a29c92;line-height:1.7">比較全國與各縣市投票率，並說明百分點差異。</span><span style="display:block;color:#ff5a72;margin-top:24px;font-weight:800">閱讀資料觀察 →</span></a>
+      </main>
+      <div style="padding:0 clamp(18px,4vw,54px) 60px;color:#a29c92;font-size:14px">完整文章索引：<a href="/observatory/" style="color:#f4f1ea;text-decoration:underline">政治觀察</a>　外部資料入口：<a href="/related/" style="color:#f4f1ea;text-decoration:underline">相關網站</a></div>
       <footer class="brand-page-footer" style="background:#0d0d0d;color:#8a857c;padding:clamp(40px,7vh,80px) clamp(18px,4vw,54px);display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;border-top:1px solid #1c1a17">
         <div><a href="#" data-view="map" data-home class="brand-lockup-plaque" aria-label="返回島民選舉地圖首頁"><img src="/assets/brand/formosa-lockup.png" alt="Formosa Observatory 島民觀察室"></a><div style="font-size:12px;letter-spacing:.1em;margin-top:10px">© 2026 Formosa Observatory 島民觀察室<br>Independent Taiwan Election &amp; Civic Data Platform</div></div>
         <div class="brand-page-footer-note" style="max-width:500px;font-family:'Noto Sans TC';font-weight:600;font-size:12px;line-height:1.7;text-align:right">本站為獨立民間資訊平台，非中央選舉委員會或任何政府機關之官方網站。<br><a href="#" data-view="contact" style="color:#f4f1ea">資料更正與聯絡</a></div>
@@ -632,8 +639,6 @@ class App {
     this._wireCandidateSearch();
     this._wireGazettePreview();
     this._wireCountyPicker();
-    this._renderSites();
-    this._loadObservatoryLinks();
     this._loadAnnouncement();
     this._loadSources();
     this._wireContact();
@@ -2721,16 +2726,6 @@ class App {
     document.body.style.removeProperty('overflow');
   }
 
-  // ---------- OBSERVATORY ----------
-  get SITES() {
-    return this.sites || [
-      { n: '中選會選舉資料庫', cat: '官方數據庫', url: 'https://db.cec.gov.tw/', host: 'db.cec.gov.tw', d: '歷屆公職選舉、登記名冊與官方選舉公報查詢。' },
-      { n: '立法院議事轉播 IVOD', cat: '政見與法案監督', url: 'https://ivod.ly.gov.tw/', host: 'ivod.ly.gov.tw', d: '國會院會與各委員會即時視訊轉播與歷史隨選隨播系統。' },
-      { n: '監察院政治獻金公開平臺', cat: '陽光法案開放', url: 'https://ardata.cy.gov.tw/', host: 'ardata.cy.gov.tw', d: '檢驗各政黨與候選人合法申報之收支帳冊與競選資金流向。' },
-      { n: '沃草 Watchout 國會觀測', cat: '公民科技媒體', url: 'https://watchout.tw/', host: 'watchout.tw', d: '以圖文與資訊設計降低公民政治參與門檻的獨立媒體平台。' },
-      { n: '政治開箱 Politics Design', cat: '政治視覺研究', url: 'https://politicsdesign.tw/', host: 'politicsdesign.tw', d: '臺灣當代政治競選美學與民主視覺溝通研究平台。' },
-    ];
-  }
   // ---------- 選情數據：上期（2022）與本期（2026）得票，分層級（目前：縣市首長） ----------
   async _loadPrevElection() {
     if (!this._prevElP) this._prevElP = fetch('./data/prev_election.json').then(r => r.ok ? r.json() : null).catch(() => null);
@@ -2889,32 +2884,6 @@ class App {
       if (frag.childNodes.length) box.replaceChildren(frag);
     } catch (_) { /* 沿用內建來源 */ }
   }
-  async _loadObservatoryLinks() {
-    try {
-      const res = await fetch(`${this.apiBase}/?key=observatory_links`, { headers: { accept: 'application/json' } });
-      if (!res.ok) return;
-      const payload = await res.json();
-      const links = Array.isArray(payload?.links) ? payload.links : Array.isArray(payload) ? payload : [];
-      if (links.length) { this.sites = links; this._renderSites(); }
-    } catch (_) {
-      // Keep the built-in links available if the optional managed list is not ready.
-    }
-  }
-  _renderSites() {
-    const box = document.getElementById('obs-list'); if (!box) return;
-    box.innerHTML = this.SITES.map((s, i) => {
-      const last = i === this.SITES.length - 1;
-      const url = String(s.url || '');
-      const host = s.host || (() => { try { return new URL(url).hostname; } catch (_) { return ''; } })();
-      const esc = value => String(value || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
-      return `<a href="${esc(url)}" target="_blank" rel="noopener" class="obs-row" style="display:grid;grid-template-columns:clamp(52px,7vw,110px) 1fr auto;gap:clamp(12px,3vw,44px);align-items:center;padding:clamp(22px,3.4vw,42px) clamp(18px,4vw,54px);border-top:1px solid #1c1a17;${last ? 'border-bottom:1px solid #1c1a17' : ''}">
-        <span style="font-family:'Archivo';font-weight:900;font-size:clamp(20px,2.4vw,32px);color:#E4022B">${String(i + 1).padStart(2, '0')}</span>
-        <span><span style="display:block;font-family:'Archivo';font-weight:700;font-size:11px;letter-spacing:.16em;color:#8a857c;margin-bottom:8px">${esc(s.cat)}</span><span style="display:block;font-family:'Noto Sans TC';font-weight:900;font-size:clamp(20px,3vw,40px);line-height:1.1">${esc(s.n)}</span><span style="display:block;color:#a29c92;font-size:14px;margin-top:8px;max-width:560px">${esc(s.d)}</span></span>
-        <span class="obs-arrow" style="display:inline-flex;align-items:center;gap:10px;font-family:'Archivo';font-weight:700;font-size:14px;white-space:nowrap;color:#f4f1ea">${esc(host)} <span style="font-size:20px">→</span></span>
-      </a>`;
-    }).join('');
-  }
-
   // ---------- CONTACT ----------
   _wireContact() {
     const form = document.getElementById('contact-form');

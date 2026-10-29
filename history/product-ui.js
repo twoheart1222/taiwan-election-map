@@ -45,6 +45,8 @@
     if(anchor?.dataset?.historyTownDrilldown)return anchor.textContent.replace(/→/g,'').trim();
     const destination=new URL(url,location.href);
     if(!destination.pathname.includes('/history/')){
+      if(destination.pathname.startsWith('/observatory/'))return '政治觀察';
+      if(destination.pathname.startsWith('/related/'))return '相關網站';
       if(destination.hash==='#observatory')return '政治觀察';
       if(destination.hash==='#about')return '關於我們';
       if(destination.hash==='#contact')return '聯絡我們';

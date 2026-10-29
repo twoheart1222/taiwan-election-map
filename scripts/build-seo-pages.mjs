@@ -84,9 +84,9 @@ ${ldAll}
 <a class="skip-link" href="#county-list">跳至縣市名單</a>
 <header class="directory-header"><nav class="directory-nav" aria-label="主導覽">
 <div class="directory-brand-group"><a class="directory-brand" href="/" aria-label="返回島民選舉地圖首頁"><span class="directory-brand-mark" aria-hidden="true"><img src="/assets/brand/formosa-mark.png" alt=""></span><span>島民觀察室</span></a><div class="directory-countdown"><span class="directory-countdown-label">距離島民下一次選擇</span><span id="directory-days">—</span><span class="directory-days-unit">DAYS</span></div></div>
-<div class="directory-links"><a href="/">選舉地圖</a><a href="/history/">歷年選舉</a><a href="/#observatory">政治觀察</a><a href="/#about">關於我們</a><a href="/#support" style="color:#ff5a72">支持我們</a></div>
+<div class="directory-links"><a href="/">選舉地圖</a><a href="/history/">歷年選舉</a><a href="/observatory/">政治觀察</a><a href="/related/">相關網站</a><a href="/#about">關於我們</a><a href="/#support" style="color:#ff5a72">支持我們</a></div>
 <button class="directory-menu-toggle" type="button" aria-expanded="false" aria-controls="directory-mobile-menu" aria-label="開啟頁面選單" hidden><span class="directory-ham" aria-hidden="true"><i></i><i></i><i></i></span></button>
-<div id="directory-mobile-menu" class="directory-mobile-menu" aria-label="手機頁面選單" inert><a href="/">選舉地圖 <span aria-hidden="true">→</span></a><a href="/history/">歷年選舉 <span aria-hidden="true">→</span></a><a href="/#observatory">政治觀察 <span aria-hidden="true">→</span></a><a href="/#about">關於我們 <span aria-hidden="true">→</span></a><a href="/#support">支持我們 <span aria-hidden="true">→</span></a></div>
+<div id="directory-mobile-menu" class="directory-mobile-menu" aria-label="手機頁面選單" inert><a href="/">選舉地圖 <span aria-hidden="true">→</span></a><a href="/history/">歷年選舉 <span aria-hidden="true">→</span></a><a href="/observatory/">政治觀察 <span aria-hidden="true">→</span></a><a href="/related/">相關網站 <span aria-hidden="true">→</span></a><a href="/#about">關於我們 <span aria-hidden="true">→</span></a><a href="/#support">支持我們 <span aria-hidden="true">→</span></a></div>
 </nav></header>` : ''}
 <main>
 ${isIndex ? '' : `<nav class="top" aria-label="導覽"><a class="brand" href="/"><img src="/assets/brand/formosa-mark.png" alt=""><span>島民觀察室</span></a><a href="/election/">全台縣市</a>${crumbs.slice(2).map((c) => `<a href="${c[1]}">${esc(c[0])}</a>`).join('')}</nav>
@@ -114,6 +114,11 @@ const urls = [
   { loc: '/history/local-executive', pri: '0.7', freq: 'monthly' },
   { loc: '/history/councilor', pri: '0.7', freq: 'monthly' },
   { loc: '/history/town', pri: '0.6', freq: 'monthly' },
+  { loc: '/observatory/', pri: '0.7', freq: 'monthly' },
+  { loc: '/observatory/mayor-candidates-2018-2022/', pri: '0.6', freq: 'yearly' },
+  { loc: '/observatory/councilor-candidates-2018-2022/', pri: '0.6', freq: 'yearly' },
+  { loc: '/observatory/councilor-turnout-2018-2022/', pri: '0.6', freq: 'yearly' },
+  { loc: '/related/', pri: '0.5', freq: 'monthly' },
 ];
 const countyRows = [];
 let townTotal = 0;
@@ -222,6 +227,7 @@ for (const c of counties) {
   fs.writeFileSync(path.join(ROOT, 'election/index.html'), shell({ title: '2026 候選人查詢｜全台縣市長、議員與村里長名單｜島民觀察室', desc, canon: '/election/', h1: '2026 候選人查詢與全台候選人名單', body, ld: [dataset, countyList, faq], pageType: 'CollectionPage', crumbs: [['首頁', '/'], ['全台縣市', '/election/']] }));
 }
 
+await import('./build-observatory-pages.mjs');
 fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `<url><loc>${SITE}${u.loc}</loc><lastmod>${today}</lastmod><changefreq>${u.freq}</changefreq><priority>${u.pri}</priority></url>`).join('\n')}\n</urlset>\n`);
 fs.writeFileSync(path.join(ROOT, 'robots.txt'), `# 歡迎搜尋引擎與 AI 搜尋／回答引擎收錄本站公開內容
 User-agent: *
@@ -260,6 +266,8 @@ fs.writeFileSync(path.join(ROOT, 'llms.txt'), `# ${NAME}
 - [全台候選人名單索引](${SITE}/election/): 22 縣市入口
 - [歷年總統選舉](${SITE}/history/): 1996–2024 總統副總統選舉結果、地圖與跨屆比較
 - [歷年縣市長選舉](${SITE}/history/local-executive): 1994–2022 縣市長選舉結果與跨屆比較
+- [政治觀察](${SITE}/observatory/): 中選會歷屆資料的參選人數與投票率比較，附統計口徑與縣市明細
+- [相關網站](${SITE}/related/): 官方選舉資料與公共資訊網站入口
 
 ## 2026 各縣市首長登記參選人
 ${countyRows.map((r) => `- [${r.c.name}](${SITE}/election/${r.c.id}): ${r.mayorList.map((candidate) => `${candidate.name}（${party(candidate.party)}）`).join('、') || '目前尚無登記資料'}；另收錄 ${r.council} 位議員登記參選人與 ${r.towns} 個鄉鎮市區入口`).join('\n')}

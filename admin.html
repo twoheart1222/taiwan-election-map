@@ -330,7 +330,7 @@
 
     <details id="observatory-manager" class="group bg-surface p-5 rounded-2xl border editorial-border shadow-[4px_4px_0px_#141517]">
       <summary class="cursor-pointer list-none flex items-center justify-between gap-3 select-none">
-        <span class="text-sm font-black flex items-center gap-2"><i data-lucide="radar" class="w-4 h-4 text-accent-orange"></i>政治觀察連結管理</span>
+        <span class="text-sm font-black flex items-center gap-2"><i data-lucide="radar" class="w-4 h-4 text-accent-orange"></i>相關網站連結管理</span>
         <span class="flex items-center gap-2 text-xs font-bold text-ink-500">點開編輯與排序<i data-lucide="chevron-down" class="w-4 h-4 transition group-open:rotate-180"></i></span>
       </summary>
       <div class="space-y-4 mt-4 border-t border-ink-200 pt-4">
@@ -340,7 +340,7 @@
         </div>
         <div id="observatory-links-editor" class="space-y-2"></div>
         <div class="flex flex-wrap items-center gap-3">
-          <button type="button" onclick="saveObservatoryLinks()" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-accent-orange text-white text-xs font-black hover:bg-ink-900 transition"><i data-lucide="save" class="w-3.5 h-3.5"></i>儲存政治觀察連結</button>
+          <button type="button" onclick="saveObservatoryLinks()" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-accent-orange text-white text-xs font-black hover:bg-ink-900 transition"><i data-lucide="save" class="w-3.5 h-3.5"></i>儲存相關網站連結</button>
           <span id="observatory-status" class="text-xs font-bold text-ink-500" role="status" aria-live="polite"></span>
         </div>
       </div>
@@ -1128,7 +1128,7 @@
         row.querySelector('[data-source-move="-1"]').disabled = i === 0;
         row.querySelector('[data-source-move="1"]').disabled = i === rows.length - 1;
       });
-      if (dirty) document.getElementById('observatory-status').textContent = '順序已調整，請按「儲存政治觀察連結」。';
+      if (dirty) document.getElementById('observatory-status').textContent = '順序已調整，請按「儲存相關網站連結」。';
     }
     function renderObservatoryLinks() {
       const box = document.getElementById('observatory-links-editor');

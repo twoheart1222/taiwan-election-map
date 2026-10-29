@@ -6,7 +6,7 @@ import * as cheerio from 'cheerio';
 const read = name => fs.readFileSync(new URL('../' + name, import.meta.url), 'utf8');
 const html = read('admin.html');
 
-test('political observation manager and individual links start collapsed with ordering controls', () => {
+test('related websites manager and individual links start collapsed with ordering controls', () => {
   const $ = cheerio.load(html);
   assert.equal($('#observatory-manager').is('details'), true);
   assert.equal($('#observatory-manager').attr('open'), undefined);
@@ -49,15 +49,11 @@ test('saving and reloading keeps DOM order, edited fields and multiline descript
   assert.deepEqual(context.observatoryLinks, expected);
 });
 
-test('public political observation renders the saved order and numbering', async () => {
-  const home = read('index.html');
-  const getter = home.slice(home.indexOf('  get SITES()'), home.indexOf('  // ---------- 選情數據'));
-  const methods = home.slice(home.indexOf('  async _loadObservatoryLinks()'), home.indexOf('  // ---------- CONTACT'));
-  const box = { innerHTML: '' };
+test('related websites page renders managed links in the saved order', async () => {
+  const box = { children: [], replaceChildren(...children) { this.children = children; } };
   const links = ['丙', '甲', '乙'].map(n => ({ n, cat: '測試', url: 'https://example.org/' + n, d: n }));
-  const app = vm.runInNewContext(`new class {${getter}${methods}}`, { URL, document: { getElementById: () => box }, fetch: async () => ({ ok: true, json: async () => ({ links }) }) });
-  await app._loadObservatoryLinks();
-  const $ = cheerio.load(box.innerHTML);
-  assert.deepEqual($('.obs-row').map((_, row) => $(row).attr('href')).get(), links.map(link => link.url));
-  assert.deepEqual($('.obs-row').map((_, row) => $(row).children('span').first().text()).get(), ['01', '02', '03']);
+  const createElement = tagName => ({ tagName, children: [], append(...children) { this.children.push(...children); } });
+  await vm.runInNewContext(read('related/links.js'), { URL, document: { getElementById: () => box, createElement }, fetch: async () => ({ ok: true, json: async () => ({ links }) }) });
+  assert.deepEqual(box.children.map(card => card.href), links.map(link => new URL(link.url).href));
+  assert.deepEqual(box.children.map(card => card.children[1].textContent), links.map(link => link.n));
 });

@@ -80,7 +80,7 @@ test('source manager and individual source editors start collapsed', () => {
 
 test('homepage renders sources in saved array order', async () => {
   const html = read('index.html');
-  const method = html.slice(html.indexOf('  async _loadSources()'), html.indexOf('  async _loadObservatoryLinks()'));
+  const method = html.slice(html.indexOf('  async _loadSources()'), html.indexOf('  // ---------- CONTACT'));
   const rendered = [];
   const items = ['丙', '甲', '乙'].map(n => ({ n, url: 'https://example.org/' + n, note: n }));
   const document = {
