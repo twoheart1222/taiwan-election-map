@@ -1,4 +1,4 @@
-// 115 年地方選舉候選人號次：雲林縣抽籤結果與高雄市抽定一覽表。
+// 115 年地方選舉候選人號次：雲林縣、臺北市與高雄市抽籤結果。
 // Keep ballot numbers separate from candidate overrides so manually edited photos and links retain priority.
 const ballotOrder = names => Object.freeze(Object.fromEntries(names.map((name, index) => [name, index + 1])));
 const ballotNameKey = name => String(name ?? '').normalize('NFKC').replace(/[·‧．・]/g, '.').replace(/\s+/g, '').toLowerCase();
@@ -25,6 +25,23 @@ globalThis.FOBallotNumbers = Object.freeze({
       // 抽籤表將呂佶娜另附族語姓名；網站候選人名單目前以中文姓名索引。
       '7': Object.freeze({ '周志祥Kacaw．Kaco': 1, '呂佶娜': 2, '鄭玫惠': 3 }),
       '8': Object.freeze({ '張忠豪': 1, '蔡嘉峻PisawHakaw': 2, '李丘威達': 3, '高瑛翠': 4 }),
+    }),
+  }),
+  '63000': Object.freeze({
+    election: '市長、市議員、里長',
+    source: '臺北市選舉委員會候選人登記冊（有號次）',
+    date: '2026-10-27',
+    numbers: ballotOrder(['郭璽', '林志成', '沈伯洋', '蕭文乾', '蔣萬安', '唐新民']),
+    // 第 6 區游智彬未列在此抽籤名冊，保留既有候選人資料但不指定號次。
+    councilors: Object.freeze({
+      '1': ballotOrder(['汪志冰', '林杏兒', '陳怡潔', '陳慈慧', '林世宗', '紀建漢', '劉致妤', '賴苡任', '謝閔弘', '陳彥廷', '侯漢廷', '陳重文', '鍾佩玲', '張斯綱', '李文', '黃瀞瑩', '林聖峰', '林揚庭', '林延鳳', '陳賢蔚']),
+      '2': ballotOrder(['闕枚莎', '游淑慧', '陳冠安', '陳又新', '王孝維', '何恕懷', '吳世正', '高嘉瑜', '李明賢', '陳宥丞', '何孟樺', '黃啟彬', '吳欣岱']),
+      '3': ballotOrder(['許淑華', '詹為元', '秦慧珠', '左曉明', '洪健益', '許甫', '許原榮', '戴錫欽', '鄧樂強', '張文潔', '郭凡', '李明璇', '林柏勛']),
+      '4': ballotOrder(['柳采葳', '黃麗香', '李易儒', '陳炳甫', '林亮君', '李惠暄', '朱政騏', '林珍羽', '林子揚', '顏若芳', '熊羿', '陳怡君', '賴俊翰', '葉林傳']),
+      '5': ballotOrder(['張延廷', '吳志剛', '陳力新', '吳怡萱', '徐立信', '馬郁雯', '鍾小平', '郭昭巖', '譚傳紹', '張銘祐', '王振庭', '洪婉臻', '劉耀仁', '應佳妤']),
+      '6': ballotOrder(['曾獻瑩', '王閔生', '耿葳', '李柏毅', '王欣儀', '張維學', '陳聖文', '陳錦祥', '陳峙穎', '簡舒培', '李道翔', '楊植斗', '張志豪', '李奇峯', '苗博雅', '徐弘庭', '鍾沛君', '劉品妡']),
+      '7': ballotOrder(['林筱薇 Icyang Tamana', '李芳儒']),
+      '8': ballotOrder(['孔垂崢 Haisul Islituan', '林家豪', '李傅鈺婷']),
     }),
   }),
   '64000': Object.freeze({

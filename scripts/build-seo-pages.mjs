@@ -5,6 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import '../election-data.js';
 import '../data/ballot-numbers-2026.js';
+import '../data/ballot-numbers-taipei-villages-2026.js';
 import { publicBuildOverrides } from './public-build-overrides.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -22,6 +23,18 @@ const overrides = await publicBuildOverrides();
 const feats = (topo) => topo.objects.map.geometries.map((g) => ElectionData.mergeArea(g.properties, overrides[g.properties.id]));
 const party = (p) => (p && p !== '無' ? p : '無黨籍');
 const flatCouncil = (c) => (c.councilors || []).flatMap((b) => b.candidates || []);
+const numberedVillageCandidates = (village) => {
+  const numbers = globalThis.FOTaipeiVillageBallots?.[village.id];
+  if (!numbers) return village.candidates || [];
+  const candidates = (village.candidates || []).map((candidate) => ({
+    ...candidate,
+    ballotNo: Object.prototype.hasOwnProperty.call(candidate, 'ballotNo') ? candidate.ballotNo : globalThis.FOBallotNumberForName(numbers, candidate.name),
+  }));
+  if (candidates.some((candidate) => Number.isInteger(candidate.ballotNo))) {
+    candidates.sort((a, b) => (a.ballotNo ?? Infinity) - (b.ballotNo ?? Infinity));
+  }
+  return candidates;
+};
 
 const counties = feats(readJson('data/counties.json'));
 const dmap = readJson('data/district_town_map.json');
@@ -203,7 +216,7 @@ for (const c of counties) {
     }
     for (const r of reps) if ((r.candidates || []).length) tb += `<h2>${esc(t.name)}民代候選人（第 ${esc(r.district)} 選舉區）</h2>${candTable(r.candidates)}`;
     if (villages.length) {
-      tb += `<h2>${esc(t.name)}村里長候選人</h2><table><thead><tr><th>村里</th><th>候選人（政黨）</th></tr></thead><tbody>${villages.map((v) => `<tr><td>${esc(v.name)}</td><td>${(v.candidates || []).map((x) => `${esc(x.name)}（${esc(party(x.party))}）${x.isIncumbent ? '現任' : ''}`).join('、') || '<span class="note">目前未收錄登記資料</span>'}</td></tr>`).join('')}</tbody></table>`;
+      tb += `<h2>${esc(t.name)}村里長候選人</h2><table><thead><tr><th>村里</th><th>候選人（政黨）</th></tr></thead><tbody>${villages.map((v) => `<tr><td>${esc(v.name)}</td><td>${numberedVillageCandidates(v).map((x) => `${Number.isInteger(x.ballotNo) ? `<strong style="color:#ff5a72">${x.ballotNo} 號</strong> ` : ''}${esc(x.name)}（${esc(party(x.party))}）${x.isIncumbent ? '現任' : ''}`).join('、') || '<span class="note">目前未收錄登記資料</span>'}</td></tr>`).join('')}</tbody></table>`;
     }
     tb += `<p class="note">回到 <a href="${cPath}">${esc(c.name)}候選人名單</a></p>`;
     fs.writeFileSync(path.join(ROOT, `election/${t.id}.html`), shell({ title: tt, desc: td, canon: tPath, h1: `${c.name}${t.name} 2026 地方選舉候選人名單`, body: tb, crumbs: [['首頁', '/'], ['全台縣市', '/election/'], [c.name, cPath], [t.name, tPath]] }));

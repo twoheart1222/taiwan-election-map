@@ -250,7 +250,8 @@ try{
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/topojson-client@3.1.0/dist/topojson-client.min.js" integrity="sha384-Ukv1p/xTma6P4/2bY5KzWBw+ydSpXmhCMtyciIQVDJ1RmOxtCYNMF1uXT9T63H67" crossorigin="anonymous"></script>
 <script src="/site-config.js"></script>
-<script src="/data/ballot-numbers-2026.js?v=20261029-kaohsiung"></script>
+<script src="/data/ballot-numbers-2026.js?v=20261030-taipei"></script>
+<script src="/data/ballot-numbers-taipei-villages-2026.js?v=20261030"></script>
 <script src="/election-data.js?v=20261016-qualifications"></script>
 <script src="/reporter-links.js?v=20261017-manual"></script>
 <script>
@@ -2377,7 +2378,7 @@ class App {
         if (!vf) return;
         this._setReadoutContext(vf.properties, 'village', `${this.county.name} › ${p.name} › ${vf.properties.name}`);
         title.textContent = `${vf.properties.name} 村里長`;
-        this._showCands(vf.properties.candidates || []);
+        this._showCands(vf.properties.candidates || [], null, vf.properties.id);
         // 上一頁：回到鄉鎮 2D 地圖，並保留在「村里長」分頁
         this._showBack(() => {
           this._setReadoutContext(p, 'town', `${this.county.name} › ${p.name}`);
@@ -2460,7 +2461,7 @@ class App {
     this._drawerBase(`${this.county.name} › ${this.town.name} › ${p.name}`, '最基層村里', p.voters, p.quota || '1 席');
     document.getElementById('drawer-title').textContent = `${p.name} ${role}候選人`;
     this._hideSel('sel-type'); this._hideSel('sel-district'); this._hideSel('sel-village');
-    this._showCands(this._headCands(p));
+    this._showCands(this._headCands(p), null, p.id);
 
     // 第一層返回：回到鄉鎮 2D 地圖，保留下一層返回到選舉區的按鈕。
     this._showBack(() => {
@@ -2514,19 +2515,21 @@ class App {
   _hideSel(id) { const el = document.getElementById(id); if (el) { el.style.display = 'none'; el.value = ''; el.disabled = false; } }
 
   // ── Candidates list ──
-  _ballotNo(c, district = null) {
+  _ballotNo(c, district = null, areaId = null) {
     const candidateNo = Object.prototype.hasOwnProperty.call(c, 'ballotNo') ? c.ballotNo : undefined;
     const countyCode = String(c.countyCode || c.areaId || this.county?.code || '').slice(0, 5);
     const countyBallots = window.FOBallotNumbers?.[countyCode];
     const findNumber = numbers => window.FOBallotNumberForName?.(numbers, c.name) ?? numbers?.[c.name];
+    const villageId = String(areaId || c.areaId || '');
     const fallback = ['縣市長候選人', '直轄市長候選人'].includes(c.role) ? findNumber(countyBallots?.numbers)
       : ['議員候選人', '市議員候選人', '縣議員候選人'].includes(c.role) ? findNumber(countyBallots?.councilors?.[String(district ?? c.district ?? '')])
+      : countyCode === '63000' && /[村里]長候選人/.test(c.role || '') ? findNumber(window.FOTaipeiVillageBallots?.[villageId])
       : undefined;
     const raw = candidateNo === undefined ? fallback : candidateNo;
     const no = Number(raw);
     return raw !== null && raw !== '' && Number.isInteger(no) && no > 0 ? no : null;
   }
-  _showCands(cands, district = null) {
+  _showCands(cands, district = null, areaId = null) {
     const box = document.getElementById('candidates');
     const scrollShell = document.querySelector('.drawer-body-scroll');
     const statReg = document.getElementById('stat-registered');
@@ -2537,14 +2540,14 @@ class App {
       if (window.gsap) window.gsap.fromTo(box.firstElementChild, { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 0.45, ease: 'power3.out' });
       return;
     }
-    const numbered = cands.some(c => this._ballotNo(c, district) !== null);
+    const numbered = cands.some(c => this._ballotNo(c, district, areaId) !== null);
     const ordered = numbered ? [...cands].sort((a, b) => {
       const districtA = String(district ?? a.district ?? '');
       const districtB = String(district ?? b.district ?? '');
       return districtA.localeCompare(districtB, 'zh-Hant', { numeric: true })
-        || (this._ballotNo(a, district) ?? Infinity) - (this._ballotNo(b, district) ?? Infinity);
+        || (this._ballotNo(a, district, areaId) ?? Infinity) - (this._ballotNo(b, district, areaId) ?? Infinity);
     }) : cands;
-    box.innerHTML = ordered.map(c => this._card(c, district)).join('');
+    box.innerHTML = ordered.map(c => this._card(c, district, areaId)).join('');
     box.scrollTop = 0; if (scrollShell) scrollShell.scrollTop = 0;
     if (statReg) this._countUp(statReg, `${cands.length} 人`);
     if (window.gsap) {
@@ -2597,7 +2600,7 @@ class App {
     };
     const s = S[key]; return `<svg viewBox="0 0 24 24" width="15" height="15"><circle cx="12" cy="12" r="12" fill="${s.bg}"/>${s.svg}</svg>`;
   }
-  _card(c, district = null) {
+  _card(c, district = null, areaId = null) {
     // 安全：所有來自 KV / 資料檔的字串在放進 innerHTML 前一律跳脫；連結只接受 http(s) 與站內路徑
     const esc = v => String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
     const safeUrl = v => { const u = String(v || '').trim(); return /^https?:\/\/[^\s"'<>]+$/i.test(u) || /^\/(?!\/)[^\s"'<>\\]*$/.test(u) ? esc(u) : ''; };
@@ -2669,7 +2672,7 @@ class App {
     const avatar = hasPhoto
       ? `<img src="${safeUrl(photoSrc(c.photoUrl))}" alt="" loading="lazy" data-fb="${ch}" onload="window.__foFocusPhoto&&window.__foFocusPhoto(this)" onerror="this.closest('.bn-photo')?.classList.remove('has-photo');this.remove()" referrerpolicy="no-referrer">`
       : '';
-    const ballotNo = this._ballotNo(c, district);
+    const ballotNo = this._ballotNo(c, district, areaId);
     // 開票後蓋下的「當選」印章（照片格右上角）
     const winRibbon = isWin
       ? `<svg class="bn-stamp" viewBox="0 0 100 100" aria-label="當選" role="img"><defs><filter id="stamp-rough" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.6"/></filter></defs><g filter="url(#stamp-rough)" fill="none" stroke="#E4022B"><circle cx="50" cy="50" r="45" stroke-width="4.5"/><circle cx="50" cy="50" r="38" stroke-width="1.6"/><text x="50" y="66" text-anchor="middle" font-family="'Noto Serif TC','Songti TC',serif" font-weight="900" font-size="44" fill="#E4022B" stroke="none" letter-spacing="-2">當選</text><path d="M22 78 L78 78" stroke-width="1.6"/><text x="50" y="30" text-anchor="middle" font-family="Archivo,sans-serif" font-weight="900" font-size="8.5" fill="#E4022B" stroke="none" letter-spacing="3.4">ELECTED</text></g></svg>`
