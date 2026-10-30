@@ -159,6 +159,17 @@
         </ul>
         <p class="mt-2 text-ink-500">基隆市抽籤表有政黨欄：議員第 4 選舉區郭美秀原後台政黨為親民黨，已依名冊修正為中國國民黨；其餘可對應人員未發現差異。新北市抽籤表沒有政黨欄，另以選委會登記情形表核對，可對應的候選人未發現政黨不一致。</p>
       </details>
+      <details class="rounded-xl border border-amber-300 bg-amber-50 p-3 text-xs leading-relaxed">
+        <summary class="cursor-pointer font-black text-amber-900">2026/10/30 新增十縣市抽籤名冊核對：既有資料未對應 128 位</summary>
+        <p class="mt-2 text-amber-900">涵蓋彰化、雲林、嘉義縣市、臺南、屏東、宜蘭、花蓮、臺東與澎湖。未對應不等於退選；保留候選人與手動維護內容，請依名冊及資格公告核對。</p>
+        <ul id="regional-ballot-audit" class="mt-2 list-disc pl-5 space-y-1 text-ink-700"></ul>
+      </details>
+      <details class="rounded-xl border border-amber-300 bg-amber-50 p-3 text-xs leading-relaxed">
+        <summary id="regional-party-audit-title" class="cursor-pointer font-black text-amber-900">後台政黨與抽籤名冊核對中</summary>
+        <p class="mt-2 text-amber-900">僅列出名冊有政黨、且後台手動資料不同的候選人；不會自動覆蓋手動修改。</p>
+        <ul id="regional-party-audit" class="mt-2 list-disc pl-5 space-y-1 text-ink-700"></ul>
+        <p class="mt-2 text-amber-900">另有 2 筆姓名需人工核對：彰化縣伸港鄉代表第 4 選舉區第 2 號的來源轉錄有缺字，正式後台有一筆空白姓名；花蓮縣議員第 6 選舉區「蔡依靜 Lamen‧Panay」在正式後台有兩種拼寫紀錄。均未自動刪改。</p>
+      </details>
     </section>
 
     <div class="bg-surface p-5 rounded-2xl border editorial-border shadow-[4px_4px_0px_#141517]">
@@ -375,14 +386,22 @@
 
   <script src="/site-config.js"></script>
   <script src="/election-data.js?v=20261016-qualifications"></script>
+  <script src="/data/ballot-numbers-regional-2026.js?v=20261030"></script>
+  <script src="/data/ballot-audit-regional-2026.js?v=20261030"></script>
   <script src="/data/ballot-numbers-taichung-2026.js?v=20261030"></script>
-  <script src="/data/ballot-numbers-2026.js?v=20261030-taichung"></script>
+  <script src="/data/ballot-numbers-2026.js?v=20261030-regional"></script>
   <script src="/data/ballot-numbers-taipei-villages-2026.js?v=20261030"></script>
   <script src="/data/ballot-numbers-new-taipei-villages-2026.js?v=20261030"></script>
   <script src="/data/ballot-numbers-keelung-villages-2026.js?v=20261030"></script>
   <script src="/reporter-links.js?v=20261017-manual"></script>
   <script src="/admin-source-order.js?v=20261017"></script>
   <script>
+    const regionalAuditList = document.getElementById('regional-ballot-audit');
+    for (const item of window.FORegionalBallotAudit?.unmatchedExisting || []) {
+      const row = document.createElement('li');
+      row.textContent = `${item.area}：${item.name}（網站既有資料；名冊未對應）`;
+      regionalAuditList?.appendChild(row);
+    }
     const API_BASE = window.ELECTION_API_BASE ?? '';
 
     let currentUser = null;
@@ -866,6 +885,7 @@
 
     function renderOverrideList() {
       const ids = Object.keys(allOverrides);
+      renderRegionalPartyAudit();
       document.getElementById('override-count').textContent = ids.length;
       const counts = { county: 0, town: 0, village: 0, other: 0, today: 0, week: 0, older: 0, unknown: 0 };
       ids.forEach(id => {
@@ -884,6 +904,49 @@
         return;
       }
       filterOverrideList();
+    }
+
+    function renderRegionalPartyAudit() {
+      const title = document.getElementById('regional-party-audit-title');
+      const list = document.getElementById('regional-party-audit');
+      if (!title || !list) return;
+      const issues = [];
+      const normalizeParty = value => ['無', '無黨籍'].includes(String(value || '').trim()) ? '無' : String(value || '').trim().replace(/臺/g, '台');
+      const check = (code, label, candidates, parties) => {
+        if (!parties) return;
+        for (const candidate of candidates || []) {
+          const listed = Object.entries(parties).find(([name]) => window.FOBallotNumberForName?.({ [name]: 1 }, candidate.name) === 1)?.[1];
+          if (listed && normalizeParty(listed) !== normalizeParty(candidate.party)) {
+            issues.push(`${label} ${candidate.name}：名冊「${listed}」，後台「${candidate.party || '未填'}」`);
+          }
+        }
+      };
+      for (const [countyId, source] of Object.entries(window.FORegionalBallotParties || {})) {
+        const countyName = topoToFeatures(countiesTopo).features.find(feature => feature.properties.id === countyId)?.properties.name || countyId;
+        const county = allOverrides[countyId];
+        if (county) {
+          check(countyId, countyName, county.candidates, source.parties);
+          for (const block of county.councilors || []) check(countyId, `${countyName}議員第 ${block.district} 區`, block.candidates, source.councilorParties?.[String(block.district)]);
+        }
+        const townIds = new Set([...Object.keys(source.townHeads || {}), ...Object.keys(source.representatives || {})]);
+        for (const townId of townIds) {
+          const town = allOverrides[townId];
+          if (!town) continue;
+          check(townId, townId, town.candidates, source.townHeadParties?.[townId]);
+          for (const block of town.representatives || []) check(townId, `${townId}代表第 ${block.district} 區`, block.candidates, source.representativeParties?.[townId]?.[String(block.district)]);
+        }
+      }
+      for (const [villageId, parties] of Object.entries(window.FORegionalVillageParties || {})) {
+        const village = allOverrides[villageId];
+        if (village) check(villageId, villageId, village.candidates, parties);
+      }
+      title.textContent = `後台政黨與抽籤名冊差異：${issues.length} 位待核對`;
+      list.replaceChildren(...issues.map(message => {
+        const item = document.createElement('li');
+        item.textContent = message;
+        return item;
+      }));
+      if (!issues.length) list.textContent = '目前沒有政黨差異。';
     }
 
     function overrideLevel(id) {
@@ -1522,8 +1585,8 @@
         const villages = countyCode === '63000' ? window.FOTaipeiVillageBallots
           : countyCode === '65000' ? window.FONewTaipeiVillageBallots
           : countyCode === '10017' ? window.FOKeelungVillageBallots
-          : countyCode === '66000' ? window.FOTaichungVillageBallots : null;
-        return villages ? (villages[currentCode] || {}) : undefined;
+          : countyCode === '66000' ? window.FOTaichungVillageBallots : window.FORegionalVillageBallots;
+        return villages?.[currentCode];
       }
       return undefined;
     }
@@ -1535,15 +1598,16 @@
 
     function officialPartyReference(district) {
       const countyCode = String(currentCode || '').slice(0, 5);
-      const source = window.FOBallotNumbers?.[countyCode];
+      const source = window.FORegionalBallotParties?.[countyCode] || window.FOBallotNumbers?.[countyCode];
       if (currentScope === 'county') return currentCountyRole === 'mayor'
         ? source?.parties
         : source?.councilorParties?.[String(district)];
-      if (currentScope === 'town' && countyCode === '66000') return currentTownRole === 'townMayor'
+      if (currentScope === 'town') return currentTownRole === 'townMayor'
         ? source?.townHeadParties?.[currentCode]
         : source?.representativeParties?.[currentCode]?.[String(district)];
       if (currentScope === 'village' && countyCode === '10017') return window.FOKeelungVillageParties?.[currentCode];
       if (currentScope === 'village' && countyCode === '66000') return window.FOTaichungVillageParties?.[currentCode];
+      if (currentScope === 'village') return window.FORegionalVillageParties?.[currentCode];
       return undefined;
     }
 

@@ -9,6 +9,7 @@ globalThis.FOBallotNumberForName = (numbers, name) => {
   return matches.length === 1 ? matches[0][1] : undefined;
 };
 globalThis.FOBallotNumbers = Object.freeze({
+  ...globalThis.FORegionalBallotNumbers,
   '66000': globalThis.FOTaichungBallotNumbers,
   '10018': Object.freeze({
     election: '市長、市議員',
@@ -26,6 +27,7 @@ globalThis.FOBallotNumbers = Object.freeze({
     }),
   }),
   '10009': Object.freeze({
+    ...globalThis.FORegionalBallotNumbers?.['10009'],
     election: '縣長',
     source: '雲林縣選舉委員會',
     date: '2026-10-27',
