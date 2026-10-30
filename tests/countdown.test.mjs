@@ -11,7 +11,11 @@ for (const file of ['index.html', 'source/index.html']) {
   function harness(instant) {
     let now = Date.parse(instant), nextId = 0;
     const timers = new Map(), events = {}, rendered = [];
-    const document = { hidden: false, querySelectorAll: () => ['intro', 'nav'], addEventListener: (name, callback) => { events[name] = callback; } };
+    const reels = new Set(['intro', 'nav']);
+    const nodes = Object.fromEntries(['pre-days', 'nav-days', 'pre-days-unit', 'nav-days-unit', 'next-choice-label'].map(id => [id, {
+      textContent: '', style: {}, classList: { remove: () => reels.delete(id === 'pre-days' ? 'intro' : 'nav') },
+    }]));
+    const document = { hidden: false, getElementById: id => nodes[id], querySelectorAll: () => [...reels], addEventListener: (name, callback) => { events[name] = callback; } };
     const app = vm.runInNewContext(`new class {${methods}}`, {
       Date: { now: () => now }, document,
       window: { addEventListener: (name, callback) => { events[name] = callback; } },
@@ -20,7 +24,7 @@ for (const file of ['index.html', 'source/index.html']) {
     });
     app.target = Date.parse('2026-11-28T08:00:00+08:00');
     app._setReel = (el, days, animate) => rendered.push({ el, days, animate });
-    return { app, timers, events, rendered, document, setTime: instant => { now = Date.parse(instant); } };
+    return { app, timers, events, rendered, document, nodes, setTime: instant => { now = Date.parse(instant); } };
   }
 
   test(`${file}: countdown uses Taiwan calendar dates at midnight, with zero on election day`, () => {
@@ -70,4 +74,36 @@ for (const file of ['index.html', 'source/index.html']) {
     assert.match(html, /setTimeout\(\(\) => this\._setReel\(el, this\._days\(\), true\)/);
     assert.match(html, /this\._watchCountdown\(\);/);
   });
+
+  test(`${file}: election day says exactly 就是今天！ for the entire Taiwan calendar day`, () => {
+    for (const instant of ['2026-11-28T00:00:00+08:00', '2026-11-28T08:00:00+08:00', '2026-11-28T23:59:59.999+08:00']) {
+      const h = harness(instant);
+      h.app._setElectionPhase();
+      assert.equal(h.nodes['pre-days'].textContent, '就是今天！', instant);
+      assert.equal(h.nodes['nav-days'].textContent, '就是今天！', instant);
+      assert.equal(h.nodes['pre-days-unit'].textContent, '');
+      assert.equal(h.nodes['nav-days-unit'].textContent, '');
+      assert.equal(h.nodes['next-choice-label'].textContent, '2026 地方選舉投票日');
+      assert.equal(h.document.querySelectorAll('.cd-reel').length, 0);
+    }
+  });
+
+  test(`${file}: staying open transitions from 1 day to today, then to completed the following midnight`, () => {
+    const h = harness('2026-11-27T23:59:59+08:00');
+    h.app._setElectionPhase();
+    assert.equal(h.nodes['nav-days'].textContent, '');
+    h.app._watchCountdown();
+    h.setTime('2026-11-28T00:00:00.001+08:00');
+    h.timers.get(h.app._countdownTimer).callback();
+    assert.equal(h.nodes['nav-days'].textContent, '就是今天！');
+    assert.equal(h.nodes['pre-days'].textContent, '就是今天！');
+    assert.equal(h.rendered.length, 0, 'digit reels must not overwrite the election-day message');
+    h.setTime('2026-11-29T00:00:00.001+08:00');
+    h.timers.get(h.app._countdownTimer).callback();
+    assert.equal(h.nodes['nav-days'].textContent, '查看選舉結果 →');
+    assert.equal(h.nodes['next-choice-label'].textContent, '2026 地方選舉已完成');
+    assert.equal(h.nodes['pre-days'].textContent, '選舉已結束');
+    assert.equal(h.timers.size, 1);
+  });
+
 }

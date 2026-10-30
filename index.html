@@ -289,7 +289,7 @@ try{
     <div style="font-family:'Archivo';font-weight:700;font-size:clamp(11px,1.4vw,14px);letter-spacing:.32em;color:#E4022B;margin-bottom:clamp(18px,3vh,34px)">距離島民下一次選擇 / COUNTDOWN</div>
     <div style="display:flex;align-items:flex-end;gap:clamp(12px,2vw,26px);font-family:'Archivo';font-weight:900;color:#f4f1ea">
       <div id="pre-days" class="cd-reel" data-digits="3" style="font-size:clamp(120px,30vw,340px);line-height:.82;letter-spacing:-.05em;color:#E4022B"></div>
-      <div style="font-family:'Archivo';font-weight:900;font-size:clamp(22px,4vw,54px);line-height:1;padding-bottom:clamp(10px,2vh,30px)">DAYS</div>
+      <div id="pre-days-unit" style="font-family:'Archivo';font-weight:900;font-size:clamp(22px,4vw,54px);line-height:1;padding-bottom:clamp(10px,2vh,30px)">DAYS</div>
     </div>
     <div style="margin-top:clamp(18px,3vh,34px);font-family:'Noto Sans TC';font-weight:700;font-size:clamp(13px,1.6vw,18px);letter-spacing:.06em;color:#8a857c">2026.11.28 · 全國地方公職人員選舉投票日</div>
   </div>
@@ -677,6 +677,27 @@ class App {
     // Compare Taiwan calendar dates, independent of the visitor's device timezone.
     return Math.max(0, Math.floor((this.target + taipeiOffset) / day) - Math.floor((now + taipeiOffset) / day));
   }
+  _setElectionPhase(now = Date.now()) {
+    const day = 86400000, taipeiOffset = 8 * 60 * 60 * 1000;
+    const today = Math.floor((now + taipeiOffset) / day);
+    const electionDay = Math.floor((this.target + taipeiOffset) / day);
+    if (today < electionDay) return;
+    const isToday = today === electionDay;
+    const label = document.getElementById('next-choice-label');
+    if (label) label.textContent = isToday ? '2026 地方選舉投票日' : '2026 地方選舉已完成';
+    for (const id of ['pre-days', 'nav-days']) {
+      const el = document.getElementById(id);
+      if (!el) continue;
+      el.classList.remove('cd-reel');
+      el.textContent = isToday ? '就是今天！' : (id === 'nav-days' ? '查看選舉結果 →' : '選舉已結束');
+      el.style.fontSize = id === 'pre-days' ? 'clamp(42px, 9vw, 120px)' : (isToday ? '18px' : '14px');
+      el.style.letterSpacing = '0';
+    }
+    for (const id of ['pre-days-unit', 'nav-days-unit']) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = '';
+    }
+  }
   _watchCountdown() {
     const day = 86400000, taipeiOffset = 8 * 60 * 60 * 1000;
     let displayedDays = this._days();
@@ -686,6 +707,7 @@ class App {
       this._countdownTimer = setTimeout(refresh, delay);
     };
     const refresh = () => {
+      this._setElectionPhase();
       const days = this._days();
       if (days !== displayedDays) {
         document.querySelectorAll('.cd-reel').forEach(el => this._setReel(el, days, true));
@@ -1574,15 +1596,6 @@ class App {
     setTimeout(() => { if (pre) pre.style.display = 'none'; if (page) { page.style.filter = 'none'; page.style.transform = 'none'; } }, 1500);
   }
 
-  _setElectionPhase() {
-    if (Date.now() < this.target) return;
-    const label = document.getElementById('next-choice-label');
-    const days = document.getElementById('nav-days');
-    const unit = document.getElementById('nav-days-unit');
-    if (label) label.textContent = '2026 地方選舉已完成';
-    if (days) { days.classList.remove('cd-reel'); days.textContent = '查看選舉結果 →'; days.style.fontSize = '14px'; }
-    if (unit) unit.textContent = '';
-  }
 
   // ---------- OVERRIDES (Cloudflare Worker + KV) ----------
   _fetchOverrides(scope = 'county') {
