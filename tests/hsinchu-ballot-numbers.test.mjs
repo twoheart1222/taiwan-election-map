@@ -39,3 +39,8 @@ test('Hsinchu mayor and councilor cards follow ballot order', () => {
   assert.ok(box.innerHTML.startsWith('1 劉詳樽|2 曾翰揚|3 鄭宏輝|'));
   assert.ok(box.innerHTML.endsWith('19 黃文政|'));
 });
+
+test('Hsinchu public directory labels its mayor as a city mayor', () => {
+  assert.match(read('election/10018.html'), /新竹市市長候選人/);
+  assert.match(read('election/10018.html'), /<td>2<\/td><td>何志勇/);
+});

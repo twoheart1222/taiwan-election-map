@@ -173,7 +173,7 @@ for (const c of counties) {
   coverage.councilors += allC.length;
   const cq = quota[c.id] || {};
   const towns = fs.existsSync(path.join(ROOT, `data/towns/towns-${c.id}.json`)) ? feats(readJson(`data/towns/towns-${c.id}.json`)) : [];
-  const isCity = ['63000', '64000', '65000', '66000', '67000', '68000'].includes(c.id);
+  const isCity = c.name.endsWith('市');
   const head = isCity ? '市長' : '縣市長';
   const cPath = `/election/${c.id}`;
   const title = `${c.name} 2026 地方選舉候選人名單：${head}、議員、村里長｜島民觀察室`;
