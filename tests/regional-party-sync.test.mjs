@@ -26,6 +26,8 @@ test('party correction changes only matched party fields and preserves revisions
 
 test('admin applies the prepared revisions through the versioned API and verifies readback', () => {
   const html = fs.readFileSync(new URL('../admin.html', import.meta.url), 'utf8');
+  const build = fs.readFileSync(new URL('../scripts/build-public-assets.mjs', import.meta.url), 'utf8');
+  assert.match(build, /'admin-ballot-party-sync\.js'/);
   assert.match(html, /FORegionalPartySync\.prepare\(fresh/);
   assert.match(html, /plan\.differences\.length !== 17/);
   assert.match(html, /apiFetch\('\/api\/admin\/overrides', \{ method: 'PUT'/);
