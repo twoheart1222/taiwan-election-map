@@ -250,14 +250,38 @@ class App {
     this._wireDonation();
     this._waitLibs().then(() => {
       this._buildReels();
-      const days = this._days();
-      document.querySelectorAll('.cd-reel').forEach((el, i) => { this._setReel(el, 0, false); setTimeout(() => this._setReel(el, days, true), 250 + i * 80); });
+      document.querySelectorAll('.cd-reel').forEach((el, i) => { this._setReel(el, 0, false); setTimeout(() => this._setReel(el, this._days(), true), 250 + i * 80); });
+      this._watchCountdown();
       this._init3D();
       setTimeout(() => this._reveal(), 2100);
     });
   }
   _waitLibs() { return new Promise(res => { const c = () => (window.gsap && window.topojson) ? res() : setTimeout(c, 40); c(); }); }
-  _days() { return Math.floor(Math.max(0, this.target - Date.now()) / 86400000); }
+  _days(now = Date.now()) {
+    const day = 86400000, taipeiOffset = 8 * 60 * 60 * 1000;
+    // Compare Taiwan calendar dates, independent of the visitor's device timezone.
+    return Math.max(0, Math.floor((this.target + taipeiOffset) / day) - Math.floor((now + taipeiOffset) / day));
+  }
+  _watchCountdown() {
+    const day = 86400000, taipeiOffset = 8 * 60 * 60 * 1000;
+    let displayedDays = this._days();
+    const schedule = () => {
+      clearTimeout(this._countdownTimer);
+      const delay = day - ((Date.now() + taipeiOffset) % day) + 1;
+      this._countdownTimer = setTimeout(refresh, delay);
+    };
+    const refresh = () => {
+      const days = this._days();
+      if (days !== displayedDays) {
+        document.querySelectorAll('.cd-reel').forEach(el => this._setReel(el, days, true));
+        displayedDays = days;
+      }
+      schedule();
+    };
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(); });
+    window.addEventListener('pageshow', refresh);
+    schedule();
+  }
 
   // ---------- NAV / VIEWS ----------
   _wireNav() {
