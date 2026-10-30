@@ -373,7 +373,7 @@
 
   <script src="/site-config.js"></script>
   <script src="/election-data.js?v=20261016-qualifications"></script>
-  <script src="/data/ballot-numbers-2026.js?v=20261030-taoyuan"></script>
+  <script src="/data/ballot-numbers-2026.js?v=20261030-hsinchu"></script>
   <script src="/data/ballot-numbers-taipei-villages-2026.js?v=20261030"></script>
   <script src="/data/ballot-numbers-new-taipei-villages-2026.js?v=20261030"></script>
   <script src="/data/ballot-numbers-keelung-villages-2026.js?v=20261030"></script>
@@ -1590,7 +1590,7 @@
       const dist = c._district || c.district || defaultDistrict;
       const officialNo = officialBallotNumber(c, dist);
       const reviewNote = ballotReviewNote(c, dist);
-      const ballotMode = Object.hasOwn(c, 'ballotNo') ? (c.ballotNo == null || c.ballotNo === '' ? 'hidden' : 'manual') : 'official';
+      const ballotMode = c.ballotNo === undefined ? 'official' : (c.ballotNo == null || c.ballotNo === '' ? 'hidden' : 'manual');
 
       const row = document.createElement('div');
       row.className = 'card-brutal bg-canvas rounded-xl p-3.5 space-y-2.5 relative';

@@ -116,6 +116,8 @@ test('opening default form fields does not fabricate a manual status; edits and 
   values['.c-ballot-mode'] = 'official';
   candidate = context.collectCandidatesFromForm()[0];
   assert.equal(candidate.ballotNo, undefined);
+  assert.match(html, /const ballotMode = c\.ballotNo === undefined \? 'official'/);
+  assert.equal(vm.runInNewContext("c.ballotNo === undefined ? 'official' : (c.ballotNo == null || c.ballotNo === '' ? 'hidden' : 'manual')", { c: candidate }), 'official');
   values['.c-ballot-mode'] = 'manual'; values['.c-ballot-no'] = '0';
   assert.throws(() => context.collectCandidatesFromForm(), /1～999/);
 });
