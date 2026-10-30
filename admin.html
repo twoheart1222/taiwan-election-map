@@ -164,6 +164,11 @@
         <p class="mt-2 text-amber-900">涵蓋彰化、雲林、嘉義縣市、臺南、屏東、宜蘭、花蓮、臺東與澎湖。未對應不等於退選；保留候選人與手動維護內容，請依名冊及資格公告核對。</p>
         <ul id="regional-ballot-audit" class="mt-2 list-disc pl-5 space-y-1 text-ink-700"></ul>
       </details>
+      <details class="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4 text-xs">
+        <summary class="cursor-pointer font-black text-amber-900">2026/10/30 新竹縣抽籤名冊核對：2 位待補登、10 位既有資料未對應</summary>
+        <p class="mt-2 text-amber-900">五份 PDF 共 716 筆號次；僅按相同選區及姓名對應。未對應不等於退選，不會自動刪除候選人或變更政黨、照片及連結。</p>
+        <ul id="hsinchu-county-ballot-audit" class="mt-2 list-disc pl-5 space-y-1 text-ink-700"></ul>
+      </details>
       <details class="rounded-xl border border-amber-300 bg-amber-50 p-3 text-xs leading-relaxed">
         <summary id="regional-party-audit-title" class="cursor-pointer font-black text-amber-900">後台政黨與抽籤名冊核對中</summary>
         <p class="mt-2 text-amber-900">僅列出名冊有政黨、且後台手動資料不同的候選人；不會自動覆蓋手動修改。</p>
@@ -392,6 +397,7 @@
   <script src="/data/ballot-audit-regional-2026.js?v=20261030"></script>
   <script src="/admin-ballot-party-sync.js?v=20261030"></script>
   <script src="/data/ballot-numbers-taichung-2026.js?v=20261030"></script>
+  <script src="/data/ballot-numbers-hsinchu-county-2026.js?v=20261030"></script>
   <script src="/data/ballot-numbers-2026.js?v=20261030-regional"></script>
   <script src="/data/ballot-numbers-taipei-villages-2026.js?v=20261030"></script>
   <script src="/data/ballot-numbers-new-taipei-villages-2026.js?v=20261030"></script>
@@ -404,6 +410,17 @@
       const row = document.createElement('li');
       row.textContent = `${item.area}：${item.name}（網站既有資料；名冊未對應）`;
       regionalAuditList?.appendChild(row);
+    }
+    const hsinchuCountyAuditList = document.getElementById('hsinchu-county-ballot-audit');
+    for (const item of window.FOHsinchuCountyBallotAudit?.pendingCandidates || []) {
+      const row = document.createElement('li');
+      row.textContent = `${item.area}：${item.name}（${item.ballotNo} 號，PDF 第 ${item.page} 頁；網站名單待補登）`;
+      hsinchuCountyAuditList?.appendChild(row);
+    }
+    for (const item of window.FOHsinchuCountyBallotAudit?.unlistedExisting || []) {
+      const row = document.createElement('li');
+      row.textContent = `${item.area}：${item.name}（網站既有資料；抽籤名冊未對應）`;
+      hsinchuCountyAuditList?.appendChild(row);
     }
     const API_BASE = window.ELECTION_API_BASE ?? '';
 
@@ -1628,7 +1645,7 @@
         const villages = countyCode === '63000' ? window.FOTaipeiVillageBallots
           : countyCode === '65000' ? window.FONewTaipeiVillageBallots
           : countyCode === '10017' ? window.FOKeelungVillageBallots
-          : countyCode === '66000' ? window.FOTaichungVillageBallots : window.FORegionalVillageBallots;
+          : countyCode === '66000' ? window.FOTaichungVillageBallots : countyCode === '10004' ? window.FOHsinchuCountyVillageBallots : window.FORegionalVillageBallots;
         return villages?.[currentCode];
       }
       return undefined;

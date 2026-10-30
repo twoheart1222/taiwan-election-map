@@ -32,7 +32,7 @@
 - [臺南市](https://formosaobservatory.com/election/67000): 蕭燐洪（臺灣SoR無法黨）、謝龍介（中國國民黨）、陳亭妃（民主進步黨）、葉人文（無黨籍）；另收錄 88 位議員登記參選人與 37 個鄉鎮市區入口
 - [桃園市](https://formosaobservatory.com/election/68000): 黃世杰（民主進步黨）、張善政（中國國民黨）；另收錄 109 位議員登記參選人與 13 個鄉鎮市區入口
 - [苗栗縣](https://formosaobservatory.com/election/10005): 陳品安（民主進步黨）、鍾東錦（中國國民黨）；另收錄 57 位議員登記參選人與 18 個鄉鎮市區入口
-- [新竹縣](https://formosaobservatory.com/election/10004): 鄭朝方（民主進步黨）、朱定瑀（無黨籍）、徐欣瑩（中國國民黨）；另收錄 69 位議員登記參選人與 13 個鄉鎮市區入口
+- [新竹縣](https://formosaobservatory.com/election/10004): 鄭朝方（民主進步黨）、徐欣瑩（中國國民黨）、朱定瑀（無黨籍）；另收錄 69 位議員登記參選人與 13 個鄉鎮市區入口
 - [嘉義市](https://formosaobservatory.com/election/10020): 王義成（無黨籍）、陳愷璜（無黨籍）、張啓楷（台灣民眾黨）、王美惠（民主進步黨）、黃宏成台灣阿成世界偉人財神總統（無黨籍）；另收錄 37 位議員登記參選人與 2 個鄉鎮市區入口
 - [嘉義縣](https://formosaobservatory.com/election/10010): 吳品叡（無黨籍）、蔡易餘（民主進步黨）；另收錄 53 位議員登記參選人與 18 個鄉鎮市區入口
 - [高雄市](https://formosaobservatory.com/election/64000): 張靜（司法改革黨）、王肇民（無黨籍）、柯志恩（中國國民黨）、洪方隆（無黨籍）、賴瑞隆（民主進步黨）；另收錄 101 位議員登記參選人與 38 個鄉鎮市區入口

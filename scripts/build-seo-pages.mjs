@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import '../election-data.js';
 import '../data/ballot-numbers-regional-2026.js';
 import '../data/ballot-numbers-taichung-2026.js';
+import '../data/ballot-numbers-hsinchu-county-2026.js';
 import '../data/ballot-numbers-2026.js';
 import '../data/ballot-numbers-taipei-villages-2026.js';
 import '../data/ballot-numbers-new-taipei-villages-2026.js';
@@ -32,7 +33,7 @@ const numberedVillageCandidates = (village) => {
   const ballots = countyCode === '63000' ? globalThis.FOTaipeiVillageBallots
     : countyCode === '65000' ? globalThis.FONewTaipeiVillageBallots
     : countyCode === '10017' ? globalThis.FOKeelungVillageBallots
-    : countyCode === '66000' ? globalThis.FOTaichungVillageBallots : globalThis.FORegionalVillageBallots;
+    : countyCode === '66000' ? globalThis.FOTaichungVillageBallots : countyCode === '10004' ? globalThis.FOHsinchuCountyVillageBallots : globalThis.FORegionalVillageBallots;
   const numbers = ballots?.[village.id];
   if (!numbers) return village.candidates || [];
   const candidates = (village.candidates || []).map((candidate) => ({
