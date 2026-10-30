@@ -3,10 +3,11 @@ import fs from 'node:fs';
 import test from 'node:test';
 import vm from 'node:vm';
 import * as cheerio from 'cheerio';
-import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { countyReadingGuide, townReadingGuide } from '../scripts/election-reading-guides.mjs';
 const read = file => fs.readFileSync(new URL('../' + file, import.meta.url), 'utf8');
-const root = new URL('..', import.meta.url);
+const baseline = JSON.parse(read('tests/fixtures/content-quality-baseline.json'));
+const checksum = value => createHash('sha256').update(JSON.stringify(value)).digest('hex');
 const council = JSON.parse(read('data/history/councilor.json')).years;
 const mayor = JSON.parse(read('data/history/local-executive.json')).years;
 const article = slug => cheerio.load(read(`observatory/${slug}/index.html`));
@@ -51,9 +52,8 @@ test('article examples and table totals agree with source records', () => {
 test('representative guides never change candidate tables or ordering', () => {
   for (const id of ['63000', '63000010', '10002010', '09007010']) {
     const $ = cheerio.load(read(`election/${id}.html`));
-    const before = cheerio.load(execFileSync('git', ['show', `HEAD:election/${id}.html`], { cwd: root, encoding: 'utf8' }));
     const cells = doc => doc('table').map((_, table) => doc(table).find('tr').map((_, row) => doc(row).text()).get().join('\n')).get();
-    assert.deepEqual(cells($), cells(before), id);
+    assert.equal(checksum(cells($)), baseline.candidateTables[id], id);
     assert.equal($('.reading-guide').length, 1);
     assert.ok($('.reading-guide a[href^="/about/"]').length);
   }
@@ -97,29 +97,26 @@ test('reserved-seat winning marks are recognized without treating losing marks a
   for (const mark of ['', ' ', '-', null, false, 'N']) assert.equal(cecElected(mark), false);
   const corrections = JSON.parse(read('data/history/corrections/2026-10-30-councilor-flags.json'));
   assert.equal(corrections.changes.length, 8);
-  const before = JSON.parse(execFileSync('git', ['show', 'HEAD:data/history/councilor.json'], { cwd: root, encoding: 'utf8', maxBuffer: 20 * 1024 * 1024 }));
   for (const [year, entry] of Object.entries(council)) {
-    const previous = before.years[year];
-    if (!['2018', '2022'].includes(year)) { assert.deepEqual(entry, previous); continue; }
-    let corrected = 0;
-    for (const [name, county] of Object.entries(entry.counties)) {
-      const old = previous.counties[name];
-      for (let i = 0; i < county.districts.length; i++) {
-        const district = county.districts[i];
-        district.candidates.forEach((c, index) => {
-          const prior = old.districts[i].candidates[index];
-          const { elected, ...fields } = c;
-          const { elected: wasElected, ...priorFields } = prior;
-          assert.deepEqual(fields, priorFields, `${year} ${name} ${c.name}: preserved candidate data`);
-          if (elected !== wasElected) {
-            corrected++;
-            assert.ok(corrections.changes.some(change => change.year === year && change.county === name && change.name === c.name));
-            assert.equal(elected, true);
-          }
-        });
-      }
+    if (!['2018', '2022'].includes(year)) {
+      assert.equal(checksum(entry), baseline.unchangedHistoricalYears[year], year);
+      continue;
     }
-    assert.equal(corrected, 4);
+    const records = Object.entries(entry.counties).map(([name, county]) => [name,
+      county.districts.map(d => d.candidates.map(({ elected, ...fields }) => fields))]);
+    assert.equal(checksum(records), baseline.candidateRecords[year], `${year}: preserved candidate data and order`);
+    const changes = corrections.changes.filter(change => change.year === year);
+    assert.equal(changes.length, 4);
+    for (const change of changes) {
+      const county = entry.counties[change.county];
+      const district = county.districts.find(d => d.name === change.district);
+      assert.ok(district, `${year} ${change.county} ${change.district}`);
+      const candidates = district.candidates.filter(c => c.name === change.name);
+      assert.equal(candidates.length, 1);
+      assert.equal(candidates[0].elected, change.after);
+      assert.equal(cecElected(change.mark), change.after);
+      assert.equal(change.before, false);
+    }
     assert.equal(entry.stats.electedSeats, year === '2018' ? 912 : 910);
     assert.equal(Object.values(entry.partySeats).reduce((s, n) => s + n, 0), entry.stats.electedSeats);
   }
@@ -137,8 +134,7 @@ test('about mission lives on the standalone page while source register remains o
   assert.match(about('.about-mission').text(), /公民參與的門檻/);
   assert.equal(about('.source-links').length, 0);
   assert.equal(about('a[href="/#sources"]').length, 1);
-  const old = cheerio.load(execFileSync('git', ['show', 'HEAD:index.html'], { cwd: root, encoding: 'utf8' }));
-  assert.deepEqual(home('.source-links a').map((_, a) => home(a).attr('href')).get(), old('.source-links a').map((_, a) => old(a).attr('href')).get());
+  assert.deepEqual(home('.source-links a').map((_, a) => home(a).attr('href')).get(), baseline.sourceLinks);
 });
 
 test('public about navigation points to the standalone page and legacy anchors redirect', () => {

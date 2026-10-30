@@ -1,0 +1,46 @@
+{
+  "baseCommit": "ca881e2f801458828173e74d2ed823e1fdb288d7",
+  "candidateTables": {
+    "63000": "e056cf288c14e1676164f9a111a220b8d28164ccb9fde32ff2d60d5a69af1710",
+    "10002010": "1b51bbca07de7ff11cd39ccac71c58334cf602ced4611ef2072601be9e1b1b91",
+    "63000010": "6d3ad9cc1853549397acdffe21919ff23c325d044649cfcef1eaa6c2a8f4bf7a",
+    "09007010": "e7fddf7adfbae9a75193527af1d6129768a244f9261a005e8dadcc41101c19fa"
+  },
+  "candidateRecords": {
+    "2018": "af899aa8013b0d5a88e71f2efb1494df8fdda686c7e606576b2c8c87e073611a",
+    "2022": "7c2bd7e1933aa29eef504a057319512cf2f8022a199526075eed09a2b1bd5333"
+  },
+  "unchangedHistoricalYears": {
+    "1994": "5b5f78e64706c47f32ec5d2141f0a18cc355a5539e5163fa3cf4bae7dcbf0345",
+    "1998": "efd22da8edd1484b6c8eb9cffb214a2aeb9a43f957036ba8c81d5fcb93bffc32",
+    "2002": "4e1435fdd07c5d668aead15c7d2a4776df565597312b794de24633df44215e44",
+    "2006": "15259376cf42ea45b35fc2b415f6632ec0b537949c89ebaac6da73133533e24c",
+    "2010": "9d960f451c236960958d8dfa74876a1f19e8544df3b85bbfaad9cdc1440b041e",
+    "2014": "b0e7146d5682119e0536fa8f7acc1fc165c2a9e9d26515e52db8c1f5b48691e1"
+  },
+  "sourceLinks": [
+    "https://db.cec.gov.tw/",
+    "https://eebulletin.cec.gov.tw/",
+    "https://data.gov.tw/dataset/13119",
+    "https://web.cec.gov.tw/",
+    "https://www.moi.gov.tw/LocalOfficial.aspx?n=577&TYP=KND0007",
+    "https://www.kcc.gov.tw/Member_List3.aspx?n=39&sms=9028",
+    "https://www.ntp.gov.tw/councilor-all?program=37",
+    "https://www.tccc.gov.tw/main.asp?uno=16",
+    "https://www.tcc.gov.tw/cp.aspx?n=13898",
+    "https://www.tycc.gov.tw/tc/councilor-info.aspx?mid=39",
+    "https://www.hsinchu-cc.gov.tw/tc/councilors.aspx?mid=39",
+    "https://www.kmc.gov.tw/index.php/mac/mi",
+    "https://www.mcc.gov.tw/iframimgtxt_list.php?menu=&typeid=2580&typeid2=2599",
+    "https://www.chcc.gov.tw/member/index.aspx?Parser=99,6,40",
+    "https://www.ylcc.gov.tw/cp.aspx?n=22126",
+    "https://www.cycc.gov.tw/web/UnitStaff_New/listUnitStaff.aspx?c0=3716",
+    "https://www.tncc.gov.tw/subhome.asp?orcaid=C56635AE-3C35-4233-8561-7B2CAA2DF01F",
+    "https://www.ptcc.gov.tw/?Page=Persional&Guid=1c445ed1-8f2f-4c7f-75f6-6d6aafa3516e",
+    "https://www.ilcc.gov.tw/H0051.aspx",
+    "https://www.hlcc.gov.tw/councillor.php",
+    "https://www.moi.gov.tw/LocalOfficial.aspx?TYP=KND0004&n=578",
+    "https://www.moi.gov.tw/LocalOfficial.aspx?TYP=KND0005&n=579",
+    "https://council2026.taiwangogo.tw/"
+  ]
+}
