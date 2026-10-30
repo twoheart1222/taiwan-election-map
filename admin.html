@@ -146,14 +146,16 @@
         </article>
       </div>
       <details class="rounded-xl border border-amber-300 bg-amber-50 p-3 text-xs leading-relaxed">
-        <summary class="cursor-pointer font-black text-amber-900">2026/10/30 抽籤名冊核對紀錄：網站既有資料未對應 23 位</summary>
-        <p class="mt-2 text-amber-900">依 10/27 臺北市、新北市抽籤名冊比對。未對應不等於退選；下方選擇地區後，候選人編輯卡會顯示逐筆提醒。號次可以手動指定或隱藏，候選人與既有照片、連結不會因比對被刪除。</p>
+        <summary class="cursor-pointer font-black text-amber-900">2026/10/30 抽籤名冊核對紀錄：網站既有資料未對應 37 位</summary>
+        <p class="mt-2 text-amber-900">依 10/27 臺北市、新北市、基隆市與臺中市抽籤名冊比對。未對應不等於退選；下方選擇地區後，候選人編輯卡會顯示逐筆提醒。號次可以手動指定或隱藏，候選人與既有照片、連結不會因比對被刪除。</p>
         <ul class="mt-2 list-disc pl-5 space-y-1 text-ink-700">
           <li>臺北市議員第 6 選舉區：游智彬。</li>
           <li>臺北市里長：萬華區柳鄉里蔡和益；松山區復建里胡歡、莊敬里陳宏義；大同區建功里盧綠綢；士林區承德里賴士淵、陳韋光。</li>
           <li>新北市議員第 10 選舉區：林正峰（中選會資格審定不符規定）。烏來區民代表第 3 選舉區：游再發。</li>
           <li>新北市里長：新店區長春里陳泳學；土城區頂新里張中良、員信里杜萬來、清水里江純文、延壽里滕月蘭；烏來區信賢里鄭相勇；瑞芳區瑞濱里胡長安；林口區頭湖里洪嘉興；中和區秀景里李淙河、明穗里何韋翰；新莊區立泰里許文章；泰山區貴賢里陳岳宏。</li>
           <li>基隆市議員第 3 選舉區：張芳麗（中選會資格審定不符規定）；仁愛區水錦里里長：林國星。兩筆均保留原資料，未配號次。</li>
+          <li>臺中市議員第 13 選舉區：鄭伯其；和平區區長：吳天祐。均保留原資料，未配號次。</li>
+          <li>臺中市里長：烏日區北里里魏周森；西屯區大石里王孟平；豐原區豐田里林承葳；沙鹿區公明里蔡水松；后里區泰安里謝學和、廣福里郭明洲、聯合里王雲彥與曾銘；神岡區豐洲里王文松；新社區東興里何光枝；大里區仁化里陳建宏；清水區橋頭里林瑶卿。均保留原資料，未配號次。</li>
         </ul>
         <p class="mt-2 text-ink-500">基隆市抽籤表有政黨欄：議員第 4 選舉區郭美秀原後台政黨為親民黨，已依名冊修正為中國國民黨；其餘可對應人員未發現差異。新北市抽籤表沒有政黨欄，另以選委會登記情形表核對，可對應的候選人未發現政黨不一致。</p>
       </details>
@@ -373,7 +375,8 @@
 
   <script src="/site-config.js"></script>
   <script src="/election-data.js?v=20261016-qualifications"></script>
-  <script src="/data/ballot-numbers-2026.js?v=20261030-hsinchu"></script>
+  <script src="/data/ballot-numbers-taichung-2026.js?v=20261030"></script>
+  <script src="/data/ballot-numbers-2026.js?v=20261030-taichung"></script>
   <script src="/data/ballot-numbers-taipei-villages-2026.js?v=20261030"></script>
   <script src="/data/ballot-numbers-new-taipei-villages-2026.js?v=20261030"></script>
   <script src="/data/ballot-numbers-keelung-villages-2026.js?v=20261030"></script>
@@ -1518,7 +1521,8 @@
       if (currentScope === 'village') {
         const villages = countyCode === '63000' ? window.FOTaipeiVillageBallots
           : countyCode === '65000' ? window.FONewTaipeiVillageBallots
-          : countyCode === '10017' ? window.FOKeelungVillageBallots : null;
+          : countyCode === '10017' ? window.FOKeelungVillageBallots
+          : countyCode === '66000' ? window.FOTaichungVillageBallots : null;
         return villages ? (villages[currentCode] || {}) : undefined;
       }
       return undefined;
@@ -1535,7 +1539,11 @@
       if (currentScope === 'county') return currentCountyRole === 'mayor'
         ? source?.parties
         : source?.councilorParties?.[String(district)];
+      if (currentScope === 'town' && countyCode === '66000') return currentTownRole === 'townMayor'
+        ? source?.townHeadParties?.[currentCode]
+        : source?.representativeParties?.[currentCode]?.[String(district)];
       if (currentScope === 'village' && countyCode === '10017') return window.FOKeelungVillageParties?.[currentCode];
+      if (currentScope === 'village' && countyCode === '66000') return window.FOTaichungVillageParties?.[currentCode];
       return undefined;
     }
 

@@ -1,4 +1,4 @@
-// 115 年地方選舉候選人號次：雲林縣、桃園市、新竹市、基隆市、臺北市、新北市與高雄市抽籤結果。
+// 115 年地方選舉候選人號次：雲林縣、桃園市、新竹市、臺中市、基隆市、臺北市、新北市與高雄市抽籤結果。
 // Keep ballot numbers separate from candidate overrides so manually edited photos and links retain priority.
 const ballotOrder = names => Object.freeze(Object.fromEntries(names.map((name, index) => [name, index + 1])));
 const ballotNameKey = name => String(name ?? '').normalize('NFKC').replace(/[·‧．・]/g, '.').replace(/爲/g, '為').replace(/啓/g, '啟').replace(/\s+/g, '').toLowerCase();
@@ -9,6 +9,7 @@ globalThis.FOBallotNumberForName = (numbers, name) => {
   return matches.length === 1 ? matches[0][1] : undefined;
 };
 globalThis.FOBallotNumbers = Object.freeze({
+  '66000': globalThis.FOTaichungBallotNumbers,
   '10018': Object.freeze({
     election: '市長、市議員',
     source: '新竹市市長及市議員候選人姓名號次抽籤結果（使用者提供）',
