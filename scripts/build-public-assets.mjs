@@ -8,7 +8,7 @@ import * as parse5 from 'parse5';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const output = path.join(root, '.public-deploy');
 const rootFiles = [
-  '_headers', 'admin-ballot-party-sync.js', 'admin-kv-sync.js', 'admin-source-order.js', 'admin.html', 'ads.txt',
+  '_headers', 'admin-representative-sync.js', 'admin-ballot-party-sync.js', 'admin-kv-sync.js', 'admin-source-order.js', 'admin.html', 'ads.txt',
   'apple-touch-icon.png', 'counties.json', 'election-data.js', 'favicon-192.png',
   'favicon-48.png', 'favicon.ico', 'favicon.png', 'index.html', 'llms-full.txt',
   'llms.txt', 'observatory.dc.html', 'reporter-links.js', 'robots.txt',

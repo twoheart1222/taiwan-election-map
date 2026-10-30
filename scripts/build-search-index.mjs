@@ -67,6 +67,10 @@ function publicCandidate(candidate, context, district = null, source = 'candidat
 
     ...Object.fromEntries(ElectionData.qualificationFields.filter(field => Object.hasOwn(candidate, field)).map(field => [field, candidate[field]])),
     isIncumbent: Boolean(candidate.isIncumbent),
+    isCareerMove: Boolean(candidate.isCareerMove),
+    priorRace: candidate.priorRace || null,
+    incumbentOffice: candidate.incumbentOffice || null,
+    incumbentSourceUrl: candidate.incumbentSourceUrl || null,
     district,
     source,
     ...context,

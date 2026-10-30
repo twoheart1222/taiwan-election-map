@@ -37,6 +37,39 @@
     }
     return { overrides, expectedRevisions, matched };
   }
+  function applyRepresentativeIncumbents(snapshot, review, baseAreas = {}) {
+    if (!Array.isArray(review.records) || !review.records.length) throw new Error('現任代表核對檔沒有紀錄');
+    const overrides = {}, expectedRevisions = {}, matched = [];
+    const seen = new Set();
+    for (const record of review.records) {
+      const { areaId, field, district, name, role, fields, before } = record;
+      const identity = [areaId, field, district ?? '', nameKey(name)].join('|');
+      if (seen.has(identity)) throw new Error(`${name} 核對紀錄重複`);
+      seen.add(identity);
+      if (!['candidates', 'councilors', 'representatives'].includes(field) || !/^\d{5}(?:\d{3}(?:\d{3})?)?$/.test(areaId)) throw new Error('現任代表核對範圍無效');
+      const original = snapshot[areaId] || baseAreas[areaId];
+      if (!original || (snapshot[areaId] && !original._revision)) throw new Error(`${areaId} 缺少原始資料或目前版本`);
+      const document = overrides[areaId] || clone(original);
+      const list = field === 'candidates' ? document.candidates || [] : blocksOf(document[field]).filter(b => String(b.district) === String(district)).flatMap(b => b.candidates || []);
+      const candidates = list.filter(c => nameKey(c.name) === nameKey(name) && c.role === role);
+      if (candidates.length !== 1) throw new Error(`${areaId} ${name} 比對不唯一或名單已變動，請重新核對`);
+      const candidate = candidates[0];
+      let changed = !snapshot[areaId];
+      for (const [key, value] of Object.entries(fields)) {
+        if (!['isIncumbent', 'isCareerMove', 'priorRace', 'incumbentOffice', 'incumbentSourceUrl'].includes(key)) throw new Error('不允許的現任更新欄位');
+        if (candidate[key] === value) continue;
+        if (candidate[key] !== before[key]) throw new Error(`${name} 的 ${key} 已被修改，未寫入任何資料，請重新核對`);
+        candidate[key] = value;
+        changed = true;
+      }
+      matched.push({ areaId, name, kind: record.kind, changed });
+      if (!changed) continue;
+      document.schemaVersion = 2;
+      overrides[areaId] = document;
+      expectedRevisions[areaId] = snapshot[areaId]?._revision || '0';
+    }
+    return { overrides, expectedRevisions, matched };
+  }
   const fallbackFields = ['facebook', 'instagram', 'threads', 'youtube', 'photoUrl', 'gazetteUrl', 'gazettePreviewUrl', 'gazettePage', 'gazetteAlt', 'taiwanGoGoUrl', 'local2026Url', 'reporterUrl', 'votes', 'prevVotes', 'elected', 'priorRace', 'isCareerMove'];
   function uniqueNames(list) {
     const result = new Map();
@@ -80,5 +113,5 @@
     }
     return clone(result);
   }
-  globalThis.ElectionData = { mergeArea, blocksOf, isAdministrativeVillage, qualificationFields, ineligibleLast, applyQualificationReview };
+  globalThis.ElectionData = { mergeArea, blocksOf, isAdministrativeVillage, qualificationFields, ineligibleLast, applyQualificationReview, applyRepresentativeIncumbents };
 })();

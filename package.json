@@ -36,7 +36,8 @@
     "sync:taiwangogo": "node scripts/sync-taiwangogo-links.mjs",
     "apply:ntp-facebook": "node scripts/apply-ntp-facebook.mjs",
     "build:kv-bulk": "node scripts/build-overrides-kv-bulk.mjs",
-    "verify:districts": "node scripts/verify-district-map.mjs"
+    "verify:districts": "node scripts/verify-district-map.mjs",
+    "sync:moi-representatives": "node scripts/sync-moi-representatives.mjs"
   },
   "devDependencies": {
     "cheerio": "^1.2.0",

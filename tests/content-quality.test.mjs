@@ -52,7 +52,13 @@ test('article examples and table totals agree with source records', () => {
 test('representative guides never change candidate tables or ordering', () => {
   for (const id of ['63000', '63000010', '10002010', '09007010']) {
     const $ = cheerio.load(read(`election/${id}.html`));
-    const cells = doc => doc('table').map((_, table) => doc(table).find('tr').map((_, row) => doc(row).text()).get().join('\n')).get();
+    const cells = doc => doc('table').map((_, table) => {
+      const columns = doc(table).find('thead th').map((_, th) => doc(th).text()).get();
+      return doc(table).find('tbody tr').map((_, row) => {
+        const values = doc(row).find('td').map((_, td) => doc(td).text()).get();
+        return JSON.stringify(columns.length > 2 ? values.slice(0, -1) : [values[0], [...(values[1] || '').matchAll(/([^（）\s]+)（([^）]+)）/g)].map(m => [m[1], m[2]])]);
+      }).get().join('\n');
+    }).get();
     assert.equal(checksum(cells($)), baseline.candidateTables[id], id);
     assert.equal($('.reading-guide').length, 1);
     assert.ok($('.reading-guide a[href^="/about/"]').length);

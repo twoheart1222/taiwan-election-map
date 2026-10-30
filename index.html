@@ -2702,8 +2702,8 @@ class App {
     const chips = [
       ineligible ? `<span class="bn-chip" style="background:#692b36;color:#ffe0e5">資格不符規定</span>` : '',
       c.qualificationStatus === 'eligible' ? `<span class="bn-chip bn-chip--green">資格審查通過</span>` : '',
-      c.isIncumbent ? `<span class="bn-chip bn-chip--green">${icon('check')}爭取連任</span>` : '',
-      (c.isCareerMove || c.priorRace) ? `<span class="bn-chip bn-chip--amber">${icon('swap')}轉換職位<b>· ${esc(c.priorRace || '上一屆職務待補')}</b></span>` : ''
+      c.isIncumbent ? `<span class="bn-chip bn-chip--green">${icon('check')}現任・爭取連任</span>` : '',
+      (c.isCareerMove || c.priorRace) ? `<span class="bn-chip bn-chip--amber">${icon('swap')}${/^現任/.test(c.priorRace || '') ? '現任轉職' : '轉換職位'}<b>· ${esc(c.priorRace || '上一屆職務待補')}</b></span>` : ''
     ].join('');
     const ch = esc((c.name || '').slice(0, 1));
     // data-fb 屬性存首字，onerror 時安全替換，避免字串插值問題
