@@ -5,11 +5,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>
+const entryTarget=location.hash.replace(/^#/,'')||'map';
+window.__skipMapIntro=['support','contact','observatory'].includes(entryTarget);
+if(window.__skipMapIntro) document.documentElement.classList.add('content-entry');
 try{
   const incoming=JSON.parse(sessionStorage.getItem('historyTransition')||'null');
-  const target=location.hash.replace(/^#/,'')||'map';
-  const labels={map:'島民選舉地圖',observatory:'政治觀察',about:'關於我們',contact:'聯絡我們'};
-  if(incoming&&Date.now()-Number(incoming.ts||0)<5000&&['map','observatory','about','contact'].includes(target)){
+  const target=entryTarget;
+  const labels={map:'島民選舉地圖',support:'支持島民觀察室',observatory:'政治觀察',about:'關於我們',contact:'聯絡我們'};
+  if(incoming&&Date.now()-Number(incoming.ts||0)<5000&&['map','support','observatory','about','contact'].includes(target)){
     window.__historyInbound={...incoming,label:labels[target]};
     sessionStorage.removeItem('historyTransition');
     document.documentElement.classList.add('history-inbound');
@@ -83,7 +86,7 @@ try{
   .brand-lockup-plaque img{display:block;width:clamp(230px,30vw,360px);max-width:100%;height:auto}
   @media(max-width:640px){.brand-page-footer{align-items:flex-start!important}.brand-page-footer-note{text-align:left!important}}
   .page-transition{position:fixed;inset:0;z-index:140;display:none;pointer-events:none;overflow:hidden}
-  html.history-inbound #preloader{display:none !important}
+  html.content-entry #preloader,html.history-inbound #preloader{display:none !important}
   html.history-inbound .page-transition{display:block}
   html.history-inbound .pt-cols>span{transform:translateY(0)}
   .pt-cols{position:absolute;inset:0;display:flex}
@@ -628,7 +631,7 @@ class App {
     this.target = new Date('2026-11-28T08:00:00+08:00').getTime();
     this._setElectionPhase();
     this.apiBase = (window.ELECTION_API_BASE ?? '');
-    this._revealed = false;
+    this._revealed = window.__skipMapIntro === true;
     this.cache = {};
     this._navigationRevision = 0;
     this._readoutContext = null;
