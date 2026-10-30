@@ -16,7 +16,7 @@ test('public build excludes internal instructions and source comments', () => {
   for (const file of ['AGENTS.md', 'CLAUDE.md', 'STORAGE.md', 'CLOUDFLARE_SETUP.md', 'worker.js', 'override-store.js', 'scripts/import-overrides.mjs', 'data/history/README.md']) {
     assert.equal(fs.existsSync(path.join(published, file)), false, file);
   }
-  for (const file of ['index.html', 'admin.html', 'site-config.js', 'election-data.js', 'data/ballot-numbers-keelung-villages-2026.js']) {
+  for (const file of ['index.html', 'about/index.html', 'admin.html', 'site-config.js', 'election-data.js', 'data/ballot-numbers-keelung-villages-2026.js']) {
     assert.ok(fs.existsSync(path.join(published, file)), file);
   }
   assert.ok(!read('index.html').includes('保險絲：8 秒後'));
@@ -29,7 +29,7 @@ test('public build excludes internal instructions and source comments', () => {
 });
 
 test('generated HTML has no HTML comments and keeps script and structured data', () => {
-  for (const file of ['index.html', 'admin.html', 'election/index.html', 'history/index.html', 'source/index.html']) {
+  for (const file of ['index.html', 'about/index.html', 'admin.html', 'election/index.html', 'history/index.html', 'source/index.html']) {
     const html = read(file);
     let comments = 0;
     const visit = node => {
@@ -51,4 +51,15 @@ test('pinned vendor asset remains byte-for-byte identical for its integrity hash
   const output = fs.readFileSync(path.join(published, file));
   assert.equal(createHash('sha384').update(source).digest('base64'), createHash('sha384').update(output).digest('base64'));
   assert.match(read('_headers'), /Content-Security-Policy:/);
+});
+
+// Exercise the deployment output, since the source preview can serve pages omitted from it.
+test('About navigation has a published HTML destination and its transition assets', () => {
+  assert.match(read('index.html'), /href="\/about\/"/);
+  const about = read('about/index.html');
+  assert.match(about, /<!doctype html>/i);
+  assert.match(about, /about-mission/);
+  assert.match(about, /用資料，看懂我們/);
+  assert.match(about, /page-transition\.js\?v=20261030&amp;b=[a-f0-9]{12}/);
+  assert.ok(fs.existsSync(path.join(published, 'assets/ui/page-transition.js')));
 });
