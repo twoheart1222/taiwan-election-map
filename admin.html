@@ -911,7 +911,10 @@
       const list = document.getElementById('regional-party-audit');
       if (!title || !list) return;
       const issues = [];
-      const normalizeParty = value => ['無', '無黨籍'].includes(String(value || '').trim()) ? '無' : String(value || '').trim().replace(/臺/g, '台');
+      const normalizeParty = value => {
+        const text = String(value || '').replace(/\s+/g, '').replace(/臺/g, '台');
+        return ['無', '無黨籍'].includes(text) ? '無' : ['台聯黨', '台灣團結聯盟'].includes(text) ? '台灣團結聯盟' : text;
+      };
       const check = (code, label, candidates, parties) => {
         if (!parties) return;
         for (const candidate of candidates || []) {
@@ -1621,8 +1624,10 @@
       const listedParty = window.FOBallotNumberForName && parties
         ? Object.entries(parties).find(([name]) => window.FOBallotNumberForName({ [name]: 1 }, candidate.name) === 1)?.[1]
         : undefined;
-      const normalizeParty = value => ['無', '無黨籍'].includes(String(value || '').trim()) ? '無'
-        : String(value || '').trim().replace(/臺/g, '台');
+      const normalizeParty = value => {
+        const text = String(value || '').replace(/\s+/g, '').replace(/臺/g, '台');
+        return ['無', '無黨籍'].includes(text) ? '無' : ['台聯黨', '台灣團結聯盟'].includes(text) ? '台灣團結聯盟' : text;
+      };
       return listedParty && normalizeParty(listedParty) !== normalizeParty(candidate.party)
         ? `10/27 抽籤名冊政黨不一致：${candidate.name}，名冊為「${listedParty}」，後台為「${candidate.party || '未填'}」。請核對並修正。`
         : '';
