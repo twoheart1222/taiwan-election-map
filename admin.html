@@ -165,7 +165,7 @@
         <ul id="regional-ballot-audit" class="mt-2 list-disc pl-5 space-y-1 text-ink-700"></ul>
       </details>
       <details class="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4 text-xs">
-        <summary class="cursor-pointer font-black text-amber-900">2026/10/30 新竹縣抽籤名冊核對：2 位待補登、10 位既有資料未對應</summary>
+        <summary class="cursor-pointer font-black text-amber-900">2026/10/30 新竹縣抽籤名冊核對：基礎名單缺少 2 位、10 位既有資料未對應</summary>
         <p class="mt-2 text-amber-900">五份 PDF 共 716 筆號次；僅按相同選區及姓名對應。未對應不等於退選，不會自動刪除候選人或變更政黨、照片及連結。</p>
         <ul id="hsinchu-county-ballot-audit" class="mt-2 list-disc pl-5 space-y-1 text-ink-700"></ul>
       </details>
@@ -414,7 +414,7 @@
     const hsinchuCountyAuditList = document.getElementById('hsinchu-county-ballot-audit');
     for (const item of window.FOHsinchuCountyBallotAudit?.pendingCandidates || []) {
       const row = document.createElement('li');
-      row.textContent = `${item.area}：${item.name}（${item.ballotNo} 號，PDF 第 ${item.page} 頁；網站名單待補登）`;
+      row.textContent = `${item.area}：${item.name}（${item.ballotNo} 號，PDF 第 ${item.page} 頁；GitHub 基礎名單未收錄，後台補登紀錄優先）`;
       hsinchuCountyAuditList?.appendChild(row);
     }
     for (const item of window.FOHsinchuCountyBallotAudit?.unlistedExisting || []) {
