@@ -1,0 +1,440 @@
+{
+  "target": "public",
+  "checkedAt": "2026-10-30T08:44:09.067Z",
+  "changed": true,
+  "changedFiles": [
+    {
+      "status": "M",
+      "path": "data/candidate_search.json"
+    },
+    {
+      "status": "M",
+      "path": "election/09007.html"
+    },
+    {
+      "status": "M",
+      "path": "election/09007010.html"
+    },
+    {
+      "status": "M",
+      "path": "election/09007020.html"
+    },
+    {
+      "status": "M",
+      "path": "election/09007030.html"
+    },
+    {
+      "status": "M",
+      "path": "election/09007040.html"
+    },
+    {
+      "status": "M",
+      "path": "election/09020.html"
+    },
+    {
+      "status": "M",
+      "path": "election/09020010.html"
+    },
+    {
+      "status": "M",
+      "path": "election/09020020.html"
+    },
+    {
+      "status": "M",
+      "path": "election/09020030.html"
+    },
+    {
+      "status": "M",
+      "path": "election/09020040.html"
+    },
+    {
+      "status": "M",
+      "path": "election/09020050.html"
+    },
+    {
+      "status": "M",
+      "path": "election/09020060.html"
+    },
+    {
+      "status": "M",
+      "path": "election/10004020.html"
+    },
+    {
+      "status": "M",
+      "path": "election/10004070.html"
+    },
+    {
+      "status": "M",
+      "path": "election/10008.html"
+    },
+    {
+      "status": "M",
+      "path": "election/10008010.html"
+    },
+    {
+      "status": "M",
+      "path": "election/10008020.html"
+    },
+    {
+      "status": "M",
+      "path": "election/10008030.html"
+    },
+    {
+      "status": "M",
+      "path": "election/10008040.html"
+    },
+    {
+      "status": "M",
+      "path": "election/10008050.html"
+    },
+    {
+      "status": "M",
+      "path": "election/10008060.html"
+    },
+    {
+      "status": "M",
+      "path": "election/10008070.html"
+    },
+    {
+      "status": "M",
+      "path": "election/10008080.html"
+    },
+    {
+      "status": "M",
+      "path": "election/10008090.html"
+    },
+    {
+      "status": "M",
+      "path": "election/10008100.html"
+    },
+    {
+      "status": "M",
+      "path": "election/10008110.html"
+    },
+    {
+      "status": "M",
+      "path": "election/10008120.html"
+    },
+    {
+      "status": "M",
+      "path": "election/10008130.html"
+    },
+    {
+      "status": "M",
+      "path": "election/10018010.html"
+    },
+    {
+      "status": "M",
+      "path": "election/10018020.html"
+    },
+    {
+      "status": "M",
+      "path": "election/10018030.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000010.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000020.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000030.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000040.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000050.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000060.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000070.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000080.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000090.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000100.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000110.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000120.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000130.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000140.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000150.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000160.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000170.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000180.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000190.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000200.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000210.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000220.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000230.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000240.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000250.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000260.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000270.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000280.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000290.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000300.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000310.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000320.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000330.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000340.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000350.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000360.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000370.html"
+    },
+    {
+      "status": "M",
+      "path": "election/64000380.html"
+    },
+    {
+      "status": "M",
+      "path": "election/68000.html"
+    },
+    {
+      "status": "M",
+      "path": "election/68000020.html"
+    },
+    {
+      "status": "M",
+      "path": "election/68000050.html"
+    },
+    {
+      "status": "M",
+      "path": "election/index.html"
+    },
+    {
+      "status": "M",
+      "path": "llms-full.txt"
+    },
+    {
+      "status": "M",
+      "path": "llms.txt"
+    },
+    {
+      "status": "M",
+      "path": "observatory/councilor-candidates-2018-2022/index.html"
+    },
+    {
+      "status": "M",
+      "path": "observatory/councilor-turnout-2018-2022/index.html"
+    },
+    {
+      "status": "M",
+      "path": "observatory/index.html"
+    },
+    {
+      "status": "M",
+      "path": "observatory/mayor-candidates-2018-2022/index.html"
+    },
+    {
+      "status": "M",
+      "path": "sitemap.xml"
+    }
+  ],
+  "groups": [
+    {
+      "label": "搜尋與網站索引",
+      "files": [
+        "data/candidate_search.json",
+        "election/09007.html",
+        "election/09007010.html",
+        "election/09007020.html",
+        "election/09007030.html",
+        "election/09007040.html",
+        "election/09020.html",
+        "election/09020010.html",
+        "election/09020020.html",
+        "election/09020030.html",
+        "election/09020040.html",
+        "election/09020050.html",
+        "election/09020060.html",
+        "election/10004020.html",
+        "election/10004070.html",
+        "election/10008.html",
+        "election/10008010.html",
+        "election/10008020.html",
+        "election/10008030.html",
+        "election/10008040.html",
+        "election/10008050.html",
+        "election/10008060.html",
+        "election/10008070.html",
+        "election/10008080.html",
+        "election/10008090.html",
+        "election/10008100.html",
+        "election/10008110.html",
+        "election/10008120.html",
+        "election/10008130.html",
+        "election/10018010.html",
+        "election/10018020.html",
+        "election/10018030.html",
+        "election/64000.html",
+        "election/64000010.html",
+        "election/64000020.html",
+        "election/64000030.html",
+        "election/64000040.html",
+        "election/64000050.html",
+        "election/64000060.html",
+        "election/64000070.html",
+        "election/64000080.html",
+        "election/64000090.html",
+        "election/64000100.html",
+        "election/64000110.html",
+        "election/64000120.html",
+        "election/64000130.html",
+        "election/64000140.html",
+        "election/64000150.html",
+        "election/64000160.html",
+        "election/64000170.html",
+        "election/64000180.html",
+        "election/64000190.html",
+        "election/64000200.html",
+        "election/64000210.html",
+        "election/64000220.html",
+        "election/64000230.html",
+        "election/64000240.html",
+        "election/64000250.html",
+        "election/64000260.html",
+        "election/64000270.html",
+        "election/64000280.html",
+        "election/64000290.html",
+        "election/64000300.html",
+        "election/64000310.html",
+        "election/64000320.html",
+        "election/64000330.html",
+        "election/64000340.html",
+        "election/64000350.html",
+        "election/64000360.html",
+        "election/64000370.html",
+        "election/64000380.html",
+        "election/68000.html",
+        "election/68000020.html",
+        "election/68000050.html",
+        "election/index.html",
+        "llms-full.txt",
+        "llms.txt",
+        "sitemap.xml"
+      ]
+    },
+    {
+      "label": "其他資料",
+      "files": [
+        "observatory/councilor-candidates-2018-2022/index.html",
+        "observatory/councilor-turnout-2018-2022/index.html",
+        "observatory/index.html",
+        "observatory/mayor-candidates-2018-2022/index.html"
+      ]
+    }
+  ],
+  "contentSummary": [
+    {
+      "title": "搜尋與公開頁面",
+      "description": "已依最新選舉資料重建候選人搜尋索引、74 個選舉導覽頁、網站地圖、AI／搜尋引擎導覽資料。"
+    }
+  ],
+  "sources": [
+    "中央選舉委員會選舉資料庫",
+    "local2026.taiwangogo.tw",
+    "council2026.taiwangogo.tw"
+  ]
+}
