@@ -1,1 +1,35 @@
 .fo-page-transition{position:fixed;inset:0;z-index:10000;display:none;overflow:hidden;pointer-events:none}.fo-page-transition.is-active{display:block}.fo-page-transition-cols{position:absolute;inset:0;display:flex}.fo-page-transition-cols span{flex:1;height:100%;background:#0d0d0d;will-change:transform}.fo-page-transition-cols span:nth-child(even){background:#131110}.fo-page-transition-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:clamp(28px,6vw,90px);color:#f4f1ea}.fo-page-transition-kicker{font:800 clamp(10px,1.2vw,13px)/1 'Archivo','Noto Sans TC',sans-serif;letter-spacing:.28em;color:#E4022B;margin-bottom:16px}.fo-page-transition-mask{overflow:hidden;padding-bottom:.12em;max-width:1100px}.fo-page-transition-title{font:900 clamp(42px,7vw,118px)/1.08 'Noto Sans TC','Archivo',sans-serif;letter-spacing:-.035em;color:#f4f1ea;overflow-wrap:anywhere;text-wrap:balance}.fo-page-transition-rule{height:3px;width:110px;background:#E4022B;margin-top:clamp(16px,2.4vw,28px)}@media(max-width:660px){.fo-page-transition-center{padding:34px 20px}.fo-page-transition-title{font-size:clamp(36px,10vw,64px)}.fo-page-transition-rule{width:72px}}@media(prefers-reduced-motion:reduce){.fo-page-transition{display:none!important}}
+
+/* Shared navigation: keep text steady and animate the underline on every page. */
+body :is(.fo-navlinks,.site-header nav,.nav-right,.directory-links){gap:4px!important}
+body :is(.fo-navlinks>.navlink,.site-header nav>a,.nav-right>a,.directory-links>a,#mobile-menu>a,.history-mobile-menu>a,.directory-mobile-menu>a,nav.top>a:not(.brand)){
+  position:relative;
+  padding:8px 10px 10px!important;
+  color:#f4f1ea!important;
+  opacity:1!important;
+  background:transparent!important;
+  border-radius:0!important;
+  text-decoration:none!important;
+}
+body :is(.fo-navlinks>.navlink,.site-header nav>a,.nav-right>a,.directory-links>a,#mobile-menu>a,.history-mobile-menu>a,.directory-mobile-menu>a,nav.top>a:not(.brand))::after{
+  content:'';
+  position:absolute;
+  left:10px;
+  right:10px;
+  bottom:2px;
+  height:2px;
+  background:#e4022b;
+  border-radius:2px;
+  pointer-events:none;
+  transform:scaleX(0);
+  transform-origin:left center;
+  transition:transform .32s cubic-bezier(.16,1,.3,1);
+}
+body :is(.fo-navlinks>.navlink,.site-header nav>a,.nav-right>a,.directory-links>a,#mobile-menu>a,.history-mobile-menu>a,.directory-mobile-menu>a,nav.top>a:not(.brand)):is(:hover,:focus-visible,.on,[aria-current="page"],[aria-current="true"])::after{
+  transform:scaleX(1);
+}
+/* Replace the older homepage-only indicator, avoiding a second underline. */
+.fo-navlinks>.fo-liquid--line{display:none!important}
+@media(prefers-reduced-motion:reduce){
+  body :is(.fo-navlinks>.navlink,.site-header nav>a,.nav-right>a,.directory-links>a,#mobile-menu>a,.history-mobile-menu>a,.directory-mobile-menu>a,nav.top>a:not(.brand))::after{transition:none}
+}
