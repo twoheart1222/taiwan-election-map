@@ -168,6 +168,8 @@
         <summary id="regional-party-audit-title" class="cursor-pointer font-black text-amber-900">後台政黨與抽籤名冊核對中</summary>
         <p class="mt-2 text-amber-900">僅列出名冊有政黨、且後台手動資料不同的候選人；不會自動覆蓋手動修改。</p>
         <ul id="regional-party-audit" class="mt-2 list-disc pl-5 space-y-1 text-ink-700"></ul>
+        <button id="apply-regional-party-corrections" type="button" onclick="applyRegionalPartyCorrections()" class="mt-3 rounded-lg border border-amber-800 bg-amber-900 px-3 py-2 font-black text-white">依本批名冊修正 17 筆政黨</button>
+        <p id="regional-party-correction-status" class="mt-2 text-amber-900" role="status">僅更新政黨欄；照片、連結與其他欄位保留。</p>
         <p class="mt-2 text-amber-900">另有 2 筆姓名需人工核對：彰化縣伸港鄉代表第 4 選舉區第 2 號的來源轉錄有缺字，正式後台有一筆空白姓名；花蓮縣議員第 6 選舉區「蔡依靜 Lamen‧Panay」在正式後台有兩種拼寫紀錄。均未自動刪改。</p>
       </details>
     </section>
@@ -388,6 +390,7 @@
   <script src="/election-data.js?v=20261016-qualifications"></script>
   <script src="/data/ballot-numbers-regional-2026.js?v=20261030"></script>
   <script src="/data/ballot-audit-regional-2026.js?v=20261030"></script>
+  <script src="/admin-ballot-party-sync.js?v=20261030"></script>
   <script src="/data/ballot-numbers-taichung-2026.js?v=20261030"></script>
   <script src="/data/ballot-numbers-2026.js?v=20261030-regional"></script>
   <script src="/data/ballot-numbers-taipei-villages-2026.js?v=20261030"></script>
@@ -951,6 +954,42 @@
       }));
       if (!issues.length) list.textContent = '目前沒有政黨差異。';
     }
+
+    window.applyRegionalPartyCorrections = async function() {
+      const status = document.getElementById('regional-party-correction-status');
+      const button = document.getElementById('apply-regional-party-corrections');
+      if (!currentUser || !overridesLoaded || mutationBusy || editorTouched) {
+        status.textContent = '請先登入、完成目前編輯並重新載入後台，再更新政黨。';
+        return;
+      }
+      mutationBusy = true;
+      button.disabled = true;
+      try {
+        const fresh = await apiFetch('/api/admin/overrides');
+        const plan = window.FORegionalPartySync.prepare(fresh,
+          window.FORegionalBallotParties, window.FORegionalVillageParties);
+        if (plan.differences.length !== 17) {
+          status.textContent = `目前核對到 ${plan.differences.length} 筆待修改，與已確認的 17 筆不同；未寫入，請重新核對。`;
+          return;
+        }
+        status.textContent = `正在以版本化 API 儲存 ${plan.differences.length} 筆政黨，涉及 ${Object.keys(plan.changes).length} 個地區…`;
+        await apiFetch('/api/admin/overrides', { method: 'PUT',
+          body: JSON.stringify({ overrides: plan.changes, expectedRevisions: plan.expectedRevisions }) });
+        const verified = await apiFetch('/api/admin/overrides');
+        const remaining = window.FORegionalPartySync.prepare(verified,
+          window.FORegionalBallotParties, window.FORegionalVillageParties).differences;
+        allOverrides = verified;
+        renderOverrideList();
+        status.textContent = remaining.length
+          ? `已寫入，重新讀取後仍有 ${remaining.length} 筆差異，請繼續核對。`
+          : '已修正 17 筆政黨並重新讀取後台確認；其他候選人欄位保留。';
+      } catch (error) {
+        status.textContent = `更新未完成：${error.message}。請重新載入後台確認版本。`;
+      } finally {
+        mutationBusy = false;
+        button.disabled = false;
+      }
+    };
 
     function overrideLevel(id) {
       const length = String(id || '').length;
