@@ -1,0 +1,105 @@
+{
+  "changes": [
+    {
+      "year": "2018",
+      "county": "苗栗縣",
+      "district": "第05選舉區",
+      "name": "温宜靜",
+      "mark": "!",
+      "before": false,
+      "after": true
+    },
+    {
+      "year": "2018",
+      "county": "彰化縣",
+      "district": "第06選舉區",
+      "name": "蕭淑芬",
+      "mark": "!",
+      "before": false,
+      "after": true
+    },
+    {
+      "year": "2018",
+      "county": "屏東縣",
+      "district": "第01選舉區",
+      "name": "陳哲蕙",
+      "mark": "!",
+      "before": false,
+      "after": true
+    },
+    {
+      "year": "2018",
+      "county": "金門縣",
+      "district": "第02選舉區",
+      "name": "王秀玉",
+      "mark": "!",
+      "before": false,
+      "after": true
+    },
+    {
+      "year": "2022",
+      "county": "臺南市",
+      "district": "第01選舉區",
+      "name": "沈家鳳",
+      "mark": "!",
+      "before": false,
+      "after": true
+    },
+    {
+      "year": "2022",
+      "county": "新竹縣",
+      "district": "第02選舉區",
+      "name": "吳菊花",
+      "mark": "!",
+      "before": false,
+      "after": true
+    },
+    {
+      "year": "2022",
+      "county": "苗栗縣",
+      "district": "第05選舉區",
+      "name": "蕭詠萱",
+      "mark": "!",
+      "before": false,
+      "after": true
+    },
+    {
+      "year": "2022",
+      "county": "金門縣",
+      "district": "第01選舉區",
+      "name": "唐麗輝",
+      "mark": "!",
+      "before": false,
+      "after": true
+    }
+  ],
+  "reports": [
+    {
+      "year": "2018",
+      "counties": 22,
+      "electedSeats": 912
+    },
+    {
+      "year": "2022",
+      "counties": 22,
+      "electedSeats": 910
+    }
+  ],
+  "checkedAt": "2026-10-30",
+  "source": "https://db.cec.gov.tw/ElecTable/Election",
+  "officialProfileUrls": [
+    "https://db.cec.gov.tw/static/elections/data/profiles/ELC/T1/T1/1250b1f46d13d83f30143138454d28cd/C/00_000_00_000_0000.json",
+    "https://db.cec.gov.tw/static/elections/data/profiles/ELC/T2/T1/0863f605f58b84d598be62fabc0b3a7f/C/00_000_00_000_0000.json",
+    "https://db.cec.gov.tw/static/elections/data/profiles/ELC/T1/T2/53c908d0b8c39a46823606c95bdd1d1f/C/00_000_00_000_0000.json",
+    "https://db.cec.gov.tw/static/elections/data/profiles/ELC/T2/T2/cc1e43f0b40e734ff16bed7faf4b5d91/C/00_000_00_000_0000.json",
+    "https://db.cec.gov.tw/static/elections/data/profiles/ELC/T1/T3/0d1b4e88e63a9ea60fbf1b0611476a97/C/00_000_00_000_0000.json",
+    "https://db.cec.gov.tw/static/elections/data/profiles/ELC/T2/T3/aae1cbd3ea7b8fa21db2497250115e75/C/00_000_00_000_0000.json",
+    "https://db.cec.gov.tw/static/elections/data/profiles/ELC/T1/T1/25e12c45f9f5641aab4193598d5aff6e/C/00_000_00_000_0000.json",
+    "https://db.cec.gov.tw/static/elections/data/profiles/ELC/T2/T1/72976331a1ea6b85cfb1ed3380ae5f35/C/00_000_00_000_0000.json",
+    "https://db.cec.gov.tw/static/elections/data/profiles/ELC/T1/T2/44cf35b1708568b94bb3b4c38a3fc74c/C/00_000_00_000_0000.json",
+    "https://db.cec.gov.tw/static/elections/data/profiles/ELC/T2/T2/c8f4dc82f282bed4ebcdf0f52552cf58/C/00_000_00_000_0000.json",
+    "https://db.cec.gov.tw/static/elections/data/profiles/ELC/T1/T3/699b1ece9739edf4ec4662cea25a0bb3/C/00_000_00_000_0000.json",
+    "https://db.cec.gov.tw/static/elections/data/profiles/ELC/T2/T3/4ad215cf6c4ef28b25278bd1a13bc7bf/C/00_000_00_000_0000.json"
+  ],
+  "explanation": "補辨識中選會 ! 當選標記；兩屆各修正 4 筆並重新加總席次。姓名、票數與候選人順序不變。"
+}

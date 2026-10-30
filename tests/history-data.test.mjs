@@ -228,7 +228,7 @@ test('official CEC councilor archive covers every published cycle, council and d
   assert.doesNotMatch(script, /raw\.githubusercontent\.com|kiang|MISNUK|everdark/i);
   const expected = {
     '1994': [2, 14, 96], '1998': [25, 207, 983], '2002': [25, 208, 992], '2006': [25, 208, 1032],
-    '2010': [22, 213, 890], '2014': [22, 217, 898], '2018': [22, 214, 908], '2022': [22, 215, 906],
+    '2010': [22, 213, 890], '2014': [22, 217, 898], '2018': [22, 214, 912], '2022': [22, 215, 910],
   };
   for (const [year, [councils, districts, seats]] of Object.entries(expected)) {
     const entry = archive.years[year];

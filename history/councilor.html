@@ -31,11 +31,12 @@
 <link rel="stylesheet" href="./election-palette.css?v=20260925-no-crop2">
 <link rel="stylesheet" href="/assets/ui/fo-ui.css?v=20260926-fo-ui">
 <link rel="stylesheet" href="./premium.css?v=20261005-dark-type-menu">
+<link rel="stylesheet" href="/assets/ui/page-transition.css?v=20261030">
 </head>
 <body class="councilor-page councilor-page history-archive">
 <nav class="site-nav">
   <a class="brand" href="../"><img class="brand-mark" src="/assets/brand/formosa-mark.png" alt=""><span>島民觀察室</span></a>
-  <div class="nav-right"><a href="../#map">選舉地圖</a><a class="on" href="./">歷年選舉</a><a href="/observatory/">政治觀察</a><a href="/related/">相關網站</a><a href="../#about">關於我們</a><a href="/#support" style="color:#ff5a72">支持我們</a></div>
+  <div class="nav-right"><a href="../#map">選舉地圖</a><a class="on" href="./">歷年選舉</a><a href="/observatory/">政治觀察</a><a href="/related/">相關網站</a><a href="/about/">關於我們</a><a href="/#support" style="color:#ff5a72">支持我們</a></div>
 </nav>
 <header class="local-hero">
   <div class="kicker">FORMOSA OBSERVATORY / <b>ELECTION DATABASE</b></div>
@@ -67,6 +68,12 @@
   <div class="local-statebar"><div class="local-state-label">目前查詢</div><div class="local-state-path" id="local-state-path"></div><button class="local-reset" id="local-reset" type="button">重設</button></div>
 </section>
 <main class="local-layout">
+  <section aria-labelledby="history-reading-title" style="grid-column:1/-1;padding:20px;border:1px solid #37312b;border-radius:14px;line-height:1.85">
+    <h2 id="history-reading-title" style="font-size:20px;margin:0 0 10px">閱讀筆記：2022 年議員選舉</h2>
+    <p style="margin:8px 0">本站 2022 年歷史整理檔收錄 22 個議會、215 個選舉區、1,677 位候選人與 910 個當選席次；全國選舉人數 19,128,745、投票數 11,696,141，投票率 61.14%。這段固定摘要指向 2022 年；下方切換年度或查詢範圍時，互動結果會另外更新。</p>
+    <p style="margin:8px 0">席次與得票是不同指標，地圖顏色也不代表每一位居民的選擇。比較 2018 與 2022 年時，請分清楚當選席次、參選人數及投票率；更早年份另須注意縣市合併及選區制度差異。全國投票率按投票數除以選舉人數核對，不是把各縣市百分比直接平均。</p>
+    <p style="margin:8px 0">完整計算範例：<a href="/observatory/councilor-candidates-2018-2022/">參選人數與席次</a>、<a href="/observatory/councilor-turnout-2018-2022/">投票率與百分點</a>。原始來源為<a href="https://db.cec.gov.tw/ElecTable/Election">中選會選舉資料庫</a>；可下載<a href="/data/history/councilor.json">本站整理檔</a>，並查看<a href="/about/#workflow">核對方式與更正管道</a>。</p>
+  </section>
   <section class="local-map-panel map-panel">
     <div class="local-map-title"><small>VISUAL MAP / 地圖</small><strong id="local-map-heading">2022 縣市議員選舉</strong></div>
     <svg id="local-map" class="local-map" role="img" aria-label="臺灣縣市議員選舉地圖"></svg>
@@ -78,7 +85,7 @@
     <div id="local-map-status" class="local-map-status"></div>
   </section>
   <aside class="local-result result-panel">
-    <div class="local-result-head"><div><div class="term" id="local-term">COUNCILOR / 2022</div><h2 id="local-result-title">2022 縣市議員選舉</h2></div><div class="local-head-stat"><strong id="local-head-number">906</strong><span id="local-head-label">議員當選席次</span></div></div>
+    <div class="local-result-head"><div><div class="term" id="local-term">COUNCILOR / 2022</div><h2 id="local-result-title">2022 縣市議員選舉</h2></div><div class="local-head-stat"><strong id="local-head-number">910</strong><span id="local-head-label">議員當選席次</span></div></div>
     <section id="local-single-result">
       <details id="councilor-election-overview" class="councilor-result-disclosure" open>
         <summary><span class="local-section-label">選舉概況 / ELECTION OVERVIEW</span><span class="councilor-disclosure-action" aria-hidden="true"></span></summary>
@@ -113,5 +120,6 @@
 <script src="./product-ui.js?v=20261016-support-menu"></script>
 <script src="/assets/ui/fo-motion.js?v=20260926-fo-ui"></script><script src="./premium.js?v=20260927-compare"></script>
 
+<script defer src="/assets/ui/page-transition.js?v=20261030"></script>
 </body>
 </html>

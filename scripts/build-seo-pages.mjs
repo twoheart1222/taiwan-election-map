@@ -12,6 +12,7 @@ import '../data/ballot-numbers-taipei-villages-2026.js';
 import '../data/ballot-numbers-new-taipei-villages-2026.js';
 import '../data/ballot-numbers-keelung-villages-2026.js';
 import { publicBuildOverrides } from './public-build-overrides.mjs';
+import { countyReadingGuide, townReadingGuide } from './election-reading-guides.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://formosaobservatory.com';
@@ -103,14 +104,14 @@ function shell({ title, desc, canon, h1, body, ld, crumbs, pageType = 'WebPage' 
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/election/index.css">` : ''}
 ${ldAll}
-</head>
+<link rel="stylesheet" href="/assets/ui/page-transition.css?v=20261030"></head>
 <body${isIndex ? ' class="election-index"' : ''}>${isIndex ? `
 <a class="skip-link" href="#county-list">跳至縣市名單</a>
 <header class="directory-header"><nav class="directory-nav" aria-label="主導覽">
 <div class="directory-brand-group"><a class="directory-brand" href="/" aria-label="返回島民選舉地圖首頁"><span class="directory-brand-mark" aria-hidden="true"><img src="/assets/brand/formosa-mark.png" alt=""></span><span>島民觀察室</span></a><div class="directory-countdown"><span class="directory-countdown-label">距離島民下一次選擇</span><span id="directory-days">—</span><span class="directory-days-unit">DAYS</span></div></div>
-<div class="directory-links"><a href="/">選舉地圖</a><a href="/history/">歷年選舉</a><a href="/observatory/">政治觀察</a><a href="/related/">相關網站</a><a href="/#about">關於我們</a><a href="/#support" style="color:#ff5a72">支持我們</a></div>
+<div class="directory-links"><a href="/">選舉地圖</a><a href="/history/">歷年選舉</a><a href="/observatory/">政治觀察</a><a href="/related/">相關網站</a><a href="/about/">關於我們</a><a href="/#support" style="color:#ff5a72">支持我們</a></div>
 <button class="directory-menu-toggle" type="button" aria-expanded="false" aria-controls="directory-mobile-menu" aria-label="開啟頁面選單" hidden><span class="directory-ham" aria-hidden="true"><i></i><i></i><i></i></span></button>
-<div id="directory-mobile-menu" class="directory-mobile-menu" aria-label="手機頁面選單" inert><a href="/">選舉地圖 <span aria-hidden="true">→</span></a><a href="/history/">歷年選舉 <span aria-hidden="true">→</span></a><a href="/observatory/">政治觀察 <span aria-hidden="true">→</span></a><a href="/related/">相關網站 <span aria-hidden="true">→</span></a><a href="/#about">關於我們 <span aria-hidden="true">→</span></a><a href="/#support">支持我們 <span aria-hidden="true">→</span></a></div>
+<div id="directory-mobile-menu" class="directory-mobile-menu" aria-label="手機頁面選單" inert><a href="/">選舉地圖 <span aria-hidden="true">→</span></a><a href="/history/">歷年選舉 <span aria-hidden="true">→</span></a><a href="/observatory/">政治觀察 <span aria-hidden="true">→</span></a><a href="/related/">相關網站 <span aria-hidden="true">→</span></a><a href="/about/">關於我們 <span aria-hidden="true">→</span></a><a href="/#support">支持我們 <span aria-hidden="true">→</span></a></div>
 </nav></header>` : ''}
 <main>
 ${isIndex ? '' : `<nav class="top" aria-label="導覽"><a class="brand" href="/"><img src="/assets/brand/formosa-mark.png" alt=""><span>島民觀察室</span></a><a href="/election/">全台縣市</a>${crumbs.slice(2).map((c) => `<a href="${c[1]}">${esc(c[0])}</a>`).join('')}</nav>
@@ -119,7 +120,7 @@ ${body}
 <footer>資料整理：${esc(NAME)}（<a href="/">${SITE.replace('https://', '')}</a>），最後更新 <time datetime="${today}">${today}</time>。資料來源包含<a href="https://web.cec.gov.tw/" rel="nofollow">中央選舉委員會</a>、內政部與各縣市議會公開資料。本站為獨立民間資訊平台；資格審查、正式候選人名單、選區與票數以中選會公告為準。聯絡：<a href="mailto:contact@formosaobservatory.com">contact@formosaobservatory.com</a><span style="display:inline-block;margin:8px 12px"><a href="/privacy/" style="color:inherit;text-decoration:underline;text-underline-offset:3px">隱私權政策</a></span></footer>
 </main>
 ${isIndex ? '<script defer src="/election/navigation.js"></script>' : ''}
-</body>
+<script defer src="/assets/ui/page-transition.js?v=20261030"></script></body>
 </html>
 `;
 }
@@ -132,6 +133,7 @@ fs.mkdirSync(path.join(ROOT, 'election'), { recursive: true });
 const urls = [
   { loc: '/', pri: '1.0', freq: 'daily' },
   { loc: '/election/', pri: '0.9', freq: 'daily' },
+  { loc: '/about/', pri: '0.5', freq: 'monthly' },
   { loc: '/privacy/', pri: '0.3', freq: 'yearly' },
   { loc: '/history/', pri: '0.8', freq: 'monthly' },
   { loc: '/history/legislator', pri: '0.8', freq: 'monthly' },
@@ -184,6 +186,7 @@ for (const c of counties) {
   const desc = `${c.name} 2026 年 11 月 28 日地方選舉：${head}候選人 ${mayors.length} 人、議員候選人 ${allC.length} 人，含各選區涵蓋地區、政黨與 2022 得票，並可查詢${towns.length} 個${isCity ? '行政區' : '鄉鎮市區'}的村里長候選人。`;
   let body = `<section class="answer" aria-labelledby="quick-${c.id}"><h2 id="quick-${c.id}">${esc(c.name)} 2026 候選人快速答案</h2><p>截至 <time datetime="${today}">${today}</time>，本站收錄${esc(c.name)}${head}登記參選人 <strong>${mayors.length} 人</strong>、議員登記參選人 <strong>${allC.length} 人</strong>（${blocks.length} 個選舉區），並整理轄內 ${towns.length} 個${isCity ? '行政區' : '鄉鎮市區'}的地方候選人。</p><p class="updated">${ballotSource ? `${esc(isCity ? '市長與議員' : '縣長與議員')}號次依${esc(ballotSource)}${ballotDate ? `（${esc(ballotDate)}）` : ''}；正式候選人名單以中選會公告為準。` : '登記後仍須經資格審查與抽籤；正式候選人名單與號次以中央選舉委員會公告為準。'}</p></section>
 <a class="cta" href="/?county=${c.id}">在互動地圖中查看${esc(c.name)}</a><a class="cta secondary" href="/election/">查看全台候選人</a>`;
+  body += countyReadingGuide(c, blocks, quota[c.id]);
   body += `<h2>${esc(c.name)}${head}候選人</h2>${candTable(mayors, !!officialNumbers)}`;
   body += `<h2>${esc(c.name)}議員候選人（依選舉區）</h2>`;
   if (!blocks.length) body += '<p class="note">目前尚無議員候選人資料。</p>';
@@ -226,6 +229,7 @@ for (const c of counties) {
     const tt = `${c.name}${t.name} 2026 地方選舉候選人：${[tHead && `${tHead}、`, '議員、', repList.length ? '民代、' : '', '村里長'].join('').replace(/、$/, '')}｜島民觀察室`;
     const td = `${c.name}${t.name} 2026 年 11 月 28 日地方選舉：${villages.length ? `${villages.length} 個村里、村里長候選人 ${vCands} 人` : '候選人名單'}${tMayors.length ? `、${tHead}候選人 ${tMayors.length} 人` : ''}${distBlocks.length ? `，議員選舉區：第 ${distBlocks.map((b) => b.district).join('、')} 選舉區` : ''}。`;
     let tb = `<p>${esc(c.name)}${esc(t.name)}於 <time datetime="${ELECTION_DATE}">2026 年 11 月 28 日</time>舉行地方選舉。${villages.length ? `轄內共 ${villages.length} 個村里，村里長候選人 ${vCands} 人。` : ''}</p><a class="cta" href="/?town=${t.id}">在互動地圖中查看${esc(t.name)}</a>`;
+    tb += townReadingGuide({ county: c, town: t, villages, districtBlocks: distBlocks, districtMap: dmap[c.id]?.districts, quotas: quota[c.id], mayors: tMayors, representatives: reps });
     if (tMayors.length) tb += `<h2>${esc(t.name)}${tHead}候選人</h2>${candTable(tMayors, !!townBallots?.townHeads?.[t.id])}`;
     for (const b of distBlocks) {
       tb += `<h2>${esc(c.name)}議員第 ${esc(b.district)} 選舉區候選人</h2><p class="note">${esc(t.name)}屬${esc(c.name)}議員第 ${esc(b.district)} 選舉區（涵蓋：${esc(councilCoverage(dmap[c.id].districts[b.district]))}）。</p>${candTable(b.candidates || [], !!officialCouncilNumbers?.[String(b.district)])}`;

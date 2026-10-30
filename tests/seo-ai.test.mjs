@@ -63,7 +63,7 @@ test('observatory articles publish source-linked totals and every county', () =>
 
 test('sitemap and AI summaries expose current election and history entry points', () => {
   const sitemap = text('sitemap.xml');
-  assert.equal((sitemap.match(/<url>/g) || []).length, 403);
+  assert.equal((sitemap.match(/<url>/g) || []).length, 404);
   for (const page of ['/observatory/', '/observatory/mayor-candidates-2018-2022/', '/observatory/councilor-candidates-2018-2022/', '/observatory/councilor-turnout-2018-2022/', '/related/']) {
     assert.ok(sitemap.includes(`https://formosaobservatory.com${page}`), page);
   }

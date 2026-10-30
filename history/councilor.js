@@ -11,7 +11,7 @@
     NP:{name:'新黨',abbr:'新',color:'#002FA7',logo:'/assets/party-logos/np.webp'},
     IND:{name:'無黨籍及其他',abbr:'無',color:'#9D9D9D'},OTHER:{name:'其他政黨',abbr:'他',color:'#B7A88E'},MIXED:{name:'席次並列',abbr:'平',color:'#766b64'}
   };
-  const DATA_URL='../data/history/councilor.json?v=20260924-town-party';
+  const DATA_URL='../data/history/councilor.json?v=20261030-result-flags';
   const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
   const fmt=new Intl.NumberFormat('zh-TW');
   const esc=v=>String(v??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));

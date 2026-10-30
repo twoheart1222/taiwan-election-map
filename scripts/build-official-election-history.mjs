@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
+import { cecElected as won } from './cec-result-flags.mjs';
 
 const ROOT = process.cwd();
 const BASE = 'https://db.cec.gov.tw/static/elections';
@@ -28,7 +29,6 @@ function normalizeTown(county, value) {
 const rows = payload => Object.values(payload || {}).flat().filter(Boolean);
 const number = value => Number(value) || 0;
 const round = (value, digits = 2) => Number(Number(value || 0).toFixed(digits));
-const won = value => ['*','Y','YES','TRUE','1'].includes(String(value ?? '').trim().toUpperCase()) || value === true;
 const partyKey = value => {
   const party = String(value || '');
   if (party === '民主進步黨') return 'DPP';
