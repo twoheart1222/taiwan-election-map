@@ -1,4 +1,4 @@
-// 115 年地方選舉候選人號次：雲林縣、桃園市、新竹市、臺中市、基隆市、臺北市、新北市與高雄市抽籤結果。
+// 115 年地方選舉候選人號次：雲林縣、桃園市、新竹市、苗栗縣、臺中市、基隆市、臺北市、新北市與高雄市抽籤結果。
 // Keep ballot numbers separate from candidate overrides so manually edited photos and links retain priority.
 const ballotOrder = names => Object.freeze(Object.fromEntries(names.map((name, index) => [name, index + 1])));
 const ballotNameKey = name => String(name ?? '').normalize('NFKC').replace(/[·‧．・]/g, '.').replace(/爲/g, '為').replace(/啓/g, '啟').replace(/\s+/g, '').toLowerCase();
@@ -11,6 +11,23 @@ globalThis.FOBallotNumberForName = (numbers, name) => {
 globalThis.FOBallotNumbers = Object.freeze({
   ...globalThis.FORegionalBallotNumbers,
   '66000': globalThis.FOTaichungBallotNumbers,
+  '10005': Object.freeze({
+    election: '縣長、縣議員',
+    source: '苗栗縣縣長及縣議員候選人號次名單（使用者提供）',
+    date: '2026-10-30',
+    numbers: ballotOrder(['陳品安', '鍾東錦']),
+    councilors: Object.freeze({
+      '1': ballotOrder(['彭賢淳', '呂晟', '許櫻萍', '曾美露', '徐筱菁', '魏漢相', '楊明燁', '巫召清', '張志宇', '湯維岳', '孫素娥', '彭晧宇', '林志豪', '鄭碧玉', '黃萬盛']),
+      '2': ballotOrder(['黎尚安', '羅貴星', '謝昌年']),
+      '3': ballotOrder(['翁杰', '王建鑫', '徐瑞轅', '郭汶沂', '杜文卿', '陳薈茗', '周玉滿']),
+      '4': ballotOrder(['廖英利', '鄭秋風', '林寶珠', '吳亭亭', '李文斌', '邱毓興', '吳翌立', '謝美香', '廖秀紅', '張佳玲', '陳碧華', '蔡君婷']),
+      '5': ballotOrder(['彭茜柔', '鍾孟儒', '陳永賢', '蕭詠萱', '古益弦', '陳光軒', '鄭聚然', '林志學', '黎煥強', '温俊勇', '陳詩弦', '張淑芬']),
+      '6': ballotOrder(['楊恭林', '盛瑛', '詹錦章']),
+      // 抽籤名單的中文姓名對應網站保留族語姓名的完整登記姓名。
+      '7': ballotOrder(['朱仲一Kalih．Tahes．Didiyun', '風志雄']),
+      '8': ballotOrder(['黃茹君HakingYumaʼ', '劉美蘭Iwan．Sigiy']),
+    }),
+  }),
   '10018': Object.freeze({
     election: '市長、市議員',
     source: '新竹市市長及市議員候選人姓名號次抽籤結果（使用者提供）',

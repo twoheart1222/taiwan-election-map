@@ -15,7 +15,7 @@ const rootFiles = [
   'site-config.js', 'site.webmanifest', 'sitemap.xml', 'social-preview.png',
   'support.dc.html', 'support.js', 'taiwangogo-kv-sync.js',
 ];
-const directories = ['.well-known', 'ads', 'assets', 'data', 'election', 'history', 'observatory', 'privacy', 'related', 'source', 'vendor'];
+const directories = ['.well-known', 'assets', 'data', 'election', 'history', 'observatory', 'privacy', 'related', 'source', 'vendor'];
 const extensions = new Set(['.html', '.js', '.css', '.json', '.png', '.jpg', '.jpeg', '.svg', '.ico', '.webp', '.avif', '.gif', '.woff', '.woff2', '.ttf', '.xml', '.txt', '.pdf', '.webmanifest']);
 const files = [];
 
