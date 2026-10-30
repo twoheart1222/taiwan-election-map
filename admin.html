@@ -947,6 +947,7 @@
         if (village) check(villageId, villageId, village.candidates, parties);
       }
       title.textContent = `後台政黨與抽籤名冊差異：${issues.length} 位待核對`;
+      document.getElementById('apply-regional-party-corrections')?.classList.toggle('hidden', issues.length === 0);
       list.replaceChildren(...issues.map(message => {
         const item = document.createElement('li');
         item.textContent = message;
