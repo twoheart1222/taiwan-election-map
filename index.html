@@ -94,8 +94,9 @@ try{
   .pt-cols>span:nth-child(even){background:#131110}
   .pt-center{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:clamp(28px,6vw,90px);color:#f4f1ea}
   .transition-kicker{font:800 clamp(10px,1.2vw,13px)/1 'Archivo','Noto Sans TC',sans-serif;letter-spacing:.28em;margin-bottom:16px;color:#E4022B}
-  .transition-title-mask{overflow:hidden;padding-bottom:.12em}
-  .transition-title{font:900 clamp(42px,9.4vw,150px)/.9 'Noto Sans TC','Archivo',sans-serif;letter-spacing:-.02em;text-wrap:balance;color:#f4f1ea;will-change:transform,opacity}
+  /* 留白寫在標題本身（以標題字級計算）；寫在遮罩上時 em 是遮罩的 16px，只留約 2px，粗體中文字下緣會被切掉。 */
+  .transition-title-mask{overflow:hidden}
+  .transition-title{padding:.08em 0 .16em;font:900 clamp(42px,9.4vw,150px)/.9 'Noto Sans TC','Archivo',sans-serif;letter-spacing:-.02em;text-wrap:balance;color:#f4f1ea;will-change:transform,opacity}
   .transition-rule{height:3px;width:0;background:#E4022B;margin-top:clamp(16px,2.4vw,28px);will-change:width}
   .readout-leaf-mask{display:inline-block;overflow:hidden;vertical-align:bottom;line-height:1.05}
   .readout-leaf{display:inline-block;will-change:transform,opacity}
