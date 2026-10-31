@@ -1702,7 +1702,7 @@ class App {
     const dom = renderer.domElement;
     const gx = e => e.clientX ?? (e.touches && e.touches[0].clientX);
     const gy = e => e.clientY ?? (e.touches && e.touches[0].clientY);
-    dom.addEventListener('pointerdown', e => { drag = true; moved = 0; this._auto = false; lx = gx(e); ly = gy(e); dom.style.cursor = 'grabbing'; });
+    dom.addEventListener('pointerdown', e => { drag = true; this._dragging = !mobileMQ.matches; moved = 0; this._auto = false; lx = gx(e); ly = gy(e); dom.style.cursor = 'grabbing'; });
     let hoverFrame = 0, hoverX = 0, hoverY = 0;
     window.addEventListener('pointermove', e => {
       if (drag && !mobileMQ.matches) { const x = gx(e), y = gy(e); moved += Math.abs(x - lx) + Math.abs(y - ly); this.camState.az += (x - lx) * 0.006; this.camState.pol = Math.max(0.12, Math.min(1.15, this.camState.pol + (y - ly) * 0.005)); lx = x; ly = y; this._updateCam(); }
@@ -1710,7 +1710,7 @@ class App {
       hoverX = gx(e); hoverY = gy(e);
       if (!hoverFrame) hoverFrame = requestAnimationFrame(() => { hoverFrame = 0; this._hoverTest(hoverX, hoverY, drag); });
     }, { passive: true });
-    window.addEventListener('pointerup', () => { drag = false; dom.style.cursor = 'grab'; });
+    window.addEventListener('pointerup', () => { drag = false; dom.style.cursor = 'grab'; if (this._dragging) { this._dragging = false; this._requestRender(400); } });
     dom.addEventListener('pointerleave', () => { if (!this._mapTransitioning) this._setHovered(null); });
     dom.addEventListener('click', e => {
       if (mobileMQ.matches) {
@@ -1931,29 +1931,65 @@ class App {
     const mobile = w <= 660;
     const spacingX = mobile ? 38 : 48;
     const spacingY = mobile ? 27 : 30;
+    // 字型載入或斷點切換後重新量測標籤尺寸。
+    if (this._labelMeasureW !== w || this._labelFontsReady !== (document.fonts?.status === 'loaded')) {
+      this._labelMeasureW = w; this._labelFontsReady = document.fonts?.status === 'loaded';
+      this.labels.forEach(L => { L.width = 0; });
+    }
     // 以同心格點提供足夠的避讓位置；北北基等密集區不再只嘗試幾個方向後又疊回原位。
-    const shifts = [];
-    for (let ix = -10; ix <= 10; ix++) for (let iy = -10; iy <= 10; iy++) shifts.push([ix * spacingX, iy * spacingY]);
-    shifts.sort((a, b) => (a[0] * a[0] + a[1] * a[1]) - (b[0] * b[0] + b[1] * b[1]));
+    const shiftKey = `${spacingX}x${spacingY}`;
+    if (this._labelShiftKey !== shiftKey) {
+      const shifts = [];
+      for (let ix = -10; ix <= 10; ix++) for (let iy = -10; iy <= 10; iy++) shifts.push([ix * spacingX, iy * spacingY]);
+      shifts.sort((a, b) => (a[0] * a[0] + a[1] * a[1]) - (b[0] * b[0] + b[1] * b[1]));
+      this._labelShifts = shifts; this._labelShiftKey = shiftKey;
+    }
+    const shifts = this._labelShifts;
+    // 先一次量好尺寸並快取，避免在逐一寫入 left/top 時反覆讀 offsetWidth 造成每幀強制重排。
+    this.labels.forEach(L => {
+      if (!L.width && L.el.isConnected) {
+        const shown = L.el.style.display;
+        if (shown === 'none') L.el.style.display = 'block';
+        L.width = L.el.offsetWidth; L.height = L.el.offsetHeight;
+        if (shown === 'none') L.el.style.display = 'none';
+      }
+    });
+    const boxAt = (x, y, width, height, padX, padY) => ({ left: x - width / 2 - padX, right: x + width / 2 + padX, top: y - height / 2 - padY, bottom: y + height / 2 + padY });
+    const fits = box => box.left >= 4 && box.right <= w - 4 && box.top >= 4 && box.bottom <= h - 4
+      && !occupied.some(o => box.left < o.right && box.right > o.left && box.top < o.bottom && box.bottom > o.top);
+    let settling = false;
+    // 拖曳或自動旋轉時固定各標籤的避讓位置，讓標籤跟著縣市一起移動；停下後才重新排列。
+    const frozen = this._dragging || (this._auto && this.nav?.length === 1);
     this.labels.forEach(L => {
       const v = L.mesh.userData.cen.clone().project(this.cam);
-      if (v.z > 1) { L.el.style.display = 'none'; return; }
+      const hide = () => { L.el.style.display = 'none'; L.shift = null; L.ox = L.oy = undefined; };
+      if (v.z > 1) { hide(); return; }
       const x = (v.x * 0.5 + 0.5) * w, y = (-v.y * 0.5 + 0.5) * h;
-      if (x < -80 || x > w + 80 || y < -30 || y > h + 30) { L.el.style.display = 'none'; return; }
-      const width = L.el.offsetWidth || 56, height = L.el.offsetHeight || 26;
-      let px = x, py = y;
-      let placed = false;
-      for (const [dx, dy] of shifts) {
-        const candidate = { left: x + dx - width / 2 - 4, right: x + dx + width / 2 + 4, top: y + dy - height / 2 - 3, bottom: y + dy + height / 2 + 3 };
-        if (candidate.left < 4 || candidate.right > w - 4 || candidate.top < 4 || candidate.bottom > h - 4) continue;
-        if (!occupied.some(box => candidate.left < box.right && candidate.right > box.left && candidate.top < box.bottom && candidate.bottom > box.top)) {
-          px = x + dx; py = y + dy; occupied.push(candidate); placed = true; break;
-        }
+      if (x < -80 || x > w + 80 || y < -30 || y > h + 30) { hide(); return; }
+      const width = L.width || 56, height = L.height || 26;
+      // 旋轉地圖時，避讓位置每幀重新計算會讓標籤在格點間來回跳。
+      // 先沿用上一幀的位置（較寬鬆的間距作為遲滯），被擋住才由近到遠重新找格點（原位優先）。
+      let shift = null;
+      if (frozen && L.shift) shift = L.shift;
+      else if (L.shift && fits(boxAt(x + L.shift[0], y + L.shift[1], width, height, 1, 1))) shift = L.shift;
+      else shift = shifts.find(([dx, dy]) => fits(boxAt(x + dx, y + dy, width, height, 4, 3))) || null;
+      let px, py;
+      if (shift) {
+        occupied.push(boxAt(x + shift[0], y + shift[1], width, height, 4, 3));
+        L.shift = shift;
+        // 位置改變時以短暫補間移動，錨點仍逐幀跟著地圖，不會延遲。
+        if (L.ox === undefined) { L.ox = shift[0]; L.oy = shift[1]; }
+        L.ox += (shift[0] - L.ox) * 0.3; L.oy += (shift[1] - L.oy) * 0.3;
+        if (Math.abs(shift[0] - L.ox) < 0.5 && Math.abs(shift[1] - L.oy) < 0.5) { L.ox = shift[0]; L.oy = shift[1]; } else settling = true;
+        px = x + L.ox; py = y + L.oy;
+      } else {
+        // 螢幕非常小時，仍保證標籤在可視範圍內而非回到可能重疊的原位置。
+        L.shift = null; L.ox = L.oy = undefined;
+        px = Math.max(width / 2 + 4, Math.min(w - width / 2 - 4, x)); py = Math.max(height / 2 + 4, Math.min(h - height / 2 - 4, y));
       }
-      // 螢幕非常小時，仍保證標籤在可視範圍內而非回到可能重疊的原位置。
-      if (!placed) { px = Math.max(width / 2 + 4, Math.min(w - width / 2 - 4, x)); py = Math.max(height / 2 + 4, Math.min(h - height / 2 - 4, y)); }
       L.el.style.display = 'block'; L.el.style.left = px + 'px'; L.el.style.top = py + 'px';
     });
+    if (settling) this._requestRender(32);
   }
   _writeReadout(label, meta, roll = false) {
     const name = document.getElementById('tw3d-name'), detail = document.getElementById('tw3d-meta');
