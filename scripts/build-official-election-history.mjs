@@ -13,6 +13,8 @@ const LEGACY_COUNTIES = new Map([
   ['臺南縣','臺南市'],['高雄縣','高雄市'],
 ]);
 const MUNICIPALITIES = new Set(['臺北市','新北市','桃園市','臺中市','臺南市','高雄市']);
+// 2015 年縣轄市升格；舊屆中選會資料仍使用「鎮」，需對應現行界線名稱。
+const TOWN_RENAMES = new Map([['苗栗縣|頭份鎮','頭份市'],['彰化縣|員林鎮','員林市']]);
 
 const normalizeText = value => String(value ?? '').replaceAll('台', '臺').trim();
 const normalizeCounty = value => {
@@ -26,6 +28,11 @@ function normalizeTown(county, value) {
   if (MUNICIPALITIES.has(county)) name = name.replace(/[市鎮鄉]$/, '區');
   return name;
 }
+// 總統鄉鎮資料以現行界線（taiwan-atlas）呈現，需使用現行名稱。
+const normalizePresidentialTown = (county, value) => {
+  const name = normalizeTown(county, value);
+  return TOWN_RENAMES.get(`${county}|${name}`) || name;
+};
 const rows = payload => Object.values(payload || {}).flat().filter(Boolean);
 const number = value => Number(value) || 0;
 const round = (value, digits = 2) => Number(Number(value || 0).toFixed(digits));
@@ -125,7 +132,7 @@ async function buildPresident() {
   const towns = {
     schemaVersion: 2, boundaryMode: 'current-townships', coverage: themes.map(t => t.year).sort((a,b) => a-b),
     note: '1996–2024 鄉鎮市區結果皆由中選會官方資料建置；直轄市改制前的市、鎮、鄉名稱正規化為現行區名。',
-    topology: 'https://cdn.jsdelivr.net/npm/taiwan-atlas/towns-10t.json',
+    topology: 'https://cdn.jsdelivr.net/npm/taiwan-atlas@2021.9.20/towns-10t.json',
     source: { name: '中央選舉委員會選舉資料庫', url: OFFICIAL_PAGE, listApi: `${BASE}/list/ELC_P0.json` },
     years: {},
   };
@@ -218,13 +225,13 @@ async function buildPresident() {
     }
     for (const {source,tickets,profiles} of pairs) {
       for (const row of profiles) {
-        const town = normalizeTown(source.current,row.area_name), id = `${source.current}|${town}`;
+        const town = normalizePresidentialTown(source.current,row.area_name), id = `${source.current}|${town}`;
         const bucket = townBuckets.get(id) || { county:source.current, town, candidates:new Map(), validVotes:0, stats:{} };
         addProfile(bucket.stats,profile(row)); bucket.validVotes=bucket.stats.validVotes; townBuckets.set(id,bucket);
       }
       for (const row of tickets) {
         if (String(row.is_vice).trim().toUpperCase() === 'Y') continue;
-        const town=normalizeTown(source.current,row.area_name), id=`${source.current}|${town}`, bucket=townBuckets.get(id);
+        const town=normalizePresidentialTown(source.current,row.area_name), id=`${source.current}|${town}`, bucket=townBuckets.get(id);
         assert(bucket,`${year}: town ticket without profile ${id}`);
         const no=String(row.cand_no),old=bucket.candidates.get(no);
         if(old)old.votes+=number(row.ticket_num);else bucket.candidates.set(no,{no,name:row.cand_name,party:row.party_name,votes:number(row.ticket_num)});

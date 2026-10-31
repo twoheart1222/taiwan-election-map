@@ -357,3 +357,29 @@ test('legislator archive is exposed as a complete interactive history page', asy
   assert.doesNotMatch(localHtml, /value="legislator" disabled/);
   assert.doesNotMatch(councilorHtml, /value="legislator" disabled/);
 });
+
+test('township page loads one self-hosted county file instead of the national archive', async () => {
+  const [towns, counties, countyTopology, html] = await Promise.all([
+    readJson('data/history/presidential-towns.json'),
+    readJson('data/history/presidential-counties.json'),
+    readJson('data/history/counties.topo.json'),
+    readFile(new URL('../history/town.html', import.meta.url), 'utf8'),
+  ]);
+  assert.doesNotMatch(html, /presidential-towns\.json|presidential-counties\.json|npm\/taiwan-atlas/,
+    'town.html should fetch only data/history/towns/<county>.json');
+  assert.match(html, /data\/history\/towns\/\$\{countyId\}\.json/);
+  assert.doesNotMatch(html, /npm\/(?:d3@7|topojson-client@3)\//, 'CDN libraries must be version-pinned');
+
+  for (const { properties: { id, name } } of Object.values(countyTopology.objects)[0].geometries) {
+    assert.match(html, new RegExp(`"${name}":"${id}"`), `${name} id mapping`);
+    const file = await readJson(`data/history/towns/${id}.json`);
+    assert.equal(file.county, name);
+    assert.deepEqual(file.coverage, towns.coverage);
+    const boundaryNames = new Set(file.topology.objects.towns.geometries.map(g => g.properties.TOWNNAME));
+    for (const year of towns.coverage) {
+      assert.deepEqual(file.years[year].towns, towns.years[year].counties[name], `${year} ${name} matches the full archive; run npm run build:history-towns`);
+      assert.deepEqual(file.years[year].county, counties.years[year].counties[name], `${year} ${name} county summary`);
+      for (const town of Object.keys(file.years[year].towns)) assert.ok(boundaryNames.has(town), `${year} ${name} ${town} has a boundary`);
+    }
+  }
+});
