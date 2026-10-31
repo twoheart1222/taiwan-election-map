@@ -1760,6 +1760,8 @@ class App {
       const delta = lastFrame ? Math.min(50, now - lastFrame) : 16.67;
       lastFrame = now;
       if (auto) { this.camState.az += delta * 0.000096; this._updateCam(); }
+      // three.js 只在 render() 時更新相機矩陣；先更新，標籤才會與這一幀的地圖同步，而不是慢一幀。
+      cam.updateMatrixWorld();
       this._updateLabels();
       renderer.render(scene, cam);
       this._needsRender = false;
