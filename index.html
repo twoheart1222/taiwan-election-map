@@ -1702,15 +1702,38 @@ class App {
     const dom = renderer.domElement;
     const gx = e => e.clientX ?? (e.touches && e.touches[0].clientX);
     const gy = e => e.clientY ?? (e.touches && e.touches[0].clientY);
-    dom.addEventListener('pointerdown', e => { drag = true; this._dragging = !mobileMQ.matches; moved = 0; this._auto = false; lx = gx(e); ly = gy(e); dom.style.cursor = 'grabbing'; });
+    // 自然拖曳：地圖跟著手指／游標走（往右拖地圖往右轉、往下拖把靠近自己的一側拉下來），放開後依速度慣性滑行再減速，類似 iPad 的操作手感。
+    const AZ_PER_PX = 0.006, POL_PER_PX = 0.005;
+    let samples = [];
+    dom.addEventListener('pointerdown', e => { drag = true; this._dragging = !mobileMQ.matches; this._inertia = null; samples = []; moved = 0; this._auto = false; lx = gx(e); ly = gy(e); dom.style.cursor = 'grabbing'; });
     let hoverFrame = 0, hoverX = 0, hoverY = 0;
     window.addEventListener('pointermove', e => {
-      if (drag && !mobileMQ.matches) { const x = gx(e), y = gy(e); moved += Math.abs(x - lx) + Math.abs(y - ly); this.camState.az += (x - lx) * 0.006; this.camState.pol = Math.max(0.12, Math.min(1.15, this.camState.pol + (y - ly) * 0.005)); lx = x; ly = y; this._updateCam(); }
+      if (drag && !mobileMQ.matches) {
+        const x = gx(e), y = gy(e), dAz = -(x - lx) * AZ_PER_PX, dPol = -(y - ly) * POL_PER_PX;
+        moved += Math.abs(x - lx) + Math.abs(y - ly);
+        this.camState.az += dAz; this.camState.pol = Math.max(0.12, Math.min(1.15, this.camState.pol + dPol));
+        const t = performance.now(); samples.push({ t, dAz, dPol }); while (samples.length && t - samples[0].t > 100) samples.shift();
+        lx = x; ly = y; this._updateCam();
+      }
       if (!drag && e.target !== dom) return;
       hoverX = gx(e); hoverY = gy(e);
       if (!hoverFrame) hoverFrame = requestAnimationFrame(() => { hoverFrame = 0; this._hoverTest(hoverX, hoverY, drag); });
     }, { passive: true });
-    window.addEventListener('pointerup', () => { drag = false; dom.style.cursor = 'grab'; if (this._dragging) { this._dragging = false; this._requestRender(400); } });
+    const endDrag = e => {
+      if (!drag) return;
+      drag = false; dom.style.cursor = 'grab';
+      if (!this._dragging) return;
+      this._dragging = false;
+      // 依最後 100ms 的移動估速度；停在原地再放開（最後一次移動超過 50ms 前）則不滑行。
+      const t = performance.now(), recent = samples.filter(s => t - s.t <= 100);
+      const span = recent.length > 1 ? Math.max(16, t - recent[0].t) : 0;
+      const vAz = span ? recent.reduce((a, s) => a + s.dAz, 0) / span : 0, vPol = span ? recent.reduce((a, s) => a + s.dPol, 0) / span : 0;
+      if (e?.type === 'pointerup' && recent.length && t - recent.at(-1).t < 50 && Math.hypot(vAz, vPol) > 0.0004) this._inertia = { vAz, vPol };
+      samples = [];
+      this._requestRender(400);
+    };
+    window.addEventListener('pointerup', endDrag);
+    window.addEventListener('pointercancel', endDrag);
     dom.addEventListener('pointerleave', () => { if (!this._mapTransitioning) this._setHovered(null); });
     dom.addEventListener('click', e => {
       if (mobileMQ.matches) {
@@ -1760,6 +1783,14 @@ class App {
       const delta = lastFrame ? Math.min(50, now - lastFrame) : 16.67;
       lastFrame = now;
       if (auto) { this.camState.az += delta * 0.000096; this._updateCam(); }
+      if (this._inertia) {
+        const I = this._inertia, s = this.camState, decay = Math.exp(-delta / 325);
+        s.az += I.vAz * delta;
+        const pol = Math.max(0.12, Math.min(1.15, s.pol + I.vPol * delta)); if (pol !== s.pol + I.vPol * delta) I.vPol = 0; s.pol = pol;
+        I.vAz *= decay; I.vPol *= decay;
+        if (Math.hypot(I.vAz, I.vPol) < 0.00002) { this._inertia = null; this._requestRender(400); } else this._requestRender(32);
+        this._updateCam();
+      }
       // three.js 只在 render() 時更新相機矩陣；先更新，標籤才會與這一幀的地圖同步，而不是慢一幀。
       cam.updateMatrixWorld();
       this._updateLabels();
@@ -1833,7 +1864,7 @@ class App {
     const baseR = plan.r;
     const outR = Math.max(this.camState.r, baseR * 0.98);
     const targetR = Math.max(2, baseR * 0.72);
-    window.gsap.killTweensOf(this.camState);
+    window.gsap.killTweensOf(this.camState); this._inertia = null;
     window.gsap.timeline({ defaults: { onUpdate: () => this._updateCam() } })
       .to(this.camState, { r: outR, duration: 0.24, ease: 'power2.out' })
       .to(this.camState, { tx, tz, r: targetR, pol: 0.16, duration: 0.82, ease: 'expo.inOut' });
@@ -1966,7 +1997,7 @@ class App {
       && !occupied.some(o => box.left < o.right && box.right > o.left && box.top < o.bottom && box.bottom > o.top);
     let settling = false;
     // 拖曳或自動旋轉時固定各標籤的避讓位置，讓標籤跟著縣市一起移動；停下後才重新排列。
-    const frozen = this._dragging || (this._auto && this.nav?.length === 1);
+    const frozen = this._dragging || this._inertia || (this._auto && this.nav?.length === 1);
     this.labels.forEach(L => {
       const v = L.mesh.userData.cen.clone().project(this.cam);
       const hide = () => { L.el.style.display = 'none'; L.shift = null; L.ox = L.oy = undefined; };
