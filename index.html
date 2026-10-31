@@ -1702,7 +1702,7 @@ class App {
     const dom = renderer.domElement;
     const gx = e => e.clientX ?? (e.touches && e.touches[0].clientX);
     const gy = e => e.clientY ?? (e.touches && e.touches[0].clientY);
-    dom.addEventListener('pointerdown', e => { drag = true; moved = 0; this._auto = false; lx = gx(e); ly = gy(e); dom.style.cursor = 'grabbing'; });
+    dom.addEventListener('pointerdown', e => { drag = true; this._dragging = !mobileMQ.matches; moved = 0; this._auto = false; lx = gx(e); ly = gy(e); dom.style.cursor = 'grabbing'; });
     let hoverFrame = 0, hoverX = 0, hoverY = 0;
     window.addEventListener('pointermove', e => {
       if (drag && !mobileMQ.matches) { const x = gx(e), y = gy(e); moved += Math.abs(x - lx) + Math.abs(y - ly); this.camState.az += (x - lx) * 0.006; this.camState.pol = Math.max(0.12, Math.min(1.15, this.camState.pol + (y - ly) * 0.005)); lx = x; ly = y; this._updateCam(); }
@@ -1710,7 +1710,7 @@ class App {
       hoverX = gx(e); hoverY = gy(e);
       if (!hoverFrame) hoverFrame = requestAnimationFrame(() => { hoverFrame = 0; this._hoverTest(hoverX, hoverY, drag); });
     }, { passive: true });
-    window.addEventListener('pointerup', () => { drag = false; dom.style.cursor = 'grab'; });
+    window.addEventListener('pointerup', () => { drag = false; dom.style.cursor = 'grab'; if (this._dragging) { this._dragging = false; this._requestRender(400); } });
     dom.addEventListener('pointerleave', () => { if (!this._mapTransitioning) this._setHovered(null); });
     dom.addEventListener('click', e => {
       if (mobileMQ.matches) {
@@ -1760,6 +1760,8 @@ class App {
       const delta = lastFrame ? Math.min(50, now - lastFrame) : 16.67;
       lastFrame = now;
       if (auto) { this.camState.az += delta * 0.000096; this._updateCam(); }
+      // three.js 只在 render() 時更新相機矩陣；先更新，標籤才會與這一幀的地圖同步，而不是慢一幀。
+      cam.updateMatrixWorld();
       this._updateLabels();
       renderer.render(scene, cam);
       this._needsRender = false;
@@ -1888,7 +1890,7 @@ class App {
         : new THREE.ShapeGeometry(shapes);
       const mat = new THREE.MeshStandardMaterial({ color: this.baseCol.clone(), metalness: 0.14, roughness: 0.72, emissive: 0x000000 });
       const mesh = new THREE.Mesh(geo, mat); mesh.userData = { props: f.properties };
-      const cen = this._centroid(f); mesh.userData.cen = new THREE.Vector3(this.px(cen[0]), depth, -this.py(cen[1]));
+      const cen = this._labelPoint(f); mesh.userData.cen = new THREE.Vector3(this.px(cen[0]), depth, -this.py(cen[1]));
       this.flat.add(mesh); this.active.meshes.push(mesh); this.active.byName[f.properties.name] = mesh;
       mesh.add(new THREE.LineSegments(new THREE.EdgesGeometry(geo, 25), new THREE.LineBasicMaterial({ color: 0x0d0d0d, transparent: true, opacity: 0.32 })));
     });
@@ -1921,39 +1923,80 @@ class App {
       };
       b.onclick = e => { e.stopPropagation(); this._pick(mesh.userData.props); };
       this.labelLayer.appendChild(b);
-      return { mesh, el: b };
+      if (!mesh.geometry.boundingBox) mesh.geometry.computeBoundingBox();
+      const bb = mesh.geometry.boundingBox;
+      return { mesh, el: b, area: (bb.max.x - bb.min.x) * (bb.max.y - bb.min.y) };
     });
+    // 小面積的縣市（嘉義市、新竹市…）先佔位置；大縣市周圍空間多，被推開也仍在自己範圍內。
+    this.labels.sort((a, b) => a.area - b.area);
   }
   _updateLabels() {
     if (!this.labels || !this.labels.length || !this.cam || !this.el) return;
     const w = this.el.clientWidth, h = this.el.clientHeight;
     const occupied = [];
     const mobile = w <= 660;
-    const spacingX = mobile ? 38 : 48;
-    const spacingY = mobile ? 27 : 30;
+    // 細格點：只移動到剛好不重疊的距離，而不是一次跳一整個標籤寬。
+    const spacingX = mobile ? 12 : 16;
+    const spacingY = mobile ? 9 : 10;
+    // 字型載入或斷點切換後重新量測標籤尺寸。
+    if (this._labelMeasureW !== w || this._labelFontsReady !== (document.fonts?.status === 'loaded')) {
+      this._labelMeasureW = w; this._labelFontsReady = document.fonts?.status === 'loaded';
+      this.labels.forEach(L => { L.width = 0; });
+    }
     // 以同心格點提供足夠的避讓位置；北北基等密集區不再只嘗試幾個方向後又疊回原位。
-    const shifts = [];
-    for (let ix = -10; ix <= 10; ix++) for (let iy = -10; iy <= 10; iy++) shifts.push([ix * spacingX, iy * spacingY]);
-    shifts.sort((a, b) => (a[0] * a[0] + a[1] * a[1]) - (b[0] * b[0] + b[1] * b[1]));
+    const shiftKey = `${spacingX}x${spacingY}`;
+    if (this._labelShiftKey !== shiftKey) {
+      const shifts = [];
+      for (let ix = -30; ix <= 30; ix++) for (let iy = -30; iy <= 30; iy++) shifts.push([ix * spacingX, iy * spacingY]);
+      shifts.sort((a, b) => (a[0] * a[0] + a[1] * a[1]) - (b[0] * b[0] + b[1] * b[1]));
+      this._labelShifts = shifts; this._labelShiftKey = shiftKey;
+    }
+    const shifts = this._labelShifts;
+    // 先一次量好尺寸並快取，避免在逐一寫入 left/top 時反覆讀 offsetWidth 造成每幀強制重排。
+    this.labels.forEach(L => {
+      if (!L.width && L.el.isConnected) {
+        const shown = L.el.style.display;
+        if (shown === 'none') L.el.style.display = 'block';
+        L.width = L.el.offsetWidth; L.height = L.el.offsetHeight;
+        if (shown === 'none') L.el.style.display = 'none';
+      }
+    });
+    const boxAt = (x, y, width, height, padX, padY) => ({ left: x - width / 2 - padX, right: x + width / 2 + padX, top: y - height / 2 - padY, bottom: y + height / 2 + padY });
+    const fits = box => box.left >= 4 && box.right <= w - 4 && box.top >= 4 && box.bottom <= h - 4
+      && !occupied.some(o => box.left < o.right && box.right > o.left && box.top < o.bottom && box.bottom > o.top);
+    let settling = false;
+    // 拖曳或自動旋轉時固定各標籤的避讓位置，讓標籤跟著縣市一起移動；停下後才重新排列。
+    const frozen = this._dragging || (this._auto && this.nav?.length === 1);
     this.labels.forEach(L => {
       const v = L.mesh.userData.cen.clone().project(this.cam);
-      if (v.z > 1) { L.el.style.display = 'none'; return; }
+      const hide = () => { L.el.style.display = 'none'; L.shift = null; L.ox = L.oy = undefined; };
+      if (v.z > 1) { hide(); return; }
       const x = (v.x * 0.5 + 0.5) * w, y = (-v.y * 0.5 + 0.5) * h;
-      if (x < -80 || x > w + 80 || y < -30 || y > h + 30) { L.el.style.display = 'none'; return; }
-      const width = L.el.offsetWidth || 56, height = L.el.offsetHeight || 26;
-      let px = x, py = y;
-      let placed = false;
-      for (const [dx, dy] of shifts) {
-        const candidate = { left: x + dx - width / 2 - 4, right: x + dx + width / 2 + 4, top: y + dy - height / 2 - 3, bottom: y + dy + height / 2 + 3 };
-        if (candidate.left < 4 || candidate.right > w - 4 || candidate.top < 4 || candidate.bottom > h - 4) continue;
-        if (!occupied.some(box => candidate.left < box.right && candidate.right > box.left && candidate.top < box.bottom && candidate.bottom > box.top)) {
-          px = x + dx; py = y + dy; occupied.push(candidate); placed = true; break;
-        }
+      if (x < -80 || x > w + 80 || y < -30 || y > h + 30) { hide(); return; }
+      const width = L.width || 56, height = L.height || 26;
+      // 旋轉地圖時，避讓位置每幀重新計算會讓標籤在格點間來回跳。
+      // 先沿用上一幀的位置（較寬鬆的間距作為遲滯），被擋住才由近到遠重新找格點（原位優先）。
+      let shift = null;
+      if (frozen && L.shift) shift = L.shift;
+      else if (L.shift && fits(boxAt(x + L.shift[0], y + L.shift[1], width, height, 1, 1))) shift = L.shift;
+      else shift = shifts.find(([dx, dy]) => fits(boxAt(x + dx, y + dy, width, height, 4, 3))) || null;
+      let px, py;
+      if (shift) {
+        occupied.push(boxAt(x + shift[0], y + shift[1], width, height, 4, 3));
+        L.shift = shift;
+        // 位置改變時以短暫補間移動，錨點仍逐幀跟著地圖，不會延遲。
+        if (L.ox === undefined) { L.ox = shift[0]; L.oy = shift[1]; }
+        L.ox += (shift[0] - L.ox) * 0.3; L.oy += (shift[1] - L.oy) * 0.3;
+        if (Math.abs(shift[0] - L.ox) < 0.5 && Math.abs(shift[1] - L.oy) < 0.5) { L.ox = shift[0]; L.oy = shift[1]; } else settling = true;
+        px = x + L.ox; py = y + L.oy;
+      } else {
+        // 螢幕非常小時，仍保證標籤在可視範圍內而非回到可能重疊的原位置。
+        L.shift = null; L.ox = L.oy = undefined;
+        px = Math.max(width / 2 + 4, Math.min(w - width / 2 - 4, x)); py = Math.max(height / 2 + 4, Math.min(h - height / 2 - 4, y));
       }
-      // 螢幕非常小時，仍保證標籤在可視範圍內而非回到可能重疊的原位置。
-      if (!placed) { px = Math.max(width / 2 + 4, Math.min(w - width / 2 - 4, x)); py = Math.max(height / 2 + 4, Math.min(h - height / 2 - 4, y)); }
       L.el.style.display = 'block'; L.el.style.left = px + 'px'; L.el.style.top = py + 'px';
     });
+    if (settling) this._requestRender(32);
   }
   _writeReadout(label, meta, roll = false) {
     const name = document.getElementById('tw3d-name'), detail = document.getElementById('tw3d-meta');
@@ -2996,6 +3039,30 @@ class App {
       properties: { ...feature.properties, isInset: true },
       geometry: { ...feature.geometry, coordinates: remap(feature.geometry.coordinates) },
     };
+  }
+  // 標籤錨點：取最大塊多邊形中「離邊界最遠」的內部點（近似 pole of inaccessibility）。
+  // 頂點平均在環狀縣市會落到被包住的縣市旁（嘉義縣→嘉義市、新北市→臺北市），兩個標籤搶同一位置，其中一個就被推離很遠。
+  _labelPoint(f) {
+    let best = null, bestArea = 0;
+    const ringArea = r => { let a = 0; for (let i = 0, j = r.length - 1; i < r.length; j = i++) a += (r[j][0] + r[i][0]) * (r[j][1] - r[i][1]); return Math.abs(a / 2); };
+    this._eachPolygon(f, rings => { const a = ringArea(rings[0]) - rings.slice(1).reduce((t, r) => t + ringArea(r), 0); if (a > bestArea) { bestArea = a; best = rings; } });
+    if (!best) return this._centroid(f);
+    const k = Math.cos(best[0][0][1] * Math.PI / 180); // 經度距離依緯度縮放
+    const inside = (x, y) => { let c = false; for (const r of best) for (let i = 0, j = r.length - 1; i < r.length; j = i++) { const [xi, yi] = r[i], [xj, yj] = r[j]; if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) c = !c; } return c; };
+    const edgeDist = (x, y) => { let m = Infinity; for (const r of best) for (let i = 0, j = r.length - 1; i < r.length; j = i++) { const ax = r[j][0] * k, ay = r[j][1], bx = r[i][0] * k, by = r[i][1], px = x * k, dx = bx - ax, dy = by - ay, l = dx * dx + dy * dy; const t = l ? Math.max(0, Math.min(1, ((px - ax) * dx + (y - ay) * dy) / l)) : 0; m = Math.min(m, Math.hypot(px - ax - t * dx, y - ay - t * dy)); } return m; };
+    let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+    best[0].forEach(([x, y]) => { x0 = Math.min(x0, x); y0 = Math.min(y0, y); x1 = Math.max(x1, x); y1 = Math.max(y1, y); });
+    let pt = null, score = -1, cx = (x0 + x1) / 2, cy = (y0 + y1) / 2, w = x1 - x0, h = y1 - y0;
+    for (const n of [10, 5, 5, 5]) {
+      for (let i = 0; i <= n; i++) for (let j = 0; j <= n; j++) {
+        const x = cx - w / 2 + w * i / n, y = cy - h / 2 + h * j / n;
+        if (!inside(x, y)) continue;
+        const d = edgeDist(x, y); if (d > score) { score = d; pt = [x, y]; }
+      }
+      if (!pt) break;
+      [cx, cy] = pt; w /= 2.5; h /= 2.5;
+    }
+    return pt || this._centroid(f);
   }
   _centroid(f) { let x = 0, y = 0, n = 0; this._eachRing(f, r => r.forEach(([lo, la]) => { x += lo; y += la; n++; })); return [x / n, y / n]; }
   _eachPolygon(f, cb) { const g = f.geometry; if (!g) return; if (g.type === 'Polygon') cb(g.coordinates); else if (g.type === 'MultiPolygon') g.coordinates.forEach(p => cb(p)); }
