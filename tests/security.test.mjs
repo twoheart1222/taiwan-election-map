@@ -39,6 +39,28 @@ test('generated election pages restrict scripts and cannot be framed', async () 
   assert.match(block, /base-uri 'self'/);
 });
 
+test('editorial pages receive route-specific CSP without blocking articles or related links', async () => {
+  const headers = (await readFile(new URL('../_headers', import.meta.url), 'utf8')).replace(/\r\n/g, '\n');
+  const blockFor = route => {
+    const start = headers.indexOf(`\n${route}\n`);
+    assert.notEqual(start, -1, `${route} is missing from _headers`);
+    return headers.slice(start + route.length + 2).split(/\n(?=\/)/, 1)[0];
+  };
+  for (const route of ['/observatory/*', '/about/*', '/related/*', '/privacy/*']) {
+    const block = blockFor(route);
+    assert.match(block, /Content-Security-Policy: default-src 'self'/);
+    assert.match(block, /script-src 'self'/);
+    assert.match(block, /object-src 'none'/);
+    assert.match(block, /frame-ancestors 'none'/);
+    assert.match(block, /X-Frame-Options: DENY/);
+  }
+  assert.match(blockFor('/observatory/*'), /script-src [^;]*https:\/\/pagead2\.googlesyndication\.com/);
+  assert.match(blockFor('/related/*'), /connect-src 'self' https:\/\/api\.formosaobservatory\.com/);
+  for (const route of ['/about/*', '/related/*', '/privacy/*']) {
+    assert.doesNotMatch(blockFor(route).match(/script-src ([^;]+)/)?.[1] || '', /'unsafe-inline'|https:/);
+  }
+});
+
 test('third-party executable scripts are version-pinned and integrity-checked', async () => {
   for (const file of ['index.html', 'admin.html', 'history/index.html']) {
     const html = await readFile(new URL(`../${file}`, import.meta.url), 'utf8');
