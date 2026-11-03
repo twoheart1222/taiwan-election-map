@@ -67,13 +67,15 @@
     const veil=buildTransition(),cols=[...veil.querySelectorAll('.history-transition-cols span')],title=veil.querySelector('.history-transition-title'),rule=veil.querySelector('.history-transition-rule');
     title.textContent=label;veil.style.display='block';
     const dur=mobile()?.48:.52;
+    const lastColumnEnd=dur+(cols.length-1)*.035;
+    const ruleEnd=dur*(.46+.72);
     g.killTweensOf([...cols,title,rule]);
     g.set(cols,{yPercent:110});g.set(title,{yPercent:120,autoAlpha:0});g.set(rule,{width:0});
     g.timeline({defaults:{ease:'power3.inOut'}})
       .to(cols,{yPercent:0,duration:dur,stagger:.035},0)
       .to(title,{yPercent:0,autoAlpha:1,duration:dur*.95,ease:'expo.out'},0)
       .to(rule,{width:mobile()?72:110,duration:dur*.72,ease:'power3.out'},dur*.46)
-      .add(commit,dur*1.06);
+      .add(commit,Math.max(lastColumnEnd,ruleEnd)+.04);
   }
 
   function inboundTransition(){
