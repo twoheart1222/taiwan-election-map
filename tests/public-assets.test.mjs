@@ -53,6 +53,17 @@ test('pinned vendor asset remains byte-for-byte identical for its integrity hash
   assert.match(read('_headers'), /Content-Security-Policy:/);
 });
 
+test('published content pages boot the incoming transition before painting', () => {
+  for (const file of ['about/index.html', 'related/index.html', 'privacy/index.html', 'observatory/index.html', 'observatory/mayor-candidates-2018-2022/index.html', 'election/index.html', 'election/10009.html']) {
+    const head = read(file).split('</head>', 1)[0];
+    assert.match(head, /<head[^>]*><script src="\/assets\/ui\/page-transition-boot\.js\?b=[a-f0-9]{12}"><\/script>/i, file);
+  }
+  for (const file of ['index.html', 'history/index.html']) {
+    assert.doesNotMatch(read(file), /page-transition-boot\.js/, file);
+  }
+  assert.ok(fs.existsSync(path.join(published, 'assets/ui/page-transition-boot.js')));
+});
+
 // Exercise the deployment output, since the source preview can serve pages omitted from it.
 test('About navigation has a published HTML destination and its transition assets', () => {
   assert.match(read('index.html'), /href="\/about\/"/);

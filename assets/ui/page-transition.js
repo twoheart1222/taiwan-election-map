@@ -33,6 +33,7 @@
     for (const animation of animations) animation.cancel();
     animations.clear();
     overlay?.classList.remove('is-active');
+    document.documentElement.classList.remove('fo-transition-pending');
     busy = false;
   }
   const animate = (element, frames, options) => {
@@ -73,10 +74,11 @@
   function inbound() {
     let state;
     try { state = JSON.parse(sessionStorage.getItem(key) || 'null'); sessionStorage.removeItem(key); } catch (_) {}
-    if (!state || Date.now() - Number(state.ts || 0) > 5000 || reduce() || !Element.prototype.animate) return;
-    if (state.destination && state.destination !== location.href) return;
+    if (!state || Date.now() - Number(state.ts || 0) > 5000 || reduce() || !Element.prototype.animate) { reset(); return; }
+    if (state.destination && state.destination !== location.href) { reset(); return; }
     try {
       const { cols, title, rule } = show(String(state.label || '島民觀察室'), true);
+      document.documentElement.classList.remove('fo-transition-pending');
       fallback = setTimeout(reset, 1100);
       const duration = mobile() ? 300 : 420;
       const jobs = cols.map((col, i) => animate(col, [{ transform: 'translateY(0)' }, { transform: 'translateY(-110%)' }], { duration, delay: 120 + i * 35 }));

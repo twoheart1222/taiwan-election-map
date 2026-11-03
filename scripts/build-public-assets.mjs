@@ -126,6 +126,11 @@ for (const relative of files.filter(file => file.endsWith('.html'))) {
     }
   });
   await Promise.all(pending);
-  await writeFile(path.join(output, relative), applyReplacements(html, replacements));
+  let rendered = applyReplacements(html, replacements);
+  if (relative !== 'index.html' && !relative.startsWith('history/') && html.includes('/assets/ui/page-transition.js')) {
+    const hash = assetHashes.get('/assets/ui/page-transition-boot.js');
+    rendered = rendered.replace(/<head\b[^>]*>/i, match => `${match}<script src="/assets/ui/page-transition-boot.js?b=${hash}"></script>`);
+  }
+  await writeFile(path.join(output, relative), rendered);
 }
 console.log(`Built ${files.length} public assets in .public-deploy; removed ${removedComments} HTML comments.`);

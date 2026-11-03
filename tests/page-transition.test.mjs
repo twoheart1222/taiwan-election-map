@@ -4,7 +4,7 @@ import vm from 'node:vm';
 import test from 'node:test';
 import * as cheerio from 'cheerio';
 const read = file => fs.readFileSync(new URL('../' + file, import.meta.url), 'utf8');
-function setup({ reduced = false, throwingAnimation = false, blockedStorage = false, incoming = null } = {}) {
+function setup({ reduced = false, throwingAnimation = false, blockedStorage = false, incoming = null, pending = false } = {}) {
   const handlers = {}, events = {}, timers = new Map(), storage = new Map();
   if (incoming) storage.set('historyTransition', JSON.stringify(incoming));
   let timerId = 0;
@@ -15,7 +15,8 @@ function setup({ reduced = false, throwingAnimation = false, blockedStorage = fa
   const overlay = node(), cols = Array.from({ length: 5 }, node), title = node(), rule = node(), kicker = node();
   overlay.querySelectorAll = () => cols;
   overlay.querySelector = selector => selector.endsWith('title') ? title : selector.endsWith('rule') ? rule : kicker;
-  const document = { body: { appendChild: element => created.push(element), classList: { contains: () => false } }, createElement: () => overlay, addEventListener: (event, fn) => { handlers[event] = fn; }, querySelectorAll: () => [], documentElement: { classList: { remove() {} } } };
+  const htmlClasses = new Set(pending ? ['fo-transition-pending'] : []);
+  const document = { body: { appendChild: element => created.push(element), classList: { contains: () => false } }, createElement: () => overlay, addEventListener: (event, fn) => { handlers[event] = fn; }, querySelectorAll: () => [], documentElement: { classList: { add: name => htmlClasses.add(name), remove: name => htmlClasses.delete(name), contains: name => htmlClasses.has(name) } } };
   const context = vm.createContext({ document, window: {}, URL, Element: { prototype: { animate() {} } }, matchMedia: q => ({ matches: q.includes('reduced') && reduced }), location: { href: 'https://example.org/about/', origin: 'https://example.org', pathname: '/about/', search: '', assign: url => assigned.push(url) }, sessionStorage: { getItem: key => { if (blockedStorage) throw Error('blocked'); return storage.get(key); }, removeItem: key => storage.delete(key), setItem: (key, value) => { if (blockedStorage) throw Error('blocked'); storage.set(key, value); } }, setTimeout: (fn, ms) => { timers.set(++timerId, { fn, ms }); return timerId; }, clearTimeout: id => timers.delete(id), addEventListener: (name, fn) => { events[name] = fn; } });
   vm.runInContext(read('assets/ui/page-transition.js'), context);
   const click = (href, options = {}) => {
@@ -24,8 +25,33 @@ function setup({ reduced = false, throwingAnimation = false, blockedStorage = fa
     handlers.click({ button: 0, target: { closest: () => anchor }, preventDefault: () => { prevented = true; }, ...options.event });
     return prevented;
   };
-  return { assigned, created, timers, storage, click, overlay, events };
+  return { assigned, created, timers, storage, click, overlay, events, htmlClasses };
 }
+
+test('head boot hides only a fresh, matching incoming page and releases it if scripts fail', () => {
+  const state = { ts: Date.now(), destination: 'https://example.org/about/' };
+  const boot = ({ incoming = state, reduced = false } = {}) => {
+    const classes = new Set(), timers = [];
+    vm.runInNewContext(read('assets/ui/page-transition-boot.js'), {
+      sessionStorage: { getItem: () => JSON.stringify(incoming) },
+      document: { documentElement: { classList: { add: name => classes.add(name), remove: name => classes.delete(name) } } },
+      location: { href: 'https://example.org/about/' },
+      matchMedia: () => ({ matches: reduced }),
+      setTimeout: fn => timers.push(fn),
+      Date, JSON,
+    });
+    return { classes, timers };
+  };
+  const active = boot();
+  assert.equal(active.classes.has('fo-transition-pending'), true);
+  active.timers[0]();
+  assert.equal(active.classes.has('fo-transition-pending'), false);
+  for (const options of [
+    { incoming: { ...state, destination: 'https://example.org/related/' } },
+    { incoming: { ...state, ts: Date.now() - 6000 } },
+    { reduced: true },
+  ]) assert.equal(boot(options).classes.size, 0);
+});
 
 test('shared navigation leaves external links, downloads, modifiers and same-page anchors native', () => {
   const app = setup();
@@ -59,8 +85,9 @@ test('reduced motion, blocked storage and animation exceptions still allow navig
 });
 
 test('incoming veil expires, ignores stale state and resets on browser back', () => {
-  const app = setup({ incoming: { ts: Date.now(), label: '關於我們', destination: 'https://example.org/about/' } });
+  const app = setup({ incoming: { ts: Date.now(), label: '關於我們', destination: 'https://example.org/about/' }, pending: true });
   assert.equal(app.overlay.classes.has('is-active'), true);
+  assert.equal(app.htmlClasses.has('fo-transition-pending'), false);
   assert.equal(app.storage.has('historyTransition'), false);
   [...app.timers.values()].find(t => t.ms === 1100).fn();
   assert.equal(app.overlay.classes.has('is-active'), false);
