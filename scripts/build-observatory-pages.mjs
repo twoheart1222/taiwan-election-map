@@ -99,7 +99,7 @@ const shell = ({ title, desc, canon, body, type = 'WebPage', modified = date }) 
 const cards = articles.map((article, i) => `<a class="story-card" href="/observatory/${article.slug}/"><span class="story-no">0${i + 1} / ${esc(article.category)}</span><h2>${esc(article.title)}</h2><p>${esc(article.lead)}</p><span class="story-link">閱讀資料觀察 →</span></a>`).join('');
 const index = shell({ modified: '2026-11-04', title: '政治觀察｜分類數據與歷屆選舉分析', desc: '以四類互動圖表比較 2018、2022 年 22 縣市投票率、議員與首長參選人數、實際當選席次，提供客觀分析、篩選、數據下載與統計方法。', canon: '/observatory/', body: `<main class="observatory-home"><div class="eyebrow">POLITICAL OBSERVATORY / DATA NOTES</div><h1>政治觀察</h1><p class="lead">用同一套口徑比較歷屆選舉。每篇列出原始來源、統計方法與完整縣市數字；只描述資料可支持的事實，不預測勝負。</p>${buildDashboard()}<section class="observatory-reading" aria-labelledby="reading-title"><p class="eyebrow">READ THE METHODS / 延伸閱讀</p><h2 id="reading-title">從圖表，繼續往下讀。</h2><div class="story-grid">${cards}</div></section><section class="note"><h2>閱讀與核對</h2><p>本站以${source}的歷史結果製作統計；本站保存的<a href="/history/">歷屆選舉互動頁</a>可用於逐屆核對。2026 年登記資料與歷史正式結果分屬不同階段，文章不直接混算。外部資料入口另見<a href="/related/">相關網站</a>。</p></section></main>` });
 fs.mkdirSync(path.join(root, 'observatory'), { recursive: true });
-fs.writeFileSync(path.join(root, 'observatory/index.html'), index.replace('</body>', '<script type="module" src="/observatory/dashboard.js?v=20261104"></script></body>'));
+fs.writeFileSync(path.join(root, 'observatory/index.html'), index.replace('</body>', '<script type="module" src="/observatory/dashboard.js?v=20261104-difference"></script></body>'));
 for (const article of articles) {
   const dir = path.join(root, 'observatory', article.slug);
   fs.mkdirSync(dir, { recursive: true });

@@ -30,7 +30,8 @@ test('national turnout uses electoral weight and differences use percentage poin
   }
   assert.equal(delta(m.national),-5.85);
   assert.match(observations(m)[0],/−5.85 個百分點/);
-  assert.equal(axisMaximum(m,selectRows(m,'臺北市')),100);
+  assert.equal(axisMaximum(m),15);
+  assert.equal(axisMaximum(m,selectRows(m,'臺北市')),axisMaximum(m));
 });
 
 test('county filter, sort, analysis, chart, table and CSV describe the same selection', () => {
@@ -38,9 +39,9 @@ test('county filter, sort, analysis, chart, table and CSV describe the same sele
   const $ = cheerio.load(renderPanel(m,{county:'宜蘭縣',sort:'deltaDesc'}));
   assert.equal($('.compare-row').length,1);
   assert.equal($('tbody tr').length,1);
-  assert.equal($('.compare-bar').length,2);
+  assert.equal($('.compare-bar').length,1);
   assert.match($('.metric-stat').text(),/73人.*58人.*−15 人/);
-  assert.match($('.metric-analysis li').first().text(),/宜蘭縣.*−15 人/);
+  assert.match($('.metric-analysis p').first().text(),/宜蘭縣.*−15 人/);
   const csv = csvFor(m,'宜蘭縣','deltaDesc');
   assert.ok(csv.startsWith('\ufeff'));
   assert.equal(csv.split('\r\n').length,2);
@@ -61,7 +62,15 @@ test('all category narratives reconcile direction counts and use safe escaped la
     assert.equal($('tbody tr').length,22);
     for (const bar of $('.compare-bar').toArray()) {
       const width = Number($(bar).attr('style').match(/width:([\d.]+)%/)[1]);
-      assert.ok(width>=0&&width<=100);
+      assert.ok(width>=0&&width<=50);
+      const left = Number($(bar).attr('style').match(/left:([\d.]+)%/)[1]);
+      assert.ok(left>=0&&left+width<=100.001);
+      assert.equal($(bar).hasClass('is-negative') ? Math.round((left+width)*100)/100 : left,50);
+      const county = $(bar).closest('.compare-row').find('.compare-county').contents().filter((_,n)=>n.type==='text').text();
+      const row = m.rows.find(r=>r.county===county);
+      const encoded = width/50*axisMaximum(m)*($(bar).hasClass('is-negative')?-1:1);
+      assert.ok(Math.abs(encoded-delta(row))<0.0001,`${county}: plotted difference matches source`);
+      assert.equal($(bar).hasClass('is-zero'),delta(row)===0);
     }
   }
   assert.match(observations(metric('seats'))[3],/不是個人當選機率/);
@@ -75,7 +84,9 @@ test('index includes useful static content without JavaScript and retains articl
   const html=read('observatory/index.html'),$=cheerio.load(html);
   assert.equal($('#metric-panel .compare-row').length,22);
   assert.equal($('#metric-panel tbody tr').length,22);
-  assert.equal($('.metric-analysis li').length,4);
+  assert.equal($('.metric-analysis p').length,2);
+  assert.ok($('.metric-method summary').text().includes('完整分析'));
+  assert.equal($('.compare-bar').length,22);
   assert.equal($('[role=tab]').length,4);
   assert.equal($('#dashboard-county option').length,23);
   assert.equal($('.story-card').length,3);

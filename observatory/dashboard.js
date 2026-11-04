@@ -1,4 +1,4 @@
-import { renderPanel, validateDashboard, csvFor } from './dashboard-model.js?v=20261104';
+import { renderPanel, validateDashboard, csvFor } from './dashboard-model.js?v=20261104-difference';
 const root = document.getElementById('data-observatory');
 (async () => {
 if (root) {

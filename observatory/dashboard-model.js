@@ -46,22 +46,25 @@ export function observations(metric, county = 'all') {
   else denominator = `全國淨變化為 ${deltaText(metric,diff)}；增加縣市合計多 ${number(rows.reduce((s,r)=>s+Math.max(0,delta(r)),0))} 人，減少縣市合計少 ${number(rows.reduce((s,r)=>s+Math.max(0,-delta(r)),0))} 人。正負變動抵銷後才得到全國淨值。`;
   return [finding, distribution, spread, denominator];
 }
-export function axisMaximum(metric, rows) {
-  if (metric.id === 'turnout') return 100;
-  const max = Math.max(1, ...rows.flatMap(r => [r.a,r.b]));
-  const step = max > 100 ? 20 : max > 30 ? 10 : max > 10 ? 5 : 1;
+export function axisMaximum(metric) {
+  const max = Math.max(1, ...metric.rows.map(r => Math.abs(delta(r))));
+  const step = max > 10 ? 5 : max > 5 ? 2 : 1;
   return Math.ceil(max/step)*step;
 }
 export function renderPanel(metric, { county = 'all', sort = 'name' } = {}) {
   const esc = escapeHtml, rows = selectRows(metric,county,sort), focus = county === 'all' ? metric.national : rows[0];
-  const area = county === 'all' ? '全國' : county, max = axisMaximum(metric,rows);
-  const bars = rows.map(r => `<li class="compare-row"><div class="compare-county">${esc(r.county)}<small>${esc(deltaText(metric,delta(r)))}</small></div><div class="compare-series">${['a','b'].map((key,i)=>`<div class="compare-track"><span class="compare-bar year-${2018+i*4}" style="width:${(r[key]/max*100).toFixed(4)}%" aria-hidden="true"></span><span class="sr-only">${2018+i*4} 年：</span><b>${esc(valueText(metric,r[key]))}</b></div>`).join('')}</div></li>`).join('');
+  const area = county === 'all' ? '全國' : county, max = axisMaximum(metric), notes = observations(metric,county);
+  const signed = value => `${value > 0 ? '+' : value < 0 ? '−' : ''}${number(Math.abs(value),metric.digits)}`;
+  const bars = rows.map(r => {
+    const change = delta(r), width = Math.abs(change)/max*50, left = change < 0 ? 50-width : 50;
+    return `<li class="compare-row"><div class="compare-county">${esc(r.county)}<small>${esc(valueText(metric,r.a))} → ${esc(valueText(metric,r.b))}</small></div><div class="difference-track" aria-hidden="true"><span class="compare-bar ${change<0?'is-negative':change>0?'is-positive':'is-zero'}" style="left:${left.toFixed(4)}%;width:${width.toFixed(4)}%"></span></div><div class="compare-value"><strong>${signed(change)}</strong><span class="sr-only"> ${esc(metric.deltaUnit)}</span></div></li>`;
+  }).join('');
   return `<div class="metric-heading"><div><p class="eyebrow">2018 → 2022 / ${esc(metric.tag)}</p><h2 id="metric-title">${esc(metric.title)}</h2></div><p>${esc(metric.description)}</p></div>
 <div class="metric-stats">${[['2018',valueText(metric,focus.a)],['2022',valueText(metric,focus.b)],['兩屆差異',deltaText(metric,delta(focus))]].map(([label,value])=>`<div class="metric-stat"><span>${esc(area)} · ${label}</span><strong>${esc(value)}</strong></div>`).join('')}</div>
-<div class="metric-body"><div class="metric-analysis" aria-labelledby="analysis-title"><h3 id="analysis-title">這些數字告訴我們什麼？</h3><ul>${observations(metric,county).map(text=>`<li>${esc(text)}</li>`).join('')}</ul></div>
-<figure class="comparison-figure" aria-labelledby="chart-title"><figcaption><div><h3 id="chart-title">${esc(area === '全國' ? '22 縣市比較' : area+'比較')}</h3><p>橫軸從 0 起算，長條顏色只區分年份。</p></div><div class="chart-legend"><span><i class="legend-2018"></i>2018</span><span><i class="legend-2022"></i>2022</span></div></figcaption><div class="chart-axis" aria-hidden="true"><span>0</span><span>${number(max/2, max%2?1:0)}</span><span>${number(max)}${esc(metric.unit)}</span></div><div class="chart-scroll" tabindex="0" aria-label="${esc(metric.title)}，${rows.length} 個縣市的長條圖，可捲動查看"><ol class="compare-chart">${bars}</ol></div><p class="chart-note">${esc(metric.chartNote)} 每列的小字為 2022 減 2018。圖表下方提供相同資料的表格。</p></figure></div>
-<section class="metric-method"><h3>統計口徑與解讀限制</h3><p>${esc(metric.method)}</p><p><strong>解讀限制：</strong>${esc(metric.limit)}</p></section>
-<details class="dashboard-table"><summary>查看數據表格（${rows.length} 個縣市）</summary><div class="table-wrap"><table><caption>${esc(metric.title)}｜2018、2022 年比較</caption><thead><tr><th scope="col">縣市</th><th scope="col">2018（${esc(metric.unit)}）</th><th scope="col">2022（${esc(metric.unit)}）</th><th scope="col">差異（${esc(metric.deltaUnit)}）</th></tr></thead><tbody>${rows.map(r=>`<tr><th scope="row">${esc(r.county)}</th><td>${number(r.a,metric.digits)}</td><td>${number(r.b,metric.digits)}</td><td>${esc(deltaText(metric,delta(r)))}</td></tr>`).join('')}</tbody></table></div></details>`;
+<figure class="comparison-figure" aria-labelledby="chart-title"><figcaption><div><h3 id="chart-title">${esc(area === '全國' ? '22 縣市的兩屆差異' : area+'的兩屆差異')}</h3><p>每縣市一根長條；右向增加、左向減少，圓點表示持平。</p></div><p class="chart-unit">單位：${esc(metric.deltaUnit)}<br>2022 − 2018</p></figcaption><div class="chart-axis" aria-hidden="true"><span>−${number(max)}</span><span>0</span><span>+${number(max)}</span></div><div class="chart-scroll" tabindex="0" aria-label="${esc(metric.title)}差異圖，單位${esc(metric.deltaUnit)}，可捲動查看 ${rows.length} 個縣市"><ol class="compare-chart">${bars}</ol></div><p class="chart-note">每列小字為 2018 → 2022 原值；右側數字為差異。同分類篩選前後固定採 −${number(max)} 至 +${number(max)} ${esc(metric.deltaUnit)}的對稱刻度，便於比較。</p></figure>
+<section class="metric-analysis" aria-labelledby="analysis-title"><h3 id="analysis-title">客觀摘要</h3><p>${esc(notes[0])}</p><p>${esc(notes[1])}</p></section>
+<details class="metric-method"><summary>展開完整分析與統計口徑</summary><p>${esc(notes[2])}</p><p>${esc(notes[3])}</p><h3>統計口徑</h3><p>${esc(metric.method)}</p><p><strong>解讀限制：</strong>${esc(metric.limit)}</p></details>
+<details class="dashboard-table"><summary>查看原始數值表格（${rows.length} 個縣市）</summary><div class="table-wrap"><table><caption>${esc(metric.title)}｜2018、2022 年比較</caption><thead><tr><th scope="col">縣市</th><th scope="col">2018（${esc(metric.unit)}）</th><th scope="col">2022（${esc(metric.unit)}）</th><th scope="col">差異（${esc(metric.deltaUnit)}）</th></tr></thead><tbody>${rows.map(r=>`<tr><th scope="row">${esc(r.county)}</th><td>${number(r.a,metric.digits)}</td><td>${number(r.b,metric.digits)}</td><td>${esc(deltaText(metric,delta(r)))}</td></tr>`).join('')}</tbody></table></div></details>`;
 }
 export function csvFor(metric, county = 'all', sort = 'name') {
   const rows = [['分類','縣市','2018','2022',`差異（${metric.deltaUnit}）`,'數值單位'], ...selectRows(metric,county,sort).map(r=>[metric.title,r.county,r.a,r.b,delta(r),metric.unit])];
