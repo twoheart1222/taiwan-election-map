@@ -7,20 +7,31 @@ const $=cheerio.load(read('observatory/index.html'));
 const council=JSON.parse(read('data/history/councilor.json')).years;
 const executive=JSON.parse(read('data/history/local-executive.json')).years;
 const audit=JSON.parse(read('data/representative-incumbent-review-20261030.json'));
-const report=id=>$(`#report-${id}`);
+const report=id=>{const doc=cheerio.load(read(`observatory/${id}/index.html`));return doc(`#report-${id}`);};
 
-test('political observatory leads with four readable chart reports, leaving lookup tools collapsed',()=>{
-  assert.equal($('.report-card').length,4);
-  assert.equal($('.report-figure').length,4);
+test('political observatory shows classified story cards that open complete standalone reports',()=>{
+  assert.equal($('.report-index-card.story-card').length,4);
+  assert.equal($('#field-notes .report-figure').length,0);
+  assert.equal($('#field-notes .report-copy').length,0);
   assert.equal($('.report-filters button').length,4);
-  for(const el of $('.report-card').toArray()){
-    const r=$(el);assert.equal(r.find('.report-copy p').length,3);assert.ok(r.find('header h2').text().length>15);
-    assert.equal(r.find('time').attr('datetime'),'2026-11-04');
-    assert.ok(r.find('.report-footer details a[href^="https://"]').length);
+  for(const el of $('.report-index-card').toArray()){
+    const card=$(el),url=card.attr('href');
+    assert.ok(url.startsWith('/observatory/'));
+    const doc=cheerio.load(read(url.slice(1)+'index.html'));
+    assert.equal(doc('.report-copy p').length,3);
+    assert.equal(doc('.report-figure').length,1);
+    assert.equal(doc('h1').length,1);
+    assert.equal(doc('h1').text(),card.find('h2').text());
+    assert.equal(doc('time').attr('datetime'),'2026-11-04');
+    const ld=JSON.parse(doc('script[type="application/ld+json"]').text());
+    assert.equal(ld.datePublished,'2026-11-04');
+    assert.equal(ld['@type'],'Article');
+    assert.ok(read('sitemap.xml').includes('https://formosaobservatory.com'+url));
+    assert.ok(doc('.report-footer details a[href^="https://"]').length);
+    assert.ok(doc('.back[href="/observatory/#field-notes"]').length);
+    assert.doesNotMatch(read(url.slice(1)+'index.html'),/adsbygoogle/);
   }
-  assert.ok($('.research-tools').is('details'));
   assert.equal($('.research-tools').attr('open'),undefined);
-  assert.ok($('main').html().indexOf('id="field-notes"') < $('main').html().indexOf('class="research-tools"'));
   assert.ok($('script[src^="/observatory/reports.js"]').length);
 });
 

@@ -89,7 +89,7 @@ test('index includes useful static content without JavaScript and retains articl
   assert.equal($('.compare-bar').length,22);
   assert.equal($('[role=tab]').length,4);
   assert.equal($('#dashboard-county option').length,23);
-  assert.equal($('.story-card').length,3);
+  assert.equal($('.observatory-reading .story-card').length,3);
   assert.match($('#data-observatory').text(),/2026-11-04/);
   assert.match($('#data-observatory').text(),/不預測 2026 年勝負/);
   assert.equal($('script[type=module][src^="/observatory/dashboard.js"]').length,1);

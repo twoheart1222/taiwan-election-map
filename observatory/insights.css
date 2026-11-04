@@ -131,3 +131,9 @@
 .research-tools-intro{font-size:14px;line-height:1.9;margin:22px 0}
 @media(max-width:800px){.report-layout{grid-template-columns:1fr;gap:22px}.report-card{scroll-margin-top:170px}.report-figure{max-width:560px;width:100%;padding:22px}.report-copy p{font-size:15px}.report-card{padding:28px 0 32px}.report-kicker{font-size:11px}.report-deck{margin-bottom:22px}.report-meta{font-size:11px}.report-card header h2{text-wrap:initial}.report-footer{margin-top:22px}.report-invalid-row{grid-template-columns:34px minmax(0,1fr) 46px;gap:8px}}
 @media(prefers-reduced-motion:reduce){.report-filters button::after{transition:none}}
+.report-index-card[hidden]{display:none!important}
+.report-page .report-card header h1{font-size:clamp(30px,4vw,48px);line-height:1.35;letter-spacing:-.035em;max-width:960px;margin:0 0 16px;text-wrap:balance}
+.report-page>.back{margin-bottom:26px}
+@media(max-width:800px){.report-page .report-card header h1{text-wrap:initial}}
+#field-notes{scroll-margin-top:90px}
+@media(max-width:800px){#field-notes{scroll-margin-top:170px}}

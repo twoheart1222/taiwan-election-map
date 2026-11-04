@@ -2,7 +2,7 @@
 const filters=document.querySelector('.report-filters');
 if(filters){
   const buttons=[...filters.querySelectorAll('button')];
-  const reports=[...document.querySelectorAll('.report-card')];
+  const reports=[...document.querySelectorAll('.report-index-card')];
   const status=document.getElementById('report-filter-status');
   for(const button of buttons)button.addEventListener('click',()=>{
     const category=button.dataset.reportFilter;

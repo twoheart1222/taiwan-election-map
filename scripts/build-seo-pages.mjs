@@ -3,6 +3,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { reportSlugs } from './build-observatory-reports.mjs';
 import '../election-data.js';
 import '../data/ballot-numbers-regional-2026.js';
 import '../data/ballot-numbers-taichung-2026.js';
@@ -141,6 +142,7 @@ const urls = [
   { loc: '/history/councilor', pri: '0.7', freq: 'monthly' },
   { loc: '/history/town', pri: '0.6', freq: 'monthly' },
   { loc: '/observatory/', pri: '0.7', freq: 'monthly' },
+  ...reportSlugs.map(slug => ({ loc: `/observatory/${slug}/`, pri: '0.6', freq: 'yearly' })),
   { loc: '/observatory/mayor-candidates-2018-2022/', pri: '0.6', freq: 'yearly' },
   { loc: '/observatory/councilor-candidates-2018-2022/', pri: '0.6', freq: 'yearly' },
   { loc: '/observatory/councilor-turnout-2018-2022/', pri: '0.6', freq: 'yearly' },
