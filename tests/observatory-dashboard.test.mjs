@@ -17,7 +17,7 @@ test('dashboard values are reproducible from all county candidate records and el
     const expected = m.id === 'turnout' ? c.stats.turnout : m.id === 'mayor-candidates' ? mayor[year].races[row.county].candidates.length : m.id === 'seats' ? c.districts.flatMap(d=>d.candidates).filter(c=>c.elected).length : c.districts.reduce((sum,d)=>sum+d.candidates.length,0);
     assert.equal(row[key],expected,`${m.id} ${year} ${row.county}`);
   }
-  for (const source of data.sourceFiles) assert.equal(source.sha256,createHash('sha256').update(read(source.file)).digest('hex'));
+  for (const source of data.sourceFiles) assert.equal(source.sha256,createHash('sha256').update(read(source.file).replace(/\r\n/g,'\n')).digest('hex'));
 });
 
 test('national turnout uses electoral weight and differences use percentage points', () => {
@@ -93,6 +93,6 @@ test('index includes useful static content without JavaScript and retains articl
   assert.match($('#data-observatory').text(),/2026-11-04/);
   assert.match($('#data-observatory').text(),/不預測 2026 年勝負/);
   assert.equal($('script[type=module][src^="/observatory/dashboard.js"]').length,1);
-  assert.equal(JSON.parse($('script[type="application/ld+json"]').text()).dateModified,'2026-11-04');
+  assert.equal(JSON.parse($('script[type="application/ld+json"]').first().text()).dateModified,'2026-11-04');
   assert.doesNotMatch(html,/adsbygoogle|pagead2\.googlesyndication/);
 });

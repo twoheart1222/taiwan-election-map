@@ -132,20 +132,20 @@ const candTable = (list, showBallot = false) => list.length
 
 fs.mkdirSync(path.join(ROOT, 'election'), { recursive: true });
 const urls = [
-  { loc: '/', pri: '1.0', freq: 'daily' },
+  { loc: '/', pri: '1.0', freq: 'daily', lastmod: '2026-11-05' },
   { loc: '/election/', pri: '0.9', freq: 'daily' },
-  { loc: '/about/', pri: '0.5', freq: 'monthly' },
+  { loc: '/about/', pri: '0.5', freq: 'monthly', lastmod: '2026-10-30' },
   { loc: '/privacy/', pri: '0.3', freq: 'yearly' },
   { loc: '/history/', pri: '0.8', freq: 'monthly' },
   { loc: '/history/legislator', pri: '0.8', freq: 'monthly' },
   { loc: '/history/local-executive', pri: '0.7', freq: 'monthly' },
   { loc: '/history/councilor', pri: '0.7', freq: 'monthly' },
   { loc: '/history/town', pri: '0.6', freq: 'monthly' },
-  { loc: '/observatory/', pri: '0.7', freq: 'monthly' },
-  ...reportSlugs.map(slug => ({ loc: `/observatory/${slug}/`, pri: '0.6', freq: 'yearly' })),
-  { loc: '/observatory/mayor-candidates-2018-2022/', pri: '0.6', freq: 'yearly' },
-  { loc: '/observatory/councilor-candidates-2018-2022/', pri: '0.6', freq: 'yearly' },
-  { loc: '/observatory/councilor-turnout-2018-2022/', pri: '0.6', freq: 'yearly' },
+  { loc: '/observatory/', pri: '0.7', freq: 'monthly', lastmod: '2026-11-04' },
+  ...reportSlugs.map(slug => ({ loc: `/observatory/${slug}/`, pri: '0.6', freq: 'yearly', lastmod: '2026-11-04' })),
+  { loc: '/observatory/mayor-candidates-2018-2022/', pri: '0.6', freq: 'yearly', lastmod: '2026-10-30' },
+  { loc: '/observatory/councilor-candidates-2018-2022/', pri: '0.6', freq: 'yearly', lastmod: '2026-10-30' },
+  { loc: '/observatory/councilor-turnout-2018-2022/', pri: '0.6', freq: 'yearly', lastmod: '2026-10-30' },
   { loc: '/related/', pri: '0.5', freq: 'monthly' },
 ];
 const countyRows = [];
@@ -285,7 +285,7 @@ for (const c of counties) {
 }
 
 await import('./build-observatory-pages.mjs');
-fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `<url><loc>${SITE}${u.loc}</loc><lastmod>${today}</lastmod><changefreq>${u.freq}</changefreq><priority>${u.pri}</priority></url>`).join('\n')}\n</urlset>\n`);
+fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `<url><loc>${SITE}${u.loc}</loc>${u.lastmod ? `<lastmod>${u.lastmod}</lastmod>` : ''}<changefreq>${u.freq}</changefreq><priority>${u.pri}</priority></url>`).join('\n')}\n</urlset>\n`);
 fs.writeFileSync(path.join(ROOT, 'robots.txt'), `# 歡迎搜尋引擎與 AI 搜尋／回答引擎收錄本站公開內容
 User-agent: *
 Allow: /

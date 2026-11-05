@@ -8,7 +8,7 @@ test('entry pages have distinct titles and crawlable query navigation', () => {
   const entry = read('election/index.html');
   const motion = read('assets/ui/fo-motion.js');
   const ui = read('assets/ui/fo-ui.css');
-  assert.match(home, /<title>2026 選舉地圖｜候選人與選區查詢｜島民觀察室<\/title>/);
+  assert.match(home, /<title>島民選舉地圖｜2026 臺灣地方選舉候選人與選區查詢｜島民觀察室<\/title>/);
   assert.match(entry, /<title>2026 候選人查詢｜/);
   assert.doesNotMatch(home, /class="navlink">候選人查詢/);
   assert.doesNotMatch(home, /<div id="mobile-menu"[\s\S]*?>候選人查詢 <span/);

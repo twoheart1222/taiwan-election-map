@@ -15,7 +15,7 @@ const article = slug => cheerio.load(read(`observatory/${slug}/index.html`));
 test('each article uses its own methodology, preserves original publication and discloses revisions', () => {
   for (const slug of ['mayor-candidates-2018-2022', 'councilor-candidates-2018-2022', 'councilor-turnout-2018-2022']) {
     const $ = article(slug);
-    const ld = JSON.parse($('script[type="application/ld+json"]').text());
+    const ld = JSON.parse($('script[type="application/ld+json"]').first().text());
     assert.equal(ld.datePublished, '2026-10-29');
     assert.equal(ld.dateModified, '2026-10-30');
     assert.equal(ld.author.url, 'https://formosaobservatory.com/about/');

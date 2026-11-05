@@ -23,7 +23,7 @@ test('political observatory shows classified story cards that open complete stan
     assert.equal(doc('h1').length,1);
     assert.equal(doc('h1').text(),card.find('h2').text());
     assert.equal(doc('time').attr('datetime'),'2026-11-04');
-    const ld=JSON.parse(doc('script[type="application/ld+json"]').text());
+    const ld=JSON.parse(doc('script[type="application/ld+json"]').first().text());
     assert.equal(ld.datePublished,'2026-11-04');
     assert.equal(ld['@type'],'Article');
     assert.ok(read('sitemap.xml').includes('https://formosaobservatory.com'+url));

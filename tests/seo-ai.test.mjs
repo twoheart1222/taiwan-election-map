@@ -61,9 +61,37 @@ test('observatory articles publish source-linked totals and every county', () =>
   }
 });
 
+test('editorial routes retain the same mobile navigation and matching breadcrumb data', () => {
+  const routes = [
+    '/observatory/', '/related/', '/about/',
+    '/observatory/one-more-candidate/',
+    '/observatory/more-electors-fewer-ballots/',
+    '/observatory/two-different-denominators/',
+    '/observatory/incumbent-is-not-reelection/',
+    '/observatory/mayor-candidates-2018-2022/',
+    '/observatory/councilor-candidates-2018-2022/',
+    '/observatory/councilor-turnout-2018-2022/',
+  ];
+  for (const route of routes) {
+    const html = text(route.slice(1) + 'index.html');
+    const menu = html.match(/<details class="editorial-mobile-nav">[\s\S]*?<nav aria-label="手機主要導覽">([\s\S]*?)<\/nav>/);
+    assert.ok(menu, route);
+    for (const href of ['/', '/history/', '/observatory/', '/related/', '/about/']) {
+      assert.ok(menu[1].includes(`href="${href}"`), `${route}: ${href}`);
+    }
+    const canonical = html.match(/<link rel="canonical" href="([^"]+)"/)?.[1];
+    const breadcrumb = jsonLd(html).find(entry => entry['@type'] === 'BreadcrumbList');
+    assert.equal(canonical, `https://formosaobservatory.com${route}`);
+    assert.equal(breadcrumb.itemListElement.at(-1).item, canonical);
+    assert.match(html, /<nav class="editorial-breadcrumb" aria-label="麵包屑">/);
+  }
+});
+
 test('sitemap and AI summaries expose current election and history entry points', () => {
   const sitemap = text('sitemap.xml');
   assert.equal((sitemap.match(/<url>/g) || []).length, 408);
+  assert.match(sitemap, /<loc>https:\/\/formosaobservatory\.com\/observatory\/one-more-candidate\/<\/loc><lastmod>2026-11-04<\/lastmod>/);
+  assert.doesNotMatch(sitemap, /<loc>https:\/\/formosaobservatory\.com\/election\/[^<]+<\/loc><lastmod>/);
   for (const page of ['/observatory/', '/observatory/mayor-candidates-2018-2022/', '/observatory/councilor-candidates-2018-2022/', '/observatory/councilor-turnout-2018-2022/', '/related/']) {
     assert.ok(sitemap.includes(`https://formosaobservatory.com${page}`), page);
   }
