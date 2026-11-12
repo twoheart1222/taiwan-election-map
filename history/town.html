@@ -64,8 +64,8 @@
   <div class="brand-site-footer__note">本站為獨立民間資訊平台，非中央選舉委員會或任何政府機關之官方網站。<br><a href="../#contact">資料更正與聯絡</a></div>
 <span style="display:inline-block;margin:8px 12px"><a href="/privacy/" style="color:inherit;text-decoration:underline;text-underline-offset:3px">隱私權政策</a></span></footer>
 <div id="tooltip" class="tooltip"></div>
-<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
 <script>
 // 顏色改用各黨黨徽本身的品牌色，與 history/index.html、history/local-executive.js 一致。
 const PARTY_COLORS={DPP:'#00A600',KMT:'#000095',TPP:'#28C8C8',PFP:'#FF6600',NP:'#002FA7',IND:'#9D9D9D'};
@@ -74,17 +74,19 @@ const $=id=>document.getElementById(id);
 const params=new URLSearchParams(location.search);
 const year=Number(params.get('year')||2024);
 const county=normalize(params.get('county')||'臺北市');
-let election,townData,countyData,features=[],path,svg,selected=null,resizeFrame=0;
+// 每縣市一個檔案（scripts/build-history-towns.mjs 產生），內含八屆鄉鎮結果、縣市摘要與該縣市界線。
+const COUNTY_IDS={"連江縣":"09007","金門縣":"09020","宜蘭縣":"10002","彰化縣":"10007","南投縣":"10008","雲林縣":"10009","屏東縣":"10013","臺東縣":"10014","花蓮縣":"10015","澎湖縣":"10016","基隆市":"10017","新竹市":"10018","臺北市":"63000","新北市":"65000","臺中市":"66000","臺南市":"67000","桃園市":"68000","苗栗縣":"10005","新竹縣":"10004","嘉義市":"10020","嘉義縣":"10010","高雄市":"64000"};
+let election,yearData,features=[],path,svg,selected=null,resizeFrame=0;
 
 function normalize(v){return String(v||'').replaceAll('台','臺').replace(/\s+/g,'').trim()}
 function nationalCandidate(no){return election?.candidates?.find(c=>String(c.no)===String(no))||null}
 function partyColor(no){const c=nationalCandidate(no);return PARTY_COLORS[c?.partyKey]||PARTY_COLORS.IND}
 function featureTown(f){return normalize(f?.properties?.TOWNNAME||'')}
 function featureCounty(f){return normalize(f?.properties?.COUNTYNAME||'')}
-function resultForTown(name){return townData?.years?.[String(year)]?.counties?.[county]?.[normalize(name)]||null}
+function resultForTown(name){return yearData?.towns?.[normalize(name)]||null}
 
 function renderCountySummary(){
-  const c=countyData?.years?.[String(year)]?.counties?.[county];
+  const c=yearData?.county;
   if(!c){$('county-summary').innerHTML='<div class="empty">找不到縣市結果。</div>';return}
   const winner=nationalCandidate(c.winnerNo);
   $('county-summary').innerHTML=`<div class="summary-row"><div><span>${year} ${county}勝方</span><div style="margin-top:5px;font-weight:900">${winner?.president||'—'} <small style="color:#817a72">${winner?.party||''}</small></div></div><div style="text-align:right"><strong>${fmt.format(c.validVotes)}</strong><span>有效票</span></div></div>`;
@@ -116,18 +118,17 @@ function draw(){
 async function init(){
   $('history-link').href=`./?year=${year}`;$('back-link').href=`./?year=${year}`;$('crumb-county').textContent=county;$('hero-title').textContent=`${year} ${county}`;$('map-title').textContent=`${county}鄉鎮市區`;$('county-title').textContent=`${year} ${county}`;
   try{
-    const [nationalRes,townRes,countyRes,topologyRes]=await Promise.all([
-      fetch('../data/history/presidential.json'),fetch('../data/history/presidential-towns.json'),fetch('../data/history/presidential-counties.json'),fetch('https://cdn.jsdelivr.net/npm/taiwan-atlas/towns-10t.json')
-    ]);
-    if(!nationalRes.ok||!townRes.ok||!countyRes.ok||!topologyRes.ok)throw new Error('資料載入失敗');
-    const [national,topTown,topCounty,topology]=await Promise.all([nationalRes.json(),townRes.json(),countyRes.json(),topologyRes.json()]);
-    election=national.elections.find(e=>Number(e.year)===year);townData=topTown;countyData=topCounty;
+    const countyId=COUNTY_IDS[county];
+    if(!countyId)throw new Error(`找不到 ${county}`);
+    const [nationalRes,countyRes]=await Promise.all([fetch('../data/history/presidential.json'),fetch(`../data/history/towns/${countyId}.json`)]);
+    if(!nationalRes.ok||!countyRes.ok)throw new Error('資料載入失敗');
+    const [national,countyFile]=await Promise.all([nationalRes.json(),countyRes.json()]);
+    election=national.elections.find(e=>Number(e.year)===year);yearData=countyFile.years?.[String(year)]||null;
     if(!election)throw new Error(`找不到 ${year} 全國選舉資料`);
-    if(!townData.years?.[String(year)])throw new Error(`${year} 的中選會官方鄉鎮資料目前不完整，因此未開放下探。`);
-    const all=topojson.feature(topology,topology.objects.towns).features;
-    features=all.filter(f=>featureCounty(f)===county);
+    if(!yearData)throw new Error(`${year} 的中選會官方鄉鎮資料目前不完整，因此未開放下探。`);
+    features=topojson.feature(countyFile.topology,countyFile.topology.objects.towns).features.filter(f=>featureCounty(f)===county);
     if(!features.length)throw new Error(`找不到 ${county} 的鄉鎮市區界線`);
-    const available=townData.years[String(year)].counties?.[county]||{};
+    const available=yearData.towns||{};
     const townNames=Object.keys(available).sort((a,b)=>a.localeCompare(b,'zh-Hant'));
     $('town-list').innerHTML=townNames.map(name=>`<button type="button" class="town-btn" data-town="${name}">${name}</button>`).join('');
     document.querySelectorAll('.town-btn').forEach(b=>b.addEventListener('click',()=>renderTownDetail(b.dataset.town)));

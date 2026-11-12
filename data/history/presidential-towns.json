@@ -12,7 +12,7 @@
     2024
   ],
   "note": "1996、2000、2004、2008、2012、2016、2020、2024 鄉鎮市區結果皆由中選會官方資料建置；每屆已正規化並驗證為現行 368 區。",
-  "topology": "https://cdn.jsdelivr.net/npm/taiwan-atlas/towns-10t.json",
+  "topology": "https://cdn.jsdelivr.net/npm/taiwan-atlas@2021.9.20/towns-10t.json",
   "source": {
     "name": "中央選舉委員會選舉資料庫",
     "url": "https://db.cec.gov.tw/ElecTable/Election?type=President",
@@ -7523,7 +7523,7 @@
             "invalidVotes": 388,
             "turnout": 81.66
           },
-          "頭份鎮": {
+          "頭份市": {
             "validVotes": 41663,
             "winnerNo": "2",
             "margin": 21924,
@@ -8445,7 +8445,7 @@
             "invalidVotes": 198,
             "turnout": 77.83
           },
-          "員林鎮": {
+          "員林市": {
             "validVotes": 61449,
             "winnerNo": "2",
             "margin": 25428,
@@ -23601,7 +23601,7 @@
             "invalidVotes": 399,
             "turnout": 84.66
           },
-          "頭份鎮": {
+          "頭份市": {
             "validVotes": 49859,
             "winnerNo": "1",
             "margin": 16458,
@@ -24684,7 +24684,7 @@
             "invalidVotes": 171,
             "turnout": 83.34
           },
-          "員林鎮": {
+          "員林市": {
             "validVotes": 71208,
             "winnerNo": "5",
             "margin": 4121,
@@ -37019,7 +37019,7 @@
             "invalidVotes": 1190,
             "turnout": 80.59
           },
-          "頭份鎮": {
+          "頭份市": {
             "validVotes": 50097,
             "winnerNo": "2",
             "margin": 18837,
@@ -37619,7 +37619,7 @@
             "invalidVotes": 709,
             "turnout": 79.78
           },
-          "員林鎮": {
+          "員林市": {
             "validVotes": 70512,
             "winnerNo": "2",
             "margin": 406,
@@ -46636,7 +46636,7 @@
             "invalidVotes": 450,
             "turnout": 77.71
           },
-          "頭份鎮": {
+          "頭份市": {
             "validVotes": 53929,
             "winnerNo": "2",
             "margin": 31217,
@@ -47236,7 +47236,7 @@
             "invalidVotes": 139,
             "turnout": 74.88
           },
-          "員林鎮": {
+          "員林市": {
             "validVotes": 70033,
             "winnerNo": "2",
             "margin": 14169,
@@ -57694,7 +57694,7 @@
             "invalidVotes": 92,
             "turnout": 76.61
           },
-          "頭份鎮": {
+          "頭份市": {
             "validVotes": 55847,
             "winnerNo": "2",
             "margin": 25453,
@@ -58686,7 +58686,7 @@
             "invalidVotes": 201,
             "turnout": 73.2
           },
-          "員林鎮": {
+          "員林市": {
             "validVotes": 69399,
             "winnerNo": "2",
             "margin": 6673,
