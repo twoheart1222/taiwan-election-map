@@ -119,6 +119,16 @@
       <p id="qualification-review-status" role="status" aria-live="polite" class="text-xs font-bold leading-relaxed">尚未核對；上傳 GitHub 不會自動將資格資料寫入後台。</p>
     </section>
 
+    <section class="bg-surface p-5 rounded-2xl border editorial-border space-y-3" aria-labelledby="gazette-import-title">
+      <h3 id="gazette-import-title" class="text-sm font-black">2026 候選人選舉公報切圖</h3>
+      <p class="text-xs text-ink-500 leading-relaxed">將已核對的中選會公報切圖及 PDF 頁碼填入對應的候選人卡片。已有切圖或來源不同的紀錄會保留。</p>
+      <div class="flex flex-wrap gap-3">
+        <button id="gazette-import-preview" type="button" onclick="previewGazetteImport()" class="px-4 py-2 rounded-xl bg-ink-900 text-white text-xs font-black disabled:opacity-50">核對公報切圖</button>
+        <button id="gazette-import-apply" type="button" onclick="saveGazetteImport()" class="px-4 py-2 rounded-xl bg-accent-orange text-white text-xs font-black disabled:opacity-50" disabled>儲存至候選人卡片</button>
+      </div>
+      <p id="gazette-import-status" role="status" class="text-xs font-bold leading-relaxed whitespace-pre-line"></p>
+    </section>
+
     <section id="site-sync-manager" class="bg-surface p-5 rounded-2xl border editorial-border shadow-[4px_4px_0px_#141517] space-y-4">
       <div>
         <h3 class="text-sm font-black flex items-center gap-2"><i data-lucide="refresh-cw" class="w-4 h-4 text-accent-orange"></i>資料檢查與更新</h3>
@@ -694,6 +704,55 @@
       } finally { mutationBusy = false; qualificationBusy(false); }
     };
     // End qualification review.
+
+    let pendingGazetteImport;
+    const gazetteImportElement = id => document.getElementById(`gazette-import-${id}`);
+    async function runGazetteImport(action) {
+      const status = gazetteImportElement('status');
+      if (!currentUser || !overridesLoaded || mutationBusy) return;
+      if (editorTouched) {
+        status.textContent = '請先儲存目前編輯中的候選人資料，再核對公報切圖。';
+        return;
+      }
+      mutationBusy = true;
+      gazetteImportElement('preview').disabled = true;
+      gazetteImportElement('apply').disabled = true;
+      try {
+        await action(status);
+      } catch (error) {
+        pendingGazetteImport = null;
+        status.textContent = `${error.message}。請重新核對後再儲存。`;
+      } finally {
+        mutationBusy = false;
+        gazetteImportElement('preview').disabled = false;
+        gazetteImportElement('apply').disabled = !pendingGazetteImport;
+      }
+    }
+    window.previewGazetteImport = () => runGazetteImport(async status => {
+      pendingGazetteImport = null;
+      status.textContent = '正在比對公報切圖與最新候選人名單…';
+      const [snapshot, records] = await Promise.all([
+        apiFetch('/api/admin/overrides'), fetchJSON('/data/gazette-previews-2026.json'),
+      ]);
+      const plan = ElectionData.planGazettePreviews(snapshot, records);
+      if (plan.updated) pendingGazetteImport = plan;
+      status.textContent = [
+        `核對 ${records.length} 筆，${plan.updated} 筆可儲存。`,
+        ...plan.skipped,
+      ].join('\n');
+    });
+    window.saveGazetteImport = () => runGazetteImport(async status => {
+      if (!pendingGazetteImport) return;
+      const { overrides, expectedRevisions, updated } = pendingGazetteImport;
+      pendingGazetteImport = null;
+      status.textContent = '正在儲存候選人公報切圖…';
+      await apiFetch('/api/admin/overrides', {
+        method: 'PUT', body: JSON.stringify({ overrides, expectedRevisions }),
+      });
+      status.textContent = `已儲存 ${updated} 位候選人的公報切圖。`;
+      try { await refreshCandidateEditorAfterSync(); }
+      catch (error) { status.textContent += ` 請重新整理後台以更新編輯器（${error.message}）。`; }
+    });
 
     async function persistOverride(code, payload, revision = allOverrides[code]?._revision || '0') {
       if (!overridesLoaded) throw new Error('尚未成功載入資料，請重新整理後再試。');

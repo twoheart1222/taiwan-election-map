@@ -1,0 +1,731 @@
+[
+  {
+    "areaId": "68000",
+    "field": "candidates",
+    "name": "黃世杰",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/03%E7%9B%B4%E8%BD%84%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E6%A1%83%E5%9C%92%E5%B8%82%E5%B8%82%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/68000-mayor-1.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "黃世杰的選舉公報切圖"
+  },
+  {
+    "areaId": "68000",
+    "field": "candidates",
+    "name": "張善政",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/03%E7%9B%B4%E8%BD%84%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E6%A1%83%E5%9C%92%E5%B8%82%E5%B8%82%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/68000-mayor-2.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "張善政的選舉公報切圖"
+  },
+  {
+    "areaId": "64000",
+    "field": "candidates",
+    "name": "張靜",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/03%E7%9B%B4%E8%BD%84%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E9%AB%98%E9%9B%84%E5%B8%82%E5%B8%82%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/64000-mayor-1.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "張靜的選舉公報切圖"
+  },
+  {
+    "areaId": "64000",
+    "field": "candidates",
+    "name": "王肇民",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/03%E7%9B%B4%E8%BD%84%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E9%AB%98%E9%9B%84%E5%B8%82%E5%B8%82%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/64000-mayor-2.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "王肇民的選舉公報切圖"
+  },
+  {
+    "areaId": "64000",
+    "field": "candidates",
+    "name": "柯志恩",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/03%E7%9B%B4%E8%BD%84%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E9%AB%98%E9%9B%84%E5%B8%82%E5%B8%82%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/64000-mayor-3.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "柯志恩的選舉公報切圖"
+  },
+  {
+    "areaId": "64000",
+    "field": "candidates",
+    "name": "洪方隆",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/03%E7%9B%B4%E8%BD%84%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E9%AB%98%E9%9B%84%E5%B8%82%E5%B8%82%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/64000-mayor-4.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "洪方隆的選舉公報切圖"
+  },
+  {
+    "areaId": "64000",
+    "field": "candidates",
+    "name": "賴瑞隆",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/03%E7%9B%B4%E8%BD%84%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E9%AB%98%E9%9B%84%E5%B8%82%E5%B8%82%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/64000-mayor-5.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "賴瑞隆的選舉公報切圖"
+  },
+  {
+    "areaId": "65000",
+    "field": "candidates",
+    "name": "蘇巧慧",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/03%E7%9B%B4%E8%BD%84%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E6%96%B0%E5%8C%97%E5%B8%82%E5%B8%82%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/65000-mayor-1.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "蘇巧慧的選舉公報切圖"
+  },
+  {
+    "areaId": "65000",
+    "field": "candidates",
+    "name": "蘇輝湟",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/03%E7%9B%B4%E8%BD%84%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E6%96%B0%E5%8C%97%E5%B8%82%E5%B8%82%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/65000-mayor-2.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "蘇輝湟的選舉公報切圖"
+  },
+  {
+    "areaId": "65000",
+    "field": "candidates",
+    "name": "李四川",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/03%E7%9B%B4%E8%BD%84%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E6%96%B0%E5%8C%97%E5%B8%82%E5%B8%82%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/65000-mayor-3.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "李四川的選舉公報切圖"
+  },
+  {
+    "areaId": "66000",
+    "field": "candidates",
+    "name": "何欣純",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/03%E7%9B%B4%E8%BD%84%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E8%87%BA%E4%B8%AD%E5%B8%82%E5%B8%82%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/66000-mayor-1.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "何欣純的選舉公報切圖"
+  },
+  {
+    "areaId": "66000",
+    "field": "candidates",
+    "name": "洪麗華",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/03%E7%9B%B4%E8%BD%84%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E8%87%BA%E4%B8%AD%E5%B8%82%E5%B8%82%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/66000-mayor-2.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "洪麗華的選舉公報切圖"
+  },
+  {
+    "areaId": "66000",
+    "field": "candidates",
+    "name": "江啟臣",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/03%E7%9B%B4%E8%BD%84%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E8%87%BA%E4%B8%AD%E5%B8%82%E5%B8%82%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/66000-mayor-3.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "江啟臣的選舉公報切圖"
+  },
+  {
+    "areaId": "63000",
+    "field": "candidates",
+    "name": "郭璽",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/03%E7%9B%B4%E8%BD%84%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E8%87%BA%E5%8C%97%E5%B8%82%E5%B8%82%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/63000-mayor-1.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "郭璽的選舉公報切圖"
+  },
+  {
+    "areaId": "63000",
+    "field": "candidates",
+    "name": "林志成",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/03%E7%9B%B4%E8%BD%84%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E8%87%BA%E5%8C%97%E5%B8%82%E5%B8%82%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/63000-mayor-2.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "林志成的選舉公報切圖"
+  },
+  {
+    "areaId": "63000",
+    "field": "candidates",
+    "name": "沈伯洋",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/03%E7%9B%B4%E8%BD%84%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E8%87%BA%E5%8C%97%E5%B8%82%E5%B8%82%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/63000-mayor-3.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "沈伯洋的選舉公報切圖"
+  },
+  {
+    "areaId": "63000",
+    "field": "candidates",
+    "name": "蕭文乾",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/03%E7%9B%B4%E8%BD%84%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E8%87%BA%E5%8C%97%E5%B8%82%E5%B8%82%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/63000-mayor-4.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "蕭文乾的選舉公報切圖"
+  },
+  {
+    "areaId": "63000",
+    "field": "candidates",
+    "name": "蔣萬安",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/03%E7%9B%B4%E8%BD%84%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E8%87%BA%E5%8C%97%E5%B8%82%E5%B8%82%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/63000-mayor-5.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "蔣萬安的選舉公報切圖"
+  },
+  {
+    "areaId": "63000",
+    "field": "candidates",
+    "name": "唐新民",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/03%E7%9B%B4%E8%BD%84%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E8%87%BA%E5%8C%97%E5%B8%82%E5%B8%82%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/63000-mayor-6.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "唐新民的選舉公報切圖"
+  },
+  {
+    "areaId": "67000",
+    "field": "candidates",
+    "name": "蕭燐洪",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/03%E7%9B%B4%E8%BD%84%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E8%87%BA%E5%8D%97%E5%B8%82%E5%B8%82%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/67000-mayor-1.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "蕭燐洪的選舉公報切圖"
+  },
+  {
+    "areaId": "67000",
+    "field": "candidates",
+    "name": "謝龍介",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/03%E7%9B%B4%E8%BD%84%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E8%87%BA%E5%8D%97%E5%B8%82%E5%B8%82%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/67000-mayor-2.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "謝龍介的選舉公報切圖"
+  },
+  {
+    "areaId": "67000",
+    "field": "candidates",
+    "name": "陳亭妃",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/03%E7%9B%B4%E8%BD%84%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E8%87%BA%E5%8D%97%E5%B8%82%E5%B8%82%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/67000-mayor-3.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "陳亭妃的選舉公報切圖"
+  },
+  {
+    "areaId": "67000",
+    "field": "candidates",
+    "name": "葉人文",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/03%E7%9B%B4%E8%BD%84%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E8%87%BA%E5%8D%97%E5%B8%82%E5%B8%82%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/67000-mayor-4.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "葉人文的選舉公報切圖"
+  },
+  {
+    "areaId": "10002",
+    "field": "candidates",
+    "name": "林國漳",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E5%AE%9C%E8%98%AD%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10002-mayor-1.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "林國漳的選舉公報切圖"
+  },
+  {
+    "areaId": "10002",
+    "field": "candidates",
+    "name": "陳宏毅",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E5%AE%9C%E8%98%AD%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10002-mayor-2.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "陳宏毅的選舉公報切圖"
+  },
+  {
+    "areaId": "10002",
+    "field": "candidates",
+    "name": "吳宗憲",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E5%AE%9C%E8%98%AD%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10002-mayor-3.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "吳宗憲的選舉公報切圖"
+  },
+  {
+    "areaId": "10002",
+    "field": "candidates",
+    "name": "劉燦輝",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E5%AE%9C%E8%98%AD%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10002-mayor-4.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "劉燦輝的選舉公報切圖"
+  },
+  {
+    "areaId": "10002",
+    "field": "candidates",
+    "name": "楊鉯婷",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E5%AE%9C%E8%98%AD%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10002-mayor-5.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "楊鉯婷的選舉公報切圖"
+  },
+  {
+    "areaId": "10015",
+    "field": "candidates",
+    "name": "魏嘉賢",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E8%8A%B1%E8%93%AE%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10015-mayor-1.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "魏嘉賢的選舉公報切圖"
+  },
+  {
+    "areaId": "10015",
+    "field": "candidates",
+    "name": "張峻",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E8%8A%B1%E8%93%AE%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10015-mayor-2.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "張峻的選舉公報切圖"
+  },
+  {
+    "areaId": "10015",
+    "field": "candidates",
+    "name": "游淑貞",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E8%8A%B1%E8%93%AE%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10015-mayor-3.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "游淑貞的選舉公報切圖"
+  },
+  {
+    "areaId": "10015",
+    "field": "candidates",
+    "name": "羅佩秦",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E8%8A%B1%E8%93%AE%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10015-mayor-4.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "羅佩秦的選舉公報切圖"
+  },
+  {
+    "areaId": "09020",
+    "field": "candidates",
+    "name": "張國威",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E9%87%91%E9%96%80%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/09020-mayor-1.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "張國威的選舉公報切圖"
+  },
+  {
+    "areaId": "09020",
+    "field": "candidates",
+    "name": "李文良",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E9%87%91%E9%96%80%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/09020-mayor-2.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "李文良的選舉公報切圖"
+  },
+  {
+    "areaId": "09020",
+    "field": "candidates",
+    "name": "洪和成",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E9%87%91%E9%96%80%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/09020-mayor-3.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "洪和成的選舉公報切圖"
+  },
+  {
+    "areaId": "09020",
+    "field": "candidates",
+    "name": "張火木",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E9%87%91%E9%96%80%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/09020-mayor-4.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "張火木的選舉公報切圖"
+  },
+  {
+    "areaId": "09020",
+    "field": "candidates",
+    "name": "陳玉珍",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E9%87%91%E9%96%80%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/09020-mayor-5.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "陳玉珍的選舉公報切圖"
+  },
+  {
+    "areaId": "09020",
+    "field": "candidates",
+    "name": "梁文韜",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E9%87%91%E9%96%80%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/09020-mayor-6.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "梁文韜的選舉公報切圖"
+  },
+  {
+    "areaId": "09020",
+    "field": "candidates",
+    "name": "黃世團",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E9%87%91%E9%96%80%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/09020-mayor-7.webp",
+    "gazettePage": "2",
+    "gazetteAlt": "黃世團的選舉公報切圖"
+  },
+  {
+    "areaId": "10008",
+    "field": "candidates",
+    "name": "許淑華",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E5%8D%97%E6%8A%95%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10008-mayor-1.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "許淑華的選舉公報切圖"
+  },
+  {
+    "areaId": "10008",
+    "field": "candidates",
+    "name": "温世政",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E5%8D%97%E6%8A%95%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10008-mayor-2.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "温世政的選舉公報切圖"
+  },
+  {
+    "areaId": "10013",
+    "field": "candidates",
+    "name": "蘇清泉",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E5%B1%8F%E6%9D%B1%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10013-mayor-1.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "蘇清泉的選舉公報切圖"
+  },
+  {
+    "areaId": "10013",
+    "field": "candidates",
+    "name": "周春米",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E5%B1%8F%E6%9D%B1%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10013-mayor-2.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "周春米的選舉公報切圖"
+  },
+  {
+    "areaId": "10005",
+    "field": "candidates",
+    "name": "陳品安",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E8%8B%97%E6%A0%97%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10005-mayor-1.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "陳品安的選舉公報切圖"
+  },
+  {
+    "areaId": "10005",
+    "field": "candidates",
+    "name": "鍾東錦",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E8%8B%97%E6%A0%97%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10005-mayor-2.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "鍾東錦的選舉公報切圖"
+  },
+  {
+    "areaId": "10017",
+    "field": "candidates",
+    "name": "童子瑋",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E5%9F%BA%E9%9A%86%E5%B8%82%E5%B8%82%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10017-mayor-1.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "童子瑋的選舉公報切圖"
+  },
+  {
+    "areaId": "10017",
+    "field": "candidates",
+    "name": "魏造文",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E5%9F%BA%E9%9A%86%E5%B8%82%E5%B8%82%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10017-mayor-2.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "魏造文的選舉公報切圖"
+  },
+  {
+    "areaId": "10017",
+    "field": "candidates",
+    "name": "謝國樑",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E5%9F%BA%E9%9A%86%E5%B8%82%E5%B8%82%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10017-mayor-3.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "謝國樑的選舉公報切圖"
+  },
+  {
+    "areaId": "09007",
+    "field": "candidates",
+    "name": "王忠銘",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E9%80%A3%E6%B1%9F%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/09007-mayor-1.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "王忠銘的選舉公報切圖"
+  },
+  {
+    "areaId": "09007",
+    "field": "candidates",
+    "name": "曹爾元",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E9%80%A3%E6%B1%9F%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/09007-mayor-2.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "曹爾元的選舉公報切圖"
+  },
+  {
+    "areaId": "10009",
+    "field": "candidates",
+    "name": "吳炳輝",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E9%9B%B2%E6%9E%97%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10009-mayor-1.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "吳炳輝的選舉公報切圖"
+  },
+  {
+    "areaId": "10009",
+    "field": "candidates",
+    "name": "張嘉郡",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E9%9B%B2%E6%9E%97%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10009-mayor-2.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "張嘉郡的選舉公報切圖"
+  },
+  {
+    "areaId": "10009",
+    "field": "candidates",
+    "name": "劉建國",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E9%9B%B2%E6%9E%97%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10009-mayor-3.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "劉建國的選舉公報切圖"
+  },
+  {
+    "areaId": "10009",
+    "field": "candidates",
+    "name": "林佳瑜",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E9%9B%B2%E6%9E%97%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10009-mayor-4.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "林佳瑜的選舉公報切圖"
+  },
+  {
+    "areaId": "10018",
+    "field": "candidates",
+    "name": "高虹安",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E6%96%B0%E7%AB%B9%E5%B8%82%E5%B8%82%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10018-mayor-1.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "高虹安的選舉公報切圖"
+  },
+  {
+    "areaId": "10018",
+    "field": "candidates",
+    "name": "何志勇",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E6%96%B0%E7%AB%B9%E5%B8%82%E5%B8%82%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10018-mayor-2.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "何志勇的選舉公報切圖"
+  },
+  {
+    "areaId": "10018",
+    "field": "candidates",
+    "name": "莊競程",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E6%96%B0%E7%AB%B9%E5%B8%82%E5%B8%82%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10018-mayor-3.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "莊競程的選舉公報切圖"
+  },
+  {
+    "areaId": "10004",
+    "field": "candidates",
+    "name": "鄭朝方",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E6%96%B0%E7%AB%B9%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10004-mayor-1.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "鄭朝方的選舉公報切圖"
+  },
+  {
+    "areaId": "10004",
+    "field": "candidates",
+    "name": "徐欣瑩",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E6%96%B0%E7%AB%B9%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10004-mayor-2.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "徐欣瑩的選舉公報切圖"
+  },
+  {
+    "areaId": "10004",
+    "field": "candidates",
+    "name": "朱定瑀",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E6%96%B0%E7%AB%B9%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10004-mayor-3.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "朱定瑀的選舉公報切圖"
+  },
+  {
+    "areaId": "10020",
+    "field": "candidates",
+    "name": "王義成",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E5%98%89%E7%BE%A9%E5%B8%82%E5%B8%82%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10020-mayor-1.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "王義成的選舉公報切圖"
+  },
+  {
+    "areaId": "10020",
+    "field": "candidates",
+    "name": "陳愷璜",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E5%98%89%E7%BE%A9%E5%B8%82%E5%B8%82%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10020-mayor-2.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "陳愷璜的選舉公報切圖"
+  },
+  {
+    "areaId": "10020",
+    "field": "candidates",
+    "name": "張啓楷",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E5%98%89%E7%BE%A9%E5%B8%82%E5%B8%82%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10020-mayor-3.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "張啓楷的選舉公報切圖"
+  },
+  {
+    "areaId": "10020",
+    "field": "candidates",
+    "name": "王美惠",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E5%98%89%E7%BE%A9%E5%B8%82%E5%B8%82%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10020-mayor-4.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "王美惠的選舉公報切圖"
+  },
+  {
+    "areaId": "10020",
+    "field": "candidates",
+    "name": "黃宏成台灣阿成世界偉人財神總統",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E5%98%89%E7%BE%A9%E5%B8%82%E5%B8%82%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10020-mayor-5.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "黃宏成台灣阿成世界偉人財神總統的選舉公報切圖"
+  },
+  {
+    "areaId": "10010",
+    "field": "candidates",
+    "name": "吳品叡",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E5%98%89%E7%BE%A9%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10010-mayor-1.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "吳品叡的選舉公報切圖"
+  },
+  {
+    "areaId": "10010",
+    "field": "candidates",
+    "name": "蔡易餘",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E5%98%89%E7%BE%A9%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10010-mayor-2.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "蔡易餘的選舉公報切圖"
+  },
+  {
+    "areaId": "10007",
+    "field": "candidates",
+    "name": "陳素月",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E5%BD%B0%E5%8C%96%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10007-mayor-1.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "陳素月的選舉公報切圖"
+  },
+  {
+    "areaId": "10007",
+    "field": "candidates",
+    "name": "魏平政",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E5%BD%B0%E5%8C%96%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10007-mayor-2.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "魏平政的選舉公報切圖"
+  },
+  {
+    "areaId": "10007",
+    "field": "candidates",
+    "name": "邱建富",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E5%BD%B0%E5%8C%96%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10007-mayor-3.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "邱建富的選舉公報切圖"
+  },
+  {
+    "areaId": "10007",
+    "field": "candidates",
+    "name": "陳重嘉",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E5%BD%B0%E5%8C%96%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10007-mayor-4.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "陳重嘉的選舉公報切圖"
+  },
+  {
+    "areaId": "10014",
+    "field": "candidates",
+    "name": "李吳穎智",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E8%87%BA%E6%9D%B1%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10014-mayor-1.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "李吳穎智的選舉公報切圖"
+  },
+  {
+    "areaId": "10014",
+    "field": "candidates",
+    "name": "陳瑩",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E8%87%BA%E6%9D%B1%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10014-mayor-2.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "陳瑩的選舉公報切圖"
+  },
+  {
+    "areaId": "10014",
+    "field": "candidates",
+    "name": "王志偉",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E8%87%BA%E6%9D%B1%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10014-mayor-3.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "王志偉的選舉公報切圖"
+  },
+  {
+    "areaId": "10014",
+    "field": "candidates",
+    "name": "吳秀華",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E8%87%BA%E6%9D%B1%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10014-mayor-4.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "吳秀華的選舉公報切圖"
+  },
+  {
+    "areaId": "10016",
+    "field": "candidates",
+    "name": "許智富",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E6%BE%8E%E6%B9%96%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10016-mayor-1.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "許智富的選舉公報切圖"
+  },
+  {
+    "areaId": "10016",
+    "field": "candidates",
+    "name": "周倪安",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E6%BE%8E%E6%B9%96%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10016-mayor-2.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "周倪安的選舉公報切圖"
+  },
+  {
+    "areaId": "10016",
+    "field": "candidates",
+    "name": "葉竹林",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E6%BE%8E%E6%B9%96%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10016-mayor-3.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "葉竹林的選舉公報切圖"
+  },
+  {
+    "areaId": "10016",
+    "field": "candidates",
+    "name": "吳淑瑾",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E6%BE%8E%E6%B9%96%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10016-mayor-4.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "吳淑瑾的選舉公報切圖"
+  },
+  {
+    "areaId": "10016",
+    "field": "candidates",
+    "name": "陳振中",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E6%BE%8E%E6%B9%96%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10016-mayor-5.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "陳振中的選舉公報切圖"
+  },
+  {
+    "areaId": "10016",
+    "field": "candidates",
+    "name": "陳盡川",
+    "gazetteUrl": "https://bulletin.cec.gov.tw/01%E9%81%B8%E8%88%89%E5%85%AC%E5%A0%B1/04%E7%B8%A3%E5%B8%82%E9%95%B7/115%E5%B9%B4/%E6%BE%8E%E6%B9%96%E7%B8%A3%E7%B8%A3%E9%95%B7.pdf",
+    "gazettePreviewUrl": "/assets/gazettes/2026/10016-mayor-6.webp",
+    "gazettePage": "1",
+    "gazetteAlt": "陳盡川的選舉公報切圖"
+  }
+]

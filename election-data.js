@@ -70,6 +70,53 @@
     }
     return { overrides, expectedRevisions, matched };
   }
+  function planGazettePreviews(snapshot, records) {
+    if (!Array.isArray(records) || !records.length) throw new Error('公報切圖清單沒有資料');
+    const overrides = {}, expectedRevisions = {}, skipped = [];
+    const identities = new Set();
+    let updated = 0;
+    for (const record of records) {
+      const { areaId, field, district, name, gazetteUrl, gazettePreviewUrl, gazettePage, gazetteAlt } = record;
+      const identity = [areaId, field, district ?? '', nameKey(name)].join('|');
+      if (identities.has(identity)) throw new Error(`${name} 的公報切圖重複`);
+      identities.add(identity);
+      if (!/^\d{5}(?:\d{3}(?:\d{3})?)?$/.test(areaId) || !nameKey(name)
+        || !['candidates', 'councilors', 'representatives'].includes(field)
+        || !/^https:\/\/(?:ee)?bulletin\.cec\.gov\.tw\/(?:[^\s?#]+)\.pdf$/i.test(gazetteUrl)
+        || !/^\/assets\/gazettes\/2026\/[\w-]+\.webp$/.test(gazettePreviewUrl)
+        || !/^\d+$/.test(gazettePage) || Number(gazettePage) < 1 || typeof gazetteAlt !== 'string') {
+        throw new Error(`${name} 的公報切圖資料無效`);
+      }
+      const original = snapshot[areaId];
+      if (!original?._revision) {
+        skipped.push(`${areaId} ${name}：找不到可更新的後台紀錄`);
+        continue;
+      }
+      const document = overrides[areaId] || clone(original);
+      const candidates = field === 'candidates' ? document.candidates || []
+        : blocksOf(document[field]).filter(block => String(block.district) === String(district))
+          .flatMap(block => block.candidates || []);
+      const matches = candidates.filter(candidate => nameKey(candidate.name) === nameKey(name));
+      if (matches.length !== 1 || matches[0].qualificationStatus === 'ineligible') {
+        skipped.push(`${areaId} ${name}：無唯一且符合資格的候選人`);
+        continue;
+      }
+      const candidate = matches[0];
+      if (candidate.gazettePreviewUrl === gazettePreviewUrl) continue;
+      if (candidate.gazettePreviewUrl || (candidate.gazetteUrl && candidate.gazetteUrl !== gazetteUrl)
+        || (candidate.gazettePage && String(candidate.gazettePage) !== String(gazettePage))) {
+        skipped.push(`${areaId} ${name}：已設定公報，保留現有資料`);
+        continue;
+      }
+      Object.assign(candidate, {
+        gazetteUrl, gazettePreviewUrl, gazettePage, gazetteAlt: candidate.gazetteAlt || gazetteAlt,
+      });
+      overrides[areaId] = document;
+      expectedRevisions[areaId] = original._revision;
+      updated++;
+    }
+    return { overrides, expectedRevisions, updated, skipped };
+  }
   const fallbackFields = ['facebook', 'instagram', 'threads', 'youtube', 'photoUrl', 'gazetteUrl', 'gazettePreviewUrl', 'gazettePage', 'gazetteAlt', 'taiwanGoGoUrl', 'local2026Url', 'reporterUrl', 'votes', 'prevVotes', 'elected', 'priorRace', 'isCareerMove'];
   function uniqueNames(list) {
     const result = new Map();
@@ -113,5 +160,5 @@
     }
     return clone(result);
   }
-  globalThis.ElectionData = { mergeArea, blocksOf, isAdministrativeVillage, qualificationFields, ineligibleLast, applyQualificationReview, applyRepresentativeIncumbents };
+  globalThis.ElectionData = { mergeArea, blocksOf, isAdministrativeVillage, qualificationFields, ineligibleLast, applyQualificationReview, applyRepresentativeIncumbents, planGazettePreviews };
 })();

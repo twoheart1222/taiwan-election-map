@@ -2668,9 +2668,16 @@ class App {
     const metric = (label, val, pending, cls = '') => `<div class="bn-tile bn-metric ${cls}"><span class="bn-label">${label}</span>${val ? `<strong class="bn-value">${val}</strong>` : `<span class="bn-pending"><i></i>${pending}</span>`}</div>`;
     const metrics = metric('本期得票', ineligible ? null : thisVotes, ineligible ? '資格不符' : '未開票', isWin ? 'bn-accent' : (hasPrev ? '' : 'bn-tall'))
       + (hasPrev ? metric('上屆參選得票', prevVotes, '資料待補', isWin ? '' : (prevVotes ? 'bn-accent' : '')) : '');
-    const gazetteSource = safeUrl(c.gazetteUrl);
-    const gazettePreview = safeUrl(c.gazettePreviewUrl);
-    const gazettePage = String(c.gazettePage || '').replace(/[^0-9０-９-]/g, '').slice(0, 12);
+    const photoSrc = v => {
+      const url = String(v || '').trim();
+      const cached = url.match(/^(?:https?:\/\/[^/]+\.workers\.dev)?(\/api\/photo\/[0-9a-f]+)$/i);
+      return cached ? (window.ELECTION_API_BASE ?? '') + cached[1] : url;
+    };
+    const gazettePage = String(c.gazettePage || '').normalize('NFKC').trim();
+    const sourceUrl = String(c.gazetteUrl || '').trim();
+    const gazetteSource = safeUrl(sourceUrl && /^[1-9]\d{0,5}$/.test(gazettePage) && !sourceUrl.includes('#')
+      ? `${sourceUrl}#page=${gazettePage}` : sourceUrl);
+    const gazettePreview = safeUrl(photoSrc(c.gazettePreviewUrl));
     const gazetteAlt = esc(c.gazetteAlt || `${c.name || '候選人'}的完整選舉公報橫列`);
     const qualificationSource = safeUrl(c.qualificationSourceUrl);
     const gazette = ineligible ? `<details class="bn-tile bn-wide bn-disclosure qualification-notice" style="background:#261719;overflow-wrap:anywhere">
@@ -2681,11 +2688,11 @@ class App {
       ${qualificationSource ? `<a href="${qualificationSource}" target="_blank" rel="noopener noreferrer" style="color:#ffb3be;text-decoration:underline">查閱資格審定官方公告 →</a>` : ''}
       </div>
     </details>` : `<details class="gazette-disclosure bn-tile bn-wide bn-disclosure">
-      <summary>${icon('doc', 'bn-lead')}<span class="bn-link-title">查看選舉公報</span><span class="bn-state">${gazettePreview ? '已收錄' : '待公告'}</span><span class="bn-go">${icon('arrow')}</span></summary>
+      <summary>${icon('doc', 'bn-lead')}<span class="bn-link-title">查看選舉公報</span><span class="bn-state">${gazettePreview ? '已收錄' : gazetteSource ? '官方 PDF' : '待公告'}</span><span class="bn-go">${icon('arrow')}</span></summary>
       <div class="gazette-panel">
         ${gazettePreview
           ? `<button type="button" class="gazette-preview-button" data-image="${gazettePreview}" data-name="${esc(c.name)}" data-page="${esc(gazettePage)}" data-alt="${gazetteAlt}" aria-label="放大預覽${esc(c.name)}的選舉公報"><img src="${gazettePreview}" alt="${gazetteAlt}" loading="lazy" referrerpolicy="no-referrer"><span>點擊放大 ⤢</span></button>`
-          : `<div class="gazette-pending">待選舉公報公告後更新</div>`}
+          : gazetteSource ? '' : `<div class="gazette-pending">待選舉公報公告後更新</div>`}
         ${gazetteSource ? `<a class="gazette-source-link" href="${gazetteSource}" target="_blank" rel="noopener noreferrer">查閱官方選舉公報 PDF →</a>` : ''}
       </div>
     </details>`;
@@ -2709,7 +2716,6 @@ class App {
     ].join('');
     const ch = esc((c.name || '').slice(0, 1));
     // data-fb 屬性存首字，onerror 時安全替換，避免字串插值問題
-    const photoSrc = v => { const u = String(v || '').trim(); const m = u.match(/^(?:https?:\/\/[^\/]+\.workers\.dev)?(\/api\/photo\/[0-9a-f]+)$/i); return m ? (window.ELECTION_API_BASE ?? '') + m[1] : u; };
     const hasPhoto = !!safeUrl(photoSrc(c.photoUrl));
     const avatar = hasPhoto
       ? `<img src="${safeUrl(photoSrc(c.photoUrl))}" alt="" loading="lazy" data-fb="${ch}" onload="window.__foFocusPhoto&&window.__foFocusPhoto(this)" onerror="this.closest('.bn-photo')?.classList.remove('has-photo');this.remove()" referrerpolicy="no-referrer">`

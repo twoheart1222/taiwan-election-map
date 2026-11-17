@@ -1,6 +1,32 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
+import '../election-data.js';
+
+test('gazette import fills vacant cards in the matching contest and keeps existing previews', () => {
+  const snapshot = {
+    '63000': { _revision: 'v1', councilors: [
+      { district: '1', candidates: [{ name: '姓名甲', photoUrl: '/assets/photo.png' }] },
+      { district: '2', candidates: [{ name: '姓名甲', gazettePreviewUrl: '/assets/existing.webp' }] },
+    ] },
+  };
+  const record = {
+    areaId: '63000', field: 'councilors', district: '1', name: '姓名甲',
+    gazetteUrl: 'https://bulletin.cec.gov.tw/official.pdf',
+    gazettePreviewUrl: '/assets/gazettes/2026/63000-1.webp',
+    gazettePage: '2', gazetteAlt: '姓名甲的選舉公報切圖',
+  };
+  const result = ElectionData.planGazettePreviews(snapshot, [record, { ...record, district: '2' }]);
+  assert.deepEqual(result.expectedRevisions, { '63000': 'v1' });
+  assert.equal(result.updated, 1);
+  assert.equal(result.skipped.length, 1);
+  assert.equal(result.overrides['63000'].councilors[0].candidates[0].gazettePage, '2');
+  assert.equal(result.overrides['63000'].councilors[0].candidates[0].photoUrl, '/assets/photo.png');
+  assert.equal(result.overrides['63000'].councilors[1].candidates[0].gazettePreviewUrl, '/assets/existing.webp');
+  assert.equal(snapshot['63000'].councilors[0].candidates[0].gazettePage, undefined);
+  assert.equal(ElectionData.planGazettePreviews(result.overrides, [record]).updated, 0);
+  assert.throws(() => ElectionData.planGazettePreviews(snapshot, [record, record]), /重複/);
+});
 
 test('candidate cards expose a pending or expandable gazette preview', async () => {
   const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
