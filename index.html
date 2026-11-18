@@ -119,10 +119,10 @@ try{
   .gazette-preview-button{position:relative;width:100%;padding:0;border:1px solid #4a443d;border-radius:10px;overflow:hidden;background:#fff;cursor:zoom-in;text-align:left}
   .gazette-preview-button img{display:block;width:100%;height:auto}.gazette-preview-button span{position:absolute;right:8px;bottom:8px;padding:7px 10px;border-radius:999px;background:rgba(13,13,13,.86);color:#fff;font-size:10px;font-weight:800;box-shadow:0 4px 18px rgba(0,0,0,.35)}
   .gazette-source-link{display:flex;align-items:center;justify-content:center;padding:10px 13px;border:1px solid #4a443d;border-radius:999px;color:#ff637b;font-size:11px;font-weight:800}
-  .gazette-lightbox{width:100vw;height:100dvh;max-width:none;max-height:none;margin:0;padding:0;border:0;background:rgba(5,5,5,.96);color:#fff}.gazette-lightbox::backdrop{background:rgba(0,0,0,.82)}
-  .gazette-lightbox-bar{position:fixed;z-index:2;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px max(12px,env(safe-area-inset-right)) 12px max(12px,env(safe-area-inset-left));background:linear-gradient(#090909 70%,transparent)}
-  .gazette-lightbox-title{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px;font-weight:800}.gazette-lightbox-actions{display:flex;gap:7px}.gazette-lightbox-actions button{width:42px;height:42px;border:1px solid #4a4742;border-radius:50%;background:#1b1917;color:#fff;cursor:pointer;font-size:20px;font-weight:800}
-  .gazette-lightbox-stage{width:100%;height:100%;padding:78px 20px 30px;overflow:auto;display:grid;place-items:center}.gazette-lightbox-stage img{display:block;width:min(100%,1600px);height:auto;max-width:none;transform-origin:center;transition:width .18s ease}.gazette-lightbox-stage[data-zoom="2"] img{width:2500px}.gazette-lightbox-stage[data-zoom="3"] img{width:3535px}
+  .gazette-lightbox{position:fixed;inset:0;box-sizing:border-box;width:100%;height:100vh;height:100dvh;max-width:100%;max-height:100%;margin:0;padding:0;border:0;overflow:hidden;background:rgba(5,5,5,.96);color:#fff}.gazette-lightbox::backdrop{background:rgba(0,0,0,.82)}.gazette-lightbox[open]{display:flex;flex-direction:column}
+  .gazette-lightbox-bar{position:relative;z-index:2;flex:none;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) 12px max(12px,env(safe-area-inset-left));background:#090909}
+  .gazette-lightbox-title{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px;font-weight:800}.gazette-lightbox-actions{display:flex;flex:none;gap:7px}.gazette-lightbox-actions button{width:44px;height:44px;border:1px solid #4a4742;border-radius:50%;background:#1b1917;color:#fff;cursor:pointer;font-size:20px;font-weight:800}.gazette-lightbox-actions button:disabled{opacity:.35}
+  .gazette-lightbox-stage{box-sizing:border-box;flex:1;min-height:0;width:100%;padding:16px max(10px,env(safe-area-inset-right)) max(20px,env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left));overflow:auto;overscroll-behavior:contain;touch-action:pan-x pan-y pinch-zoom;-webkit-overflow-scrolling:touch}.gazette-lightbox-stage img{display:block;width:min(100%,1600px);height:auto;max-width:none;margin:0 auto;cursor:zoom-in}.gazette-lightbox-stage[data-zoom="2"] img{width:200%;margin:0}.gazette-lightbox-stage[data-zoom="3"] img{width:300%;margin:0}
   .candidate-card.search-target-ring{position:relative;isolation:isolate}
   .candidate-card.search-target-ring::after{content:'';position:absolute;inset:2px;box-sizing:border-box;border:2px solid rgba(244,241,234,.86);border-radius:inherit;z-index:4;pointer-events:none;box-shadow:inset 0 0 0 1px rgba(203,199,191,.35),0 0 9px rgba(244,241,234,.28);animation:candidate-outline-once 1.55s ease-out 1 forwards}
   @keyframes candidate-outline-once{0%{opacity:0;transform:scale(.992)}10%,78%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1)}}
@@ -220,7 +220,7 @@ try{
     .candidate-main{grid-template-columns:88px minmax(0,1fr);gap:14px}
     .candidate-photo{width:88px;height:88px}
     .candidate-title-row h4{line-height:1.25 !important;letter-spacing:0 !important}
-    .gazette-preview-button{overflow-x:auto}.gazette-preview-button img{width:920px;max-width:none}.gazette-lightbox-stage{display:block;padding:76px 10px 24px}.gazette-lightbox-stage img{width:1100px}.gazette-lightbox-stage[data-zoom="2"] img{width:2200px}.gazette-lightbox-stage[data-zoom="3"] img{width:3535px}
+    .gazette-panel{min-width:0}.gazette-preview-button{min-width:0;touch-action:manipulation}.gazette-preview-button img{width:100%;max-width:100%}.gazette-lightbox-title{font-size:12px}
     /* 手機地圖不旋轉；保留點按選區，同時把垂直手勢交回頁面捲動。 */
     #tw3d{touch-action:pan-y !important}
     #crumb{display:none !important}
@@ -2024,15 +2024,21 @@ class App {
     const image = dialog.querySelector('img');
     const title = dialog.querySelector('.gazette-lightbox-title');
     let zoom = 1;
-    const setZoom = value => { zoom = Math.max(1, Math.min(3, value)); stage.dataset.zoom = String(zoom); };
+    const setZoom = value => {
+      zoom = Math.max(1, Math.min(3, value));
+      stage.dataset.zoom = String(zoom);
+      dialog.querySelector('[data-gazette-action="zoom-out"]').disabled = zoom === 1;
+      dialog.querySelector('[data-gazette-action="zoom-in"]').disabled = zoom === 3;
+      if (zoom === 1) stage.scrollTo(0, 0);
+    };
     document.addEventListener('click', event => {
       const preview = event.target.closest('.gazette-preview-button');
       if (preview) {
         image.src = preview.dataset.image;
         image.alt = preview.dataset.alt || `${preview.dataset.name || '候選人'}選舉公報`;
         title.textContent = `${preview.dataset.name || '候選人'}｜選舉公報${preview.dataset.page ? `・第 ${preview.dataset.page} 頁` : ''}`;
-        setZoom(1);
         dialog.showModal();
+        setZoom(1);
         return;
       }
       const action = event.target.closest('[data-gazette-action]')?.dataset.gazetteAction;
